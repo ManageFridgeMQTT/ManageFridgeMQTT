@@ -13,7 +13,7 @@ namespace WebManageFridgeMQTT.Models
         {
             get
             {
-                string conn = ConfigurationManager.AppSettings["MySQLConnection"];
+                string conn = ConfigurationManager.ConnectionStrings["MySQLConnection"].ConnectionString;
                 MySqlConnection sql_conn = new MySqlConnection(conn);
                 return sql_conn;
             }

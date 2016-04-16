@@ -21,6 +21,9 @@ namespace WebManageFridgeMQTT.Controllers
                 DataTable result = new DataTable();
                 result = Utility.Helper.QueryStoredProcedure("GetAllClient");
                 model = result;
+
+
+
             }
             catch (Exception)
             {

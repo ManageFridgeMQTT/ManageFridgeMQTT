@@ -1,0 +1,66 @@
+----------
+15/04/2016 7:44:28 CH
+Message:	client_2 connect thanh cong
+----------
+15/04/2016 7:44:28 CH
+Message:	client_MqttMsgSubscribed_ 2: 1
+----------
+16/04/2016 10:22:01 SA
+Message:	client_2 connect thanh cong
+----------
+16/04/2016 10:22:01 SA
+Message:	client_MqttMsgSubscribed_ 2: 1
+----------
+16/04/2016 10:23:26 SA
+Message:	Nhan client_2: day kenh ko vao
+----------
+16/04/2016 10:46:40 SA
+Message:	Nhan client_2: day kenh ko vao
+----------
+16/04/2016 10:50:58 SA
+Message:	Nhan client_2: day kenh ko vao
+----------
+16/04/2016 10:52:21 SA
+Message:	Nhan client_2: day kenh ko vao
+----------
+16/04/2016 11:08:56 SA
+Message:	Nhan client_2: day kenh ko vao
+----------
+16/04/2016 11:23:47 SA
+Message:	client_2 connect thanh cong
+----------
+16/04/2016 11:23:47 SA
+Message:	client_MqttMsgSubscribed_ 2: 1
+----------
+16/04/2016 11:24:16 SA
+Message:	Nhan client_2: day kenh ko vao
+----------
+16/04/2016 11:28:23 SA
+Message:	Nhan client_2: day kenh ko vao
+----------
+16/04/2016 11:28:24 SA
+Message:	Nhan client_2: day kenh ko vao
+----------
+16/04/2016 11:28:24 SA
+Message:	Nhan client_2: day kenh ko vao
+----------
+16/04/2016 11:34:32 SA
+Message:	client_2 connect thanh cong
+----------
+16/04/2016 11:34:32 SA
+Message:	client_MqttMsgSubscribed_ 2: 1
+----------
+16/04/2016 11:38:56 SA
+Message:	client_2 connect thanh cong
+----------
+16/04/2016 11:38:56 SA
+Message:	client_MqttMsgSubscribed_ 2: 1
+----------
+16/04/2016 11:42:35 SA
+Message:	client_2 connect thanh cong
+----------
+16/04/2016 11:42:35 SA
+Message:	client_MqttMsgSubscribed_ 2: 1
+----------
+16/04/2016 5:46:31 CH
+Message:	client_2 connect thanh cong

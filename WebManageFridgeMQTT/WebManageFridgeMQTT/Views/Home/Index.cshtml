@@ -1,0 +1,36 @@
+﻿@model System.Data.DataTable
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+@if(Model != null)
+{
+    if(Model.Rows.Count > 0)
+    {
+        <table>
+            <thead>
+                <tr>
+                    <th>ds</th>
+                    <th>sđ</th>
+                    <th>sdsd</th>
+                    <th>sdsd</th>
+                    <th>sdsds</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (System.Data.DataRow elm in Model.Rows)
+                {
+                     <tr>
+                         <td>@elm["Id"]</td>
+                         <td>@elm["ClientID"]</td>
+                         <td>@elm["ClientName"]</td>
+                         <td>@elm["Description"]</td>
+                         <td>@elm["Status"]</td>
+                     </tr>
+                }
+            </tbody>
+        </table> 
+    }
+}

@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ordesignerObjectsDiagram dslVersion="1.0.0.0" absoluteBounds="0, 0, 11, 8.5" name="DeviceTracking">
+  <DataContextMoniker Name="/DeviceTrackingDataContext" />
+  <nestedChildShapes>
+    <classShape Id="8209812c-0dfe-44c4-b29e-19a6b0faf0d6" absoluteBounds="1, 0.5, 2, 2.1554996744791666">
+      <DataClassMoniker Name="/DeviceTrackingDataContext/User" />
+      <nestedChildShapes>
+        <elementListCompartment Id="5147d19e-4844-4ef5-a291-6c8336c12ece" absoluteBounds="1.0150000000000001, 0.96, 1.9700000000000002, 1.5954996744791665" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+  </nestedChildShapes>
+</ordesignerObjectsDiagram>

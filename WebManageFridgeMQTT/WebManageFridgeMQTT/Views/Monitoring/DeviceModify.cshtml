@@ -1,0 +1,41 @@
+﻿@model List<WebManageFridgeMQTT.Models.GetInfoDeviceModifyResult>
+<table class="tablesorter">
+    <thead>
+        <tr>
+            <th>Thời Gian</th>
+            <th>Mô tả</th>
+            <th>Đơn vị sửa chửa</th>
+            <th>Chi Phí</th>
+            <th>Công Trình</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if(Model != null)
+        {
+            foreach(var item in Model)
+            {
+                <tr>
+                    <td>@(item.NgaySua.HasValue ? item.NgaySua.Value.ToString() : "")</td>
+                    <td>@item.MoTa</td>
+                    <td>@item.DonViSua</td>
+                    <td>@item.ChiPhi</td>
+                    <td>@item.NguoiKhaiBao</td>
+                </tr>
+            } 
+        }
+        <tr>
+            <td>2016/04/29 15:30:00</td>
+            <td>Bắt đầu khoan</td>
+            <td>Minh Anh</td>
+            <td>10.000.250</td>
+            <td>Công trình thay thế</td>
+        </tr>
+        <tr>
+            <td>2016/04/29 15:30:00</td>
+            <td>Bắt đầu khoan</td>
+            <td>Minh Anh</td>
+            <td>10.000.250</td>
+            <td>Công trình thay thế</td>
+        </tr>
+    </tbody>
+</table>

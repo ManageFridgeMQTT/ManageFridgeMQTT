@@ -1,0 +1,29 @@
+﻿@model List<WebManageFridgeMQTT.Models.GetInfoDeviceActivityResult>
+<table class="tablesorter">
+    <thead>
+        <tr>
+            <th>Thời Gian</th>
+            <th>Mô tả</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model != null)
+        {
+            foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.ThoiGian.ToString()</td>
+                    <td>@item.TrangThai</td>
+                </tr>
+            }
+        }
+        <tr>
+            <td>2016/04/29 15:30:00</td>
+            <td>Bắt đầu khoan</td>
+        </tr>
+        <tr>
+            <td>2016/04/29 15:30:00</td>
+            <td>Bắt đầu khoan</td>
+        </tr>
+    </tbody>
+</table>

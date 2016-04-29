@@ -1,0 +1,213 @@
+﻿@model List<WebManageFridgeMQTT.Models.Sp_GetInfoDeviceResult> 
+@{
+    ViewBag.Title = "Device";
+    Layout = "~/Views/Shared/_NewLayout.cshtml";
+
+    WebManageFridgeMQTT.Models.Sp_GetInfoDeviceResult info = Model[0];
+}
+
+@section Scripts
+{
+    <link rel="stylesheet" href="@Url.Content("~/Content/NewEtool/css/leaflet.css")" />
+    <link rel="stylesheet" href="@Url.Content("~/Content/NewEtool/css/leaflet.iconlabel.css")" />
+    <link rel="stylesheet" href="@Url.Content("~/Content/NewEtool/css/leaflet.label.css")" />
+    <link rel="stylesheet" href="@Url.Content("~/Scripts/Leaflet/MarkerCluster.css")" />
+    <link rel="stylesheet" href="@Url.Content("~/Scripts/Leaflet/MarkerCluster.Default.css")" />
+    <link rel="stylesheet" href="@Url.Content("~/Scripts/Leaflet/MarkerCluster.css")" />
+    <link rel="stylesheet" href="@Url.Content("~/Scripts/Leaflet/MarkerCluster.Default.css")" />
+<link rel="stylesheet" href="@Url.Content("~/Scripts/Leaflet/font-awesome.css")" />
+<link rel="stylesheet" href="@Url.Content("~/Scripts/Leaflet/leaflet.awesome-markers.css")" />
+    
+    <script type="text/javascript" src="@Url.Content("~/Scripts/Leaflet/leaflet.js")"></script>
+    <script type="text/javascript" src="http://maps.google.com/maps/api/js?v=3.2&sensor=false"></script>
+    <script type="text/javascript" src="@Url.Content("~/Scripts/Leaflet/leaflet-google.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Scripts/Leaflet/leaflet.iconlabel.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Scripts/Leaflet/Label.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Scripts/Leaflet/Marker.Label.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Scripts/Leaflet/Control.MiniMap.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Scripts/Leaflet/Map.Label.js")"></script>
+
+    <script type="text/javascript" src="@Url.Content("~/Scripts/Leaflet/leaflet.markercluster-src.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Scripts/Leaflet/GeoFridge.js")"></script>
+   
+}
+<style>
+    .leaflet-popup-content-wrapper {
+        min-width: 610px;
+        max-height: 460px;
+    }
+    .leaflet-popup-content-wrapper .leaflet-popup-content{
+        margin: 5px;
+    }
+    .leaflet-popup-close-button{
+        z-index:99999;
+    }
+</style>
+<div id="loading" class="loading">
+</div>
+
+
+<div class="insider">
+    <div id="map" class="map">
+    </div>
+    <div id ="DevicePopupTemplete" style="display:none; z-index:999999; min-width:600px; max-height:450px">
+        <div class="tab-header">
+            <ul id="ul-tab" class="nav nav-tabs">
+                <li class="active"><a data-toggle="tab" href="#info">Thông tin</a></li>
+                <li><a data-toggle="tab" href="#activity" onclick="RenderHoatDong('0')">Lịch sữ hoạt động</a></li>
+                <li><a data-toggle="tab" href="#dichuyen" onclick="RenderDiChuyen('0')">Lịch sữ di chuyển</a></li>
+                <li><a data-toggle="tab" href="#baoduong" onclick="RenderBaoDuong('0');">Bảo dưỡng sửa chửa</a></li>
+            </ul>
+        </div>
+        <div class="tab-content">
+            <div id="info" class="tab-pane fade in active">
+                <div class="row">
+                    <div class="col-sm-6"></div>
+                    <div class="col-sm-6">
+                        <h3 id ="TenThietBi">@info.TenThietBi</h3>
+                        <p>Trạng thái: <span id="TrangThai">@info.TrangThai</span></p>
+                        <p>Đã hoạt động: <span id="NgayOCongTrinh">@info.NgayOCongTrinh</span></p>
+                        <p>Vị trí: <span id="TenCongTrinh">@info.TenCongTrinh</span></p>
+                        <p>Lần thay dầu tiếp theo: <span id="ThayDauTiep">@info.ThayDauTiep</span></p>
+                        <p>Lần thay lọc tiếp theo: <span id="ThayLocTiep">@info.ThayLocTiep</span></p>
+                    </div>
+                </div>
+            </div>
+            <div id="activity" class="tab-pane">
+                <div class="row">
+                    <div class="item fl">
+                        <label for class="fl">Chọn Ngày</label>
+                        @Html.TextBox("strFromDateHoatDong", DateTime.Now.AddMonths(-1).ToShortDateString(), new { @class = "" })
+                        @Html.TextBox("strToDateHoatDong", DateTime.Now.ToShortDateString(), new { @class = "" })
+                    </div>
+                    <div id="btn-xemHoatDong" class="item fl">
+                        <button onclick="RenderHoatDong('0')">
+                            <i class="icon-submit" title="Xem báo cáo"></i>Xem
+                        </button>
+                    </div>
+                </div>
+                <div id="table-hoatdong" class="tab-content wrapper">
+                </div>
+            </div>
+            <div id="dichuyen" class="tab-pane">
+                <div class="row">
+                    <div class="item fl">
+                        <label for class="fl">Chọn Ngày</label>
+                        @Html.TextBox("strFromDateDiChuyen", DateTime.Now.AddMonths(-1).ToShortDateString(), new { @class = "" })
+                        @Html.TextBox("strToDateDiChuyen", DateTime.Now.ToShortDateString(), new { @class = "" })
+                    </div>
+                    <div id="btn-xemDiChuyen" class="item fl">
+                        <button onclick="RenderDiChuyen('0')">
+                            <i class="icon-submit" title="Xem báo cáo"></i>Xem
+                        </button>
+                    </div>
+                </div>
+                <div class="row content-body">
+                    <div id="table-dichuyen" class="tab-content wrapper">
+                    </div>
+                </div>
+            </div>
+            <div id="baoduong" class="tab-pane">
+                <div class="row">
+                    <div class="item fl">
+                        <label for class="fl">Chọn Ngày</label>
+                        @Html.TextBox("strFromDateBaoDuong", DateTime.Now.AddMonths(-1).ToShortDateString(), new { @class = "" })
+                        @Html.TextBox("strToDateBaoDuong", DateTime.Now.ToShortDateString(), new { @class = "" })
+                    </div>
+                    <div id="btn-xemBaoDuong" class="item fl">
+                        <button onclick="RenderBaoDuong('0')">
+                            <i class="icon-submit" title="Xem báo cáo"></i>Xem
+                        </button>
+                    </div>
+                </div>
+                <div class="row content-body">
+                    <div id="table-baoduong" class="tab-content wrapper">
+                    </div>
+                </div>
+            </div>
+        </div>
+</div>
+</div>
+<script type="text/javascript">
+    ///<reference path="~/Scripts/Leaflet/GeoFridge.js" />
+    var mapData = [];
+    mapData.LayerDevice = L.layerGroup();
+    var map = new L.Map('map', {
+        center: [16, 106],
+        zoom: 6,
+        minZoom: 0,
+        maxZoom: 23,
+        contextmenu: true,
+        contextmenuWidth: 240,
+        contextmenuItems: [{
+            text: 'Initial'
+        }
+        ]
+    }
+    );
+    
+    var googleLayer = new L.Google('ROADMAP');
+    map.addLayer(googleLayer);
+
+    $(document).ready(function () {
+        var data = @Html.Raw(new System.Web.Script.Serialization.JavaScriptSerializer().Serialize(Model));
+
+        for (var i in data) {
+            RenderMarker([data[i].Latitude, data[i].Longitude], data[i].TenThietBi, RederPopupDevice(data[i]), '070', mapData.LayerDevice);
+
+            //var marker = new L.Marker(
+            //        new L.LatLng(data[i].Latitude, data[i].Longitude)
+            //    ).bindPopup(data[i].TenThietBi)
+            //	.addTo(map);
+        }
+        if(map.hasLayer(mapData.LayerDevice)==false){
+            map.addLayer(mapData.LayerDevice);
+        }
+    });
+    
+    function RederPopupDevice(item)
+    {
+        var btnxemHoatDong = '<button onclick="RenderHoatDong(\''+ item.ThietBiId + '\');"><i class="icon-submit" title="Xem báo cáo"></i>Xem</button>'
+        var btnxemDiChuyen = '<button onclick="RenderDiChuyen(\''+ item.ThietBiId + '\');"><i class="icon-submit" title="Xem báo cáo"></i>Xem</button>'
+        var btnxemBaoDuong = '<button onclick="RenderBaoDuong(\''+ item.ThietBiId + '\');"><i class="icon-submit" title="Xem báo cáo"></i>Xem</button>'
+        var ultab = '<li class="active"><a data-toggle="tab" href="#info">Thông tin</a></li>';
+        ultab +=    '<li><a data-toggle="tab" href="#activity" onclick="RenderHoatDong(\''+ item.ThietBiId + '\');">Lịch sữ hoạt động</a></li>';
+        ultab +=    '<li><a data-toggle="tab" href="#dichuyen" onclick="RenderDiChuyen(\''+ item.ThietBiId + '\');">Lịch sữ di chuyển</a></li>';
+        ultab +=    '<li><a data-toggle="tab" href="#baoduong" onclick="RenderBaoDuong(\''+ item.ThietBiId + '\');">Bảo dưỡng sửa chửa</a></li>';
+
+
+        var htmlData = '';
+        var matadata = $('#DevicePopupTemplete');
+        var data = matadata.clone();
+        data.css('display','');
+        data.find('h3[id="TenThietBi"]').html(item.TenThietBi);
+        data.find('h3[id="TrangThai"]').html(item.TrangThai);
+        data.find('h3[id="NgayOCongTrinh"]').html(item.NgayOCongTrinh);
+        data.find('h3[id="TenCongTrinh"]').html(item.TenCongTrinh);
+        data.find('ul[id="ul-tab"]').html(ultab);
+        data.find('div[id="btn-xemHoatDong"]').html(btnxemHoatDong); 
+        data.find('div[id="btn-xemDiChuyen"]').html(btnxemDiChuyen);
+        data.find('div[id="btn-xemBaoDuong"]').html(btnxemBaoDuong);
+        var elm = data[0];
+        htmlData += elm.outerHTML;
+        return htmlData;
+    }
+    function RenderBaoDuong(thietbiId)
+    {
+        var strFromDate = $('#strFromDateBaoDuong').val();
+        var strToDate = $('#strToDateBaoDuong').val();
+        $("#table-baoduong").load('@(Url.Action("DeviceModify", "Monitoring"))?thietBiID=' + thietbiId + '&strFromDate=' + strFromDate + '&strToDate=' + strToDate);
+    }
+    function RenderDiChuyen(thietbiId)
+    {
+        var strFromDate = $('#strFromDateDiChuyen').val();
+        var strToDate = $('#strToDateBaoDuong').val();
+        $("#table-dichuyen").load('@(Url.Action("DeviceMove", "Monitoring"))?thietBiID=' + thietbiId + '&strFromDate=' + strFromDate + '&strToDate=' + strToDate);
+    }
+    function RenderHoatDong(thietbiId)
+    {
+        var strFromDate = $('#strFromDateHoatDong').val();
+        var strToDate = $('#strToDateHoatDong').val();
+        $("#table-hoatdong").load('@(Url.Action("DeviceActivity", "Monitoring"))?thietBiID=' + thietbiId + '&strFromDate=' + strFromDate + '&strToDate=' + strToDate);
+    }
+</script>

@@ -1,0 +1,60 @@
+﻿<!DOCTYPE html>
+<html class="nav-mini">
+<head>
+    <meta charset="utf-8" />
+    <link href="" rel="shortcut icon" />
+
+    <link href="@Url.Content("~/Content/NewEtool/css/jquery.theme.default.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/Content/NewEtool/css/boothstrap.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/Content/NewEtool/css/component.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/Content/NewEtool/css/jquery-ui.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/Content/NewEtool/css/icon.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/Content/NewEtool/css/style.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/Content/NewEtool/css/final.css")" rel="stylesheet" type="text/css" />
+    @*<link href="@Url.Content("~/Content/NewEtool/css/fixedColumns.dataTables.css")" rel="stylesheet" type="text/css" />*@
+
+    <script src="@Url.Content("~/Content/NewEtool/js/jquery.min.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Content/NewEtool/js/jquery.cookie.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Content/NewEtool/js/jquery.tablesorter.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Content/NewEtool/js/jquery.tablesorter.widgets.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Content/NewEtool/js/bootstrap.min.js")" type="text/javascript"></script>
+    @*<script src="@Url.Content("~/Content/NewEtool/js/angular.min.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Content/NewEtool/js/jquery-ui.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Content/NewEtool/js/dataTables.fixedColumns.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Content/NewEtool/js/jquery.dataTables.min.js")" type="text/javascript"></script>*@
+    <script src="@Url.Content("~/Content/NewEtool/js/jquery.tablesorter.pager.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Content/NewEtool/js/ui.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Content/NewEtool/js/widget-scroller.js")" type="text/javascript"></script>
+
+
+    @*<script src="@Url.Content("~/Scripts/EvaluationScripts/bootstrap.treeview.js")" type="text/javascript"></script>*@
+    @*<link href="@Url.Content("~/Content/EvaluationCSS/jquery-ui-monthpicker.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/Content/EvaluationCSS/jquery.simple-dtpicker.css")" rel="stylesheet" type="text/css" />*@
+    <link href="@Url.Content("~/Content/EvaluationCSS/Evaluation.css")" rel="stylesheet" type="text/css" />
+    <script src="@Url.Content("~/Scripts/EvaluationScripts/EvaluationScript.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/EvaluationScripts/jquery.simple-dtpicker.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/EvaluationScripts/jquery.mtz.monthpicker.js")" type="text/javascript"></script>
+
+    <script src="@Url.Content("~/Scripts/EvaluationScripts/bootstrap.treeview.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/jquery.nestable.js")"></script>
+
+    <script src="@Url.Content("~/Scripts/EvaluationScripts/bootstrap.treeview.js")" type="text/javascript"></script>
+
+    @RenderSection("Scripts", false/*required*/)
+
+    <title>DmsPro Etool</title>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            @Html.Partial("HeaderPartial")
+        </div>
+        <div class="navigation">
+            @Html.Partial("NavigationMenuPartial")
+        </div>
+        <div class="content">
+            @RenderBody()
+        </div>
+    </div>
+</body>
+</html>

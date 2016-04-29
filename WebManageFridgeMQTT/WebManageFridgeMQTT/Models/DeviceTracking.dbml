@@ -1,0 +1,75 @@
+﻿<?xml version="1.0" encoding="utf-8"?><Database Name="DF_RELEASE" Class="DeviceTrackingDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
+  <Connection Mode="WebSettings" ConnectionString="Data Source=StevieTran\SQLEXPRESS;Initial Catalog=DF_RELEASE;Persist Security Info=True;User ID=sa;Connect Timeout=500" SettingsObjectName="System.Configuration.ConfigurationManager.ConnectionStrings" SettingsPropertyName="DF_RELEASEConnectionString" Provider="System.Data.SqlClient" />
+  <Table Name="dbo.[User]" Member="Users">
+    <Type Name="User">
+      <Column Name="UserId" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="UserName" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="Password" Type="System.String" DbType="NVarChar(200) NOT NULL" CanBeNull="false" />
+      <Column Name="NhanVienId" Type="System.Guid" DbType="UniqueIdentifier" CanBeNull="true" />
+      <Column Name="IsActive" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="LastSync" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="PassLock" Type="System.String" DbType="NVarChar(20)" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Function Name="dbo.GetInfoDeviceModify" Method="GetInfoDeviceModify">
+    <Parameter Name="DeviceID" Parameter="deviceID" Type="System.String" DbType="NVarChar(250)" />
+    <Parameter Name="FromDate" Parameter="fromDate" Type="System.DateTime" DbType="DateTime" />
+    <Parameter Name="ToDate" Parameter="toDate" Type="System.DateTime" DbType="DateTime" />
+    <ElementType Name="GetInfoDeviceModifyResult">
+      <Column Name="SuaChuaThietBiID" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" CanBeNull="false" />
+      <Column Name="ThietBiID" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" CanBeNull="false" />
+      <Column Name="TrangThai" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="NgayHong" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="NgaySua" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="NgayHoanThien" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="MoTa" Type="System.String" DbType="NVarChar(500)" CanBeNull="true" />
+      <Column Name="DonViSua" Type="System.String" DbType="NVarChar(500)" CanBeNull="true" />
+      <Column Name="ChiPhi" Type="System.Double" DbType="Float" CanBeNull="true" />
+      <Column Name="NguoiKhaiBao" Type="System.Guid" DbType="UniqueIdentifier" CanBeNull="true" />
+      <Column Name="NguoiBanGiao" Type="System.Guid" DbType="UniqueIdentifier" CanBeNull="true" />
+      <Column Name="IsActive" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.Sp_GetInfoDevice" Method="Sp_GetInfoDevice">
+    <ElementType Name="Sp_GetInfoDeviceResult">
+      <Column Name="STT" Type="System.Int64" DbType="BigInt" CanBeNull="true" />
+      <Column Name="ThietBiId" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" CanBeNull="false" />
+      <Column Name="TenCongTrinh" Type="System.String" DbType="NVarChar(500)" CanBeNull="true" />
+      <Column Name="DiaDiem" Type="System.String" DbType="NVarChar(1000)" CanBeNull="true" />
+      <Column Name="TenVietTat" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="TenThietBi" Type="System.String" DbType="NVarChar(250) NOT NULL" CanBeNull="false" />
+      <Column Name="TrangThai" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="LoaiHinh" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="ThoiGianVao" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="NgayOCongTrinh" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="GiaThue" Type="System.Double" DbType="Float" CanBeNull="true" />
+      <Column Name="ThanhTien" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="ThayDauTiep" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="ThayLocTiep" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="Latitude" Type="System.Double" DbType="Float" CanBeNull="true" />
+      <Column Name="Longitude" Type="System.Double" DbType="Float" CanBeNull="true" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.GetInfoDeviceActivity" Method="GetInfoDeviceActivity">
+    <Parameter Name="DeviceID" Parameter="deviceID" Type="System.String" DbType="NVarChar(250)" />
+    <Parameter Name="FromDate" Parameter="fromDate" Type="System.DateTime" DbType="DateTime" />
+    <Parameter Name="ToDate" Parameter="toDate" Type="System.DateTime" DbType="DateTime" />
+    <ElementType Name="GetInfoDeviceActivityResult">
+      <Column Name="ThietBiID" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" CanBeNull="false" />
+      <Column Name="ThoiGian" Type="System.String" DbType="NChar(10) NOT NULL" CanBeNull="false" />
+      <Column Name="Loai" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Time" Type="System.Double" DbType="Float" CanBeNull="true" />
+      <Column Name="TrangThai" Type="System.Int32" DbType="Int" CanBeNull="true" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.GetInfoDeviceMove" Method="GetInfoDeviceMove">
+    <Parameter Name="DeviceID" Parameter="deviceID" Type="System.String" DbType="NVarChar(250)" />
+    <Parameter Name="FromDate" Parameter="fromDate" Type="System.DateTime" DbType="DateTime" />
+    <Parameter Name="ToDate" Parameter="toDate" Type="System.DateTime" DbType="DateTime" />
+    <ElementType Name="GetInfoDeviceMoveResult">
+      <Column Name="Ngay" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="TuViTri" Type="System.String" DbType="NVarChar(250) NOT NULL" CanBeNull="false" />
+      <Column Name="DenViTri" Type="System.String" DbType="NVarChar(250) NOT NULL" CanBeNull="false" />
+    </ElementType>
+  </Function>
+</Database>

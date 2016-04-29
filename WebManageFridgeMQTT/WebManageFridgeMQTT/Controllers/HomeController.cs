@@ -1,5 +1,4 @@
-﻿using MySql.Data.MySqlClient;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
@@ -21,9 +20,6 @@ namespace WebManageFridgeMQTT.Controllers
                 DataTable result = new DataTable();
                 result = Utility.Helper.QueryStoredProcedure("GetAllClient");
                 model = result;
-
-
-
             }
             catch (Exception)
             {

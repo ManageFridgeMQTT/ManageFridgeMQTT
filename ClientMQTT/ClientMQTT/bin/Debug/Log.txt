@@ -64,3 +64,114 @@ Message:	client_MqttMsgSubscribed_ 2: 1
 ----------
 16/04/2016 5:46:31 CH
 Message:	client_2 connect thanh cong
+----------
+17/04/2016 2:51:57 CH
+Message:	onnect thanh cong
+----------
+17/04/2016 2:51:57 CH
+Message:	client_MqttMsgSubscribed_ 2: 1
+----------
+17/04/2016 2:52:05 CH
+Message:	{"CommandType":"2","CommandId":"1","CommandAction":"Get","Data":{"Temperature":35,"Longitude":52858588,"Latitude":58582525},"Status":1}
+----------
+17/04/2016 3:33:48 CH
+Message:	onnect thanh cong
+----------
+17/04/2016 3:33:48 CH
+Message:	client_MqttMsgSubscribed_ 2: 1
+----------
+17/04/2016 3:33:54 CH
+Message:	{"CommandType":"2","CommandId":"1","CommandAction":"Get","Data":{"Temperature":35,"Longitude":52858588,"Latitude":58582525},"Status":1}
+----------
+17/04/2016 3:34:21 CH
+Message:	{"CommandType":"2","CommandId":"1","CommandAction":"Get","Data":{"Temperature":35,"Longitude":52858588,"Latitude":58582525},"Status":1}
+----------
+17/04/2016 3:39:15 CH
+Message:	{"CommandType":"2","CommandId":"1","CommandAction":"Get","Data":{"Temperature":35,"Longitude":52858588,"Latitude":58582525},"Status":1}
+----------
+17/04/2016 3:39:49 CH
+Message:	{"CommandType":"2","CommandId":"1","CommandAction":"Get","Data":{"Temperature":35,"Longitude":52858588,"Latitude":58582525},"Status":1}
+----------
+18/04/2016 1:16:14 CH
+Message:	onnect thanh cong
+----------
+18/04/2016 1:16:14 CH
+Message:	client_MqttMsgSubscribed_ 2: 1
+----------
+18/04/2016 1:16:20 CH
+Message:	{"CommandType":"2","CommandId":"1","CommandAction":"Get","Data":{"Temperature":35,"Longitude":52858588,"Latitude":58582525},"Status":1}
+----------
+18/04/2016 1:22:18 CH
+Message:	onnect thanh cong
+----------
+18/04/2016 1:22:18 CH
+Message:	client_MqttMsgSubscribed_ 2: 1
+----------
+18/04/2016 1:22:24 CH
+Message:	Nhan client_2: client2gui  test/abc Hello !! !!
+----------
+18/04/2016 1:40:20 CH
+Message:	onnect thanh cong
+----------
+18/04/2016 1:40:20 CH
+Message:	client_MqttMsgSubscribed_ 2: 1
+----------
+18/04/2016 1:40:22 CH
+Message:	{"CommandType":"2","CommandId":"1","CommandAction":"Get","Data":{"Temperature":35,"Longitude":52858588,"Latitude":58582525},"Status":1}
+----------
+19/04/2016 9:27:01 CH
+Message:	onnect thanh cong
+----------
+19/04/2016 9:27:03 CH
+Message:	{"CommandType":"2","CommandId":"1","CommandAction":"Get","Data":{"Temperature":35,"Longitude":52858588,"Latitude":58582525},"Status":1}
+----------
+19/04/2016 9:42:32 CH
+Message:	onnect thanh cong
+----------
+19/04/2016 9:42:32 CH
+Message:	client_MqttMsgSubscribed_ 2: 1
+----------
+19/04/2016 9:42:35 CH
+Message:	{"CommandType":"2","CommandId":"1","CommandAction":"Get","Data":{"Temperature":35,"Longitude":52858588,"Latitude":58582525},"Status":1}
+----------
+19/04/2016 9:42:47 CH
+Message:	onnect thanh cong
+----------
+19/04/2016 9:42:47 CH
+Message:	client_MqttMsgSubscribed_ 2: 1
+----------
+19/04/2016 9:42:49 CH
+Message:	Nhan client_2: client2gui test/ds/sds Hello !!
+----------
+19/04/2016 9:47:09 CH
+Message:	onnect thanh cong
+----------
+19/04/2016 9:47:09 CH
+Message:	client_MqttMsgSubscribed_ 2: 1
+----------
+19/04/2016 9:47:13 CH
+Message:	{"CommandType":"2","CommandId":"1","CommandAction":"Get","Data":{"Temperature":35,"Longitude":52858588,"Latitude":58582525},"Status":1}
+----------
+19/04/2016 9:47:13 CH
+Message:	Nhan client_2: {"CommandType":"2","CommandId":"1","CommandAction":"Get","Data":{"Temperature":35,"Longitude":52858588,"Latitude":58582525},"Status":1}
+----------
+19/04/2016 9:53:19 CH
+Message:	onnect thanh cong
+----------
+19/04/2016 9:53:19 CH
+Message:	client_MqttMsgSubscribed_ 2: 1
+----------
+19/04/2016 9:53:21 CH
+Message:	Nhan client_2: client2gui test/ds/sds Hello !!
+----------
+21/04/2016 9:09:51 CH
+Message:	onnect thanh cong
+----------
+21/04/2016 9:09:51 CH
+Message:	client_MqttMsgSubscribed_ 2: 1
+----------
+21/04/2016 9:09:56 CH
+Message:	{"CommandType":"2","CommandId":"1","CommandAction":"Get","Data":{"Temperature":35,"Longitude":52858588,"Latitude":58582525},"Status":1}
+----------
+21/04/2016 9:09:56 CH
+Message:	Nhan client_2: {"CommandType":"2","CommandId":"1","CommandAction":"Get","Data":{"Temperature":35,"Longitude":52858588,"Latitude":58582525},"Status":1}

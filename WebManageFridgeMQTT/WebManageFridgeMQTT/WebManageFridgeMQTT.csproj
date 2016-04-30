@@ -382,6 +382,10 @@
     <Content Include="Content\Icon\markers\brown.png" />
     <Content Include="Content\Icon\markers\crl.png" />
     <Content Include="Content\Icon\markers\crl1.png" />
+    <Content Include="Content\Icon\markers\dangbaoduong.png" />
+    <Content Include="Content\Icon\markers\dangcau.png" />
+    <Content Include="Content\Icon\markers\dangdichuyen.png" />
+    <Content Include="Content\Icon\markers\dangkhoan.png" />
     <Content Include="Content\Icon\markers\Distributor.png" />
     <Content Include="Content\Icon\markers\Distributor_None.png" />
     <Content Include="Content\Icon\markers\Distributor_Violate.png" />
@@ -402,6 +406,10 @@
     <Content Include="Content\Icon\markers\SM_1.png" />
     <Content Include="Content\Icon\markers\SS.png" />
     <Content Include="Content\Icon\markers\SS_2.png" />
+    <Content Include="Content\Icon\markers\tatbaoduong.png" />
+    <Content Include="Content\Icon\markers\tatcau.png" />
+    <Content Include="Content\Icon\markers\tatdichuyen.png" />
+    <Content Include="Content\Icon\markers\tatkhoan.png" />
     <Content Include="Content\Icon\markers\VN.png" />
     <Content Include="Content\Icon\markers\yellow.png" />
     <Content Include="Content\Icon\markers\_ASM.png" />

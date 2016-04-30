@@ -51,23 +51,6 @@ namespace WebManageFridgeMQTT
             //gateway.client.MqttMsgSubscribed += gateway.client_MqttMsgSubscribed;
             //gateway.client.MqttMsgUnsubscribed += gateway.client_MqttMsgUnsubscribed;
             //#endregion
-
-            //#region Config
-            //CustomLog.LogPath = HttpContext.Current.Server.MapPath("~/Logs/");
-            //client = new MqttClient(IPAddress.Parse("127.0.0.1"));
-            //clientID = "1111AAAA";
-            //client.Connect(clientID);
-            //CustomLog.LogError("connect thanh cong");
-            //string[] topic = { "#", "Test/#" };
-
-            //byte[] qosLevels = { MqttMsgBase.QOS_LEVEL_AT_MOST_ONCE, MqttMsgBase.QOS_LEVEL_AT_MOST_ONCE };
-            //client.Subscribe(topic, qosLevels);
-
-            //client.MqttMsgPublishReceived += gateway.client_MqttMsgPublishReceived;
-
-            //client.MqttMsgSubscribed += gateway.client_MqttMsgSubscribed;
-            //client.MqttMsgUnsubscribed += gateway.client_MqttMsgUnsubscribed;
-            //#endregion
         }
         //protected void client_MqttMsgPublishReceived(object sender, MqttMsgPublishEventArgs e)
         //{

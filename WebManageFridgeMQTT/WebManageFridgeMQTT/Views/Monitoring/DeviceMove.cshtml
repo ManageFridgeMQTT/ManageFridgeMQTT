@@ -1,29 +1,44 @@
-﻿@model List<WebManageFridgeMQTT.Models.GetInfoDeviceMoveResult>
-<table class="tablesorter">
-    <thead>
-        <tr>
-            <th>Thời Gian</th>
-            <th>Vị trí</th>
-        </tr>
-    </thead>
-    <tbody>
-        @if (Model != null)
-        {
-            foreach (var item in Model)
-            {
+﻿@model WebManageFridgeMQTT.Utility.DeviceActivity
+<div class="row">
+    <div class="item fl">
+        <label class="fl">Chọn Ngày</label>
+        @Html.TextBox("strFromDateHoatDong", Model.FromDate.ToShortDateString(), new { @class = "datepicker" })
+        @Html.TextBox("strToDateHoatDong", Model.ToDate.ToShortDateString(), new { @class = "datepicker" })
+    </div>
+    <div id="btn-xemDiChuyen" class="item fl">
+        <button onclick="RenderDiChuyen('@Model.ThietBiID')">
+            <i class="icon-submit" title="Xem báo cáo"></i>Xem
+        </button>
+    </div>
+</div>
+<div class="row content-body">
+    <div id="table-dichuyen" class="tab-content wrapper">
+        <table class="tablesorter">
+            <thead>
                 <tr>
-                    <td>@item.Ngay.ToString()</td>
-                    <td>@item.DenViTri</td>
+                    <th>Thời Gian</th>
+                    <th>Vị trí</th>
                 </tr>
-            }
-        }
-        <tr>
-            <td>2016/04/29 15:30:00</td>
-            <td>Công Trinh A</td>
-        </tr>
-        <tr>
-            <td>2016/04/29 15:30:00</td>
-            <td>Công Trình đến</td>
-        </tr>
-    </tbody>
-</table>
+            </thead>
+            <tbody>
+                @if (Model.ListDataMove != null)
+                {
+                    foreach (var item in Model.ListDataMove)
+                    {
+                        <tr>
+                            <td>@item.Ngay.ToString()</td>
+                            <td>@item.DenViTri</td>
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('.datepicker').datepicker({
+            dateFormat: 'dd/mm/yy'
+        });
+    });
+</script>

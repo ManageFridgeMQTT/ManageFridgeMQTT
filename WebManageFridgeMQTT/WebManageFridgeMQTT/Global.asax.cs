@@ -33,12 +33,12 @@ namespace WebManageFridgeMQTT
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
 
-            #region Config
+            //#region Config
             //Gateway gateway = new Gateway();
             //CustomLog.LogPath = HttpContext.Current.Server.MapPath("~/Logs/");
-            ////gateway.client = new MqttClient(IPAddress.Parse("127.0.0.1"));
+            //gateway.client = new MqttClient(IPAddress.Parse("127.0.0.1"));
             //clientID = "1111AAAA";
-            ////gateway.client.Connect(clientID);
+            //gateway.client.Connect(clientID);
             //CustomLog.LogError("connect thanh cong");
             //string[] topic = { "#", "Test/#" };
 
@@ -48,7 +48,7 @@ namespace WebManageFridgeMQTT
             //gateway.client.MqttMsgPublishReceived += gateway.client_MqttMsgPublishReceived;
             //gateway.client.MqttMsgSubscribed += gateway.client_MqttMsgSubscribed;
             //gateway.client.MqttMsgUnsubscribed += gateway.client_MqttMsgUnsubscribed;
-            #endregion
+            //#endregion
 
             //#region Config
             //CustomLog.LogPath = HttpContext.Current.Server.MapPath("~/Logs/");

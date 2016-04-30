@@ -141,6 +141,9 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\DeviceTracking.cs">
+      <DependentUpon>DeviceTracking.dbml</DependentUpon>
+    </Compile>
     <Compile Include="Models\DeviceTracking.designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -404,6 +407,9 @@
     <Content Include="Content\Icon\markers\_ASM.png" />
     <Content Include="Content\Icon\markers\_SM.png" />
     <Content Include="Content\Icon\markers\_SS.png" />
+    <Content Include="Content\img1.jpg" />
+    <Content Include="Content\img2.jpg" />
+    <Content Include="Content\img3.jpg" />
     <Content Include="Content\img\126-More-16.png" />
     <Content Include="Content\img\1402849179_size_width_add.png" />
     <Content Include="Content\img\1402849189_size_width_remove.png" />
@@ -689,6 +695,7 @@
     <Content Include="Views\Monitoring\DeviceModify.cshtml" />
     <Content Include="Views\Monitoring\DeviceActivity.cshtml" />
     <Content Include="Views\Monitoring\DeviceMove.cshtml" />
+    <Content Include="Views\Monitoring\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using WebManageFridgeMQTT.Models;
+using WebManageFridgeMQTT.Utility;
 
 namespace WebManageFridgeMQTT.Controllers
 {
@@ -20,34 +21,79 @@ namespace WebManageFridgeMQTT.Controllers
         public ActionResult Device()
         {
             DeviceInfoMV model = new DeviceInfoMV();
-            model.ListDeviceInfo = Global.Context.Sp_GetInfoDevice().ToList();
+            try
+            {
+                model.ListDeviceInfo = Global.Context.Sp_GetInfoDevice().ToList();
+            }
+            catch (Exception ex)
+            {
+                CustomLog.LogError(ex);
+                throw;
+            }
+            
             return View(model.ListDeviceInfo);
         }
 
         public ActionResult DeviceModify(string thietBiID, string strFromDate, string strToDate)
         {
-            List<GetInfoDeviceModifyResult> model = new List<GetInfoDeviceModifyResult>();
+            DeviceActivity model = new DeviceActivity();
+            if (!string.IsNullOrEmpty(thietBiID))
+            {
+                model.ThietBiID = thietBiID;
+            }
+            if (!string.IsNullOrEmpty(strFromDate))
+            {
+                model.FromDate = DateTime.Parse(strFromDate);
+            }
+            if (!string.IsNullOrEmpty(strFromDate))
+            {
+                model.ToDate = DateTime.Parse(strToDate);
+            }
             DateTime FromDate = DateTime.Now.AddMonths(-1);
             DateTime ToDate = DateTime.Now;
-            model = Global.Context.GetInfoDeviceModify(thietBiID, FromDate, ToDate).ToList();
+            model.ListDataModify = Global.Context.GetInfoDeviceModify(model.ThietBiID, model.FromDate, model.ToDate).ToList();
             return PartialView("DeviceModify", model);
         }
         public ActionResult DeviceActivity(string thietBiID, string strFromDate, string strToDate)
         {
-            List<GetInfoDeviceActivityResult> model = new List<GetInfoDeviceActivityResult>();
+            DeviceActivity model = new DeviceActivity();
+            if (!string.IsNullOrEmpty(thietBiID))
+            {
+                model.ThietBiID = thietBiID;
+            }
+            if(!string.IsNullOrEmpty(strFromDate))
+            {
+                model.FromDate = DateTime.Parse(strFromDate);
+            }
+            if (!string.IsNullOrEmpty(strFromDate))
+            {
+                model.ToDate = DateTime.Parse(strToDate);
+            }
             DateTime FromDate = DateTime.Now.AddMonths(-1);
             DateTime ToDate = DateTime.Now;
-            model = Global.Context.GetInfoDeviceActivity(thietBiID, FromDate, ToDate).ToList();
+            model.ListData = Global.Context.GetInfoDeviceActivity(model.ThietBiID, model.FromDate, model.ToDate).ToList();
             return PartialView("DeviceActivity", model);
         }
         public ActionResult DeviceMove(string thietBiID, string strFromDate, string strToDate)
         {
-            List<GetInfoDeviceMoveResult> model = new List<GetInfoDeviceMoveResult>();
+            DeviceActivity model = new DeviceActivity();
+            if (!string.IsNullOrEmpty(thietBiID))
+            {
+                model.ThietBiID = thietBiID;
+            }
+            if (!string.IsNullOrEmpty(strFromDate))
+            {
+                model.FromDate = DateTime.Parse(strFromDate);
+            }
+            if (!string.IsNullOrEmpty(strFromDate))
+            {
+                model.ToDate = DateTime.Parse(strToDate);
+            }
             DateTime FromDate = DateTime.Now.AddMonths(-1);
             DateTime ToDate = DateTime.Now;
-            model = Global.Context.GetInfoDeviceMove(thietBiID, FromDate, ToDate).ToList();
+            model.ListDataMove = Global.Context.GetInfoDeviceMove(thietBiID, FromDate, ToDate).ToList();
             return PartialView("DeviceMove", model);
         }
-        
+
     }
 }

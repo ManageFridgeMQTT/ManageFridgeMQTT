@@ -36,97 +36,157 @@
         min-width: 610px;
         max-height: 460px;
     }
-    .leaflet-popup-content-wrapper .leaflet-popup-content{
-        margin: 5px;
+
+        .leaflet-popup-content-wrapper .leaflet-popup-content {
+            margin: 5px;
+        }
+
+    .leaflet-popup-close-button {
+        z-index: 99999;
     }
-    .leaflet-popup-close-button{
-        z-index:99999;
+
+    .tab-pane .row p {
+        margin-top: 2px;
+        margin-bottom: 2px;
+    }
+    #notePanel {
+        width: 100%;
+        height: 160px;
+        background-color: #FFFFFF;
+        position: absolute;
+        border: 1px solid #F2F2F2;
+        bottom: 20px;
+        right: 0;
+        border-radius: 6px;
+        opacity: 0.8;
+        display: none;
+    }
+    #lblnote {
+        position: absolute;
+        color: Blue;
+        bottom: 0;
+        right: 60px;
+        z-index: 1;
     }
 </style>
 <div id="loading" class="loading">
 </div>
 
-
 <div class="insider">
     <div id="map" class="map">
     </div>
-    <div id ="DevicePopupTemplete" style="display:none; z-index:999999; min-width:600px; max-height:450px">
-        <div class="tab-header">
-            <ul id="ul-tab" class="nav nav-tabs">
-                <li class="active"><a data-toggle="tab" href="#info">Thông tin</a></li>
-                <li><a data-toggle="tab" href="#activity" onclick="RenderHoatDong('0')">Lịch sữ hoạt động</a></li>
-                <li><a data-toggle="tab" href="#dichuyen" onclick="RenderDiChuyen('0')">Lịch sữ di chuyển</a></li>
-                <li><a data-toggle="tab" href="#baoduong" onclick="RenderBaoDuong('0');">Bảo dưỡng sửa chửa</a></li>
-            </ul>
-        </div>
-        <div class="tab-content">
-            <div id="info" class="tab-pane fade in active">
-                <div class="row">
-                    <div class="col-sm-6"></div>
-                    <div class="col-sm-6">
-                        <h3 id ="TenThietBi">@info.TenThietBi</h3>
-                        <p>Trạng thái: <span id="TrangThai">@info.TrangThai</span></p>
-                        <p>Đã hoạt động: <span id="NgayOCongTrinh">@info.NgayOCongTrinh</span></p>
-                        <p>Vị trí: <span id="TenCongTrinh">@info.TenCongTrinh</span></p>
-                        <p>Lần thay dầu tiếp theo: <span id="ThayDauTiep">@info.ThayDauTiep</span></p>
-                        <p>Lần thay lọc tiếp theo: <span id="ThayLocTiep">@info.ThayLocTiep</span></p>
-                    </div>
-                </div>
-            </div>
-            <div id="activity" class="tab-pane">
-                <div class="row">
-                    <div class="item fl">
-                        <label for class="fl">Chọn Ngày</label>
-                        @Html.TextBox("strFromDateHoatDong", DateTime.Now.AddMonths(-1).ToShortDateString(), new { @class = "" })
-                        @Html.TextBox("strToDateHoatDong", DateTime.Now.ToShortDateString(), new { @class = "" })
-                    </div>
-                    <div id="btn-xemHoatDong" class="item fl">
-                        <button onclick="RenderHoatDong('0')">
-                            <i class="icon-submit" title="Xem báo cáo"></i>Xem
-                        </button>
-                    </div>
-                </div>
-                <div id="table-hoatdong" class="tab-content wrapper">
-                </div>
-            </div>
-            <div id="dichuyen" class="tab-pane">
-                <div class="row">
-                    <div class="item fl">
-                        <label for class="fl">Chọn Ngày</label>
-                        @Html.TextBox("strFromDateDiChuyen", DateTime.Now.AddMonths(-1).ToShortDateString(), new { @class = "" })
-                        @Html.TextBox("strToDateDiChuyen", DateTime.Now.ToShortDateString(), new { @class = "" })
-                    </div>
-                    <div id="btn-xemDiChuyen" class="item fl">
-                        <button onclick="RenderDiChuyen('0')">
-                            <i class="icon-submit" title="Xem báo cáo"></i>Xem
-                        </button>
-                    </div>
-                </div>
-                <div class="row content-body">
-                    <div id="table-dichuyen" class="tab-content wrapper">
-                    </div>
-                </div>
-            </div>
-            <div id="baoduong" class="tab-pane">
-                <div class="row">
-                    <div class="item fl">
-                        <label for class="fl">Chọn Ngày</label>
-                        @Html.TextBox("strFromDateBaoDuong", DateTime.Now.AddMonths(-1).ToShortDateString(), new { @class = "" })
-                        @Html.TextBox("strToDateBaoDuong", DateTime.Now.ToShortDateString(), new { @class = "" })
-                    </div>
-                    <div id="btn-xemBaoDuong" class="item fl">
-                        <button onclick="RenderBaoDuong('0')">
-                            <i class="icon-submit" title="Xem báo cáo"></i>Xem
-                        </button>
-                    </div>
-                </div>
-                <div class="row content-body">
-                    <div id="table-baoduong" class="tab-content wrapper">
-                    </div>
-                </div>
-            </div>
-        </div>
+    <button id="lblnote" class="toggle-button mini btn-transparent mt-10">
+        <i class="icon-up icon-black" title="Legend"></i>
+    </button>
+    <div id="notePanel">
+        <table>
+            <tr>
+                <td>
+                    <img src="@Url.Content("~/Content/Icon/markers/036.png")" style="margin-left: 5px;" />
+                    <label>Đang bảo dưỡng</label>
+                </td>
+                <td>
+                    <img src="@Url.Content("~/Content/Icon/markers/036.png")" style="margin-left: 5px;" />
+                    <label>Tắt máy bảo dưỡng</label>
+                </td>
+                <td>
+                    <img src="@Url.Content("~/Content/Icon/markers/036.png")" style="margin-left: 5px;" />
+                    <label>Đang di chuyển</label>
+                </td>
+                <td>
+                    <img src="@Url.Content("~/Content/Icon/markers/036.png")" style="margin-left: 5px;" />
+                    <label>Tắt máy di chuyển</label>
+                </td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>
+                    <img src="@Url.Content("~/Content/Icon/markers/036.png")" style="margin-left: 5px;" />
+                    <label>Đang khoan</label>
+                </td>
+                <td>
+                    <img src="@Url.Content("~/Content/Icon/markers/036.png")" style="margin-left: 5px;" />
+                    <label>Tắt máy khoan</label>
+                </td>
+                <td>
+                    <img src="@Url.Content("~/Content/Icon/markers/036.png")" style="margin-left: 5px;" />
+                    <label>Đang cẩu</label>
+                </td>
+                <td>
+                    <img src="@Url.Content("~/Content/Icon/markers/036.png")" style="margin-left: 5px;" />
+                    <label>Tắt máy cẩu</label>
+                </td>
+                <td>
+                    <img src="@Url.Content("~/Content/Icon/markers/grey.png")" style="margin-left: 5px;" />
+                    <label>Không xác định</label>
+                </td>
+            </tr>
+        </table>
+    </div>
+    
 </div>
+<div id="DevicePopupTemplete" style="display:none; z-index:999999; min-width:600px; max-height:450px">
+    <div class="tab-header">
+        <ul id="ul-tab" class="nav nav-tabs">
+            <li class="active"><a data-toggle="tab" href="#info">Thông tin</a></li>
+            <li><a data-toggle="tab" href="#detail">Chi Tiết</a></li>
+            <li><a data-toggle="tab" href="#activity" onclick="RenderHoatDong('0')">Lịch sữ hoạt động</a></li>
+            <li><a data-toggle="tab" href="#dichuyen" onclick="RenderDiChuyen('0')">Lịch sữ di chuyển</a></li>
+            <li><a data-toggle="tab" href="#baoduong" onclick="RenderBaoDuong('0');">Bảo dưỡng sửa chửa</a></li>
+        </ul>
+    </div>
+    <div class="tab-content">
+        <div id="info" class="tab-pane fade in active">
+            <div class="row">
+                <div class="col-sm-6">
+                    <img style="max-width:200px; max-height:280px; padding-top:12px; padding-bottom:12px; padding-left:20px" src="~/Content/img1.jpg" />
+                </div>
+                <div class="col-sm-6">
+                    <h3 id="TenThietBi">@info.TenThietBi</h3>
+                    <p>Trạng thái: <span id="TrangThai">@info.StrTrangThai</span></p>
+                    <p>Đã hoạt động: <span id="NgayOCongTrinh">@info.NgayOCongTrinh</span></p>
+                    <p>Vị trí: <span id="TenCongTrinh">@info.TenCongTrinh</span></p>
+                    <p>Lần thay dầu tiếp theo: <span id="ThayDauTiep">@info.ThayDauTiep</span></p>
+                    <p>Lần thay lọc tiếp theo: <span id="ThayLocTiep">@info.ThayLocTiep</span></p>
+                </div>
+            </div>
+        </div>
+        <div id="detail" class="tab-pane fade in">
+            <div class="row">
+                <h3 id="TenThietBi">@info.TenThietBi</h3>
+                <p>Loại hình: <span id="LoaiHinh">@info.LoaiHinh</span></p>
+                <p>Vị trí hiện tại: <span id="TenCongTrinh">@info.TenCongTrinh</span></p>
+                <p>Ngày đến: <span id="ThoiGianVao">@(info.ThoiGianVao.HasValue ? info.ThoiGianVao.Value.ToShortDateString() : "")</span></p>
+                <p>Tổng số ngày ở công trình: <span id="NgayOCongTrinh">@info.NgayOCongTrinh Ngày</span></p>
+                <p>Đơn giá thuê: <span id="GiaThue">@info.GiaThue  VNĐ</span></p>
+                <p>Thành tiền hiện tại: <span id="ThanhTien">@info.ThanhTien</span></p>
+            </div>
+            <p>Hình ảnh báo cáo </p>
+            <div class="row">
+                <div class="col-xs-4">
+                    <img style="max-width: 120px; max-height: 200px; padding-top: 5px; padding-bottom: 5px; padding-left: 10px" src="~/Content/img1.jpg" />
+                </div>
+                <div class="col-xs-4">
+                    <img style="max-width: 120px; max-height: 200px; padding-top: 5px; padding-bottom: 5px; padding-left: 10px; " src="~/Content/img2.jpg" />
+                </div>
+                <div class="col-xs-4">
+                    <img style="max-width: 120px; max-height: 200px; padding-top: 5px; padding-bottom: 5px; padding-left: 10px" src="~/Content/img3.jpg" />
+                </div>
+            </div>
+            <div class="row">
+                <p></p>
+            </div>
+        </div>
+        <div id="activity" class="tab-pane">
+
+        </div>
+        <div id="dichuyen" class="tab-pane">
+
+        </div>
+        <div id="baoduong" class="tab-pane">
+
+        </div>
+    </div>
 </div>
 <script type="text/javascript">
     ///<reference path="~/Scripts/Leaflet/GeoFridge.js" />
@@ -150,19 +210,53 @@
     map.addLayer(googleLayer);
 
     $(document).ready(function () {
+        
+
         var data = @Html.Raw(new System.Web.Script.Serialization.JavaScriptSerializer().Serialize(Model));
 
         for (var i in data) {
-            RenderMarker([data[i].Latitude, data[i].Longitude], data[i].TenThietBi, RederPopupDevice(data[i]), '070', mapData.LayerDevice);
+            var strIconUrl = 'grey';
+            if(data[i].TrangThaiHienTai == 3){
+                strIconUrl = 'dangbaoduong';
+            }else if(data[i].TrangThaiHienTai == 4){
+                strIconUrl = 'tatbaoduong';
+            }else if(data[i].TrangThaiHienTai == 5){
+                strIconUrl = 'dangdichuyen';
+            }else if(data[i].TrangThaiHienTai == 6){
+                strIconUrl = 'tatdichuyen';
+            }else if(data[i].TrangThaiHienTai == 7){
+                strIconUrl = 'dangkhoan';
+            }else if(data[i].TrangThaiHienTai == 8){
+                strIconUrl = 'tatkhoan';
+            }else if(data[i].TrangThaiHienTai == 9){
+                strIconUrl = 'dangcau';
+            }else if(data[i].TrangThaiHienTai == 10){
+                strIconUrl = 'tatcau';
+            } else{
+                strIconUrl = 'grey';
+            }
+
+            RenderMarker([data[i].Latitude, data[i].Longitude], data[i].TenThietBi, RederPopupDevice(data[i]), strIconUrl, mapData.LayerDevice);
 
             //var marker = new L.Marker(
             //        new L.LatLng(data[i].Latitude, data[i].Longitude)
             //    ).bindPopup(data[i].TenThietBi)
             //	.addTo(map);
         }
+        //RenderMarker([10.6655357562, 105.7323638722], 'sdsd', '<p>sdsds</p>', '070', mapData.LayerDevice);
+
+
         if(map.hasLayer(mapData.LayerDevice)==false){
             map.addLayer(mapData.LayerDevice);
         }
+
+
+
+        $('#lblnote').click(function () {
+            $('#notePanel').toggle();
+        });
+
+
     });
     
     function RederPopupDevice(item)
@@ -171,6 +265,7 @@
         var btnxemDiChuyen = '<button onclick="RenderDiChuyen(\''+ item.ThietBiId + '\');"><i class="icon-submit" title="Xem báo cáo"></i>Xem</button>'
         var btnxemBaoDuong = '<button onclick="RenderBaoDuong(\''+ item.ThietBiId + '\');"><i class="icon-submit" title="Xem báo cáo"></i>Xem</button>'
         var ultab = '<li class="active"><a data-toggle="tab" href="#info">Thông tin</a></li>';
+        ultab +=    '<li><a data-toggle="tab" href="#detail">Chi Tiết</a></li>';
         ultab +=    '<li><a data-toggle="tab" href="#activity" onclick="RenderHoatDong(\''+ item.ThietBiId + '\');">Lịch sữ hoạt động</a></li>';
         ultab +=    '<li><a data-toggle="tab" href="#dichuyen" onclick="RenderDiChuyen(\''+ item.ThietBiId + '\');">Lịch sữ di chuyển</a></li>';
         ultab +=    '<li><a data-toggle="tab" href="#baoduong" onclick="RenderBaoDuong(\''+ item.ThietBiId + '\');">Bảo dưỡng sửa chửa</a></li>';
@@ -181,7 +276,7 @@
         var data = matadata.clone();
         data.css('display','');
         data.find('h3[id="TenThietBi"]').html(item.TenThietBi);
-        data.find('h3[id="TrangThai"]').html(item.TrangThai);
+        data.find('h3[id="TrangThai"]').html(item.StrTrangThai);
         data.find('h3[id="NgayOCongTrinh"]').html(item.NgayOCongTrinh);
         data.find('h3[id="TenCongTrinh"]').html(item.TenCongTrinh);
         data.find('ul[id="ul-tab"]').html(ultab);
@@ -195,19 +290,44 @@
     function RenderBaoDuong(thietbiId)
     {
         var strFromDate = $('#strFromDateBaoDuong').val();
+        if(strFromDate == undefined)
+        {
+            strFromDate = '';
+        }
         var strToDate = $('#strToDateBaoDuong').val();
-        $("#table-baoduong").load('@(Url.Action("DeviceModify", "Monitoring"))?thietBiID=' + thietbiId + '&strFromDate=' + strFromDate + '&strToDate=' + strToDate);
+        if(strToDate == undefined)
+        {
+            strToDate = '';
+        }
+        $("#baoduong").load('@(Url.Action("DeviceModify", "Monitoring"))?thietBiID=' + thietbiId + '&strFromDate=' + strFromDate + '&strToDate=' + strToDate);
     }
     function RenderDiChuyen(thietbiId)
     {
         var strFromDate = $('#strFromDateDiChuyen').val();
+        if(strFromDate == undefined)
+        {
+            strFromDate = '';
+        }
         var strToDate = $('#strToDateBaoDuong').val();
-        $("#table-dichuyen").load('@(Url.Action("DeviceMove", "Monitoring"))?thietBiID=' + thietbiId + '&strFromDate=' + strFromDate + '&strToDate=' + strToDate);
+        if(strToDate == undefined)
+        {
+            strToDate = '';
+        }
+        $("#dichuyen").load('@(Url.Action("DeviceMove", "Monitoring"))?thietBiID=' + thietbiId + '&strFromDate=' + strFromDate + '&strToDate=' + strToDate);
     }
     function RenderHoatDong(thietbiId)
     {
         var strFromDate = $('#strFromDateHoatDong').val();
+        if(strFromDate == undefined)
+        {
+            strFromDate = '';
+        }
+
         var strToDate = $('#strToDateHoatDong').val();
-        $("#table-hoatdong").load('@(Url.Action("DeviceActivity", "Monitoring"))?thietBiID=' + thietbiId + '&strFromDate=' + strFromDate + '&strToDate=' + strToDate);
+        if(strToDate == undefined)
+        {
+            strToDate = '';
+        }
+        $("#activity").load('@(Url.Action("DeviceActivity", "Monitoring"))?thietBiID=' + thietbiId + '&strFromDate=' + strFromDate + '&strToDate=' + strToDate);
     }
 </script>

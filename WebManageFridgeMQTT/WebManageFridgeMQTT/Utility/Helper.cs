@@ -7,6 +7,7 @@ using System.Linq;
 using System.Reflection;
 using System.Web;
 using uPLibrary.Networking.M2Mqtt;
+using WebManageFridgeMQTT.Models;
 
 namespace WebManageFridgeMQTT.Utility
 {
@@ -131,7 +132,12 @@ namespace WebManageFridgeMQTT.Utility
                         {
                             modelMess.States = value.Skip(6).Take(3).ToArray();
                         }
-
+                        if (value[6] == 0x1F)
+                        {
+                            modelMess.GPSByte = value.Skip(6).Take(24).ToArray();
+                            modelMess.LatitudeByte = modelMess.GPSByte.Skip(0).Take(9).ToArray();
+                            modelMess.LatitudeByte = modelMess.GPSByte.Skip(12).Take(10).ToArray();
+                        }
                     }
                     else if (value[0] == 0x24)
                     {
@@ -141,7 +147,7 @@ namespace WebManageFridgeMQTT.Utility
                     {
                         if (value[9] == 0x07)
                         {
-                            modelMess.Time = value.Skip(9).Take(6).ToArray();
+                            modelMess.Time = value.Skip(11).Take(4).ToArray();
                         }
                     }
                     if (value.Count > 15)
@@ -149,6 +155,8 @@ namespace WebManageFridgeMQTT.Utility
                         if (value[15] == 0x08)
                         {
                             modelMess.GPSByte = value.Skip(15).Take(26).ToArray();
+                            modelMess.LatitudeByte = modelMess.GPSByte.Skip(0).Take(9).ToArray();
+                            modelMess.LatitudeByte = modelMess.GPSByte.Skip(12).Take(10).ToArray();
                         }
                     }
                 }
@@ -157,42 +165,122 @@ namespace WebManageFridgeMQTT.Utility
             return modelMess;
         }
 
-        public static ThietBiStatusMess ParseMessToValue(ModelMess data)
+        public static ThietBiStatusMess ParseMessToValue(ModelMess data, string thietBiId)
         {
             ThietBiStatusMess model = new ThietBiStatusMess();
-            /*
-             Loại:
-             1 - GPS định kỳ
-             2 - Bảo Dưỡng
-             3 - Di chuyển
-             4 - Khoan
-             5 - Cẩu
-            */
-            /*
-             Trang Thai:
-             1 - Nổ máy
-             2 - Tắt máy
-            */
-
-            if (Array.Equals(data.CommandAction, ConstParam.DinhKyGPS))
+            try
             {
+                model.ThoiGian = DateTime.Now;
+                model.ThietBiID = thietBiId;
+                if (data.CommandType != null)
+                {
+                    model.CommandType = string.Join(";", data.CommandType);
+                }
+                if (data.CommandId != null)
+                {
+                    model.CommandId = string.Join(";", data.CommandId);
+                }
+                if (data.CommandAction != null)
+                {
+                    model.CommandAction = string.Join(";", data.CommandAction);
+                }
+                if (data.Time != null)
+                {
+                    string strTime = System.Text.Encoding.UTF8.GetString(data.Time);
+                    model.Time = Int32.Parse(strTime);
+                }
+                if (data.LatitudeByte != null)
+                {
+                    string strLatitude = System.Text.Encoding.UTF8.GetString(data.LatitudeByte);
+                    model.Latitude = Decimal.Parse(strLatitude);
+                }
+                if (data.LongitudeByte != null)
+                {
+                    string strLongitude = System.Text.Encoding.UTF8.GetString(data.LongitudeByte);
+                    model.Longitude = Decimal.Parse(strLongitude);
+                }
 
+
+                /*
+                 Loại:
+                 1 - GPS định kỳ
+                 2 - Bảo Dưỡng
+                 3 - Di chuyển
+                 4 - Khoan
+                 5 - Cẩu
+                */
+                /*
+                 Trang Thai:
+                 1 - Nổ máy
+                 2 - Tắt máy
+                */
+
+                if (Array.Equals(data.CommandAction, ConstParam.DinhKyGPS))
+                {
+                    model.Loai = 1;
+                }
+                else if (Array.Equals(data.CommandAction, ConstParam.BaoDuong))
+                {
+                    model.Loai = 2;
+                    if (Array.Equals(data.States, ConstParam.Dang))
+                    {
+                        model.TrangThai = 3;  //đang bảo dưỡng
+                    }
+                    else if (Array.Equals(data.States, ConstParam.Khong))
+                    {
+                        model.TrangThai = 4;
+                    }
+                }
+                else if (Array.Equals(data.CommandAction, ConstParam.DiChuyen))
+                {
+                    model.Loai = 3;
+                    if (Array.Equals(data.States, ConstParam.Dang))
+                    {
+                        model.TrangThai = 5;  //đang Di chuyển
+                    }
+                    else if (Array.Equals(data.States, ConstParam.Khong))
+                    {
+                        model.TrangThai = 6;
+                    }
+                }
+                else if (Array.Equals(data.CommandAction, ConstParam.Khoan))
+                {
+                    model.Loai = 4;
+                    if (Array.Equals(data.States, ConstParam.Dang))
+                    {
+                        model.TrangThai = 7;  //đang bảo dưỡng
+                    }
+                    else if (Array.Equals(data.States, ConstParam.Khong))
+                    {
+                        model.TrangThai = 8;
+                    }
+                }
+                else if (Array.Equals(data.CommandAction, ConstParam.Cau))
+                {
+                    model.Loai = 5;
+                    if (Array.Equals(data.States, ConstParam.Dang))
+                    {
+                        model.TrangThai = 9;  //đang bảo dưỡng
+                    }
+                    else if (Array.Equals(data.States, ConstParam.Khong))
+                    {
+                        model.TrangThai = 10;
+                    }
+                }
+
+                if (Array.Equals(data.Status, ConstParam.NoMay))
+                {
+                    model.StatusMay = 0;
+                }
+                else
+                {
+                    model.StatusMay = 1;
+                }
             }
-            else if (Array.Equals(data.CommandAction, ConstParam.BaoDuong))
+            catch (Exception ex)
             {
-                model.Loai = 2;
-            }
-            else if (Array.Equals(data.CommandAction, ConstParam.DiChuyen))
-            {
-
-            }
-            else if (Array.Equals(data.CommandAction, ConstParam.Khoan))
-            {
-
-            }
-            else if (Array.Equals(data.CommandAction, ConstParam.Cau))
-            {
-
+                CustomLog.LogError(ex);
+                throw;
             }
             return model;
         }
@@ -234,6 +322,8 @@ namespace WebManageFridgeMQTT.Utility
         public byte[] Time { get; set; }
         public byte[] Sequence { get; set; }
         public byte[] GPSByte { get; set; }
+        public byte[] LatitudeByte { get; set; }
+        public byte[] LongitudeByte { get; set; }
         public byte[] Length { get; set; }
 
         public ModelMess()
@@ -253,8 +343,13 @@ namespace WebManageFridgeMQTT.Utility
     public class ThietBiStatusMess
     {
         public DateTime ThoiGian { get; set; }
+
+        public string CommandType { get; set; }
+        public string CommandId { get; set; }
+        public string CommandAction { get; set; }
         public string ThietBiID { get; set; }
         public int Loai { get; set; }
+        public int StatusMay { get; set; }
         public int TrangThai { get; set; }
         public int Time { get; set; }
         public decimal Latitude { get; set; }
@@ -269,5 +364,42 @@ namespace WebManageFridgeMQTT.Utility
         public static byte[] Cau = new byte[] { 0x03, 0x01, 0x0D };
         public static byte[] NoMay = new byte[] { 0x05, 0x01, 0x00 };
         public static byte[] TatMay = new byte[] { 0x05, 0x01, 0x01 };
+
+        public static byte[] Dang = new byte[] { 0x06, 0x01, 0x00 };
+        public static byte[] Khong = new byte[] { 0x06, 0x01, 0x01 };
+
+        public static byte[] DangBaoDuong = new byte[] { 0x06, 0x01, 0x00 };
+        public static byte[] KoBaoDuong = new byte[] { 0x06, 0x01, 0x01 };
+        public static byte[] DangDiChuyen = new byte[] { 0x07, 0x01, 0x00 };
+        public static byte[] KoDiChuyen = new byte[] { 0x07, 0x01, 0x01 };
+        public static byte[] DangKhoan = new byte[] { 0x08, 0x01, 0x00 };
+        public static byte[] KoKhoan = new byte[] { 0x08, 0x01, 0x01 };
+        public static byte[] DangCau = new byte[] { 0x09, 0x01, 0x00 };
+        public static byte[] KoCau = new byte[] { 0x09, 0x01, 0x01 };
+
+    }
+
+    public class DeviceActivity 
+    {
+        public string ThietBiID { get; set; }
+        public DateTime FromDate { get; set; }
+        public DateTime ToDate { get; set; }
+        public List<GetInfoDeviceActivityResult> ListData { get; set; }
+
+        public List<GetInfoDeviceMoveResult> ListDataMove { get; set; }
+
+        public List<GetInfoDeviceModifyResult> ListDataModify { get; set; }
+
+        
+
+        public DeviceActivity()
+        {
+            this.ThietBiID = null;
+            this.FromDate = DateTime.Now.AddMonths(-1);
+            this.ToDate = DateTime.Now;
+            this.ListData = new List<GetInfoDeviceActivityResult>();
+            this.ListDataMove = new List<GetInfoDeviceMoveResult>();
+            this.ListDataModify = new List<GetInfoDeviceModifyResult>();
+        }
     }
 }

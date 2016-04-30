@@ -1,41 +1,65 @@
-﻿@model List<WebManageFridgeMQTT.Models.GetInfoDeviceModifyResult>
-<table class="tablesorter">
-    <thead>
-        <tr>
-            <th>Thời Gian</th>
-            <th>Mô tả</th>
-            <th>Đơn vị sửa chửa</th>
-            <th>Chi Phí</th>
-            <th>Công Trình</th>
-        </tr>
-    </thead>
-    <tbody>
-        @if(Model != null)
-        {
-            foreach(var item in Model)
-            {
+﻿@model WebManageFridgeMQTT.Utility.DeviceActivity
+<div class="row">
+    <div class="item fl">
+        <label class="fl">Chọn Ngày</label>
+        @Html.TextBox("strFromDateHoatDong", Model.FromDate.ToShortDateString(), new { @class = "datepicker" })
+        @Html.TextBox("strToDateHoatDong", Model.ToDate.ToShortDateString(), new { @class = "datepicker" })
+    </div>
+    <div id="btn-xemBaoDuong" class="item fl">
+        <button onclick="RenderBaoDuong('@Model.ThietBiID')">
+            <i class="icon-submit" title="Xem báo cáo"></i>Xem
+        </button>
+    </div>
+</div>
+<div class="row content-body">
+    <div id="table-baoduong" class="tab-content wrapper">
+
+        <table class="tablesorter">
+            <thead>
                 <tr>
-                    <td>@(item.NgaySua.HasValue ? item.NgaySua.Value.ToString() : "")</td>
-                    <td>@item.MoTa</td>
-                    <td>@item.DonViSua</td>
-                    <td>@item.ChiPhi</td>
-                    <td>@item.NguoiKhaiBao</td>
+                    <th>Thời Gian</th>
+                    <th>Mô tả</th>
+                    <th>Đơn vị sửa chửa</th>
+                    <th>Chi Phí</th>
+                    <th>Công Trình</th>
                 </tr>
-            } 
-        }
-        <tr>
-            <td>2016/04/29 15:30:00</td>
-            <td>Bắt đầu khoan</td>
-            <td>Minh Anh</td>
-            <td>10.000.250</td>
-            <td>Công trình thay thế</td>
-        </tr>
-        <tr>
-            <td>2016/04/29 15:30:00</td>
-            <td>Bắt đầu khoan</td>
-            <td>Minh Anh</td>
-            <td>10.000.250</td>
-            <td>Công trình thay thế</td>
-        </tr>
-    </tbody>
-</table>
+            </thead>
+            <tbody>
+                @if (Model.ListDataModify != null)
+                {
+                    foreach (var item in Model.ListDataModify)
+                    {
+                        <tr>
+                            <td>@(item.NgaySua.HasValue ? item.NgaySua.Value.ToString() : "")</td>
+                            <td>@item.MoTa</td>
+                            <td>@item.DonViSua</td>
+                            <td>@item.ChiPhi</td>
+                            <td>@item.NguoiKhaiBao</td>
+                        </tr>
+                    }
+                }
+                <tr>
+                    <td>2016/04/29 15:30:00</td>
+                    <td>Bắt đầu khoan</td>
+                    <td>Minh Anh</td>
+                    <td>10.000.250</td>
+                    <td>Công trình thay thế</td>
+                </tr>
+                <tr>
+                    <td>2016/04/29 15:30:00</td>
+                    <td>Bắt đầu khoan</td>
+                    <td>Minh Anh</td>
+                    <td>10.000.250</td>
+                    <td>Công trình thay thế</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('.datepicker').datepicker({
+            dateFormat: 'dd/mm/yy'
+        });
+    });
+</script>

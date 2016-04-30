@@ -1,29 +1,42 @@
-﻿@model List<WebManageFridgeMQTT.Models.GetInfoDeviceActivityResult>
-<table class="tablesorter">
-    <thead>
-        <tr>
-            <th>Thời Gian</th>
-            <th>Mô tả</th>
-        </tr>
-    </thead>
-    <tbody>
-        @if (Model != null)
-        {
-            foreach (var item in Model)
+﻿@model WebManageFridgeMQTT.Utility.DeviceActivity
+<div class="row">
+    <div class="item fl">
+        <label class="fl">Chọn Ngày</label>
+        @Html.TextBox("strFromDateHoatDong", Model.FromDate.ToShortDateString(), new { @class = "datepicker" })
+        @Html.TextBox("strToDateHoatDong", Model.ToDate.ToShortDateString(), new { @class = "datepicker" })
+    </div>
+    <div id="btn-xemHoatDong" class="item fl">
+        <button onclick="RenderHoatDong('@Model.ThietBiID')">
+            <i class="icon-submit" title="Xem báo cáo"></i>Xem
+        </button>
+    </div>
+</div>
+<div id="table-hoatdong" class="tab-content wrapper">
+    <table class="tablesorter">
+        <thead>
+            <tr>
+                <th>Thời Gian</th>
+                <th>Mô tả</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model.ListData != null)
             {
-                <tr>
-                    <td>@item.ThoiGian.ToString()</td>
-                    <td>@item.TrangThai</td>
-                </tr>
+                foreach (var item in Model.ListData)
+                {
+                    <tr>
+                        <td>@item.ThoiGian.ToString()</td>
+                        <td>@item.StrTrangThai</td>
+                    </tr>
+                }
             }
-        }
-        <tr>
-            <td>2016/04/29 15:30:00</td>
-            <td>Bắt đầu khoan</td>
-        </tr>
-        <tr>
-            <td>2016/04/29 15:30:00</td>
-            <td>Bắt đầu khoan</td>
-        </tr>
-    </tbody>
-</table>
+        </tbody>
+    </table>
+</div>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('.datepicker').datepicker({
+            dateFormat: 'dd/mm/yy'
+        });
+    });
+</script>

@@ -339,43 +339,21 @@ function checkTableFixed() {
         table_fixed_height = content_insider_height - content_header_height - tab_header_height - 20;
         sticky_header_height = $('.tablesorter-scroller>.tablesorter-scroller-header').height();
         $.each($('.tab-content .tablesorter'), function () {
-            if (freeze) {
-
-                $('.tab-content .tablesorter').tablesorter({
-                    headerTemplate: '{content} {icon}', // Add icon for various themes
-                    widgets: ['uitheme', 'zebra', 'stickyHeaders', 'stickyFooters', 'scroller'], //'filter', 
-                    widgetOptions: {
-                        scroller_height: table_fixed_height - sticky_header_height,
-                        stickyHeaders_attachTo: '.wrapper', // or $('.wrapper')
-                    }
-                })
-				.tablesorterPager({
-				    container: $(".ts-pager"),
-				    cssGoto: ".pagenum",
-				    prev: '.prev',
-				    next: '.next',
-				    size: 10,
-				    removeRows: false,
-				    output: ' {startRow} to {endRow} of {totalRows}' //'{startRow} - {endRow} / {filteredRows} ({totalRows})' //'/ {totalPages}'
-				});
-            } else {
                 $('.tab-content .tablesorter').tablesorter({
                     headerTemplate: '{content} {icon}', // Add icon for various themes
                     widgets: ['uitheme', 'zebra', 'stickyHeaders', 'stickyFooters'], //, 'filter'
                     widgetOptions: {
                         stickyHeaders_attachTo: '.wrapper', // or $('.wrapper')
                     }
-                })
-				.tablesorterPager({
+                }).tablesorterPager({
 				    container: $(".ts-pager"),
 				    cssGoto: ".pagenum",
 				    prev: '.prev',
 				    next: '.next',
-				    size: 10,
+				    size: 5,
 				    removeRows: false,
 				    output: ' {startRow} to {endRow} of {totalRows}' //'Showing {startRow} to {endRow} of {totalRows} entries' //'{startRow} - {endRow} / {filteredRows} ({totalRows})'  //'/ {totalPages}'
 				});
-            }
         });
 
         //Check height of tablesorter

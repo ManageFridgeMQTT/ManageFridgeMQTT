@@ -15,6 +15,7 @@
     <table class="tablesorter">
         <thead>
             <tr>
+                <th>STT</th>
                 <th>Thời Gian</th>
                 <th>Mô tả</th>
             </tr>
@@ -22,21 +23,56 @@
         <tbody>
             @if (Model.ListData != null)
             {
+                int i = 1;
                 foreach (var item in Model.ListData)
                 {
                     <tr>
+                        <td>@i</td>
                         <td>@item.ThoiGian.ToString()</td>
                         <td>@item.StrTrangThai</td>
                     </tr>
+                    i++;
                 }
             }
         </tbody>
     </table>
+</div>
+<div class="row" style="padding-bottom:2px">
+    <div class="col-xs-offset-3 col-xs-5">
+        <ul class="m-0">
+            <li class="ts-pager">
+                <span>
+                    Chọn 
+                    <select class="pagenum input-mini" title="Select page number"></select>
+                </span>
+                <span>   </span>
+                <a href="#" title="prev"><img src="@Url.Content("~/Content/NewEtool/img/per.png")" class="prev" /></a>
+                <span class="pagedisplay"></span>
+                <a href="#" title="next"><img src="@Url.Content("~/Content/NewEtool/img/next.png")" class="next" /></a>
+            </li>
+        </ul>
+    </div>
 </div>
 <script type="text/javascript">
     $(document).ready(function () {
         $('.datepicker').datepicker({
             dateFormat: 'dd/mm/yy'
         });
+        $('.tab-content .tablesorter').tablesorter({
+            headerTemplate: '{content} {icon}', // Add icon for various themes
+            widgets: ['uitheme', 'zebra', 'stickyHeaders', 'stickyFooters'], //, 'filter'
+            widgetOptions: {
+                stickyHeaders_attachTo: '.wrapper', // or $('.wrapper')
+            }
+        }).tablesorterPager({
+            container: $(".ts-pager"),
+            cssGoto: ".pagenum",
+            prev: '.prev',
+            next: '.next',
+            size: 5,
+            removeRows: false,
+            output: ' {startRow} to {endRow} of {totalRows}' //'Showing {startRow} to {endRow} of {totalRows} entries' //'{startRow} - {endRow} / {filteredRows} ({totalRows})'  //'/ {totalPages}'
+        });
+				
     });
 </script>

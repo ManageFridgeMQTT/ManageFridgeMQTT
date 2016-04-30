@@ -166,18 +166,18 @@
                 <p>Ngày đến: <span id="ThoiGianVao">@(info.ThoiGianVao.HasValue ? info.ThoiGianVao.Value.ToShortDateString() : "")</span></p>
                 <p>Tổng số ngày ở công trình: <span id="NgayOCongTrinh">@info.NgayOCongTrinh Ngày</span></p>
                 <p>Đơn giá thuê: <span id="GiaThue">@info.GiaThue  VNĐ</span></p>
-                <p>Thành tiền hiện tại: <span id="ThanhTien">@info.ThanhTien</span></p>
+                <p>Thành tiền hiện tại: <span id="ThanhTien">@info.ThanhTien VNĐ</span></p>
             </div>
             <p>Hình ảnh báo cáo </p>
             <div class="row">
                 <div class="col-xs-4">
-                    <img style="max-width: 120px; max-height: 200px; padding-top: 5px; padding-bottom: 5px; padding-left: 10px" src="~/Content/img1.jpg" />
+                    <img style="max-width: 140px; max-height: 220px; padding-top: 5px; padding-bottom: 5px; padding-left: 10px" src="~/Content/img1.jpg" />
                 </div>
                 <div class="col-xs-4">
-                    <img style="max-width: 120px; max-height: 200px; padding-top: 5px; padding-bottom: 5px; padding-left: 10px; " src="~/Content/img2.jpg" />
+                    <img style="max-width: 140px; max-height: 220px; padding-top: 5px; padding-bottom: 5px; padding-left: 10px; " src="~/Content/img2.jpg" />
                 </div>
                 <div class="col-xs-4">
-                    <img style="max-width: 120px; max-height: 200px; padding-top: 5px; padding-bottom: 5px; padding-left: 10px" src="~/Content/img3.jpg" />
+                    <img style="max-width: 140px; max-height: 220px; padding-top: 5px; padding-bottom: 5px; padding-left: 10px" src="~/Content/img3.jpg" />
                 </div>
             </div>
             <div class="row">
@@ -256,7 +256,6 @@
         if(map.hasLayer(mapData.LayerDevice)==false){
             map.addLayer(mapData.LayerDevice);
         }
-
 
 
         $('#lblnote').on('click', function () {

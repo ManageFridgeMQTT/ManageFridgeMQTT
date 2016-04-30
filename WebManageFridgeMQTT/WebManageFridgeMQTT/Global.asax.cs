@@ -33,9 +33,11 @@ namespace WebManageFridgeMQTT
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
 
+            CustomLog.LogPath = HttpContext.Current.Server.MapPath("~/Logs/");
+
+
             //#region Config
             //Gateway gateway = new Gateway();
-            //CustomLog.LogPath = HttpContext.Current.Server.MapPath("~/Logs/");
             //gateway.client = new MqttClient(IPAddress.Parse("127.0.0.1"));
             //clientID = "1111AAAA";
             //gateway.client.Connect(clientID);

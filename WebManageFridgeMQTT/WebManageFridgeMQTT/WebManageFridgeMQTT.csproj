@@ -639,6 +639,7 @@
     <Content Include="Content\NewEtool\css\images\kendoui.ttf" />
     <Content Include="Content\NewEtool\css\images\kendoui.woff" />
     <Content Include="Content\NewEtool\img\statistic\icon-visibility-big.psd" />
+    <Content Include="Logs\Log.txt" />
     <Content Include="Models\DeviceTracking.dbml">
       <Generator>MSLinqToSQLGenerator</Generator>
       <LastGenOutput>DeviceTracking.designer.cs</LastGenOutput>

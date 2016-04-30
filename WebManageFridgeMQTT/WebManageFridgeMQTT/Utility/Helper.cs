@@ -211,8 +211,8 @@ namespace WebManageFridgeMQTT.Utility
                 */
                 /*
                  Trang Thai:
-                 1 - Nổ máy
-                 2 - Tắt máy
+                 0 - Nổ máy
+                 1 - Tắt máy
                 */
 
                 if (Array.Equals(data.CommandAction, ConstParam.DinhKyGPS))

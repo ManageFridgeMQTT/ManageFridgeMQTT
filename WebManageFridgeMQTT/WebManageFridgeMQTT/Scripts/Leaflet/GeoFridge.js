@@ -3,8 +3,8 @@ var placeMarker_double = L.Icon.Label.extend({
     options: {
         iconUrl: '',
         shadowUrl: null,
-        iconAnchor: new L.Point(0, 0),
-        wrapperAnchor: new L.Point(12, 13),
+        iconAnchor: new L.Point(0, -2),
+        wrapperAnchor: new L.Point(10, 14),
         labelClassName: 'placeMarks-label'
     }
 });

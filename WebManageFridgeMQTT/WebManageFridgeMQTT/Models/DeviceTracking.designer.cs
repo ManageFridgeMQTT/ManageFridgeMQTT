@@ -36,7 +36,7 @@ namespace WebManageFridgeMQTT.Models
     #endregion
 		
 		public DeviceTrackingDataContext() : 
-				base(global::System.Configuration.ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString, mappingSource)
+				base(global::System.Configuration.ConfigurationManager.ConnectionStrings["DF_RELEASEConnectionString"].ConnectionString, mappingSource)
 		{
 			OnCreated();
 		}
@@ -734,7 +734,7 @@ namespace WebManageFridgeMQTT.Models
 		
 		private System.Nullable<int> _TrangThai;
 		
-		private int _DaHoatDong;
+		private string _DaHoatDong;
 		
 		private string _LoaiHinh;
 		
@@ -874,8 +874,8 @@ namespace WebManageFridgeMQTT.Models
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DaHoatDong", DbType="Int NOT NULL")]
-		public int DaHoatDong
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DaHoatDong", DbType="VarChar(30)")]
+		public string DaHoatDong
 		{
 			get
 			{

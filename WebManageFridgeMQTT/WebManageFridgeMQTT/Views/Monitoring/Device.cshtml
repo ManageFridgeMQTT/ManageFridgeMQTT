@@ -32,6 +32,9 @@
    
 }
 <style>
+    .row p span {
+        font-weight: bold;
+    }
     .leaflet-popup-content-wrapper {
         min-width: 610px;
         max-height: 460px;
@@ -151,7 +154,7 @@
                 <div class="col-sm-6">
                     <h3 id="TenThietBi">@info.TenThietBi</h3>
                     <p>Trạng thái: <span id="TrangThai">@info.StrTrangThai</span></p>
-                    <p>Đã hoạt động: <span id="NgayOCongTrinh">@info.NgayOCongTrinh</span></p>
+                    <p>Đã hoạt động: <span id="DaHoatDong">@info.DaHoatDong</span></p>
                     <p>Vị trí: <span id="TenCongTrinh">@info.TenCongTrinh</span></p>
                     <p>Lần thay dầu tiếp theo: <span id="ThayDauTiep">@info.ThayDauTiep</span></p>
                     <p>Lần thay lọc tiếp theo: <span id="ThayLocTiep">@info.ThayLocTiep</span></p>
@@ -282,9 +285,16 @@
         var data = matadata.clone();
         data.css('display','');
         data.find('h3[id="TenThietBi"]').html(item.TenThietBi);
-        data.find('h3[id="TrangThai"]').html(item.StrTrangThai);
-        data.find('h3[id="NgayOCongTrinh"]').html(item.NgayOCongTrinh);
-        data.find('h3[id="TenCongTrinh"]').html(item.TenCongTrinh);
+        data.find('span[id="TrangThai"]').html(item.StrTrangThai);
+        data.find('span[id="DaHoatDong"]').html(item.DaHoatDong);
+        data.find('span[id="TenCongTrinh"]').html(item.TenCongTrinh);
+        data.find('span[id="ThayDauTiep"]').html(item.ThayDauTiep);
+        data.find('span[id="ThayLocTiep"]').html(item.ThayLocTiep);
+        data.find('span[id="LoaiHinh"]').html(item.LoaiHinh);
+        data.find('span[id="ThoiGianVao"]').html(item.ThoiGianVao);
+        data.find('span[id="NgayOCongTrinh"]').html(item.NgayOCongTrinh);
+        data.find('span[id="GiaThue"]').html(item.GiaThue);
+        data.find('span[id="ThanhTien"]').html(item.ThanhTien);
         data.find('ul[id="ul-tab"]').html(ultab);
         data.find('div[id="btn-xemHoatDong"]').html(btnxemHoatDong); 
         data.find('div[id="btn-xemDiChuyen"]').html(btnxemDiChuyen);

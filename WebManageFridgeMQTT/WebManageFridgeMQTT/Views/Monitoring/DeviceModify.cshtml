@@ -37,6 +37,27 @@
                         </tr>
                     }
                 }
+                @*<tr>
+                    <td>02/04/2016 7:56:34 CH</td>
+                    <td>Thay Dầu</td>
+                    <td>Minh Anh </td>
+                    <td>10000</td>
+                    <td>Công Trình Bạch Đằng</td>
+                </tr>
+                <tr>
+                    <td>02/04/2016 7:56:34 CH</td>
+                    <td>Sửa lọc</td>
+                    <td>Minh Anh </td>
+                    <td>6000</td>
+                    <td>Công Trình Kiến Hưng</td>
+                </tr>
+                <tr>
+                    <td>16/04/2016 7:56:34 CH</td>
+                    <td>Sửa bánh xe</td>
+                    <td>Minh Anh </td>
+                    <td>16000</td>
+                    <td>Công Trình Kiến Hưng</td>
+                </tr>*@
             </tbody>
         </table>
     </div>
@@ -44,7 +65,7 @@
 <div class="row" style="padding-bottom:2px">
     <div class="col-xs-offset-3 col-xs-5">
         <ul class="m-0">
-            <li class="ts-pager">
+            <li class="ts-pager-baoduong">
                 <span>
                     Chọn
                     <select class="pagenum input-mini" title="Select page number"></select>
@@ -69,7 +90,7 @@
                 stickyHeaders_attachTo: '.wrapper', // or $('.wrapper')
             }
         }).tablesorterPager({
-            container: $(".ts-pager"),
+            container: $(".ts-pager-baoduong"),
             cssGoto: ".pagenum",
             prev: '.prev',
             next: '.next',

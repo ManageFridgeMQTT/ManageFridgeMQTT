@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?><Database Name="DF_RELEASE" Class="DeviceTrackingDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
-  <Connection Mode="WebSettings" ConnectionString="Data Source=StevieTran\SQLEXPRESS;Initial Catalog=DF_RELEASE;Persist Security Info=True;User ID=sa;Connect Timeout=500" SettingsObjectName="System.Configuration.ConfigurationManager.ConnectionStrings" SettingsPropertyName="DefaultConnection" Provider="System.Data.SqlClient" />
+  <Connection Mode="WebSettings" ConnectionString="Data Source=StevieTran\SQLEXPRESS;Initial Catalog=DF_RELEASE;Persist Security Info=True;User ID=sa;Connect Timeout=500" SettingsObjectName="System.Configuration.ConfigurationManager.ConnectionStrings" SettingsPropertyName="DF_RELEASEConnectionString" Provider="System.Data.SqlClient" />
   <Table Name="dbo.[User]" Member="Users">
     <Type Name="User">
       <Column Name="UserId" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
@@ -75,7 +75,7 @@
       <Column Name="TenVietTat" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
       <Column Name="TenThietBi" Type="System.String" DbType="NVarChar(250) NOT NULL" CanBeNull="false" />
       <Column Name="TrangThai" Type="System.Int32" DbType="Int" CanBeNull="true" />
-      <Column Name="DaHoatDong" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="DaHoatDong" Type="System.String" DbType="VarChar(30)" CanBeNull="true" />
       <Column Name="LoaiHinh" Type="System.String" DbType="NVarChar(11) NOT NULL" CanBeNull="false" />
       <Column Name="ThoiGianVao" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
       <Column Name="NgayOCongTrinh" Type="System.Int32" DbType="Int" CanBeNull="true" />

@@ -135,7 +135,6 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
-    <Compile Include="Controllers\GeoFridgeController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\MonitoringController.cs" />
     <Compile Include="Global.asax.cs">
@@ -699,7 +698,6 @@
     <Content Include="Views\Shared\_NewLayout.cshtml" />
     <Content Include="Views\Shared\HeaderPartial.cshtml" />
     <Content Include="Views\Shared\NavigationMenuPartial.cshtml" />
-    <Content Include="Views\GeoFridge\Index.cshtml" />
     <Content Include="Views\Monitoring\Device.cshtml" />
     <Content Include="Views\Monitoring\DeviceModify.cshtml" />
     <Content Include="Views\Monitoring\DeviceActivity.cshtml" />

@@ -1,177 +1,60 @@
 ----------
-15/04/2016 7:44:28 CH
-Message:	client_2 connect thanh cong
-----------
-15/04/2016 7:44:28 CH
-Message:	client_MqttMsgSubscribed_ 2: 1
-----------
-16/04/2016 10:22:01 SA
-Message:	client_2 connect thanh cong
-----------
-16/04/2016 10:22:01 SA
-Message:	client_MqttMsgSubscribed_ 2: 1
-----------
-16/04/2016 10:23:26 SA
-Message:	Nhan client_2: day kenh ko vao
-----------
-16/04/2016 10:46:40 SA
-Message:	Nhan client_2: day kenh ko vao
-----------
-16/04/2016 10:50:58 SA
-Message:	Nhan client_2: day kenh ko vao
-----------
-16/04/2016 10:52:21 SA
-Message:	Nhan client_2: day kenh ko vao
-----------
-16/04/2016 11:08:56 SA
-Message:	Nhan client_2: day kenh ko vao
-----------
-16/04/2016 11:23:47 SA
-Message:	client_2 connect thanh cong
-----------
-16/04/2016 11:23:47 SA
-Message:	client_MqttMsgSubscribed_ 2: 1
-----------
-16/04/2016 11:24:16 SA
-Message:	Nhan client_2: day kenh ko vao
-----------
-16/04/2016 11:28:23 SA
-Message:	Nhan client_2: day kenh ko vao
-----------
-16/04/2016 11:28:24 SA
-Message:	Nhan client_2: day kenh ko vao
-----------
-16/04/2016 11:28:24 SA
-Message:	Nhan client_2: day kenh ko vao
-----------
-16/04/2016 11:34:32 SA
-Message:	client_2 connect thanh cong
-----------
-16/04/2016 11:34:32 SA
-Message:	client_MqttMsgSubscribed_ 2: 1
-----------
-16/04/2016 11:38:56 SA
-Message:	client_2 connect thanh cong
-----------
-16/04/2016 11:38:56 SA
-Message:	client_MqttMsgSubscribed_ 2: 1
-----------
-16/04/2016 11:42:35 SA
-Message:	client_2 connect thanh cong
-----------
-16/04/2016 11:42:35 SA
-Message:	client_MqttMsgSubscribed_ 2: 1
-----------
-16/04/2016 5:46:31 CH
-Message:	client_2 connect thanh cong
-----------
-17/04/2016 2:51:57 CH
+15/05/2016 10:53:17 CH
 Message:	onnect thanh cong
 ----------
-17/04/2016 2:51:57 CH
-Message:	client_MqttMsgSubscribed_ 2: 1
-----------
-17/04/2016 2:52:05 CH
-Message:	{"CommandType":"2","CommandId":"1","CommandAction":"Get","Data":{"Temperature":35,"Longitude":52858588,"Latitude":58582525},"Status":1}
-----------
-17/04/2016 3:33:48 CH
+15/05/2016 10:57:56 CH
 Message:	onnect thanh cong
 ----------
-17/04/2016 3:33:48 CH
-Message:	client_MqttMsgSubscribed_ 2: 1
-----------
-17/04/2016 3:33:54 CH
-Message:	{"CommandType":"2","CommandId":"1","CommandAction":"Get","Data":{"Temperature":35,"Longitude":52858588,"Latitude":58582525},"Status":1}
-----------
-17/04/2016 3:34:21 CH
-Message:	{"CommandType":"2","CommandId":"1","CommandAction":"Get","Data":{"Temperature":35,"Longitude":52858588,"Latitude":58582525},"Status":1}
-----------
-17/04/2016 3:39:15 CH
-Message:	{"CommandType":"2","CommandId":"1","CommandAction":"Get","Data":{"Temperature":35,"Longitude":52858588,"Latitude":58582525},"Status":1}
-----------
-17/04/2016 3:39:49 CH
-Message:	{"CommandType":"2","CommandId":"1","CommandAction":"Get","Data":{"Temperature":35,"Longitude":52858588,"Latitude":58582525},"Status":1}
-----------
-18/04/2016 1:16:14 CH
+15/05/2016 10:58:42 CH
 Message:	onnect thanh cong
 ----------
-18/04/2016 1:16:14 CH
-Message:	client_MqttMsgSubscribed_ 2: 1
-----------
-18/04/2016 1:16:20 CH
-Message:	{"CommandType":"2","CommandId":"1","CommandAction":"Get","Data":{"Temperature":35,"Longitude":52858588,"Latitude":58582525},"Status":1}
-----------
-18/04/2016 1:22:18 CH
+15/05/2016 11:00:52 CH
 Message:	onnect thanh cong
 ----------
-18/04/2016 1:22:18 CH
-Message:	client_MqttMsgSubscribed_ 2: 1
-----------
-18/04/2016 1:22:24 CH
-Message:	Nhan client_2: client2gui  test/abc Hello !! !!
-----------
-18/04/2016 1:40:20 CH
+15/05/2016 11:01:12 CH
 Message:	onnect thanh cong
 ----------
-18/04/2016 1:40:20 CH
-Message:	client_MqttMsgSubscribed_ 2: 1
-----------
-18/04/2016 1:40:22 CH
-Message:	{"CommandType":"2","CommandId":"1","CommandAction":"Get","Data":{"Temperature":35,"Longitude":52858588,"Latitude":58582525},"Status":1}
-----------
-19/04/2016 9:27:01 CH
+15/05/2016 11:01:48 CH
 Message:	onnect thanh cong
 ----------
-19/04/2016 9:27:03 CH
-Message:	{"CommandType":"2","CommandId":"1","CommandAction":"Get","Data":{"Temperature":35,"Longitude":52858588,"Latitude":58582525},"Status":1}
-----------
-19/04/2016 9:42:32 CH
-Message:	onnect thanh cong
-----------
-19/04/2016 9:42:32 CH
+15/05/2016 11:01:53 CH
 Message:	client_MqttMsgSubscribed_ 2: 1
 ----------
-19/04/2016 9:42:35 CH
-Message:	{"CommandType":"2","CommandId":"1","CommandAction":"Get","Data":{"Temperature":35,"Longitude":52858588,"Latitude":58582525},"Status":1}
+15/05/2016 11:02:54 CH
+Message:	Nhan client_2: 87787834
 ----------
-19/04/2016 9:42:47 CH
+15/05/2016 11:19:36 CH
 Message:	onnect thanh cong
 ----------
-19/04/2016 9:42:47 CH
+15/05/2016 11:19:36 CH
 Message:	client_MqttMsgSubscribed_ 2: 1
 ----------
-19/04/2016 9:42:49 CH
-Message:	Nhan client_2: client2gui test/ds/sds Hello !!
+15/05/2016 11:19:36 CH
+Message:	Nhan client_2: gửi mess test 3
 ----------
-19/04/2016 9:47:09 CH
+15/05/2016 11:20:30 CH
 Message:	onnect thanh cong
 ----------
-19/04/2016 9:47:09 CH
+15/05/2016 11:20:30 CH
 Message:	client_MqttMsgSubscribed_ 2: 1
 ----------
-19/04/2016 9:47:13 CH
-Message:	{"CommandType":"2","CommandId":"1","CommandAction":"Get","Data":{"Temperature":35,"Longitude":52858588,"Latitude":58582525},"Status":1}
+15/05/2016 11:20:30 CH
+Message:	Nhan client_2: gửi mess test 3
 ----------
-19/04/2016 9:47:13 CH
-Message:	Nhan client_2: {"CommandType":"2","CommandId":"1","CommandAction":"Get","Data":{"Temperature":35,"Longitude":52858588,"Latitude":58582525},"Status":1}
+15/05/2016 11:20:30 CH
+Message:	Nhan client_2: gửi mess test 3
 ----------
-19/04/2016 9:53:19 CH
-Message:	onnect thanh cong
+15/05/2016 11:20:30 CH
+Message:	Nhan client_2: gửi mess test 3
 ----------
-19/04/2016 9:53:19 CH
-Message:	client_MqttMsgSubscribed_ 2: 1
+15/05/2016 11:20:57 CH
+Message:	Nhan client_2: Nhiet do 50
 ----------
-19/04/2016 9:53:21 CH
-Message:	Nhan client_2: client2gui test/ds/sds Hello !!
+15/05/2016 11:23:47 CH
+Message:	Nhan client_2: 10.1255455
 ----------
-21/04/2016 9:09:51 CH
-Message:	onnect thanh cong
+15/05/2016 11:28:19 CH
+Message:	Nhan client_2: Nhiet do 67
 ----------
-21/04/2016 9:09:51 CH
-Message:	client_MqttMsgSubscribed_ 2: 1
-----------
-21/04/2016 9:09:56 CH
-Message:	{"CommandType":"2","CommandId":"1","CommandAction":"Get","Data":{"Temperature":35,"Longitude":52858588,"Latitude":58582525},"Status":1}
-----------
-21/04/2016 9:09:56 CH
-Message:	Nhan client_2: {"CommandType":"2","CommandId":"1","CommandAction":"Get","Data":{"Temperature":35,"Longitude":52858588,"Latitude":58582525},"Status":1}
+15/05/2016 11:28:22 CH
+Message:	Nhan client_2: 78787878

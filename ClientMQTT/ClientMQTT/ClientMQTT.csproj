@@ -32,11 +32,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="M2Mqtt, Version=4.1.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>C:\Users\Tran\Downloads\Compressed\M2Mqtt for WinRT MQTT client for Internet of Things &amp; M2M communication\C#\M2Mqtt\bin\Debug\M2Mqtt.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Web" />
@@ -85,6 +80,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\m2mqtt-ccb85390d901bd3d3aed1645e6b3685a73c6c1a4\M2Mqtt\M2Mqtt.Net.csproj">
+      <Project>{a11aef5a-b246-4fe8-8330-06db73cc8074}</Project>
+      <Name>M2Mqtt.Net</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

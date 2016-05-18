@@ -11,19 +11,6 @@
       <Column Name="PassLock" Type="System.String" DbType="NVarChar(20)" CanBeNull="true" />
     </Type>
   </Table>
-  <Function Name="dbo.UpdateThieBiSatusMess" Method="UpdateThieBiSatusMess">
-    <Parameter Name="strThietBiID" Type="System.String" DbType="NVarChar(MAX)" />
-    <Parameter Name="CommandType" Parameter="commandType" Type="System.String" DbType="NVarChar(200)" />
-    <Parameter Name="CommandId" Parameter="commandId" Type="System.String" DbType="NVarChar(200)" />
-    <Parameter Name="CommandAction" Parameter="commandAction" Type="System.String" DbType="NVarChar(200)" />
-    <Parameter Name="Loai" Parameter="loai" Type="System.Int32" DbType="Int" />
-    <Parameter Name="StatusMay" Parameter="statusMay" Type="System.Int32" DbType="Int" />
-    <Parameter Name="Time" Parameter="time" Type="System.Double" DbType="Float" />
-    <Parameter Name="TrangThaiHienTai" Parameter="trangThaiHienTai" Type="System.Int32" DbType="Int" />
-    <Parameter Name="LatitudeHienTai" Parameter="latitudeHienTai" Type="System.Decimal" DbType="Decimal(18,10)" />
-    <Parameter Name="LongtitudeHienTai" Parameter="longtitudeHienTai" Type="System.Decimal" DbType="Decimal(18,10)" />
-    <Return Type="System.Int32" />
-  </Function>
   <Function Name="dbo.GetInfoDeviceModify" Method="GetInfoDeviceModify">
     <Parameter Name="strThietBiID" Type="System.String" DbType="NVarChar(MAX)" />
     <Parameter Name="FromDate" Parameter="fromDate" Type="System.DateTime" DbType="DateTime" />
@@ -88,5 +75,18 @@
       <Column Name="Latitude" Type="System.Decimal" DbType="Decimal(18,10)" CanBeNull="true" />
       <Column Name="Longitude" Type="System.Decimal" DbType="Decimal(18,10)" CanBeNull="true" />
     </ElementType>
+  </Function>
+  <Function Name="dbo.UpdateThieBiSatusMess" Method="UpdateThieBiSatusMess">
+    <Parameter Name="strThietBiID" Type="System.String" DbType="NVarChar(MAX)" />
+    <Parameter Name="CommandType" Parameter="commandType" Type="System.String" DbType="NVarChar(200)" />
+    <Parameter Name="CommandId" Parameter="commandId" Type="System.String" DbType="NVarChar(200)" />
+    <Parameter Name="CommandAction" Parameter="commandAction" Type="System.String" DbType="NVarChar(200)" />
+    <Parameter Name="Loai" Parameter="loai" Type="System.Int32" DbType="Int" />
+    <Parameter Name="StatusMay" Parameter="statusMay" Type="System.Int32" DbType="Int" />
+    <Parameter Name="Time" Parameter="time" Type="System.Double" DbType="Float" />
+    <Parameter Name="TrangThaiHienTai" Parameter="trangThaiHienTai" Type="System.Int32" DbType="Int" />
+    <Parameter Name="LatitudeHienTai" Parameter="latitudeHienTai" Type="System.Decimal" DbType="Decimal(18,10)" />
+    <Parameter Name="LongtitudeHienTai" Parameter="longtitudeHienTai" Type="System.Decimal" DbType="Decimal(18,10)" />
+    <Return Type="System.Int32" />
   </Function>
 </Database>

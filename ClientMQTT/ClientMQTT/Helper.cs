@@ -7,9 +7,8 @@ using System.Linq;
 using System.Reflection;
 using System.Web;
 using uPLibrary.Networking.M2Mqtt;
-using WebManageFridgeMQTT.Models;
 
-namespace WebManageFridgeMQTT.Utility
+namespace ClientMQTT
 {
     public static class Helper
     {
@@ -17,43 +16,6 @@ namespace WebManageFridgeMQTT.Utility
         {
             return ob.GetType().GetProperties().Single(pi => pi.Name == propertyName).GetValue(ob, null);
         }
-        public static DataTable QueryStoredProcedure(string name, List<ObjParamSP> listParam = null)
-        {
-            DataTable resulft = new DataTable();
-            try
-            {
-                using (var conn = new SqlConnection(ConfigurationManager.ConnectionStrings["SQLConnection"].ConnectionString))
-                {
-                    conn.Open();
-                    DataSet ds = new DataSet();
-                    using (var cmd = new SqlCommand(name, conn))
-                    {
-                        cmd.CommandType = CommandType.StoredProcedure;
-                        cmd.CommandTimeout = 300;
-                        if (listParam != null)
-                        {
-                            foreach (ObjParamSP elm in listParam)
-                            {
-                                cmd.Parameters.AddWithValue(elm.Key, elm.Value);
-                            }
-                        }
-                        var adapt = new SqlDataAdapter(cmd);
-                        adapt.Fill(ds);
-                        if (ds != null && ds.Tables.Count >= 1)
-                        {
-                            resulft = ds.Tables[0];
-                        }
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                return null;
-                throw;
-            }
-            return resulft;
-        }
-
         /// <summary>
         /// Converts a DataTable to a list with generic objects
         /// </summary>
@@ -460,7 +422,7 @@ namespace WebManageFridgeMQTT.Utility
             {
                 result += "TrangThai:" + this.TrangThai.Value.ToString();
             }
-
+            
             if (this.Time != null)
             {
                 result += "Time:" + this.Time.Value.ToString();
@@ -500,29 +462,5 @@ namespace WebManageFridgeMQTT.Utility
 
         public static byte[] Value = new byte[] { 0x1F, 0x21, 0x18 };
 
-    }
-
-    public class DeviceActivity 
-    {
-        public string ThietBiID { get; set; }
-        public DateTime FromDate { get; set; }
-        public DateTime ToDate { get; set; }
-        public List<GetInfoDeviceActivityResult> ListData { get; set; }
-
-        public List<GetInfoDeviceMoveResult> ListDataMove { get; set; }
-
-        public List<GetInfoDeviceModifyResult> ListDataModify { get; set; }
-
-        
-
-        public DeviceActivity()
-        {
-            this.ThietBiID = null;
-            this.FromDate = DateTime.Now.AddMonths(-1);
-            this.ToDate = DateTime.Now;
-            this.ListData = new List<GetInfoDeviceActivityResult>();
-            this.ListDataMove = new List<GetInfoDeviceMoveResult>();
-            this.ListDataModify = new List<GetInfoDeviceModifyResult>();
-        }
     }
 }

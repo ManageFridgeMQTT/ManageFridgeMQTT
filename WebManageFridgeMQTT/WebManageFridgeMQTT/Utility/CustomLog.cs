@@ -12,6 +12,33 @@ namespace WebManageFridgeMQTT.Utility
         public static string LogPath = String.Empty;
 
         private static object locker = new object();
+        public static void LogArrayByte(byte[] mess)
+        {
+            try
+            {
+                string hex = BitConverter.ToString(mess);
+                string text = hex.Replace("-", " ");
+
+                StringBuilder builder = new StringBuilder();
+                builder
+                    .AppendLine("----------")
+                    .AppendLine(DateTime.Now.ToString())
+                    .AppendFormat("Message:\t{0}", text)
+                    .AppendLine();
+
+                string filePath = CustomLog.LogPath + "Log.txt";
+                using (StreamWriter writer = File.AppendText(filePath))
+                {
+                    writer.Write(builder.ToString());
+                    writer.Flush();
+                }
+            }
+            catch (Exception ex)
+            {
+                CustomLog.LogError(ex);
+                throw;
+            }
+        }
         public static void LogError(Exception ex)
         {
             lock (locker)

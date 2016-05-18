@@ -6,9 +6,8 @@ using System.Web;
 using System.Web.Script.Serialization;
 using uPLibrary.Networking.M2Mqtt;
 using uPLibrary.Networking.M2Mqtt.Messages;
-using WebManageFridgeMQTT.Models;
 
-namespace WebManageFridgeMQTT.Utility
+namespace ClientMQTT
 {
     public class Gateway
     {
@@ -19,8 +18,8 @@ namespace WebManageFridgeMQTT.Utility
             try
             {
                 CustomLog.LogArrayByte(e.Message);
-                string clientID = (string)Utility.Helper.GetPropertyValue(sender, "ClientId");
-                bool isConnected = (bool)Utility.Helper.GetPropertyValue(sender, "IsConnected");
+                string clientID = (string)ClientMQTT.Helper.GetPropertyValue(sender, "ClientId");
+                bool isConnected = (bool)ClientMQTT.Helper.GetPropertyValue(sender, "IsConnected");
 
                 List<string> topicList = e.Topic.Split(new char[] { '/' }).ToList();
                 if (topicList.Count > 0)
@@ -29,18 +28,14 @@ namespace WebManageFridgeMQTT.Utility
                     {
                         string strThietBiID = topicList[2].ToString();
 
-                        ModelMess modelMess = Helper.ParseMessToModel(e.Message.ToList());
-                        ThietBiStatusMess TbMess = Helper.ParseMessToValue(modelMess, strThietBiID);
-                        if(!string.IsNullOrEmpty(strThietBiID))
+                        ModelMess modelMess = ClientMQTT.Helper.ParseMessToModel(e.Message.ToList());
+                        ThietBiStatusMess TbMess = ClientMQTT.Helper.ParseMessToValue(modelMess, strThietBiID);
+                        CustomLog.LogError(TbMess.WriteLog());
+                        if(string.IsNullOrEmpty(strThietBiID))
                         {
-                            CustomLog.LogError(TbMess.WriteLog());
-                            using (DeviceTrackingDataContext Context = new DeviceTrackingDataContext())
-                            {
-                                //Context.UpdateThieBiSatusMess("7E151BF7-559D-4BCC-B8B5-6F5FFAEB86FD", "", "", "", 0, 1, 0, 0, 0, 0);
-                                //Context.UpdateThieBiSatusMess("7E151BF7-559D-4BCC-B8B5-6F5FFAEB86FD", TbMess.CommandType, TbMess.CommandId, TbMess.CommandAction, TbMess.Loai, TbMess.StatusMay, TbMess.Time, TbMess.TrangThai, TbMess.Latitude, TbMess.Longitude);
-                            }
-                            
+                           
                         }
+
                     }
                 }
             }
@@ -54,14 +49,14 @@ namespace WebManageFridgeMQTT.Utility
 
         public void client_MqttMsgUnsubscribed(object sender, MqttMsgUnsubscribedEventArgs e)
         {
-            string clientID = (string)Utility.Helper.GetPropertyValue(sender, "ClientId");
+            string clientID = (string)ClientMQTT.Helper.GetPropertyValue(sender, "ClientId");
             string result = "MqttMsgUnsubscribed------ ClientID: " + clientID + " --- MessageId: " + e.MessageId;
             CustomLog.LogError(result);
         }
 
         public void client_MqttMsgSubscribed(object sender, MqttMsgSubscribedEventArgs e)
         {
-            string clientID = (string)Utility.Helper.GetPropertyValue(sender, "ClientId");
+            string clientID = (string)ClientMQTT.Helper.GetPropertyValue(sender, "ClientId");
             string result = "MqttMsgSubscribed----- ClientID: " + clientID + " --- MessageId: " + e.MessageId + " --- GrantedQoSLevels: " + Encoding.UTF8.GetString(e.GrantedQoSLevels);
             CustomLog.LogError(result);
         }

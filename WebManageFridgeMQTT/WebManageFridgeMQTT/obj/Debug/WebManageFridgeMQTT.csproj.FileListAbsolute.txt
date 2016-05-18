@@ -53,7 +53,6 @@ E:\Freelancer\ManageFridgeMQTT\WebManageFridgeMQTT\WebManageFridgeMQTT\bin\Syste
 E:\Freelancer\ManageFridgeMQTT\WebManageFridgeMQTT\WebManageFridgeMQTT\bin\System.Web.WebPages.dll
 E:\Freelancer\ManageFridgeMQTT\WebManageFridgeMQTT\WebManageFridgeMQTT\bin\System.Web.WebPages.Razor.dll
 E:\Freelancer\ManageFridgeMQTT\WebManageFridgeMQTT\WebManageFridgeMQTT\bin\WebGrease.dll
-E:\Freelancer\ManageFridgeMQTT\WebManageFridgeMQTT\WebManageFridgeMQTT\bin\M2Mqtt.pdb
 E:\Freelancer\ManageFridgeMQTT\WebManageFridgeMQTT\WebManageFridgeMQTT\bin\EntityFramework.xml
 E:\Freelancer\ManageFridgeMQTT\WebManageFridgeMQTT\WebManageFridgeMQTT\bin\Newtonsoft.Json.xml
 E:\Freelancer\ManageFridgeMQTT\WebManageFridgeMQTT\WebManageFridgeMQTT\bin\System.Net.Http.Formatting.xml

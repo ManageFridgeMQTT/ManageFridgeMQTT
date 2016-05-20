@@ -23,13 +23,14 @@ namespace WebManageFridgeMQTT.Utility
                 bool isConnected = (bool)Utility.Helper.GetPropertyValue(sender, "IsConnected");
 
                 List<string> topicList = e.Topic.Split(new char[] { '/' }).ToList();
-                if (topicList.Count > 0)
+                if (topicList.Count >= 3)
                 {
                     if (topicList[0].ToString() == "info")
                     {
                         string strThietBiID = topicList[2].ToString();
 
                         ModelMess modelMess = Helper.ParseMessToModel(e.Message.ToList());
+                        CustomLog.LogError(modelMess.WriteByteLog());
                         ThietBiStatusMess TbMess = Helper.ParseMessToValue(modelMess, strThietBiID);
                         if(!string.IsNullOrEmpty(strThietBiID))
                         {
@@ -37,7 +38,7 @@ namespace WebManageFridgeMQTT.Utility
                             using (DeviceTrackingDataContext Context = new DeviceTrackingDataContext())
                             {
                                 //Context.UpdateThieBiSatusMess("7E151BF7-559D-4BCC-B8B5-6F5FFAEB86FD", "", "", "", 0, 1, 0, 0, 0, 0);
-                                //Context.UpdateThieBiSatusMess("7E151BF7-559D-4BCC-B8B5-6F5FFAEB86FD", TbMess.CommandType, TbMess.CommandId, TbMess.CommandAction, TbMess.Loai, TbMess.StatusMay, TbMess.Time, TbMess.TrangThai, TbMess.Latitude, TbMess.Longitude);
+                                Context.UpdateThieBiSatusMess(strThietBiID, TbMess.CommandType, TbMess.CommandId, TbMess.CommandAction, TbMess.Loai, TbMess.StatusMay, TbMess.Time, TbMess.TrangThai, TbMess.Latitude, TbMess.Longitude);
                             }
                             
                         }

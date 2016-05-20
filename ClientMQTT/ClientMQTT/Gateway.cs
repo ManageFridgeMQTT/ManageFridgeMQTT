@@ -18,26 +18,26 @@ namespace ClientMQTT
             try
             {
                 CustomLog.LogArrayByte(e.Message);
-                string clientID = (string)ClientMQTT.Helper.GetPropertyValue(sender, "ClientId");
-                bool isConnected = (bool)ClientMQTT.Helper.GetPropertyValue(sender, "IsConnected");
+                //string clientID = (string)ClientMQTT.Helper.GetPropertyValue(sender, "ClientId");
+                //bool isConnected = (bool)ClientMQTT.Helper.GetPropertyValue(sender, "IsConnected");
 
-                List<string> topicList = e.Topic.Split(new char[] { '/' }).ToList();
-                if (topicList.Count > 0)
-                {
-                    if (topicList[0].ToString() == "info")
-                    {
-                        string strThietBiID = topicList[2].ToString();
+                //List<string> topicList = e.Topic.Split(new char[] { '/' }).ToList();
+                //if (topicList.Count > 0)
+                //{
+                //    if (topicList[0].ToString() == "info")
+                //    {
+                //        string strThietBiID = topicList[2].ToString();
 
-                        ModelMess modelMess = ClientMQTT.Helper.ParseMessToModel(e.Message.ToList());
-                        ThietBiStatusMess TbMess = ClientMQTT.Helper.ParseMessToValue(modelMess, strThietBiID);
-                        CustomLog.LogError(TbMess.WriteLog());
-                        if(string.IsNullOrEmpty(strThietBiID))
-                        {
+                //        ModelMess modelMess = ClientMQTT.Helper.ParseMessToModel(e.Message.ToList());
+                //        ThietBiStatusMess TbMess = ClientMQTT.Helper.ParseMessToValue(modelMess, strThietBiID);
+                //        CustomLog.LogError(TbMess.WriteLog());
+                //        if(string.IsNullOrEmpty(strThietBiID))
+                //        {
                            
-                        }
+                //        }
 
-                    }
-                }
+                //    }
+                //}
             }
             catch (Exception ex)
             {

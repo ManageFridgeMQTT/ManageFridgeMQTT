@@ -25,8 +25,6 @@ E:\Freelancer\ManageFridgeMQTT\ClientMQTT\ClientMQTT\obj\Debug\ClientMQTT.exe
 E:\Freelancer\ManageFridgeMQTT\ClientMQTT\ClientMQTT\obj\Debug\ClientMQTT.pdb
 E:\Freelancer\ManageFridgeMQTT\ClientMQTT\ClientMQTT\bin\Debug\ClientMQTT.exe
 E:\Freelancer\ManageFridgeMQTT\ClientMQTT\ClientMQTT\bin\Debug\ClientMQTT.pdb
-E:\Freelancer\ManageFridgeMQTT\ClientMQTT\ClientMQTT\bin\Debug\M2Mqtt.dll
-E:\Freelancer\ManageFridgeMQTT\ClientMQTT\ClientMQTT\bin\Debug\M2Mqtt.pdb
 E:\Freelancer\ManageFridgeMQTT\ClientMQTT\ClientMQTT\obj\Debug\ClientMQTT.csprojResolveAssemblyReference.cache
 E:\Freelancer\ManageFridgeMQTT\ClientMQTT\ClientMQTT\obj\Debug\ClientMQTT.Form1.resources
 E:\Freelancer\ManageFridgeMQTT\ClientMQTT\ClientMQTT\obj\Debug\ClientMQTT.Properties.Resources.resources

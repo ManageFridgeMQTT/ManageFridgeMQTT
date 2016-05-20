@@ -124,43 +124,53 @@ namespace WebManageFridgeMQTT.Utility
                     if (value[0] == 0x05)
                     {
                         modelMess.Status = value.Skip(0).Take(3).ToArray();
-                        if (value.Count > 3 && value[3] == 0x24)
+                        if (value.Count >= 6)
                         {
-                            modelMess.Length = value.Skip(3).Take(3).ToArray();
-                        }
-                        if (value.Count >= 6 && value[6] == 0x06)
-                        {
-                            modelMess.States = value.Skip(6).Take(3).ToArray();
-                        }
-                        if (value.Count >= 3 && value[3] == 0x1F)
-                        {
-                            if (Helper.ByteArrayCompare(value.Skip(3).Take(3).ToArray(), ConstParam.Value))
+                            if (value[3] == 0x24)
                             {
-                                modelMess.GPSByte = value.Skip(6).Take(24).ToArray();
+                                modelMess.Length = value.Skip(3).Take(3).ToArray();
+                            }
+                            
+                        }
+                        if (value.Count >= 9 )
+                        {
+                            if (value[6] == 0x06)
+                            {
+                                modelMess.States = value.Skip(6).Take(3).ToArray();
+                            }
+                        }
+                        if (value.Count >= 15)
+                        {
+                            if (value[9] == 0x07)
+                            {
+                                modelMess.Time = value.Skip(11).Take(4).ToArray();
+                            }
+                        }
+                        if (value.Count >= 40)
+                        {
+                            if (value[15] == 0x08)
+                            {
+                                modelMess.GPSByte = value.Skip(17).Take(26).ToArray();
                                 modelMess.LatitudeByte = modelMess.GPSByte.Skip(0).Take(9).ToArray();
                                 modelMess.LongitudeByte = modelMess.GPSByte.Skip(12).Take(10).ToArray();
+                            }
+                        }
+                        if (value.Count >= 30)
+                        {
+                            if (value[3] == 0x1F)
+                            {
+                                if (Helper.ByteArrayCompare(value.Skip(3).Take(3).ToArray(), ConstParam.Value))
+                                {
+                                    modelMess.GPSByte = value.Skip(6).Take(24).ToArray();
+                                    modelMess.LatitudeByte = modelMess.GPSByte.Skip(0).Take(9).ToArray();
+                                    modelMess.LongitudeByte = modelMess.GPSByte.Skip(12).Take(10).ToArray();
+                                }
                             }
                         }
                     }
                     else if (value[0] == 0x24)
                     {
                         modelMess.Sequence = value.Skip(0).Take(3).ToArray();
-                    }
-                    if (value.Count > 9)
-                    {
-                        if (value[9] == 0x07)
-                        {
-                            modelMess.Time = value.Skip(11).Take(4).ToArray();
-                        }
-                    }
-                    if (value.Count > 15)
-                    {
-                        if (value[15] == 0x08)
-                        {
-                            modelMess.GPSByte = value.Skip(15).Take(26).ToArray();
-                            modelMess.LatitudeByte = modelMess.GPSByte.Skip(0).Take(9).ToArray();
-                            modelMess.LongitudeByte = modelMess.GPSByte.Skip(12).Take(10).ToArray();
-                        }
                     }
                 }
             }
@@ -192,8 +202,7 @@ namespace WebManageFridgeMQTT.Utility
                 }
                 if (data.Time != null)
                 {
-                    string strTime = System.Text.Encoding.UTF8.GetString(data.Time);
-                    model.Time = Int32.Parse(strTime);
+                    model.Time = BitConverter.ToInt32(data.Time, 0);
                 }
                 if (data.LatitudeByte != null)
                 {
@@ -231,54 +240,54 @@ namespace WebManageFridgeMQTT.Utility
                 }
 
 
-                if (Array.Equals(data.CommandAction, ConstParam.DinhKyGPS))
+                if (Helper.ByteArrayCompare(data.CommandAction, ConstParam.DinhKyGPS))
                 {
                     model.Loai = 1;
                 }
-                else if (Array.Equals(data.CommandAction, ConstParam.BaoDuong))
+                else if (Helper.ByteArrayCompare(data.CommandAction, ConstParam.BaoDuong))
                 {
                     model.Loai = 2;
-                    if (Array.Equals(data.States, ConstParam.Dang))
+                    if (Helper.ByteArrayCompare(data.States, ConstParam.Dang))
                     {
                         model.TrangThai = 3;  //đang bảo dưỡng
                     }
-                    else if (Array.Equals(data.States, ConstParam.Khong))
+                    else if (Helper.ByteArrayCompare(data.States, ConstParam.Khong))
                     {
                         model.TrangThai = 4;
                     }
                 }
-                else if (Array.Equals(data.CommandAction, ConstParam.DiChuyen))
+                else if (Helper.ByteArrayCompare(data.CommandAction, ConstParam.DiChuyen))
                 {
                     model.Loai = 3;
-                    if (Array.Equals(data.States, ConstParam.Dang))
+                    if (Helper.ByteArrayCompare(data.States, ConstParam.Dang))
                     {
                         model.TrangThai = 5;  //đang Di chuyển
                     }
-                    else if (Array.Equals(data.States, ConstParam.Khong))
+                    else if (Helper.ByteArrayCompare(data.States, ConstParam.Khong))
                     {
                         model.TrangThai = 6;
                     }
                 }
-                else if (Array.Equals(data.CommandAction, ConstParam.Khoan))
+                else if (Helper.ByteArrayCompare(data.CommandAction, ConstParam.Khoan))
                 {
                     model.Loai = 4;
-                    if (Array.Equals(data.States, ConstParam.Dang))
+                    if (Helper.ByteArrayCompare(data.States, ConstParam.Dang))
                     {
                         model.TrangThai = 7;  //đang bảo dưỡng
                     }
-                    else if (Array.Equals(data.States, ConstParam.Khong))
+                    else if (Helper.ByteArrayCompare(data.States, ConstParam.Khong))
                     {
                         model.TrangThai = 8;
                     }
                 }
-                else if (Array.Equals(data.CommandAction, ConstParam.Cau))
+                else if (Helper.ByteArrayCompare(data.CommandAction, ConstParam.Cau))
                 {
                     model.Loai = 5;
-                    if (Array.Equals(data.States, ConstParam.Dang))
+                    if (Helper.ByteArrayCompare(data.States, ConstParam.Dang))
                     {
                         model.TrangThai = 9;  //đang bảo dưỡng
                     }
-                    else if (Array.Equals(data.States, ConstParam.Khong))
+                    else if (Helper.ByteArrayCompare(data.States, ConstParam.Khong))
                     {
                         model.TrangThai = 10;
                     }
@@ -320,13 +329,16 @@ namespace WebManageFridgeMQTT.Utility
             decimal result = 0;
             try
             {
-                string strData = System.Text.Encoding.UTF8.GetString(arrayData);
-                string strToaDo = strData.Substring(0, 2);
-                string strPhut = strData.Substring(2, 7);
-                strPhut = strPhut.Replace('.', ',');
-                decimal toado = Decimal.Parse(strToaDo);
-                decimal phut = Decimal.Parse(strPhut);
-                result = toado + (phut / 60);
+                if(arrayData[3] != 0x00)
+                {
+                    string strData = System.Text.Encoding.UTF8.GetString(arrayData);
+                    string strToaDo = strData.Substring(0, 2);
+                    string strPhut = strData.Substring(2, 7);
+                    strPhut = strPhut.Replace('.', ',');
+                    decimal toado = Decimal.Parse(strToaDo);
+                    decimal phut = Decimal.Parse(strPhut);
+                    result = toado + (phut / 60);
+                }
             }
             catch (Exception ex)
             {
@@ -341,13 +353,16 @@ namespace WebManageFridgeMQTT.Utility
             decimal result = 0;
             try
             {
-                string strData = System.Text.Encoding.UTF8.GetString(arrayData);
-                string strToaDo = strData.Substring(0, 3);
-                string strPhut = strData.Substring(3, 7);
-                strPhut = strPhut.Replace('.', ',');
-                decimal toado = Decimal.Parse(strToaDo);
-                decimal phut = Decimal.Parse(strPhut);
-                result = toado + (phut / 60);
+                if (arrayData[4] != 0x00)
+                {
+                    string strData = System.Text.Encoding.UTF8.GetString(arrayData);
+                    string strToaDo = strData.Substring(0, 3);
+                    string strPhut = strData.Substring(3, 7);
+                    strPhut = strPhut.Replace('.', ',');
+                    decimal toado = Decimal.Parse(strToaDo);
+                    decimal phut = Decimal.Parse(strPhut);
+                    result = toado + (phut / 60);
+                }
             }
             catch (Exception ex)
             {
@@ -411,6 +426,65 @@ namespace WebManageFridgeMQTT.Utility
             this.GPSByte = null;
             this.Length = null;
         }
+        public string WriteByteLog()
+        {
+            string result = "";
+            if (this.CommandType != null)
+            {
+                string hex = BitConverter.ToString(this.CommandType);
+                string text = hex.Replace("-", " ");
+                result += "---  CommandType:" + text;
+            }
+            if (this.CommandId != null)
+            {
+                string hex = BitConverter.ToString(this.CommandId);
+                string text = hex.Replace("-", " ");
+                result += "---  CommandId:" + text;
+            }
+            if (this.CommandAction != null)
+            {
+                string hex = BitConverter.ToString(this.CommandAction);
+                string text = hex.Replace("-", " ");
+                result += "---  CommandAction:" + text;
+            }
+            if (this.Status != null)
+            {
+                string hex = BitConverter.ToString(this.Status);
+                string text = hex.Replace("-", " ");
+                result += "---  Status:" + text;
+            }
+            if (this.States != null)
+            {
+                string hex = BitConverter.ToString(this.States);
+                string text = hex.Replace("-", " ");
+                result += "---  States:" + text;
+            }
+            if (this.Time != null)
+            {
+                string hex = BitConverter.ToString(this.Time);
+                string text = hex.Replace("-", " ");
+                result += "---  Time:" + text;
+            }
+            if (this.Sequence != null)
+            {
+                string hex = BitConverter.ToString(this.Sequence);
+                string text = hex.Replace("-", " ");
+                result += "---  Sequence:" + text;
+            };
+            if (this.GPSByte != null)
+            {
+                string hex = BitConverter.ToString(this.GPSByte);
+                string text = hex.Replace("-", " ");
+                result += "---  GPSByte:" + text;
+            }
+            if (this.Length != null)
+            {
+                string hex = BitConverter.ToString(this.Length);
+                string text = hex.Replace("-", " ");
+                result += "---  Length:" + text;
+            }
+            return result;
+        }
     }
 
     public class ThietBiStatusMess
@@ -460,7 +534,6 @@ namespace WebManageFridgeMQTT.Utility
             {
                 result += "TrangThai:" + this.TrangThai.Value.ToString();
             }
-
             if (this.Time != null)
             {
                 result += "Time:" + this.Time.Value.ToString();

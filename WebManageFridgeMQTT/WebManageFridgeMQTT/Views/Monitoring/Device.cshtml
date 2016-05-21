@@ -293,7 +293,7 @@
         data.find('span[id="ThayDauTiep"]').html(item.ThayDauTiep);
         data.find('span[id="ThayLocTiep"]').html(item.ThayLocTiep);
         data.find('span[id="LoaiHinh"]').html(item.LoaiHinh);
-        data.find('span[id="ThoiGianVao"]').html(item.ThoiGianVao);
+        data.find('span[id="ThoiGianVao"]').html(formatDate(item.ThoiGianVao));
         data.find('span[id="NgayOCongTrinh"]').html(item.NgayOCongTrinh + ' Ngày');
         data.find('span[id="GiaThue"]').html(item.GiaThue + ' VNĐ');
         data.find('span[id="ThanhTien"]').html(item.ThanhTien + ' VNĐ');
@@ -347,5 +347,25 @@
             strToDate = '';
         }
         $("#activity").load('@(Url.Action("DeviceActivity", "Monitoring"))?thietBiID=' + thietbiId + '&strFromDate=' + strFromDate + '&strToDate=' + strToDate);
+    }
+    function formatDate(date) {
+        if(date){
+            var d = new Date(parseInt(date.substr(6)));
+            dformat = [ (d.getMonth()+1).padLeft(),
+                        d.getDate().padLeft(),
+                        d.getFullYear()].join('/')+
+                        ' ' +
+                      [ d.getHours().padLeft(),
+                        d.getMinutes().padLeft(),
+                        d.getSeconds().padLeft()].join(':');
+            return dformat;
+        }else{
+            return '';
+        }
+        
+    }
+    Number.prototype.padLeft = function(base,chr){
+        var  len = (String(base || 10).length - String(this).length)+1;
+        return len > 0? new Array(len).join(chr || '0')+this : this;
     }
 </script>

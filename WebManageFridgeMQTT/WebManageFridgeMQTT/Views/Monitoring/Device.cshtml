@@ -32,6 +32,9 @@
    
 }
 <style>
+    .leaflet-marker-iconlabel{
+        background:#FFFFFF;
+    } 
     .row p span {
         font-weight: bold;
     }
@@ -39,13 +42,8 @@
         min-width: 610px;
         max-height: 460px;
     }
-
-        .leaflet-popup-content-wrapper .leaflet-popup-content {
-            margin: 5px;
-        }
-
-    .leaflet-popup-close-button {
-        z-index: 99999;
+    .leaflet-popup-content-wrapper .leaflet-popup-content {        
+        margin: 5px;
     }
 
     .tab-pane .row p {
@@ -140,8 +138,8 @@
         <ul id="ul-tab" class="nav nav-tabs">
             <li class="active"><a data-toggle="tab" href="#info">Thông tin</a></li>
             <li><a data-toggle="tab" href="#detail">Chi Tiết</a></li>
-            <li><a data-toggle="tab" href="#activity" onclick="RenderHoatDong('0')">Lịch sữ hoạt động</a></li>
-            <li><a data-toggle="tab" href="#dichuyen" onclick="RenderDiChuyen('0')">Lịch sữ di chuyển</a></li>
+            <li><a data-toggle="tab" href="#activity" onclick="RenderHoatDong('0')">Lịch sử hoạt động</a></li>
+            <li><a data-toggle="tab" href="#dichuyen" onclick="RenderDiChuyen('0')">Lịch sử di chuyển</a></li>
             <li><a data-toggle="tab" href="#baoduong" onclick="RenderBaoDuong('0');">Bảo dưỡng sửa chửa</a></li>
         </ul>
     </div>
@@ -152,25 +150,29 @@
                     <img style="max-width:200px; max-height:280px; padding-top:12px; padding-bottom:12px; padding-left:20px" src="~/Content/img1.jpg" />
                 </div>
                 <div class="col-sm-6">
-                    <h3 id="TenThietBi">@info.TenThietBi</h3>
-                    <p>Trạng thái: <span id="TrangThai">@info.StrTrangThai</span></p>
-                    <p>Đã hoạt động: <span id="DaHoatDong">@info.DaHoatDong</span></p>
-                    <p>Vị trí: <span id="TenCongTrinh">@info.TenCongTrinh</span></p>
-                    <p>Lần thay dầu tiếp theo: <span id="ThayDauTiep">@info.ThayDauTiep</span></p>
-                    <p>Lần thay lọc tiếp theo: <span id="ThayLocTiep">@info.ThayLocTiep</span></p>
+                    <div class="info">
+                        <h3 id="TenThietBi">@info.TenThietBi</h3>
+                        <p>Trạng thái: <span id="TrangThai">@info.StrTrangThai</span></p>
+                        <p>Đã hoạt động: <span id="DaHoatDong">@info.DaHoatDong</span></p>
+                        <p>Vị trí: <span id="TenCongTrinh">@info.TenCongTrinh</span></p>
+                        <p>Lần thay dầu tiếp theo: <span id="ThayDauTiep">@info.ThayDauTiep</span></p>
+                        <p>Lần thay lọc tiếp theo: <span id="ThayLocTiep">@info.ThayLocTiep</span></p>
+                    </div>
                 </div>
             </div>
         </div>
         <div id="detail" class="tab-pane fade in">
             <div class="row">
-                <h3 id="TenThietBi">@info.TenThietBi</h3>
-                <p>Loại hình: <span id="LoaiHinh">@info.LoaiHinh</span></p>
-                <p>Vị trí hiện tại: <span id="TenCongTrinh">@info.TenCongTrinh</span></p>
-                <p>Ngày đến: <span id="ThoiGianVao">@(info.ThoiGianVao.HasValue ? info.ThoiGianVao.Value.ToShortDateString() : "")</span></p>
-                <p>Tổng số ngày ở công trình: <span id="NgayOCongTrinh">@info.NgayOCongTrinh Ngày</span></p>
-                <p>Đơn giá thuê: <span id="GiaThue">@info.GiaThue  VNĐ</span></p>
-                <p>Thành tiền hiện tại: <span id="ThanhTien">@info.ThanhTien VNĐ</span></p>
-            </div>
+                <div class="info">
+                    <h3 id="TenThietBi">@info.TenThietBi</h3>
+                    <p>Loại hình: <span id="LoaiHinh">@info.LoaiHinh</span></p>
+                    <p>Vị trí hiện tại: <span id="TenCongTrinh">@info.TenCongTrinh</span></p>
+                    <p>Ngày đến: <span id="ThoiGianVao">@(info.ThoiGianVao.HasValue ? info.ThoiGianVao.Value.ToShortDateString() : "")</span></p>
+                    <p>Tổng số ngày ở công trình: <span id="NgayOCongTrinh">@info.NgayOCongTrinh Ngày</span></p>
+                    <p>Đơn giá thuê: <span id="GiaThue">@info.GiaThue  VNĐ</span></p>
+                    <p>Thành tiền hiện tại: <span id="ThanhTien">@info.ThanhTien VNĐ</span></p>
+                </div>
+                </div>
             <p>Hình ảnh báo cáo </p>
             <div class="row">
                 <div class="col-xs-4">
@@ -275,8 +277,8 @@
         var btnxemBaoDuong = '<button onclick="RenderBaoDuong(\''+ item.ThietBiId + '\');"><i class="icon-submit" title="Xem báo cáo"></i>Xem</button>'
         var ultab = '<li class="active"><a data-toggle="tab" href="#info">Thông tin</a></li>';
         ultab +=    '<li><a data-toggle="tab" href="#detail">Chi Tiết</a></li>';
-        ultab +=    '<li><a data-toggle="tab" href="#activity" onclick="RenderHoatDong(\''+ item.ThietBiId + '\');">Lịch sữ hoạt động</a></li>';
-        ultab +=    '<li><a data-toggle="tab" href="#dichuyen" onclick="RenderDiChuyen(\''+ item.ThietBiId + '\');">Lịch sữ di chuyển</a></li>';
+        ultab +=    '<li><a data-toggle="tab" href="#activity" onclick="RenderHoatDong(\''+ item.ThietBiId + '\');">Lịch sử hoạt động</a></li>';
+        ultab +=    '<li><a data-toggle="tab" href="#dichuyen" onclick="RenderDiChuyen(\''+ item.ThietBiId + '\');">Lịch sử di chuyển</a></li>';
         ultab +=    '<li><a data-toggle="tab" href="#baoduong" onclick="RenderBaoDuong(\''+ item.ThietBiId + '\');">Bảo dưỡng sửa chửa</a></li>';
 
 
@@ -292,9 +294,9 @@
         data.find('span[id="ThayLocTiep"]').html(item.ThayLocTiep);
         data.find('span[id="LoaiHinh"]').html(item.LoaiHinh);
         data.find('span[id="ThoiGianVao"]').html(item.ThoiGianVao);
-        data.find('span[id="NgayOCongTrinh"]').html(item.NgayOCongTrinh);
-        data.find('span[id="GiaThue"]').html(item.GiaThue);
-        data.find('span[id="ThanhTien"]').html(item.ThanhTien);
+        data.find('span[id="NgayOCongTrinh"]').html(item.NgayOCongTrinh + ' Ngày');
+        data.find('span[id="GiaThue"]').html(item.GiaThue + ' VNĐ');
+        data.find('span[id="ThanhTien"]').html(item.ThanhTien + ' VNĐ');
         data.find('ul[id="ul-tab"]').html(ultab);
         data.find('div[id="btn-xemHoatDong"]').html(btnxemHoatDong); 
         data.find('div[id="btn-xemDiChuyen"]').html(btnxemDiChuyen);

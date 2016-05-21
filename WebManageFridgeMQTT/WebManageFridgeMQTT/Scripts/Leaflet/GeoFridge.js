@@ -1,11 +1,14 @@
 ﻿
 var placeMarker_double = L.Icon.Label.extend({
     options: {
-        iconUrl: '',
+        iconUrl: '../Content/Icon/markers/grey.png',
         shadowUrl: null,
-        iconAnchor: new L.Point(0, -2),
-        wrapperAnchor: new L.Point(10, 14),
-        labelClassName: 'placeMarks-label'
+        iconSize: new L.Point(24, 30),
+        iconAnchor: new L.Point(0, 1),
+        labelAnchor: new L.Point(26, 0),
+        wrapperAnchor: new L.Point(12, 13),
+        popupAnchor: new L.Point(0, -10),
+        labelClassName: 'sweet-deal-label'
     }
 });
 
@@ -29,8 +32,7 @@ function RenderMarker(latlng, label, popup, icon, layer1) {
     var iconURL = '../Content/Icon/markers/' + icon + '.png';
     var marker = L.marker(latlng, {
         icon: new placeMarker_double({
-            labelText: ''
-            , labelAnchor: new L.Point(labelTextAnchor(''), -1)
+            labelText: label
             , iconUrl: iconURL
         })
     })

@@ -702,7 +702,6 @@
     <Content Include="Views\Monitoring\DeviceModify.cshtml" />
     <Content Include="Views\Monitoring\DeviceActivity.cshtml" />
     <Content Include="Views\Monitoring\DeviceMove.cshtml" />
-    <Content Include="Views\Monitoring\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -631,3 +631,11 @@ table.table-raw td {
     margin-top:7px;
     margin-bottom:2px;
 }
+.info{
+    padding-top:10px;
+    padding-left: 10px;
+
+}
+.info p {
+    line-height: 22px;
+}

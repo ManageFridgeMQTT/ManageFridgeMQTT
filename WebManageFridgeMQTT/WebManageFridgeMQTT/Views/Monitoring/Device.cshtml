@@ -1,4 +1,4 @@
-﻿@model List<WebManageFridgeMQTT.Models.Sp_GetInfoDeviceResult> 
+﻿@model List<WebManageFridgeMQTT.Models.Sp_GetInfoDeviceResult>
 @{
     ViewBag.Title = "Device";
     Layout = "~/Views/Shared/_NewLayout.cshtml";
@@ -15,9 +15,9 @@
     <link rel="stylesheet" href="@Url.Content("~/Scripts/Leaflet/MarkerCluster.Default.css")" />
     <link rel="stylesheet" href="@Url.Content("~/Scripts/Leaflet/MarkerCluster.css")" />
     <link rel="stylesheet" href="@Url.Content("~/Scripts/Leaflet/MarkerCluster.Default.css")" />
-<link rel="stylesheet" href="@Url.Content("~/Scripts/Leaflet/font-awesome.css")" />
-<link rel="stylesheet" href="@Url.Content("~/Scripts/Leaflet/leaflet.awesome-markers.css")" />
-    
+    <link rel="stylesheet" href="@Url.Content("~/Scripts/Leaflet/font-awesome.css")" />
+    <link rel="stylesheet" href="@Url.Content("~/Scripts/Leaflet/leaflet.awesome-markers.css")" />
+
     <script type="text/javascript" src="@Url.Content("~/Scripts/Leaflet/leaflet.js")"></script>
     <script type="text/javascript" src="http://maps.google.com/maps/api/js?v=3.2&sensor=false"></script>
     <script type="text/javascript" src="@Url.Content("~/Scripts/Leaflet/leaflet-google.js")"></script>
@@ -29,7 +29,7 @@
 
     <script type="text/javascript" src="@Url.Content("~/Scripts/Leaflet/leaflet.markercluster-src.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Scripts/Leaflet/GeoFridge.js")"></script>
-   
+
 }
 <style>
     .leaflet-marker-iconlabel{
@@ -131,11 +131,11 @@
             </tr>
         </table>
     </div>
-    
+
 </div>
-<div id="DevicePopupTemplete" style="display:none; z-index:999999; min-width:600px; max-height:450px">
+<div id="DevicePopupTemplete" style="display: none; z-index: 999999; min-width: 600px; max-height: 450px;background-color:#EFFBF2">
     <div class="tab-header">
-        <ul id="ul-tab" class="nav nav-tabs">
+        <ul id="ul-tab" class="nav nav-tabs" style="background-color:#FFBF00">
             <li class="active"><a data-toggle="tab" href="#info">Thông tin</a></li>
             <li><a data-toggle="tab" href="#detail">Chi Tiết</a></li>
             <li><a data-toggle="tab" href="#activity" onclick="RenderHoatDong('0')">Lịch sử hoạt động</a></li>
@@ -146,67 +146,118 @@
     <div class="tab-content">
         <div id="info" class="tab-pane fade in active">
             <div class="row">
-                <div class="col-sm-6">
-                        <img id ="avatar" style="max-width:200px; max-height:280px; padding-top:12px; padding-bottom:12px; padding-left:20px" src="~/Content/img1.jpg" />
-            
+                <div class="col-sm-4">
+                    <img id="avatar" style="max-width: 200px; max-height: 280px; padding-top: 12px; padding-bottom: 12px; padding-left: 20px" src="~/Content/img1.jpg" />
+
                 </div>
                 <div class="col-sm-6">
                     <div class="info">
                         <h3 id="TenThietBi">@info.TenThietBi</h3>
-                        <p>Trạng thái: <span id="TrangThai">@info.StrTrangThai</span></p>
+                        <table class="tablesorter" id="tbInfo">
+                            <thead>
+                                <tr>
+                                    <th>Trạng thái</th>
+                                    <th>Đã hoạt động</th>
+                                    <th>Vị trí</th>
+                                    <th>Lần thay dầu tiếp theo</th>
+                                    <th>Lần thay lọc tiếp theo</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+
+                                <tr>
+                                    <td><span id="TrangThai">@info.StrTrangThai</span></td>
+                                    <td><span id="DaHoatDong">@info.DaHoatDong</span></td>
+                                    <td><span id="TenCongTrinh">@info.TenCongTrinh</span></td>
+                                    <td><span id="ThayDauTiep" style="text-align:right">@info.ThayDauTiep</span></td>
+                                    <td><span id="ThayLocTiep" style="text-align:right">@info.ThayLocTiep</span></td>
+                                </tr>
+
+                            </tbody>
+                        </table>
+                        @*                        <p>Trạng thái: <span id="TrangThai">@info.StrTrangThai</span></p>
                         <p>Đã hoạt động: <span id="DaHoatDong">@info.DaHoatDong</span></p>
                         <p>Vị trí: <span id="TenCongTrinh">@info.TenCongTrinh</span></p>
                         <p>Lần thay dầu tiếp theo: <span id="ThayDauTiep">@info.ThayDauTiep</span></p>
-                        <p>Lần thay lọc tiếp theo: <span id="ThayLocTiep">@info.ThayLocTiep</span></p>
+                        <p>Lần thay lọc tiếp theo: <span id="ThayLocTiep">@info.ThayLocTiep</span></p>*@
                     </div>
                 </div>
             </div>
         </div>
         <div id="detail" class="tab-pane fade in">
-            <div class="row">
-                <div class="info">
+          @*  <div class="row">
+                <div class="info">*@
                     <h3 id="TenThietBi">@info.TenThietBi</h3>
-                    <p>Loại hình: <span id="LoaiHinh">@info.LoaiHinh</span></p>
+                    <table class="tablesorter" id="tbDetail">
+                        <thead>
+                            <tr>
+                                <th>Loại Hình</th>
+                                <th>Vị Trí Hiện Tại</th>
+                                <th>Ngày Đến</th>
+                                <th>Tổng Số Ngày Ở Công Trình</th>
+                                <th>Don Gia Thue</th>
+                                <th>Thành Tiền Hiện Tại</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                            <tr>
+                                <td><span id="LoaiHinh">@info.LoaiHinh</span></td>
+                                <td><span id="TenCongTrinh">@info.TenCongTrinh</span></td>
+                                <td><span id="ThoiGianVao">@(info.ThoiGianVao.HasValue ? info.ThoiGianVao.Value.ToShortDateString() : "")</span></td>
+                                <td><span id="NgayOCongTrinh" style="text-align:right">@((info.NgayOCongTrinh.HasValue && info.NgayOCongTrinh != null) ? info.NgayOCongTrinh + "Ngày": "")</span></td>
+                                <td><span id="GiaThue">@String.Format("{0:C}",@info.GiaThue)</span></td>
+                                <td><span id="ThanhTien">@String.Format("{0:C}", info.ThanhTien)</span></td>
+                            </tr>
+
+                        </tbody>
+                    </table>
+                    @*        <p>Loại hình: <span id="LoaiHinh">@info.LoaiHinh</span></p>
                     <p>Vị trí hiện tại: <span id="TenCongTrinh">@info.TenCongTrinh</span></p>
                     <p>Ngày đến: <span id="ThoiGianVao">@(info.ThoiGianVao.HasValue ? info.ThoiGianVao.Value.ToShortDateString() : "")</span></p>
                     <p>Tổng số ngày ở công trình: <span id="NgayOCongTrinh">@info.NgayOCongTrinh Ngày</span></p>
                     <p>Đơn giá thuê: <span id="GiaThue">@info.GiaThue  VNĐ</span></p>
-                    <p>Thành tiền hiện tại: <span id="ThanhTien">@info.ThanhTien VNĐ</span></p>
-                </div>
-                </div>
-            <div class="row" style="padding-top:3px;">
+                    <p>Thành tiền hiện tại: <span id="ThanhTien">@info.ThanhTien VNĐ</span></p>*@
+       @*         </div>
+            </div>*@
+            <div class="row" style="padding-top: 3px;">
                 <span>Hình ảnh báo cáo </span>
-                <hr style="margin-top:0px; margin-bottom:0px; margin-left:2px;margin-right:2px" />
+                <hr style="margin-top: 0px; margin-bottom: 0px; margin-left: 2px; margin-right: 2px" />
             </div>
             <div class="row">
                 <div class="col-xs-4">
                     <img id="image1" style="max-width: 140px; max-height: 220px; padding-top: 5px; padding-bottom: 5px; padding-left: 10px" src="~/Content/img1.jpg" />
+                  <div><span style="margin-left:10px">Ngày: 22/05/2016</span></div>
+                      
                 </div>
                 <div class="col-xs-4">
-                    <img id="image2" style="max-width: 140px; max-height: 220px; padding-top: 5px; padding-bottom: 5px; padding-left: 10px; " src="~/Content/img2.jpg" />
+                    <img id="image2" style="max-width: 140px; max-height: 220px; padding-top: 5px; padding-bottom: 5px; padding-left: 10px;" src="~/Content/img2.jpg" />
+                     <div><span style="margin-left:10px">Ngày: 2/11/2016</span></div>
                 </div>
                 <div class="col-xs-4">
                     <img id="image3" style="max-width: 140px; max-height: 220px; padding-top: 5px; padding-bottom: 5px; padding-left: 10px" src="~/Content/img3.jpg" />
-                </div>
+                   <div><span style="margin-left:10px">Ngày: 13/12/2016</span></div>
+                      </div>
             </div>
             <div class="row">
                 <p></p>
             </div>
         </div>
         <div id="activity" class="tab-pane">
-
         </div>
         <div id="dichuyen" class="tab-pane">
-
         </div>
         <div id="baoduong" class="tab-pane">
-
         </div>
     </div>
 </div>
 <script type="text/javascript">
     var PathFolderImage = '@System.Configuration.ConfigurationManager.AppSettings["PathFolderImage"].ToString()';
-
+    function getFormattedCurrency(num) {
+        num = num.toFixed(2)
+        var cents = (num - Math.floor(num)).toFixed(2);
+        return Math.floor(num).toLocaleString() + '.' + cents.split('.')[1];
+    }
     ///<referenct path="~/Scripts/Leaflet/GeoFridge.js"/>
     var mapData = [];
     mapData.LayerDevice = L.layerGroup();
@@ -396,3 +447,4 @@
         return len > 0? new Array(len).join(chr || '0')+this : this;
     }
 </script>
+    

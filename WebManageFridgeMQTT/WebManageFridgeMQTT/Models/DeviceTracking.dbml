@@ -1,5 +1,5 @@
-﻿<?xml version="1.0" encoding="utf-8"?><Database Name="DF_RELEASE" Class="DeviceTrackingDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
-  <Connection Mode="WebSettings" ConnectionString="Data Source=StevieTran\SQLEXPRESS;Initial Catalog=DF_RELEASE;Persist Security Info=True;User ID=sa;Connect Timeout=500" SettingsObjectName="System.Configuration.ConfigurationManager.ConnectionStrings" SettingsPropertyName="DefaultConnection" Provider="System.Data.SqlClient" />
+﻿<?xml version="1.0" encoding="utf-8"?><Database Name="DF-DEV" Class="DeviceTrackingDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
+  <Connection Mode="WebSettings" ConnectionString="Data Source=45.117.80.39;Initial Catalog=DF-DEV;Persist Security Info=True;User ID=sa;Connect Timeout=500" SettingsObjectName="System.Configuration.ConfigurationManager.ConnectionStrings" SettingsPropertyName="DefaultConnection" Provider="System.Data.SqlClient" />
   <Table Name="dbo.[User]" Member="Users">
     <Type Name="User">
       <Column Name="UserId" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
@@ -89,6 +89,14 @@
       <Column Name="Longitude" Type="System.Decimal" DbType="Decimal(18,10)" CanBeNull="true" />
       <Column Name="HAAvatarThietBi" Type="System.String" DbType="VarChar(40) NOT NULL" CanBeNull="false" />
       <Column Name="HAHoatDongThietBi" Type="System.String" DbType="VarChar(40) NOT NULL" CanBeNull="false" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.GetTreeThietBi" Method="GetTreeThietBi">
+    <ElementType Name="GetTreeThietBiResult">
+      <Column Name="Id" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="Name" Type="System.String" DbType="NVarChar(500) NOT NULL" CanBeNull="false" />
+      <Column Name="Father" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="Cap" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
     </ElementType>
   </Function>
 </Database>

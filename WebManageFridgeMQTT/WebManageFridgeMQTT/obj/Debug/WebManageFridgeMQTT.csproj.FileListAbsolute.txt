@@ -95,6 +95,6 @@ D:\Projects\DUAFAT\ManageFridgeMQTT\WebManageFridgeMQTT\WebManageFridgeMQTT\bin\
 D:\Projects\DUAFAT\ManageFridgeMQTT\WebManageFridgeMQTT\WebManageFridgeMQTT\bin\System.Web.WebPages.xml
 D:\Projects\DUAFAT\ManageFridgeMQTT\WebManageFridgeMQTT\WebManageFridgeMQTT\bin\System.Web.WebPages.Deployment.xml
 D:\Projects\DUAFAT\ManageFridgeMQTT\WebManageFridgeMQTT\WebManageFridgeMQTT\bin\System.Web.WebPages.Razor.xml
-D:\Projects\DUAFAT\ManageFridgeMQTT\WebManageFridgeMQTT\WebManageFridgeMQTT\obj\Debug\WebManageFridgeMQTT.csprojResolveAssemblyReference.cache
 D:\Projects\DUAFAT\ManageFridgeMQTT\WebManageFridgeMQTT\WebManageFridgeMQTT\obj\Debug\WebManageFridgeMQTT.dll
 D:\Projects\DUAFAT\ManageFridgeMQTT\WebManageFridgeMQTT\WebManageFridgeMQTT\obj\Debug\WebManageFridgeMQTT.pdb
+D:\Projects\DUAFAT\ManageFridgeMQTT\WebManageFridgeMQTT\WebManageFridgeMQTT\obj\Debug\WebManageFridgeMQTT.csprojResolveAssemblyReference.cache

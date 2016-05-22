@@ -1,8 +1,11 @@
-﻿using System;
+﻿using DevExpress.Web.Mvc;
+using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.UI.WebControls;
 using WebManageFridgeMQTT.Models;
 using WebManageFridgeMQTT.Utility;
 
@@ -17,9 +20,74 @@ namespace WebManageFridgeMQTT.Controllers
         {
             return View();
         }
+        public ActionResult GetTree()
+        {
+            var mod = Global.Context.GetTreeThietBi().Take(50).ToList();
+            TreeView myTreeView = new TreeView();
+            myTreeView.Nodes.Clear();
+            foreach (var item in mod)
+            {
+                TreeNode parent = new TreeNode("dd");
+                if (item.Cap == 0)
+                {
+                    parent.Text = item.Name;
+                    parent.Value = item.Id;
+                    myTreeView.Nodes.Add(parent);
+                }
+                foreach (var child in mod)
+                {
+                    TreeNode tr = new TreeNode("as");
+                    if (child.Father == item.Id)
+                    {
+                        tr.Text = child.Name;
+                        tr.Value = child.Id;
+                        parent.ChildNodes.Add(tr);
+                    }
+                }
+            }
+            return Json(new { data = myTreeView, JsonRequestBehavior.AllowGet });
+        }
+        public ActionResult TreeViewSelected(string strSearch)
+        {
+            var model = Global.Context.GetTreeThietBi().ToList();
+            return PartialView(model);
+        }
+        public static void CreateTreeViewLeftPanel(List<GetTreeThietBiResult> listNote, MVCxTreeViewNodeCollection nodesCollection, string parentID)
+        {
+            var lstTemp = listNote.Where(x => x.Father == parentID).OrderBy(x => x.Name);
 
+            foreach (var row in lstTemp)
+            {
+                string name = row.Name;
+                string id = row.Id.ToString();
+                if (id != null && name != null)
+                {
+                    MVCxTreeViewNode node = nodesCollection.Add(name, id);
+                    CreateTreeViewLeftPanel(listNote, node.Nodes, id);
+                }
+            }
+        }
+        //public static void CreateTreeView(TreeNodeCollection parentNode, string parentID, List<GetTreeThietBiResult> model)
+        //{
+
+
+        //    foreach (var dta in model)
+        //    {
+        //        if (dta.capToString() == parentID)
+        //        {
+        //            String key = dta.Id.ToString();
+        //            String text = dta.Name.ToString();
+        //            TreeNode child = new TreeNode();
+        //            child.Value = key;
+        //            child.Text = text;
+        //            TreeNodeCollection newParentNode = new TreeNodeCollection(child);
+        //            CreateTreeView(newParentNode, dta.Id.ToString(), model);
+        //        }
+        //    }
+        //}
         public ActionResult Device()
         {
+            
             DeviceInfoMV model = new DeviceInfoMV();
             try
             {

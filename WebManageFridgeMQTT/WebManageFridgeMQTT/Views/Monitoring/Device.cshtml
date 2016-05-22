@@ -1,8 +1,9 @@
 ﻿@model List<WebManageFridgeMQTT.Models.Sp_GetInfoDeviceResult>
+
 @{
     ViewBag.Title = "Device";
     Layout = "~/Views/Shared/_NewLayout.cshtml";
-
+    
     WebManageFridgeMQTT.Models.Sp_GetInfoDeviceResult info = Model[0];
 }
 
@@ -17,7 +18,6 @@
     <link rel="stylesheet" href="@Url.Content("~/Scripts/Leaflet/MarkerCluster.Default.css")" />
     <link rel="stylesheet" href="@Url.Content("~/Scripts/Leaflet/font-awesome.css")" />
     <link rel="stylesheet" href="@Url.Content("~/Scripts/Leaflet/leaflet.awesome-markers.css")" />
-
     <script type="text/javascript" src="@Url.Content("~/Scripts/Leaflet/leaflet.js")"></script>
     <script type="text/javascript" src="http://maps.google.com/maps/api/js?v=3.2&sensor=false"></script>
     <script type="text/javascript" src="@Url.Content("~/Scripts/Leaflet/leaflet-google.js")"></script>
@@ -29,7 +29,18 @@
 
     <script type="text/javascript" src="@Url.Content("~/Scripts/Leaflet/leaflet.markercluster-src.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Scripts/Leaflet/GeoFridge.js")"></script>
+    <script>
+        function OnTreeViewNodeClick(s, e) {
+            var itemId = e.node.name;
+        }
+        function OnTreeViewCheckedChanged(s, e) {
+          //  alert("CheckedChanged" + e.node.name);
+        }
+        function OnTreeViewExpandedChanged(s, e) {
+           // alert("ExpandedChanged" + e.node.name);
+        }
 
+    </script>
 }
 <style>
     .leaflet-marker-iconlabel{
@@ -75,13 +86,37 @@
         #notePanel table tr td img {
             max-height: 21px;
         }
-    
+        #contain {
+        position: absolute;
+        height: 350px;
+        width: 330px;
+        background-color: white;
+        overflow: auto;
+        top: 4px;
+    right: 0px;
+        border: 3px solid red;
+        border-radius: 6px;
+    }
 </style>
 <div id="loading" class="loading">
 </div>
 
 <div class="insider">
     <div id="map" class="map">
+                <div id="contain">
+            <div style="height: 25px"></div>
+            <div style="margin-left: 10px" id="tree" class="treeView">
+                 @Html.Action("TreeViewSelected")
+           @*     <label id="lblDate" class="fl">Ngày</label>
+
+                <input type="date" id="strDate" name="strDate" onchange="RunEmployee();" style="top: 80px">
+                  <br />
+                   <br />
+                <label>
+                    <input type="checkbox" name="shwConstruction" id="shwConstruction" class="checkbox1" onchange="ShowConstruction();" />Công Trình
+                </label>*@
+            </div>
+        </div>
     </div>
     <button id="lblnote" class="toggle-button mini btn-transparent mt-10">
         <i class="icon-up icon-black" title="Legend"></i>
@@ -258,7 +293,7 @@
         var cents = (num - Math.floor(num)).toFixed(2);
         return Math.floor(num).toLocaleString() + '.' + cents.split('.')[1];
     }
-    ///<referenct path="~/Scripts/Leaflet/GeoFridge.js"/>
+    
     var mapData = [];
     mapData.LayerDevice = L.layerGroup();
     var map = new L.Map('map', {
@@ -277,6 +312,7 @@
     
     var googleLayer = new L.Google('ROADMAP');
     map.addLayer(googleLayer);
+
 
     $(document).ready(function () {
         

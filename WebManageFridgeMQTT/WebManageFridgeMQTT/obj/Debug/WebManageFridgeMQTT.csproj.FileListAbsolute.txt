@@ -63,6 +63,6 @@ E:\Freelancer\ManageFridgeMQTT\WebManageFridgeMQTT\WebManageFridgeMQTT\bin\Syste
 E:\Freelancer\ManageFridgeMQTT\WebManageFridgeMQTT\WebManageFridgeMQTT\bin\System.Web.WebPages.xml
 E:\Freelancer\ManageFridgeMQTT\WebManageFridgeMQTT\WebManageFridgeMQTT\bin\System.Web.WebPages.Deployment.xml
 E:\Freelancer\ManageFridgeMQTT\WebManageFridgeMQTT\WebManageFridgeMQTT\bin\System.Web.WebPages.Razor.xml
+E:\Freelancer\ManageFridgeMQTT\WebManageFridgeMQTT\WebManageFridgeMQTT\obj\Debug\WebManageFridgeMQTT.csprojResolveAssemblyReference.cache
 E:\Freelancer\ManageFridgeMQTT\WebManageFridgeMQTT\WebManageFridgeMQTT\obj\Debug\WebManageFridgeMQTT.dll
 E:\Freelancer\ManageFridgeMQTT\WebManageFridgeMQTT\WebManageFridgeMQTT\obj\Debug\WebManageFridgeMQTT.pdb
-E:\Freelancer\ManageFridgeMQTT\WebManageFridgeMQTT\WebManageFridgeMQTT\obj\Debug\WebManageFridgeMQTT.csprojResolveAssemblyReference.cache

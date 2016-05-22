@@ -167,7 +167,6 @@
     <Content Include="Content\Icon\markers\009.png" />
     <Content Include="Content\Icon\markers\010.png" />
     <Content Include="Content\Icon\markers\011.png" />
-    <Content Include="Content\Icon\markers\012.png" />
     <Content Include="Content\Icon\markers\013.png" />
     <Content Include="Content\Icon\markers\014.png" />
     <Content Include="Content\Icon\markers\015.png" />
@@ -180,7 +179,6 @@
     <Content Include="Content\Icon\markers\022.png" />
     <Content Include="Content\Icon\markers\023.png" />
     <Content Include="Content\Icon\markers\024.png" />
-    <Content Include="Content\Icon\markers\025.png" />
     <Content Include="Content\Icon\markers\026.png" />
     <Content Include="Content\Icon\markers\027.png" />
     <Content Include="Content\Icon\markers\028.png" />
@@ -191,11 +189,9 @@
     <Content Include="Content\Icon\markers\033.png" />
     <Content Include="Content\Icon\markers\034.png" />
     <Content Include="Content\Icon\markers\035.png" />
-    <Content Include="Content\Icon\markers\036.png" />
     <Content Include="Content\Icon\markers\037.png" />
     <Content Include="Content\Icon\markers\038.png" />
     <Content Include="Content\Icon\markers\039.png" />
-    <Content Include="Content\Icon\markers\040.png" />
     <Content Include="Content\Icon\markers\041.png" />
     <Content Include="Content\Icon\markers\042.png" />
     <Content Include="Content\Icon\markers\043.png" />
@@ -275,7 +271,6 @@
     <Content Include="Content\Icon\markers\116.png" />
     <Content Include="Content\Icon\markers\117.png" />
     <Content Include="Content\Icon\markers\118.png" />
-    <Content Include="Content\Icon\markers\119.png" />
     <Content Include="Content\Icon\markers\120.png" />
     <Content Include="Content\Icon\markers\121.png" />
     <Content Include="Content\Icon\markers\122.png" />
@@ -284,7 +279,6 @@
     <Content Include="Content\Icon\markers\125.png" />
     <Content Include="Content\Icon\markers\126.png" />
     <Content Include="Content\Icon\markers\127.png" />
-    <Content Include="Content\Icon\markers\128.png" />
     <Content Include="Content\Icon\markers\129.png" />
     <Content Include="Content\Icon\markers\130.png" />
     <Content Include="Content\Icon\markers\131.png" />
@@ -347,7 +341,6 @@
     <Content Include="Content\Icon\markers\188.png" />
     <Content Include="Content\Icon\markers\189.png" />
     <Content Include="Content\Icon\markers\190.png" />
-    <Content Include="Content\Icon\markers\191.png" />
     <Content Include="Content\Icon\markers\192.png" />
     <Content Include="Content\Icon\markers\193.png" />
     <Content Include="Content\Icon\markers\194.png" />
@@ -364,14 +357,12 @@
     <Content Include="Content\Icon\markers\205.png" />
     <Content Include="Content\Icon\markers\206.png" />
     <Content Include="Content\Icon\markers\207.png" />
-    <Content Include="Content\Icon\markers\208.png" />
     <Content Include="Content\Icon\markers\209.png" />
     <Content Include="Content\Icon\markers\210.png" />
     <Content Include="Content\Icon\markers\211.png" />
     <Content Include="Content\Icon\markers\212.png" />
     <Content Include="Content\Icon\markers\213.png" />
     <Content Include="Content\Icon\markers\214.png" />
-    <Content Include="Content\Icon\markers\215.png" />
     <Content Include="Content\Icon\markers\216.png" />
     <Content Include="Content\Icon\markers\ASM.png" />
     <Content Include="Content\Icon\markers\ASM_1.png" />
@@ -502,7 +493,10 @@
     <Content Include="Content\NewEtool\css\kendo.uniform.min.css" />
     <Content Include="Content\NewEtool\css\leaflet.css" />
     <Content Include="Content\NewEtool\css\leaflet.iconlabel.css" />
+    <Content Include="Content\NewEtool\css\leaflet.js" />
     <Content Include="Content\NewEtool\css\leaflet.label.css" />
+    <Content Include="Content\NewEtool\css\MarkerCluster.css" />
+    <Content Include="Content\NewEtool\css\MarkerCluster.Default.css" />
     <Content Include="Content\NewEtool\css\style.css" />
     <Content Include="Content\NewEtool\css\textures\highlight.png" />
     <Content Include="Content\NewEtool\css\Uniform\loading-image.gif" />
@@ -644,6 +638,7 @@
       <LastGenOutput>DeviceTracking.designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
     </Content>
+    <None Include="Properties\PublishProfiles\PublicDufat.pubxml" />
     <None Include="Scripts\jquery-1.8.2.intellisense.js" />
     <Content Include="Scripts\bootstrap.treeview.js" />
     <Content Include="Scripts\Images\layers-2x.png" />
@@ -677,7 +672,49 @@
     <Content Include="Scripts\layer\vector\KML.js" />
     <Content Include="Scripts\layer\vector\OSM.js" />
     <Content Include="Scripts\layer\vector\TOPOJSON.js" />
+    <Content Include="Scripts\leaflet-src.js" />
+    <Content Include="Scripts\leaflet.js" />
+    <Content Include="Scripts\Leaflet\BaseMarkerMethods.js" />
+    <Content Include="Scripts\Leaflet\CircleMarker.Label.js" />
+    <Content Include="Scripts\Leaflet\Control.MiniMap-de.js" />
+    <Content Include="Scripts\Leaflet\Control.MiniMap.css" />
+    <Content Include="Scripts\Leaflet\Control.MiniMap.js" />
+    <Content Include="Scripts\Leaflet\copyright.js" />
+    <Content Include="Scripts\Leaflet\FeatureGroup.Label.js" />
+    <Content Include="Scripts\Leaflet\font-awesome.css" />
     <Content Include="Scripts\Leaflet\GeoFridge.js" />
+    <Content Include="Scripts\Leaflet\GoogleLayer.html" />
+    <Content Include="Scripts\Leaflet\hoverzoom.js" />
+    <Content Include="Scripts\Leaflet\jquery-1.9.1.min.js" />
+    <Content Include="Scripts\Leaflet\Label.js" />
+    <Content Include="Scripts\Leaflet\leaflet-google.js" />
+    <Content Include="Scripts\Leaflet\leaflet-src.js" />
+    <Content Include="Scripts\Leaflet\leaflet.awesome-markers.css" />
+    <Content Include="Scripts\Leaflet\leaflet.awesome-markers.js" />
+    <Content Include="Scripts\Leaflet\leaflet.awesome-markers.min.js" />
+    <Content Include="Scripts\Leaflet\leaflet.contextmenu.js" />
+    <Content Include="Scripts\Leaflet\leaflet.css" />
+    <Content Include="Scripts\Leaflet\leaflet.iconlabel.css" />
+    <Content Include="Scripts\Leaflet\leaflet.iconlabel.js" />
+    <Content Include="Scripts\Leaflet\leaflet.js" />
+    <Content Include="Scripts\Leaflet\leaflet.label-src.js" />
+    <Content Include="Scripts\Leaflet\leaflet.label.css" />
+    <Content Include="Scripts\Leaflet\leaflet.label.js" />
+    <Content Include="Scripts\Leaflet\leaflet.markercluster-src.js" />
+    <Content Include="Scripts\Leaflet\leaflet.markercluster.js" />
+    <Content Include="Scripts\Leaflet\leaflet.polylineDecorator.js" />
+    <Content Include="Scripts\Leaflet\leaflet.polylineDecorator.min.js" />
+    <Content Include="Scripts\Leaflet\leaflet_labels.html" />
+    <Content Include="Scripts\Leaflet\leaflet_numbered_markers.css" />
+    <Content Include="Scripts\Leaflet\leaflet_numbered_markers.js" />
+    <Content Include="Scripts\Leaflet\Map.Label.js" />
+    <Content Include="Scripts\Leaflet\Marker.Label.js" />
+    <Content Include="Scripts\Leaflet\MarkerCluster.css" />
+    <Content Include="Scripts\Leaflet\MarkerCluster.Default.css" />
+    <Content Include="Scripts\Leaflet\markerwithlabel_packed.js" />
+    <Content Include="Scripts\Leaflet\mine.png" />
+    <Content Include="Scripts\Leaflet\mines.js" />
+    <Content Include="Scripts\Leaflet\Path.Label.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Scripts\_references.js" />
     <Content Include="Web.config">
@@ -702,6 +739,7 @@
     <Content Include="Views\Monitoring\DeviceModify.cshtml" />
     <Content Include="Views\Monitoring\DeviceActivity.cshtml" />
     <Content Include="Views\Monitoring\DeviceMove.cshtml" />
+    <Content Include="Scripts\Leaflet\leaflet-src.map" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

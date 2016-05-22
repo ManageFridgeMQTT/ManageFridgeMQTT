@@ -36,7 +36,7 @@ namespace WebManageFridgeMQTT.Models
     #endregion
 		
 		public DeviceTrackingDataContext() : 
-				base(global::System.Configuration.ConfigurationManager.ConnectionStrings["DF_RELEASEConnectionString"].ConnectionString, mappingSource)
+				base(global::System.Configuration.ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString, mappingSource)
 		{
 			OnCreated();
 		}
@@ -94,18 +94,18 @@ namespace WebManageFridgeMQTT.Models
 			return ((ISingleResult<GetInfoDeviceActivityResult>)(result.ReturnValue));
 		}
 		
-		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.Sp_GetInfoDevice")]
-		public ISingleResult<Sp_GetInfoDeviceResult> Sp_GetInfoDevice()
-		{
-			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())));
-			return ((ISingleResult<Sp_GetInfoDeviceResult>)(result.ReturnValue));
-		}
-		
 		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.UpdateThieBiSatusMess")]
 		public int UpdateThieBiSatusMess([global::System.Data.Linq.Mapping.ParameterAttribute(DbType="NVarChar(MAX)")] string strThietBiID, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="CommandType", DbType="NVarChar(200)")] string commandType, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="CommandId", DbType="NVarChar(200)")] string commandId, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="CommandAction", DbType="NVarChar(200)")] string commandAction, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="Loai", DbType="Int")] System.Nullable<int> loai, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="StatusMay", DbType="Int")] System.Nullable<int> statusMay, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="Time", DbType="Float")] System.Nullable<double> time, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="TrangThaiHienTai", DbType="Int")] System.Nullable<int> trangThaiHienTai, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="LatitudeHienTai", DbType="Decimal(18,10)")] System.Nullable<decimal> latitudeHienTai, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="LongtitudeHienTai", DbType="Decimal(18,10)")] System.Nullable<decimal> longtitudeHienTai)
 		{
 			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), strThietBiID, commandType, commandId, commandAction, loai, statusMay, time, trangThaiHienTai, latitudeHienTai, longtitudeHienTai);
 			return ((int)(result.ReturnValue));
+		}
+		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.Sp_GetInfoDevice")]
+		public ISingleResult<Sp_GetInfoDeviceResult> Sp_GetInfoDevice()
+		{
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())));
+			return ((ISingleResult<Sp_GetInfoDeviceResult>)(result.ReturnValue));
 		}
 	}
 	
@@ -758,6 +758,10 @@ namespace WebManageFridgeMQTT.Models
 		
 		private System.Nullable<decimal> _Longitude;
 		
+		private string _HAAvatarThietBi;
+		
+		private string _HAHoatDongThietBi;
+		
 		public Sp_GetInfoDeviceResult()
 		{
 		}
@@ -874,7 +878,7 @@ namespace WebManageFridgeMQTT.Models
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DaHoatDong", DbType="VarChar(30)")]
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DaHoatDong", DbType="NVarChar(30)")]
 		public string DaHoatDong
 		{
 			get
@@ -1062,6 +1066,38 @@ namespace WebManageFridgeMQTT.Models
 				if ((this._Longitude != value))
 				{
 					this._Longitude = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_HAAvatarThietBi", DbType="VarChar(40) NOT NULL", CanBeNull=false)]
+		public string HAAvatarThietBi
+		{
+			get
+			{
+				return this._HAAvatarThietBi;
+			}
+			set
+			{
+				if ((this._HAAvatarThietBi != value))
+				{
+					this._HAAvatarThietBi = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_HAHoatDongThietBi", DbType="VarChar(40) NOT NULL", CanBeNull=false)]
+		public string HAHoatDongThietBi
+		{
+			get
+			{
+				return this._HAHoatDongThietBi;
+			}
+			set
+			{
+				if ((this._HAHoatDongThietBi != value))
+				{
+					this._HAHoatDongThietBi = value;
 				}
 			}
 		}

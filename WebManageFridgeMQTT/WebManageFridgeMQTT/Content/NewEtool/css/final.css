@@ -639,3 +639,10 @@ table.table-raw td {
 .info p {
     line-height: 22px;
 }
+
+.leaflet-popup {
+    z-index: 999999;
+}
+.leaflet-popup-close-button {
+    z-index: 9999999;
+}

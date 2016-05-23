@@ -32,6 +32,8 @@
     <script>
         function OnTreeViewNodeClick(s, e) {
             var itemId = e.node.name;
+            var isParent =e.node.nodes.length >0;
+            FocusOnContrucstion(itemId,isParent);
         }
         function OnTreeViewCheckedChanged(s, e) {
           //  alert("CheckedChanged" + e.node.name);
@@ -295,6 +297,7 @@
     }
     
     var mapData = [];
+    mapData.LatLongBounds = [];
     mapData.LayerDevice = L.layerGroup();
     var map = new L.Map('map', {
         center: [16, 106],
@@ -312,8 +315,44 @@
     
     var googleLayer = new L.Google('ROADMAP');
     map.addLayer(googleLayer);
+    
+    //mapData.LatLongBounds.push([SMlat, SMlng]);
+    function MapAutoFit() {
+        if (mapData.LatLongBounds.length > 0) {
+            var bounds = new L.LatLngBounds(mapData.LatLongBounds);
+            map.fitBounds(bounds);
+        }
+    }
+    function MapPanToAndZoom(latlng, zoom) {
+        if (mapData.LatLongBounds.length > 0) {
+            var bounds = new L.LatLngBounds(mapData.LatLongBounds);
+            map.fitBounds(bounds);
+        }
+    }
+    function FocusOnContrucstion(id, isParent){
+        $.ajax({
+            url:'../Monitoring/GetThietBi',
+            type:'POST',
+            dataType:'json',
+            data:{"equipmentId":id, "isParent": isParent},
+            success:function(data){
+                mapData.LatLongBounds = []
+                BoundEquiqments(data.info);
+            }
+        });
+    }
+    function BoundEquiqments(data){
+        if (data == null)
+            return false;
+        var n = data.length;
+        if (n == 0)
+            return false;
+        for (var i = 0; i < n; i++) {
+            mapData.LatLongBounds.push([data[i].LatitudeHienTai, data[i].LongtitudeHienTai]);
+        }
 
-
+        MapAutoFit();
+    }
     $(document).ready(function () {
         
 

@@ -20,32 +20,37 @@ namespace WebManageFridgeMQTT.Controllers
         {
             return View();
         }
-        public ActionResult GetTree()
+        //public ActionResult GetTree()
+        //{
+        //    var mod = Global.Context.GetTreeThietBi().Take(50).ToList();
+        //    TreeView myTreeView = new TreeView();
+        //    myTreeView.Nodes.Clear();
+        //    foreach (var item in mod)
+        //    {
+        //        TreeNode parent = new TreeNode("dd");
+        //        if (item.Cap == 0)
+        //        {
+        //            parent.Text = item.Name;
+        //            parent.Value = item.Id;
+        //            myTreeView.Nodes.Add(parent);
+        //        }
+        //        foreach (var child in mod)
+        //        {
+        //            TreeNode tr = new TreeNode("as");
+        //            if (child.Father == item.Id)
+        //            {
+        //                tr.Text = child.Name;
+        //                tr.Value = child.Id;
+        //                parent.ChildNodes.Add(tr);
+        //            }
+        //        }
+        //    }
+        //    return Json(new { data = myTreeView, JsonRequestBehavior.AllowGet });
+        //}
+        public ActionResult GetThietBi(string equipmentId, bool isParent)
         {
-            var mod = Global.Context.GetTreeThietBi().Take(50).ToList();
-            TreeView myTreeView = new TreeView();
-            myTreeView.Nodes.Clear();
-            foreach (var item in mod)
-            {
-                TreeNode parent = new TreeNode("dd");
-                if (item.Cap == 0)
-                {
-                    parent.Text = item.Name;
-                    parent.Value = item.Id;
-                    myTreeView.Nodes.Add(parent);
-                }
-                foreach (var child in mod)
-                {
-                    TreeNode tr = new TreeNode("as");
-                    if (child.Father == item.Id)
-                    {
-                        tr.Text = child.Name;
-                        tr.Value = child.Id;
-                        parent.ChildNodes.Add(tr);
-                    }
-                }
-            }
-            return Json(new { data = myTreeView, JsonRequestBehavior.AllowGet });
+            var model = Global.Context.GetTreeThiet_ById(equipmentId, isParent).ToList();
+            return Json(new { info = model }, JsonRequestBehavior.AllowGet);
         }
         public ActionResult TreeViewSelected(string strSearch)
         {

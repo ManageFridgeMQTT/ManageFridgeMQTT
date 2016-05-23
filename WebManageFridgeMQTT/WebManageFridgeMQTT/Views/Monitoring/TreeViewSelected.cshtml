@@ -22,15 +22,13 @@
         new StyleSheet { ExtensionSuite = ExtensionSuite.Scheduler },
         new StyleSheet { ExtensionSuite = ExtensionSuite.TreeList }
     )
-   <link href="@Url.Content("~/Content/NewEtool/css/jquery.theme.default.css")" rel="stylesheet" type="text/css" />
+@*   <link href="@Url.Content("~/Content/NewEtool/css/jquery.theme.default.css")" rel="stylesheet" type="text/css" />
     <link href="@Url.Content("~/Content/NewEtool/css/boothstrap.css")" rel="stylesheet" type="text/css" />
     <link href="@Url.Content("~/Content/NewEtool/css/component.css")" rel="stylesheet" type="text/css" />
     <link href="@Url.Content("~/Content/NewEtool/css/jquery-ui.css")" rel="stylesheet" type="text/css" />
     <link href="@Url.Content("~/Content/NewEtool/css/icon.css")" rel="stylesheet" type="text/css" />
     <link href="@Url.Content("~/Content/NewEtool/css/style.css")" rel="stylesheet" type="text/css" />
     <link href="@Url.Content("~/Content/NewEtool/css/final.css")" rel="stylesheet" type="text/css" />
-    @*<link href="@Url.Content("~/Content/NewEtool/css/fixedColumns.dataTables.css")" rel="stylesheet" type="text/css" />*@
-
     <script src="@Url.Content("~/Content/NewEtool/js/jquery.min.js")" type="text/javascript"></script>
     <script src="@Url.Content("~/Content/NewEtool/js/jquery.cookie.js")" type="text/javascript"></script>
     <script src="@Url.Content("~/Content/NewEtool/js/jquery.tablesorter.js")" type="text/javascript"></script>
@@ -38,16 +36,14 @@
     <script src="@Url.Content("~/Content/NewEtool/js/bootstrap.min.js")" type="text/javascript"></script>
     <script src="@Url.Content("~/Content/NewEtool/js/angular.min.js")" type="text/javascript"></script>
     <script src="@Url.Content("~/Content/NewEtool/js/jquery-ui.js")" type="text/javascript"></script>
-    @*<script src="@Url.Content("~/Content/NewEtool/js/dataTables.fixedColumns.js")" type="text/javascript"></script>*@
-    @*<script src="@Url.Content("~/Content/NewEtool/js/jquery.dataTables.min.js")" type="text/javascript"></script>*@
     <script src="@Url.Content("~/Content/NewEtool/js/jquery.tablesorter.pager.js")" type="text/javascript"></script>
     <script src="@Url.Content("~/Content/NewEtool/js/ui.js")" type="text/javascript"></script>
     <script src="@Url.Content("~/Content/NewEtool/js/widget-scroller.js")" type="text/javascript"></script>
 
-    <script src="@Url.Content("~/Scripts/jquery.nestable.js")"></script>
+    <script src="@Url.Content("~/Scripts/jquery.nestable.js")"></script>*@
 
 
-@*<link href="~/Content/NewEtool/css/bootstrap-treeview.css" rel="stylesheet" />*@
+
 <script src="~/Scripts/bootstrap.treeview.js"></script>
 
     @Html.DevExpress().GetScripts(
@@ -64,9 +60,8 @@
 @Html.DevExpress().TreeView(settings =>
            {
                settings.Name = "treeView";
-               settings.AllowSelectNode = true;
+               settings.AllowSelectNode = false;
                settings.ShowTreeLines = false;
-               settings.Theme = "Default";
                settings.ShowExpandButtons = true;
                settings.CheckNodesRecursive = true;
 
@@ -74,17 +69,18 @@
                {
                    node.Text = "VietNam";
                    node.Checked = true;
-                   //node.Image.Url = "../Content/";
+                   node.Image.Url = "../Content/Icon/markers/VN.png";
                    WebManageFridgeMQTT.Controllers.MonitoringController.CreateTreeViewLeftPanel(Model, node.Nodes, string.Empty);
 
                });
                settings.PreRender = (source, e) =>
                {
                    DevExpress.Web.ASPxTreeView treeView = (DevExpress.Web.ASPxTreeView)source;
-                   treeView.ExpandAll();
+                   treeView.CollapseAll();
                };
                settings.Styles.Node.SelectedStyle.ForeColor = System.Drawing.Color.Black;
                settings.Styles.Node.SelectedStyle.Font.Bold = true;
+               settings.Styles.Node.Border.BorderColor= System.Drawing.Color.White; ;
                settings.Styles.Node.HoverStyle.BackColor = System.Drawing.Color.White;
                settings.Styles.Node.HoverStyle.ForeColor = System.Drawing.Color.Red;
 

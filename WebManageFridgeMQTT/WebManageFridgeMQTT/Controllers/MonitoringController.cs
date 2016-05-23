@@ -55,7 +55,22 @@ namespace WebManageFridgeMQTT.Controllers
         public ActionResult TreeViewSelected(string strSearch)
         {
             var model = Global.Context.GetTreeThietBi().ToList();
-            return PartialView(model);
+            var temp = new List<GetTreeThietBiResult>();
+            if (string.IsNullOrWhiteSpace(strSearch))
+            {
+                return PartialView(model);
+            }
+            else
+            {
+             var  ChildModel = model.Where(x=> x.Cap == 1 && x.Name.Contains(strSearch.Trim())).ToList();
+               var mergeModel = ChildModel;
+               foreach (var level1 in ChildModel)
+               {
+                   var ParentModel = from p in model where p.Id == level1.Father select p;
+                   mergeModel = mergeModel.Union(ParentModel).ToList();
+               }
+               return PartialView(mergeModel);
+            }
         }
         public static void CreateTreeViewLeftPanel(List<GetTreeThietBiResult> listNote, MVCxTreeViewNodeCollection nodesCollection, string parentID)
         {
@@ -90,7 +105,7 @@ namespace WebManageFridgeMQTT.Controllers
         //        }
         //    }
         //}
-        public ActionResult Device()
+        public ActionResult Device(FormCollection formParam,  string strSearch)
         {
             
             DeviceInfoMV model = new DeviceInfoMV();

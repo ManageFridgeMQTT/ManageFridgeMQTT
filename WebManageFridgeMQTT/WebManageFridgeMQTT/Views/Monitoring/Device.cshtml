@@ -66,13 +66,13 @@
     #notePanel {
         width: 50%;
         z-index:99;
-        background-color: #FFFFFF;
+        background-color: #DBF9E1    ;
         position: absolute;
         border: 1px solid #F2F2F2;
         bottom: 20px;
         right: 0;
         border-radius: 6px;
-        opacity: 0.8;
+        /*opacity: 0.8;*/
         display: none;
     }
     #lblnote {
@@ -95,10 +95,22 @@
         background-color: white;
         overflow: auto;
         top: 4px;
-    right: 0px;
-        border: 3px solid red;
-        border-radius: 6px;
+        right: 0px;
+        border: 2px solid #3E6F39;
+        border-radius: 3px;
+        z-index:999999999;
     }
+                .loading {
+            width: 100%;
+            height: 100%;
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 99999999999999999999;
+            opacity: .3;
+            background: url(../Content/Icon/markers/progress.gif) no-repeat center white;
+            /*background: url(/MapTest/images/loading.gif) no-repeat center #bbb;*/
+        }
 </style>
 <div id="loading" class="loading">
 </div>
@@ -107,6 +119,10 @@
     <div id="map" class="map">
                 <div id="contain">
             <div style="height: 25px"></div>
+                                      <div id="inputText" class="input-group" style="margin-left: 28px">
+                                    <input type="text" id="txtSearch" name="txtSearch" class="form-control" aria-label="..." placeholder="Nhập từ khóa" style="width: 130px;" />
+                                    <button type="button" id="btnSearch" onclick="SearchOnTreeView()" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="icon-search"></i></button>
+                                </div>
             <div style="margin-left: 10px" id="tree" class="treeView">
                  @Html.Action("TreeViewSelected")
            @*     <label id="lblDate" class="fl">Ngày</label>
@@ -124,45 +140,45 @@
         <i class="icon-up icon-black" title="Legend"></i>
     </button>
     <div id="notePanel">
-        <table>
+        <table style="background-color:#DBF9E1  ">
             <tr>
                 <td>
-                    <img src="@Url.Content("~/Content/Icon/markers/dangbaoduong.png")" style="margin-left: 5px;" />
+                    <img src="@Url.Content("~/Content/Icon/markers/i1.png")" style="margin-left: 5px;" />
                     <span>Đang bảo dưỡng</span>
                 </td>
                 <td>
-                    <img src="@Url.Content("~/Content/Icon/markers/tatbaoduong.png")" style="margin-left: 5px;" />
+                    <img src="@Url.Content("~/Content/Icon/markers/i2.png")" style="margin-left: 5px;" />
                     <span>Tắt máy bảo dưỡng</span>
                 </td>
                 <td>
-                    <img src="@Url.Content("~/Content/Icon/markers/dangdichuyen.png")" style="margin-left: 5px;" />
+                    <img src="@Url.Content("~/Content/Icon/markers/i3.png")" style="margin-left: 5px;" />
                     <span>Đang di chuyển</span>
                 </td>
                 <td>
-                    <img src="@Url.Content("~/Content/Icon/markers/tatdichuyen.png")" style="margin-left: 5px;" />
+                    <img src="@Url.Content("~/Content/Icon/markers/i4.png")" style="margin-left: 5px;" />
                     <span>Tắt máy di chuyển</span>
                 </td>
                 <td></td>
             </tr>
             <tr>
                 <td>
-                    <img src="@Url.Content("~/Content/Icon/markers/dangkhoan.png")" style="margin-left: 5px;" />
+                    <img src="@Url.Content("~/Content/Icon/markers/i5.png")" style="margin-left: 5px;" />
                     <span>Đang khoan</span>
                 </td>
                 <td>
-                    <img src="@Url.Content("~/Content/Icon/markers/tatkhoan.png")" style="margin-left: 5px;" />
+                    <img src="@Url.Content("~/Content/Icon/markers/i6.png")" style="margin-left: 5px;" />
                     <span>Tắt máy khoan</span>
                 </td>
                 <td>
-                    <img src="@Url.Content("~/Content/Icon/markers/dangcau.png")" style="margin-left: 5px;" />
+                    <img src="@Url.Content("~/Content/Icon/markers/i7.png")" style="margin-left: 5px;" />
                     <span>Đang cẩu</span>
                 </td>
                 <td>
-                    <img src="@Url.Content("~/Content/Icon/markers/tatcau.png")" style="margin-left: 5px;" />
+                    <img src="@Url.Content("~/Content/Icon/markers/i8.png")" style="margin-left: 5px;" />
                     <span>Tắt máy cẩu</span>
                 </td>
                 <td>
-                    <img src="@Url.Content("~/Content/Icon/markers/grey.png")" style="margin-left: 5px;" />
+                    <img src="@Url.Content("~/Content/Icon/markers/i9.png")" style="margin-left: 5px;" />
                     <span>Không xác định</span>
                 </td>
             </tr>
@@ -170,7 +186,7 @@
     </div>
 
 </div>
-<div id="DevicePopupTemplete" style="display: none; z-index: 999999; min-width: 600px; max-height: 450px;background-color:#EFFBF2">
+<div id="DevicePopupTemplete" style="display: none; z-index: 999999; min-width: 600px; opacity:1; max-height: 450px;background-color:#EFFBF2">
     <div class="tab-header">
         <ul id="ul-tab" class="nav nav-tabs" style="background-color:#FFBF00">
             <li class="active"><a data-toggle="tab" href="#info">Thông tin</a></li>
@@ -316,19 +332,14 @@
     var googleLayer = new L.Google('ROADMAP');
     map.addLayer(googleLayer);
     
-    //mapData.LatLongBounds.push([SMlat, SMlng]);
+
     function MapAutoFit() {
         if (mapData.LatLongBounds.length > 0) {
             var bounds = new L.LatLngBounds(mapData.LatLongBounds);
             map.fitBounds(bounds);
         }
     }
-    function MapPanToAndZoom(latlng, zoom) {
-        if (mapData.LatLongBounds.length > 0) {
-            var bounds = new L.LatLngBounds(mapData.LatLongBounds);
-            map.fitBounds(bounds);
-        }
-    }
+
     function FocusOnContrucstion(id, isParent){
         $.ajax({
             url:'../Monitoring/GetThietBi',
@@ -348,9 +359,13 @@
         if (n == 0)
             return false;
         for (var i = 0; i < n; i++) {
-            mapData.LatLongBounds.push([data[i].LatitudeHienTai, data[i].LongtitudeHienTai]);
+            var lat =data[i].LatitudeHienTai;
+            var  lg = data[i].LongtitudeHienTai;
+            if(lat != null && lg !=null){
+                var latlng = L.latLng(lat, lg);
+                mapData.LatLongBounds.push(latlng);
+            }
         }
-
         MapAutoFit();
     }
     $(document).ready(function () {
@@ -359,25 +374,25 @@
         var data = @Html.Raw(new System.Web.Script.Serialization.JavaScriptSerializer().Serialize(Model));
 
         for (var i in data) {
-            var strIconUrl = 'grey';
+            var strIconUrl = 'i9';
             if(data[i].TrangThaiHienTai == 3){
-                strIconUrl = 'dangbaoduong';
+                strIconUrl = 'i1';
             }else if(data[i].TrangThaiHienTai == 4){
-                strIconUrl = 'tatbaoduong';
+                strIconUrl = 'i2';
             }else if(data[i].TrangThaiHienTai == 5){
-                strIconUrl = 'dangdichuyen';
+                strIconUrl = 'i3';
             }else if(data[i].TrangThaiHienTai == 6){
-                strIconUrl = 'tatdichuyen';
+                strIconUrl = 'i4';
             }else if(data[i].TrangThaiHienTai == 7){
-                strIconUrl = 'dangkhoan';
+                strIconUrl = 'i5';
             }else if(data[i].TrangThaiHienTai == 8){
-                strIconUrl = 'tatkhoan';
+                strIconUrl = 'i6';
             }else if(data[i].TrangThaiHienTai == 9){
-                strIconUrl = 'dangcau';
+                strIconUrl = 'i7';
             }else if(data[i].TrangThaiHienTai == 10){
-                strIconUrl = 'tatcau';
+                strIconUrl = 'i8';
             } else{
-                strIconUrl = 'grey';
+                strIconUrl = 'i9';
             }
 
             RenderMarker([data[i].Latitude, data[i].Longitude], data[i].TenThietBi, RederPopupDevice(data[i]), strIconUrl, mapData.LayerDevice);
@@ -517,9 +532,27 @@
         }
         
     }
+    function SearchOnTreeView() {
+        $("#loading").show();
+        window.location = '@Url.Action("Device", "Monitoring")' + '?strSearch=' + $('#txtSearch').val();     
+    }
     Number.prototype.padLeft = function(base,chr){
         var  len = (String(base || 10).length - String(this).length)+1;
         return len > 0? new Array(len).join(chr || '0')+this : this;
     }
+    // Expand TreeView
+    var strSearch = window.location.href;
+    if (strSearch.indexOf("strSearch=") != -1) {
+        treeView.ExpandAll();           
+    }
+    $(document).ajaxStart(function () {
+        $("#loading").show();
+    });
+    $(document).ajaxStop(function () {
+        $("#loading").hide();
+    });
+    $(document).ajaxError(function () {
+        //alert("ajax có vấn đề");
+    });
 </script>
     

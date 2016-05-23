@@ -418,6 +418,7 @@
     <Content Include="Content\Icon\markers\green.png" />
     <Content Include="Content\Icon\markers\grey.png" />
     <Content Include="Content\Icon\markers\point.jpg" />
+    <Content Include="Content\Icon\markers\progress.gif" />
     <Content Include="Content\Icon\markers\red.png" />
     <Content Include="Content\Icon\markers\running-blue.png" />
     <Content Include="Content\Icon\markers\running.png" />

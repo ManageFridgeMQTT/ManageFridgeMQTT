@@ -20,33 +20,6 @@ namespace WebManageFridgeMQTT.Controllers
         {
             return View();
         }
-        //public ActionResult GetTree()
-        //{
-        //    var mod = Global.Context.GetTreeThietBi().Take(50).ToList();
-        //    TreeView myTreeView = new TreeView();
-        //    myTreeView.Nodes.Clear();
-        //    foreach (var item in mod)
-        //    {
-        //        TreeNode parent = new TreeNode("dd");
-        //        if (item.Cap == 0)
-        //        {
-        //            parent.Text = item.Name;
-        //            parent.Value = item.Id;
-        //            myTreeView.Nodes.Add(parent);
-        //        }
-        //        foreach (var child in mod)
-        //        {
-        //            TreeNode tr = new TreeNode("as");
-        //            if (child.Father == item.Id)
-        //            {
-        //                tr.Text = child.Name;
-        //                tr.Value = child.Id;
-        //                parent.ChildNodes.Add(tr);
-        //            }
-        //        }
-        //    }
-        //    return Json(new { data = myTreeView, JsonRequestBehavior.AllowGet });
-        //}
         public ActionResult GetThietBi(string equipmentId, bool isParent)
         {
             var model = Global.Context.GetTreeThiet_ById(equipmentId, isParent).ToList();
@@ -87,24 +60,11 @@ namespace WebManageFridgeMQTT.Controllers
                 }
             }
         }
-        //public static void CreateTreeView(TreeNodeCollection parentNode, string parentID, List<GetTreeThietBiResult> model)
-        //{
-
-
-        //    foreach (var dta in model)
-        //    {
-        //        if (dta.capToString() == parentID)
-        //        {
-        //            String key = dta.Id.ToString();
-        //            String text = dta.Name.ToString();
-        //            TreeNode child = new TreeNode();
-        //            child.Value = key;
-        //            child.Text = text;
-        //            TreeNodeCollection newParentNode = new TreeNodeCollection(child);
-        //            CreateTreeView(newParentNode, dta.Id.ToString(), model);
-        //        }
-        //    }
-        //}
+        public ActionResult GetInfoDeviceById(string id)
+        {
+            var model = Global.Context.Sp_GetInfoDeviceById(id).FirstOrDefault();
+            return Json(model);
+        }
         public ActionResult Device(FormCollection formParam,  string strSearch)
         {
             
@@ -159,7 +119,7 @@ namespace WebManageFridgeMQTT.Controllers
             }
             DateTime FromDate = DateTime.Now.AddMonths(-1);
             DateTime ToDate = DateTime.Now;
-            model.ListData = Global.Context.GetInfoDeviceActivity(model.ThietBiID, model.FromDate, model.ToDate).ToList();
+            model.ListData = Global.Context.GetInfoDeviceActivity(model.ThietBiID, model.FromDate, model.ToDate).OrderByDescending(x=>x.ThoiGian).ToList();
             return PartialView("DeviceActivity", model);
         }
         public ActionResult DeviceMove(string thietBiID, string strFromDate, string strToDate)
@@ -173,15 +133,36 @@ namespace WebManageFridgeMQTT.Controllers
             {
                 model.FromDate = DateTime.Parse(strFromDate);
             }
+
             if (!string.IsNullOrEmpty(strFromDate))
             {
                 model.ToDate = DateTime.Parse(strToDate);
             }
             DateTime FromDate = DateTime.Now.AddMonths(-1);
             DateTime ToDate = DateTime.Now;
-            model.ListDataMove = Global.Context.GetInfoDeviceMove(thietBiID, FromDate, ToDate).ToList();
+            model.ListDataMove = Global.Context.GetInfoDeviceMove(thietBiID, model.FromDate, model.ToDate).ToList();
             return PartialView("DeviceMove", model);
         }
+        public ActionResult DeviceReport(string thietBiID, string strFromDate, string strToDate)
+        {
+            DeviceActivity model = new DeviceActivity();
+            if (!string.IsNullOrEmpty(thietBiID))
+            {
+                model.ThietBiID = thietBiID;
+            }
+            if (!string.IsNullOrEmpty(strFromDate))
+            {
+                model.FromDate = DateTime.Parse(strFromDate);
+            }
 
+            if (!string.IsNullOrEmpty(strFromDate))
+            {
+                model.ToDate = DateTime.Parse(strToDate);
+            }
+            DateTime FromDate = DateTime.Now.AddMonths(-1);
+            DateTime ToDate = DateTime.Now;
+            model.ListDataReport = Global.Context.GetInfoDeviceReport(thietBiID, model.FromDate, model.ToDate).ToList();
+            return PartialView("DeviceReport", model);
+        }
     }
 }

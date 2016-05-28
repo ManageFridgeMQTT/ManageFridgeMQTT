@@ -782,6 +782,7 @@
     <Content Include="Views\Monitoring\DeviceMove.cshtml" />
     <Content Include="Scripts\Leaflet\leaflet-src.map" />
     <Content Include="Views\Monitoring\TreeViewSelected.cshtml" />
+    <Content Include="Views\Monitoring\DeviceReport.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

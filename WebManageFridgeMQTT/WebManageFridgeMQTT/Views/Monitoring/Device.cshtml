@@ -3,7 +3,7 @@
 @{
     ViewBag.Title = "Device";
     Layout = "~/Views/Shared/_NewLayout.cshtml";
-    
+
     WebManageFridgeMQTT.Models.Sp_GetInfoDeviceResult info = Model[0];
 }
 
@@ -36,37 +36,41 @@
             FocusOnContrucstion(itemId,isParent);
         }
         function OnTreeViewCheckedChanged(s, e) {
-          //  alert("CheckedChanged" + e.node.name);
+            //  alert("CheckedChanged" + e.node.name);
         }
         function OnTreeViewExpandedChanged(s, e) {
-           // alert("ExpandedChanged" + e.node.name);
+            // alert("ExpandedChanged" + e.node.name);
         }
 
     </script>
 }
 <style>
-    .leaflet-marker-iconlabel{
-        background:#FFFFFF;
-    } 
+    .leaflet-marker-iconlabel {
+        background: #FFFFFF;
+    }
+
     .row p span {
         font-weight: bold;
     }
+
     .leaflet-popup-content-wrapper {
-        min-width: 610px;
+        min-width: 756px;
         max-height: 460px;
     }
-    .leaflet-popup-content-wrapper .leaflet-popup-content {        
-        margin: 5px;
-    }
+
+        .leaflet-popup-content-wrapper .leaflet-popup-content {
+            margin: 5px;
+        }
 
     .tab-pane .row p {
         margin-top: 2px;
         margin-bottom: 2px;
     }
+
     #notePanel {
         width: 50%;
-        z-index:99;
-        background-color: #DBF9E1    ;
+        z-index: 99;
+        background-color: #DBF9E1;
         position: absolute;
         border: 1px solid #F2F2F2;
         bottom: 20px;
@@ -75,6 +79,7 @@
         /*opacity: 0.8;*/
         display: none;
     }
+
     #lblnote {
         position: absolute;
         color: Blue;
@@ -82,13 +87,16 @@
         right: 60px;
         z-index: 1;
     }
-    #notePanel table tr td{
-        padding:0px;
+
+    #notePanel table tr td {
+        padding: 0px;
     }
+
         #notePanel table tr td img {
             max-height: 21px;
         }
-        #contain {
+
+    #contain {
         position: absolute;
         height: 350px;
         width: 330px;
@@ -98,41 +106,162 @@
         right: 0px;
         border: 2px solid #3E6F39;
         border-radius: 3px;
-        z-index:999999999;
+        z-index: 999999999;
     }
-                .loading {
-            width: 100%;
-            height: 100%;
-            position: fixed;
-            top: 0;
-            left: 0;
-            z-index: 99999999999999999999;
-            opacity: .3;
-            background: url(../Content/Icon/markers/progress.gif) no-repeat center white;
-            /*background: url(/MapTest/images/loading.gif) no-repeat center #bbb;*/
+
+    .loading {
+        width: 100%;
+        height: 100%;
+        position: fixed;
+        top: 0;
+        left: 0;
+        z-index: 99999999999999999999;
+        opacity: .3;
+        background: url(../Content/Icon/markers/progress.gif) no-repeat center white;
+        /*background: url(/MapTest/images/loading.gif) no-repeat center #bbb;*/
+    }
+
+    .table-fill {
+        background: white;
+        border-radius: 3px;
+        border-collapse: collapse;
+        height: 300px;
+        margin: auto;
+        max-width: 500px;
+        padding: 2px;
+        width: 100%;
+        box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+        animation: float 5s infinite;
+    }
+
+    #tb1 th {
+        color: #D5DDE5;
+        background: #1b1e24;
+        border-bottom: 4px solid #9ea7af;
+        border-right: 1px solid #343a45;
+        font-size: 23px;
+        font-weight: 100;
+        padding: 24px;
+        text-align: left;
+        text-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+        vertical-align: middle;
+    }
+
+    #tb1.th:first-child {
+        border-top-left-radius: 3px;
+    }
+
+    #tb1 th:last-child {
+        border-top-right-radius: 3px;
+        border-right: none;
+    }
+
+    #tb1 tr {
+        border-top: 1px solid #C1C3D1;
+        border-bottom-: 1px solid #C1C3D1;
+        color: #666B85;
+        font-size: 16px;
+        font-weight: normal;
+        text-shadow: 0 1px 1px rgba(256, 256, 256, 0.1);
+        height: 10px;
+    }
+
+        #tb1 tr:hover td {
+            background: linear-gradient(to right, #25c481, #25b7c4);
+            color: #FFFFFF;
+            border-top: 1px solid #22262e;
+            border-bottom: 1px solid #22262e;
         }
+
+    /*tr:first-child {
+  border-top:none;
+}
+
+#tb1 tr:last-child {
+  border-bottom:none;
+}
+ #tb1 tr:nth-child(odd) td {
+  background:#EBEBEB;
+}
+ 
+#tb1 tr:nth-child(odd):hover td {
+  background:#4E5066;
+}
+
+#tb1 tr:last-child td:first-child {
+  border-bottom-left-radius:3px;
+}
+ 
+#tb1 tr:last-child td:last-child {
+  border-bottom-right-radius:3px;
+}*/
+
+    #tb1 td {
+        background: #FFFFFF;
+        padding: 2px;
+        text-align: left;
+        vertical-align: middle;
+        font-weight: 100;
+        font-size: 14px;
+        text-shadow: -1px -1px 1px rgba(0, 0, 0, 0.1);
+        border-right: 1px solid #C1C3D1;
+        height: 10px;
+    }
+
+        #tb1 td:last-child {
+            border-right: 0px;
+        }
+
+    #tb1.th.text-left {
+        text-align: left;
+    }
+
+    #tb1.th.text-center {
+        text-align: center;
+    }
+
+    text-right {
+        text-align: right;
+    }
+
+    .td.text-left {
+        text-align: left;
+        font-weight: bold;
+    }
+
+    .td.text-center {
+        text-align: center;
+    }
+
+    td.text-right {
+        text-align: right;
+    }
+
+    ::-webkit-scrollbar {
+        width: 6px;
+    }
+
+    ::-webkit-scrollbar-track {
+        -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+    }
+
+    ::-webkit-scrollbar-thumb {
+        -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+    }
 </style>
 <div id="loading" class="loading">
 </div>
 
 <div class="insider">
     <div id="map" class="map">
-                <div id="contain">
+        <div id="contain">
             <div style="height: 25px"></div>
-                                      <div id="inputText" class="input-group" style="margin-left: 28px">
-                                    <input type="text" id="txtSearch" name="txtSearch" class="form-control" aria-label="..." placeholder="Nhập từ khóa" style="width: 130px;" />
-                                    <button type="button" id="btnSearch" onclick="SearchOnTreeView()" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="icon-search"></i></button>
-                                </div>
+            <div id="inputText" class="input-group" style="margin-left: 28px">
+                <input type="text" id="txtSearch" name="txtSearch" class="form-control" aria-label="..." placeholder="Nhập từ khóa" style="width: 130px;" />
+                <button type="button" id="btnSearch" onclick="SearchOnTreeView()" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="icon-search"></i></button>
+            </div>
             <div style="margin-left: 10px" id="tree" class="treeView">
-                 @Html.Action("TreeViewSelected")
-           @*     <label id="lblDate" class="fl">Ngày</label>
-
-                <input type="date" id="strDate" name="strDate" onchange="RunEmployee();" style="top: 80px">
-                  <br />
-                   <br />
-                <label>
-                    <input type="checkbox" name="shwConstruction" id="shwConstruction" class="checkbox1" onchange="ShowConstruction();" />Công Trình
-                </label>*@
+                @Html.Action("TreeViewSelected")
             </div>
         </div>
     </div>
@@ -140,7 +269,7 @@
         <i class="icon-up icon-black" title="Legend"></i>
     </button>
     <div id="notePanel">
-        <table style="background-color:#DBF9E1  ">
+        <table style="background-color: #DBF9E1">
             <tr>
                 <td>
                     <img src="@Url.Content("~/Content/Icon/markers/i1.png")" style="margin-left: 5px;" />
@@ -186,12 +315,12 @@
     </div>
 
 </div>
-<div id="DevicePopupTemplete" style="display: none; z-index: 999999; min-width: 600px; opacity:1; max-height: 450px;background-color:#EFFBF2">
+<div id="DevicePopupTemplete" style="display: none; z-index: 999999; min-width: 750px; opacity: 1; max-height: 450px; background: -webkit-linear-gradient(left, #25c481, #25b7c4); background: linear-gradient(to right, #25c481, #25b7c4);">
     <div class="tab-header">
-        <ul id="ul-tab" class="nav nav-tabs" style="background-color:#FFBF00">
-            <li class="active"><a data-toggle="tab" href="#info">Thông tin</a></li>
-            <li><a data-toggle="tab" href="#detail">Chi Tiết</a></li>
-            <li><a data-toggle="tab" href="#activity" onclick="RenderHoatDong('0')">Lịch sử hoạt động</a></li>
+        <ul id="ul-tab" class="nav nav-tabs" style="background: -webkit-linear-gradient(left, #25c481, #25b7c4); background: linear-gradient(to right, #25c481, #25b7c4); color: #fff; text-transform: uppercase;">
+            <li class="active"><a data-toggle="tab" href="#info">Thông tin Chung</a></li>
+            <li><a data-toggle="tab" href="#detail" onclick="RenderBaoCao('0')">Thông Tin Báo Cáo</a></li>
+            <li><a data-toggle="tab" href="#activity" onclick="RenderHoatDong('0')">Theo Dõi Hoạt Động (Chip)</a></li>
             <li><a data-toggle="tab" href="#dichuyen" onclick="RenderDiChuyen('0')">Lịch sử di chuyển</a></li>
             <li><a data-toggle="tab" href="#baoduong" onclick="RenderBaoDuong('0');">Bảo dưỡng sửa chửa</a></li>
         </ul>
@@ -200,79 +329,100 @@
         <div id="info" class="tab-pane fade in active">
             <div class="row">
                 <div class="col-sm-4">
-                    <img id="avatar" style="max-width: 200px; max-height: 280px; padding-top: 12px; padding-bottom: 12px; padding-left: 20px" src="~/Content/img1.jpg" />
+                    <img id="avatar" style="max-width: 200px; max-height: 280px; padding-top: 36px; padding-bottom: 12px; padding-left: 20px" src="http://map.dfsglobjjal.vn//ImageTB//71691be9-cf4c-4829-9ab5-0705903cdf82.jpg" />
 
                 </div>
-                <div class="col-sm-6">
-                    <div class="info">
+                <div class="col-sm-8">
+                    <div class="info" style="height: 250px">
                         <h3 id="TenThietBi">@info.TenThietBi</h3>
-                        <table class="tablesorter" id="tbInfo">
-                            <thead>
+                        <table class="table-fill" id="tb1">
+                            <tbody class="table-hover">
                                 <tr>
-                                    <th>Trạng thái</th>
-                                    <th>Đã hoạt động</th>
-                                    <th>Vị trí</th>
-                                    <th>Lần thay dầu tiếp theo</th>
-                                    <th>Lần thay lọc tiếp theo</th>
-                                </tr>
-                            </thead>
-                            <tbody>
+                                    <td class="text-left">Tên Thiết Bị</td>
+                                    <td><span id="TenThietBi"></span></td>
 
+                                </tr>
                                 <tr>
-                                    <td><span id="TrangThai">@info.StrTrangThai</span></td>
-                                    <td><span id="DaHoatDong">@info.DaHoatDong</span></td>
-                                    <td><span id="TenCongTrinh">@info.TenCongTrinh</span></td>
-                                    <td><span id="ThayDauTiep" style="text-align:right">@info.ThayDauTiep</span></td>
-                                    <td><span id="ThayLocTiep" style="text-align:right">@info.ThayLocTiep</span></td>
+                                    <td class="text-left">Trạng Thái</td>
+                                    <td><span id="TrangThai"></span></td>
                                 </tr>
-
+                                <tr>
+                                    <td class="text-left">Tình Trạng</td>
+                                    <td><span id="TinhTrang"></span></td>
+                                </tr>
+                                <tr>
+                                    <td class="text-left">Công Trình</td>
+                                    <td><span id="TenCongTrinh"></span></td>
+                                </tr>
+                                <tr>
+                                    <td class="text-left">Thay Dầu Lần Cuối</td>
+                                    <td><span id="TDC"></span></td>
+                                </tr>
+                                <tr>
+                                    <td class="text-left">Thay Lọc Lần Cuối</td>
+                                    <td><span id="TLC"></span></td>
+                                </tr>
+                                <tr>
+                                    <td class="text-left">Số Giờ Thay Dầu</td>
+                                    <td><span id="GTD">@info.TenCongTrinh</span></td>
+                                </tr>
+                                <tr>
+                                    <td class="text-left">Số Giờ Thay Lọc</td>
+                                    <td><span id="GTL">@info.TenCongTrinh</span></td>
+                                </tr>
+                                <tr>
+                                    <td class="text-left">Ngày Đến</td>
+                                    <td><span id="NgayDen">@info.TenCongTrinh</span></td>
+                                </tr>
+                                <tr>
+                                    <td class="text-left">Số Ngày Ở Công Trình</td>
+                                    <td><span id="SNCT">@info.TenCongTrinh</span></td>
+                                </tr>
+                                <tr>
+                                    <td class="text-left">Đơn Giá Thuê</td>
+                                    <td><span id="GiaThue"></span></td>
+                                </tr>
+                                <tr>
+                                    <td class="text-left">Thành Tiền Hiện Tại</td>
+                                    <td><span id="ThanhTien"></span></td>
+                                </tr>
                             </tbody>
                         </table>
-                        @*                        <p>Trạng thái: <span id="TrangThai">@info.StrTrangThai</span></p>
-                        <p>Đã hoạt động: <span id="DaHoatDong">@info.DaHoatDong</span></p>
-                        <p>Vị trí: <span id="TenCongTrinh">@info.TenCongTrinh</span></p>
-                        <p>Lần thay dầu tiếp theo: <span id="ThayDauTiep">@info.ThayDauTiep</span></p>
-                        <p>Lần thay lọc tiếp theo: <span id="ThayLocTiep">@info.ThayLocTiep</span></p>*@
                     </div>
                 </div>
             </div>
         </div>
-        <div id="detail" class="tab-pane fade in">
-          @*  <div class="row">
-                <div class="info">*@
-                    <h3 id="TenThietBi">@info.TenThietBi</h3>
-                    <table class="tablesorter" id="tbDetail">
-                        <thead>
-                            <tr>
-                                <th>Loại Hình</th>
-                                <th>Vị Trí Hiện Tại</th>
-                                <th>Ngày Đến</th>
-                                <th>Tổng Số Ngày Ở Công Trình</th>
-                                <th>Don Gia Thue</th>
-                                <th>Thành Tiền Hiện Tại</th>
-                            </tr>
-                        </thead>
-                        <tbody>
+        @*        <div id="detail" class="tab-pane fade in">
+              <div class="row">
+                <div class="info">
+            <h3 id="TenThietBi">@info.TenThietBi</h3>
+            <table class="tablesorter" id="tbDetail">
+                <thead>
+                    <tr>
+                        <th>Loại Hình</th>
+                        <th>Vị Trí Hiện Tại</th>
+                        <th>Ngày Đến</th>
+                        <th>Tổng Số Ngày Ở Công Trình</th>
+                        <th>Don Gia Thue</th>
+                        <th>Thành Tiền Hiện Tại</th>
+                    </tr>
+                </thead>
+                <tbody>
 
-                            <tr>
-                                <td><span id="LoaiHinh">@info.LoaiHinh</span></td>
-                                <td><span id="TenCongTrinh">@info.TenCongTrinh</span></td>
-                                <td><span id="ThoiGianVao">@(info.ThoiGianVao.HasValue ? info.ThoiGianVao.Value.ToShortDateString() : "")</span></td>
-                                <td><span id="NgayOCongTrinh" style="text-align:right">@((info.NgayOCongTrinh.HasValue && info.NgayOCongTrinh != null) ? info.NgayOCongTrinh + "Ngày": "")</span></td>
-                                <td><span id="GiaThue">@String.Format("{0:C}",@info.GiaThue)</span></td>
-                                <td><span id="ThanhTien">@String.Format("{0:C}", info.ThanhTien)</span></td>
-                            </tr>
+                    <tr>
+                        <td><span id="LoaiHinh">@info.LoaiHinh</span></td>
+                        <td><span id="TenCongTrinh">@info.TenCongTrinh</span></td>
+                        <td><span id="ThoiGianVao">@(info.ThoiGianVao.HasValue ? info.ThoiGianVao.Value.ToShortDateString() : "")</span></td>
+                        <td><span id="NgayOCongTrinh" style="text-align: right">@((info.NgayOCongTrinh.HasValue && info.NgayOCongTrinh != null) ? info.NgayOCongTrinh + "Ngày" : "")</span></td>
+                        <td><span id="GiaThue">@String.Format("{0:C}", @info.GiaThue)</span></td>
+                        <td><span id="ThanhTiend">@String.Format("{0:C}", info.ThanhTien)</span></td>
+                    </tr>
 
-                        </tbody>
-                    </table>
-                    @*        <p>Loại hình: <span id="LoaiHinh">@info.LoaiHinh</span></p>
-                    <p>Vị trí hiện tại: <span id="TenCongTrinh">@info.TenCongTrinh</span></p>
-                    <p>Ngày đến: <span id="ThoiGianVao">@(info.ThoiGianVao.HasValue ? info.ThoiGianVao.Value.ToShortDateString() : "")</span></p>
-                    <p>Tổng số ngày ở công trình: <span id="NgayOCongTrinh">@info.NgayOCongTrinh Ngày</span></p>
-                    <p>Đơn giá thuê: <span id="GiaThue">@info.GiaThue  VNĐ</span></p>
-                    <p>Thành tiền hiện tại: <span id="ThanhTien">@info.ThanhTien VNĐ</span></p>*@
-       @*         </div>
-            </div>*@
+                </tbody>
+            </table>
+
+                     </div>
+            </div>
             <div class="row" style="padding-top: 3px;">
                 <span>Hình ảnh báo cáo </span>
                 <hr style="margin-top: 0px; margin-bottom: 0px; margin-left: 2px; margin-right: 2px" />
@@ -280,21 +430,23 @@
             <div class="row">
                 <div class="col-xs-4">
                     <img id="image1" style="max-width: 140px; max-height: 220px; padding-top: 5px; padding-bottom: 5px; padding-left: 10px" src="~/Content/img1.jpg" />
-                  <div><span style="margin-left:10px">Ngày: 22/05/2016</span></div>
-                      
+                    <div><span style="margin-left: 10px">Ngày: 22/05/2016</span></div>
+
                 </div>
                 <div class="col-xs-4">
                     <img id="image2" style="max-width: 140px; max-height: 220px; padding-top: 5px; padding-bottom: 5px; padding-left: 10px;" src="~/Content/img2.jpg" />
-                     <div><span style="margin-left:10px">Ngày: 2/11/2016</span></div>
+                    <div><span style="margin-left: 10px">Ngày: 2/11/2016</span></div>
                 </div>
                 <div class="col-xs-4">
                     <img id="image3" style="max-width: 140px; max-height: 220px; padding-top: 5px; padding-bottom: 5px; padding-left: 10px" src="~/Content/img3.jpg" />
-                   <div><span style="margin-left:10px">Ngày: 13/12/2016</span></div>
-                      </div>
+                    <div><span style="margin-left: 10px">Ngày: 13/12/2016</span></div>
+                </div>
             </div>
             <div class="row">
                 <p></p>
             </div>
+        </div>*@
+        <div id="detail" class="tab-pane">
         </div>
         <div id="activity" class="tab-pane">
         </div>
@@ -305,6 +457,10 @@
     </div>
 </div>
 <script type="text/javascript">
+    $(window).on("load resize ", function() {
+        var scrollWidth = $('.tbl-content').width() - $('.tbl-content table').width();
+        $('.tbl-header').css({'padding-right':scrollWidth});
+    }).resize();
     var PathFolderImage = '@System.Configuration.ConfigurationManager.AppSettings["PathFolderImage"].ToString()';
     function getFormattedCurrency(num) {
         num = num.toFixed(2)
@@ -374,132 +530,152 @@
         var data = @Html.Raw(new System.Web.Script.Serialization.JavaScriptSerializer().Serialize(Model));
 
         for (var i in data) {
+            $.ajax({
+                url:'../Monitoring/GetInfoDeviceById',
+                type:'POST',
+                dataType:'json',
+                data:{"id":data[i].ThietBiId},
+                success:function(meta){
+                    RenderDevice(meta);
+                }
+            });
+        }
+        $('#lblnote').on('click', function () {
+            $('#notePanel').toggle();
+        });
+    });
+        function RenderDevice(c){
+            // var a = c.length;
+            //  for (var i = 0; i < a; i++) { 
             var strIconUrl = 'i9';
-            if(data[i].TrangThaiHienTai == 3){
+            if(c.TrangThaiHienTai == 3){
                 strIconUrl = 'i1';
-            }else if(data[i].TrangThaiHienTai == 4){
+            }else if(c.TrangThaiHienTai == 4){
                 strIconUrl = 'i2';
-            }else if(data[i].TrangThaiHienTai == 5){
+            }else if(c.TrangThaiHienTai == 5){
                 strIconUrl = 'i3';
-            }else if(data[i].TrangThaiHienTai == 6){
+            }else if(c.TrangThaiHienTai == 6){
                 strIconUrl = 'i4';
-            }else if(data[i].TrangThaiHienTai == 7){
+            }else if(c.TrangThaiHienTai == 7){
                 strIconUrl = 'i5';
-            }else if(data[i].TrangThaiHienTai == 8){
+            }else if(c.TrangThaiHienTai == 8){
                 strIconUrl = 'i6';
-            }else if(data[i].TrangThaiHienTai == 9){
+            }else if(c.TrangThaiHienTai == 9){
                 strIconUrl = 'i7';
-            }else if(data[i].TrangThaiHienTai == 10){
+            }else if(c.TrangThaiHienTai == 10){
                 strIconUrl = 'i8';
             } else{
                 strIconUrl = 'i9';
             }
+            RenderMarker([c.Latitude, c.Longitude], c.TenThietBi, RederPopupDevice(c), strIconUrl, mapData.LayerDevice);
+            //}
+            if(map.hasLayer(mapData.LayerDevice)==false){
+                map.addLayer(mapData.LayerDevice);
+            }
 
-            RenderMarker([data[i].Latitude, data[i].Longitude], data[i].TenThietBi, RederPopupDevice(data[i]), strIconUrl, mapData.LayerDevice);
-
-            //var marker = new L.Marker(
-            //        new L.LatLng(data[i].Latitude, data[i].Longitude)
-            //    ).bindPopup(data[i].TenThietBi)
-            //	.addTo(map);
         }
-        //RenderMarker([10.6655357562, 105.7323638722], 'sdsd', '<p>sdsds</p>', '070', mapData.LayerDevice);
-
-
-        if(map.hasLayer(mapData.LayerDevice)==false){
-            map.addLayer(mapData.LayerDevice);
-        }
-
-
-        $('#lblnote').on('click', function () {
-            $('#notePanel').toggle();
-        });
-
-
-    });
-    
-    function RederPopupDevice(item)
-    {
-        var btnxemHoatDong = '<button onclick="RenderHoatDong(\''+ item.ThietBiId + '\');"><i class="icon-submit" title="Xem báo cáo"></i>Xem</button>'
-        var btnxemDiChuyen = '<button onclick="RenderDiChuyen(\''+ item.ThietBiId + '\');"><i class="icon-submit" title="Xem báo cáo"></i>Xem</button>'
-        var btnxemBaoDuong = '<button onclick="RenderBaoDuong(\''+ item.ThietBiId + '\');"><i class="icon-submit" title="Xem báo cáo"></i>Xem</button>'
-        var ultab = '<li class="active"><a data-toggle="tab" href="#info">Thông tin</a></li>';
-        ultab +=    '<li><a data-toggle="tab" href="#detail">Chi Tiết</a></li>';
-        ultab +=    '<li><a data-toggle="tab" href="#activity" onclick="RenderHoatDong(\''+ item.ThietBiId + '\');">Lịch sử hoạt động</a></li>';
-        ultab +=    '<li><a data-toggle="tab" href="#dichuyen" onclick="RenderDiChuyen(\''+ item.ThietBiId + '\');">Lịch sử di chuyển</a></li>';
-        ultab +=    '<li><a data-toggle="tab" href="#baoduong" onclick="RenderBaoDuong(\''+ item.ThietBiId + '\');">Bảo dưỡng sửa chửa</a></li>';
-
-
-        var htmlData = '';
-        var matadata = $('#DevicePopupTemplete');
-        var data = matadata.clone();
-        data.css('display','');
-        data.find('h3[id="TenThietBi"]').html(item.TenThietBi);
-        data.find('span[id="TrangThai"]').html(item.StrTrangThai);
-        data.find('span[id="DaHoatDong"]').html(item.DaHoatDong);
-        data.find('span[id="TenCongTrinh"]').html(item.TenCongTrinh);
-        data.find('span[id="ThayDauTiep"]').html(item.ThayDauTiep);
-        data.find('span[id="ThayLocTiep"]').html(item.ThayLocTiep);
-        data.find('span[id="LoaiHinh"]').html(item.LoaiHinh);
-        data.find('span[id="ThoiGianVao"]').html(formatDate(item.ThoiGianVao));
-        data.find('span[id="NgayOCongTrinh"]').html(item.NgayOCongTrinh + ' Ngày');
-        data.find('span[id="GiaThue"]').html(item.GiaThue + ' VNĐ');
-        data.find('span[id="ThanhTien"]').html(item.ThanhTien + ' VNĐ');
-        data.find('ul[id="ul-tab"]').html(ultab);
-        data.find('div[id="btn-xemHoatDong"]').html(btnxemHoatDong); 
-        data.find('div[id="btn-xemDiChuyen"]').html(btnxemDiChuyen);
-        data.find('div[id="btn-xemBaoDuong"]').html(btnxemBaoDuong);
-        var imgavatar = PathFolderImage + item.HAAvatarThietBi;
-        data.find('img[id="avatar"]').attr('src', imgavatar);
-        
-        if(item.HAHoatDongThietBi != '' & item.HAHoatDongThietBi != undefined)
+        function RederPopupDevice(item)
         {
-            var arrayHA = item.HAHoatDongThietBi.split(",");
-            if(arrayHA.length >= 1){
-                data.find('img[id="image1"]').attr('src', PathFolderImage + arrayHA[0]);
-            }
-            if(arrayHA.length >= 2){
-                data.find('img[id="image2"]').attr('src', PathFolderImage + arrayHA[1]);
-            }
-            if(arrayHA.length >= 3){
-                data.find('img[id="image3"]').attr('src', PathFolderImage + arrayHA[2]);
-            }
-        }
+            var btnxemHoatDong = '<button onclick="RenderHoatDong(\''+ item.ThietBiId + '\');"><i class="icon-submit" title="Xem báo cáo"></i>Xem</button>'
+            var btnxemDiChuyen = '<button onclick="RenderDiChuyen(\''+ item.ThietBiId + '\');"><i class="icon-submit" title="Xem báo cáo"></i>Xem</button>'
+            var btnxemBaoDuong = '<button onclick="RenderBaoDuong(\''+ item.ThietBiId + '\');"><i class="icon-submit" title="Xem báo cáo"></i>Xem</button>'
+            var btnxemBaoCao = '<button onclick="RenderBaoCao(\''+ item.ThietBiId + '\');"><i class="icon-submit" title="Xem báo cáo"></i>Xem</button>'
+            var ultab = '<li class="active"><a data-toggle="tab" href="#info">Thông tin Chung</a></li>';
+            ultab +=    '<li><a data-toggle="tab" href="#detail" onclick="RenderBaoCao(\''+ item.ThietBiId + '\');">Thông Tin Báo Cáo</a></li>';
+            ultab +=    '<li><a data-toggle="tab" href="#activity" onclick="RenderHoatDong(\''+ item.ThietBiId + '\');">Theo Dõi Hoạt Động (Chip)</a></li>';
+            ultab +=    '<li><a data-toggle="tab" href="#dichuyen" onclick="RenderDiChuyen(\''+ item.ThietBiId + '\');">Lịch sử di chuyển</a></li>';
+            ultab +=    '<li><a data-toggle="tab" href="#baoduong" onclick="RenderBaoDuong(\''+ item.ThietBiId + '\');">Bảo dưỡng sửa chửa</a></li>';
+
+
+            var htmlData = '';
+            var id = item.ThietBiId;
+            var matadata = $('#DevicePopupTemplete');
+            var data = matadata.clone();
+            data.css('display','');
+
+            data.find('h3[id="TenThietBi"]').html(item.TenThietBi);
+            data.find('span[id="TenThietBi"]').html(item.TenThietBi);
+            data.find('span[id="TrangThai"]').html(item.StrTrangThai);
+            data.find('span[id="TinhTrang"]').html(item.strTinhTrang);
+            data.find('span[id="TenCongTrinh"]').html(item.TenCongTrinh);
+            data.find('span[id="TDC"]').html(item.ThayDauLanCuoi);
+            data.find('span[id="TLC"]').html(item.ThayLocLanCuoi);
+            data.find('span[id="GTD"]').html(item.SoGioThayDau);
+            data.find('span[id="GTL"]').html(formatDate(item.SoGioThayLoc));
+            data.find('span[id="NgayDen"]').html(item.ThoiGianVao);
+            data.find('span[id="SNCT"]').html(item.NgayOCongTrinh );
+            data.find('span[id="GiaThue"]').html(item.GiaThue + ' VNĐ');
+            data.find('span[id="ThanhTien"]').html(item.ThanhTien + ' VNĐ');
+            data.find('ul[id="ul-tab"]').html(ultab);
+            data.find('div[id="btn-xemHoatDong"]').html(btnxemHoatDong); 
+            data.find('div[id="btn-xemDiChuyen"]').html(btnxemDiChuyen);
+            data.find('div[id="btn-xemBaoDuong"]').html(btnxemBaoDuong);
+            var imgavatar = PathFolderImage + item.ThietBiId +'.jpg';
+            data.find('img[id="avatar"]').attr('src', imgavatar);
+        
+            //if(item.HAHoatDongThietBi != '' & item.HAHoatDongThietBi != undefined)
+            //{
+            //    var arrayHA = item.HAHoatDongThietBi.split(",");
+            //    if(arrayHA.length >= 1){
+            //        data.find('img[id="image1"]').attr('src', PathFolderImage + arrayHA[0]);
+            //    }
+            //    if(arrayHA.length >= 2){
+            //        data.find('img[id="image2"]').attr('src', PathFolderImage + arrayHA[1]);
+            //    }
+            //    if(arrayHA.length >= 3){
+            //        data.find('img[id="image3"]').attr('src', PathFolderImage + arrayHA[2]);
+            //    }
+            //}
         
 
 
-        $("#imageID").attr('src', 'srcImage.jpg');
+            //$("#imageID").attr('src', 'srcImage.jpg');
 
-        var elm = data[0];
-        htmlData += elm.outerHTML;
-        return htmlData;
+            var elm = data[0];
+            htmlData += elm.outerHTML;
+            return htmlData;
+        }
+        function RenderBaoDuong(thietbiId)
+        {
+            var strFromDate = $('#strFromDateBaoDuong').val();
+            if(strFromDate == undefined)
+            {
+                strFromDate = '';
+            }
+            var strToDate = $('#strToDateBaoDuong').val();
+            if(strToDate == undefined)
+            {
+                strToDate = '';
+            }
+            $("#baoduong").load('@(Url.Action("DeviceModify", "Monitoring"))?thietBiID=' + thietbiId + '&strFromDate=' + strFromDate + '&strToDate=' + strToDate);
+        }
+        function RenderDiChuyen(thietbiId)
+        {
+            var strFromDate = $('#strFromDateDiChuyen').val();
+            if(strFromDate == undefined)
+            {
+                strFromDate = '';
+            }
+            var strToDate = $('#strToDateDiChuyen').val();
+            if(strToDate == undefined)
+            {
+                strToDate = '';
+            }
+            $("#dichuyen").load('@(Url.Action("DeviceMove", "Monitoring"))?thietBiID=' + thietbiId + '&strFromDate=' + strFromDate + '&strToDate=' + strToDate);
     }
-    function RenderBaoDuong(thietbiId)
+    function RenderBaoCao(thietbiId)
     {
-        var strFromDate = $('#strFromDateBaoDuong').val();
+        var strFromDate = $('#strFromDateBaoCao').val();
         if(strFromDate == undefined)
         {
             strFromDate = '';
         }
-        var strToDate = $('#strToDateBaoDuong').val();
+        var strToDate = $('#strToDateBaoCao').val();
         if(strToDate == undefined)
         {
             strToDate = '';
         }
-        $("#baoduong").load('@(Url.Action("DeviceModify", "Monitoring"))?thietBiID=' + thietbiId + '&strFromDate=' + strFromDate + '&strToDate=' + strToDate);
-    }
-    function RenderDiChuyen(thietbiId)
-    {
-        var strFromDate = $('#strFromDateDiChuyen').val();
-        if(strFromDate == undefined)
-        {
-            strFromDate = '';
-        }
-        var strToDate = $('#strToDateBaoDuong').val();
-        if(strToDate == undefined)
-        {
-            strToDate = '';
-        }
-        $("#dichuyen").load('@(Url.Action("DeviceMove", "Monitoring"))?thietBiID=' + thietbiId + '&strFromDate=' + strFromDate + '&strToDate=' + strToDate);
+        $("#detail").load('@(Url.Action("DeviceReport", "Monitoring"))?thietBiID=' + thietbiId + '&strFromDate=' + strFromDate + '&strToDate=' + strToDate);
     }
     function RenderHoatDong(thietbiId)
     {
@@ -555,4 +731,3 @@
         //alert("ajax có vấn đề");
     });
 </script>
-    

@@ -2,8 +2,8 @@
 <div class="row">
     <div class="item fl">
         <label class="fl">Chọn Ngày</label>
-        @Html.TextBox("strFromDateHoatDong", Model.FromDate.ToShortDateString(), new { @class = "datepicker" })
-        @Html.TextBox("strToDateHoatDong", Model.ToDate.ToShortDateString(), new { @class = "datepicker" })
+        @Html.TextBox("strFromDateDiChuyen", Model.FromDate.ToShortDateString(), new { @class = "datepicker" })
+        @Html.TextBox("strToDateDiChuyen", Model.ToDate.ToShortDateString(), new { @class = "datepicker" })
     </div>
     <div id="btn-xemDiChuyen" class="item fl">
         <button onclick="RenderDiChuyen('@Model.ThietBiID')">
@@ -22,45 +22,36 @@
                 </tr>
             </thead>
             <tbody>
-                @if (Model.ListDataMove != null)
+                @if (Model.ListDataMove != null && Model.ListDataMove.Count> 0)
                 {
                     int i = 1;
                     foreach (var item in Model.ListDataMove)
                     {
-                        <tr>
-                            <td>@i</td>
-                            <td>@item.Ngay.ToString()</td>
-                            <td>@item.DenViTri</td>
-                        </tr>
+                    <tr>
+                        <td>@i</td>
+                        <td>@item.Ngay.ToString()</td>
+                        <td>@item.TuViTri</td>
+                    </tr>
                         i++;
                     }
                 }
-                @*<tr>
-                    <td>1</td>
-                    <td>20/04/2016 7:56:34 CH</td>
-                    <td>Công Trình ĐUAFAT</td>
-                </tr>
-                <tr>
-                    <td>2</td>
-                    <td>22/04/2016 7:56:34 CH</td>
-                    <td>Công Trình Kiến Hưng</td>
-                </tr>*@
             </tbody>
         </table>
     </div>
 </div>
-<div class="row" style="padding-bottom:2px">
+<div class="row" style="padding-bottom: 2px">
     <div class="col-xs-offset-3 col-xs-5">
         <ul class="m-0">
             <li class="ts-pager-dichuyen">
-                <span>
-                    Chọn
+                <span>Chọn
                     <select class="pagenum input-mini" title="Select page number"></select>
                 </span>
-                <span>   </span>
-                <a href="#" title="prev"><img src="@Url.Content("~/Content/NewEtool/img/per.png")" class="prev" /></a>
+                <span></span>
+                <a href="#" title="prev">
+                    <img src="@Url.Content("~/Content/NewEtool/img/per.png")" class="prev" /></a>
                 <span class="pagedisplay"></span>
-                <a href="#" title="next"><img src="@Url.Content("~/Content/NewEtool/img/next.png")" class="next" /></a>
+                <a href="#" title="next">
+                    <img src="@Url.Content("~/Content/NewEtool/img/next.png")" class="next" /></a>
             </li>
         </ul>
     </div>

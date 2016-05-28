@@ -73,27 +73,6 @@ namespace WebManageFridgeMQTT.Models
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.GetInfoDeviceModify")]
-		public ISingleResult<GetInfoDeviceModifyResult> GetInfoDeviceModify([global::System.Data.Linq.Mapping.ParameterAttribute(DbType="NVarChar(MAX)")] string strThietBiID, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="FromDate", DbType="DateTime")] System.Nullable<System.DateTime> fromDate, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="ToDate", DbType="DateTime")] System.Nullable<System.DateTime> toDate)
-		{
-			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), strThietBiID, fromDate, toDate);
-			return ((ISingleResult<GetInfoDeviceModifyResult>)(result.ReturnValue));
-		}
-		
-		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.GetInfoDeviceMove")]
-		public ISingleResult<GetInfoDeviceMoveResult> GetInfoDeviceMove([global::System.Data.Linq.Mapping.ParameterAttribute(DbType="NVarChar(MAX)")] string strThietBiID, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="FromDate", DbType="DateTime")] System.Nullable<System.DateTime> fromDate, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="ToDate", DbType="DateTime")] System.Nullable<System.DateTime> toDate)
-		{
-			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), strThietBiID, fromDate, toDate);
-			return ((ISingleResult<GetInfoDeviceMoveResult>)(result.ReturnValue));
-		}
-		
-		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.GetInfoDeviceActivity")]
-		public ISingleResult<GetInfoDeviceActivityResult> GetInfoDeviceActivity([global::System.Data.Linq.Mapping.ParameterAttribute(DbType="NVarChar(MAX)")] string strThietBiID, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="FromDate", DbType="DateTime")] System.Nullable<System.DateTime> fromDate, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="ToDate", DbType="DateTime")] System.Nullable<System.DateTime> toDate)
-		{
-			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), strThietBiID, fromDate, toDate);
-			return ((ISingleResult<GetInfoDeviceActivityResult>)(result.ReturnValue));
-		}
-		
 		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.UpdateThieBiSatusMess")]
 		public int UpdateThieBiSatusMess([global::System.Data.Linq.Mapping.ParameterAttribute(DbType="NVarChar(MAX)")] string strThietBiID, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="CommandType", DbType="NVarChar(200)")] string commandType, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="CommandId", DbType="NVarChar(200)")] string commandId, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="CommandAction", DbType="NVarChar(200)")] string commandAction, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="Loai", DbType="Int")] System.Nullable<int> loai, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="StatusMay", DbType="Int")] System.Nullable<int> statusMay, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="Time", DbType="Float")] System.Nullable<double> time, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="TrangThaiHienTai", DbType="Int")] System.Nullable<int> trangThaiHienTai, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="LatitudeHienTai", DbType="Decimal(18,10)")] System.Nullable<decimal> latitudeHienTai, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="LongtitudeHienTai", DbType="Decimal(18,10)")] System.Nullable<decimal> longtitudeHienTai)
 		{
@@ -108,13 +87,6 @@ namespace WebManageFridgeMQTT.Models
 			return ((ISingleResult<GetTreeThietBiResult>)(result.ReturnValue));
 		}
 		
-		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.Sp_GetInfoDeviceById")]
-		public ISingleResult<Sp_GetInfoDeviceByIdResult> Sp_GetInfoDeviceById([global::System.Data.Linq.Mapping.ParameterAttribute(Name="ThietBiId", DbType="VarChar(200)")] string thietBiId)
-		{
-			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), thietBiId);
-			return ((ISingleResult<Sp_GetInfoDeviceByIdResult>)(result.ReturnValue));
-		}
-		
 		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.Sp_GetInfoDevice")]
 		public ISingleResult<Sp_GetInfoDeviceResult> Sp_GetInfoDevice()
 		{
@@ -127,6 +99,41 @@ namespace WebManageFridgeMQTT.Models
 		{
 			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), equiqmentId, isContruction);
 			return ((ISingleResult<GetTreeThiet_ByIdResult>)(result.ReturnValue));
+		}
+		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.Sp_GetInfoDeviceById")]
+		public ISingleResult<Sp_GetInfoDeviceByIdResult> Sp_GetInfoDeviceById([global::System.Data.Linq.Mapping.ParameterAttribute(Name="ThietBiId", DbType="VarChar(200)")] string thietBiId)
+		{
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), thietBiId);
+			return ((ISingleResult<Sp_GetInfoDeviceByIdResult>)(result.ReturnValue));
+		}
+		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.GetInfoDeviceReport")]
+		public ISingleResult<GetInfoDeviceReportResult> GetInfoDeviceReport([global::System.Data.Linq.Mapping.ParameterAttribute(DbType="NVarChar(MAX)")] string strThietBiID, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="FromDate", DbType="DateTime")] System.Nullable<System.DateTime> fromDate, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="ToDate", DbType="DateTime")] System.Nullable<System.DateTime> toDate)
+		{
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), strThietBiID, fromDate, toDate);
+			return ((ISingleResult<GetInfoDeviceReportResult>)(result.ReturnValue));
+		}
+		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.GetInfoDeviceMove")]
+		public ISingleResult<GetInfoDeviceMoveResult> GetInfoDeviceMove([global::System.Data.Linq.Mapping.ParameterAttribute(DbType="NVarChar(MAX)")] string strThietBiID, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="FromDate", DbType="DateTime")] System.Nullable<System.DateTime> fromDate, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="ToDate", DbType="DateTime")] System.Nullable<System.DateTime> toDate)
+		{
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), strThietBiID, fromDate, toDate);
+			return ((ISingleResult<GetInfoDeviceMoveResult>)(result.ReturnValue));
+		}
+		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.GetInfoDeviceModify")]
+		public ISingleResult<GetInfoDeviceModifyResult> GetInfoDeviceModify([global::System.Data.Linq.Mapping.ParameterAttribute(DbType="NVarChar(MAX)")] string strThietBiID, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="FromDate", DbType="DateTime")] System.Nullable<System.DateTime> fromDate, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="ToDate", DbType="DateTime")] System.Nullable<System.DateTime> toDate)
+		{
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), strThietBiID, fromDate, toDate);
+			return ((ISingleResult<GetInfoDeviceModifyResult>)(result.ReturnValue));
+		}
+		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.GetInfoDeviceActivity")]
+		public ISingleResult<GetInfoDeviceActivityResult> GetInfoDeviceActivity([global::System.Data.Linq.Mapping.ParameterAttribute(DbType="NVarChar(MAX)")] string strThietBiID, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="FromDate", DbType="DateTime")] System.Nullable<System.DateTime> fromDate, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="ToDate", DbType="DateTime")] System.Nullable<System.DateTime> toDate)
+		{
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), strThietBiID, fromDate, toDate);
+			return ((ISingleResult<GetInfoDeviceActivityResult>)(result.ReturnValue));
 		}
 	}
 	
@@ -336,408 +343,6 @@ namespace WebManageFridgeMQTT.Models
 		}
 	}
 	
-	public partial class GetInfoDeviceModifyResult
-	{
-		
-		private System.Guid _SuaChuaThietBiID;
-		
-		private System.Guid _ThietBiID;
-		
-		private int _TrangThai;
-		
-		private System.DateTime _NgayHong;
-		
-		private System.Nullable<System.DateTime> _NgaySua;
-		
-		private System.Nullable<System.DateTime> _NgayHoanThien;
-		
-		private string _MoTa;
-		
-		private string _DonViSua;
-		
-		private System.Nullable<double> _ChiPhi;
-		
-		private System.Nullable<System.Guid> _NguoiKhaiBao;
-		
-		private System.Nullable<System.Guid> _NguoiBanGiao;
-		
-		private bool _IsActive;
-		
-		public GetInfoDeviceModifyResult()
-		{
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_SuaChuaThietBiID", DbType="UniqueIdentifier NOT NULL")]
-		public System.Guid SuaChuaThietBiID
-		{
-			get
-			{
-				return this._SuaChuaThietBiID;
-			}
-			set
-			{
-				if ((this._SuaChuaThietBiID != value))
-				{
-					this._SuaChuaThietBiID = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ThietBiID", DbType="UniqueIdentifier NOT NULL")]
-		public System.Guid ThietBiID
-		{
-			get
-			{
-				return this._ThietBiID;
-			}
-			set
-			{
-				if ((this._ThietBiID != value))
-				{
-					this._ThietBiID = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_TrangThai", DbType="Int NOT NULL")]
-		public int TrangThai
-		{
-			get
-			{
-				return this._TrangThai;
-			}
-			set
-			{
-				if ((this._TrangThai != value))
-				{
-					this._TrangThai = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_NgayHong", DbType="DateTime NOT NULL")]
-		public System.DateTime NgayHong
-		{
-			get
-			{
-				return this._NgayHong;
-			}
-			set
-			{
-				if ((this._NgayHong != value))
-				{
-					this._NgayHong = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_NgaySua", DbType="DateTime")]
-		public System.Nullable<System.DateTime> NgaySua
-		{
-			get
-			{
-				return this._NgaySua;
-			}
-			set
-			{
-				if ((this._NgaySua != value))
-				{
-					this._NgaySua = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_NgayHoanThien", DbType="DateTime")]
-		public System.Nullable<System.DateTime> NgayHoanThien
-		{
-			get
-			{
-				return this._NgayHoanThien;
-			}
-			set
-			{
-				if ((this._NgayHoanThien != value))
-				{
-					this._NgayHoanThien = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_MoTa", DbType="NVarChar(500)")]
-		public string MoTa
-		{
-			get
-			{
-				return this._MoTa;
-			}
-			set
-			{
-				if ((this._MoTa != value))
-				{
-					this._MoTa = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DonViSua", DbType="NVarChar(500)")]
-		public string DonViSua
-		{
-			get
-			{
-				return this._DonViSua;
-			}
-			set
-			{
-				if ((this._DonViSua != value))
-				{
-					this._DonViSua = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ChiPhi", DbType="Float")]
-		public System.Nullable<double> ChiPhi
-		{
-			get
-			{
-				return this._ChiPhi;
-			}
-			set
-			{
-				if ((this._ChiPhi != value))
-				{
-					this._ChiPhi = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_NguoiKhaiBao", DbType="UniqueIdentifier")]
-		public System.Nullable<System.Guid> NguoiKhaiBao
-		{
-			get
-			{
-				return this._NguoiKhaiBao;
-			}
-			set
-			{
-				if ((this._NguoiKhaiBao != value))
-				{
-					this._NguoiKhaiBao = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_NguoiBanGiao", DbType="UniqueIdentifier")]
-		public System.Nullable<System.Guid> NguoiBanGiao
-		{
-			get
-			{
-				return this._NguoiBanGiao;
-			}
-			set
-			{
-				if ((this._NguoiBanGiao != value))
-				{
-					this._NguoiBanGiao = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IsActive", DbType="Bit NOT NULL")]
-		public bool IsActive
-		{
-			get
-			{
-				return this._IsActive;
-			}
-			set
-			{
-				if ((this._IsActive != value))
-				{
-					this._IsActive = value;
-				}
-			}
-		}
-	}
-	
-	public partial class GetInfoDeviceMoveResult
-	{
-		
-		private System.DateTime _Ngay;
-		
-		private string _TuViTri;
-		
-		private string _DenViTri;
-		
-		public GetInfoDeviceMoveResult()
-		{
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Ngay", DbType="DateTime NOT NULL")]
-		public System.DateTime Ngay
-		{
-			get
-			{
-				return this._Ngay;
-			}
-			set
-			{
-				if ((this._Ngay != value))
-				{
-					this._Ngay = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_TuViTri", DbType="NVarChar(250) NOT NULL", CanBeNull=false)]
-		public string TuViTri
-		{
-			get
-			{
-				return this._TuViTri;
-			}
-			set
-			{
-				if ((this._TuViTri != value))
-				{
-					this._TuViTri = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DenViTri", DbType="NVarChar(250) NOT NULL", CanBeNull=false)]
-		public string DenViTri
-		{
-			get
-			{
-				return this._DenViTri;
-			}
-			set
-			{
-				if ((this._DenViTri != value))
-				{
-					this._DenViTri = value;
-				}
-			}
-		}
-	}
-	
-	public partial class GetInfoDeviceActivityResult
-	{
-		
-		private System.Guid _ThietBiID;
-		
-		private System.DateTime _ThoiGian;
-		
-		private System.Nullable<int> _Loai;
-		
-		private System.Nullable<double> _Time;
-		
-		private System.Nullable<int> _TrangThai;
-		
-		private string _StrTrangThai;
-		
-		public GetInfoDeviceActivityResult()
-		{
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ThietBiID", DbType="UniqueIdentifier NOT NULL")]
-		public System.Guid ThietBiID
-		{
-			get
-			{
-				return this._ThietBiID;
-			}
-			set
-			{
-				if ((this._ThietBiID != value))
-				{
-					this._ThietBiID = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ThoiGian", DbType="DateTime NOT NULL")]
-		public System.DateTime ThoiGian
-		{
-			get
-			{
-				return this._ThoiGian;
-			}
-			set
-			{
-				if ((this._ThoiGian != value))
-				{
-					this._ThoiGian = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Loai", DbType="Int")]
-		public System.Nullable<int> Loai
-		{
-			get
-			{
-				return this._Loai;
-			}
-			set
-			{
-				if ((this._Loai != value))
-				{
-					this._Loai = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Time", DbType="Float")]
-		public System.Nullable<double> Time
-		{
-			get
-			{
-				return this._Time;
-			}
-			set
-			{
-				if ((this._Time != value))
-				{
-					this._Time = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_TrangThai", DbType="Int")]
-		public System.Nullable<int> TrangThai
-		{
-			get
-			{
-				return this._TrangThai;
-			}
-			set
-			{
-				if ((this._TrangThai != value))
-				{
-					this._TrangThai = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_StrTrangThai", DbType="NVarChar(17) NOT NULL", CanBeNull=false)]
-		public string StrTrangThai
-		{
-			get
-			{
-				return this._StrTrangThai;
-			}
-			set
-			{
-				if ((this._StrTrangThai != value))
-				{
-					this._StrTrangThai = value;
-				}
-			}
-		}
-	}
-	
 	public partial class GetTreeThietBiResult
 	{
 		
@@ -813,356 +418,6 @@ namespace WebManageFridgeMQTT.Models
 				if ((this._Cap != value))
 				{
 					this._Cap = value;
-				}
-			}
-		}
-	}
-	
-	public partial class Sp_GetInfoDeviceByIdResult
-	{
-		
-		private System.Nullable<long> _STT;
-		
-		private string _ThietBiId;
-		
-		private string _TenCongTrinh;
-		
-		private string _DiaDiem;
-		
-		private string _TenVietTat;
-		
-		private string _TenThietBi;
-		
-		private System.Nullable<int> _TrangThai;
-		
-		private string _DaHoatDong;
-		
-		private string _LoaiHinh;
-		
-		private System.Nullable<System.DateTime> _ThoiGianVao;
-		
-		private System.Nullable<int> _NgayOCongTrinh;
-		
-		private System.Nullable<double> _GiaThue;
-		
-		private System.Nullable<double> _ThanhTien;
-		
-		private System.Nullable<double> _ThayDauTiep;
-		
-		private System.Nullable<double> _ThayLocTiep;
-		
-		private System.Nullable<int> _TrangThaiHienTai;
-		
-		private string _StrTrangThai;
-		
-		private decimal _Latitude;
-		
-		private decimal _Longitude;
-		
-		public Sp_GetInfoDeviceByIdResult()
-		{
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_STT", DbType="BigInt")]
-		public System.Nullable<long> STT
-		{
-			get
-			{
-				return this._STT;
-			}
-			set
-			{
-				if ((this._STT != value))
-				{
-					this._STT = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ThietBiId", DbType="VarChar(100) NOT NULL", CanBeNull=false)]
-		public string ThietBiId
-		{
-			get
-			{
-				return this._ThietBiId;
-			}
-			set
-			{
-				if ((this._ThietBiId != value))
-				{
-					this._ThietBiId = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_TenCongTrinh", DbType="NVarChar(500)")]
-		public string TenCongTrinh
-		{
-			get
-			{
-				return this._TenCongTrinh;
-			}
-			set
-			{
-				if ((this._TenCongTrinh != value))
-				{
-					this._TenCongTrinh = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DiaDiem", DbType="NVarChar(1000)")]
-		public string DiaDiem
-		{
-			get
-			{
-				return this._DiaDiem;
-			}
-			set
-			{
-				if ((this._DiaDiem != value))
-				{
-					this._DiaDiem = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_TenVietTat", DbType="NVarChar(50) NOT NULL", CanBeNull=false)]
-		public string TenVietTat
-		{
-			get
-			{
-				return this._TenVietTat;
-			}
-			set
-			{
-				if ((this._TenVietTat != value))
-				{
-					this._TenVietTat = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_TenThietBi", DbType="NVarChar(250) NOT NULL", CanBeNull=false)]
-		public string TenThietBi
-		{
-			get
-			{
-				return this._TenThietBi;
-			}
-			set
-			{
-				if ((this._TenThietBi != value))
-				{
-					this._TenThietBi = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_TrangThai", DbType="Int")]
-		public System.Nullable<int> TrangThai
-		{
-			get
-			{
-				return this._TrangThai;
-			}
-			set
-			{
-				if ((this._TrangThai != value))
-				{
-					this._TrangThai = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DaHoatDong", DbType="NVarChar(30)")]
-		public string DaHoatDong
-		{
-			get
-			{
-				return this._DaHoatDong;
-			}
-			set
-			{
-				if ((this._DaHoatDong != value))
-				{
-					this._DaHoatDong = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_LoaiHinh", DbType="NVarChar(11) NOT NULL", CanBeNull=false)]
-		public string LoaiHinh
-		{
-			get
-			{
-				return this._LoaiHinh;
-			}
-			set
-			{
-				if ((this._LoaiHinh != value))
-				{
-					this._LoaiHinh = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ThoiGianVao", DbType="DateTime")]
-		public System.Nullable<System.DateTime> ThoiGianVao
-		{
-			get
-			{
-				return this._ThoiGianVao;
-			}
-			set
-			{
-				if ((this._ThoiGianVao != value))
-				{
-					this._ThoiGianVao = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_NgayOCongTrinh", DbType="Int")]
-		public System.Nullable<int> NgayOCongTrinh
-		{
-			get
-			{
-				return this._NgayOCongTrinh;
-			}
-			set
-			{
-				if ((this._NgayOCongTrinh != value))
-				{
-					this._NgayOCongTrinh = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_GiaThue", DbType="Float")]
-		public System.Nullable<double> GiaThue
-		{
-			get
-			{
-				return this._GiaThue;
-			}
-			set
-			{
-				if ((this._GiaThue != value))
-				{
-					this._GiaThue = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ThanhTien", DbType="Float")]
-		public System.Nullable<double> ThanhTien
-		{
-			get
-			{
-				return this._ThanhTien;
-			}
-			set
-			{
-				if ((this._ThanhTien != value))
-				{
-					this._ThanhTien = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ThayDauTiep", DbType="Float")]
-		public System.Nullable<double> ThayDauTiep
-		{
-			get
-			{
-				return this._ThayDauTiep;
-			}
-			set
-			{
-				if ((this._ThayDauTiep != value))
-				{
-					this._ThayDauTiep = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ThayLocTiep", DbType="Float")]
-		public System.Nullable<double> ThayLocTiep
-		{
-			get
-			{
-				return this._ThayLocTiep;
-			}
-			set
-			{
-				if ((this._ThayLocTiep != value))
-				{
-					this._ThayLocTiep = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_TrangThaiHienTai", DbType="Int")]
-		public System.Nullable<int> TrangThaiHienTai
-		{
-			get
-			{
-				return this._TrangThaiHienTai;
-			}
-			set
-			{
-				if ((this._TrangThaiHienTai != value))
-				{
-					this._TrangThaiHienTai = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_StrTrangThai", DbType="NVarChar(17) NOT NULL", CanBeNull=false)]
-		public string StrTrangThai
-		{
-			get
-			{
-				return this._StrTrangThai;
-			}
-			set
-			{
-				if ((this._StrTrangThai != value))
-				{
-					this._StrTrangThai = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Latitude", DbType="Decimal(18,10) NOT NULL")]
-		public decimal Latitude
-		{
-			get
-			{
-				return this._Latitude;
-			}
-			set
-			{
-				if ((this._Latitude != value))
-				{
-					this._Latitude = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Longitude", DbType="Decimal(18,10) NOT NULL")]
-		public decimal Longitude
-		{
-			get
-			{
-				return this._Longitude;
-			}
-			set
-			{
-				if ((this._Longitude != value))
-				{
-					this._Longitude = value;
 				}
 			}
 		}
@@ -1629,6 +884,964 @@ namespace WebManageFridgeMQTT.Models
 				if ((this._LongtitudeHienTai != value))
 				{
 					this._LongtitudeHienTai = value;
+				}
+			}
+		}
+	}
+	
+	public partial class Sp_GetInfoDeviceByIdResult
+	{
+		
+		private System.Nullable<long> _STT;
+		
+		private string _ThietBiId;
+		
+		private string _TenCongTrinh;
+		
+		private string _DiaDiem;
+		
+		private string _TenVietTat;
+		
+		private string _TenThietBi;
+		
+		private System.Nullable<int> _TrangThai;
+		
+		private string _strTinhTrang;
+		
+		private string _DaHoatDong;
+		
+		private string _LoaiHinh;
+		
+		private string _ThoiGianVao;
+		
+		private string _NgayOCongTrinh;
+		
+		private string _GiaThue;
+		
+		private string _ThanhTien;
+		
+		private string _ThayDauLanCuoi;
+		
+		private string _ThayLocLanCuoi;
+		
+		private string _SoGioThayDau;
+		
+		private string _SoGioThayLoc;
+		
+		private System.Nullable<double> _ThayDauTiep;
+		
+		private System.Nullable<double> _ThayLocTiep;
+		
+		private System.Nullable<int> _TrangThaiHienTai;
+		
+		private string _StrTrangThai;
+		
+		private decimal _Latitude;
+		
+		private decimal _Longitude;
+		
+		public Sp_GetInfoDeviceByIdResult()
+		{
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_STT", DbType="BigInt")]
+		public System.Nullable<long> STT
+		{
+			get
+			{
+				return this._STT;
+			}
+			set
+			{
+				if ((this._STT != value))
+				{
+					this._STT = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ThietBiId", DbType="VarChar(100) NOT NULL", CanBeNull=false)]
+		public string ThietBiId
+		{
+			get
+			{
+				return this._ThietBiId;
+			}
+			set
+			{
+				if ((this._ThietBiId != value))
+				{
+					this._ThietBiId = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_TenCongTrinh", DbType="NVarChar(500)")]
+		public string TenCongTrinh
+		{
+			get
+			{
+				return this._TenCongTrinh;
+			}
+			set
+			{
+				if ((this._TenCongTrinh != value))
+				{
+					this._TenCongTrinh = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DiaDiem", DbType="NVarChar(1000)")]
+		public string DiaDiem
+		{
+			get
+			{
+				return this._DiaDiem;
+			}
+			set
+			{
+				if ((this._DiaDiem != value))
+				{
+					this._DiaDiem = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_TenVietTat", DbType="NVarChar(50) NOT NULL", CanBeNull=false)]
+		public string TenVietTat
+		{
+			get
+			{
+				return this._TenVietTat;
+			}
+			set
+			{
+				if ((this._TenVietTat != value))
+				{
+					this._TenVietTat = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_TenThietBi", DbType="NVarChar(250) NOT NULL", CanBeNull=false)]
+		public string TenThietBi
+		{
+			get
+			{
+				return this._TenThietBi;
+			}
+			set
+			{
+				if ((this._TenThietBi != value))
+				{
+					this._TenThietBi = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_TrangThai", DbType="Int")]
+		public System.Nullable<int> TrangThai
+		{
+			get
+			{
+				return this._TrangThai;
+			}
+			set
+			{
+				if ((this._TrangThai != value))
+				{
+					this._TrangThai = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_strTinhTrang", DbType="VarChar(1) NOT NULL", CanBeNull=false)]
+		public string strTinhTrang
+		{
+			get
+			{
+				return this._strTinhTrang;
+			}
+			set
+			{
+				if ((this._strTinhTrang != value))
+				{
+					this._strTinhTrang = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DaHoatDong", DbType="NVarChar(30)")]
+		public string DaHoatDong
+		{
+			get
+			{
+				return this._DaHoatDong;
+			}
+			set
+			{
+				if ((this._DaHoatDong != value))
+				{
+					this._DaHoatDong = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_LoaiHinh", DbType="NVarChar(11) NOT NULL", CanBeNull=false)]
+		public string LoaiHinh
+		{
+			get
+			{
+				return this._LoaiHinh;
+			}
+			set
+			{
+				if ((this._LoaiHinh != value))
+				{
+					this._LoaiHinh = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ThoiGianVao", DbType="VarChar(1) NOT NULL", CanBeNull=false)]
+		public string ThoiGianVao
+		{
+			get
+			{
+				return this._ThoiGianVao;
+			}
+			set
+			{
+				if ((this._ThoiGianVao != value))
+				{
+					this._ThoiGianVao = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_NgayOCongTrinh", DbType="VarChar(1) NOT NULL", CanBeNull=false)]
+		public string NgayOCongTrinh
+		{
+			get
+			{
+				return this._NgayOCongTrinh;
+			}
+			set
+			{
+				if ((this._NgayOCongTrinh != value))
+				{
+					this._NgayOCongTrinh = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_GiaThue", DbType="NVarChar(50)")]
+		public string GiaThue
+		{
+			get
+			{
+				return this._GiaThue;
+			}
+			set
+			{
+				if ((this._GiaThue != value))
+				{
+					this._GiaThue = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ThanhTien", DbType="NVarChar(50)")]
+		public string ThanhTien
+		{
+			get
+			{
+				return this._ThanhTien;
+			}
+			set
+			{
+				if ((this._ThanhTien != value))
+				{
+					this._ThanhTien = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ThayDauLanCuoi", DbType="VarChar(1) NOT NULL", CanBeNull=false)]
+		public string ThayDauLanCuoi
+		{
+			get
+			{
+				return this._ThayDauLanCuoi;
+			}
+			set
+			{
+				if ((this._ThayDauLanCuoi != value))
+				{
+					this._ThayDauLanCuoi = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ThayLocLanCuoi", DbType="VarChar(1) NOT NULL", CanBeNull=false)]
+		public string ThayLocLanCuoi
+		{
+			get
+			{
+				return this._ThayLocLanCuoi;
+			}
+			set
+			{
+				if ((this._ThayLocLanCuoi != value))
+				{
+					this._ThayLocLanCuoi = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_SoGioThayDau", DbType="VarChar(1) NOT NULL", CanBeNull=false)]
+		public string SoGioThayDau
+		{
+			get
+			{
+				return this._SoGioThayDau;
+			}
+			set
+			{
+				if ((this._SoGioThayDau != value))
+				{
+					this._SoGioThayDau = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_SoGioThayLoc", DbType="VarChar(1) NOT NULL", CanBeNull=false)]
+		public string SoGioThayLoc
+		{
+			get
+			{
+				return this._SoGioThayLoc;
+			}
+			set
+			{
+				if ((this._SoGioThayLoc != value))
+				{
+					this._SoGioThayLoc = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ThayDauTiep", DbType="Float")]
+		public System.Nullable<double> ThayDauTiep
+		{
+			get
+			{
+				return this._ThayDauTiep;
+			}
+			set
+			{
+				if ((this._ThayDauTiep != value))
+				{
+					this._ThayDauTiep = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ThayLocTiep", DbType="Float")]
+		public System.Nullable<double> ThayLocTiep
+		{
+			get
+			{
+				return this._ThayLocTiep;
+			}
+			set
+			{
+				if ((this._ThayLocTiep != value))
+				{
+					this._ThayLocTiep = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_TrangThaiHienTai", DbType="Int")]
+		public System.Nullable<int> TrangThaiHienTai
+		{
+			get
+			{
+				return this._TrangThaiHienTai;
+			}
+			set
+			{
+				if ((this._TrangThaiHienTai != value))
+				{
+					this._TrangThaiHienTai = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_StrTrangThai", DbType="NVarChar(17) NOT NULL", CanBeNull=false)]
+		public string StrTrangThai
+		{
+			get
+			{
+				return this._StrTrangThai;
+			}
+			set
+			{
+				if ((this._StrTrangThai != value))
+				{
+					this._StrTrangThai = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Latitude", DbType="Decimal(18,10) NOT NULL")]
+		public decimal Latitude
+		{
+			get
+			{
+				return this._Latitude;
+			}
+			set
+			{
+				if ((this._Latitude != value))
+				{
+					this._Latitude = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Longitude", DbType="Decimal(18,10) NOT NULL")]
+		public decimal Longitude
+		{
+			get
+			{
+				return this._Longitude;
+			}
+			set
+			{
+				if ((this._Longitude != value))
+				{
+					this._Longitude = value;
+				}
+			}
+		}
+	}
+	
+	public partial class GetInfoDeviceReportResult
+	{
+		
+		private System.Nullable<System.Guid> _ThietBiID;
+		
+		private string _ThoiGian;
+		
+		private string _strTrangThai;
+		
+		private string _strTinhTrang;
+		
+		private string _GhiChu;
+		
+		private string _AvatarThietBi;
+		
+		private string _HinhAnh;
+		
+		public GetInfoDeviceReportResult()
+		{
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ThietBiID", DbType="UniqueIdentifier")]
+		public System.Nullable<System.Guid> ThietBiID
+		{
+			get
+			{
+				return this._ThietBiID;
+			}
+			set
+			{
+				if ((this._ThietBiID != value))
+				{
+					this._ThietBiID = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ThoiGian", DbType="VarChar(1) NOT NULL", CanBeNull=false)]
+		public string ThoiGian
+		{
+			get
+			{
+				return this._ThoiGian;
+			}
+			set
+			{
+				if ((this._ThoiGian != value))
+				{
+					this._ThoiGian = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_strTrangThai", DbType="VarChar(1) NOT NULL", CanBeNull=false)]
+		public string strTrangThai
+		{
+			get
+			{
+				return this._strTrangThai;
+			}
+			set
+			{
+				if ((this._strTrangThai != value))
+				{
+					this._strTrangThai = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_strTinhTrang", DbType="VarChar(1) NOT NULL", CanBeNull=false)]
+		public string strTinhTrang
+		{
+			get
+			{
+				return this._strTinhTrang;
+			}
+			set
+			{
+				if ((this._strTinhTrang != value))
+				{
+					this._strTinhTrang = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_GhiChu", DbType="VarChar(1) NOT NULL", CanBeNull=false)]
+		public string GhiChu
+		{
+			get
+			{
+				return this._GhiChu;
+			}
+			set
+			{
+				if ((this._GhiChu != value))
+				{
+					this._GhiChu = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_AvatarThietBi", DbType="VarChar(8) NOT NULL", CanBeNull=false)]
+		public string AvatarThietBi
+		{
+			get
+			{
+				return this._AvatarThietBi;
+			}
+			set
+			{
+				if ((this._AvatarThietBi != value))
+				{
+					this._AvatarThietBi = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_HinhAnh", DbType="VarChar(26) NOT NULL", CanBeNull=false)]
+		public string HinhAnh
+		{
+			get
+			{
+				return this._HinhAnh;
+			}
+			set
+			{
+				if ((this._HinhAnh != value))
+				{
+					this._HinhAnh = value;
+				}
+			}
+		}
+	}
+	
+	public partial class GetInfoDeviceMoveResult
+	{
+		
+		private string _Ngay;
+		
+		private string _TuViTri;
+		
+		private string _DenViTri;
+		
+		public GetInfoDeviceMoveResult()
+		{
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Ngay", DbType="VarChar(1) NOT NULL", CanBeNull=false)]
+		public string Ngay
+		{
+			get
+			{
+				return this._Ngay;
+			}
+			set
+			{
+				if ((this._Ngay != value))
+				{
+					this._Ngay = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_TuViTri", DbType="NVarChar(250) NOT NULL", CanBeNull=false)]
+		public string TuViTri
+		{
+			get
+			{
+				return this._TuViTri;
+			}
+			set
+			{
+				if ((this._TuViTri != value))
+				{
+					this._TuViTri = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DenViTri", DbType="NVarChar(250) NOT NULL", CanBeNull=false)]
+		public string DenViTri
+		{
+			get
+			{
+				return this._DenViTri;
+			}
+			set
+			{
+				if ((this._DenViTri != value))
+				{
+					this._DenViTri = value;
+				}
+			}
+		}
+	}
+	
+	public partial class GetInfoDeviceModifyResult
+	{
+		
+		private string _NgayBaoSua;
+		
+		private string _NgaySua;
+		
+		private string _NgayHoanTat;
+		
+		private string _DonViSua;
+		
+		private string _DiaDiemSua;
+		
+		private string _MoTa;
+		
+		private string _ChiPhi;
+		
+		public GetInfoDeviceModifyResult()
+		{
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_NgayBaoSua", DbType="VarChar(1) NOT NULL", CanBeNull=false)]
+		public string NgayBaoSua
+		{
+			get
+			{
+				return this._NgayBaoSua;
+			}
+			set
+			{
+				if ((this._NgayBaoSua != value))
+				{
+					this._NgayBaoSua = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_NgaySua", DbType="VarChar(1) NOT NULL", CanBeNull=false)]
+		public string NgaySua
+		{
+			get
+			{
+				return this._NgaySua;
+			}
+			set
+			{
+				if ((this._NgaySua != value))
+				{
+					this._NgaySua = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_NgayHoanTat", DbType="VarChar(1) NOT NULL", CanBeNull=false)]
+		public string NgayHoanTat
+		{
+			get
+			{
+				return this._NgayHoanTat;
+			}
+			set
+			{
+				if ((this._NgayHoanTat != value))
+				{
+					this._NgayHoanTat = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DonViSua", DbType="VarChar(1) NOT NULL", CanBeNull=false)]
+		public string DonViSua
+		{
+			get
+			{
+				return this._DonViSua;
+			}
+			set
+			{
+				if ((this._DonViSua != value))
+				{
+					this._DonViSua = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DiaDiemSua", DbType="VarChar(1) NOT NULL", CanBeNull=false)]
+		public string DiaDiemSua
+		{
+			get
+			{
+				return this._DiaDiemSua;
+			}
+			set
+			{
+				if ((this._DiaDiemSua != value))
+				{
+					this._DiaDiemSua = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_MoTa", DbType="VarChar(1) NOT NULL", CanBeNull=false)]
+		public string MoTa
+		{
+			get
+			{
+				return this._MoTa;
+			}
+			set
+			{
+				if ((this._MoTa != value))
+				{
+					this._MoTa = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ChiPhi", DbType="VarChar(1) NOT NULL", CanBeNull=false)]
+		public string ChiPhi
+		{
+			get
+			{
+				return this._ChiPhi;
+			}
+			set
+			{
+				if ((this._ChiPhi != value))
+				{
+					this._ChiPhi = value;
+				}
+			}
+		}
+	}
+	
+	public partial class GetInfoDeviceActivityResult
+	{
+		
+		private System.Guid _ThietBiID;
+		
+		private string _DeviceId;
+		
+		private string _ThoiGianHoatDong;
+		
+		private string _LanThayDauTiepTheo;
+		
+		private string _LanThayLocTiepTheo;
+		
+		private System.DateTime _ThoiGian;
+		
+		private System.Nullable<int> _Loai;
+		
+		private System.Nullable<double> _Time;
+		
+		private System.Nullable<int> _TrangThai;
+		
+		private string _StrTrangThai;
+		
+		public GetInfoDeviceActivityResult()
+		{
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ThietBiID", DbType="UniqueIdentifier NOT NULL")]
+		public System.Guid ThietBiID
+		{
+			get
+			{
+				return this._ThietBiID;
+			}
+			set
+			{
+				if ((this._ThietBiID != value))
+				{
+					this._ThietBiID = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DeviceId", DbType="NVarChar(50) NOT NULL", CanBeNull=false)]
+		public string DeviceId
+		{
+			get
+			{
+				return this._DeviceId;
+			}
+			set
+			{
+				if ((this._DeviceId != value))
+				{
+					this._DeviceId = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ThoiGianHoatDong", DbType="VarChar(1) NOT NULL", CanBeNull=false)]
+		public string ThoiGianHoatDong
+		{
+			get
+			{
+				return this._ThoiGianHoatDong;
+			}
+			set
+			{
+				if ((this._ThoiGianHoatDong != value))
+				{
+					this._ThoiGianHoatDong = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_LanThayDauTiepTheo", DbType="VarChar(1) NOT NULL", CanBeNull=false)]
+		public string LanThayDauTiepTheo
+		{
+			get
+			{
+				return this._LanThayDauTiepTheo;
+			}
+			set
+			{
+				if ((this._LanThayDauTiepTheo != value))
+				{
+					this._LanThayDauTiepTheo = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_LanThayLocTiepTheo", DbType="VarChar(1) NOT NULL", CanBeNull=false)]
+		public string LanThayLocTiepTheo
+		{
+			get
+			{
+				return this._LanThayLocTiepTheo;
+			}
+			set
+			{
+				if ((this._LanThayLocTiepTheo != value))
+				{
+					this._LanThayLocTiepTheo = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ThoiGian", DbType="DateTime NOT NULL")]
+		public System.DateTime ThoiGian
+		{
+			get
+			{
+				return this._ThoiGian;
+			}
+			set
+			{
+				if ((this._ThoiGian != value))
+				{
+					this._ThoiGian = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Loai", DbType="Int")]
+		public System.Nullable<int> Loai
+		{
+			get
+			{
+				return this._Loai;
+			}
+			set
+			{
+				if ((this._Loai != value))
+				{
+					this._Loai = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Time", DbType="Float")]
+		public System.Nullable<double> Time
+		{
+			get
+			{
+				return this._Time;
+			}
+			set
+			{
+				if ((this._Time != value))
+				{
+					this._Time = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_TrangThai", DbType="Int")]
+		public System.Nullable<int> TrangThai
+		{
+			get
+			{
+				return this._TrangThai;
+			}
+			set
+			{
+				if ((this._TrangThai != value))
+				{
+					this._TrangThai = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_StrTrangThai", DbType="NVarChar(17) NOT NULL", CanBeNull=false)]
+		public string StrTrangThai
+		{
+			get
+			{
+				return this._StrTrangThai;
+			}
+			set
+			{
+				if ((this._StrTrangThai != value))
+				{
+					this._StrTrangThai = value;
 				}
 			}
 		}

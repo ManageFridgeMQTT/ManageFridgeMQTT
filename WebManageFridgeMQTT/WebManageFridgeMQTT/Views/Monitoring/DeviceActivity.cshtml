@@ -1,5 +1,25 @@
 ﻿@model WebManageFridgeMQTT.Utility.DeviceActivity
+<style>
+    .st {
+    color:#fff;
+    }
+</style>
 <div class="row">
+    @if (Model.ListData != null && Model.ListData.Count > 0)
+    {
+        <div>
+            @Html.Label("Đã hoạt động: ", new { @class= "st"})
+            @Model.ListData[0].ThoiGianHoatDong
+        </div>
+        <div>
+            @Html.Label("Lần thay dầu tiếp theo: ", new { @class= "st"})
+           @Model.ListData[0].LanThayDauTiepTheo
+        </div>
+        <div>
+            @Html.Label("Lần thay lọc tiếp theo: ", new { @class= "st"})
+            @Model.ListData[0].LanThayLocTiepTheo
+        </div>
+    }
     <div class="item fl">
         <label class="fl">Chọn Ngày</label>
         @Html.TextBox("strFromDateHoatDong", Model.FromDate.ToShortDateString(), new { @class = "datepicker" })
@@ -11,7 +31,7 @@
         </button>
     </div>
 </div>
-<div id="table-hoatdong" class="tab-content wrapper">
+<div id="table-hoatdong" class="tab-content wrapper" style="height:200px">
     <table class="tablesorter">
         <thead>
             <tr>
@@ -21,34 +41,35 @@
             </tr>
         </thead>
         <tbody>
-            @if (Model.ListData != null)
+            @if (Model.ListData != null && Model.ListData.Count >0)
             {
                 int i = 1;
                 foreach (var item in Model.ListData)
-                {
-                    <tr>
-                        <td>@i</td>
-                        <td>@item.ThoiGian.ToString()</td>
-                        <td>@item.StrTrangThai</td>
-                    </tr>
+                {                 
+                <tr>
+                    <td>@i</td>
+                    <td>@item.ThoiGian.ToString()</td>
+                    <td>@item.StrTrangThai</td>
+                </tr>
                     i++;
                 }
             }
         </tbody>
     </table>
 </div>
-<div class="row" style="padding-bottom:2px">
+<div class="row" style="padding-bottom: 2px">
     <div class="col-xs-offset-3 col-xs-5">
         <ul class="m-0">
             <li class="ts-pager-hoatdong">
-                <span>
-                    Chọn
+                <span>Chọn
                     <select class="pagenum input-mini" title="Select page number"></select>
                 </span>
-                <span>   </span>
-                <a href="#" title="prev"><img src="@Url.Content("~/Content/NewEtool/img/per.png")" class="prev" /></a>
+                <span></span>
+                <a href="#" title="prev">
+                    <img src="@Url.Content("~/Content/NewEtool/img/per.png")" class="prev" /></a>
                 <span class="pagedisplay"></span>
-                <a href="#" title="next"><img src="@Url.Content("~/Content/NewEtool/img/next.png")" class="next" /></a>
+                <a href="#" title="next">
+                    <img src="@Url.Content("~/Content/NewEtool/img/next.png")" class="next" /></a>
             </li>
         </ul>
     </div>
@@ -69,10 +90,10 @@
             cssGoto: ".pagenum",
             prev: '.prev',
             next: '.next',
-            size: 5,
+            size: 10,
             removeRows: false,
             output: ' {startRow} to {endRow} of {totalRows}' //'Showing {startRow} to {endRow} of {totalRows} entries' //'{startRow} - {endRow} / {filteredRows} ({totalRows})'  //'/ {totalPages}'
         });
-				
+
     });
 </script>

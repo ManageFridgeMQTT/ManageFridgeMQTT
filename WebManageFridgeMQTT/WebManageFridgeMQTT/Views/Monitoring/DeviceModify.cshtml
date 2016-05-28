@@ -2,8 +2,8 @@
 <div class="row">
     <div class="item fl">
         <label class="fl">Chọn Ngày</label>
-        @Html.TextBox("strFromDateHoatDong", Model.FromDate.ToShortDateString(), new { @class = "datepicker" })
-        @Html.TextBox("strToDateHoatDong", Model.ToDate.ToShortDateString(), new { @class = "datepicker" })
+        @Html.TextBox("strFromDateBaoDuong", Model.FromDate.ToShortDateString(), new { @class = "datepicker" })
+        @Html.TextBox("strToDateBaoDuong", Model.ToDate.ToShortDateString(), new { @class = "datepicker" })
     </div>
     <div id="btn-xemBaoDuong" class="item fl">
         <button onclick="RenderBaoDuong('@Model.ThietBiID')">
@@ -16,64 +16,48 @@
         <table class="tablesorter">
             <thead>
                 <tr>
-                    <th>Thời Gian</th>
-                    <th>Mô tả</th>
-                    <th>Đơn vị sửa chửa</th>
+                    <th>Ngày Báo Sửa</th>
+                    <th>Ngày Sửa</th>
+                    <th>Ngày Hoàn Tất</th>
+                    <th>Đơn Vị Sửa</th>
+                    <th>Địa Điểm Sửa</th>
+                    <th>Mô Tả</th>
                     <th>Chi Phí</th>
-                    <th>Công Trình</th>
                 </tr>
             </thead>
             <tbody>
-                @if (Model.ListDataModify != null)
+                @if (Model.ListDataModify != null && Model.ListDataModify.Count > 0)
                 {
                     foreach (var item in Model.ListDataModify)
                     {
-                        <tr>
-                            <td>@(item.NgaySua.HasValue ? item.NgaySua.Value.ToString() : "")</td>
-                            <td>@item.MoTa</td>
-                            <td>@item.DonViSua</td>
-                            <td>@item.ChiPhi</td>
-                            <td>@item.NguoiKhaiBao</td>
-                        </tr>
+                    <tr>
+                        <td>@item.NgayBaoSua</td>
+                        <td>@item.NgaySua</td>
+                        <td>@item.NgayHoanTat</td>
+                        <td>@item.DonViSua</td>
+                        <td>@item.DiaDiemSua</td>
+                        <td>@item.MoTa</td>
+                        <td>@item.ChiPhi</td>
+                    </tr>
                     }
                 }
-                @*<tr>
-                    <td>02/04/2016 7:56:34 CH</td>
-                    <td>Thay Dầu</td>
-                    <td>Minh Anh </td>
-                    <td>10000</td>
-                    <td>Công Trình Bạch Đằng</td>
-                </tr>
-                <tr>
-                    <td>02/04/2016 7:56:34 CH</td>
-                    <td>Sửa lọc</td>
-                    <td>Minh Anh </td>
-                    <td>6000</td>
-                    <td>Công Trình Kiến Hưng</td>
-                </tr>
-                <tr>
-                    <td>16/04/2016 7:56:34 CH</td>
-                    <td>Sửa bánh xe</td>
-                    <td>Minh Anh </td>
-                    <td>16000</td>
-                    <td>Công Trình Kiến Hưng</td>
-                </tr>*@
             </tbody>
         </table>
     </div>
 </div>
-<div class="row" style="padding-bottom:2px">
+<div class="row" style="padding-bottom: 2px">
     <div class="col-xs-offset-3 col-xs-5">
         <ul class="m-0">
             <li class="ts-pager-baoduong">
-                <span>
-                    Chọn
+                <span>Chọn
                     <select class="pagenum input-mini" title="Select page number"></select>
                 </span>
-                <span>   </span>
-                <a href="#" title="prev"><img src="@Url.Content("~/Content/NewEtool/img/per.png")" class="prev" /></a>
+                <span></span>
+                <a href="#" title="prev">
+                    <img src="@Url.Content("~/Content/NewEtool/img/per.png")" class="prev" /></a>
                 <span class="pagedisplay"></span>
-                <a href="#" title="next"><img src="@Url.Content("~/Content/NewEtool/img/next.png")" class="next" /></a>
+                <a href="#" title="next">
+                    <img src="@Url.Content("~/Content/NewEtool/img/next.png")" class="next" /></a>
             </li>
         </ul>
     </div>

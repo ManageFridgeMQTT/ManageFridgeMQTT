@@ -586,6 +586,7 @@ namespace WebManageFridgeMQTT.Utility
 
         public List<GetInfoDeviceModifyResult> ListDataModify { get; set; }
 
+        public List<GetInfoDeviceReportResult> ListDataReport { get; set; }
         
 
         public DeviceActivity()
@@ -596,6 +597,7 @@ namespace WebManageFridgeMQTT.Utility
             this.ListData = new List<GetInfoDeviceActivityResult>();
             this.ListDataMove = new List<GetInfoDeviceMoveResult>();
             this.ListDataModify = new List<GetInfoDeviceModifyResult>();
+            this.ListDataReport = new List<GetInfoDeviceReportResult>();
         }
     }
 }

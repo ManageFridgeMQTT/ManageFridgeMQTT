@@ -1,0 +1,86 @@
+﻿@model WebManageFridgeMQTT.Utility.DeviceActivity
+<div class="row">
+    <div class="item fl">
+        <label class="fl">Chọn Ngày</label>
+        @Html.TextBox("strFromDateBaoCao", Model.FromDate.ToShortDateString(), new { @class = "datepicker" })
+        @Html.TextBox("strToDateBaoCao", Model.ToDate.ToShortDateString(), new { @class = "datepicker" })
+    </div>
+    <div id="btn-xemDiChuyen" class="item fl">
+        <button onclick="RenderDiChuyen('@Model.ThietBiID')">
+            <i class="icon-submit" title="Xem báo cáo"></i>Xem
+        </button>
+    </div>
+</div>
+<div class="row content-body">
+    <div id="table-report" class="tab-content wrapper">
+        <table class="tablesorter">
+            <thead>
+                <tr>
+                    <th>STT</th>
+                    <th>Thời Gian</th>
+                    <th>Trạng Thái</th>
+                    <th>Tình Trạng</th>
+                     <th>Ghi Chú</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model.ListDataReport != null && Model.ListDataReport.Count >0)
+                {
+                    int i = 1;
+                    foreach (var item in Model.ListDataReport)
+                    {
+                    <tr>
+                        <td>@i</td>
+                        <td>@item.ThoiGian</td>
+                        <td>@item.strTrangThai</td>
+                        <td>@item.strTinhTrang</td>
+                        <td>@item.GhiChu</td>
+
+
+                    </tr>
+                        i++;
+                    }
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+<div class="row" style="padding-bottom: 2px">
+    <div class="col-xs-offset-3 col-xs-5">
+        <ul class="m-0">
+            <li class="ts-pager-dichuyen">
+                <span>Chọn
+                    <select class="pagenum input-mini" title="Select page number"></select>
+                </span>
+                <span></span>
+                <a href="#" title="prev">
+                    <img src="@Url.Content("~/Content/NewEtool/img/per.png")" class="prev" /></a>
+                <span class="pagedisplay"></span>
+                <a href="#" title="next">
+                    <img src="@Url.Content("~/Content/NewEtool/img/next.png")" class="next" /></a>
+            </li>
+        </ul>
+    </div>
+</div>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('.datepicker').datepicker({
+            dateFormat: 'dd/mm/yy'
+        });
+        $('.tab-content .tablesorter').tablesorter({
+            headerTemplate: '{content} {icon}', // Add icon for various themes
+            widgets: ['uitheme', 'zebra', 'stickyHeaders', 'stickyFooters'], //, 'filter'
+            widgetOptions: {
+                stickyHeaders_attachTo: '.wrapper', // or $('.wrapper')
+            }
+        }).tablesorterPager({
+            container: $(".ts-pager-dichuyen"),
+            cssGoto: ".pagenum",
+            prev: '.prev',
+            next: '.next',
+            size: 5,
+            removeRows: false,
+            output: ' {startRow} to {endRow} of {totalRows}' //'Showing {startRow} to {endRow} of {totalRows} entries' //'{startRow} - {endRow} / {filteredRows} ({totalRows})'  //'/ {totalPages}'
+        });
+    });
+</script>

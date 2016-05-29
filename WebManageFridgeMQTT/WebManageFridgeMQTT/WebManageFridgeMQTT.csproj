@@ -437,6 +437,7 @@
     <Content Include="Content\Icon\markers\tatcau.png" />
     <Content Include="Content\Icon\markers\tatdichuyen.png" />
     <Content Include="Content\Icon\markers\tatkhoan.png" />
+    <Content Include="Content\Icon\markers\up.png" />
     <Content Include="Content\Icon\markers\VN.png" />
     <Content Include="Content\Icon\markers\yellow.png" />
     <Content Include="Content\Icon\markers\_ASM.png" />

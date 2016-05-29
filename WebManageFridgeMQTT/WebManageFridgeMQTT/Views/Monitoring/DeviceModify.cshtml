@@ -12,10 +12,11 @@
     </div>
 </div>
 <div class="row content-body">
-    <div id="table-baoduong" class="tab-content wrapper">
+    <div id="table-baoduong" class="tab-content wrapper" style="height:300px">
         <table class="tablesorter">
             <thead>
                 <tr>
+                    <th>STT</th>
                     <th>Ngày Báo Sửa</th>
                     <th>Ngày Sửa</th>
                     <th>Ngày Hoàn Tất</th>
@@ -28,9 +29,11 @@
             <tbody>
                 @if (Model.ListDataModify != null && Model.ListDataModify.Count > 0)
                 {
+                    int i = 1;
                     foreach (var item in Model.ListDataModify)
                     {
                     <tr>
+                         <td>@i</td>
                         <td>@item.NgayBaoSua</td>
                         <td>@item.NgaySua</td>
                         <td>@item.NgayHoanTat</td>
@@ -39,6 +42,7 @@
                         <td>@item.MoTa</td>
                         <td class="align-right">@item.ChiPhi</td>
                     </tr>
+                        i++;
                     }
                 }
             </tbody>

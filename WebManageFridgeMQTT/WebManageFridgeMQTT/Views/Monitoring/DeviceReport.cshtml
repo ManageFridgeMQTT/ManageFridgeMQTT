@@ -12,7 +12,7 @@
     </div>
 </div>
 <div class="row content-body">
-    <div id="table-report" class="tab-content wrapper">
+    <div id="table-report" class="tab-content wrapper" style="height:300px">
         <table class="tablesorter">
             <thead>
                 <tr>
@@ -67,6 +67,7 @@
         $('.datepicker').datepicker({
             dateFormat: 'dd/mm/yy'
         });
+
         $('.tab-content .tablesorter').tablesorter({
             headerTemplate: '{content} {icon}', // Add icon for various themes
             widgets: ['uitheme', 'zebra', 'stickyHeaders', 'stickyFooters'], //, 'filter'

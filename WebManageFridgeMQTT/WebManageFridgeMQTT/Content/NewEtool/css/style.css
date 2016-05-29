@@ -1371,3 +1371,7 @@ table.dxeListBox_Moderno {
 [class^="dxeBase"] label {
 	line-height: 25px;
 }
+
+.tablesorter-default th, .tablesorter-default td{
+    border: #ccc 1px solid;
+}

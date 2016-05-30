@@ -47,9 +47,7 @@ $(document).ready(function () {
         $('.draggable').draggable();
     }
 
-    for (i = 20; i <= 54; i++) {
-        $('#report-visited .tablesorter .tablesorter-filter-row td:nth-child(' + i + '),#report-visited .tablesorter .tablesorter-filter-row th:nth-child(' + i + ')').hide();
-    }
+    $('table').trigger('pageSet', 1);
 
     $('.btn-edit').click(function () {
         $('.sortable li, table tr').removeClass('selected');

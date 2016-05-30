@@ -1,7 +1,12 @@
 ﻿@model WebManageFridgeMQTT.Utility.DeviceActivity
 
-<div id="InfoDetailDeviceReport" style="display: none; z-index: 999999999999; min-width: 305px; opacity: 1; max-height: 300px;">
+<div id="InfoDetailDeviceReport" style="display: none; z-index: 999999999999;bottom:22px;text-align:center; width: 305px; background-color:darkgray;opacity: 1; height: 300px;position:absolute">
   <div>abcd</div>
+    <div>
+         <button onclick="Close();">
+            <i class="icon-submit" title="Xem báo cáo"></i>Close
+        </button>
+    </div>
       </div>
 <div class="row">
     <div class="item fl">
@@ -70,10 +75,13 @@
 </div>
 <script type="text/javascript">
     $('#tbClick').on('dblclick', 'tr', function () {
-        var item = $(this).find('td:first').text();
-        alert(item);  
+      //  var item = $(this).find('td:first').text();
+        $('#InfoDetailDeviceReport').show();
+      //  alert(item);  
     });
-
+    function Close() {
+        $('#InfoDetailDeviceReport').hide();
+    }
     $(document).ready(function () {
         $('.datepicker').datepicker({
             dateFormat: 'dd/mm/yy'

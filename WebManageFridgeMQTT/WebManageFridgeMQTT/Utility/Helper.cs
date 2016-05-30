@@ -600,4 +600,10 @@ namespace WebManageFridgeMQTT.Utility
             this.ListDataReport = new List<GetInfoDeviceReportResult>();
         }
     }
+
+    public class ActivityChip
+    {
+        public Sp_GetInfoDeviceByIdResult infoDevice { get; set; }
+        public List<GetInfoDeviceActivityResult> ListData { get; set; }
+    }
 }

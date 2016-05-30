@@ -40,7 +40,7 @@ namespace WebManageFridgeMQTT
             Gateway gateway = new Gateway();
             gateway.client = new MqttClient(IPAddress.Parse("45.117.80.39"));
             clientID = "1111AAAA";
-      //      gateway.client.Connect(clientID);
+           // gateway.client.Connect(clientID);
             CustomLog.LogError("connect thanh cong");
             string[] topic = { "#", "Test/#" };
 

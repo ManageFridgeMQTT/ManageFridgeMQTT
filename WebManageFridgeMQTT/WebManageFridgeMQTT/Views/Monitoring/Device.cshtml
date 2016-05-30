@@ -102,7 +102,7 @@
         width: 330px;
         background-color: white;
         overflow: auto;
-        top: 2px;
+        top: 4px;
         right: 0px;
         border: 2px solid #3E6F39;
         border-radius: 3px;
@@ -167,7 +167,7 @@
     }
 
         #tb1 tr:hover td {
-            background: #ADA9A8;
+            background: linear-gradient(to right, #25c481, #25b7c4);
             color: #FFFFFF;
             border-top: 1px solid #22262e;
             border-bottom: 1px solid #22262e;
@@ -248,32 +248,14 @@
     ::-webkit-scrollbar-thumb {
         -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
     }
-    .btnToggle {
-    position:absolute;
-    top:-5px;
-    right:2px;
-    }
-        .btnToggleHide {
-    position:absolute;
-    top:-5px;
-    right:320px;
-    display:none;
-    }
 </style>
 <div id="loading" class="loading">
 </div>
 
 <div class="insider">
     <div id="map" class="map">
-                    <div class="btnToggle">
-                <img src="@Url.Content("~/Content/Icon/markers/down.png")" title="Show Option" style="margin-right: 5px;" />
-            </div>
-                            <div class="btnToggleHide">
-                <img src="@Url.Content("~/Content/Icon/markers/up.png")" title="Hide Option" style="margin-right: 5px;" />
-            </div>
-        <div id="contain" class="parentToggle" style="display:none">
-
-            <div style="height:20px"></div>
+        <div id="contain">
+            <div style="height: 25px"></div>
             <div id="inputText" class="input-group" style="margin-left: 28px">
                 <input type="text" id="txtSearch" name="txtSearch" class="form-control" aria-label="..." placeholder="Nhập từ khóa" style="width: 130px;" />
                 <button type="button" id="btnSearch" onclick="SearchOnTreeView()" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="icon-search"></i></button>
@@ -333,10 +315,9 @@
     </div>
 
 </div>
-
-<div id="DevicePopupTemplete" style="display: none; z-index: 999999; min-width: 750px; opacity: 1; max-height: 450px;">
+<div id="DevicePopupTemplete" style="display: none; z-index: 999999; min-width: 750px; opacity: 1; max-height: 450px; background: -webkit-linear-gradient(left, #25c481, #25b7c4); background: linear-gradient(to right, #25c481, #25b7c4);">
     <div class="tab-header">
-        <ul id="ul-tab" class="nav nav-tabs" style=" text-transform: uppercase;">
+        <ul id="ul-tab" class="nav nav-tabs" style="background: -webkit-linear-gradient(left, #25c481, #25b7c4); background: linear-gradient(to right, #25c481, #25b7c4); color: #fff; text-transform: uppercase;">
             <li class="active"><a data-toggle="tab" href="#info">Thông tin Chung</a></li>
             <li><a data-toggle="tab" href="#detail" onclick="RenderBaoCao('0')">Thông Tin Báo Cáo</a></li>
             <li><a data-toggle="tab" href="#activity" onclick="RenderHoatDong('0')">Theo Dõi Hoạt Động (Chip)</a></li>
@@ -349,7 +330,6 @@
             <div class="row">
                 <div class="col-sm-4">
                     <img id="avatar" style="max-width: 200px; max-height: 280px; padding-top: 36px; padding-bottom: 12px; padding-left: 20px" src="http://map.dfsglobjjal.vn//ImageTB//71691be9-cf4c-4829-9ab5-0705903cdf82.jpg" />
-
                 </div>
                 <div class="col-sm-8">
                     <div class="info" style="height: 250px">
@@ -475,30 +455,41 @@
         </div>
     </div>
 </div>
+<!-- Modal -->
+<div id="HoatdongModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div id="HoatDongModalBody" class="modal-body">
+            </div>
+        </div>
+
+    </div>
+</div>
+<div id="ReportModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div id="ReportBody" style="width:600px;height:500px">
+            </div>
+        </div>
+
+    </div>
+</div>
 <script type="text/javascript">
-    $('.btnToggle').click(function() {
-        $('.parentToggle').slideToggle('fast');
-        $('.btnToggle').hide();
-        $('.btnToggleHide').show()
-        return false;
-    });
-    $('.btnToggleHide').click(function() {
-        $('.parentToggle').slideToggle('fast');
-        $('.btnToggleHide').hide();
-        $('.btnToggle').show();
-        return false;
-    });
     $(window).on("load resize ", function() {
         var scrollWidth = $('.tbl-content').width() - $('.tbl-content table').width();
         $('.tbl-header').css({'padding-right':scrollWidth});
     }).resize();
     var PathFolderImage = '@System.Configuration.ConfigurationManager.AppSettings["PathFolderImage"].ToString()';
-
-    $('.btnToggle').on('click', function() {
-        $parent_box = $(this).closest('.parentToggle');
-        $parent_box.siblings().find('.bottom').slideUp();
-        $parent_box.find('.bottom').slideToggle(100, 'swing');
-    });
+    function getFormattedCurrency(num) {
+        num = num.toFixed(2)
+        var cents = (num - Math.floor(num)).toFixed(2);
+        return Math.floor(num).toLocaleString() + '.' + cents.split('.')[1];
+    }
+    
     var mapData = [];
     mapData.LatLongBounds = [];
     mapData.LayerDevice = L.layerGroup();
@@ -710,6 +701,10 @@
     }
     function RenderHoatDong(thietbiId)
     {
+        $("#activity").load('@(Url.Action("DeviceActivity", "Monitoring"))?thietBiID=' + thietbiId);
+    }
+    function showPopup(thietbiId)
+    {
         var strFromDate = $('#strFromDateHoatDong').val();
         if(strFromDate == undefined)
         {
@@ -721,8 +716,17 @@
         {
             strToDate = '';
         }
-        $("#activity").load('@(Url.Action("DeviceActivity", "Monitoring"))?thietBiID=' + thietbiId + '&strFromDate=' + strFromDate + '&strToDate=' + strToDate);
+        $("#HoatDongModalBody").load('@(Url.Action("PopupActivity", "Monitoring"))?thietBiID=' + thietbiId + '&strFromDate=' + strFromDate + '&strToDate=' + strToDate);
+        $("#HoatdongModal").modal('show');
     }
+
+    function showPopupReport(){
+        $("#loading").css("display", "none");
+        $("#ReportBody").load('@Url.Action("PopupReport", "Monitoring")');
+        $("#ReportModal").modal('show');
+        $("#loading").css("display", "none");
+    }
+
     function formatDate(date) {
         if(date){
             var d = new Date(parseInt(date.substr(6)));

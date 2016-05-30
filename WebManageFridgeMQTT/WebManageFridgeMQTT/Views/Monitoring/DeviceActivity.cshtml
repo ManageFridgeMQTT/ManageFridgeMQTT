@@ -1,37 +1,21 @@
-﻿@model WebManageFridgeMQTT.Utility.DeviceActivity
-<style>
-    .st {
-    color:#fff;
-    }
-</style>
+﻿@model WebManageFridgeMQTT.Utility.ActivityChip
 <div class="row">
-    @if (Model.ListData != null && Model.ListData.Count > 0)
-    {
-        <div>
-            @Html.Label("Đã hoạt động: ", new { @class= "st"})
-            @Model.ListData[0].ThoiGianHoatDong
-        </div>
-        <div>
-            @Html.Label("Lần thay dầu tiếp theo: ", new { @class= "st"})
-           @Model.ListData[0].LanThayDauTiepTheo
-        </div>
-        <div>
-            @Html.Label("Lần thay lọc tiếp theo: ", new { @class= "st"})
-            @Model.ListData[0].LanThayLocTiepTheo
-        </div>
-    }
-    <div class="item fl">
-        <label class="fl">Chọn Ngày</label>
-        @Html.TextBox("strFromDateHoatDong", Model.FromDate.ToShortDateString(), new { @class = "datepicker" })
-        @Html.TextBox("strToDateHoatDong", Model.ToDate.ToShortDateString(), new { @class = "datepicker" })
-    </div>
-    <div id="btn-xemHoatDong" class="item fl">
-        <button onclick="RenderHoatDong('@Model.ThietBiID')">
-            <i class="icon-submit" title="Xem báo cáo"></i>Xem
-        </button>
+    <div style="margin-left:20px">
+        <p>
+            @Html.Label("Đã hoạt động: ", new { @class = "st" })
+            @Model.infoDevice.DaHoatDong
+        </p>
+        <p>
+            @Html.Label("Lần thay dầu tiếp theo: ", new { @class = "st" })
+            @Model.infoDevice.ThayDauTiep
+        </p>
+        <p>
+            @Html.Label("Lần thay lọc tiếp theo: ", new { @class = "st" })
+            @Model.infoDevice.ThayLocTiep
+        </p>
     </div>
 </div>
-<div id="table-hoatdong" class="tab-content wrapper" style="height:300px">
+<div id="table-hoatdong" class="tab-content wrapper" style="height:200px">
     <table class="tablesorter">
         <thead>
             <tr>
@@ -59,41 +43,17 @@
 </div>
 <div class="row" style="padding-bottom: 2px">
     <div class="col-xs-offset-3 col-xs-5">
-        <ul class="m-0">
-            <li class="ts-pager-hoatdong">
-                <span>Chọn
-                    <select class="pagenum input-mini" title="Select page number"></select>
-                </span>
-                <span></span>
-                <a href="#" title="prev">
-                    <img src="@Url.Content("~/Content/NewEtool/img/per.png")" class="prev" /></a>
-                <span class="pagedisplay"></span>
-                <a href="#" title="next">
-                    <img src="@Url.Content("~/Content/NewEtool/img/next.png")" class="next" /></a>
-            </li>
-        </ul>
+        <button type="button" onclick="showPopup('@Model.infoDevice.ThietBiId')">Xem chi tiết</button>
     </div>
 </div>
 <script type="text/javascript">
     $(document).ready(function () {
-        $('.datepicker').datepicker({
-            dateFormat: 'dd/mm/yy'
-        });
         $('.tab-content .tablesorter').tablesorter({
             headerTemplate: '{content} {icon}', // Add icon for various themes
             widgets: ['uitheme', 'zebra', 'stickyHeaders', 'stickyFooters'], //, 'filter'
             widgetOptions: {
                 stickyHeaders_attachTo: '.wrapper', // or $('.wrapper')
             }
-        }).tablesorterPager({
-            container: $(".ts-pager-hoatdong"),
-            cssGoto: ".pagenum",
-            prev: '.prev',
-            next: '.next',
-            size: 5,
-            removeRows: false,
-            output: ' {startRow} to {endRow} of {totalRows}' //'Showing {startRow} to {endRow} of {totalRows} entries' //'{startRow} - {endRow} / {filteredRows} ({totalRows})'  //'/ {totalPages}'
         });
-
     });
-</script>
+    </script>

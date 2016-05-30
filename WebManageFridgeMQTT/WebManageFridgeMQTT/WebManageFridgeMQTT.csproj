@@ -192,6 +192,16 @@
     <Compile Include="Utility\Helper.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\i1.png" />
+    <Content Include="Content\i10.png" />
+    <Content Include="Content\i2.png" />
+    <Content Include="Content\i3.png" />
+    <Content Include="Content\i4.png" />
+    <Content Include="Content\i5.png" />
+    <Content Include="Content\i6.png" />
+    <Content Include="Content\i7.png" />
+    <Content Include="Content\i8.png" />
+    <Content Include="Content\i9.png" />
     <Content Include="Content\Icon\markers\001.png" />
     <Content Include="Content\Icon\markers\002.png" />
     <Content Include="Content\Icon\markers\003.png" />
@@ -437,7 +447,6 @@
     <Content Include="Content\Icon\markers\tatcau.png" />
     <Content Include="Content\Icon\markers\tatdichuyen.png" />
     <Content Include="Content\Icon\markers\tatkhoan.png" />
-    <Content Include="Content\Icon\markers\up.png" />
     <Content Include="Content\Icon\markers\VN.png" />
     <Content Include="Content\Icon\markers\yellow.png" />
     <Content Include="Content\Icon\markers\_ASM.png" />
@@ -613,8 +622,35 @@
     <Content Include="Content\NewEtool\js\ui.js" />
     <Content Include="Content\NewEtool\js\widget-columnSelector.js" />
     <Content Include="Content\NewEtool\js\widget-scroller.js" />
+    <Content Include="Content\Test\arrows.png" />
+    <Content Include="Content\Test\bootstrap.css" />
+    <Content Include="Content\Test\bootstrap.js" />
+    <Content Include="Content\Test\bootstrap.min.css" />
+    <Content Include="Content\Test\bootstrap.min.js" />
+    <Content Include="Content\Test\browser.png" />
+    <Content Include="Content\Test\demo.css" />
+    <Content Include="Content\Test\full-slider.css" />
+    <Content Include="Content\Test\img\002.jpg" />
+    <Content Include="Content\Test\img\003.jpg" />
+    <Content Include="Content\Test\img\004.jpg" />
+    <Content Include="Content\Test\img\005.jpg" />
+    <Content Include="Content\Test\img\006.jpg" />
+    <Content Include="Content\Test\img\007.jpg" />
+    <Content Include="Content\Test\img\008.jpg" />
+    <Content Include="Content\Test\img\009.jpg" />
+    <Content Include="Content\Test\img\010.jpg" />
+    <Content Include="Content\Test\img\011.jpg" />
+    <Content Include="Content\Test\img\a02.png" />
+    <Content Include="Content\Test\img\icon_chrome.png" />
+    <Content Include="Content\Test\img\loading.gif" />
+    <Content Include="Content\Test\jquery-1.11.3.min.js" />
+    <Content Include="Content\Test\jquery.gallery.js" />
+    <Content Include="Content\Test\jquery.js" />
+    <Content Include="Content\Test\jssor.slider.mini.js" />
+    <Content Include="Content\Test\modernizr.custom.53451.js" />
     <Content Include="Content\Test\ninja-slider.css" />
     <Content Include="Content\Test\ninja-slider.js" />
+    <Content Include="Content\Test\style.css" />
     <Content Include="Content\Test\thumbnail-slider.css" />
     <Content Include="Content\Test\thumbnail-slider.js" />
     <Content Include="Content\themes\base\images\ui-bg_flat_0_aaaaaa_40x100.png" />
@@ -788,7 +824,8 @@
     <Content Include="Scripts\Leaflet\leaflet-src.map" />
     <Content Include="Views\Monitoring\TreeViewSelected.cshtml" />
     <Content Include="Views\Monitoring\DeviceReport.cshtml" />
-    <Content Include="Views\Monitoring\View1.cshtml" />
+    <Content Include="Views\Monitoring\PopupReport.cshtml" />
+    <Content Include="Views\Monitoring\PopupActivity.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

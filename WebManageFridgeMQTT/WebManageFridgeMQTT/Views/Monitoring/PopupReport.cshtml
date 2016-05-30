@@ -1,0 +1,102 @@
+﻿@model WebManageFridgeMQTT.Utility.DeviceActivity
+@*<link href="~/Content/Test/bootstrap.min.css" rel="stylesheet" />*@
+<link href="~/Content/Test/full-slider.css" rel="stylesheet" />
+
+
+<header id="myCarousel" class="carousel slide2" style="background-color: white">
+    <!-- Indicators -->
+    <ol class="carousel-indicators">
+        <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+        <li data-target="#myCarousel" data-slide-to="1"></li>
+        <li data-target="#myCarousel" data-slide-to="2"></li>
+    </ol>
+
+    <div class="carousel-inner" style="background-color:#151515">
+        <div class="item active">
+            @*                @foreach(var item in Model.ListDataReport){
+                 <div class="fill" style="background-image:url('@item.HinhAnh');height:380px"></div>
+                <div class="carousel-caption">
+                    <h2>Caption 1</h2>
+                    <label>Thời Gian: @item.ThoiGian</label>
+                        <label>Trạng Thái: @item.strTrangThai</label>
+                        <label>Tình Trạng: @item.strTinhTrang</label>
+                    <label>Mô Tả: @item.GhiChu</label>
+                </div>}*@
+            <div class="fill" style="background-image: url('../Content/img1.jpg'); height: 70%;width:600px;"></div>
+            <div class="carousel-caption" style="bottom: -30px;text-align:left;">
+                <h2>Thông Tin Hình Ảnh Báo Cáo</h2>
+                <label>Thời Gian: 12/06/2016 12:23</label><br />
+                <label>Trạng Thái: Bình Thường</label><br />
+                <label>Tình Trạng: N/A</label><br />
+                <label>Mô Tả: Đã kiểm tra</label><br />
+            </div>
+        </div>
+        <div class="item">
+
+            <div class="fill" style="background-image: url('../Content/img2.jpg');height: 350px"></div>
+             <div class="carousel-caption" style="bottom: -30px;text-align:left;">
+                <h2>Thông Tin Hình Ảnh Báo Cáo</h2>
+                <label>Thời Gian: 12/06/2016 12:23</label><br />
+                <label>Trạng Thái: Bình Thường</label><br />
+                <label>Tình Trạng: N/A</label><br />
+                <label>Mô Tả: Đã kiểm tra</label><br />
+            </div>
+        </div>
+        <div class="item">
+
+            <div class="fill" style="background-image: url('../Content/img3.jpg');height: 350px"></div>
+         <div class="carousel-caption" style="bottom: -30px;text-align:left;">
+                <h2>Thông Tin Hình Ảnh Báo Cáo</h2>
+                <label>Thời Gian: 12/06/2016 12:23</label><br />
+                <label>Trạng Thái: Bình Thường</label><br />
+                <label>Tình Trạng: N/A</label><br />
+                <label>Mô Tả: Đã kiểm tra</label><br />
+            </div>
+        </div>
+        <div class="item">
+
+            <div class="fill" style="background-image: url('../Content/img22.jpg');height: 350px"></div>
+          <div class="carousel-caption" style="bottom: -30px;text-align:left;">
+                <h2>Thông Tin Hình Ảnh Báo Cáo</h2>
+                <label>Thời Gian: 12/06/2016 12:23</label><br />
+                <label>Trạng Thái: Bình Thường</label><br />
+                <label>Tình Trạng: N/A</label><br />
+                <label>Mô Tả: Đã kiểm tra</label><br />
+            </div>
+        </div>
+        <div class="item">
+
+            <div class="fill" style="background-image: url('../Content/img11.jpg');height: 350px"></div>
+          <div class="carousel-caption" style="bottom: -30px;text-align:left;">
+                <h2>Thông Tin Hình Ảnh Báo Cáo</h2>
+                <label>Thời Gian: 12/06/2016 12:23</label><br />
+                <label>Trạng Thái: Bình Thường</label><br />
+                <label>Tình Trạng: N/A</label><br />
+                <label>Mô Tả: Đã kiểm tra</label><br />
+            </div>
+        </div>
+    </div>
+
+    <!-- Controls -->
+    <a class="left carousel-control" href="#myCarousel" data-slide="prev">
+        <span class="icon-prev"></span>
+    </a>
+    <a class="right carousel-control" href="#myCarousel" data-slide="next">
+        <span class="icon-next"></span>
+    </a>
+
+</header>
+
+
+=
+    <script src="js/jquery.js"></script>
+<script src="~/Content/Test/jquery.js"></script>
+
+
+<script src="~/Content/Test/bootstrap.min.js"></script>
+=
+    <script>
+        $('.carousel').carousel({
+            interval: 5000 //changes the speed
+        })
+    </script>

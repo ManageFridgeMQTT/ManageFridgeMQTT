@@ -613,6 +613,10 @@
     <Content Include="Content\NewEtool\js\ui.js" />
     <Content Include="Content\NewEtool\js\widget-columnSelector.js" />
     <Content Include="Content\NewEtool\js\widget-scroller.js" />
+    <Content Include="Content\Test\ninja-slider.css" />
+    <Content Include="Content\Test\ninja-slider.js" />
+    <Content Include="Content\Test\thumbnail-slider.css" />
+    <Content Include="Content\Test\thumbnail-slider.js" />
     <Content Include="Content\themes\base\images\ui-bg_flat_0_aaaaaa_40x100.png" />
     <Content Include="Content\themes\base\images\ui-bg_flat_75_ffffff_40x100.png" />
     <Content Include="Content\themes\base\images\ui-bg_glass_55_fbf9ee_1x400.png" />
@@ -784,6 +788,7 @@
     <Content Include="Scripts\Leaflet\leaflet-src.map" />
     <Content Include="Views\Monitoring\TreeViewSelected.cshtml" />
     <Content Include="Views\Monitoring\DeviceReport.cshtml" />
+    <Content Include="Views\Monitoring\View1.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

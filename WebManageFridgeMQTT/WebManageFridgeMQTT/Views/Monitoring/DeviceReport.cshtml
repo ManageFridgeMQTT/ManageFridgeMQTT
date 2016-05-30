@@ -1,11 +1,107 @@
 ﻿@model WebManageFridgeMQTT.Utility.DeviceActivity
 
-<div id="InfoDetailDeviceReport" style="display: none; z-index: 999999999999;bottom:22px;text-align:center; width: 305px; background-color:darkgray;opacity: 1; height: 300px;position:absolute">
-  <div>abcd</div>
-    <div>
-         <button onclick="Close();">
-            <i class="icon-submit" title="Xem báo cáo"></i>Close
-        </button>
+    <link href="~/Content/Test/ninja-slider.css" rel="stylesheet" />
+@section Scripts{
+    <script src="~/Content/Test/ninja-slider.js"></script>
+    }
+    <style>
+        body {font: normal 0.9em Arial;margin:0;height:500px}
+        a {color:#1155CC;}
+        ul li {padding: 10px 0;}
+        header {display:block;padding:60px 0 10px;background-color:#191919;text-align:center;}
+        header a {
+            font-family: sans-serif;
+            font-size: 24px;
+            line-height: 24px;
+            padding: 8px 13px 7px;
+            color: #4d5256;
+            text-decoration:none;
+            transition: color 0.7s;
+        }
+        header a.active {
+            font-weight:bold;
+            width: 24px;
+            height: 24px;
+            padding: 4px;
+            text-align: center;
+            display:inline-block;
+            border-radius: 50%;
+            background: #4d5256;
+            color: #191919;
+        }
+        .web_dialog
+{
+   display: none;
+   position: absolute;
+   width: 500px;
+   height: 600px;
+   top: 50%;
+   left: 50%;
+   margin-left: -190px;
+   margin-top: -100px;
+   background-color: #ffffff;
+   border: 2px solid #336699;
+   padding: 0px;
+   z-index: 102;
+   font-family: Verdana;
+   font-size: 10pt;
+}
+        .web_dialog_overlay
+{
+   position: fixed;
+   top: 0;
+   right: 0;
+   bottom: 0;
+   left: 0;
+   height: 100%;
+   width: 100%;
+   margin: 0;
+   padding: 0;
+   background: #000000;
+   opacity: .15;
+   filter: alpha(opacity=15);
+   -moz-opacity: .15;
+   z-index: 101;
+   display: none;
+}
+    </style>
+<div id="overlay" class="web_dialog_overlay"></div>
+<div id="dialog" class="web_dialog">
+        <header>
+        <a class="active" href="demo1.html">1</a>
+        <a href="demo2.html">2</a>
+        <a href="demo3.html">3</a>
+        <a href="demo4.html">4</a>
+        <a href="demo5.html">5</a>
+        <a href="demo6.html">6</a>
+        <a href="demo7.html">7</a>
+        <a href="demo8.html">8</a>
+        <a href="demo9.html">9</a>
+    </header>
+  <div id="ninja-slider" >
+        <div class="slider-inner">
+
+            <ul>
+          <li>
+                    <a class="ns-img" href="~/Content/i1.png"></a>
+                    <div class="caption">ddd</div>
+                </li>
+                <li><a class="ns-img" href="~/Content/i2.png"></a>
+                    <div class="caption">aa</div>
+                </li>
+                <li>
+                    <a href="/"><img class="ns-img" src="~/Content/i3.png" style="cursor:pointer;" /></a>
+                    <div class="caption">cc</div>
+                </li>
+                <li>
+                    <a class="ns-img" href="~/Content/i4.png"></a>
+                    <div class="caption cap1">RESPONSIVE</div>
+                    <div class="caption cap1 cap2">TOUCH·FRIENDLY</div>
+                    <div class="caption">d</div>
+                </li>
+            </ul>
+            <div class="fs-icon" title="Expand/Close"></div>
+        </div>
     </div>
       </div>
 <div class="row">
@@ -75,12 +171,23 @@
 </div>
 <script type="text/javascript">
     $('#tbClick').on('dblclick', 'tr', function () {
-      //  var item = $(this).find('td:first').text();
-        $('#InfoDetailDeviceReport').show();
-      //  alert(item);  
+        var item = $(this).find('td:first').text();
+        ShowDialog(true);
+        e.preventDefault();
+       // $('#InfoDetailDeviceReport').show();
     });
-    function Close() {
-        $('#InfoDetailDeviceReport').hide();
+    function ShowDialog(modal) {
+        $("#overlay").show();
+        $("#dialog").fadeIn(300);
+
+        if (modal) {
+            $("#overlay").unbind("click");
+        }
+        else {
+            $("#overlay").click(function (e) {
+                HideDialog();
+            });
+        }
     }
     $(document).ready(function () {
         $('.datepicker').datepicker({

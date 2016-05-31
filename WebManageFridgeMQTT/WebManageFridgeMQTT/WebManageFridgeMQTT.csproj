@@ -783,6 +783,7 @@
     <Content Include="Scripts\Leaflet\leaflet-src.map" />
     <Content Include="Views\Monitoring\TreeViewSelected.cshtml" />
     <Content Include="Views\Monitoring\DeviceReport.cshtml" />
+    <Content Include="Views\Monitoring\PopupActivity.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

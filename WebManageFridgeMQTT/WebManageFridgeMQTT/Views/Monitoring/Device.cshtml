@@ -330,7 +330,6 @@
             <div class="row">
                 <div class="col-sm-4">
                     <img id="avatar" style="max-width: 200px; max-height: 280px; padding-top: 36px; padding-bottom: 12px; padding-left: 20px" src="http://map.dfsglobjjal.vn//ImageTB//71691be9-cf4c-4829-9ab5-0705903cdf82.jpg" />
-
                 </div>
                 <div class="col-sm-8">
                     <div class="info" style="height: 250px">
@@ -456,6 +455,19 @@
         </div>
     </div>
 </div>
+<!-- Modal -->
+<div id="HoatdongModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div id="HoatDongModalBody" class="modal-body">
+            </div>
+        </div>
+
+    </div>
+</div>
+
 <script type="text/javascript">
     $(window).on("load resize ", function() {
         var scrollWidth = $('.tbl-content').width() - $('.tbl-content table').width();
@@ -679,6 +691,10 @@
     }
     function RenderHoatDong(thietbiId)
     {
+        $("#activity").load('@(Url.Action("DeviceActivity", "Monitoring"))?thietBiID=' + thietbiId);
+    }
+    function showPopup(thietbiId)
+    {
         var strFromDate = $('#strFromDateHoatDong').val();
         if(strFromDate == undefined)
         {
@@ -690,8 +706,11 @@
         {
             strToDate = '';
         }
-        $("#activity").load('@(Url.Action("DeviceActivity", "Monitoring"))?thietBiID=' + thietbiId + '&strFromDate=' + strFromDate + '&strToDate=' + strToDate);
+        $("#HoatDongModalBody").load('@(Url.Action("PopupActivity", "Monitoring"))?thietBiID=' + thietbiId + '&strFromDate=' + strFromDate + '&strToDate=' + strToDate);
+        $("#HoatdongModal").modal('show');
     }
+
+
     function formatDate(date) {
         if(date){
             var d = new Date(parseInt(date.substr(6)));

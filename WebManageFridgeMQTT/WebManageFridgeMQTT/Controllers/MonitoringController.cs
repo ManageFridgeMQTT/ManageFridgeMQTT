@@ -102,14 +102,26 @@ namespace WebManageFridgeMQTT.Controllers
             model.ListDataModify = Global.Context.GetInfoDeviceModify(model.ThietBiID, model.FromDate, model.ToDate).ToList();
             return PartialView("DeviceModify", model);
         }
-        public ActionResult DeviceActivity(string thietBiID, string strFromDate, string strToDate)
+        public ActionResult DeviceActivity(string thietBiID)
+        {
+            ActivityChip model = new ActivityChip();
+            if (!string.IsNullOrEmpty(thietBiID))
+            {
+                model.infoDevice = Global.Context.Sp_GetInfoDeviceById(thietBiID).FirstOrDefault();
+                DateTime FromDate = DateTime.Now.AddMonths(-1);
+                DateTime ToDate = DateTime.Now;
+                model.ListData = Global.Context.GetInfoDeviceActivity(thietBiID, FromDate, ToDate).OrderByDescending(x => x.ThoiGian).Take(5).ToList();
+            }
+            return PartialView("DeviceActivity", model);
+        }
+        public ActionResult PopupActivity(string thietBiID, string strFromDate, string strToDate)
         {
             DeviceActivity model = new DeviceActivity();
             if (!string.IsNullOrEmpty(thietBiID))
             {
                 model.ThietBiID = thietBiID;
             }
-            if(!string.IsNullOrEmpty(strFromDate))
+            if (!string.IsNullOrEmpty(strFromDate))
             {
                 model.FromDate = DateTime.Parse(strFromDate);
             }
@@ -119,9 +131,10 @@ namespace WebManageFridgeMQTT.Controllers
             }
             DateTime FromDate = DateTime.Now.AddMonths(-1);
             DateTime ToDate = DateTime.Now;
-            model.ListData = Global.Context.GetInfoDeviceActivity(model.ThietBiID, model.FromDate, model.ToDate).OrderByDescending(x=>x.ThoiGian).ToList();
-            return PartialView("DeviceActivity", model);
+            model.ListData = Global.Context.GetInfoDeviceActivity(model.ThietBiID, model.FromDate, model.ToDate).OrderByDescending(x => x.ThoiGian).ToList();
+            return PartialView("PopupActivity", model);
         }
+
         public ActionResult DeviceMove(string thietBiID, string strFromDate, string strToDate)
         {
             DeviceActivity model = new DeviceActivity();

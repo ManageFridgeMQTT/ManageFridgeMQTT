@@ -20,23 +20,23 @@
                     <th>Thời Gian</th>
                     <th>Trạng Thái</th>
                     <th>Tình Trạng</th>
-                     <th>Ghi Chú</th>
+                    <th>Ghi Chú</th>
+                    <th style="display:none">Hình Ảnh</th>
                 </tr>
             </thead>
-            <tbody>
+            <tbody id="tbBodyReport">
                 @if (Model.ListDataReport != null && Model.ListDataReport.Count >0)
                 {
                     int i = 1;
                     foreach (var item in Model.ListDataReport)
                     {
-                    <tr>
+                    <tr onclick="ShowPopupReport(this)">
                         <td>@i</td>
                         <td>@item.ThoiGian</td>
                         <td>@item.strTrangThai</td>
                         <td>@item.strTinhTrang</td>
                         <td>@item.GhiChu</td>
-
-
+                        <td>@item.HinhAnh</td>
                     </tr>
                         i++;
                     }
@@ -82,5 +82,6 @@
             removeRows: false,
             output: ' {startRow} to {endRow} of {totalRows}' //'Showing {startRow} to {endRow} of {totalRows} entries' //'{startRow} - {endRow} / {filteredRows} ({totalRows})'  //'/ {totalPages}'
         });
+        
     });
 </script>

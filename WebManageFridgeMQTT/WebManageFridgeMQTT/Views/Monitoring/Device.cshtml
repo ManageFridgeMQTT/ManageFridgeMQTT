@@ -315,9 +315,9 @@
     </div>
 
 </div>
-<div id="DevicePopupTemplete" style="display: none; z-index: 999999; min-width: 750px; opacity: 1; max-height: 450px; background: -webkit-linear-gradient(left, #25c481, #25b7c4); background: linear-gradient(to right, #25c481, #25b7c4);">
+<div id="DevicePopupTemplete" style="display: none; z-index: 999999; min-width: 750px; opacity: 1; max-height: 450px;">
     <div class="tab-header">
-        <ul id="ul-tab" class="nav nav-tabs" style="background: -webkit-linear-gradient(left, #25c481, #25b7c4); background: linear-gradient(to right, #25c481, #25b7c4); color: #fff; text-transform: uppercase;">
+        <ul id="ul-tab" class="nav nav-tabs">
             <li class="active"><a data-toggle="tab" href="#info">Thông tin Chung</a></li>
             <li><a data-toggle="tab" href="#detail" onclick="RenderBaoCao('0')">Thông Tin Báo Cáo</a></li>
             <li><a data-toggle="tab" href="#activity" onclick="RenderHoatDong('0')">Theo Dõi Hoạt Động (Chip)</a></li>
@@ -467,8 +467,66 @@
 
     </div>
 </div>
-
+<div id="BaoCaoModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h3 class="modal-title">Hình ảnh báo cáo</h3>
+            </div>
+            <div id="BaoCaoBody" class="modal-body">
+                <div class="row">
+                    <div>
+                        <table class="box-header">
+                            <tr>
+                                <td>Thời gian: <span>sdsđ</span></td>
+                                <td>Tình trạng: <span>sdsd</span></td>
+                            </tr>
+                            <tr>
+                                <td>Trạng thái: <span>sdsd</span></td>
+                                <td>Mô tả: <span>sdsd</span></td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+                <div class="row" style="text-align:center">
+                    <img id="image2" style="max-width: 250px; max-height: 400px; padding-top: 5px; padding-bottom: 5px; padding-left: 10px;" src="~/Content/img2.jpg" />
+                </div>
+                <div class="row" style="text-align:center">
+                        <ul class="m-0">
+                            <li class="">
+                                <a href="#" title="prev">
+                                    <img src="@Url.Content("~/Content/NewEtool/img/per.png")" class="prev" />
+                                </a>
+                                <span class="pagedisplay"></span>
+                                <a href="#" title="next">
+                                    <img src="@Url.Content("~/Content/NewEtool/img/next.png")" class="next" />
+                                </a>
+                            </li>
+                        </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 <script type="text/javascript">
+    $(document).ready(function () {
+        $('body').on('click', '#table-report > table > tbody > tr', function () {
+            var listtd = $(this).children('td');
+            var thoiGian = listtd[1];
+            var trangThai = listtd[2];
+            var tinhTrang = listtd[3];
+            var moTa = listtd[4];
+            var hinhanh = listtd[5];
+            alert(thoiGian.outerText + trangThai.outerText + tinhTrang.outerText + moTa.outerText);
+
+            $("#BaoCaoModal").modal('show');
+        });
+    });
+
+
+
+
     $(window).on("load resize ", function() {
         var scrollWidth = $('.tbl-content').width() - $('.tbl-content table').width();
         $('.tbl-header').css({'padding-right':scrollWidth});
@@ -749,4 +807,6 @@
     $(document).ajaxError(function () {
         //alert("ajax có vấn đề");
     });
+
+    
 </script>

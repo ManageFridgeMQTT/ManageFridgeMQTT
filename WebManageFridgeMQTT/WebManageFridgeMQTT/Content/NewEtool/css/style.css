@@ -1381,6 +1381,6 @@ table.dxeListBox_Moderno {
 .box-header tr td span{
     font-weight:bold;
 }
-.boxSilebar{
+#boxSilebar{
 	margin-bottom: 10px;
 }

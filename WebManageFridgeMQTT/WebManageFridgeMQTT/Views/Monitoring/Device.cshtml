@@ -18,6 +18,8 @@
     <link rel="stylesheet" href="@Url.Content("~/Scripts/Leaflet/MarkerCluster.Default.css")" />
     <link rel="stylesheet" href="@Url.Content("~/Scripts/Leaflet/font-awesome.css")" />
     <link rel="stylesheet" href="@Url.Content("~/Scripts/Leaflet/leaflet.awesome-markers.css")" />
+    <link rel="stylesheet" href="@Url.Content("~/Scripts/Leaflet/L.Control.SlideMenu.css")" />
+
     <script type="text/javascript" src="@Url.Content("~/Scripts/Leaflet/leaflet.js")"></script>
     <script type="text/javascript" src="http://maps.google.com/maps/api/js?v=3.2&sensor=false"></script>
     <script type="text/javascript" src="@Url.Content("~/Scripts/Leaflet/leaflet-google.js")"></script>
@@ -29,6 +31,9 @@
 
     <script type="text/javascript" src="@Url.Content("~/Scripts/Leaflet/leaflet.markercluster-src.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Scripts/Leaflet/GeoFridge.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Scripts/Leaflet/L.Control.SlideMenu.js")"></script>
+
+
     <script>
         function OnTreeViewNodeClick(s, e) {
             var itemId = e.node.name;
@@ -96,19 +101,6 @@
             max-height: 21px;
         }
 
-    #contain {
-        position: absolute;
-        height: 350px;
-        width: 330px;
-        background-color: white;
-        overflow: auto;
-        top: 4px;
-        right: 0px;
-        border: 2px solid #3E6F39;
-        border-radius: 3px;
-        z-index: 999999999;
-    }
-
     .loading {
         width: 100%;
         height: 100%;
@@ -121,104 +113,6 @@
         /*background: url(/MapTest/images/loading.gif) no-repeat center #bbb;*/
     }
 
-    .table-fill {
-        background: white;
-        border-radius: 3px;
-        border-collapse: collapse;
-        height: 300px;
-        margin: auto;
-        max-width: 500px;
-        padding: 2px;
-        width: 100%;
-        box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
-        animation: float 5s infinite;
-    }
-
-    #tb1 th {
-        color: #D5DDE5;
-        background: #1b1e24;
-        border-bottom: 4px solid #9ea7af;
-        border-right: 1px solid #343a45;
-        font-size: 23px;
-        font-weight: 100;
-        padding: 24px;
-        text-align: left;
-        text-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
-        vertical-align: middle;
-    }
-
-    #tb1.th:first-child {
-        border-top-left-radius: 3px;
-    }
-
-    #tb1 th:last-child {
-        border-top-right-radius: 3px;
-        border-right: none;
-    }
-
-    #tb1 tr {
-        border-top: 1px solid #C1C3D1;
-        border-bottom-: 1px solid #C1C3D1;
-        color: #666B85;
-        font-size: 16px;
-        font-weight: normal;
-        text-shadow: 0 1px 1px rgba(256, 256, 256, 0.1);
-        height: 10px;
-    }
-
-        #tb1 tr:hover td {
-            background: linear-gradient(to right, #25c481, #25b7c4);
-            color: #FFFFFF;
-            border-top: 1px solid #22262e;
-            border-bottom: 1px solid #22262e;
-        }
-
-    /*tr:first-child {
-  border-top:none;
-}
-
-#tb1 tr:last-child {
-  border-bottom:none;
-}
- #tb1 tr:nth-child(odd) td {
-  background:#EBEBEB;
-}
- 
-#tb1 tr:nth-child(odd):hover td {
-  background:#4E5066;
-}
-
-#tb1 tr:last-child td:first-child {
-  border-bottom-left-radius:3px;
-}
- 
-#tb1 tr:last-child td:last-child {
-  border-bottom-right-radius:3px;
-}*/
-
-    #tb1 td {
-        background: #FFFFFF;
-        padding: 2px;
-        text-align: left;
-        vertical-align: middle;
-        font-weight: 100;
-        font-size: 14px;
-        text-shadow: -1px -1px 1px rgba(0, 0, 0, 0.1);
-        border-right: 1px solid #C1C3D1;
-        height: 10px;
-    }
-
-        #tb1 td:last-child {
-            border-right: 0px;
-        }
-
-    #tb1.th.text-left {
-        text-align: left;
-    }
-
-    #tb1.th.text-center {
-        text-align: center;
-    }
 
     text-right {
         text-align: right;
@@ -254,9 +148,8 @@
 
 <div class="insider">
     <div id="map" class="map">
-        <div id="contain">
-            <div style="height: 25px"></div>
-            <div id="inputText" class="input-group" style="margin-left: 28px">
+        <div id="boxSilebar" style="display:none">
+            <div id="inputText" class="input-group">
                 <input type="text" id="txtSearch" name="txtSearch" class="form-control" aria-label="..." placeholder="Nhập từ khóa" style="width: 130px;" />
                 <button type="button" id="btnSearch" onclick="SearchOnTreeView()" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="icon-search"></i></button>
             </div>
@@ -492,7 +385,7 @@
                 <div class="row" style="text-align:center">
                     <img id="bcImage" style="max-width: 250px; max-height: 400px; padding-top: 5px; padding-bottom: 5px; padding-left: 10px;" src="~/Content/img2.jpg" />
                 </div>
-                <div class="row" style="text-align:center">
+                @*<div class="row" style="text-align:center">
                         <ul class="m-0">
                             <li class="">
                                 <a href="#" title="prev">
@@ -504,7 +397,7 @@
                                 </a>
                             </li>
                         </ul>
-                </div>
+                </div>*@
             </div>
         </div>
     </div>
@@ -523,11 +416,11 @@
 
             var htmlData = '';
             var data = $('#BaoCaoBody');
-            data.find('span[id="bcThoiGian"]').html(thoiGian.outerText());
-            data.find('span[id="bcTinhTrang"]').html(tinhTrang.outerText());
-            data.find('span[id="bcTrangThai"]').html(trangThai.outerText());
-            data.find('span[id="bcMoTa"]').html(moTa.outerText());
-            data.find('img[id="bcImage"]').attr('src', PathFolderImage + hinhanh.outerText());
+            data.find('span[id="bcThoiGian"]').html(thoiGian.outerText);
+            data.find('span[id="bcTinhTrang"]').html(tinhTrang.outerText);
+            data.find('span[id="bcTrangThai"]').html(trangThai.outerText);
+            data.find('span[id="bcMoTa"]').html(moTa.outerText);
+            data.find('img[id="bcImage"]').attr('src', PathFolderImage + hinhanh.outerText);
             
             var elm = data[0];
             htmlData += elm.outerHTML;
@@ -535,9 +428,7 @@
             $("#BaoCaoModal").modal('show');
         });
     });
-
-
-
+    
 
     $(window).on("load resize ", function() {
         var scrollWidth = $('.tbl-content').width() - $('.tbl-content table').width();
@@ -693,24 +584,6 @@
             data.find('div[id="btn-xemBaoDuong"]').html(btnxemBaoDuong);
             var imgavatar = PathFolderImage + item.ThietBiId +'.jpg';
             data.find('img[id="avatar"]').attr('src', imgavatar);
-        
-            //if(item.HAHoatDongThietBi != '' & item.HAHoatDongThietBi != undefined)
-            //{
-            //    var arrayHA = item.HAHoatDongThietBi.split(",");
-            //    if(arrayHA.length >= 1){
-            //        data.find('img[id="image1"]').attr('src', PathFolderImage + arrayHA[0]);
-            //    }
-            //    if(arrayHA.length >= 2){
-            //        data.find('img[id="image2"]').attr('src', PathFolderImage + arrayHA[1]);
-            //    }
-            //    if(arrayHA.length >= 3){
-            //        data.find('img[id="image3"]').attr('src', PathFolderImage + arrayHA[2]);
-            //    }
-            //}
-        
-
-
-            //$("#imageID").attr('src', 'srcImage.jpg');
 
             var elm = data[0];
             htmlData += elm.outerHTML;
@@ -819,5 +692,8 @@
         //alert("ajax có vấn đề");
     });
 
-    
+    var slidebarContent = $('#boxSilebar');
+    slidebarContent.css('display','');
+    var slideMenu = L.control.slideMenu('', {position: 'topright', width: '250px', height: '400px'}).addTo(map);
+    slideMenu.setContents(slidebarContent[0].outerHTML);
 </script>

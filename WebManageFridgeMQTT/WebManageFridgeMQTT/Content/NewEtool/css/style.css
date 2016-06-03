@@ -961,9 +961,8 @@ body {
 	box-shadow: none;
 }
 .input-group {
-	display: inline-table;
-	max-width: 190px;
-	vertical-align: middle;
+    margin-left:22px;
+	max-width: 250px;
 }
 .input-group-btn:last-child > .btn, .input-group-btn:last-child > .btn-group {
     margin-right: 15px;

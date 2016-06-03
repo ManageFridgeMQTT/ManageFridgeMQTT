@@ -148,13 +148,27 @@
 
 <div class="insider">
     <div id="map" class="map">
-        <div id="boxSilebar" style="display:none">
-            <div id="inputText" class="input-group">
-                <input type="text" id="txtSearch" name="txtSearch" class="form-control" aria-label="..." placeholder="Nhập từ khóa" style="width: 130px;" />
-                <button type="button" id="btnSearch" onclick="SearchOnTreeView()" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="icon-search"></i></button>
+        <div class="leaflet-control-container">
+            <div class="leaflet-top leaflet-right">
+                <div class="leaflet-control-slidemenu leaflet-bar leaflet-control">
+                    <a class="leaflet-bar-part leaflet-bar-part-single" title="Menu">
+                        <img src="@Url.Content("~/Content/NewEtool/img/per.png")" />
+                    </a>
+                </div>
             </div>
-            <div style="margin-left: 10px" id="tree" class="treeView">
-                @Html.Action("TreeViewSelected")
+        </div>
+        <div class="leaflet-menu" style="max-width: 300px; max-height: 450px; min-width:250px; right: -300px;">
+            <button class="leaflet-menu-close-button" style="float: left;"><img src="@Url.Content("~/Content/NewEtool/img/next.png")" /></button>
+            <div class="leaflet-menu-contents" style="clear: both;">
+                <div id="boxSilebar">
+                    <div id="inputText" class="input-group">
+                        <input type="text" id="txtSearch" name="txtSearch" class="form-control" aria-label="..." placeholder="Nhập từ khóa" style="width: 130px;" />
+                        <button type="button" id="btnSearch" onclick="SearchOnTreeView()" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="icon-search"></i></button>
+                    </div>
+                    <div style="margin-left: 10px" id="tree" class="treeView">
+                        @Html.Action("TreeViewSelected")
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -406,6 +420,13 @@
     var PathFolderImage = '@System.Configuration.ConfigurationManager.AppSettings["PathFolderImage"].ToString()';
     
     $(document).ready(function () {
+        
+        $('body').on('click', '.leaflet-control-slidemenu .leaflet-bar-part-single', function () {
+            $('.leaflet-menu').css('right', '0px');
+        });
+        $('body').on('click', '.leaflet-menu-close-button', function () {
+            $('.leaflet-menu').css('right', '-300px');
+        });
         $('body').on('click', '#table-report > table > tbody > tr', function () {
             var listtd = $(this).children('td');
             var thoiGian = listtd[1];
@@ -692,8 +713,6 @@
         //alert("ajax có vấn đề");
     });
 
-    var slidebarContent = $('#boxSilebar');
-    slidebarContent.css('display','');
-    var slideMenu = L.control.slideMenu('', {position: 'topright', width: '250px', height: '400px'}).addTo(map);
-    slideMenu.setContents(slidebarContent[0].outerHTML);
+    //var slideMenu = L.control.slideMenu('', {position: 'topright', width: '250px', height: '400px'}).addTo(map);
+    //slideMenu.setContents('<div>sdsdsdsd</div>');
 </script>

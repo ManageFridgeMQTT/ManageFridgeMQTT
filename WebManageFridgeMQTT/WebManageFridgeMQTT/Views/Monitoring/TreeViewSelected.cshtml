@@ -15,11 +15,6 @@
         new StyleSheet { ExtensionSuite = ExtensionSuite.NavigationAndLayout },
         new StyleSheet { ExtensionSuite = ExtensionSuite.Editors },
         new StyleSheet { ExtensionSuite = ExtensionSuite.HtmlEditor },
-        new StyleSheet { ExtensionSuite = ExtensionSuite.GridView },
-        new StyleSheet { ExtensionSuite = ExtensionSuite.PivotGrid },
-        new StyleSheet { ExtensionSuite = ExtensionSuite.Chart },
-        new StyleSheet { ExtensionSuite = ExtensionSuite.Report },
-        new StyleSheet { ExtensionSuite = ExtensionSuite.Scheduler },
         new StyleSheet { ExtensionSuite = ExtensionSuite.TreeList }
     )
 @*   <link href="@Url.Content("~/Content/NewEtool/css/jquery.theme.default.css")" rel="stylesheet" type="text/css" />
@@ -49,12 +44,7 @@
     @Html.DevExpress().GetScripts(
         new Script { ExtensionSuite = ExtensionSuite.NavigationAndLayout },
         new Script { ExtensionSuite = ExtensionSuite.HtmlEditor },
-        new Script { ExtensionSuite = ExtensionSuite.GridView },
-        new Script { ExtensionSuite = ExtensionSuite.PivotGrid },
         new Script { ExtensionSuite = ExtensionSuite.Editors },
-        new Script { ExtensionSuite = ExtensionSuite.Chart },
-        new Script { ExtensionSuite = ExtensionSuite.Report },
-        new Script { ExtensionSuite = ExtensionSuite.Scheduler },
         new Script { ExtensionSuite = ExtensionSuite.TreeList }
     )
 @Html.DevExpress().TreeView(settings =>
@@ -78,13 +68,16 @@
                    DevExpress.Web.ASPxTreeView treeView = (DevExpress.Web.ASPxTreeView)source;
                    treeView.CollapseAll();
                };
+               string colorcode = "#109D59";
+               int argb = Int32.Parse(colorcode.Replace("#", ""), System.Globalization.NumberStyles.HexNumber);
+               System.Drawing.Color clr = System.Drawing.Color.FromArgb(argb);
                settings.Styles.Node.SelectedStyle.ForeColor = System.Drawing.Color.Black;
                settings.Styles.Node.SelectedStyle.Font.Bold = true;
                settings.Styles.Node.Border.BorderColor= System.Drawing.Color.White; ;
                settings.Styles.Node.HoverStyle.BackColor = System.Drawing.Color.White;
-               settings.Styles.Node.HoverStyle.ForeColor = System.Drawing.Color.Red;
+               settings.Styles.Node.HoverStyle.ForeColor = clr;
 
                settings.ClientSideEvents.NodeClick = "OnTreeViewNodeClick";
                settings.ClientSideEvents.ExpandedChanged = "OnTreeViewExpandedChanged";
                settings.ClientSideEvents.CheckedChanged = "OnTreeViewCheckedChanged";
-           }).GetHtml();
+           }).GetHtml()

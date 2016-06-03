@@ -453,8 +453,11 @@
     <Content Include="Content\Icon\markers\_SM.png" />
     <Content Include="Content\Icon\markers\_SS.png" />
     <Content Include="Content\img1.jpg" />
+    <Content Include="Content\img11.jpg" />
     <Content Include="Content\img2.jpg" />
+    <Content Include="Content\img22.jpg" />
     <Content Include="Content\img3.jpg" />
+    <Content Include="Content\img33.jpg" />
     <Content Include="Content\img\126-More-16.png" />
     <Content Include="Content\img\1402849179_size_width_add.png" />
     <Content Include="Content\img\1402849189_size_width_remove.png" />
@@ -643,6 +646,7 @@
     <Content Include="Content\Test\img\a02.png" />
     <Content Include="Content\Test\img\icon_chrome.png" />
     <Content Include="Content\Test\img\loading.gif" />
+    <Content Include="Content\Test\img\magnifying_glass.png" />
     <Content Include="Content\Test\jquery-1.11.3.min.js" />
     <Content Include="Content\Test\jquery.gallery.js" />
     <Content Include="Content\Test\jquery.js" />
@@ -768,6 +772,8 @@
     <Content Include="Scripts\Leaflet\GoogleLayer.html" />
     <Content Include="Scripts\Leaflet\hoverzoom.js" />
     <Content Include="Scripts\Leaflet\jquery-1.9.1.min.js" />
+    <Content Include="Scripts\Leaflet\L.Control.SlideMenu.css" />
+    <Content Include="Scripts\Leaflet\L.Control.SlideMenu.js" />
     <Content Include="Scripts\Leaflet\Label.js" />
     <Content Include="Scripts\Leaflet\leaflet-google.js" />
     <Content Include="Scripts\Leaflet\leaflet-src.js" />

@@ -334,8 +334,8 @@
                 <div class="col-sm-8">
                     <div class="info" style="height: 250px">
                         <h3 id="TenThietBi">@info.TenThietBi</h3>
-                        <table class="table-fill" id="tb1">
-                            <tbody class="table-hover">
+                        <table id="tb1">
+                            <tbody>
                                 <tr>
                                     <td class="text-left">Tên Thiết Bị</td>
                                     <td><span id="TenThietBi"></span></td>
@@ -479,18 +479,18 @@
                     <div>
                         <table class="box-header">
                             <tr>
-                                <td>Thời gian: <span>sdsđ</span></td>
-                                <td>Tình trạng: <span>sdsd</span></td>
+                                <td>Thời gian: <span id="bcThoiGian">sdsđ</span></td>
+                                <td>Tình trạng: <span id="bcTinhTrang">sdsd</span></td>
                             </tr>
                             <tr>
-                                <td>Trạng thái: <span>sdsd</span></td>
-                                <td>Mô tả: <span>sdsd</span></td>
+                                <td>Trạng thái: <span id="bcTrangThai">sdsd</span></td>
+                                <td>Mô tả: <span id="bcMoTa">sdsd</span></td>
                             </tr>
                         </table>
                     </div>
                 </div>
                 <div class="row" style="text-align:center">
-                    <img id="image2" style="max-width: 250px; max-height: 400px; padding-top: 5px; padding-bottom: 5px; padding-left: 10px;" src="~/Content/img2.jpg" />
+                    <img id="bcImage" style="max-width: 250px; max-height: 400px; padding-top: 5px; padding-bottom: 5px; padding-left: 10px;" src="~/Content/img2.jpg" />
                 </div>
                 <div class="row" style="text-align:center">
                         <ul class="m-0">
@@ -510,6 +510,8 @@
     </div>
 </div>
 <script type="text/javascript">
+    var PathFolderImage = '@System.Configuration.ConfigurationManager.AppSettings["PathFolderImage"].ToString()';
+    
     $(document).ready(function () {
         $('body').on('click', '#table-report > table > tbody > tr', function () {
             var listtd = $(this).children('td');
@@ -518,8 +520,18 @@
             var tinhTrang = listtd[3];
             var moTa = listtd[4];
             var hinhanh = listtd[5];
-            alert(thoiGian.outerText + trangThai.outerText + tinhTrang.outerText + moTa.outerText);
 
+            var htmlData = '';
+            var data = $('#BaoCaoBody');
+            data.find('span[id="bcThoiGian"]').html(thoiGian.outerText());
+            data.find('span[id="bcTinhTrang"]').html(tinhTrang.outerText());
+            data.find('span[id="bcTrangThai"]').html(trangThai.outerText());
+            data.find('span[id="bcMoTa"]').html(moTa.outerText());
+            data.find('img[id="bcImage"]').attr('src', PathFolderImage + hinhanh.outerText());
+            
+            var elm = data[0];
+            htmlData += elm.outerHTML;
+            $('#BaoCaoBody').html(htmlData);
             $("#BaoCaoModal").modal('show');
         });
     });
@@ -531,7 +543,6 @@
         var scrollWidth = $('.tbl-content').width() - $('.tbl-content table').width();
         $('.tbl-header').css({'padding-right':scrollWidth});
     }).resize();
-    var PathFolderImage = '@System.Configuration.ConfigurationManager.AppSettings["PathFolderImage"].ToString()';
     function getFormattedCurrency(num) {
         num = num.toFixed(2)
         var cents = (num - Math.floor(num)).toFixed(2);

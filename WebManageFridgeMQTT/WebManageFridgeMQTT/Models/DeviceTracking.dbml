@@ -11,25 +11,60 @@
       <Column Name="PassLock" Type="System.String" DbType="NVarChar(20)" CanBeNull="true" />
     </Type>
   </Table>
-  <Function Name="dbo.UpdateThieBiSatusMess" Method="UpdateThieBiSatusMess">
+  <Function Name="dbo.GetInfoDeviceActivity" Method="GetInfoDeviceActivity">
     <Parameter Name="strThietBiID" Type="System.String" DbType="NVarChar(MAX)" />
-    <Parameter Name="CommandType" Parameter="commandType" Type="System.String" DbType="NVarChar(200)" />
-    <Parameter Name="CommandId" Parameter="commandId" Type="System.String" DbType="NVarChar(200)" />
-    <Parameter Name="CommandAction" Parameter="commandAction" Type="System.String" DbType="NVarChar(200)" />
-    <Parameter Name="Loai" Parameter="loai" Type="System.Int32" DbType="Int" />
-    <Parameter Name="StatusMay" Parameter="statusMay" Type="System.Int32" DbType="Int" />
-    <Parameter Name="Time" Parameter="time" Type="System.Double" DbType="Float" />
-    <Parameter Name="TrangThaiHienTai" Parameter="trangThaiHienTai" Type="System.Int32" DbType="Int" />
-    <Parameter Name="LatitudeHienTai" Parameter="latitudeHienTai" Type="System.Decimal" DbType="Decimal(18,10)" />
-    <Parameter Name="LongtitudeHienTai" Parameter="longtitudeHienTai" Type="System.Decimal" DbType="Decimal(18,10)" />
-    <Return Type="System.Int32" />
+    <Parameter Name="FromDate" Parameter="fromDate" Type="System.DateTime" DbType="DateTime" />
+    <Parameter Name="ToDate" Parameter="toDate" Type="System.DateTime" DbType="DateTime" />
+    <ElementType Name="GetInfoDeviceActivityResult">
+      <Column Name="ThietBiID" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" CanBeNull="false" />
+      <Column Name="DeviceId" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="ThoiGianHoatDong" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
+      <Column Name="LanThayDauTiepTheo" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
+      <Column Name="LanThayLocTiepTheo" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
+      <Column Name="ThoiGian" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
+      <Column Name="Loai" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Time" Type="System.Double" DbType="Float" CanBeNull="true" />
+      <Column Name="TrangThai" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="StrTrangThai" Type="System.String" DbType="NVarChar(17) NOT NULL" CanBeNull="false" />
+    </ElementType>
   </Function>
-  <Function Name="dbo.GetTreeThietBi" Method="GetTreeThietBi">
-    <ElementType Name="GetTreeThietBiResult">
-      <Column Name="Id" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
-      <Column Name="Name" Type="System.String" DbType="NVarChar(500) NOT NULL" CanBeNull="false" />
-      <Column Name="Father" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
-      <Column Name="Cap" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+  <Function Name="dbo.GetInfoDeviceModify" Method="GetInfoDeviceModify">
+    <Parameter Name="strThietBiID" Type="System.String" DbType="NVarChar(MAX)" />
+    <Parameter Name="FromDate" Parameter="fromDate" Type="System.DateTime" DbType="DateTime" />
+    <Parameter Name="ToDate" Parameter="toDate" Type="System.DateTime" DbType="DateTime" />
+    <ElementType Name="GetInfoDeviceModifyResult">
+      <Column Name="NgayBaoSua" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
+      <Column Name="NgaySua" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
+      <Column Name="NgayHoanTat" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
+      <Column Name="DonViSua" Type="System.String" DbType="NVarChar(200)" CanBeNull="true" />
+      <Column Name="DiaDiemSua" Type="System.String" DbType="NVarChar(200)" CanBeNull="true" />
+      <Column Name="MoTa" Type="System.String" DbType="NVarChar(500)" CanBeNull="true" />
+      <Column Name="ChiPhi" Type="System.String" DbType="NVarChar(200)" CanBeNull="true" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.GetInfoDeviceMove" Method="GetInfoDeviceMove">
+    <Parameter Name="strThietBiID" Type="System.String" DbType="NVarChar(MAX)" />
+    <Parameter Name="FromDate" Parameter="fromDate" Type="System.DateTime" DbType="DateTime" />
+    <Parameter Name="ToDate" Parameter="toDate" Type="System.DateTime" DbType="DateTime" />
+    <ElementType Name="GetInfoDeviceMoveResult">
+      <Column Name="Ngay" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
+      <Column Name="TuViTri" Type="System.String" DbType="NVarChar(500)" CanBeNull="true" />
+      <Column Name="DenViTri" Type="System.String" DbType="NVarChar(500)" CanBeNull="true" />
+      <Column Name="Thoigian" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.GetInfoDeviceReport" Method="GetInfoDeviceReport">
+    <Parameter Name="strThietBiID" Type="System.String" DbType="NVarChar(MAX)" />
+    <Parameter Name="FromDate" Parameter="fromDate" Type="System.DateTime" DbType="DateTime" />
+    <Parameter Name="ToDate" Parameter="toDate" Type="System.DateTime" DbType="DateTime" />
+    <ElementType Name="GetInfoDeviceReportResult">
+      <Column Name="ThietBiID" Type="System.Guid" DbType="UniqueIdentifier" CanBeNull="true" />
+      <Column Name="ThoiGian" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
+      <Column Name="strTrangThai" Type="System.String" DbType="NVarChar(500)" CanBeNull="true" />
+      <Column Name="strTinhTrang" Type="System.String" DbType="NVarChar(500)" CanBeNull="true" />
+      <Column Name="GhiChu" Type="System.String" DbType="NVarChar(500)" CanBeNull="true" />
+      <Column Name="AvatarThietBi" Type="System.String" DbType="VarChar(40) NOT NULL" CanBeNull="false" />
+      <Column Name="HinhAnh" Type="System.String" DbType="VarChar(40) NOT NULL" CanBeNull="false" />
     </ElementType>
   </Function>
   <Function Name="dbo.GetTreeThiet_ById" Method="GetTreeThiet_ById">
@@ -44,88 +79,12 @@
       <Column Name="LongtitudeHienTai" Type="System.Decimal" DbType="Decimal(18,10)" CanBeNull="true" />
     </ElementType>
   </Function>
-  <Function Name="dbo.Sp_GetInfoDeviceById" Method="Sp_GetInfoDeviceById">
-    <Parameter Name="ThietBiId" Parameter="thietBiId" Type="System.String" DbType="VarChar(200)" />
-    <ElementType Name="Sp_GetInfoDeviceByIdResult">
-      <Column Name="STT" Type="System.Int64" DbType="BigInt" CanBeNull="true" />
-      <Column Name="ThietBiId" Type="System.String" DbType="VarChar(100) NOT NULL" CanBeNull="false" />
-      <Column Name="TenCongTrinh" Type="System.String" DbType="NVarChar(500)" CanBeNull="true" />
-      <Column Name="DiaDiem" Type="System.String" DbType="NVarChar(1000)" CanBeNull="true" />
-      <Column Name="TenVietTat" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
-      <Column Name="TenThietBi" Type="System.String" DbType="NVarChar(250) NOT NULL" CanBeNull="false" />
-      <Column Name="TrangThai" Type="System.Int32" DbType="Int" CanBeNull="true" />
-      <Column Name="strTinhTrang" Type="System.String" DbType="VarChar(1) NOT NULL" CanBeNull="false" />
-      <Column Name="DaHoatDong" Type="System.String" DbType="NVarChar(30)" CanBeNull="true" />
-      <Column Name="LoaiHinh" Type="System.String" DbType="NVarChar(11) NOT NULL" CanBeNull="false" />
-      <Column Name="ThoiGianVao" Type="System.String" DbType="VarChar(1) NOT NULL" CanBeNull="false" />
-      <Column Name="NgayOCongTrinh" Type="System.String" DbType="VarChar(1) NOT NULL" CanBeNull="false" />
-      <Column Name="GiaThue" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
-      <Column Name="ThanhTien" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
-      <Column Name="ThayDauLanCuoi" Type="System.String" DbType="VarChar(1) NOT NULL" CanBeNull="false" />
-      <Column Name="ThayLocLanCuoi" Type="System.String" DbType="VarChar(1) NOT NULL" CanBeNull="false" />
-      <Column Name="SoGioThayDau" Type="System.String" DbType="VarChar(1) NOT NULL" CanBeNull="false" />
-      <Column Name="SoGioThayLoc" Type="System.String" DbType="VarChar(1) NOT NULL" CanBeNull="false" />
-      <Column Name="ThayDauTiep" Type="System.Double" DbType="Float" CanBeNull="true" />
-      <Column Name="ThayLocTiep" Type="System.Double" DbType="Float" CanBeNull="true" />
-      <Column Name="TrangThaiHienTai" Type="System.Int32" DbType="Int" CanBeNull="true" />
-      <Column Name="StrTrangThai" Type="System.String" DbType="NVarChar(17) NOT NULL" CanBeNull="false" />
-      <Column Name="Latitude" Type="System.Decimal" DbType="Decimal(18,10) NOT NULL" CanBeNull="false" />
-      <Column Name="Longitude" Type="System.Decimal" DbType="Decimal(18,10) NOT NULL" CanBeNull="false" />
-    </ElementType>
-  </Function>
-  <Function Name="dbo.GetInfoDeviceReport" Method="GetInfoDeviceReport">
-    <Parameter Name="strThietBiID" Type="System.String" DbType="NVarChar(MAX)" />
-    <Parameter Name="FromDate" Parameter="fromDate" Type="System.DateTime" DbType="DateTime" />
-    <Parameter Name="ToDate" Parameter="toDate" Type="System.DateTime" DbType="DateTime" />
-    <ElementType Name="GetInfoDeviceReportResult">
-      <Column Name="ThietBiID" Type="System.Guid" DbType="UniqueIdentifier" CanBeNull="true" />
-      <Column Name="ThoiGian" Type="System.String" DbType="VarChar(1) NOT NULL" CanBeNull="false" />
-      <Column Name="strTrangThai" Type="System.String" DbType="VarChar(1) NOT NULL" CanBeNull="false" />
-      <Column Name="strTinhTrang" Type="System.String" DbType="VarChar(1) NOT NULL" CanBeNull="false" />
-      <Column Name="GhiChu" Type="System.String" DbType="VarChar(1) NOT NULL" CanBeNull="false" />
-      <Column Name="AvatarThietBi" Type="System.String" DbType="VarChar(8) NOT NULL" CanBeNull="false" />
-      <Column Name="HinhAnh" Type="System.String" DbType="VarChar(26) NOT NULL" CanBeNull="false" />
-    </ElementType>
-  </Function>
-  <Function Name="dbo.GetInfoDeviceMove" Method="GetInfoDeviceMove">
-    <Parameter Name="strThietBiID" Type="System.String" DbType="NVarChar(MAX)" />
-    <Parameter Name="FromDate" Parameter="fromDate" Type="System.DateTime" DbType="DateTime" />
-    <Parameter Name="ToDate" Parameter="toDate" Type="System.DateTime" DbType="DateTime" />
-    <ElementType Name="GetInfoDeviceMoveResult">
-      <Column Name="Ngay" Type="System.String" DbType="VarChar(1) NOT NULL" CanBeNull="false" />
-      <Column Name="TuViTri" Type="System.String" DbType="NVarChar(250) NOT NULL" CanBeNull="false" />
-      <Column Name="DenViTri" Type="System.String" DbType="NVarChar(250) NOT NULL" CanBeNull="false" />
-    </ElementType>
-  </Function>
-  <Function Name="dbo.GetInfoDeviceModify" Method="GetInfoDeviceModify">
-    <Parameter Name="strThietBiID" Type="System.String" DbType="NVarChar(MAX)" />
-    <Parameter Name="FromDate" Parameter="fromDate" Type="System.DateTime" DbType="DateTime" />
-    <Parameter Name="ToDate" Parameter="toDate" Type="System.DateTime" DbType="DateTime" />
-    <ElementType Name="GetInfoDeviceModifyResult">
-      <Column Name="NgayBaoSua" Type="System.String" DbType="VarChar(1) NOT NULL" CanBeNull="false" />
-      <Column Name="NgaySua" Type="System.String" DbType="VarChar(1) NOT NULL" CanBeNull="false" />
-      <Column Name="NgayHoanTat" Type="System.String" DbType="VarChar(1) NOT NULL" CanBeNull="false" />
-      <Column Name="DonViSua" Type="System.String" DbType="VarChar(1) NOT NULL" CanBeNull="false" />
-      <Column Name="DiaDiemSua" Type="System.String" DbType="VarChar(1) NOT NULL" CanBeNull="false" />
-      <Column Name="MoTa" Type="System.String" DbType="VarChar(1) NOT NULL" CanBeNull="false" />
-      <Column Name="ChiPhi" Type="System.String" DbType="VarChar(1) NOT NULL" CanBeNull="false" />
-    </ElementType>
-  </Function>
-  <Function Name="dbo.GetInfoDeviceActivity" Method="GetInfoDeviceActivity">
-    <Parameter Name="strThietBiID" Type="System.String" DbType="NVarChar(MAX)" />
-    <Parameter Name="FromDate" Parameter="fromDate" Type="System.DateTime" DbType="DateTime" />
-    <Parameter Name="ToDate" Parameter="toDate" Type="System.DateTime" DbType="DateTime" />
-    <ElementType Name="GetInfoDeviceActivityResult">
-      <Column Name="ThietBiID" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" CanBeNull="false" />
-      <Column Name="DeviceId" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
-      <Column Name="ThoiGianHoatDong" Type="System.String" DbType="VarChar(1) NOT NULL" CanBeNull="false" />
-      <Column Name="LanThayDauTiepTheo" Type="System.String" DbType="VarChar(1) NOT NULL" CanBeNull="false" />
-      <Column Name="LanThayLocTiepTheo" Type="System.String" DbType="VarChar(1) NOT NULL" CanBeNull="false" />
-      <Column Name="ThoiGian" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
-      <Column Name="Loai" Type="System.Int32" DbType="Int" CanBeNull="true" />
-      <Column Name="Time" Type="System.Double" DbType="Float" CanBeNull="true" />
-      <Column Name="TrangThai" Type="System.Int32" DbType="Int" CanBeNull="true" />
-      <Column Name="StrTrangThai" Type="System.String" DbType="NVarChar(17) NOT NULL" CanBeNull="false" />
+  <Function Name="dbo.GetTreeThietBi" Method="GetTreeThietBi">
+    <ElementType Name="GetTreeThietBiResult">
+      <Column Name="Id" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="Name" Type="System.String" DbType="NVarChar(500) NOT NULL" CanBeNull="false" />
+      <Column Name="Father" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="Cap" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
     </ElementType>
   </Function>
   <Function Name="dbo.Sp_GetInfoDevice" Method="Sp_GetInfoDevice">
@@ -137,6 +96,7 @@
       <Column Name="TenVietTat" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
       <Column Name="TenThietBi" Type="System.String" DbType="NVarChar(250) NOT NULL" CanBeNull="false" />
       <Column Name="TrangThai" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="HinhAnhAvatar" Type="System.String" DbType="VarChar(40) NOT NULL" CanBeNull="false" />
       <Column Name="DaHoatDong" Type="System.String" DbType="NVarChar(30)" CanBeNull="true" />
       <Column Name="LoaiHinh" Type="System.String" DbType="NVarChar(11) NOT NULL" CanBeNull="false" />
       <Column Name="ThoiGianVao" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
@@ -150,5 +110,48 @@
       <Column Name="Latitude" Type="System.Decimal" DbType="Decimal(18,10) NOT NULL" CanBeNull="false" />
       <Column Name="Longitude" Type="System.Decimal" DbType="Decimal(18,10) NOT NULL" CanBeNull="false" />
     </ElementType>
+  </Function>
+  <Function Name="dbo.Sp_GetInfoDeviceById" Method="Sp_GetInfoDeviceById">
+    <Parameter Name="ThietBiId" Parameter="thietBiId" Type="System.String" DbType="VarChar(200)" />
+    <ElementType Name="Sp_GetInfoDeviceByIdResult">
+      <Column Name="STT" Type="System.Int64" DbType="BigInt" CanBeNull="true" />
+      <Column Name="HinhAnhAvatar" Type="System.String" DbType="VarChar(40) NOT NULL" CanBeNull="false" />
+      <Column Name="ThietBiId" Type="System.String" DbType="VarChar(100) NOT NULL" CanBeNull="false" />
+      <Column Name="TenCongTrinh" Type="System.String" DbType="NVarChar(500)" CanBeNull="true" />
+      <Column Name="DiaDiem" Type="System.String" DbType="NVarChar(1000)" CanBeNull="true" />
+      <Column Name="TenVietTat" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="TenThietBi" Type="System.String" DbType="NVarChar(250) NOT NULL" CanBeNull="false" />
+      <Column Name="TrangThai" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="strTinhTrang" Type="System.String" DbType="NVarChar(500)" CanBeNull="true" />
+      <Column Name="TrangThaiHienTai" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="StrTrangThai" Type="System.String" DbType="NVarChar(500)" CanBeNull="true" />
+      <Column Name="DaHoatDong" Type="System.String" DbType="NVarChar(30)" CanBeNull="true" />
+      <Column Name="LoaiHinh" Type="System.String" DbType="NVarChar(11) NOT NULL" CanBeNull="false" />
+      <Column Name="ThoiGianVao" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
+      <Column Name="NgayOCongTrinh" Type="System.String" DbType="NVarChar(55)" CanBeNull="true" />
+      <Column Name="GiaThue" Type="System.String" DbType="NVarChar(200)" CanBeNull="true" />
+      <Column Name="ThanhTien" Type="System.String" DbType="NVarChar(200)" CanBeNull="true" />
+      <Column Name="ThayDauLanCuoi" Type="System.String" DbType="VarChar(1) NOT NULL" CanBeNull="false" />
+      <Column Name="ThayLocLanCuoi" Type="System.String" DbType="VarChar(1) NOT NULL" CanBeNull="false" />
+      <Column Name="SoGioThayDau" Type="System.String" DbType="NVarChar(250)" CanBeNull="true" />
+      <Column Name="SoGioThayLoc" Type="System.String" DbType="NVarChar(250)" CanBeNull="true" />
+      <Column Name="ThayDauTiep" Type="System.Double" DbType="Float" CanBeNull="true" />
+      <Column Name="ThayLocTiep" Type="System.Double" DbType="Float" CanBeNull="true" />
+      <Column Name="Latitude" Type="System.Decimal" DbType="Decimal(18,10) NOT NULL" CanBeNull="false" />
+      <Column Name="Longitude" Type="System.Decimal" DbType="Decimal(18,10) NOT NULL" CanBeNull="false" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.UpdateThieBiSatusMess" Method="UpdateThieBiSatusMess">
+    <Parameter Name="strThietBiID" Type="System.String" DbType="NVarChar(MAX)" />
+    <Parameter Name="CommandType" Parameter="commandType" Type="System.String" DbType="NVarChar(200)" />
+    <Parameter Name="CommandId" Parameter="commandId" Type="System.String" DbType="NVarChar(200)" />
+    <Parameter Name="CommandAction" Parameter="commandAction" Type="System.String" DbType="NVarChar(200)" />
+    <Parameter Name="Loai" Parameter="loai" Type="System.Int32" DbType="Int" />
+    <Parameter Name="StatusMay" Parameter="statusMay" Type="System.Int32" DbType="Int" />
+    <Parameter Name="Time" Parameter="time" Type="System.Double" DbType="Float" />
+    <Parameter Name="TrangThaiHienTai" Parameter="trangThaiHienTai" Type="System.Int32" DbType="Int" />
+    <Parameter Name="LatitudeHienTai" Parameter="latitudeHienTai" Type="System.Decimal" DbType="Decimal(18,10)" />
+    <Parameter Name="LongtitudeHienTai" Parameter="longtitudeHienTai" Type="System.Decimal" DbType="Decimal(18,10)" />
+    <Return Type="System.Int32" />
   </Function>
 </Database>

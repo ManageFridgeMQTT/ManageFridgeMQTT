@@ -32,8 +32,8 @@
     <script type="text/javascript" src="@Url.Content("~/Scripts/Leaflet/leaflet.markercluster-src.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Scripts/Leaflet/GeoFridge.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Scripts/Leaflet/L.Control.SlideMenu.js")"></script>
-
-
+@*    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>*@
+@*    <script src="~/Content/Test/jquery.panelslider.js"></script>*@
     <script>
         function OnTreeViewNodeClick(s, e) {
             var itemId = e.node.name;
@@ -192,6 +192,26 @@
         background-color: white;
         right: 50%;
         left: 40%;
+
+    }
+    /* Position panel */
+ .panel {
+      position: absolute;
+      top: 0;
+ max-width:750px;
+ max-height:650px;
+ min-width:250px;
+ min-height:300px;
+      padding: 20px;
+      background-color: white;
+      color: #fff;
+      box-shadow: inset 0 0 3px 3px gray;
+      transform: translateX(-329px);
+      overflow-y:auto;
+      overflow-x:hidden;
+    }
+    #imt {
+    margin-left:-8px;
     }
 </style>
 <div id="loading" class="loading">
@@ -204,35 +224,24 @@
                         <button type="button" id="btnSearch" onclick="SearchOnTreeView()" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="icon-search"></i></button>
                     
                             </div>*@
-
-        <input type='text' name="txtSearch" class="form-control" placeholder='Search...' id='txtSearch' />
-
-
-        <div class="leaflet-control-container">
+         <div class="leaflet-control-container">
             <div class="leaflet-top leaflet-left" style="top: 54px">
                 <div class="leaflet-control-slidemenu leaflet-bar leaflet-control">
-                    <a class="leaflet-bar-part leaflet-bar-part-single" title="Menu">
+                    <a class="leaflet-bar-part leaflet-bar-part-single" title="TreeView">
                         <img src="@Url.Content("~/Content/NewEtool/img/next.png")"  />
                     </a>
                 </div>
             </div>
         </div>
+        <input type='text' name="txtSearch" class="form-control" placeholder='Search...' id='txtSearch' />
+                             <div style="margin-left: 10px"  class="panel">
+                                 <div style="float: right;right:-20px;background-color: #109D59; top: 30px; width: 12px; height: 70px; border-radius: 2px; position: relative">
+                                                                       <button class="leaflet-menu-close-button" style="line-height: 37px;" >
+                <img src="@Url.Content("~/Content/NewEtool/img/per.png")" style="margin-left:-9px;"/></button>
+                                     </div>
 
-        <div class="leaflet-menu" style="max-width: 300px; max-height: 450px; min-width: 250px; left: 0; display: none;">
-                                <div id="scrolldiv" style="display: none; background-color: #109D59; top: 0px; width: 10px; height: 60px; border-radius: 2px; position: absolute">
-            <button class="leaflet-menu-close-button" style="width: 10px">
-                <img src="@Url.Content("~/Content/NewEtool/img/per.png")"/></button>
-        </div>
-            <div class="leaflet-menu-contents" style="clear: both;">
-                <div id="boxSilebar">
-                    <div style="height:10px"></div>
-                    <div style="margin-left: 10px" id="tree" class="treeView">
                         @Html.Action("TreeViewSelected")
                     </div>
-                </div>
-            </div>
-        
-        </div>
     </div>
     <button id="lblnote" class="toggle-button mini btn-transparent mt-10">
         <i class="icon-up icon-black" title="Legend"></i>
@@ -480,8 +489,13 @@
 </div>
 <script type="text/javascript">
     var PathFolderImage = '@System.Configuration.ConfigurationManager.AppSettings["PathFolderImage"].ToString()';
-    
+ 
     $(document).ready(function () {
+        var newCss = {  'transform': 'translateX(-9px)'};
+        var newCss2 = {  'transition': 'transform .3s'};
+        var newCss3 = {  'z-index': '9999999999999'};  
+
+
         $('#txtSearch').keypress(function (e) { 
             var key = e.which; 
             if(key == 13)
@@ -489,14 +503,23 @@
                 SearchOnTreeView();
             }
         });
+        //$('#left-link').panelslider();
         $('body').on('click', '.leaflet-control-slidemenu .leaflet-bar-part-single', function () {
-            $('.leaflet-menu').css('left', '0px');
-            $('.leaflet-menu').css("display","block");
-            $('#scrolldiv').css("display","block");
+            $('.panel').css(newCss);
+            $('.panel').css(newCss2)
+            $('.panel').css(newCss3)
+
+            //$('.leaflet-menu').css("display","block");
+            //$('#scrolldiv').css("display","block");
         });
         $('body').on('click', '.leaflet-menu-close-button', function () {
-            $('.leaflet-menu').css('left', '-300px');
-            $('#scrolldiv').css("display","none");
+            var newCss = {  'transform': 'translateX(-429px)'};
+            var newCss2 = {  'transition': 'transform .3s'};
+            var newCss3 = {  'z-index': '9999999999999'}; 
+            $('.panel').css(newCss);
+            $('.panel').css(newCss2)
+            $('.panel').css(newCss3)
+
         });
         $('body').on('click', '#table-report > table > tbody > tr', function () {
             var listtd = $(this).children('td');

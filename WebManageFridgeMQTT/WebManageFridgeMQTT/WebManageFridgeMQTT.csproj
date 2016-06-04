@@ -626,6 +626,8 @@
     <Content Include="Content\NewEtool\js\widget-columnSelector.js" />
     <Content Include="Content\NewEtool\js\widget-scroller.js" />
     <Content Include="Content\Test\arrows.png" />
+    <Content Include="Content\Test\BootSideMenu.css" />
+    <Content Include="Content\Test\BootSideMenu.js" />
     <Content Include="Content\Test\bootstrap.css" />
     <Content Include="Content\Test\bootstrap.js" />
     <Content Include="Content\Test\bootstrap.min.css" />
@@ -650,6 +652,8 @@
     <Content Include="Content\Test\jquery-1.11.3.min.js" />
     <Content Include="Content\Test\jquery.gallery.js" />
     <Content Include="Content\Test\jquery.js" />
+    <Content Include="Content\Test\jquery.panelslider.js" />
+    <Content Include="Content\Test\jquery.panelslider.min.js" />
     <Content Include="Content\Test\jssor.slider.mini.js" />
     <Content Include="Content\Test\modernizr.custom.53451.js" />
     <Content Include="Content\Test\ninja-slider.css" />

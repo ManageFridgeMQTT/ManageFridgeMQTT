@@ -20,6 +20,7 @@
     <IISExpressAnonymousAuthentication />
     <IISExpressWindowsAuthentication />
     <IISExpressUseClassicPipelineMode />
+    <UseGlobalApplicationHostFile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -188,6 +189,16 @@
     <Compile Include="Utility\Helper.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\i1.png" />
+    <Content Include="Content\i10.png" />
+    <Content Include="Content\i2.png" />
+    <Content Include="Content\i3.png" />
+    <Content Include="Content\i4.png" />
+    <Content Include="Content\i5.png" />
+    <Content Include="Content\i6.png" />
+    <Content Include="Content\i7.png" />
+    <Content Include="Content\i8.png" />
+    <Content Include="Content\i9.png" />
     <Content Include="Content\Icon\markers\001.png" />
     <Content Include="Content\Icon\markers\002.png" />
     <Content Include="Content\Icon\markers\003.png" />
@@ -439,8 +450,11 @@
     <Content Include="Content\Icon\markers\_SM.png" />
     <Content Include="Content\Icon\markers\_SS.png" />
     <Content Include="Content\img1.jpg" />
+    <Content Include="Content\img11.jpg" />
     <Content Include="Content\img2.jpg" />
+    <Content Include="Content\img22.jpg" />
     <Content Include="Content\img3.jpg" />
+    <Content Include="Content\img33.jpg" />
     <Content Include="Content\img\126-More-16.png" />
     <Content Include="Content\img\1402849179_size_width_add.png" />
     <Content Include="Content\img\1402849189_size_width_remove.png" />
@@ -608,6 +622,42 @@
     <Content Include="Content\NewEtool\js\ui.js" />
     <Content Include="Content\NewEtool\js\widget-columnSelector.js" />
     <Content Include="Content\NewEtool\js\widget-scroller.js" />
+    <Content Include="Content\Test\arrows.png" />
+    <Content Include="Content\Test\BootSideMenu.css" />
+    <Content Include="Content\Test\BootSideMenu.js" />
+    <Content Include="Content\Test\bootstrap.css" />
+    <Content Include="Content\Test\bootstrap.js" />
+    <Content Include="Content\Test\bootstrap.min.css" />
+    <Content Include="Content\Test\bootstrap.min.js" />
+    <Content Include="Content\Test\browser.png" />
+    <Content Include="Content\Test\demo.css" />
+    <Content Include="Content\Test\full-slider.css" />
+    <Content Include="Content\Test\img\002.jpg" />
+    <Content Include="Content\Test\img\003.jpg" />
+    <Content Include="Content\Test\img\004.jpg" />
+    <Content Include="Content\Test\img\005.jpg" />
+    <Content Include="Content\Test\img\006.jpg" />
+    <Content Include="Content\Test\img\007.jpg" />
+    <Content Include="Content\Test\img\008.jpg" />
+    <Content Include="Content\Test\img\009.jpg" />
+    <Content Include="Content\Test\img\010.jpg" />
+    <Content Include="Content\Test\img\011.jpg" />
+    <Content Include="Content\Test\img\a02.png" />
+    <Content Include="Content\Test\img\icon_chrome.png" />
+    <Content Include="Content\Test\img\loading.gif" />
+    <Content Include="Content\Test\img\magnifying_glass.png" />
+    <Content Include="Content\Test\jquery-1.11.3.min.js" />
+    <Content Include="Content\Test\jquery.gallery.js" />
+    <Content Include="Content\Test\jquery.js" />
+    <Content Include="Content\Test\jquery.panelslider.js" />
+    <Content Include="Content\Test\jquery.panelslider.min.js" />
+    <Content Include="Content\Test\jssor.slider.mini.js" />
+    <Content Include="Content\Test\modernizr.custom.53451.js" />
+    <Content Include="Content\Test\ninja-slider.css" />
+    <Content Include="Content\Test\ninja-slider.js" />
+    <Content Include="Content\Test\style.css" />
+    <Content Include="Content\Test\thumbnail-slider.css" />
+    <Content Include="Content\Test\thumbnail-slider.js" />
     <Content Include="Content\themes\base\images\ui-bg_flat_0_aaaaaa_40x100.png" />
     <Content Include="Content\themes\base\images\ui-bg_flat_75_ffffff_40x100.png" />
     <Content Include="Content\themes\base\images\ui-bg_glass_55_fbf9ee_1x400.png" />
@@ -780,6 +830,7 @@
     <Content Include="Scripts\Leaflet\leaflet-src.map" />
     <Content Include="Views\Monitoring\TreeViewSelected.cshtml" />
     <Content Include="Views\Monitoring\DeviceReport.cshtml" />
+    <Content Include="Views\Monitoring\PopupReport.cshtml" />
     <Content Include="Views\Monitoring\PopupActivity.cshtml" />
   </ItemGroup>
   <ItemGroup>

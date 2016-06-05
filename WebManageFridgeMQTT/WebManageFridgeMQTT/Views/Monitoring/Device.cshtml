@@ -32,8 +32,8 @@
     <script type="text/javascript" src="@Url.Content("~/Scripts/Leaflet/leaflet.markercluster-src.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Scripts/Leaflet/GeoFridge.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Scripts/Leaflet/L.Control.SlideMenu.js")"></script>
-
-
+@*    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>*@
+@*    <script src="~/Content/Test/jquery.panelslider.js"></script>*@
     <script>
         function OnTreeViewNodeClick(s, e) {
             var itemId = e.node.name;
@@ -142,35 +142,106 @@
     ::-webkit-scrollbar-thumb {
         -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
     }
+
+    #search-text-input {
+        border-top: thin solid #e5e5e5;
+        border-right: thin solid #e5e5e5;
+        border-bottom: 0;
+        border-left: thin solid #e5e5e5;
+        box-shadow: 0px 1px 1px 1px #e5e5e5;
+        float: left;
+        height: 17px;
+        margin: .8em 0 0 .5em;
+        outline: 0;
+        padding: .4em 0 .4em .6em;
+        width: 183px;
+    }
+
+    #button-holder {
+        background-color: #f1f1f1;
+        border-top: thin solid #e5e5e5;
+        box-shadow: 1px 1px 1px 1px #e5e5e5;
+        cursor: pointer;
+        float: left;
+        height: 27px;
+        margin: 11px 0 0 0;
+        text-align: center;
+        width: 50px;
+    }
+
+        #button-holder img {
+            margin: 4px;
+            width: 20px;
+        }
+
+    #txtSearch {
+        background: url("Content/Test/img/magnifying_glass.png") right;
+        background-repeat: no-repeat;
+        display: inline-block;
+        height: 20px;
+        line-height: 20px;
+        width: 20px;
+        vertical-align: middle;
+        height: 30px;
+        position: absolute;
+        font: 20px;
+        padding-right: 35px;
+        color: gray;
+        width: 300px;
+        border: 1px solid #109D59;
+        background-color: white;
+        right: 50%;
+        left: 40%;
+
+    }
+    /* Position panel */
+ .panel {
+      position: absolute;
+      top: 0;
+ max-width:750px;
+ max-height:650px;
+ min-width:250px;
+ min-height:300px;
+      padding: 20px;
+      background-color: white;
+      color: #fff;
+      box-shadow: inset 0 0 3px 3px gray;
+      transform: translateX(-329px);
+      overflow-y:auto;
+      overflow-x:hidden;
+    }
+    #imt {
+    margin-left:-8px;
+    }
 </style>
 <div id="loading" class="loading">
 </div>
 
 <div class="insider">
     <div id="map" class="map">
-        <div class="leaflet-control-container">
-            <div class="leaflet-top leaflet-right">
+        @*      <div id="inputText" class="input-group" style="text-align:center;right:50%;left:30%;width:400px;">
+                        <input type="text" id="txtSearch" name="txtSearch" class="form-control"  aria-label="..." placeholder="Nhập từ khóa" style="width: 330px;" />
+                        <button type="button" id="btnSearch" onclick="SearchOnTreeView()" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="icon-search"></i></button>
+                    
+                            </div>*@
+         <div class="leaflet-control-container">
+            <div class="leaflet-top leaflet-left" style="top: 54px">
                 <div class="leaflet-control-slidemenu leaflet-bar leaflet-control">
-                    <a class="leaflet-bar-part leaflet-bar-part-single" title="Menu">
-                        <img src="@Url.Content("~/Content/NewEtool/img/per.png")" />
+                    <a class="leaflet-bar-part leaflet-bar-part-single" title="TreeView">
+                        <img src="@Url.Content("~/Content/NewEtool/img/next.png")"  />
                     </a>
                 </div>
             </div>
         </div>
-        <div class="leaflet-menu" style="max-width: 300px; max-height: 450px; min-width:250px; right: -300px;">
-            <button class="leaflet-menu-close-button" style="float: left;"><img src="@Url.Content("~/Content/NewEtool/img/next.png")" /></button>
-            <div class="leaflet-menu-contents" style="clear: both;">
-                <div id="boxSilebar">
-                    <div id="inputText" class="input-group">
-                        <input type="text" id="txtSearch" name="txtSearch" class="form-control" aria-label="..." placeholder="Nhập từ khóa" style="width: 130px;" />
-                        <button type="button" id="btnSearch" onclick="SearchOnTreeView()" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="icon-search"></i></button>
-                    </div>
-                    <div style="margin-left: 10px" id="tree" class="treeView">
+        <input type='text' name="txtSearch" class="form-control" placeholder='Search...' id='txtSearch' />
+                             <div style="margin-left: 10px"  class="panel">
+                                 <div style="float: right;right:-20px;background-color: #109D59; top: 30px; width: 12px; height: 70px; border-radius: 2px; position: relative">
+                                                                       <button class="leaflet-menu-close-button" style="line-height: 37px;" >
+                <img src="@Url.Content("~/Content/NewEtool/img/per.png")" style="margin-left:-9px;"/></button>
+                                     </div>
+
                         @Html.Action("TreeViewSelected")
                     </div>
-                </div>
-            </div>
-        </div>
     </div>
     <button id="lblnote" class="toggle-button mini btn-transparent mt-10">
         <i class="icon-up icon-black" title="Legend"></i>
@@ -222,7 +293,7 @@
     </div>
 
 </div>
-<div id="DevicePopupTemplete" style="display: none; z-index: 999999; min-width: 750px; opacity: 1; max-height: 450px; ">
+<div id="DevicePopupTemplete" style="display: none; z-index: 999999; min-width: 750px; opacity: 1; max-height: 450px;">
     <div class="tab-header">
         <ul id="ul-tab" class="nav nav-tabs" style="text-transform: uppercase;">
             <li class="active"><a data-toggle="tab" href="#info">Thông tin Chung</a></li>
@@ -236,7 +307,7 @@
         <div id="info" class="tab-pane fade in active">
             <div class="row">
                 <div class="col-sm-4">
-                    <img id="avatar" style="max-width: 200px; max-height: 280px; padding-top: 36px; padding-bottom: 12px; padding-left: 20px" src="http://map.dfsglobjjal.vn//ImageTB//71691be9-cf4c-4829-9ab5-0705903cdf82.jpg" />
+                    <img id="avatar" style="max-width: 200px; max-height: 280px; padding-top: 36px; padding-bottom: 12px; padding-left: 20px" src="http://map.dfsglobjjal.vn/ImageTB/71691be9-cf4c-4829-9ab5-0705903cdf82.jpg" />
                 </div>
                 <div class="col-sm-8">
                     <div class="info" style="height: 250px">
@@ -396,7 +467,7 @@
                         </table>
                     </div>
                 </div>
-                <div class="row" style="text-align:center">
+                <div class="row" style="text-align: center">
                     <img id="bcImage" style="max-width: 250px; max-height: 400px; padding-top: 5px; padding-bottom: 5px; padding-left: 10px;" src="~/Content/img2.jpg" />
                 </div>
                 @*<div class="row" style="text-align:center">
@@ -418,14 +489,37 @@
 </div>
 <script type="text/javascript">
     var PathFolderImage = '@System.Configuration.ConfigurationManager.AppSettings["PathFolderImage"].ToString()';
-    
+ 
     $(document).ready(function () {
-        
+        var newCss = {  'transform': 'translateX(-9px)'};
+        var newCss2 = {  'transition': 'transform .3s'};
+        var newCss3 = {  'z-index': '9999999999999'};  
+
+
+        $('#txtSearch').keypress(function (e) { 
+            var key = e.which; 
+            if(key == 13)
+            {
+                SearchOnTreeView();
+            }
+        });
+        //$('#left-link').panelslider();
         $('body').on('click', '.leaflet-control-slidemenu .leaflet-bar-part-single', function () {
-            $('.leaflet-menu').css('right', '0px');
+            $('.panel').css(newCss);
+            $('.panel').css(newCss2)
+            $('.panel').css(newCss3)
+
+            //$('.leaflet-menu').css("display","block");
+            //$('#scrolldiv').css("display","block");
         });
         $('body').on('click', '.leaflet-menu-close-button', function () {
-            $('.leaflet-menu').css('right', '-300px');
+            var newCss = {  'transform': 'translateX(-429px)'};
+            var newCss2 = {  'transition': 'transform .3s'};
+            var newCss3 = {  'z-index': '9999999999999'}; 
+            $('.panel').css(newCss);
+            $('.panel').css(newCss2)
+            $('.panel').css(newCss3)
+
         });
         $('body').on('click', '#table-report > table > tbody > tr', function () {
             var listtd = $(this).children('td');
@@ -603,7 +697,7 @@
             data.find('div[id="btn-xemHoatDong"]').html(btnxemHoatDong); 
             data.find('div[id="btn-xemDiChuyen"]').html(btnxemDiChuyen);
             data.find('div[id="btn-xemBaoDuong"]').html(btnxemBaoDuong);
-            var imgavatar = PathFolderImage + item.ThietBiId +'.jpg';
+            var imgavatar = PathFolderImage + item.HinhAnhAvatar;
             data.find('img[id="avatar"]').attr('src', imgavatar);
 
             var elm = data[0];
@@ -637,20 +731,20 @@
                 strToDate = '';
             }
             $("#dichuyen").load('@(Url.Action("DeviceMove", "Monitoring"))?thietBiID=' + thietbiId + '&strFromDate=' + strFromDate + '&strToDate=' + strToDate);
-    }
-    function RenderBaoCao(thietbiId)
-    {
-        var strFromDate = $('#strFromDateBaoCao').val();
-        if(strFromDate == undefined)
-        {
-            strFromDate = '';
         }
-        var strToDate = $('#strToDateBaoCao').val();
-        if(strToDate == undefined)
+        function RenderBaoCao(thietbiId)
         {
-            strToDate = '';
-        }
-        $("#detail").load('@(Url.Action("DeviceReport", "Monitoring"))?thietBiID=' + thietbiId + '&strFromDate=' + strFromDate + '&strToDate=' + strToDate);
+            var strFromDate = $('#strFromDateBaoCao').val();
+            if(strFromDate == undefined)
+            {
+                strFromDate = '';
+            }
+            var strToDate = $('#strToDateBaoCao').val();
+            if(strToDate == undefined)
+            {
+                strToDate = '';
+            }
+            $("#detail").load('@(Url.Action("DeviceReport", "Monitoring"))?thietBiID=' + thietbiId + '&strFromDate=' + strFromDate + '&strToDate=' + strToDate);
     }
     function RenderHoatDong(thietbiId)
     {
@@ -673,6 +767,12 @@
         $("#HoatdongModal").modal('show');
     }
 
+    function showPopupReport(){
+        $("#loading").css("display", "none");
+        $("#ReportBody").load('@Url.Action("PopupReport", "Monitoring")');
+        $("#ReportModal").modal('show');
+        $("#loading").css("display", "none");
+    }
 
     function formatDate(date) {
         if(date){
@@ -701,6 +801,9 @@
     // Expand TreeView
     var strSearch = window.location.href;
     if (strSearch.indexOf("strSearch=") != -1) {
+        $('.leaflet-menu').css('left', '0px');
+        $('.leaflet-menu').css("display","block")
+        $('#scrolldiv').css("display","block");
         treeView.ExpandAll();           
     }
     $(document).ajaxStart(function () {

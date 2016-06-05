@@ -1,4 +1,8 @@
 ﻿@model WebManageFridgeMQTT.Utility.DeviceActivity
+
+        <link rel="stylesheet" href="@Url.Content("~/Content/Test/ninja-slider.css")" />
+
+        <script type="text/javascript" src="@Url.Content("~/Content/Test/ninja-slider.js")"></script>
 <div class="row">
     <div class="item fl">
         <label class="fl">Chọn Ngày</label>
@@ -63,6 +67,15 @@
     </div>
 </div>
 <script type="text/javascript">
+    $('#table-report').on('dblclick', 'tr', function () {
+        var item = $(this).find('td:first').text();
+       //ShowDialog(true);
+       // e.preventDefault();
+        // $('#InfoDetailDeviceReport').show();
+       showPopupReport();
+        //showPopup('dfdf');
+    });
+
     $(document).ready(function () {
         $('.datepicker').datepicker({
             dateFormat: 'dd/mm/yy'

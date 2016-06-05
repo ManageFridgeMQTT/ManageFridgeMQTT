@@ -20,6 +20,12 @@ namespace WebManageFridgeMQTT.Controllers
         {
             return View();
         }
+
+        public ActionResult PopupReport()
+        {
+            DeviceActivity model = new DeviceActivity();
+            return PartialView("PopupReport");
+        }
         public ActionResult GetThietBi(string equipmentId, bool isParent)
         {
             var model = Global.Context.GetTreeThiet_ById(equipmentId, isParent).ToList();

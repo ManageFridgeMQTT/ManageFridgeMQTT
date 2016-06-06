@@ -196,7 +196,7 @@
     /* Position panel */
     .panel {
         position: absolute;
-        top: 0;
+        top: 64px;
         max-width: 750px;
         max-height: 650px;
         min-width: 250px;
@@ -580,6 +580,7 @@
         if (mapData.LatLongBounds.length > 0) {
             var bounds = new L.LatLngBounds(mapData.LatLongBounds);
             map.fitBounds(bounds);
+            map.setZoom(13);
         }
     }
 

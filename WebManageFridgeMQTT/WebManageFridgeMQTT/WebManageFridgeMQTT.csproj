@@ -840,7 +840,6 @@
     <Content Include="Views\Monitoring\PopupReport.cshtml" />
     <Content Include="Views\Monitoring\PopupActivity.cshtml" />
     <Content Include="Views\Monitoring\Index.cshtml" />
-    <Content Include="Views\Monitoring\DeviceMap.cshtml" />
     <Content Include="Views\Monitoring\TreeDevicePartial.cshtml" />
   </ItemGroup>
   <ItemGroup>

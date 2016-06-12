@@ -43,36 +43,59 @@
     <Reference Include="DevExpress.Data.v14.2, Version=14.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>C:\Users\Tuan\Desktop\New folder\New Eroute\bin\DevExpress.Data.v14.2.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="DevExpress.Office.v14.2.Core, Version=14.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>C:\Users\Tuan\Desktop\New folder\New Eroute\bin\DevExpress.Office.v14.2.Core.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="DevExpress.PivotGrid.v14.2.Core, Version=14.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>C:\Users\Tuan\Desktop\New folder\New Eroute\bin\DevExpress.PivotGrid.v14.2.Core.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="DevExpress.Printing.v14.2.Core, Version=14.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>C:\Users\Tuan\Desktop\New folder\New Eroute\bin\DevExpress.Printing.v14.2.Core.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="DevExpress.Sparkline.v14.2.Core, Version=14.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>C:\Users\Tuan\Desktop\New folder\New Eroute\bin\DevExpress.Sparkline.v14.2.Core.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="DevExpress.SpellChecker.v14.2.Core, Version=14.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>C:\Users\Tuan\Desktop\New folder\New Eroute\bin\DevExpress.SpellChecker.v14.2.Core.dll</HintPath>
     </Reference>
-    <Reference Include="DevExpress.Utils.v14.2, Version=14.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
-    <Reference Include="DevExpress.Web.ASPxHtmlEditor.v14.2, Version=14.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
-    <Reference Include="DevExpress.Web.ASPxPivotGrid.v14.2, Version=14.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
-    <Reference Include="DevExpress.Web.ASPxScheduler.v14.2, Version=14.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
-    <Reference Include="DevExpress.Web.ASPxSpellChecker.v14.2, Version=14.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
-    <Reference Include="DevExpress.Web.ASPxThemes.v14.2, Version=14.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
-    <Reference Include="DevExpress.Web.ASPxTreeList.v14.2, Version=14.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
-    <Reference Include="DevExpress.Web.Mvc.v14.2, Version=14.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
-    <Reference Include="DevExpress.Web.v14.2, Version=14.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.Utils.v14.2, Version=14.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="DevExpress.Web.ASPxHtmlEditor.v14.2, Version=14.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="DevExpress.Web.ASPxPivotGrid.v14.2, Version=14.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="DevExpress.Web.ASPxScheduler.v14.2, Version=14.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="DevExpress.Web.ASPxSpellChecker.v14.2, Version=14.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="DevExpress.Web.ASPxThemes.v14.2, Version=14.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="DevExpress.Web.ASPxTreeList.v14.2, Version=14.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="DevExpress.Web.Mvc.v14.2, Version=14.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="DevExpress.Web.v14.2, Version=14.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <Private>True</Private>
+    </Reference>
     <Reference Include="M2Mqtt">
       <HintPath>..\..\ClientMQTT\ClientMQTT\bin\Debug\M2Mqtt.dll</HintPath>
       <Private>True</Private>
@@ -189,16 +212,6 @@
     <Compile Include="Utility\Helper.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Content\i1.png" />
-    <Content Include="Content\i10.png" />
-    <Content Include="Content\i2.png" />
-    <Content Include="Content\i3.png" />
-    <Content Include="Content\i4.png" />
-    <Content Include="Content\i5.png" />
-    <Content Include="Content\i6.png" />
-    <Content Include="Content\i7.png" />
-    <Content Include="Content\i8.png" />
-    <Content Include="Content\i9.png" />
     <Content Include="Content\Icon\markers\001.png" />
     <Content Include="Content\Icon\markers\002.png" />
     <Content Include="Content\Icon\markers\003.png" />
@@ -449,47 +462,42 @@
     <Content Include="Content\Icon\markers\_ASM.png" />
     <Content Include="Content\Icon\markers\_SM.png" />
     <Content Include="Content\Icon\markers\_SS.png" />
-    <Content Include="Content\img1.jpg" />
-    <Content Include="Content\img11.jpg" />
-    <Content Include="Content\img2.jpg" />
-    <Content Include="Content\img22.jpg" />
-    <Content Include="Content\img3.jpg" />
-    <Content Include="Content\img33.jpg" />
-    <Content Include="Content\img\126-More-16.png" />
-    <Content Include="Content\img\1402849179_size_width_add.png" />
-    <Content Include="Content\img\1402849189_size_width_remove.png" />
-    <Content Include="Content\img\add.png" />
-    <Content Include="Content\img\alaska.jpg" />
-    <Content Include="Content\img\alaska1.jpg" />
-    <Content Include="Content\img\avta.jpg" />
-    <Content Include="Content\img\border_remove.png" />
-    <Content Include="Content\img\close.png" />
-    <Content Include="Content\img\closeIcon.jpg" />
-    <Content Include="Content\img\controls.png" />
-    <Content Include="Content\img\dmspro.png" />
-    <Content Include="Content\img\Dot-20.png" />
-    <Content Include="Content\img\flat_8-16.png" />
-    <Content Include="Content\img\loading.gif" />
-    <Content Include="Content\img\location-area-pin-1-16.png" />
-    <Content Include="Content\img\location.png" />
-    <Content Include="Content\img\map_location-16.png" />
-    <Content Include="Content\img\menu_bg.gif" />
-    <Content Include="Content\img\m_arrow.gif" />
-    <Content Include="Content\img\m_arrow_b.png" />
-    <Content Include="Content\img\m_arrow_w.png" />
-    <Content Include="Content\img\m_item.gif" />
-    <Content Include="Content\img\m_splitLine.gif" />
-    <Content Include="Content\img\next.png" />
-    <Content Include="Content\img\none.jpg" />
-    <Content Include="Content\img\numberic.png" />
-    <Content Include="Content\img\outlet.png" />
-    <Content Include="Content\img\posm.png" />
-    <Content Include="Content\img\prev.png" />
-    <Content Include="Content\img\remove.png" />
-    <Content Include="Content\img\screen.css" />
-    <Content Include="Content\img\Shopping_retail-09-16.png" />
-    <Content Include="Content\img\Store-16.png" />
-    <Content Include="Content\img\Strategy-16.png" />
+    <Content Include="Content\img\71691be9-cf4c-4829-9ab5-0705903cdf82 %281%29.jpg" />
+    <Content Include="Content\img\71691be9-cf4c-4829-9ab5-0705903cdf82.jpg" />
+    <Content Include="Content\img\date_next.png" />
+    <Content Include="Content\img\date_pre.png" />
+    <Content Include="Content\img\i1.png" />
+    <Content Include="Content\img\i2.png" />
+    <Content Include="Content\img\magnifying_glass.png" />
+    <Content Include="Content\Map\32px.png" />
+    <Content Include="Content\Map\32px1.png" />
+    <Content Include="Content\Map\40px.png" />
+    <Content Include="Content\Map\boothstrap.css" />
+    <Content Include="Content\Map\bootstrap.min.js" />
+    <Content Include="Content\Map\Google.js" />
+    <Content Include="Content\Map\jquery-1.6.2.js" />
+    <Content Include="Content\Map\jquery-ui.css" />
+    <Content Include="Content\Map\jquery-ui.js" />
+    <Content Include="Content\Map\jquery-ui.min.js" />
+    <Content Include="Content\Map\jquery-ui.theme.min.css" />
+    <Content Include="Content\Map\jquery.fancybox.css" />
+    <Content Include="Content\Map\jquery.fancybox.pack.js" />
+    <Content Include="Content\Map\jquery.js" />
+    <Content Include="Content\Map\jquery.tablesorter.js" />
+    <Content Include="Content\Map\jquery.tablesorter.pager.js" />
+    <Content Include="Content\Map\jquery.tablesorter.widgets.js" />
+    <Content Include="Content\Map\jstree.css" />
+    <Content Include="Content\Map\jstree.min.js" />
+    <Content Include="Content\Map\leaflet.css" />
+    <Content Include="Content\Map\leaflet.js" />
+    <Content Include="Content\Map\leaflet.label.css" />
+    <Content Include="Content\Map\MarkerCluster.css" />
+    <Content Include="Content\Map\MarkerCluster.Default.css" />
+    <Content Include="Content\Map\slick.css" />
+    <Content Include="Content\Map\slick.min.js" />
+    <Content Include="Content\Map\style.css" />
+    <Content Include="Content\Map\throbber.gif" />
+    <Content Include="Content\Map\widget-scroller.js" />
     <Content Include="Content\NewEtool\css\boothstrap.css" />
     <Content Include="Content\NewEtool\css\component.css" />
     <Content Include="Content\NewEtool\css\Default\loading-image.gif" />
@@ -713,7 +721,6 @@
     <Content Include="Content\themes\base\minified\jquery.ui.tabs.min.css" />
     <Content Include="Content\themes\base\minified\jquery.ui.theme.min.css" />
     <Content Include="Global.asax" />
-    <Content Include="Content\Site.css" />
     <Content Include="Content\NewEtool\css\images\kendoui.ttf" />
     <Content Include="Content\NewEtool\css\images\kendoui.woff" />
     <Content Include="Content\NewEtool\img\statistic\icon-visibility-big.psd" />
@@ -819,7 +826,7 @@
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
-    <Content Include="Views\Shared\_NewLayoutMap.cshtml" />
+    <Content Include="Views\Shared\_MapLayout.cshtml" />
     <Content Include="Views\Shared\_NewLayout.cshtml" />
     <Content Include="Views\Shared\HeaderPartial.cshtml" />
     <Content Include="Views\Shared\NavigationMenuPartial.cshtml" />
@@ -832,6 +839,9 @@
     <Content Include="Views\Monitoring\DeviceReport.cshtml" />
     <Content Include="Views\Monitoring\PopupReport.cshtml" />
     <Content Include="Views\Monitoring\PopupActivity.cshtml" />
+    <Content Include="Views\Monitoring\Index.cshtml" />
+    <Content Include="Views\Monitoring\DeviceMap.cshtml" />
+    <Content Include="Views\Monitoring\TreeDevicePartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

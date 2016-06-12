@@ -18,7 +18,19 @@ namespace WebManageFridgeMQTT.Controllers
 
         public ActionResult Index()
         {
-            return View();
+            DeviceInfoMV model = new DeviceInfoMV();
+            try
+            {
+                model.TreeDevice = Global.Context.GetTreeThietBi().ToList();
+                model.ListDeviceInfo = Global.Context.Sp_GetInfoDevice().ToList();
+            }
+            catch (Exception ex)
+            {
+                CustomLog.LogError(ex);
+                throw;
+            }
+
+            return View(model);
         }
 
         public ActionResult PopupReport()

@@ -1,86 +1,89 @@
 ﻿@model WebManageFridgeMQTT.Utility.DeviceActivity
-
-        <link rel="stylesheet" href="@Url.Content("~/Content/Test/ninja-slider.css")" />
-
-        <script type="text/javascript" src="@Url.Content("~/Content/Test/ninja-slider.js")"></script>
 <div class="row">
-    <div class="item fl">
-        <label class="fl">Chọn Ngày</label>
-        @Html.TextBox("strFromDateBaoCao", Model.FromDate.ToShortDateString(), new { @class = "datepicker" })
-        @Html.TextBox("strToDateBaoCao", Model.ToDate.ToShortDateString(), new { @class = "datepicker" })
-    </div>
-    <div id="btn-xemDiChuyen" class="item fl">
-        <button onclick="RenderDiChuyen('@Model.ThietBiID')">
-            <i class="icon-submit" title="Xem báo cáo"></i>Xem
-        </button>
-    </div>
-</div>
-<div class="row content-body">
-    <div id="table-report" class="tab-content wrapper">
-        <table class="tablesorter">
-            <thead>
-                <tr>
-                    <th>STT</th>
-                    <th>Thời Gian</th>
-                    <th>Trạng Thái</th>
-                    <th>Tình Trạng</th>
-                    <th>Ghi Chú</th>
-                    <th style="display:none">Hình Ảnh</th>
-                </tr>
-            </thead>
-            <tbody id="tbBodyReport">
-                @if (Model.ListDataReport != null && Model.ListDataReport.Count >0)
-                {
-                    int i = 1;
-                    foreach (var item in Model.ListDataReport)
-                    {
-                    <tr>
-                        <td>@i</td>
-                        <td>@item.ThoiGian</td>
-                        <td>@item.strTrangThai</td>
-                        <td>@item.strTinhTrang</td>
-                        <td>@item.GhiChu</td>
-                        <td style="display:none">@item.HinhAnh</td>
-                    </tr>
-                        i++;
-                    }
-                }
-            </tbody>
-        </table>
-    </div>
-</div>
-<div class="row" style="padding-bottom: 2px">
-    <div class="col-xs-offset-3 col-xs-5">
-        <ul class="m-0">
-            <li class="ts-pager-baocao">
-                <span>Chọn
-                    <select class="pagenum input-mini" title="Select page number"></select>
-                </span>
-                <span></span>
-                <a href="#" title="prev">
-                    <img src="@Url.Content("~/Content/NewEtool/img/per.png")" class="prev" /></a>
+    <div class="col-sm-12">
+        <div class="item fl">
+            <label class="fl">Chọn Ngày</label>
+            @Html.TextBox("strFromDateBaoCao", Model.FromDate.ToShortDateString(), new { @class = "datepicker" })
+            @Html.TextBox("strToDateBaoCao", Model.ToDate.ToShortDateString(), new { @class = "datepicker" })
+            <button class="btn" onclick="RenderBaoCao('@Model.ThietBiID')">
+                <i class="icon-submit" title="Xem báo cáo"></i>Xem
+            </button>
+        </div>
+        <div class="content-body">
+            <div id="table-report" class="tab-content wrapper">
+                <table class="table table-striped">
+                    <thead>
+                        <tr class="tablesorter-headerRow">
+                            <th>
+                                STT <i class="tablesorter-icon"></i>
+                            </th>
+                            <th>
+                                Thời Gian <i class="tablesorter-icon"></i>
+                            </th>
+                            <th>
+                                Trạng Thái <i class="tablesorter-icon"></i>
+                            </th>
+                            <th>
+                                Tình Trạng <i class="tablesorter-icon"></i>
+                            </th>
+                            <th>
+                                Ghi Chú <i class="tablesorter-icon"></i>
+                            </th>
+                            <th style="display:none">
+                                Hình Ảnh <i class="tablesorter-icon"></i>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody id="tbBodyReport">
+                        @if (Model.ListDataReport != null && Model.ListDataReport.Count > 0)
+                        {
+                            int i = 1;
+                            foreach (var item in Model.ListDataReport)
+                            {
+                                <tr role="row" class="fancybox" href='#inlineBaoCao'>
+                                    <td>@i</td>
+                                    <td>@item.ThoiGian</td>
+                                    <td>@item.strTrangThai</td>
+                                    <td>@item.strTinhTrang</td>
+                                    <td>@item.GhiChu</td>
+                                    <td style="display:none">@item.HinhAnh</td>
+                                </tr>
+                                i++;
+                            }
+                        }
+                    </tbody>
+                </table>
+            </div>
+            <nav class="ts-pager-baocao">
+                <ul class="pagination pagination-sm">
+                    <li>
+                        <a href="javascript:void(0)" aria-label="Previous" class="prev">
+                            <span aria-hidden="true">&laquo;</span>
+                        </a>
+                    </li>
+                    <li>
+                        <span>
+                            Chọn
+                            <select class="pagenum input-mini" title="Select page number"></select>
+                        </span>
+                    </li>
+                    <li>
+                        <a href="javascript:void(0)" aria-label="Next" class="next">
+                            <span aria-hidden="true">&raquo;</span>
+                        </a>
+                    </li>
+                </ul>
                 <span class="pagedisplay"></span>
-                <a href="#" title="next">
-                    <img src="@Url.Content("~/Content/NewEtool/img/next.png")" class="next" /></a>
-            </li>
-        </ul>
+            </nav>
+        </div>
     </div>
 </div>
 <script type="text/javascript">
-    $('#table-report').on('dblclick', 'tr', function () {
-        var item = $(this).find('td:first').text();
-       //ShowDialog(true);
-       // e.preventDefault();
-        // $('#InfoDetailDeviceReport').show();
-       showPopupReport();
-        //showPopup('dfdf');
-    });
-
     $(document).ready(function () {
         $('.datepicker').datepicker({
             dateFormat: 'dd/mm/yy'
         });
-        $('.tab-content .tablesorter').tablesorter({
+        $('#table-report table').tablesorter({
             headerTemplate: '{content} {icon}', // Add icon for various themes
             widgets: ['uitheme', 'zebra', 'stickyHeaders', 'stickyFooters'], //, 'filter'
             widgetOptions: {
@@ -91,7 +94,7 @@
             cssGoto: ".pagenum",
             prev: '.prev',
             next: '.next',
-            size: 5,
+            size: 3,
             removeRows: false,
             output: ' {startRow} to {endRow} of {totalRows}' //'Showing {startRow} to {endRow} of {totalRows} entries' //'{startRow} - {endRow} / {filteredRows} ({totalRows})'  //'/ {totalPages}'
         });

@@ -16,7 +16,7 @@ namespace WebManageFridgeMQTT
             routes.MapRoute(
                 name: "Default",
                 url: "{controller}/{action}/{id}",
-                defaults: new { controller = "Monitoring", action = "Device", id = UrlParameter.Optional }
+                defaults: new { controller = "Monitoring", action = "Index", id = UrlParameter.Optional }
             );
         }
     }

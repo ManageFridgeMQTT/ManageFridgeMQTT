@@ -16,6 +16,7 @@ namespace WebManageFridgeMQTT.Models
     }
     public class DeviceInfoMV
     {
+        public List<GetTreeThietBiResult> TreeDevice { get; set; }
         public List<Sp_GetInfoDeviceResult> ListDeviceInfo { get; set; }
         public List<Sp_GetInfoDeviceByIdResult> ListDeviceInfoId { get; set; }
     }

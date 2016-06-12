@@ -32,8 +32,8 @@
     <script type="text/javascript" src="@Url.Content("~/Scripts/Leaflet/leaflet.markercluster-src.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Scripts/Leaflet/GeoFridge.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Scripts/Leaflet/L.Control.SlideMenu.js")"></script>
-@*    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>*@
-@*    <script src="~/Content/Test/jquery.panelslider.js"></script>*@
+    @*    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>*@
+    @*    <script src="~/Content/Test/jquery.panelslider.js"></script>*@
     <script>
         function OnTreeViewNodeClick(s, e) {
             var itemId = e.node.name;
@@ -192,26 +192,26 @@
         background-color: white;
         right: 50%;
         left: 40%;
-
     }
     /* Position panel */
- .panel {
-      position: absolute;
-      top: 0;
- max-width:750px;
- max-height:650px;
- min-width:250px;
- min-height:300px;
-      padding: 20px;
-      background-color: white;
-      color: #fff;
-      box-shadow: inset 0 0 3px 3px gray;
-      transform: translateX(-329px);
-      overflow-y:auto;
-      overflow-x:hidden;
+    .panel {
+        position: absolute;
+        top: 64px;
+        max-width: 750px;
+        max-height: 650px;
+        min-width: 250px;
+        min-height: 140px;
+        padding: 20px;
+        background-color: white;
+        color: #fff;
+        box-shadow: inset 0 0 3px 3px gray;
+        transform: translateX(-329px);
+        overflow-y: scroll;
+        overflow-x: hidden;
     }
+
     #imt {
-    margin-left:-8px;
+        margin-left: -8px;
     }
 </style>
 <div id="loading" class="loading">
@@ -224,7 +224,7 @@
                         <button type="button" id="btnSearch" onclick="SearchOnTreeView()" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="icon-search"></i></button>
                     
                             </div>*@
-         <div class="leaflet-control-container">
+        <div class="leaflet-control-container">
             <div class="leaflet-top leaflet-left" style="top: 54px">
                 <div class="leaflet-control-slidemenu leaflet-bar leaflet-control">
                     <a class="leaflet-bar-part leaflet-bar-part-single" title="TreeView">
@@ -234,14 +234,14 @@
             </div>
         </div>
         <input type='text' name="txtSearch" class="form-control" placeholder='Search...' id='txtSearch' />
-                             <div style="margin-left: 10px"  class="panel">
-                                 <div style="float: right;right:-20px;background-color: #109D59; top: 30px; width: 12px; height: 70px; border-radius: 2px; position: relative">
-                                                                       <button class="leaflet-menu-close-button" style="line-height: 37px;" >
-                <img src="@Url.Content("~/Content/NewEtool/img/per.png")" style="margin-left:-9px;"/></button>
-                                     </div>
+        <div class="panel">
+            <div style="float: right; right: -20px; background-color: #109D59; top: 30px; width: 12px; height: 70px; border-radius: 2px; position: relative">
+                <button class="leaflet-menu-close-button" style="line-height: 37px;">
+                    <img src="@Url.Content("~/Content/NewEtool/img/per.png")" style="margin-left:-9px;"/></button>
+            </div>
 
-                        @Html.Action("TreeViewSelected")
-                    </div>
+            @Html.Action("TreeViewSelected")
+        </div>
     </div>
     <button id="lblnote" class="toggle-button mini btn-transparent mt-10">
         <i class="icon-up icon-black" title="Legend"></i>
@@ -492,7 +492,7 @@
  
     $(document).ready(function () {
         var newCss = {  'transform': 'translateX(-9px)'};
-        var newCss2 = {  'transition': 'transform .3s'};
+        var newCss2 = {  'transition': 'transform .6s'};
         var newCss3 = {  'z-index': '9999999999999'};  
 
 
@@ -514,7 +514,7 @@
         });
         $('body').on('click', '.leaflet-menu-close-button', function () {
             var newCss = {  'transform': 'translateX(-429px)'};
-            var newCss2 = {  'transition': 'transform .3s'};
+            var newCss2 = {  'transition': 'transform 1.0s'};
             var newCss3 = {  'z-index': '9999999999999'}; 
             $('.panel').css(newCss);
             $('.panel').css(newCss2)
@@ -580,6 +580,7 @@
         if (mapData.LatLongBounds.length > 0) {
             var bounds = new L.LatLngBounds(mapData.LatLongBounds);
             map.fitBounds(bounds);
+            map.setZoom(13);
         }
     }
 
@@ -745,10 +746,10 @@
                 strToDate = '';
             }
             $("#detail").load('@(Url.Action("DeviceReport", "Monitoring"))?thietBiID=' + thietbiId + '&strFromDate=' + strFromDate + '&strToDate=' + strToDate);
-    }
-    function RenderHoatDong(thietbiId)
-    {
-        $("#activity").load('@(Url.Action("DeviceActivity", "Monitoring"))?thietBiID=' + thietbiId);
+        }
+        function RenderHoatDong(thietbiId)
+        {
+            $("#activity").load('@(Url.Action("DeviceActivity", "Monitoring"))?thietBiID=' + thietbiId);
     }
     function showPopup(thietbiId)
     {
@@ -801,9 +802,12 @@
     // Expand TreeView
     var strSearch = window.location.href;
     if (strSearch.indexOf("strSearch=") != -1) {
-        $('.leaflet-menu').css('left', '0px');
-        $('.leaflet-menu').css("display","block")
-        $('#scrolldiv').css("display","block");
+        var newCss = {  'transform': 'translateX(-429px)'};
+        var newCss2 = {  'transition': 'transform 1.0s'};
+        var newCss3 = {  'z-index': '9999999999999'}; 
+        $('.panel').css(newCss);
+        $('.panel').css(newCss2)
+        $('.panel').css(newCss3)
         treeView.ExpandAll();           
     }
     $(document).ajaxStart(function () {

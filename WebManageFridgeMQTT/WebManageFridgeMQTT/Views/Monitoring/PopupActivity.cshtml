@@ -1,60 +1,63 @@
 ﻿@model WebManageFridgeMQTT.Utility.DeviceActivity
 <div class="row">
-    <div class="item fl">
-        <label class="fl">Chọn Ngày</label>
-        @Html.TextBox("strFromDateHoatDong", Model.FromDate.ToShortDateString(), new { @class = "datepicker" })
-        @Html.TextBox("strToDateHoatDong", Model.ToDate.ToShortDateString(), new { @class = "datepicker" })
-    </div>
-    <div id="btn-xemHoatDong" class="item fl">
-        <button onclick="showPopup('@Model.ThietBiID')">
-            <i class="icon-submit" title="Xem báo cáo"></i>Xem
-        </button>
-    </div>
-</div>
-<div id="table-hoatdong" class="tab-content wrapper" style="height:200px">
-    <table class="tablesorter">
-        <thead>
-            <tr>
-                <th>STT</th>
-                <th>Thời Gian</th>
-                <th>Mô tả</th>
-            </tr>
-        </thead>
-        <tbody>
-            @if (Model.ListData != null && Model.ListData.Count > 0)
+    <div class="col-sm-12">
+        <div class="item fl">
+            <label class="fl">Chọn Ngày</label>
+            @Html.TextBox("strFromDateHoatDong", Model.FromDate.ToShortDateString(), new { @class = "datepicker" })
+            @Html.TextBox("strToDateHoatDong", Model.ToDate.ToShortDateString(), new { @class = "datepicker" })
+            <button class="btn" onclick="showPopup('@Model.ThietBiID')">
+                <i class="icon-submit" title="Xem báo cáo"></i>Xem
+            </button>
+        </div>
+        <div class="content-body">
+            <div id="table-activitypopup" class="tab-content wrapper">
+                <table class="table table-striped">
+                    <thead>
+                        <tr class="tablesorter-headerRow">
+                            <th>STT</th>
+                            <th>Thời Gian</th>
+                            <th>Mô tả</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (Model.ListData != null && Model.ListData.Count > 0)
             {
                 int i = 1;
                 foreach (var item in Model.ListData)
                 {
-                    <tr>
-                        <td>@i</td>
-                        <td>@item.ThoiGian.ToString()</td>
-                        <td>@item.StrTrangThai</td>
-                    </tr>
-                    i++;
-                }
-            }
-        </tbody>
-    </table>
-</div>
-<div class="row" style="padding-bottom: 2px">
-    <div class="col-xs-offset-3 col-xs-5">
-        <ul class="m-0">
-            <li class="ts-pager-hoatdong">
-                <span>
-                    Chọn
-                    <select class="pagenum input-mini" title="Select page number"></select>
-                </span>
-                <span></span>
-                <a href="#" title="prev">
-                    <img src="@Url.Content("~/Content/NewEtool/img/per.png")" class="prev" />
-                </a>
+                                <tr>
+                                    <td>@i</td>
+                                    <td>@item.ThoiGian.ToString()</td>
+                                    <td>@item.StrTrangThai</td>
+                                </tr>
+                                i++;
+                            }
+                        }
+                    </tbody>
+                </table>
+            </div>
+            <nav class="ts-pager-activitypopup">
+                <ul class="pagination pagination-sm">
+                    <li>
+                        <a href="javascript:void(0)" aria-label="Previous" class="prev">
+                            <span aria-hidden="true">&laquo;</span>
+                        </a>
+                    </li>
+                    <li>
+                        <span>
+                            Chọn
+                            <select class="pagenum input-mini" title="Select page number"></select>
+                        </span>
+                    </li>
+                    <li>
+                        <a href="javascript:void(0)" aria-label="Next" class="next">
+                            <span aria-hidden="true">&raquo;</span>
+                        </a>
+                    </li>
+                </ul>
                 <span class="pagedisplay"></span>
-                <a href="#" title="next">
-                    <img src="@Url.Content("~/Content/NewEtool/img/next.png")" class="next" />
-                </a>
-            </li>
-        </ul>
+            </nav>
+        </div>
     </div>
 </div>
 <script type="text/javascript">
@@ -62,14 +65,14 @@
         $('.datepicker').datepicker({
             dateFormat: 'dd/mm/yy'
         });
-        $('.tab-content .tablesorter').tablesorter({
+        $('#table-activitypopup table').tablesorter({
             headerTemplate: '{content} {icon}', // Add icon for various themes
             widgets: ['uitheme', 'zebra', 'stickyHeaders', 'stickyFooters'], //, 'filter'
             widgetOptions: {
                 stickyHeaders_attachTo: '.wrapper', // or $('.wrapper')
             }
         }).tablesorterPager({
-            container: $(".ts-pager-hoatdong"),
+            container: $(".ts-pager-activitypopup"),
             cssGoto: ".pagenum",
             prev: '.prev',
             next: '.next',

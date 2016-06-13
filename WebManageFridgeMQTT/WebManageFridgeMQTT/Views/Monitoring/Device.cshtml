@@ -220,15 +220,15 @@
 <div class="insider">
     <div id="map" class="map">
         @*      <div id="inputText" class="input-group" style="text-align:center;right:50%;left:30%;width:400px;">
-                        <input type="text" id="txtSearch" name="txtSearch" class="form-control"  aria-label="..." placeholder="Nhập từ khóa" style="width: 330px;" />
-                        <button type="button" id="btnSearch" onclick="SearchOnTreeView()" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="icon-search"></i></button>
-                    
-                            </div>*@
+            <input type="text" id="txtSearch" name="txtSearch" class="form-control"  aria-label="..." placeholder="Nhập từ khóa" style="width: 330px;" />
+            <button type="button" id="btnSearch" onclick="SearchOnTreeView()" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="icon-search"></i></button>
+
+                </div>*@
         <div class="leaflet-control-container">
             <div class="leaflet-top leaflet-left" style="top: 54px">
                 <div class="leaflet-control-slidemenu leaflet-bar leaflet-control">
                     <a class="leaflet-bar-part leaflet-bar-part-single" title="TreeView">
-                        <img src="@Url.Content("~/Content/NewEtool/img/next.png")"  />
+                        <img src="@Url.Content("~/Content/NewEtool/img/next.png")" />
                     </a>
                 </div>
             </div>
@@ -237,7 +237,8 @@
         <div class="panel">
             <div style="float: right; right: -20px; background-color: #109D59; top: 30px; width: 12px; height: 70px; border-radius: 2px; position: relative">
                 <button class="leaflet-menu-close-button" style="line-height: 37px;">
-                    <img src="@Url.Content("~/Content/NewEtool/img/per.png")" style="margin-left:-9px;"/></button>
+                    <img src="@Url.Content("~/Content/NewEtool/img/per.png")" style="margin-left:-9px;" />
+                </button>
             </div>
 
             @Html.Action("TreeViewSelected")
@@ -370,59 +371,59 @@
             </div>
         </div>
         @*        <div id="detail" class="tab-pane fade in">
-              <div class="row">
-                <div class="info">
-            <h3 id="TenThietBi">@info.TenThietBi</h3>
-            <table class="tablesorter" id="tbDetail">
-                <thead>
-                    <tr>
-                        <th>Loại Hình</th>
-                        <th>Vị Trí Hiện Tại</th>
-                        <th>Ngày Đến</th>
-                        <th>Tổng Số Ngày Ở Công Trình</th>
-                        <th>Don Gia Thue</th>
-                        <th>Thành Tiền Hiện Tại</th>
-                    </tr>
-                </thead>
-                <tbody>
+                  <div class="row">
+                    <div class="info">
+                <h3 id="TenThietBi">@info.TenThietBi</h3>
+                <table class="tablesorter" id="tbDetail">
+                    <thead>
+                        <tr>
+                            <th>Loại Hình</th>
+                            <th>Vị Trí Hiện Tại</th>
+                            <th>Ngày Đến</th>
+                            <th>Tổng Số Ngày Ở Công Trình</th>
+                            <th>Don Gia Thue</th>
+                            <th>Thành Tiền Hiện Tại</th>
+                        </tr>
+                    </thead>
+                    <tbody>
 
-                    <tr>
-                        <td><span id="LoaiHinh">@info.LoaiHinh</span></td>
-                        <td><span id="TenCongTrinh">@info.TenCongTrinh</span></td>
-                        <td><span id="ThoiGianVao">@(info.ThoiGianVao.HasValue ? info.ThoiGianVao.Value.ToShortDateString() : "")</span></td>
-                        <td><span id="NgayOCongTrinh" style="text-align: right">@((info.NgayOCongTrinh.HasValue && info.NgayOCongTrinh != null) ? info.NgayOCongTrinh + "Ngày" : "")</span></td>
-                        <td><span id="GiaThue">@String.Format("{0:C}", @info.GiaThue)</span></td>
-                        <td><span id="ThanhTiend">@String.Format("{0:C}", info.ThanhTien)</span></td>
-                    </tr>
+                        <tr>
+                            <td><span id="LoaiHinh">@info.LoaiHinh</span></td>
+                            <td><span id="TenCongTrinh">@info.TenCongTrinh</span></td>
+                            <td><span id="ThoiGianVao">@(info.ThoiGianVao.HasValue ? info.ThoiGianVao.Value.ToShortDateString() : "")</span></td>
+                            <td><span id="NgayOCongTrinh" style="text-align: right">@((info.NgayOCongTrinh.HasValue && info.NgayOCongTrinh != null) ? info.NgayOCongTrinh + "Ngày" : "")</span></td>
+                            <td><span id="GiaThue">@String.Format("{0:C}", @info.GiaThue)</span></td>
+                            <td><span id="ThanhTiend">@String.Format("{0:C}", info.ThanhTien)</span></td>
+                        </tr>
 
-                </tbody>
-            </table>
+                    </tbody>
+                </table>
 
-                     </div>
-            </div>
-            <div class="row" style="padding-top: 3px;">
-                <span>Hình ảnh báo cáo </span>
-                <hr style="margin-top: 0px; margin-bottom: 0px; margin-left: 2px; margin-right: 2px" />
-            </div>
-            <div class="row">
-                <div class="col-xs-4">
-                    <img id="image1" style="max-width: 140px; max-height: 220px; padding-top: 5px; padding-bottom: 5px; padding-left: 10px" src="~/Content/img1.jpg" />
-                    <div><span style="margin-left: 10px">Ngày: 22/05/2016</span></div>
-
+                         </div>
                 </div>
-                <div class="col-xs-4">
-                    <img id="image2" style="max-width: 140px; max-height: 220px; padding-top: 5px; padding-bottom: 5px; padding-left: 10px;" src="~/Content/img2.jpg" />
-                    <div><span style="margin-left: 10px">Ngày: 2/11/2016</span></div>
+                <div class="row" style="padding-top: 3px;">
+                    <span>Hình ảnh báo cáo </span>
+                    <hr style="margin-top: 0px; margin-bottom: 0px; margin-left: 2px; margin-right: 2px" />
                 </div>
-                <div class="col-xs-4">
-                    <img id="image3" style="max-width: 140px; max-height: 220px; padding-top: 5px; padding-bottom: 5px; padding-left: 10px" src="~/Content/img3.jpg" />
-                    <div><span style="margin-left: 10px">Ngày: 13/12/2016</span></div>
+                <div class="row">
+                    <div class="col-xs-4">
+                        <img id="image1" style="max-width: 140px; max-height: 220px; padding-top: 5px; padding-bottom: 5px; padding-left: 10px" src="~/Content/img1.jpg" />
+                        <div><span style="margin-left: 10px">Ngày: 22/05/2016</span></div>
+
+                    </div>
+                    <div class="col-xs-4">
+                        <img id="image2" style="max-width: 140px; max-height: 220px; padding-top: 5px; padding-bottom: 5px; padding-left: 10px;" src="~/Content/img2.jpg" />
+                        <div><span style="margin-left: 10px">Ngày: 2/11/2016</span></div>
+                    </div>
+                    <div class="col-xs-4">
+                        <img id="image3" style="max-width: 140px; max-height: 220px; padding-top: 5px; padding-bottom: 5px; padding-left: 10px" src="~/Content/img3.jpg" />
+                        <div><span style="margin-left: 10px">Ngày: 13/12/2016</span></div>
+                    </div>
                 </div>
-            </div>
-            <div class="row">
-                <p></p>
-            </div>
-        </div>*@
+                <div class="row">
+                    <p></p>
+                </div>
+            </div>*@
         <div id="detail" class="tab-pane">
         </div>
         <div id="activity" class="tab-pane">
@@ -471,33 +472,33 @@
                     <img id="bcImage" style="max-width: 250px; max-height: 400px; padding-top: 5px; padding-bottom: 5px; padding-left: 10px;" src="~/Content/img2.jpg" />
                 </div>
                 @*<div class="row" style="text-align:center">
-                        <ul class="m-0">
-                            <li class="">
-                                <a href="#" title="prev">
-                                    <img src="@Url.Content("~/Content/NewEtool/img/per.png")" class="prev" />
-                                </a>
-                                <span class="pagedisplay"></span>
-                                <a href="#" title="next">
-                                    <img src="@Url.Content("~/Content/NewEtool/img/next.png")" class="next" />
-                                </a>
-                            </li>
-                        </ul>
-                </div>*@
+                            <ul class="m-0">
+                                <li class="">
+                                    <a href="#" title="prev">
+                                        <img src="@Url.Content("~/Content/NewEtool/img/per.png")" class="prev" />
+                                    </a>
+                                    <span class="pagedisplay"></span>
+                                    <a href="#" title="next">
+                                        <img src="@Url.Content("~/Content/NewEtool/img/next.png")" class="next" />
+                                    </a>
+                                </li>
+                            </ul>
+                    </div>*@
             </div>
         </div>
     </div>
 </div>
 <script type="text/javascript">
     var PathFolderImage = '@System.Configuration.ConfigurationManager.AppSettings["PathFolderImage"].ToString()';
- 
+
     $(document).ready(function () {
         var newCss = {  'transform': 'translateX(-9px)'};
         var newCss2 = {  'transition': 'transform .6s'};
-        var newCss3 = {  'z-index': '9999999999999'};  
+        var newCss3 = {  'z-index': '9999999999999'};
 
 
-        $('#txtSearch').keypress(function (e) { 
-            var key = e.which; 
+        $('#txtSearch').keypress(function (e) {
+            var key = e.which;
             if(key == 13)
             {
                 SearchOnTreeView();
@@ -515,7 +516,7 @@
         $('body').on('click', '.leaflet-menu-close-button', function () {
             var newCss = {  'transform': 'translateX(-429px)'};
             var newCss2 = {  'transition': 'transform 1.0s'};
-            var newCss3 = {  'z-index': '9999999999999'}; 
+            var newCss3 = {  'z-index': '9999999999999'};
             $('.panel').css(newCss);
             $('.panel').css(newCss2)
             $('.panel').css(newCss3)
@@ -536,14 +537,14 @@
             data.find('span[id="bcTrangThai"]').html(trangThai.outerText);
             data.find('span[id="bcMoTa"]').html(moTa.outerText);
             data.find('img[id="bcImage"]').attr('src', PathFolderImage + hinhanh.outerText);
-            
+
             var elm = data[0];
             htmlData += elm.outerHTML;
             $('#BaoCaoBody').html(htmlData);
             $("#BaoCaoModal").modal('show');
         });
     });
-    
+
 
     $(window).on("load resize ", function() {
         var scrollWidth = $('.tbl-content').width() - $('.tbl-content table').width();
@@ -554,7 +555,7 @@
         var cents = (num - Math.floor(num)).toFixed(2);
         return Math.floor(num).toLocaleString() + '.' + cents.split('.')[1];
     }
-    
+
     var mapData = [];
     mapData.LatLongBounds = [];
     mapData.LayerDevice = L.layerGroup();
@@ -571,10 +572,10 @@
         ]
     }
     );
-    
+
     var googleLayer = new L.Google('ROADMAP');
     map.addLayer(googleLayer);
-    
+
 
     function MapAutoFit() {
         if (mapData.LatLongBounds.length > 0) {
@@ -613,7 +614,7 @@
         MapAutoFit();
     }
     $(document).ready(function () {
-        
+
 
         var data = @Html.Raw(new System.Web.Script.Serialization.JavaScriptSerializer().Serialize(Model));
 
@@ -632,124 +633,124 @@
             $('#notePanel').toggle();
         });
     });
-        function RenderDevice(c){
-            // var a = c.length;
-            //  for (var i = 0; i < a; i++) { 
-            var strIconUrl = 'i9';
-            if(c.TrangThaiHienTai == 3){
-                strIconUrl = 'i1';
-            }else if(c.TrangThaiHienTai == 4){
-                strIconUrl = 'i2';
-            }else if(c.TrangThaiHienTai == 5){
-                strIconUrl = 'i3';
-            }else if(c.TrangThaiHienTai == 6){
-                strIconUrl = 'i4';
-            }else if(c.TrangThaiHienTai == 7){
-                strIconUrl = 'i5';
-            }else if(c.TrangThaiHienTai == 8){
-                strIconUrl = 'i6';
-            }else if(c.TrangThaiHienTai == 9){
-                strIconUrl = 'i7';
-            }else if(c.TrangThaiHienTai == 10){
-                strIconUrl = 'i8';
-            } else{
-                strIconUrl = 'i9';
-            }
-            RenderMarker([c.Latitude, c.Longitude], c.TenThietBi, RederPopupDevice(c), strIconUrl, mapData.LayerDevice);
-            //}
-            if(map.hasLayer(mapData.LayerDevice)==false){
-                map.addLayer(mapData.LayerDevice);
-            }
-
+    function RenderDevice(c){
+        // var a = c.length;
+        //  for (var i = 0; i < a; i++) {
+        var strIconUrl = 'i9';
+        if(c.TrangThaiHienTai == 3){
+            strIconUrl = 'i1';
+        }else if(c.TrangThaiHienTai == 4){
+            strIconUrl = 'i2';
+        }else if(c.TrangThaiHienTai == 5){
+            strIconUrl = 'i3';
+        }else if(c.TrangThaiHienTai == 6){
+            strIconUrl = 'i4';
+        }else if(c.TrangThaiHienTai == 7){
+            strIconUrl = 'i5';
+        }else if(c.TrangThaiHienTai == 8){
+            strIconUrl = 'i6';
+        }else if(c.TrangThaiHienTai == 9){
+            strIconUrl = 'i7';
+        }else if(c.TrangThaiHienTai == 10){
+            strIconUrl = 'i8';
+        } else{
+            strIconUrl = 'i9';
         }
-        function RederPopupDevice(item)
-        {
-            var btnxemHoatDong = '<button onclick="RenderHoatDong(\''+ item.ThietBiId + '\');"><i class="icon-submit" title="Xem báo cáo"></i>Xem</button>'
-            var btnxemDiChuyen = '<button onclick="RenderDiChuyen(\''+ item.ThietBiId + '\');"><i class="icon-submit" title="Xem báo cáo"></i>Xem</button>'
-            var btnxemBaoDuong = '<button onclick="RenderBaoDuong(\''+ item.ThietBiId + '\');"><i class="icon-submit" title="Xem báo cáo"></i>Xem</button>'
-            var btnxemBaoCao = '<button onclick="RenderBaoCao(\''+ item.ThietBiId + '\');"><i class="icon-submit" title="Xem báo cáo"></i>Xem</button>'
-            var ultab = '<li class="active"><a data-toggle="tab" href="#info">Thông tin Chung</a></li>';
-            ultab +=    '<li><a data-toggle="tab" href="#detail" onclick="RenderBaoCao(\''+ item.ThietBiId + '\');">Thông Tin Báo Cáo</a></li>';
-            ultab +=    '<li><a data-toggle="tab" href="#activity" onclick="RenderHoatDong(\''+ item.ThietBiId + '\');">Theo Dõi Hoạt Động (Chip)</a></li>';
-            ultab +=    '<li><a data-toggle="tab" href="#dichuyen" onclick="RenderDiChuyen(\''+ item.ThietBiId + '\');">Lịch sử di chuyển</a></li>';
-            ultab +=    '<li><a data-toggle="tab" href="#baoduong" onclick="RenderBaoDuong(\''+ item.ThietBiId + '\');">Bảo dưỡng sửa chửa</a></li>';
+        RenderMarker([c.Latitude, c.Longitude], c.TenThietBi, RederPopupDevice(c), strIconUrl, mapData.LayerDevice);
+        //}
+        if(map.hasLayer(mapData.LayerDevice)==false){
+            map.addLayer(mapData.LayerDevice);
+        }
+
+    }
+    function RederPopupDevice(item)
+    {
+        var btnxemHoatDong = '<button onclick="RenderHoatDong(\''+ item.ThietBiId + '\');"><i class="icon-submit" title="Xem báo cáo"></i>Xem</button>'
+        var btnxemDiChuyen = '<button onclick="RenderDiChuyen(\''+ item.ThietBiId + '\');"><i class="icon-submit" title="Xem báo cáo"></i>Xem</button>'
+        var btnxemBaoDuong = '<button onclick="RenderBaoDuong(\''+ item.ThietBiId + '\');"><i class="icon-submit" title="Xem báo cáo"></i>Xem</button>'
+        var btnxemBaoCao = '<button onclick="RenderBaoCao(\''+ item.ThietBiId + '\');"><i class="icon-submit" title="Xem báo cáo"></i>Xem</button>'
+        var ultab = '<li class="active"><a data-toggle="tab" href="#info">Thông tin Chung</a></li>';
+        ultab +=    '<li><a data-toggle="tab" href="#detail" onclick="RenderBaoCao(\''+ item.ThietBiId + '\');">Thông Tin Báo Cáo</a></li>';
+        ultab +=    '<li><a data-toggle="tab" href="#activity" onclick="RenderHoatDong(\''+ item.ThietBiId + '\');">Theo Dõi Hoạt Động (Chip)</a></li>';
+        ultab +=    '<li><a data-toggle="tab" href="#dichuyen" onclick="RenderDiChuyen(\''+ item.ThietBiId + '\');">Lịch sử di chuyển</a></li>';
+        ultab +=    '<li><a data-toggle="tab" href="#baoduong" onclick="RenderBaoDuong(\''+ item.ThietBiId + '\');">Bảo dưỡng sửa chửa</a></li>';
 
 
-            var htmlData = '';
-            var id = item.ThietBiId;
-            var matadata = $('#DevicePopupTemplete');
-            var data = matadata.clone();
-            data.css('display','');
+        var htmlData = '';
+        var id = item.ThietBiId;
+        var matadata = $('#DevicePopupTemplete');
+        var data = matadata.clone();
+        data.css('display','');
 
-            data.find('h3[id="TenThietBi"]').html(item.TenThietBi);
-            data.find('span[id="TenThietBi"]').html(item.TenThietBi);
-            data.find('span[id="TrangThai"]').html(item.StrTrangThai);
-            data.find('span[id="TinhTrang"]').html(item.strTinhTrang);
-            data.find('span[id="TenCongTrinh"]').html(item.TenCongTrinh);
-            data.find('span[id="TDC"]').html(item.ThayDauLanCuoi);
-            data.find('span[id="TLC"]').html(item.ThayLocLanCuoi);
-            data.find('span[id="GTD"]').html(item.SoGioThayDau);
-            data.find('span[id="GTL"]').html(formatDate(item.SoGioThayLoc));
-            data.find('span[id="NgayDen"]').html(item.ThoiGianVao);
-            data.find('span[id="SNCT"]').html(item.NgayOCongTrinh );
-            data.find('span[id="GiaThue"]').html(item.GiaThue + ' VNĐ');
-            data.find('span[id="ThanhTien"]').html(item.ThanhTien + ' VNĐ');
-            data.find('ul[id="ul-tab"]').html(ultab);
-            data.find('div[id="btn-xemHoatDong"]').html(btnxemHoatDong); 
-            data.find('div[id="btn-xemDiChuyen"]').html(btnxemDiChuyen);
-            data.find('div[id="btn-xemBaoDuong"]').html(btnxemBaoDuong);
-            var imgavatar = PathFolderImage + item.HinhAnhAvatar;
-            data.find('img[id="avatar"]').attr('src', imgavatar);
+        data.find('h3[id="TenThietBi"]').html(item.TenThietBi);
+        data.find('span[id="TenThietBi"]').html(item.TenThietBi);
+        data.find('span[id="TrangThai"]').html(item.StrTrangThai);
+        data.find('span[id="TinhTrang"]').html(item.strTinhTrang);
+        data.find('span[id="TenCongTrinh"]').html(item.TenCongTrinh);
+        data.find('span[id="TDC"]').html(item.ThayDauLanCuoi);
+        data.find('span[id="TLC"]').html(item.ThayLocLanCuoi);
+        data.find('span[id="GTD"]').html(item.SoGioThayDau);
+        data.find('span[id="GTL"]').html(formatDate(item.SoGioThayLoc));
+        data.find('span[id="NgayDen"]').html(item.ThoiGianVao);
+        data.find('span[id="SNCT"]').html(item.NgayOCongTrinh );
+        data.find('span[id="GiaThue"]').html(item.GiaThue + ' VNĐ');
+        data.find('span[id="ThanhTien"]').html(item.ThanhTien + ' VNĐ');
+        data.find('ul[id="ul-tab"]').html(ultab);
+        data.find('div[id="btn-xemHoatDong"]').html(btnxemHoatDong);
+        data.find('div[id="btn-xemDiChuyen"]').html(btnxemDiChuyen);
+        data.find('div[id="btn-xemBaoDuong"]').html(btnxemBaoDuong);
+        var imgavatar = PathFolderImage + item.HinhAnhAvatar;
+        data.find('img[id="avatar"]').attr('src', imgavatar);
 
-            var elm = data[0];
-            htmlData += elm.outerHTML;
-            return htmlData;
-        }
-        function RenderBaoDuong(thietbiId)
+        var elm = data[0];
+        htmlData += elm.outerHTML;
+        return htmlData;
+    }
+    function RenderBaoDuong(thietbiId)
+    {
+        var strFromDate = $('#strFromDateBaoDuong').val();
+        if(strFromDate == undefined)
         {
-            var strFromDate = $('#strFromDateBaoDuong').val();
-            if(strFromDate == undefined)
-            {
-                strFromDate = '';
-            }
-            var strToDate = $('#strToDateBaoDuong').val();
-            if(strToDate == undefined)
-            {
-                strToDate = '';
-            }
-            $("#baoduong").load('@(Url.Action("DeviceModify", "Monitoring"))?thietBiID=' + thietbiId + '&strFromDate=' + strFromDate + '&strToDate=' + strToDate);
+            strFromDate = '';
         }
-        function RenderDiChuyen(thietbiId)
+        var strToDate = $('#strToDateBaoDuong').val();
+        if(strToDate == undefined)
         {
-            var strFromDate = $('#strFromDateDiChuyen').val();
-            if(strFromDate == undefined)
-            {
-                strFromDate = '';
-            }
-            var strToDate = $('#strToDateDiChuyen').val();
-            if(strToDate == undefined)
-            {
-                strToDate = '';
-            }
-            $("#dichuyen").load('@(Url.Action("DeviceMove", "Monitoring"))?thietBiID=' + thietbiId + '&strFromDate=' + strFromDate + '&strToDate=' + strToDate);
+            strToDate = '';
         }
-        function RenderBaoCao(thietbiId)
+        $("#baoduong").load('@(Url.Action("DeviceModify", "Monitoring"))?thietBiID=' + thietbiId + '&strFromDate=' + strFromDate + '&strToDate=' + strToDate);
+    }
+    function RenderDiChuyen(thietbiId)
+    {
+        var strFromDate = $('#strFromDateDiChuyen').val();
+        if(strFromDate == undefined)
         {
-            var strFromDate = $('#strFromDateBaoCao').val();
-            if(strFromDate == undefined)
-            {
-                strFromDate = '';
-            }
-            var strToDate = $('#strToDateBaoCao').val();
-            if(strToDate == undefined)
-            {
-                strToDate = '';
-            }
-            $("#detail").load('@(Url.Action("DeviceReport", "Monitoring"))?thietBiID=' + thietbiId + '&strFromDate=' + strFromDate + '&strToDate=' + strToDate);
+            strFromDate = '';
         }
-        function RenderHoatDong(thietbiId)
+        var strToDate = $('#strToDateDiChuyen').val();
+        if(strToDate == undefined)
         {
-            $("#activity").load('@(Url.Action("DeviceActivity", "Monitoring"))?thietBiID=' + thietbiId);
+            strToDate = '';
+        }
+        $("#dichuyen").load('@(Url.Action("DeviceMove", "Monitoring"))?thietBiID=' + thietbiId + '&strFromDate=' + strFromDate + '&strToDate=' + strToDate);
+    }
+    function RenderBaoCao(thietbiId)
+    {
+        var strFromDate = $('#strFromDateBaoCao').val();
+        if(strFromDate == undefined)
+        {
+            strFromDate = '';
+        }
+        var strToDate = $('#strToDateBaoCao').val();
+        if(strToDate == undefined)
+        {
+            strToDate = '';
+        }
+        $("#detail").load('@(Url.Action("DeviceReport", "Monitoring"))?thietBiID=' + thietbiId + '&strFromDate=' + strFromDate + '&strToDate=' + strToDate);
+    }
+    function RenderHoatDong(thietbiId)
+    {
+        $("#activity").load('@(Url.Action("DeviceActivity", "Monitoring"))?thietBiID=' + thietbiId);
     }
     function showPopup(thietbiId)
     {
@@ -789,11 +790,11 @@
         }else{
             return '';
         }
-        
+
     }
     function SearchOnTreeView() {
         $("#loading").show();
-        window.location = '@Url.Action("Device", "Monitoring")' + '?strSearch=' + $('#txtSearch').val();     
+        window.location = '@Url.Action("Device", "Monitoring")' + '?strSearch=' + $('#txtSearch').val();
     }
     Number.prototype.padLeft = function(base,chr){
         var  len = (String(base || 10).length - String(this).length)+1;
@@ -804,11 +805,11 @@
     if (strSearch.indexOf("strSearch=") != -1) {
         var newCss = {  'transform': 'translateX(-429px)'};
         var newCss2 = {  'transition': 'transform 1.0s'};
-        var newCss3 = {  'z-index': '9999999999999'}; 
+        var newCss3 = {  'z-index': '9999999999999'};
         $('.panel').css(newCss);
         $('.panel').css(newCss2)
         $('.panel').css(newCss3)
-        treeView.ExpandAll();           
+        treeView.ExpandAll();
     }
     $(document).ajaxStart(function () {
         $("#loading").show();

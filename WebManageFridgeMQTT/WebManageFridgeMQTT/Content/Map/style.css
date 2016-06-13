@@ -113,7 +113,7 @@ ul {
 }
 .treeviewHeader h2 {
 	margin: 0;
-    background: #34B67A;
+    background: #5B96D1;
     color: #fff;
     height: 50px;
     line-height: 50px;
@@ -179,7 +179,7 @@ li.current > span {
 }
 #DevicePopupTemplete .item button {
 	float: right;
-    background: #34B67A;
+    background: #006c90;
     color: #fff;
     height: 35px;
     line-height: 35px;
@@ -203,12 +203,12 @@ li.current > span {
 .nav-tabs>li>a {
 	border-color: transparent;
 	margin-right: 1px;
-	background-color: #109D59;
+	background-color: #006c90;
 	color: #fff;
 }
 .nav>li>a:hover, .nav>li>a:focus, .nav-tabs>li.active>a, .nav-tabs>li.active>a:hover, .nav-tabs>li.active>a:focus {
 	background: #fff;
-	color: #34B67A;
+	color: #006c90;
 	border-color: transparent;
 }
 .tab-content>.tab-pane {
@@ -471,7 +471,7 @@ input[name='txtSearch'] {
 }
 .leaflet-popup-content-wrapper {
 	padding: 15px 15px 15px 17px !important;
-	background: #34B67A !important;
+	background: #5B96D1 !important;
     min-width: 756px !important;
     max-height: 460px;
     color: none !important;
@@ -495,5 +495,5 @@ input[name='txtSearch'] {
 	color: #6f6f6f;
 }
 .leaflet-popup-tip{
-    background: #34b67a !important;
+    background: #5B96D1 !important;
 }

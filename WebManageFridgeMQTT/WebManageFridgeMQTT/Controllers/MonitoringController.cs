@@ -147,8 +147,10 @@ namespace WebManageFridgeMQTT.Controllers
             {
                 model.ToDate = DateTime.Parse(strToDate);
             }
-            DateTime FromDate = DateTime.Now.AddMonths(-1);
-            DateTime ToDate = DateTime.Now;
+
+            //TEST
+            model.FromDate = DateTime.Now.AddMonths(-1);
+            model.ToDate = DateTime.Now;
             model.ListData = Global.Context.GetInfoDeviceActivity(model.ThietBiID, model.FromDate, model.ToDate).OrderByDescending(x => x.ThoiGian).ToList();
             return PartialView("PopupActivity", model);
         }

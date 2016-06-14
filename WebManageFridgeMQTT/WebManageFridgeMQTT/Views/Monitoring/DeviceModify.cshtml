@@ -1,86 +1,90 @@
 ﻿@model WebManageFridgeMQTT.Utility.DeviceActivity
 <div class="row">
-    <div class="item fl">
-        <label class="fl">Chọn Ngày</label>
-        @Html.TextBox("strFromDateBaoDuong", Model.FromDate.ToShortDateString(), new { @class = "datepicker" })
-        @Html.TextBox("strToDateBaoDuong", Model.ToDate.ToShortDateString(), new { @class = "datepicker" })
-    </div>
-    <div id="btn-xemBaoDuong" class="item fl">
-        <button onclick="RenderBaoDuong('@Model.ThietBiID')">
-            <i class="icon-submit" title="Xem báo cáo"></i>Xem
-        </button>
+    <div class="col-sm-12">
+        <div class="item fl">
+            <label class="fl">Chọn Ngày</label>
+            @Html.TextBox("strFromDateBaoDuong", Model.FromDate.ToShortDateString(), new { @class = "datepicker" })
+            @Html.TextBox("strToDateBaoDuong", Model.ToDate.ToShortDateString(), new { @class = "datepicker" })
+            <button class="btn" onclick="RenderBaoDuong('@Model.ThietBiID')">
+                <i class="icon-submit" title="Xem báo cáo"></i>Xem
+            </button>
+        </div>
+        <div class="content-body">
+            <div id="table-modify" class="tab-content wrapper">
+                <table class="table table-striped">
+                    <thead>
+                        <tr class="tablesorter-headerRow">
+                            <th>Ngày Báo Sửa</th>
+                            <th>Ngày Sửa</th>
+                            <th>Ngày Hoàn Tất</th>
+                            <th>Đơn Vị Sửa</th>
+                            <th>Địa Điểm Sửa</th>
+                            <th>Mô Tả</th>
+                            <th>Chi Phí</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tbBodyModify">
+                        @if (Model.ListDataModify != null && Model.ListDataModify.Count > 0)
+                        {
+                            foreach (var item in Model.ListDataModify)
+                            {
+                                <tr>
+                                    <td>@item.NgayBaoSua</td>
+                                    <td>@item.NgaySua</td>
+                                    <td>@item.NgayHoanTat</td>
+                                    <td>@item.DonViSua</td>
+                                    <td>@item.DiaDiemSua</td>
+                                    <td>@item.MoTa</td>
+                                    <td align="right" class="align-right">@item.ChiPhi</td>
+                                </tr>
+                            }
+                        }
+                    </tbody>
+                </table>
+                <nav class="ts-pager-baoduong">
+                    <ul class="pagination pagination-sm">
+                        <li>
+                            <a href="javascript:void(0)" aria-label="Previous" class="prev">
+                                <span aria-hidden="true">&laquo;</span>
+                            </a>
+                        </li>
+                        <li>
+                            <span>
+                                Chọn
+                                <select class="pagenum input-mini" title="Select page number"></select>
+                            </span>
+                        </li>
+                        <li>
+                            <a href="javascript:void(0)" aria-label="Next" class="next">
+                                <span aria-hidden="true">&raquo;</span>
+                            </a>
+                        </li>
+                    </ul>
+                    <span class="pagedisplay"></span>
+                </nav>
+            </div>
+        </div>
     </div>
 </div>
-<div class="row content-body">
-    <div id="table-baoduong" class="tab-content wrapper">
-        <table class="tablesorter">
-            <thead>
-                <tr>
-                    <th>Ngày Báo Sửa</th>
-                    <th>Ngày Sửa</th>
-                    <th>Ngày Hoàn Tất</th>
-                    <th>Đơn Vị Sửa</th>
-                    <th>Địa Điểm Sửa</th>
-                    <th>Mô Tả</th>
-                    <th>Chi Phí</th>
-                </tr>
-            </thead>
-            <tbody>
-                @if (Model.ListDataModify != null && Model.ListDataModify.Count > 0)
-                {
-                    foreach (var item in Model.ListDataModify)
-                    {
-                    <tr>
-                        <td>@item.NgayBaoSua</td>
-                        <td>@item.NgaySua</td>
-                        <td>@item.NgayHoanTat</td>
-                        <td>@item.DonViSua</td>
-                        <td>@item.DiaDiemSua</td>
-                        <td>@item.MoTa</td>
-                        <td class="align-right">@item.ChiPhi</td>
-                    </tr>
-                    }
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('.datepicker').datepicker({
+                dateFormat: 'dd/mm/yy'
+            });
+            $('#table-modify table').tablesorter({
+                headerTemplate: '{content} {icon}', // Add icon for various themes
+                widgets: ['uitheme', 'zebra', 'stickyHeaders', 'stickyFooters'], //, 'filter'
+                widgetOptions: {
+                    stickyHeaders_attachTo: '.wrapper', // or $('.wrapper')
                 }
-            </tbody>
-        </table>
-    </div>
-</div>
-<div class="row" style="padding-bottom: 2px">
-    <div class="col-xs-offset-3 col-xs-5">
-        <ul class="m-0">
-            <li class="ts-pager-baoduong">
-                <span>Chọn
-                    <select class="pagenum input-mini" title="Select page number"></select>
-                </span>
-                <span></span>
-                <a href="#" title="prev">
-                    <img src="@Url.Content("~/Content/NewEtool/img/per.png")" class="prev" /></a>
-                <span class="pagedisplay"></span>
-                <a href="#" title="next">
-                    <img src="@Url.Content("~/Content/NewEtool/img/next.png")" class="next" /></a>
-            </li>
-        </ul>
-    </div>
-</div>
-<script type="text/javascript">
-    $(document).ready(function () {
-        $('.datepicker').datepicker({
-            dateFormat: 'dd/mm/yy'
+            }).tablesorterPager({
+                container: $(".ts-pager-baoduong"),
+                cssGoto: ".pagenum",
+                prev: '.prev',
+                next: '.next',
+                size: 5,
+                removeRows: false,
+                output: ' {startRow} to {endRow} of {totalRows}' //'Showing {startRow} to {endRow} of {totalRows} entries' //'{startRow} - {endRow} / {filteredRows} ({totalRows})'  //'/ {totalPages}'
+            });
         });
-        $('.tab-content .tablesorter').tablesorter({
-            headerTemplate: '{content} {icon}', // Add icon for various themes
-            widgets: ['uitheme', 'zebra', 'stickyHeaders', 'stickyFooters'], //, 'filter'
-            widgetOptions: {
-                stickyHeaders_attachTo: '.wrapper', // or $('.wrapper')
-            }
-        }).tablesorterPager({
-            container: $(".ts-pager-baoduong"),
-            cssGoto: ".pagenum",
-            prev: '.prev',
-            next: '.next',
-            size: 5,
-            removeRows: false,
-            output: ' {startRow} to {endRow} of {totalRows}' //'Showing {startRow} to {endRow} of {totalRows} entries' //'{startRow} - {endRow} / {filteredRows} ({totalRows})'  //'/ {totalPages}'
-        });
-    });
-</script>
+    </script>

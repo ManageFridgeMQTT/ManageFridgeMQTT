@@ -1,9 +1,9 @@
 ﻿
 var placeMarker_double = L.Icon.Label.extend({
     options: {
-        iconUrl: '../Content/Icon/markers/grey.png',
+        iconUrl: '../Content/Icon/markers/i10.png',
         shadowUrl: null,
-        iconSize: new L.Point(24, 30),
+        iconSize: new L.Point(24, 24),
         iconAnchor: new L.Point(0, 1),
         labelAnchor: new L.Point(26, 0),
         wrapperAnchor: new L.Point(12, 13),
@@ -30,6 +30,9 @@ function labelTextAnchor(text) {
 
 function RenderMarker(latlng, label, popup, icon, layer1) {
     var iconURL = '../Content/Icon/markers/' + icon + '.png';
+    //alert(iconURL);
+    //$('#DEV').append(label + ' - ' + iconURL);
+    console.log(label + ' - ' + iconURL);
     var marker = L.marker(latlng, {
         icon: new placeMarker_double({
             labelText: label

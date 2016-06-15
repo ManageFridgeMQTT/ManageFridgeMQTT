@@ -50,42 +50,42 @@
         <table style="">
             <tr>
                 <td>
-                    <img src="@Url.Content("~/Content/Icon/markers/i1.png")" />
+                    <img src="@Url.Content("~/Content/Icon/markers/ic_map_red.png")" />
                     <span>Đang bảo dưỡng</span>
                 </td>
                 <td>
-                    <img src="@Url.Content("~/Content/Icon/markers/i2.png")" />
+                    <img src="@Url.Content("~/Content/Icon/markers/ic_map_red.png")" />
                     <span>Tắt máy bảo dưỡng</span>
                 </td>
                 <td>
-                    <img src="@Url.Content("~/Content/Icon/markers/i3.png")" />
+                    <img src="@Url.Content("~/Content/Icon/markers/ic_map_purple.png")" />
                     <span>Đang di chuyển</span>
                 </td>
                 <td>
-                    <img src="@Url.Content("~/Content/Icon/markers/i4.png")" />
+                    <img src="@Url.Content("~/Content/Icon/markers/ic_map_red.png")" />
                     <span>Tắt máy di chuyển</span>
                 </td>
                 <td></td>
             </tr>
             <tr>
                 <td>
-                    <img src="@Url.Content("~/Content/Icon/markers/i5.png")" />
+                    <img src="@Url.Content("~/Content/Icon/markers/ic_map_blue.png")" />
                     <span>Đang khoan</span>
                 </td>
                 <td>
-                    <img src="@Url.Content("~/Content/Icon/markers/i6.png")" />
+                    <img src="@Url.Content("~/Content/Icon/markers/ic_map_brown.png")" />
                     <span>Tắt máy khoan</span>
                 </td>
                 <td>
-                    <img src="@Url.Content("~/Content/Icon/markers/i7.png")" />
+                    <img src="@Url.Content("~/Content/Icon/markers/ic_map_gray.png")" />
                     <span>Đang cẩu</span>
                 </td>
                 <td>
-                    <img src="@Url.Content("~/Content/Icon/markers/i8.png")" />
+                    <img src="@Url.Content("~/Content/Icon/markers/ic_map_green.png")" />
                     <span>Tắt máy cẩu</span>
                 </td>
                 <td>
-                    <img src="@Url.Content("~/Content/Icon/markers/i9.png")" />
+                    <img src="@Url.Content("~/Content/Icon/markers/ic_map_orange.png")" />
                     <span>Không xác định</span>
                 </td>
             </tr>
@@ -98,14 +98,16 @@
                 Manage Device
             </h2>
         </div>
-        <div class="treeviewContent">
+        <div class="treeviewContent" style="overflow:auto;">
             @{
                 if (Model.TreeDevice != null)
                 {
                     @Html.Partial("TreeDevicePartial", Model.TreeDevice, new ViewDataDictionary() { { "ParentID", 0 } })
                 }
             }
+            <div id="DEV"></div>
         </div>
+        
     </div>
     <div id="DevicePopupTemplete" style="display: none;">
         <!-- Nav tabs -->
@@ -328,25 +330,19 @@
     function RenderDevice(c){
         // var a = c.length;
         //  for (var i = 0; i < a; i++) {
-        var strIconUrl = 'i9';
+        var strIconUrl = 'ic_map_blue';
         if(c.TrangThaiHienTai == 3){
-            strIconUrl = 'i1';
+            strIconUrl = 'ic_map_brown';
         }else if(c.TrangThaiHienTai == 4){
-            strIconUrl = 'i2';
+            strIconUrl = 'ic_map_gray';
         }else if(c.TrangThaiHienTai == 5){
-            strIconUrl = 'i3';
+            strIconUrl = 'ic_map_green';
         }else if(c.TrangThaiHienTai == 6){
-            strIconUrl = 'i4';
+            strIconUrl = 'ic_map_orange';
         }else if(c.TrangThaiHienTai == 7){
-            strIconUrl = 'i5';
+            strIconUrl = 'ic_map_purple';
         }else if(c.TrangThaiHienTai == 8){
-            strIconUrl = 'i6';
-        }else if(c.TrangThaiHienTai == 9){
-            strIconUrl = 'i7';
-        }else if(c.TrangThaiHienTai == 10){
-            strIconUrl = 'i8';
-        } else{
-            strIconUrl = 'i9';
+            strIconUrl = 'ic_map_red';
         }
         RenderMarker([c.Latitude, c.Longitude], c.TenThietBi, RederPopupDevice(c), strIconUrl, mapData.LayerDevice);
 

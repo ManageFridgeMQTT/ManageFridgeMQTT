@@ -1,0 +1,455 @@
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>Map</title>
+	<meta content='width=device-width, initial-scale=1.0, maximum-scale=2.0, user-scalable=0' name='viewport' />
+	<link href='https://fonts.googleapis.com/css?family=Open+Sans:300,600,400italic,400&subset=latin,vietnamese' rel='stylesheet' type='text/css'>
+	<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
+	<link href="https://maxcdn.bootstrapcdn.com/bootswatch/3.3.6/cosmo/bootstrap.min.css" rel="stylesheet" integrity="sha384-OiWEn8WwtH+084y4yW2YhhH6z/qTSecHZuk/eiWtnvLtU+Z8lpDsmhOKkex6YARr" crossorigin="anonymous">
+	<link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.css" />
+	<link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/themes/smoothness/jquery-ui.css">
+	<link rel="stylesheet" href="plugin/jstree.css">
+	<link rel="stylesheet" href="plugin/jquery.fancybox.css">
+	<link rel="stylesheet" href="css/style.css">
+	<link rel="stylesheet" href="plugin/slick.css">
+	<script src="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.js"></script>
+	<script src="http://maps.google.com/maps/api/js?v=3"></script>
+	<script src="../layer/tile/Google.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+	<script src='plugin/jstree.min.js'></script>
+	<script src='plugin/jquery.fancybox.pack.js'></script>
+	<script src='plugin/slick.min.js'></script>
+</head>
+<body>
+<script>
+	$(function() {
+	 $('.datepicker').datepicker({
+            dateFormat: 'dd/mm/yy'
+        });
+	})
+</script>
+	<div class="body_overlay hidden-lg hidden-md hidden-sm"></div>
+	<!-- define a DIV into which the map will appear. Make it take up the whole window -->
+	<div class='insider'>
+		<div style="width:100%; height:100%" id="map"></div>
+		<input type='text' name="txtSearch" class="form-control" placeholder='Search...' id='txtSearch' />
+
+		<button id="lblnote" class="toggle-button button">
+	    </button>
+		 <div id="notePanel">
+	 		<div class="note_item col-xs-3">
+	 			<img src='img/i1.png'/>
+                <span>Đang bảo dưỡng</span>
+	 		</div>
+	 		<div class="note_item col-xs-3">
+	 			<img src="img/i2.png"/>
+                <span>Tắt máy bảo dưỡng</span>
+	 		</div>
+	 		<div class="note_item col-xs-3">
+	 			<img src="img/i2.png"/>
+                <span>Đang di chuyển</span>
+	 		</div>
+	 		<div class="note_item col-xs-3">
+	 			<img src="img/i2.png"/>
+                <span>Tắt máy di chuyển</span>
+	 		</div>
+	 		<div class="note_item col-xs-3">
+	 			<img src="img/i2.png"/>
+                <span>Đang khoan</span>
+	 		</div>
+	 		<div class="note_item col-xs-3">
+	 			<img src="img/i2.png"/>
+                <span>Tắt máy khoan</span>
+	 		</div>
+	 		<div class="note_item col-xs-3">
+	 			<img src="img/i2.png"/>
+                <span>Đang cẩu</span>
+	 		</div>
+	 		<div class="note_item col-xs-3">
+	 			<img src="img/i2.png"/>
+                <span>Tắt máy cẩu</span>
+	 		</div>
+	 		<div class="note_item col-xs-3">
+	 			<img src="img/i2.png" />
+                <span>Không xác định</span>
+	 		</div>
+	    </div>
+	    <button id="treeviewToggle" class="toggle-button button">
+	    </button>
+	    <div id="treeviewPanel">
+	    	<div class="treeviewHeader">
+	    		<!--<h2>
+	    			Manage Device
+	    		</h2> -->
+	    		<ul class="nav nav-tabs nav-justified" role="tablist">
+				    <li role="presentation" class="active">
+				    	<a href="#devices" aria-controls="devices" role="tab" data-toggle="tab">
+					    	<h3>THIẾT BỊ</h3>
+					    </a>
+					</li>
+				    <li role="presentation">
+				    	<a href="#contruction" aria-controls="contruction" role="tab" data-toggle="tab">
+				    		<h3>CÔNG TRÌNH</h3>
+				    	</a>
+				    </li>
+				</ul>
+	    	</div>
+			<div class="tab-content">
+    			<div role="tabpanel" class="tab-pane active" id="devices">
+    				<div class="treeviewSearch">
+    					<form action="">
+    						<input type="text" placeholder="Tìm tuyến...">
+    					</form>
+    				</div>
+    				<div class="treeviewContent">
+    					<ul class="lvl1">
+			    			<li class="">
+			    				<span>Công trình khách sạn Thành Thắng</span>
+			    				<ul class="lvl2">
+				    				<li>
+				    					<span>Máy cẩu KH150</span>
+				    				</li>
+				    				<li>
+				    					<span>Máy cẩu KH150</span>
+				    				</li>
+				    				<li>
+				    					<span>Máy cẩu KH150</span>
+				    				</li>
+				    				<li>
+				    					<span>Máy cẩu KH150</span>
+				    				</li>
+				    				<li>
+				    					<span>Máy cẩu KH150</span>
+				    				</li>
+				    				<li>
+				    					<span>Máy cẩu KH150</span>
+				    				</li>
+			    				</ul>
+			    			</li>
+				    		<li>
+				    			<span>Công trình khách sạn Thành Thắng</span>
+				    		</li>
+				    		<li>
+				    			<span>Công trình khách sạn Thành Thắng</span>
+				    		</li>
+				    		<li>
+				    			<span>Công trình khách sạn Thành Thắng</span>
+				    		</li>
+				    		<li>
+				    			<span>Công trình khách sạn Thành Thắng</span>
+				    		</li>
+				    		<li>
+				    			<span>Công trình khách sạn Thành Thắng</span>
+				    		</li>
+				    		<li>
+				    			<span>Công trình khách sạn Thành Thắng</span>
+				    		</li>
+				    		<li>
+				    			<span>Công trình khách sạn Thành Thắng</span>
+				    		</li>
+			    		</ul>
+    				</div>
+    			</div>
+				<div role="tabpanel" class="tab-pane" id="contruction">
+					<div class="treeviewSearch">
+    					<form action="">
+    						<input type="text" placeholder="Tìm tuyến...">
+    					</form>
+    				</div>
+    				<div class="contruction_list">
+    					<ul>
+    						<li>
+    							<a href="">
+    								<h5>01</h5>
+    								<strong>Công trình 1
+    									<span>Hà Nam</span>
+    								</strong>
+    							</a>
+    						</li>
+    						<li>
+    							<a href="">
+    								<h5>01</h5>
+    								<strong>Công trình 1
+    									<span>Hà Nam</span>
+    								</strong>
+    							</a>
+    						</li>
+    						<li>
+    							<a href="">
+    								<h5>01</h5>
+    								<strong>Công trình 1
+    								<span>Hà Nam</span>
+    								</strong>
+    							</a>
+    						</li>
+    						<li>
+    							<a href="">
+    								<h5>01</h5>
+    								<strong>Công trình 1
+    								<span>Hà Nam</span>
+    								</strong>
+    							</a>
+    						</li>
+    						<li>
+    							<a href="">
+    								<h5>01</h5>
+    								<strong>Công trình 1
+    								<span>Hà Nam</span>
+    								</strong>
+    							</a>
+    						</li>
+    					</ul>
+    				</div>
+				</div>
+			</div>
+	    </div>
+	    <div id="DevicePopupTemplete">
+	    	<a class="close_btn" href="#">×</a>
+	    	 <!-- Nav tabs -->
+			<ul class="nav nav-tabs" role="tablist">
+			    <li role="presentation" class="active"><a href="#home" aria-controls="home" role="tab" data-toggle="tab">Thông tin chung</a></li>
+			    <li role="presentation"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">Thông tin báo cáo</a></li>
+			    <li role="presentation"><a href="#messages" aria-controls="messages" role="tab" data-toggle="tab">Theo dõi hoạt động (Chip)</a></li>
+			    <li role="presentation"><a href="#settings" aria-controls="settings" role="tab" data-toggle="tab">Lịch sử di chuyển</a></li>
+			    <li role="presentation"><a href="#maintain" aria-controls="maintain" role="tab" data-toggle="tab">Bảo dưỡng sửa chữa</a></li>
+			</ul>
+
+			  <!-- Tab panes -->
+			<div class="tab-content">
+			    <div role="tabpanel" class="tab-pane active" id="home">
+			    	<div class='row'>
+		                <div class="col-xs-4 device_img">
+		                	<img id="avatar" src="http://map.dfsglobal.vn/ImageTB/71691be9-cf4c-4829-9ab5-0705903cdf82.jpg">
+		                </div>
+		                <div class="col-xs-8 info">
+		                    <h3 id="TenThietBi">Máy Khoan BG25E</h3>
+		                    <table id="tb1">
+		                            <tbody>
+		                                <tr>
+		                                    <td class="text-left">Tên Thiết Bị</td>
+		                                    <td><span id="TenThietBi">Máy Khoan BG25E</span></td>
+
+		                                </tr>
+		                                <tr>
+		                                    <td class="text-left">Trạng Thái</td>
+		                                    <td><span id="TrangThai">Không xác định</span></td>
+		                                </tr>
+		                                <tr>
+		                                    <td class="text-left">Tình Trạng</td>
+		                                    <td><span id="TinhTrang">Không Hoạt Động</span></td>
+		                                </tr>
+		                                <tr>
+		                                    <td class="text-left">Công Trình</td>
+		                                    <td><span id="TenCongTrinh">CÔNG TRÌNH KHÁCH SẠN THÀNH THẮNG</span></td>
+		                                </tr>
+		                                <tr>
+		                                    <td class="text-left">Thay Dầu Lần Cuối</td>
+		                                    <td><span id="TDC"></span></td>
+		                                </tr>
+		                                <tr>
+		                                    <td class="text-left">Thay Lọc Lần Cuối</td>
+		                                    <td><span id="TLC"></span></td>
+		                                </tr>
+		                                <tr>
+		                                    <td class="text-left">Số Giờ Thay Dầu</td>
+		                                    <td><span id="GTD"></span></td>
+		                                </tr>
+		                                <tr>
+		                                    <td class="text-left">Số Giờ Thay Lọc</td>
+		                                    <td><span id="GTL"></span></td>
+		                                </tr>
+		                                <tr>
+		                                    <td class="text-left">Ngày Đến</td>
+		                                    <td><span id="NgayDen"></span></td>
+		                                </tr>
+		                                <tr>
+		                                    <td class="text-left">Số Ngày Ở Công Trình</td>
+		                                    <td><span id="SNCT">0 Ngày</span></td>
+		                                </tr>
+		                                <tr>
+		                                    <td class="text-left">Đơn Giá Thuê</td>
+		                                    <td><span id="GiaThue">350,000,000 VNĐ</span></td>
+		                                </tr>
+		                                <tr>
+		                                    <td class="text-left">Thành Tiền Hiện Tại</td>
+		                                    <td><span id="ThanhTien">0 VNĐ</span></td>
+		                                </tr>
+		                            </tbody>
+		                    </table>    
+		                </div>
+		            </div>
+	            </div>
+			    <div role="tabpanel" class="tab-pane" id="profile">
+				    <div class="row">
+				    	<div class="col-xs-12">
+				    		<div class="item fl">
+						        <label class="fl">Chọn Ngày</label>
+						        <input class="datepicker" id="strFromDateBaoCao" name="strFromDateBaoCao" type="text" >
+						        <input class="datepicker" id="strToDateBaoCao" name="strToDateBaoCao" type="text">
+						        <button onclick="RenderDiChuyen('8F9FF1CC-9B8F-44C0-99B3-1DE19ED73D97')" class="btn">
+						            <i class="icon-submit" title="Xem báo cáo"></i>Xem
+						        </button>
+						    </div>
+						    <div class="content-body">
+							    <div id="table-report" class="tab-content wrapper table-responsive">
+							        <table class="table table-striped">
+							            <thead>
+							                <tr class="tablesorter-headerRow">
+							                    <th>
+							                    	STT <i class="fa fa-sort"></i>
+							                    </th>
+							                    <th>
+							                    	Thời Gian <i class="fa fa-sort"></i>
+							                    </th>
+							                    <th>
+							                    	Trạng Thái <i class="fa fa-sort"></i>
+							                    </th>
+							                    <th>
+							                    	Tình Trạng <i class="fa fa-sort"></i>
+							                    </th>
+							                    <th>
+							                    	Ghi Chú <i class="fa fa-sort"></i>
+							                    </th>
+							                </tr>
+							            </thead>
+						            	<tbody id="tbBodyReport">
+						            		<tr role="row" class="fancybox" href='#inline1'>
+						                        <td>1</td>
+						                        <td>01/02/2016 20:45</td>
+						                        <td>Không Hoạt Động</td>
+						                        <td>Hư Hỏng</td>
+						                        <td> buc tio nang can</td>
+						                        <td style="display:none">71691be9-cf4c-4829-9ab5-0705903cdf82.jpg</td>
+						                    </tr>
+						                    <tr role="row" class="fancybox" href='#inline1'>
+						                        <td>2</td>
+						                        <td>01/02/2016 20:48</td>
+						                        <td>Không Hoạt Động</td>
+						                        <td>Hư Hỏng</td>
+						                        <td> buc tio nang can</td>
+						                        <td style="display:none">71691be9-cf4c-4829-9ab5-0705903cdf82.jpg</td>
+						                    </tr>
+						                    <tr role="row" class="fancybox" href='#inline1'>
+						                        <td>3</td>
+						                        <td>01/02/2016 20:53</td>
+						                        <td>Không Hoạt Động</td>
+						                        <td>Hư Hỏng</td>
+						                        <td> buc tio nang can</td>
+						                        <td style="display:none">71691be9-cf4c-4829-9ab5-0705903cdf82.jpg</td>
+						                    </tr>
+						                </tbody>
+							        </table>
+							    </div>
+							    <nav>
+							    	<ul class="pagination pagination-sm">
+							    		<li>
+									      <a href="#" aria-label="Previous">
+									        <span aria-hidden="true">&laquo;</span>
+									      </a>
+									    </li>
+									    <li class='active'>
+									    <a href="#">1</a></li>
+									    <li><a href="#">2</a></li>
+									    <li><a href="#">3</a></li>
+									    <li><a href="#">..</a></li>
+									    <li><a href="#">5</a></li>
+									    <li>
+									      <a href="#" aria-label="Next">
+									        <span aria-hidden="true">&raquo;</span>
+									      </a>
+									    </li>
+							    	</ul>
+							    	<span class="pagedisplay"> 46 to 50 of 167</span>
+							    </nav>
+							</div>
+				    	</div>
+			    	</div>
+			    </div>
+			    <div role="tabpanel" class="tab-pane" id="messages">...</div>
+				<div role="tabpanel" class="tab-pane" id="settings">...</div>
+				<div role="tabpanel" class="tab-pane" id="maintain">...</div>
+			</div>
+	    </div>
+    </div>
+    <div id="inline1" style="display: none;">
+		<h3>Hình ảnh báo cáo</h3>
+		<div id='BaoCaoBody'>
+			<div class="row">
+				<div class="col-xs-6">
+					<strong>Thời gian</strong>
+					<span>01/02/2016 20:45 </span>
+				</div>
+				<div class="col-xs-6">
+					<strong>Tình trạng:</strong>
+					<span>Hư hỏng</span>
+				</div>
+				<div class="col-xs-6">
+					<strong>Trạng thái:</strong>
+					<span>Không hoạt động</span>
+				</div>
+				<div class="col-xs-6">
+					<strong>Mô tả</strong>
+					<span>buc tic nang can</span>
+				</div>
+			</div>
+			<div class="slider">
+				<ul>
+					<li>
+						<img src="img/71691be9-cf4c-4829-9ab5-0705903cdf82 (1).jpg" alt=""></li>
+					<li><img src="img/71691be9-cf4c-4829-9ab5-0705903cdf82.jpg" alt=""></li>
+				</ul>
+			</div>
+		</div>
+	</div>
+<script type='text/javascript'>
+	var map = new L.Map('map', {
+						center: new L.LatLng(43.075695,-89.401052), 
+						zoom: 15,
+					});
+	var osm = new L.TileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png');
+
+	var styles = [
+	    {
+	      featureType: 'all',
+	      stylers: [{hue: '#ff0000'}]
+	    }
+	 ];
+
+	var ggl = new L.Google('ROADMAP', {
+		mapOptions: {
+			styles: styles
+		}
+	});
+	map.addLayer(ggl);
+	map.addControl(new L.Control.Layers( {'OSM':osm, 'Google':ggl}, {}));
+	map.zoomControl.setPosition('bottomright');
+	L.marker([43.075695,-89.401052]).addTo(map).bindPopup('Búa rung 60KW').openPopup();
+	// js tree
+	$('.treeviewContent').jstree();
+
+	$(document).ready(function() {
+		var $treeView = $('#treeviewToggle, #treeviewPanel, .body_overlay');
+		var $treeViewToggle = $('#treeviewToggle, .body_overlay');
+		$treeViewToggle.on('click', function() {
+			$treeView.toggleClass('toggled');
+		});
+		var $notePanel = $('#lblnote, #notePanel, .leaflet-bottom');
+		$('#lblnote').on('click', function() {
+			$notePanel.toggleClass('toggled');
+		});
+		$('.slider ul').slick({
+			prevArrow: '<button type="button" class="slick-prev button"><i class="fa fa-angle-left"></i></button>',
+			nextArrow: '<button type="button" class="slick-next button" ><i class="fa fa-angle-right"></i></button>'
+		});
+		$('.fancybox').fancybox({
+			tpl: {
+        		closeBtn: '<a title="Close" class="fancybox-item fancybox-close" href="javascript:;">×</a>'
+    		}
+		});
+	})
+</script>
+ 
+</body>
+</html>

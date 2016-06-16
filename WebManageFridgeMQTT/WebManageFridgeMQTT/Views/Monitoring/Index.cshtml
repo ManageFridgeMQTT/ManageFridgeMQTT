@@ -88,12 +88,12 @@
     <div id="treeviewPanel">
         <div class="treeviewHeader">
             <ul class="nav nav-tabs nav-justified" role="tablist">
-                <li id="tabDevice" role="presentation" class="active">
+                <li id="tabDevice" role="presentation" >
                     <a href="#devices" aria-controls="devices" role="tab" data-toggle="tab">
                         <h3>THIẾT BỊ</h3>
                     </a>
                 </li>
-                <li id="tabCongTrinh" role="presentation">
+                <li id="tabCongTrinh" role="presentation" class="active">
                     <a href="#contruction" aria-controls="contruction" role="tab" data-toggle="tab">
                         <h3>CÔNG TRÌNH</h3>
                     </a>
@@ -101,10 +101,10 @@
             </ul>
         </div>
         <div class="tab-content">
-            <div role="tabpanel" class="tab-pane active" id="devices">
+            <div role="tabpanel" class="tab-pane " id="devices">
                 @Html.Partial("TreeViewDevice", Model.TreeDevice)
             </div>
-            <div role="tabpanel" class="tab-pane" id="contruction">
+            <div role="tabpanel" class="tab-pane active" id="contruction">
                 <div class="treeviewSearch">
                     <form action="">
                         <input name="CongTrinhInput" type="text" placeholder="Tìm công trình...">
@@ -160,35 +160,35 @@
                                     </tr>
                                     <tr>
                                         <td class="text-left">Thay Dầu Lần Cuối</td>
-                                        <td><span id="TDC"></span></td>
+                                        <td class="text-right"><span id="TDC"></span></td>
                                     </tr>
                                     <tr>
                                         <td class="text-left">Thay Lọc Lần Cuối</td>
-                                        <td><span id="TLC"></span></td>
+                                        <td class="text-right"><span id="TLC"></span></td>
                                     </tr>
                                     <tr>
                                         <td class="text-left">Số Giờ Thay Dầu</td>
-                                        <td><span id="GTD"></span></td>
+                                        <td class="text-right"><span id="GTD"></span></td>
                                     </tr>
                                     <tr>
                                         <td class="text-left">Số Giờ Thay Lọc</td>
-                                        <td><span id="GTL"></span></td>
+                                        <td class="text-right"><span id="GTL"></span></td>
                                     </tr>
                                     <tr>
                                         <td class="text-left">Ngày Đến</td>
-                                        <td><span id="NgayDen"></span></td>
+                                        <td class="text-right"><span id="NgayDen"></span></td>
                                     </tr>
                                     <tr>
                                         <td class="text-left">Số Ngày Ở Công Trình</td>
-                                        <td><span id="SNCT">0 Ngày</span></td>
+                                        <td class="text-right"><span id="SNCT">0 Ngày</span></td>
                                     </tr>
                                     <tr>
                                         <td class="text-left">Đơn Giá Thuê</td>
-                                        <td><span id="GiaThue">350,000,000 VNĐ</span></td>
+                                        <td class="text-right"><span id="GiaThue">350,000,000 VNĐ</span></td>
                                     </tr>
                                     <tr>
                                         <td class="text-left">Thành Tiền Hiện Tại</td>
-                                        <td><span id="ThanhTien">0 VNĐ</span></td>
+                                        <td class="text-right" ><span id="ThanhTien">0 VNĐ</span></td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -227,13 +227,7 @@
         <div class="slider">
             <ul>
                 <li>
-                    <img id="bcImage" src="@Url.Content("~/Content/img/71691be9-cf4c-4829-9ab5-0705903cdf82 (1).jpg")" alt="">
-                </li>
-                <li>
-                    <img id="bcImage1" src="@Url.Content("~/Content/img/71691be9-cf4c-4829-9ab5-0705903cdf82 (1).jpg")" alt="">
-                </li>
-                <li>
-                    <img id="bcImage2" src="@Url.Content("~/Content/img/71691be9-cf4c-4829-9ab5-0705903cdf82 (1).jpg")" alt="">
+                    <img id="bcImage" width="200" src="@Url.Content("~/Content/img/71691be9-cf4c-4829-9ab5-0705903cdf82 (1).jpg")" alt="">
                 </li>
             </ul>
         </div>
@@ -316,6 +310,7 @@
             data.find('span[id="bcTinhTrang"]').html(tinhTrang.outerText);
             data.find('span[id="bcTrangThai"]').html(trangThai.outerText);
             data.find('span[id="bcMoTa"]').html(moTa.outerText);
+            //alert(hinhanh.outerText);
             data.find('img[id="bcImage"]').attr('src', PathFolderImage + hinhanh.outerText);
 
             var elm = data[0];

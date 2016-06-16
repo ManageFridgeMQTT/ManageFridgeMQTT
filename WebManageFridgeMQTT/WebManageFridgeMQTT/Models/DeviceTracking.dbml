@@ -1,5 +1,5 @@
-﻿<?xml version="1.0" encoding="utf-8"?><Database Name="DF-DEV" Class="DeviceTrackingDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
-  <Connection Mode="WebSettings" ConnectionString="Data Source=45.117.80.39;Initial Catalog=DF-DEV;Persist Security Info=True;User ID=sa;Connect Timeout=500" SettingsObjectName="System.Configuration.ConfigurationManager.ConnectionStrings" SettingsPropertyName="DefaultConnection" Provider="System.Data.SqlClient" />
+﻿<?xml version="1.0" encoding="utf-8"?><Database Name="DF-DEV_20160531" Class="DeviceTrackingDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
+  <Connection Mode="WebSettings" ConnectionString="Data Source=45.117.80.39;Initial Catalog=DF-DEV_20160531;Persist Security Info=True;User ID=sa;Connect Timeout=500" SettingsObjectName="System.Configuration.ConfigurationManager.ConnectionStrings" SettingsPropertyName="DF_DEV_20160531ConnectionString" Provider="System.Data.SqlClient" />
   <Table Name="dbo.[User]" Member="Users">
     <Type Name="User">
       <Column Name="UserId" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
@@ -153,5 +153,16 @@
     <Parameter Name="LatitudeHienTai" Parameter="latitudeHienTai" Type="System.Decimal" DbType="Decimal(18,10)" />
     <Parameter Name="LongtitudeHienTai" Parameter="longtitudeHienTai" Type="System.Decimal" DbType="Decimal(18,10)" />
     <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.GetInfoCongTrinh" Method="GetInfoCongTrinh">
+    <Parameter Name="NameCongTring" Parameter="nameCongTring" Type="System.String" DbType="NVarChar(500)" />
+    <ElementType Name="GetInfoCongTrinhResult">
+      <Column Name="CongTrinhId" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" CanBeNull="false" />
+      <Column Name="TenCongTrinh" Type="System.String" DbType="NVarChar(500) NOT NULL" CanBeNull="false" />
+      <Column Name="NgayKhoiCong" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="NgayKetThuc" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="TrangThai" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="DiaDiem" Type="System.String" DbType="NVarChar(1000)" CanBeNull="true" />
+    </ElementType>
   </Function>
 </Database>

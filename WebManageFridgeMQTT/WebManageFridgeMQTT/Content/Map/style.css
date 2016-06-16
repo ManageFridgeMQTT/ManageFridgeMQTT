@@ -1,6 +1,7 @@
-* { margin: 0; padding: 0;}
+﻿* { margin: 0; padding: 0;}
 body { font-family: "Open Sans", sans-serif; color: #666; font-size: 14px;}
-:focus { outline: none; }
+:focus, a:focus { outline: none; text-decoration: none}
+
 ul {
 	list-style: none;
 }
@@ -10,14 +11,18 @@ ul {
 	overflow: hidden;
 	height: 100%;
 }
-#notePanel {position: absolute; }
 .button { border: none; background: #fff; }
 .toggle-button {
 	position: absolute;
 	z-index: 9999;
     font-size: 18px;
+    background: #5b96d1;
+    color: #fff;
     cursor: pointer;
     box-shadow: 0 -1px 4px rgba(0,0,0,0.65)
+}
+.toggle-button:hover {
+	background: #006c90;
 }
 #lblnote {
     right: 10px;
@@ -36,7 +41,7 @@ ul {
 	content: "\f102";
 }
 #lblnote.toggled {
-	bottom: 78px;
+	bottom: 95px;
 }
 #lblnote.toggled::before {
 	content: "\f103";
@@ -45,25 +50,27 @@ ul {
 	box-shadow: 0px -3px 6px rgba(0,0,0,0.15);
 	padding: 10px;
     right: 0;
-    bottom: -80px;
+    bottom: -95px;
     background: #fff;
     -webkit-transition: bottom 0.3s ease;
 	-o-transition: bottom 0.3s ease;
 	transition: bottom 0.3s ease;
+	position: absolute; 
+	z-index: 9999;
+	font-size: 12px;
+	overflow: hidden;
+	width: 650px;
 }
 #notePanel.toggled {
 	bottom: 0;
 }
-#notePanel table {
-	font-size: 12px;
-}
-#notePanel table td { 
+#notePanel .note_item { 
 	height: 25px;
     vertical-align: bottom;
     line-height: 20px;
     padding: 3px 5px;
 }
-#notePanel table td img {
+#notePanel .note_item img {
 	width: 23px;
 	line-height: 20px;
 	vertical-align: top;
@@ -76,7 +83,7 @@ ul {
 }
 #treeviewToggle {
 	left: 0px;
-    top: 14px;
+    top: 50px;
     width: 20px;
     height: 70px;
     border-top-right-radius: 4px;
@@ -107,17 +114,29 @@ ul {
 	-o-transition: left 0.3s ease;
 	transition: left 0.3s ease;
 	box-shadow: 0 0 20px rgba(0,0,0,0.3);
+	z-index: 9999;
+	overflow-y: auto;
 }
 #treeviewPanel.toggled {
 	left: 0;
 }
-.treeviewHeader h2 {
+.treeviewHeader h3 {
 	margin: 0;
-    background: #5B96D1;
     color: #fff;
-    height: 50px;
-    line-height: 50px;
+    height: 25px;
+    line-height: 25px;
     text-align: center;
+    font-weight: 600;
+    font-size: 20px;
+}
+.treeviewHeader .nav-tabs>li>a {
+	background: #5b96d1;
+	border:none!important;
+}
+.treeviewHeader .nav-tabs>li.active>a,
+.treeviewHeader .nav-tabs>li.active>a:hover, 
+.treeviewHeader .nav-tabs>li.active>a:focus {
+	background: #006c90;
 }
 .treeviewContent {
 	padding: 20px 10px;
@@ -128,6 +147,47 @@ ul {
 li.current > span {
 	font-weight: 600;
 }
+.treeviewSearch {
+	padding: 10px;
+	background: #006c90;
+}
+.treeviewSearch input {
+	width: 100%;
+	height: 30px;
+	padding: 0 10px;
+}
+.contruction_list {
+	padding: 0 15px;
+}
+.contruction_list li {
+	border-bottom: 1px solid #ddd;
+}
+.contruction_list li a {
+	padding: 12px 0;
+	display: block;
+	color: #2d2d2d;
+}
+.contruction_list li a:hover {
+	background: #eee;
+	text-decoration: none;
+}
+.contruction_list li a h5 {
+	display: inline-block;
+    width: 50px;
+    text-align: center;
+    line-height: 40px;
+    vertical-align: top;
+    margin: 0;
+    font-size: 24px;
+    color: #5b96d1;
+}
+.contruction_list li a strong {
+	display: inline-block;
+}
+.contruction_list li a strong span {
+	display: block;
+	font-weight: 300;
+}
 #DevicePopupTemplete {
 	width: 720px;
 }
@@ -136,21 +196,15 @@ li.current > span {
     position: absolute;
     top: 3px;
     right: 5px;
-    color: #6f6f6f;
+    color: #fff;
     line-height: 25px;
 }
 .close_btn:hover {
 	text-decoration: none;
 	color: #6f6f6f;
 }
-#DevicePopupTemplete .device_img {
-	/*padding: 0px 0 0 15px;*/
-}
 #DevicePopupTemplete .device_img img {
 	width: 100%;
-}
-#DevicePopupTemplete .info {
-	padding: 15px 15px 0 0;
 }
 #DevicePopupTemplete h3 {
     margin: 0 0 8px 0px;
@@ -163,8 +217,15 @@ li.current > span {
 #DevicePopupTemplete table th {
 	font-size: 14px;
 }
+#DevicePopupTemplete table th i {
+	float: right;
+	line-height: 19px;
+	font-size: 12px;
+}
 #DevicePopupTemplete table td {
 	height: 28px;
+	padding-left: 10px;
+	padding-right: 10px;
 }
 #DevicePopupTemplete table tr + tr td {
 	border-top: 1px solid #eee;
@@ -179,7 +240,7 @@ li.current > span {
 }
 #DevicePopupTemplete .item button {
 	float: right;
-    background: #006c90;
+    background: #5b96d1;
     color: #fff;
     height: 35px;
     line-height: 35px;
@@ -188,7 +249,7 @@ li.current > span {
     border: 0;
 }
 #DevicePopupTemplete .item button:hover {
-	background: #109D59;
+	background: #006c90;
 }
 #DevicePopupTemplete .datepicker {
 	height: 25px;
@@ -196,27 +257,35 @@ li.current > span {
     padding: 0px 8px;
     color: #a5a5a5;
     margin-right: 5px;
+    border: 1px solid #ccc;
 }
-.nav-tabs {
+#DevicePopupTemplete .nav-tabs {
 	border: 0;
 }
-.nav-tabs>li>a {
+#DevicePopupTemplete .nav-tabs>li>a {
 	border-color: transparent;
 	margin-right: 1px;
 	background-color: #006c90;
 	color: #fff;
+	font-size: 13px;
+	padding-left: 10px;
+	padding-right: 10px;
 }
-.nav>li>a:hover, .nav>li>a:focus, .nav-tabs>li.active>a, .nav-tabs>li.active>a:hover, .nav-tabs>li.active>a:focus {
+#DevicePopupTemplete .nav>li>a:hover, 
+#DevicePopupTemplete .nav>li>a:focus,
+#DevicePopupTemplete .nav-tabs>li.active>a, 
+#DevicePopupTemplete .nav-tabs>li.active>a:hover, 
+#DevicePopupTemplete .nav-tabs>li.active>a:focus {
 	background: #fff;
-	color: #006c90;
+	color: #5b96d1;
 	border-color: transparent;
 }
-.tab-content>.tab-pane {
+#DevicePopupTemplete .tab-content>.tab-pane {
 	padding: 15px;
 	overflow-y: auto;
 	height: 300px;
 }
-.tab-content>.active {
+#DevicePopupTemplete .tab-content>.active {
 	background: #fff;
 }
 .leaflet-popup-content-wrapper {
@@ -231,18 +300,21 @@ li.current > span {
 	transition: bottom 0.3s ease;
 }
 .leaflet-bottom.toggled {
-	bottom: 78px;
+	bottom: 95px;
 }
 input[name='txtSearch'] {
 	position: absolute;
     top: 25px;
     width: 400px;
-    left: 0;
-    margin-left: calc(50% - 200px);
-    border-radius: 5px;
+    left: 50%;
+    border-radius: 0;
     padding: 5px 10px;
     height: 35px;
     background: #fff url(../img/magnifying_glass.png) no-repeat 370px center/20px;
+    -webkit-transform: translateX(-50%);
+    -ms-transform: translateX(-50%);
+    -o-transform: translateX(-50%);
+    transform: translateX(-50%);
 }
 .pagination {
 	margin: 0 50px  0 0;
@@ -253,7 +325,7 @@ input[name='txtSearch'] {
 }
 .pagination>.active>a, .pagination>.active>span, .pagination>.active>a:hover, .pagination>.active>span:hover, .pagination>.active>a:focus, .pagination>.active>span:focus, .pagination>li>a:hover, .pagination>li>span:hover, .pagination>li>a:focus, .pagination>li>span:focus, .pagination>li.active>span {
 	font-weight: 600;
-	color: #34B67A;
+	color: #5b96d1;
 	background: #f5f5f5;
 }
 .pagedisplay {
@@ -269,19 +341,21 @@ input[name='txtSearch'] {
 	padding: 20px!important;
 }
 .fancybox-inner h3 {
-	margin-top: 0;
-	font-weight: 600;
-	text-align: center;
+	border-bottom: 1px solid #ddd;
+    margin-top: 0;
+    font-weight: 600;
+    text-align: center;
+    padding-bottom: 10px;
+    margin-bottom: 10px;
 }
 .slider {
-
+	width: 50%;
+	margin: 15px auto 0 auto;
 }
 .slider ul {
-	width: 50%;
-	margin: 0 auto;
 }
 .slider img {
-	width: 200px;
+	
 }
 .slick-prev,
 .slick-next {
@@ -289,7 +363,7 @@ input[name='txtSearch'] {
     background: transparent;
     font-size: 35px;
     left: -20px;
-    top: calc(50% - 5px);
+    top: calc(50% - 35px);
 }
 .slick-next { 
 	left: auto;
@@ -443,13 +517,13 @@ input[name='txtSearch'] {
 }
 .ui-datepicker.ui-widget .ui-datepicker-calendar .ui-state-default:hover,
 .ui-datepicker.ui-widget .ui-datepicker-calendar .ui-datepicker-today .ui-state-default {
-	background: #34B67A;
+	background: #5b96d1;
 	color: #fff;
 }
 .ui-state-active, .ui-widget-content .ui-state-active, .ui-widget-header .ui-state-active {
 	font-weight: bold;
 	color: #fff!important;
-	background: #109D59!important;
+	background: #006c90!important;
 }
 #datepicker {
 	background-color: #fff;
@@ -462,7 +536,110 @@ input[name='txtSearch'] {
 	padding-left:15px;
 	height: 27px;
 }
+@media (max-width: 991px) {
+	#DevicePopupTemplete {
+		width: 80%;
+	}
+	.nav-tabs>li>a {
+		padding-left: 5px;
+		padding-right: 5px;
+	}
+}
+@media (max-width: 767px) {
+	input[name='txtSearch'] {
+		top: 15px;
+		width: 90%;
+		height: 40px;
+	}
+	.body_overlay {
+		position: fixed;
+		width: 0;
+		height: 0;
+		opacity: 0;
+		visibility: hidden;
+		z-index: -1;
+		height: 100%;
+		width: 100%;
+		transition: all 0.3s ease;
+		background: rgba(0,0,0,0.4);
+	}
+	.body_overlay.toggled {
+		opacity: 1;
+		visibility: visible;
+		z-index: 9998;
+	}
+}
+@media (max-width: 479px) {
+	#treeviewPanel {
+		width: 340px;
+		left: -340px;
+	}
+	#treeviewToggle.toggled {
+		left: 340px;
+	}
+	#notePanel {
+		width: 100%;
+		bottom: -145px;
+	}
+	#notePanel .note_item {
+		width: 50%;
+	}
+	#lblnote.toggled {
+		bottom: 145px;
+	}
+	.leaflet-bottom.toggled {
+		bottom: 145px;
+	}
+	#DevicePopupTemplete {
+		width: 85%;
+	}
+	#DevicePopupTemplete .device_img,
+	#DevicePopupTemplete .info {
+		width: 100%;
+	}
+	#DevicePopupTemplete .device_img {
+		margin-bottom: 15px;
+	}
+	#DevicePopupTemplete .item {
+		position: relative;
+		height: auto;
+	}
+	#DevicePopupTemplete .item label {
+		margin-right: 0;
+		display: block;
+	}
+	#DevicePopupTemplete .datepicker {
+		margin: 0;
+		width: 49%;
+	}
+	#DevicePopupTemplete .item button {
+		position: absolute;
+		top:0;
+		right: 0;
+	}
+	.pagination {
+		margin: 0 0 10px 0;
+	}
+	.slider {
+		width: 100%;
+	}
+	.nav-tabs>li {
+		margin-bottom: 0;
+		width: 100%;
+	}
+	.nav-tabs>li>a {
+		padding-top: 5px;
+		padding-bottom: 5px;
+	}
+	.close_btn {
+		z-index: 1;
+		top: -6px;
+		right: -2px;
+	}
 
+}
+
+/*Chỉnh sủa popup Map*/
 .leaflet-marker-iconlabel {
         background: #FFFFFF;
     }

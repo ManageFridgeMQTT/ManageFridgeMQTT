@@ -44,7 +44,7 @@
 </div>
 <div class='insider'>
     <div style="width:100%; height:100%" id="map"></div>
-    <input type='text' name="txtSearch" class="form-control" placeholder='Search...' id='txtSearch' />
+    @*<input type='text' name="txtSearch" class="form-control" placeholder='Search...' id='txtSearch' />*@
     <button id="lblnote" class="toggle-button button"></button>
     <div id="notePanel">
         <table style="">
@@ -94,20 +94,49 @@
     <button id="treeviewToggle" class="toggle-button button"></button>
     <div id="treeviewPanel">
         <div class="treeviewHeader">
-            <h2>
-                Manage Device
-            </h2>
+            <ul class="nav nav-tabs nav-justified" role="tablist">
+                <li role="presentation" class="active">
+                    <a href="#devices" aria-controls="devices" role="tab" data-toggle="tab">
+                        <h3>THIẾT BỊ</h3>
+                    </a>
+                </li>
+                <li role="presentation">
+                    <a href="#contruction" aria-controls="contruction" role="tab" data-toggle="tab">
+                        <h3>CÔNG TRÌNH</h3>
+                    </a>
+                </li>
+            </ul>
         </div>
-        <div class="treeviewContent" style="overflow:auto;">
-            @{
-                if (Model.TreeDevice != null)
-                {
-                    @Html.Partial("TreeDevicePartial", Model.TreeDevice, new ViewDataDictionary() { { "ParentID", 0 } })
-                }
-            }
-            <div id="DEV"></div>
+        <div class="tab-content">
+            <div role="tabpanel" class="tab-pane active" id="devices">
+                <div class="treeviewSearch">
+                    <form action="">
+                        <input name="DeviceInput" type="text" placeholder="Tìm thiết bị...">
+                    </form>
+                </div>
+                <div class="treeviewContent">
+                        @{
+                            if (Model.TreeDevice != null)
+                            {
+                                @Html.Partial("TreeDevicePartial", Model.TreeDevice, new ViewDataDictionary() { { "ParentID", 0 } })
+                            }
+                        }
+                </div>
+            </div>
+            <div role="tabpanel" class="tab-pane" id="contruction">
+                <div class="treeviewSearch">
+                    <form action="">
+                        <input name="CongTrinhInput" type="text" placeholder="Tìm công trình...">
+                    </form>
+                </div>
+                <div class="contruction_list">
+                    @if (Model.ListCongTrinh != null)
+                    {
+                        @Html.Partial("TreeCongTrinhPartial", Model.ListCongTrinh)
+                    }
+                </div>
+            </div>
         </div>
-        
     </div>
     <div id="DevicePopupTemplete" style="display: none;">
         <!-- Nav tabs -->

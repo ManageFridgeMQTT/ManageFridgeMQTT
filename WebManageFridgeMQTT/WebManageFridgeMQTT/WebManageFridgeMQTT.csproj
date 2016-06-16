@@ -841,6 +841,7 @@
     <Content Include="Views\Monitoring\PopupActivity.cshtml" />
     <Content Include="Views\Monitoring\Index.cshtml" />
     <Content Include="Views\Monitoring\TreeDevicePartial.cshtml" />
+    <Content Include="Views\Monitoring\TreeCongTrinhPartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

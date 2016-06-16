@@ -23,6 +23,7 @@ namespace WebManageFridgeMQTT.Controllers
             {
                 model.TreeDevice = Global.Context.GetTreeThietBi().ToList();
                 model.ListDeviceInfo = Global.Context.Sp_GetInfoDevice().ToList();
+                model.ListCongTrinh = Global.Context.GetInfoCongTrinh("").ToList();
             }
             catch (Exception ex)
             {

@@ -30,7 +30,7 @@ namespace WebManageFridgeMQTT.Controllers
                 CustomLog.LogError(ex);
                 throw;
             }
-
+            SessionHelper.SetSession<List<GetTreeThietBiResult>>("ListTreeDevice", model.TreeDevice);
             return View(model);
         }
 
@@ -203,8 +203,21 @@ namespace WebManageFridgeMQTT.Controllers
         {
             List<GetTreeThietBiResult> model = new List<GetTreeThietBiResult>();
             model = Global.Context.GetTreeThietBi(congTrinhId).ToList();
-            ViewData["ParentID"] = 0;
+            ViewData["ParentID"] = 1;
             return PartialView("TreeViewDevice", model);
         }
+        public ActionResult SearchDeviceBy(string inputDevice)
+        {
+            List<GetTreeThietBiResult> model = new List<GetTreeThietBiResult>();
+            if (SessionHelper.GetSession<List<GetTreeThietBiResult>>("ListTreeDevice") != null)
+            {
+                var data = SessionHelper.GetSession<List<GetTreeThietBiResult>>("ListTreeDevice");
+                model = data.Where(x => x.Cap == 1 && x.Name.Contains(inputDevice)).ToList();
+            }
+            ViewData["ParentID"] = 1;
+            ViewData["inputDevice"] = inputDevice;
+            return PartialView("TreeViewDevice", model);
+        }
+
     }
 }

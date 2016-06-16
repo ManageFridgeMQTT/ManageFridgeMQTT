@@ -324,13 +324,21 @@
             //$("#inlineBaoCao").show();
         });
 
-        $('#txtSearch').keypress(function (e) { 
-            var key = e.which; 
-            if(key == 13)
-            {
-                SearchOnTreeView();
+        $(document).keypress(function (e) {
+            if (e.which == 13) {
+                var inputDevice = $('#DeviceInput').val();
+                $.ajax({
+                    url: '../Monitoring/SearchDeviceBy',
+                    type: 'POST',
+                    dataType: 'html',
+                    data: { "inputDevice": inputDevice },
+                    success: function (data) {
+                        $("#devices").html(data);
+                    }
+                });
             }
         });
+
     });
 
     function SearchOnTreeView() {

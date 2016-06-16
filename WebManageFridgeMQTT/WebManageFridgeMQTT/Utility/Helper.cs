@@ -373,6 +373,35 @@ namespace WebManageFridgeMQTT.Utility
             return result;
         }
     }
+    
+    #region class SessionHelper
+    public class SessionHelper
+    {
+        public static T SetSession<T>(string sessionName, T obj)
+        {
+            HttpContext.Current.Session[sessionName.ToString()] = obj;
+            return obj;
+        }
+
+        public static T GetSession<T>(string sessionName)
+        {
+            string sessionNameString = sessionName.ToString();
+            if (HttpContext.Current.Session[sessionNameString] == null)
+                return default(T);
+            return (T)HttpContext.Current.Session[sessionNameString];
+        }
+
+        public static void ClearSession(string sessionName)
+        {
+            HttpContext.Current.Session.Remove(sessionName.ToString());
+        }
+
+        public static bool IsNull(string sessionName)
+        {
+            return HttpContext.Current.Session[sessionName.ToString()] == null;
+        }
+    }
+    #endregion
     public class ObjParamSP
     {
         private string key;

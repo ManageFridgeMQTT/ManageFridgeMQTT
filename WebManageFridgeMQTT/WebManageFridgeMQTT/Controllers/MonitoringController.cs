@@ -21,8 +21,8 @@ namespace WebManageFridgeMQTT.Controllers
             DeviceInfoMV model = new DeviceInfoMV();
             try
             {
-                model.TreeDevice = Global.Context.GetTreeThietBi().ToList();
-                model.ListDeviceInfo = Global.Context.Sp_GetInfoDevice().ToList();
+                model.TreeDevice = Global.Context.GetTreeThietBi("").ToList();
+                model.ListDeviceInfo = Global.Context.Sp_GetInfoDevice("").ToList();
                 model.ListCongTrinh = Global.Context.GetInfoCongTrinh("").ToList();
             }
             catch (Exception ex)
@@ -46,7 +46,7 @@ namespace WebManageFridgeMQTT.Controllers
         }
         public ActionResult TreeViewSelected(string strSearch)
         {
-            var model = Global.Context.GetTreeThietBi().ToList();
+            var model = Global.Context.GetTreeThietBi("").ToList();
             var temp = new List<GetTreeThietBiResult>();
             if (string.IsNullOrWhiteSpace(strSearch))
             {
@@ -90,7 +90,7 @@ namespace WebManageFridgeMQTT.Controllers
             DeviceInfoMV model = new DeviceInfoMV();
             try
             {
-                model.ListDeviceInfo = Global.Context.Sp_GetInfoDevice().ToList();
+                model.ListDeviceInfo = Global.Context.Sp_GetInfoDevice("").ToList();
             }
             catch (Exception ex)
             {
@@ -197,6 +197,14 @@ namespace WebManageFridgeMQTT.Controllers
             DateTime ToDate = DateTime.Now;
             model.ListDataReport = Global.Context.GetInfoDeviceReport(thietBiID, model.FromDate, model.ToDate).ToList();
             return PartialView("DeviceReport", model);
+        }
+
+        public ActionResult GetDeviceByCongTrinh(string congTrinhId)
+        {
+            List<GetTreeThietBiResult> model = new List<GetTreeThietBiResult>();
+            model = Global.Context.GetTreeThietBi(congTrinhId).ToList();
+            ViewData["ParentID"] = 0;
+            return PartialView("TreeViewDevice", model);
         }
     }
 }

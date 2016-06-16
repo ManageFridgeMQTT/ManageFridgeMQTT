@@ -79,38 +79,6 @@
       <Column Name="LongtitudeHienTai" Type="System.Decimal" DbType="Decimal(18,10)" CanBeNull="true" />
     </ElementType>
   </Function>
-  <Function Name="dbo.GetTreeThietBi" Method="GetTreeThietBi">
-    <ElementType Name="GetTreeThietBiResult">
-      <Column Name="Id" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
-      <Column Name="Name" Type="System.String" DbType="NVarChar(500) NOT NULL" CanBeNull="false" />
-      <Column Name="Father" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
-      <Column Name="Cap" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-    </ElementType>
-  </Function>
-  <Function Name="dbo.Sp_GetInfoDevice" Method="Sp_GetInfoDevice">
-    <ElementType Name="Sp_GetInfoDeviceResult">
-      <Column Name="STT" Type="System.Int64" DbType="BigInt" CanBeNull="true" />
-      <Column Name="ThietBiId" Type="System.String" DbType="VarChar(100) NOT NULL" CanBeNull="false" />
-      <Column Name="TenCongTrinh" Type="System.String" DbType="NVarChar(500)" CanBeNull="true" />
-      <Column Name="DiaDiem" Type="System.String" DbType="NVarChar(1000)" CanBeNull="true" />
-      <Column Name="TenVietTat" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
-      <Column Name="TenThietBi" Type="System.String" DbType="NVarChar(250) NOT NULL" CanBeNull="false" />
-      <Column Name="TrangThai" Type="System.Int32" DbType="Int" CanBeNull="true" />
-      <Column Name="HinhAnhAvatar" Type="System.String" DbType="VarChar(40) NOT NULL" CanBeNull="false" />
-      <Column Name="DaHoatDong" Type="System.String" DbType="NVarChar(30)" CanBeNull="true" />
-      <Column Name="LoaiHinh" Type="System.String" DbType="NVarChar(11) NOT NULL" CanBeNull="false" />
-      <Column Name="ThoiGianVao" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
-      <Column Name="NgayOCongTrinh" Type="System.Int32" DbType="Int" CanBeNull="true" />
-      <Column Name="GiaThue" Type="System.String" DbType="NVarChar(200)" CanBeNull="true" />
-      <Column Name="ThanhTien" Type="System.Double" DbType="Float" CanBeNull="true" />
-      <Column Name="ThayDauTiep" Type="System.Double" DbType="Float" CanBeNull="true" />
-      <Column Name="ThayLocTiep" Type="System.Double" DbType="Float" CanBeNull="true" />
-      <Column Name="TrangThaiHienTai" Type="System.Int32" DbType="Int" CanBeNull="true" />
-      <Column Name="StrTrangThai" Type="System.String" DbType="NVarChar(17) NOT NULL" CanBeNull="false" />
-      <Column Name="Latitude" Type="System.Decimal" DbType="Decimal(18,10) NOT NULL" CanBeNull="false" />
-      <Column Name="Longitude" Type="System.Decimal" DbType="Decimal(18,10) NOT NULL" CanBeNull="false" />
-    </ElementType>
-  </Function>
   <Function Name="dbo.Sp_GetInfoDeviceById" Method="Sp_GetInfoDeviceById">
     <Parameter Name="ThietBiId" Parameter="thietBiId" Type="System.String" DbType="VarChar(200)" />
     <ElementType Name="Sp_GetInfoDeviceByIdResult">
@@ -163,6 +131,39 @@
       <Column Name="NgayKetThuc" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
       <Column Name="TrangThai" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="DiaDiem" Type="System.String" DbType="NVarChar(1000)" CanBeNull="true" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.Sp_GetInfoDevice" Method="Sp_GetInfoDevice">
+    <Parameter Name="StrCongTrinhID" Parameter="strCongTrinhID" Type="System.String" DbType="NVarChar(250)" />
+    <ElementType Name="Sp_GetInfoDeviceResult">
+      <Column Name="STT" Type="System.Int64" DbType="BigInt" CanBeNull="true" />
+      <Column Name="ThietBiId" Type="System.String" DbType="NVarChar(250)" CanBeNull="true" />
+      <Column Name="TenCongTrinh" Type="System.String" DbType="NVarChar(500) NOT NULL" CanBeNull="false" />
+      <Column Name="DiaDiem" Type="System.String" DbType="NVarChar(1000)" CanBeNull="true" />
+      <Column Name="TenVietTat" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="TenThietBi" Type="System.String" DbType="NVarChar(250) NOT NULL" CanBeNull="false" />
+      <Column Name="TrangThai" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="DaHoatDong" Type="System.String" DbType="NVarChar(30)" CanBeNull="true" />
+      <Column Name="LoaiHinh" Type="System.String" DbType="NVarChar(11) NOT NULL" CanBeNull="false" />
+      <Column Name="ThoiGianVao" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="NgayOCongTrinh" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="GiaThue" Type="System.String" DbType="NVarChar(200)" CanBeNull="true" />
+      <Column Name="ThanhTien" Type="System.Double" DbType="Float" CanBeNull="true" />
+      <Column Name="ThayDauTiep" Type="System.Double" DbType="Float" CanBeNull="true" />
+      <Column Name="ThayLocTiep" Type="System.Double" DbType="Float" CanBeNull="true" />
+      <Column Name="TrangThaiHienTai" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="StrTrangThai" Type="System.String" DbType="NVarChar(17) NOT NULL" CanBeNull="false" />
+      <Column Name="Latitude" Type="System.Decimal" DbType="Decimal(18,10) NOT NULL" CanBeNull="false" />
+      <Column Name="Longitude" Type="System.Decimal" DbType="Decimal(18,10) NOT NULL" CanBeNull="false" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.GetTreeThietBi" Method="GetTreeThietBi">
+    <Parameter Name="StrCongTrinhID" Parameter="strCongTrinhID" Type="System.String" DbType="NVarChar(250)" />
+    <ElementType Name="GetTreeThietBiResult">
+      <Column Name="Id" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="Name" Type="System.String" DbType="NVarChar(500) NOT NULL" CanBeNull="false" />
+      <Column Name="Father" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="Cap" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
     </ElementType>
   </Function>
 </Database>

@@ -47,60 +47,53 @@
     @*<input type='text' name="txtSearch" class="form-control" placeholder='Search...' id='txtSearch' />*@
     <button id="lblnote" class="toggle-button button"></button>
     <div id="notePanel">
-        <table style="">
-            <tr>
-                <td>
-                    <img src="@Url.Content("~/Content/Icon/markers/ic_map_red.png")" />
-                    <span>Đang bảo dưỡng</span>
-                </td>
-                <td>
-                    <img src="@Url.Content("~/Content/Icon/markers/ic_map_red.png")" />
-                    <span>Tắt máy bảo dưỡng</span>
-                </td>
-                <td>
-                    <img src="@Url.Content("~/Content/Icon/markers/ic_map_purple.png")" />
-                    <span>Đang di chuyển</span>
-                </td>
-                <td>
-                    <img src="@Url.Content("~/Content/Icon/markers/ic_map_red.png")" />
-                    <span>Tắt máy di chuyển</span>
-                </td>
-                <td></td>
-            </tr>
-            <tr>
-                <td>
-                    <img src="@Url.Content("~/Content/Icon/markers/ic_map_blue.png")" />
-                    <span>Đang khoan</span>
-                </td>
-                <td>
-                    <img src="@Url.Content("~/Content/Icon/markers/ic_map_brown.png")" />
-                    <span>Tắt máy khoan</span>
-                </td>
-                <td>
-                    <img src="@Url.Content("~/Content/Icon/markers/ic_map_gray.png")" />
-                    <span>Đang cẩu</span>
-                </td>
-                <td>
-                    <img src="@Url.Content("~/Content/Icon/markers/ic_map_green.png")" />
-                    <span>Tắt máy cẩu</span>
-                </td>
-                <td>
-                    <img src="@Url.Content("~/Content/Icon/markers/ic_map_orange.png")" />
-                    <span>Không xác định</span>
-                </td>
-            </tr>
-        </table>
+        <div class="note_item col-xs-3">
+            <img src="@Url.Content("~/Content/Icon/markers/ic_map_red.png")" />
+            <span>Đang bảo dưỡng</span>
+        </div>
+        <div class="note_item col-xs-3">
+            <img src="@Url.Content("~/Content/Icon/markers/ic_map_red.png")" />
+            <span>Tắt máy bảo dưỡng</span>
+        </div>
+        <div class="note_item col-xs-3">
+            <img src="@Url.Content("~/Content/Icon/markers/ic_map_purple.png")" />
+            <span>Đang di chuyển</span>
+        </div>
+        <div class="note_item col-xs-3">
+            <img src="@Url.Content("~/Content/Icon/markers/ic_map_red.png")" />
+            <span>Tắt máy di chuyển</span>
+        </div>
+        <div class="note_item col-xs-3">
+            <img src="@Url.Content("~/Content/Icon/markers/ic_map_blue.png")" />
+            <span>Đang khoan</span>
+        </div>
+        <div class="note_item col-xs-3">
+            <img src="@Url.Content("~/Content/Icon/markers/ic_map_brown.png")" />
+            <span>Tắt máy khoan</span>
+        </div>
+        <div class="note_item col-xs-3">
+            <img src="@Url.Content("~/Content/Icon/markers/ic_map_gray.png")" />
+            <span>Đang cẩu</span>
+        </div>
+        <div class="note_item col-xs-3">
+            <img src="@Url.Content("~/Content/Icon/markers/ic_map_green.png")" />
+            <span>Tắt máy cẩu</span>
+        </div>
+        <div class="note_item col-xs-3">
+            <img src="@Url.Content("~/Content/Icon/markers/ic_map_orange.png")" />
+            <span>Không xác định</span>
+        </div>
     </div>
     <button id="treeviewToggle" class="toggle-button button"></button>
     <div id="treeviewPanel">
         <div class="treeviewHeader">
             <ul class="nav nav-tabs nav-justified" role="tablist">
-                <li role="presentation" class="active">
+                <li id="tabDevice" role="presentation" class="active">
                     <a href="#devices" aria-controls="devices" role="tab" data-toggle="tab">
                         <h3>THIẾT BỊ</h3>
                     </a>
                 </li>
-                <li role="presentation">
+                <li id="tabCongTrinh" role="presentation">
                     <a href="#contruction" aria-controls="contruction" role="tab" data-toggle="tab">
                         <h3>CÔNG TRÌNH</h3>
                     </a>
@@ -109,19 +102,7 @@
         </div>
         <div class="tab-content">
             <div role="tabpanel" class="tab-pane active" id="devices">
-                <div class="treeviewSearch">
-                    <form action="">
-                        <input name="DeviceInput" type="text" placeholder="Tìm thiết bị...">
-                    </form>
-                </div>
-                <div class="treeviewContent">
-                        @{
-                            if (Model.TreeDevice != null)
-                            {
-                                @Html.Partial("TreeDevicePartial", Model.TreeDevice, new ViewDataDictionary() { { "ParentID", 0 } })
-                            }
-                        }
-                </div>
+                @Html.Partial("TreeViewDevice", Model.TreeDevice)
             </div>
             <div role="tabpanel" class="tab-pane" id="contruction">
                 <div class="treeviewSearch">
@@ -129,7 +110,7 @@
                         <input name="CongTrinhInput" type="text" placeholder="Tìm công trình...">
                     </form>
                 </div>
-                <div class="contruction_list">
+                <div id="TreeCongTrinh" class="contruction_list">
                     @if (Model.ListCongTrinh != null)
                     {
                         @Html.Partial("TreeCongTrinhPartial", Model.ListCongTrinh)
@@ -290,10 +271,10 @@
         $(document).ajaxStop(function () {
             $(".loading").hide();
         });
-        var $treeView = $('#treeviewToggle, #treeviewPanel');
-        $('#treeviewToggle').on('click', function () {
-            $treeView.toggleClass('toggled');
-        });
+        //var $treeView = $('#treeviewToggle, #treeviewPanel');
+        //$('#treeviewToggle').on('click', function () {
+        //    $treeView.toggleClass('toggled');
+        //});
         var $notePanel = $('#lblnote, #notePanel, .leaflet-bottom');
         $('#lblnote').on('click', function () {
             $notePanel.toggleClass('toggled');
@@ -515,9 +496,6 @@
     }
 
 
-
-
-
     function FocusDevice(DeviceID)
     {
         $.ajax({
@@ -557,4 +535,11 @@
         }
     }
 
+    function CongTrinhSelected(item){
+        $("#devices").load('@(Url.Action("GetDeviceByCongTrinh", "Monitoring"))?congTrinhId=' + item);
+        $('#contruction').removeClass('active');
+        $('#devices').addClass('active');
+        $('#tabCongTrinh').removeClass('active');
+        $('#tabDevice').addClass('active');
+    }
 </script>

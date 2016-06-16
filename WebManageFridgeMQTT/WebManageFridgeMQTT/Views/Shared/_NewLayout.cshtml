@@ -1,5 +1,6 @@
 ﻿<!DOCTYPE html>
-<html class="nav-mini">
+<html >
+@*class="nav-mini"*@
 <head>
     <meta charset="utf-8" />
     <link href="img/favicon.png" rel="shortcut icon" />
@@ -45,9 +46,9 @@
         <div class="header">
             @Html.Partial("HeaderPartial")
         </div>
-        <div class="navigation">
+        @*<div class="navigation">
             @Html.Partial("NavigationMenuPartial")
-        </div>
+        </div>*@
         <div class="content">
             @RenderBody()
         </div>

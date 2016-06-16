@@ -341,7 +341,7 @@ body {
 .content {
 	position: absolute;
 	color: #000000;
-	padding: 45px 0 0 300px;
+	padding: 45px 0 0 0px;
 	height: 100%;
 	overflow: auto;
 }
@@ -961,9 +961,8 @@ body {
 	box-shadow: none;
 }
 .input-group {
-	display: inline-table;
-	max-width: 190px;
-	vertical-align: middle;
+    margin-left:22px;
+	max-width: 250px;
 }
 .input-group-btn:last-child > .btn, .input-group-btn:last-child > .btn-group {
     margin-right: 15px;
@@ -1381,4 +1380,7 @@ table.dxeListBox_Moderno {
 }
 .box-header tr td span{
     font-weight:bold;
+}
+#boxSilebar{
+	margin-bottom: 10px;
 }

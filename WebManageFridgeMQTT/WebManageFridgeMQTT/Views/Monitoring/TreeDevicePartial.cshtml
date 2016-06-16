@@ -1,0 +1,24 @@
+﻿@model List<WebManageFridgeMQTT.Models.GetTreeThietBiResult>
+@{
+    int ParentID = Convert.ToInt32(ViewData["ParentID"]);
+    string classul = "lvl" + (ParentID + 1);
+}
+<ul class="@classul">
+    @foreach (var elm in Model.Where(x => x.Cap == ParentID).ToList())
+    {
+        List<WebManageFridgeMQTT.Models.GetTreeThietBiResult> listSubNode = Model.Where(x => x.Father.Equals(elm.Id)).ToList(); if (listSubNode.Count != 0)
+        {
+            <li class="">
+                <span>@elm.Name</span>
+                @Html.Partial("TreeDevicePartial", Model, new ViewDataDictionary() { { "ParentID", (elm.Cap + 1) } })
+            </li>
+        }
+        else
+        {
+            <li onclick="FocusDevice('@elm.Id')">
+                <span>@elm.Name</span>
+            </li>
+        }
+    }
+    
+</ul>

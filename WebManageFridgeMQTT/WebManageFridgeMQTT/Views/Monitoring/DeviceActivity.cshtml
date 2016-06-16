@@ -1,59 +1,104 @@
 ﻿@model WebManageFridgeMQTT.Utility.ActivityChip
 <div class="row">
-    <div style="margin-left:20px">
-        <p>
-            @Html.Label("Đã hoạt động: ", new { @class = "st" })
+    <div class="col-sm-12">
+        <div class="item fl" style="height:15px; line-height:25px;">
+            <label class="fl">
+                Đã hoạt động:
+            </label>
             @Model.infoDevice.DaHoatDong
-        </p>
-        <p>
-            @Html.Label("Lần thay dầu tiếp theo: ", new { @class = "st" })
+        </div>
+        <div class="item fl" style="height:15px; line-height:25px;">
+            <label class="fl">
+                Lần thay dầu tiếp theo:
+            </label>
             @Model.infoDevice.ThayDauTiep
-        </p>
-        <p>
-            @Html.Label("Lần thay lọc tiếp theo: ", new { @class = "st" })
+        </div>
+        <div class="item fl" style="height:15px; line-height:25px;">
+            <label class="fl">
+                Lần thay lọc tiếp theo:
+            </label>
             @Model.infoDevice.ThayLocTiep
-        </p>
+        </div>
+        <div class="content-body">
+            <div id="table-activity" class="tab-content wrapper">
+                <table class="table table-striped">
+                    <thead>
+                        <tr class="tablesorter-headerRow">
+                            <th>STT</th>
+                            <th>Thời Gian</th>
+                            <th>Mô tả</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (Model.ListData != null && Model.ListData.Count > 0)
+                        {
+                            int i = 1;
+                            foreach (var item in Model.ListData)
+                            {
+                                <tr>
+                                    <td>@i</td>
+                                    <td>@item.ThoiGian.ToString()</td>
+                                    <td>@item.StrTrangThai</td>
+                                </tr>
+                                i++;
+                            }
+                        }
+                    </tbody>
+                </table>
+            </div>
+            @*<nav class="ts-pager-activity">
+                    <ul class="pagination pagination-sm">
+                        <li>
+                            <a href="javascript:void(0)" aria-label="Previous" class="prev">
+                                <span aria-hidden="true">&laquo;</span>
+                            </a>
+                        </li>
+                        <li>
+                            <span>
+                                Chọn
+                                <select class="pagenum input-mini" title="Select page number"></select>
+                            </span>
+                        </li>
+                        <li>
+                            <a href="javascript:void(0)" aria-label="Next" class="next">
+                                <span aria-hidden="true">&raquo;</span>
+                            </a>
+                        </li>
+                    </ul>
+                    <span class="pagedisplay"></span>
+                </nav>*@
+        </div>
     </div>
 </div>
-<div id="table-hoatdong" class="tab-content wrapper" style="height:200px">
-    <table class="tablesorter">
-        <thead>
-            <tr>
-                <th>STT</th>
-                <th>Thời Gian</th>
-                <th>Mô tả</th>
-            </tr>
-        </thead>
-        <tbody>
-            @if (Model.ListData != null && Model.ListData.Count >0)
-            {
-                int i = 1;
-                foreach (var item in Model.ListData)
-                {                 
-                <tr>
-                    <td>@i</td>
-                    <td>@item.ThoiGian.ToString()</td>
-                    <td>@item.StrTrangThai</td>
-                </tr>
-                    i++;
+<div class="row">
+    <div class="col-sm-12">
+        (Mặc định chỉ hiện 5 lần gần nhất)
+        <button class="btn" onclick="showPopup('@Model.infoDevice.ThietBiId')">
+            <i class="icon-submit" title="Xem chi tiết"></i>Xem chi tiết
+        </button>
+    </div>
+</div>
+@*<div class="row" style="padding-bottom: 2px">
+        <div class="col-xs-offset-3 col-xs-5">
+            <button type="button" onclick="showPopup('@Model.infoDevice.ThietBiId')">Xem chi tiết</button>
+        </div>
+    </div>*@
+@*<script type="text/javascript">
+        $(document).ready(function () {
+            $('#table-activity table').tablesorter({
+                headerTemplate: '{content} {icon}', // Add icon for various themes
+                widgets: ['uitheme', 'zebra', 'stickyHeaders', 'stickyFooters'], //, 'filter'
+                widgetOptions: {
+                    stickyHeaders_attachTo: '.wrapper', // or $('.wrapper')
                 }
-            }
-        </tbody>
-    </table>
-</div>
-<div class="row" style="padding-bottom: 2px">
-    <div class="col-xs-offset-3 col-xs-5">
-        <button type="button" onclick="showPopup('@Model.infoDevice.ThietBiId')">Xem chi tiết</button>
-    </div>
-</div>
-<script type="text/javascript">
-    $(document).ready(function () {
-        $('.tab-content .tablesorter').tablesorter({
-            headerTemplate: '{content} {icon}', // Add icon for various themes
-            widgets: ['uitheme', 'zebra', 'stickyHeaders', 'stickyFooters'], //, 'filter'
-            widgetOptions: {
-                stickyHeaders_attachTo: '.wrapper', // or $('.wrapper')
-            }
+            }).tablesorterPager({
+                container: $(".ts-pager-activity"),
+                cssGoto: ".pagenum",
+                prev: '.prev',
+                next: '.next',
+                size: 3,
+                removeRows: false,
+                output: ' {startRow} to {endRow} of {totalRows}' //'Showing {startRow} to {endRow} of {totalRows} entries' //'{startRow} - {endRow} / {filteredRows} ({totalRows})'  //'/ {totalPages}'
+            });
         });
-    });
-    </script>
+    </script>*@

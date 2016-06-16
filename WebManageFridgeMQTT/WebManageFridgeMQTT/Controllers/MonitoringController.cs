@@ -18,7 +18,26 @@ namespace WebManageFridgeMQTT.Controllers
 
         public ActionResult Index()
         {
-            return View();
+            DeviceInfoMV model = new DeviceInfoMV();
+            try
+            {
+                model.TreeDevice = Global.Context.GetTreeThietBi().ToList();
+                model.ListDeviceInfo = Global.Context.Sp_GetInfoDevice().ToList();
+                model.ListCongTrinh = Global.Context.GetInfoCongTrinh("").ToList();
+            }
+            catch (Exception ex)
+            {
+                CustomLog.LogError(ex);
+                throw;
+            }
+
+            return View(model);
+        }
+
+        public ActionResult PopupReport()
+        {
+            DeviceActivity model = new DeviceActivity();
+            return PartialView("PopupReport");
         }
         public ActionResult GetThietBi(string equipmentId, bool isParent)
         {
@@ -129,8 +148,10 @@ namespace WebManageFridgeMQTT.Controllers
             {
                 model.ToDate = DateTime.Parse(strToDate);
             }
-            DateTime FromDate = DateTime.Now.AddMonths(-1);
-            DateTime ToDate = DateTime.Now;
+
+            //TEST
+            model.FromDate = DateTime.Now.AddMonths(-1);
+            model.ToDate = DateTime.Now;
             model.ListData = Global.Context.GetInfoDeviceActivity(model.ThietBiID, model.FromDate, model.ToDate).OrderByDescending(x => x.ThoiGian).ToList();
             return PartialView("PopupActivity", model);
         }

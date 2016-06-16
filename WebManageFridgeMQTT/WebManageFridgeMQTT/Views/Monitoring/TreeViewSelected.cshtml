@@ -68,11 +68,14 @@
                    DevExpress.Web.ASPxTreeView treeView = (DevExpress.Web.ASPxTreeView)source;
                    treeView.CollapseAll();
                };
+               string colorcode = "#109D59";
+               int argb = Int32.Parse(colorcode.Replace("#", ""), System.Globalization.NumberStyles.HexNumber);
+               System.Drawing.Color clr = System.Drawing.Color.FromArgb(argb);
                settings.Styles.Node.SelectedStyle.ForeColor = System.Drawing.Color.Black;
                settings.Styles.Node.SelectedStyle.Font.Bold = true;
                settings.Styles.Node.Border.BorderColor= System.Drawing.Color.White; ;
                settings.Styles.Node.HoverStyle.BackColor = System.Drawing.Color.White;
-               settings.Styles.Node.HoverStyle.ForeColor = System.Drawing.Color.Red;
+               settings.Styles.Node.HoverStyle.ForeColor = clr;
 
                settings.ClientSideEvents.NodeClick = "OnTreeViewNodeClick";
                settings.ClientSideEvents.ExpandedChanged = "OnTreeViewExpandedChanged";

@@ -101,8 +101,22 @@
             </ul>
         </div>
         <div class="tab-content">
-            <div role="tabpanel" class="tab-pane " id="devices">
-                @Html.Partial("TreeViewDevice", Model.TreeDevice)
+            <div role="tabpanel" class="tab-pane magin-padding" id="devices">
+                <div id="headerNameCongTrinh" class="header row" style="display:none">
+                    <a href="javascript:void(0)" onclick="ReturnCongTrinh()">
+                        <i class="fa fa-caret-left"></i>
+                    </a>
+                    <div id="headerStt" class="route-number color-white">
+                        01
+                    </div>
+                    <div id="headerNameCT" class="route-name color-white font-normal ng-binding">
+                        Bến Thành- BX Chợ Lớn
+                    </div>
+                </div>
+                <div id="devices-body">
+                    @Html.Partial("TreeViewDevice", Model.TreeDevice)
+                </div>
+                
             </div>
             <div role="tabpanel" class="tab-pane active" id="contruction">
                 <div class="treeviewSearch">
@@ -328,7 +342,7 @@
                     dataType: 'html',
                     data: { "inputDevice": inputDevice },
                     success: function (data) {
-                        $("#devices").html(data);
+                        $("#devices-body").html(data);
                     }
                 });
             }
@@ -538,11 +552,20 @@
         }
     }
 
-    function CongTrinhSelected(item){
-        $("#devices").load('@(Url.Action("GetDeviceByCongTrinh", "Monitoring"))?congTrinhId=' + item);
+    function CongTrinhSelected(elmId, stt, elmName){
+        $("#devices-body").load('@(Url.Action("GetDeviceByCongTrinh", "Monitoring"))?congTrinhId=' + elmId);
+        $('#headerStt').html(stt);
+        $('#headerNameCT').html(elmName);
+        $('#headerNameCongTrinh').show();
         $('#contruction').removeClass('active');
         $('#devices').addClass('active');
         $('#tabCongTrinh').removeClass('active');
         $('#tabDevice').addClass('active');
+    }
+    function ReturnCongTrinh(){
+        $('#devices').removeClass('active');
+        $('#contruction').addClass('active');
+        $('#tabDevice').removeClass('active');
+        $('#tabCongTrinh').addClass('active');
     }
 </script>

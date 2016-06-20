@@ -204,6 +204,7 @@ namespace WebManageFridgeMQTT.Controllers
             List<GetTreeThietBiResult> model = new List<GetTreeThietBiResult>();
             model = Global.Context.GetTreeThietBi(congTrinhId).ToList();
             ViewData["ParentID"] = 1;
+            ViewData["DisplayHeader"] = true;
             return PartialView("TreeViewDevice", model);
         }
         public ActionResult SearchDeviceBy(string inputDevice)

@@ -21,8 +21,8 @@ namespace WebManageFridgeMQTT.Controllers
             DeviceInfoMV model = new DeviceInfoMV();
             try
             {
-                model.TreeDevice = Global.Context.GetTreeThietBi().ToList();
-                model.ListDeviceInfo = Global.Context.Sp_GetInfoDevice().ToList();
+                model.TreeDevice = Global.Context.GetTreeThietBi("").ToList();
+                model.ListDeviceInfo = Global.Context.Sp_GetInfoDevice("").ToList();
                 model.ListCongTrinh = Global.Context.GetInfoCongTrinh("").ToList();
             }
             catch (Exception ex)
@@ -30,7 +30,7 @@ namespace WebManageFridgeMQTT.Controllers
                 CustomLog.LogError(ex);
                 throw;
             }
-
+            SessionHelper.SetSession<List<GetTreeThietBiResult>>("ListTreeDevice", model.TreeDevice);
             return View(model);
         }
 
@@ -46,7 +46,7 @@ namespace WebManageFridgeMQTT.Controllers
         }
         public ActionResult TreeViewSelected(string strSearch)
         {
-            var model = Global.Context.GetTreeThietBi().ToList();
+            var model = Global.Context.GetTreeThietBi("").ToList();
             var temp = new List<GetTreeThietBiResult>();
             if (string.IsNullOrWhiteSpace(strSearch))
             {
@@ -90,7 +90,7 @@ namespace WebManageFridgeMQTT.Controllers
             DeviceInfoMV model = new DeviceInfoMV();
             try
             {
-                model.ListDeviceInfo = Global.Context.Sp_GetInfoDevice().ToList();
+                model.ListDeviceInfo = Global.Context.Sp_GetInfoDevice("").ToList();
             }
             catch (Exception ex)
             {
@@ -198,5 +198,27 @@ namespace WebManageFridgeMQTT.Controllers
             model.ListDataReport = Global.Context.GetInfoDeviceReport(thietBiID, model.FromDate, model.ToDate).ToList();
             return PartialView("DeviceReport", model);
         }
+
+        public ActionResult GetDeviceByCongTrinh(string congTrinhId)
+        {
+            List<GetTreeThietBiResult> model = new List<GetTreeThietBiResult>();
+            model = Global.Context.GetTreeThietBi(congTrinhId).ToList();
+            ViewData["ParentID"] = 1;
+            ViewData["DisplayHeader"] = true;
+            return PartialView("TreeViewDevice", model);
+        }
+        public ActionResult SearchDeviceBy(string inputDevice)
+        {
+            List<GetTreeThietBiResult> model = new List<GetTreeThietBiResult>();
+            if (SessionHelper.GetSession<List<GetTreeThietBiResult>>("ListTreeDevice") != null)
+            {
+                var data = SessionHelper.GetSession<List<GetTreeThietBiResult>>("ListTreeDevice");
+                model = data.Where(x => x.Cap == 1 && x.Name.Contains(inputDevice)).ToList();
+            }
+            ViewData["ParentID"] = 1;
+            ViewData["inputDevice"] = inputDevice;
+            return PartialView("TreeViewDevice", model);
+        }
+
     }
 }

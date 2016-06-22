@@ -1,0 +1,28 @@
+﻿@model List<WebManageFridgeMQTT.Models.GetTreeThietBiResult>
+@{
+    int ParentID = 0;
+    if (ViewData["ParentID"] != null)
+    {
+        ParentID = Convert.ToInt32(ViewData["ParentID"]);
+    }
+}
+<div class="treeviewSearch">
+    <input id="DeviceInput" name="DeviceInput" type="text" value="@ViewData["inputDevice"]" placeholder="Tìm thiết bị...">
+</div>
+<div id="TreeDataDevice" class="treeviewContent">
+    @{
+        if (Model != null)
+        {
+            @Html.Partial("TreeDevicePartial", Model, new ViewDataDictionary() { { "ParentID", ParentID } })
+        }
+    }
+</div>
+<script type="text/javascript">
+    $('.treeviewContent').jstree();
+    $(document).ready(function () {
+        var $treeView = $('#treeviewToggle, #treeviewPanel');
+        $('#treeviewToggle').on('click', function () {
+            $treeView.toggleClass('toggled');
+        });
+    });
+</script>

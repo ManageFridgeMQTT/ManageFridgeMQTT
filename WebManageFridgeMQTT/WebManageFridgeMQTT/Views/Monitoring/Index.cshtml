@@ -47,60 +47,53 @@
     @*<input type='text' name="txtSearch" class="form-control" placeholder='Search...' id='txtSearch' />*@
     <button id="lblnote" class="toggle-button button"></button>
     <div id="notePanel">
-        <table style="">
-            <tr>
-                <td>
-                    <img src="@Url.Content("~/Content/Icon/markers/ic_map_red.png")" />
-                    <span>Đang bảo dưỡng</span>
-                </td>
-                <td>
-                    <img src="@Url.Content("~/Content/Icon/markers/ic_map_red.png")" />
-                    <span>Tắt máy bảo dưỡng</span>
-                </td>
-                <td>
-                    <img src="@Url.Content("~/Content/Icon/markers/ic_map_purple.png")" />
-                    <span>Đang di chuyển</span>
-                </td>
-                <td>
-                    <img src="@Url.Content("~/Content/Icon/markers/ic_map_red.png")" />
-                    <span>Tắt máy di chuyển</span>
-                </td>
-                <td></td>
-            </tr>
-            <tr>
-                <td>
-                    <img src="@Url.Content("~/Content/Icon/markers/ic_map_blue.png")" />
-                    <span>Đang khoan</span>
-                </td>
-                <td>
-                    <img src="@Url.Content("~/Content/Icon/markers/ic_map_brown.png")" />
-                    <span>Tắt máy khoan</span>
-                </td>
-                <td>
-                    <img src="@Url.Content("~/Content/Icon/markers/ic_map_gray.png")" />
-                    <span>Đang cẩu</span>
-                </td>
-                <td>
-                    <img src="@Url.Content("~/Content/Icon/markers/ic_map_green.png")" />
-                    <span>Tắt máy cẩu</span>
-                </td>
-                <td>
-                    <img src="@Url.Content("~/Content/Icon/markers/ic_map_orange.png")" />
-                    <span>Không xác định</span>
-                </td>
-            </tr>
-        </table>
+        <div class="note_item col-xs-3">
+            <img src="@Url.Content("~/Content/Icon/markers/ic_map_red.png")" />
+            <span>Đang bảo dưỡng</span>
+        </div>
+        <div class="note_item col-xs-3">
+            <img src="@Url.Content("~/Content/Icon/markers/ic_map_red.png")" />
+            <span>Tắt máy bảo dưỡng</span>
+        </div>
+        <div class="note_item col-xs-3">
+            <img src="@Url.Content("~/Content/Icon/markers/ic_map_purple.png")" />
+            <span>Đang di chuyển</span>
+        </div>
+        <div class="note_item col-xs-3">
+            <img src="@Url.Content("~/Content/Icon/markers/ic_map_red.png")" />
+            <span>Tắt máy di chuyển</span>
+        </div>
+        <div class="note_item col-xs-3">
+            <img src="@Url.Content("~/Content/Icon/markers/ic_map_blue.png")" />
+            <span>Đang khoan</span>
+        </div>
+        <div class="note_item col-xs-3">
+            <img src="@Url.Content("~/Content/Icon/markers/ic_map_brown.png")" />
+            <span>Tắt máy khoan</span>
+        </div>
+        <div class="note_item col-xs-3">
+            <img src="@Url.Content("~/Content/Icon/markers/ic_map_gray.png")" />
+            <span>Đang cẩu</span>
+        </div>
+        <div class="note_item col-xs-3">
+            <img src="@Url.Content("~/Content/Icon/markers/ic_map_green.png")" />
+            <span>Tắt máy cẩu</span>
+        </div>
+        <div class="note_item col-xs-3">
+            <img src="@Url.Content("~/Content/Icon/markers/ic_map_orange.png")" />
+            <span>Không xác định</span>
+        </div>
     </div>
     <button id="treeviewToggle" class="toggle-button button"></button>
     <div id="treeviewPanel">
         <div class="treeviewHeader">
             <ul class="nav nav-tabs nav-justified" role="tablist">
-                <li role="presentation" class="active">
+                <li id="tabDevice" role="presentation" >
                     <a href="#devices" aria-controls="devices" role="tab" data-toggle="tab">
                         <h3>THIẾT BỊ</h3>
                     </a>
                 </li>
-                <li role="presentation">
+                <li id="tabCongTrinh" role="presentation" class="active">
                     <a href="#contruction" aria-controls="contruction" role="tab" data-toggle="tab">
                         <h3>CÔNG TRÌNH</h3>
                     </a>
@@ -108,28 +101,30 @@
             </ul>
         </div>
         <div class="tab-content">
-            <div role="tabpanel" class="tab-pane active" id="devices">
-                <div class="treeviewSearch">
-                    <form action="">
-                        <input name="DeviceInput" type="text" placeholder="Tìm thiết bị...">
-                    </form>
+            <div role="tabpanel" class="tab-pane magin-padding" id="devices">
+                <div id="headerNameCongTrinh" class="header row" style="display:none">
+                    <a href="javascript:void(0)" onclick="ReturnCongTrinh()">
+                        <i class="fa fa-caret-left"></i>
+                    </a>
+                    <div id="headerStt" class="route-number color-white">
+                        01
+                    </div>
+                    <div id="headerNameCT" class="route-name color-white font-normal ng-binding">
+                        Bến Thành- BX Chợ Lớn
+                    </div>
                 </div>
-                <div class="treeviewContent">
-                        @{
-                            if (Model.TreeDevice != null)
-                            {
-                                @Html.Partial("TreeDevicePartial", Model.TreeDevice, new ViewDataDictionary() { { "ParentID", 0 } })
-                            }
-                        }
+                <div id="devices-body">
+                    @Html.Partial("TreeViewDevice", Model.TreeDevice)
                 </div>
+                
             </div>
-            <div role="tabpanel" class="tab-pane" id="contruction">
+            <div role="tabpanel" class="tab-pane active" id="contruction">
                 <div class="treeviewSearch">
                     <form action="">
                         <input name="CongTrinhInput" type="text" placeholder="Tìm công trình...">
                     </form>
                 </div>
-                <div class="contruction_list">
+                <div id="TreeCongTrinh" class="contruction_list">
                     @if (Model.ListCongTrinh != null)
                     {
                         @Html.Partial("TreeCongTrinhPartial", Model.ListCongTrinh)
@@ -179,35 +174,35 @@
                                     </tr>
                                     <tr>
                                         <td class="text-left">Thay Dầu Lần Cuối</td>
-                                        <td><span id="TDC"></span></td>
+                                        <td class="text-right"><span id="TDC"></span></td>
                                     </tr>
                                     <tr>
                                         <td class="text-left">Thay Lọc Lần Cuối</td>
-                                        <td><span id="TLC"></span></td>
+                                        <td class="text-right"><span id="TLC"></span></td>
                                     </tr>
                                     <tr>
                                         <td class="text-left">Số Giờ Thay Dầu</td>
-                                        <td><span id="GTD"></span></td>
+                                        <td class="text-right"><span id="GTD"></span></td>
                                     </tr>
                                     <tr>
                                         <td class="text-left">Số Giờ Thay Lọc</td>
-                                        <td><span id="GTL"></span></td>
+                                        <td class="text-right"><span id="GTL"></span></td>
                                     </tr>
                                     <tr>
                                         <td class="text-left">Ngày Đến</td>
-                                        <td><span id="NgayDen"></span></td>
+                                        <td class="text-right"><span id="NgayDen"></span></td>
                                     </tr>
                                     <tr>
                                         <td class="text-left">Số Ngày Ở Công Trình</td>
-                                        <td><span id="SNCT">0 Ngày</span></td>
+                                        <td class="text-right"><span id="SNCT">0 Ngày</span></td>
                                     </tr>
                                     <tr>
                                         <td class="text-left">Đơn Giá Thuê</td>
-                                        <td><span id="GiaThue">350,000,000 VNĐ</span></td>
+                                        <td class="text-right"><span id="GiaThue">350,000,000 VNĐ</span></td>
                                     </tr>
                                     <tr>
                                         <td class="text-left">Thành Tiền Hiện Tại</td>
-                                        <td><span id="ThanhTien">0 VNĐ</span></td>
+                                        <td class="text-right" ><span id="ThanhTien">0 VNĐ</span></td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -246,13 +241,7 @@
         <div class="slider">
             <ul>
                 <li>
-                    <img id="bcImage" src="@Url.Content("~/Content/img/71691be9-cf4c-4829-9ab5-0705903cdf82 (1).jpg")" alt="">
-                </li>
-                <li>
-                    <img id="bcImage1" src="@Url.Content("~/Content/img/71691be9-cf4c-4829-9ab5-0705903cdf82 (1).jpg")" alt="">
-                </li>
-                <li>
-                    <img id="bcImage2" src="@Url.Content("~/Content/img/71691be9-cf4c-4829-9ab5-0705903cdf82 (1).jpg")" alt="">
+                    <img id="bcImage" width="200" src="@Url.Content("~/Content/img/71691be9-cf4c-4829-9ab5-0705903cdf82 (1).jpg")" alt="">
                 </li>
             </ul>
         </div>
@@ -290,10 +279,10 @@
         $(document).ajaxStop(function () {
             $(".loading").hide();
         });
-        var $treeView = $('#treeviewToggle, #treeviewPanel');
-        $('#treeviewToggle').on('click', function () {
-            $treeView.toggleClass('toggled');
-        });
+        //var $treeView = $('#treeviewToggle, #treeviewPanel');
+        //$('#treeviewToggle').on('click', function () {
+        //    $treeView.toggleClass('toggled');
+        //});
         var $notePanel = $('#lblnote, #notePanel, .leaflet-bottom');
         $('#lblnote').on('click', function () {
             $notePanel.toggleClass('toggled');
@@ -335,6 +324,7 @@
             data.find('span[id="bcTinhTrang"]').html(tinhTrang.outerText);
             data.find('span[id="bcTrangThai"]').html(trangThai.outerText);
             data.find('span[id="bcMoTa"]').html(moTa.outerText);
+            //alert(hinhanh.outerText);
             data.find('img[id="bcImage"]').attr('src', PathFolderImage + hinhanh.outerText);
 
             var elm = data[0];
@@ -343,13 +333,21 @@
             //$("#inlineBaoCao").show();
         });
 
-        $('#txtSearch').keypress(function (e) { 
-            var key = e.which; 
-            if(key == 13)
-            {
-                SearchOnTreeView();
+        $(document).keypress(function (e) {
+            if (e.which == 13) {
+                var inputDevice = $('#DeviceInput').val();
+                $.ajax({
+                    url: '../Monitoring/SearchDeviceBy',
+                    type: 'POST',
+                    dataType: 'html',
+                    data: { "inputDevice": inputDevice },
+                    success: function (data) {
+                        $("#devices-body").html(data);
+                    }
+                });
             }
         });
+
     });
 
     function SearchOnTreeView() {
@@ -515,9 +513,6 @@
     }
 
 
-
-
-
     function FocusDevice(DeviceID)
     {
         $.ajax({
@@ -557,4 +552,20 @@
         }
     }
 
+    function CongTrinhSelected(elmId, stt, elmName){
+        $("#devices-body").load('@(Url.Action("GetDeviceByCongTrinh", "Monitoring"))?congTrinhId=' + elmId);
+        $('#headerStt').html(stt);
+        $('#headerNameCT').html(elmName);
+        $('#headerNameCongTrinh').show();
+        $('#contruction').removeClass('active');
+        $('#devices').addClass('active');
+        $('#tabCongTrinh').removeClass('active');
+        $('#tabDevice').addClass('active');
+    }
+    function ReturnCongTrinh(){
+        $('#devices').removeClass('active');
+        $('#contruction').addClass('active');
+        $('#tabDevice').removeClass('active');
+        $('#tabCongTrinh').addClass('active');
+    }
 </script>

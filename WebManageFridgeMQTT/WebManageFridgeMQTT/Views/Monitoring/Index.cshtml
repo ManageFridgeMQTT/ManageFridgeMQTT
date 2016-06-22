@@ -106,9 +106,9 @@
                     <a href="javascript:void(0)" onclick="ReturnCongTrinh()">
                         <i class="fa fa-caret-left"></i>
                     </a>
-                    <div id="headerStt" class="route-number color-white">
+                    @*<div id="headerStt" class="route-number color-white">
                         01
-                    </div>
+                    </div>*@
                     <div id="headerNameCT" class="route-name color-white font-normal ng-binding">
                         Bến Thành- BX Chợ Lớn
                     </div>
@@ -279,10 +279,10 @@
         $(document).ajaxStop(function () {
             $(".loading").hide();
         });
-        //var $treeView = $('#treeviewToggle, #treeviewPanel');
-        //$('#treeviewToggle').on('click', function () {
-        //    $treeView.toggleClass('toggled');
-        //});
+        var $treeView = $('#treeviewToggle, #treeviewPanel');
+        $('#treeviewToggle').on('click', function () {
+            $treeView.toggleClass('toggled');
+        });
         var $notePanel = $('#lblnote, #notePanel, .leaflet-bottom');
         $('#lblnote').on('click', function () {
             $notePanel.toggleClass('toggled');
@@ -552,9 +552,8 @@
         }
     }
 
-    function CongTrinhSelected(elmId, stt, elmName){
+    function CongTrinhSelected(elmId, elmName){
         $("#devices-body").load('@(Url.Action("GetDeviceByCongTrinh", "Monitoring"))?congTrinhId=' + elmId);
-        $('#headerStt').html(stt);
         $('#headerNameCT').html(elmName);
         $('#headerNameCongTrinh').show();
         $('#contruction').removeClass('active');

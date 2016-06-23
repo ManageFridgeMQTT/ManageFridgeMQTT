@@ -14,9 +14,9 @@
                 <table class="table table-striped">
                     <thead>
                         <tr class="tablesorter-headerRow">
-                            <th>STT</th>
-                            <th>Thời Gian</th>
-                            <th>Vị trí</th>
+                            <th nowrap>STT</th>
+                            <th nowrap>Thời Gian</th>
+                            <th nowrap>Vị trí</th>
                         </tr>
                     </thead>
                     <tbody id="tbBodyMove">
@@ -26,8 +26,8 @@
                             foreach (var item in Model.ListDataMove)
                             {
                                 <tr >
-                                    <td>@i</td>
-                                    <td>@item.Ngay.ToString()</td>
+                                    <td nowrap>@i</td>
+                                    <td nowrap>@item.Ngay.ToString()</td>
                                     <td>@item.TuViTri</td>
                                 </tr>
                                 i++;

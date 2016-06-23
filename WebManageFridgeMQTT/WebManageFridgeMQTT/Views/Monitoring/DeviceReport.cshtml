@@ -14,19 +14,19 @@
                 <table class="table table-striped">
                     <thead>
                         <tr class="tablesorter-headerRow">
-                            <th>
+                            <th nowrap>
                                 STT <i class="tablesorter-icon"></i>
                             </th>
-                            <th>
+                            <th nowrap>
                                 Thời Gian <i class="tablesorter-icon"></i>
                             </th>
-                            <th>
+                            <th nowrap>
                                 Trạng Thái <i class="tablesorter-icon"></i>
                             </th>
-                            <th>
+                            <th nowrap>
                                 Tình Trạng <i class="tablesorter-icon"></i>
                             </th>
-                            <th>
+                            <th nowrap>
                                 Ghi Chú <i class="tablesorter-icon"></i>
                             </th>
                             <th style="display:none">
@@ -41,10 +41,10 @@
                             foreach (var item in Model.ListDataReport)
                             {
                                 <tr role="row" class="fancybox" href='#inlineBaoCao'>
-                                    <td>@i</td>
-                                    <td>@item.ThoiGian</td>
-                                    <td>@item.strTrangThai</td>
-                                    <td>@item.strTinhTrang</td>
+                                    <td nowrap>@i</td>
+                                    <td nowrap>@item.ThoiGian</td>
+                                    <td nowrap>@item.strTrangThai</td>
+                                    <td nowrap>@item.strTinhTrang</td>
                                     <td>@item.GhiChu</td>
                                     <td style="display:none">@item.HinhAnh</td>
                                 </tr>

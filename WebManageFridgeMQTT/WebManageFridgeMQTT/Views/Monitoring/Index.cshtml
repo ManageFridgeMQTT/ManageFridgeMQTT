@@ -112,9 +112,21 @@
                     <div id="headerNameCT" class="route-name color-white font-normal ng-binding">
                         Bến Thành- BX Chợ Lớn
                     </div>
+                    
                 </div>
-                <div id="devices-body">
-                    @Html.Partial("TreeViewDevice", Model.TreeDevice)
+                <div class="treeviewSearch" id="divThietBiCongTrinhInput">
+                    <form action="">
+                        <input name="ThietBiCongTrinhInput" type="text" placeholder="Tìm công trình...">
+                    </form>
+                </div>
+                <div id="devices-body" class="contruction_list">
+                    <div style="display:none;" >
+                        @Html.Partial("TreeViewDevice", Model.TreeDevice)
+                    </div>
+                    @if (Model.ListCongTrinh != null)
+                    {
+                        @Html.Partial("TreeCongTrinhPartial", Model.ListCongTrinh)
+                    }
                 </div>
                 
             </div>
@@ -557,15 +569,24 @@
         $('#headerStt').html(stt);
         $('#headerNameCT').html(elmName);
         $('#headerNameCongTrinh').show();
+        $('#divThietBiCongTrinhInput').hide();
+
         $('#contruction').removeClass('active');
         $('#devices').addClass('active');
         $('#tabCongTrinh').removeClass('active');
         $('#tabDevice').addClass('active');
+        $('#devices-body').removeClass('contruction_list');
+        
     }
     function ReturnCongTrinh(){
-        $('#devices').removeClass('active');
-        $('#contruction').addClass('active');
-        $('#tabDevice').removeClass('active');
-        $('#tabCongTrinh').addClass('active');
+        $("#devices-body").html($("#TreeCongTrinh").html());
+        $('#devices-body').addClass('contruction_list');
+        
+        $('#headerNameCongTrinh').hide();
+        $('#divThietBiCongTrinhInput').show();
+        //$('#devices').removeClass('active');
+        //$('#contruction').addClass('active');
+        //$('#tabDevice').removeClass('active');
+        //$('#tabCongTrinh').addClass('active');
     }
 </script>

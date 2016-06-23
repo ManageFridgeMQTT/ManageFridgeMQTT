@@ -3,7 +3,7 @@ var placeMarker_double = L.Icon.Label.extend({
     options: {
         iconUrl: '../Content/Icon/markers/i10.png',
         shadowUrl: null,
-        iconSize: new L.Point(24, 24),
+        //iconSize: new L.Point(24, 24),
         iconAnchor: new L.Point(0, 1),
         labelAnchor: new L.Point(26, 0),
         wrapperAnchor: new L.Point(12, 13),

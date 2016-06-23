@@ -14,13 +14,13 @@
                 <table class="table table-striped">
                     <thead>
                         <tr class="tablesorter-headerRow">
-                            <th>Ngày Báo Sửa</th>
-                            <th>Ngày Sửa</th>
-                            <th>Ngày Hoàn Tất</th>
-                            <th>Đơn Vị Sửa</th>
-                            <th>Địa Điểm Sửa</th>
-                            <th>Mô Tả</th>
-                            <th>Chi Phí</th>
+                            <th nowrap>Ngày Báo Sửa</th>
+                            <th nowrap>Ngày Sửa</th>
+                            <th nowrap>Ngày Hoàn Tất</th>
+                            <th nowrap>Đơn Vị Sửa</th>
+                            <th nowrap>Địa Điểm Sửa</th>
+                            <th nowrap>Mô Tả</th>
+                            <th nowrap>Chi Phí</th>
                         </tr>
                     </thead>
                     <tbody id="tbBodyModify">
@@ -29,13 +29,13 @@
                             foreach (var item in Model.ListDataModify)
                             {
                                 <tr>
-                                    <td>@item.NgayBaoSua</td>
-                                    <td>@item.NgaySua</td>
-                                    <td>@item.NgayHoanTat</td>
+                                    <td nowrap>@item.NgayBaoSua</td>
+                                    <td nowrap>@item.NgaySua</td>
+                                    <td nowrap>@item.NgayHoanTat</td>
                                     <td>@item.DonViSua</td>
                                     <td>@item.DiaDiemSua</td>
                                     <td>@item.MoTa</td>
-                                    <td align="right" class="align-right">@item.ChiPhi</td>
+                                    <td nowrap align="right" class="align-right">@item.ChiPhi</td>
                                 </tr>
                             }
                         }

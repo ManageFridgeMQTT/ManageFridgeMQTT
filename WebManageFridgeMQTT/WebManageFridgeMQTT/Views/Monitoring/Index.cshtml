@@ -381,7 +381,10 @@
             strIconUrl = 'ic_map_purple';
         }else if(c.TrangThaiHienTai == 8){
             strIconUrl = 'ic_map_red';
+        }else {
+            strIconUrl = 'ic_map_blue';
         }
+
         RenderMarker([c.Latitude, c.Longitude], c.TenThietBi, RederPopupDevice(c), strIconUrl, mapData.LayerDevice);
 
         if(map.hasLayer(mapData.LayerDevice)==false){

@@ -126,7 +126,8 @@ namespace WebManageFridgeMQTT.Controllers
             ActivityChip model = new ActivityChip();
             if (!string.IsNullOrEmpty(thietBiID))
             {
-                model.infoDevice = Global.Context.Sp_GetInfoDeviceById(thietBiID).FirstOrDefault();
+                model.infoDevice = Global.Context.Sp_GetInfoDeviceById(thietBiID).FirstOrDefault() ;
+                model.infoDevice = model.infoDevice ?? new Sp_GetInfoDeviceByIdResult();
                 DateTime FromDate = DateTime.Now.AddMonths(-1);
                 DateTime ToDate = DateTime.Now;
                 model.ListData = Global.Context.GetInfoDeviceActivity(thietBiID, FromDate, ToDate).OrderByDescending(x => x.ThoiGian).Take(5).ToList();

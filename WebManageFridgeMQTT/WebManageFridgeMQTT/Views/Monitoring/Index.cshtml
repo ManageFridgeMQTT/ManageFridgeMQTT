@@ -101,7 +101,7 @@
             </ul>
         </div>
         <div class="tab-content">
-            <div role="tabpanel" class="tab-pane magin-padding" id="devices">
+            <div role="tabpanel" class="tab-pane magin-padding active" id="devices">
                 <div id="headerNameCongTrinh" class="header row" style="display:none">
                     <a href="javascript:void(0)" onclick="ReturnCongTrinh()">
                         <i class="fa fa-caret-left"></i>
@@ -130,7 +130,7 @@
                 </div>
                 
             </div>
-            <div role="tabpanel" class="tab-pane active" id="contruction">
+            <div role="tabpanel" class="tab-pane " id="contruction">
                 <div class="treeviewSearch">
                     <form action="">
                         <input name="CongTrinhInput" type="text" placeholder="Tìm công trình...">
@@ -291,10 +291,10 @@
         $(document).ajaxStop(function () {
             $(".loading").hide();
         });
-        //var $treeView = $('#treeviewToggle, #treeviewPanel');
-        //$('#treeviewToggle').on('click', function () {
-        //    $treeView.toggleClass('toggled');
-        //});
+        var $treeView = $('#treeviewToggle, #treeviewPanel');
+        $('#treeviewToggle').on('click', function () {
+            $treeView.toggleClass('toggled');
+        });
         var $notePanel = $('#lblnote, #notePanel, .leaflet-bottom');
         $('#lblnote').on('click', function () {
             $notePanel.toggleClass('toggled');

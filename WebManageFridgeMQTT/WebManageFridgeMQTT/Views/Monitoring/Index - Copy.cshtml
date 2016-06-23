@@ -88,12 +88,12 @@
     <div id="treeviewPanel">
         <div class="treeviewHeader">
             <ul class="nav nav-tabs nav-justified" role="tablist">
-                <li id="tabDevice" role="presentation" class="active">
+                <li id="tabDevice" role="presentation" >
                     <a href="#devices" aria-controls="devices" role="tab" data-toggle="tab">
                         <h3>THIẾT BỊ</h3>
                     </a>
                 </li>
-                <li id="tabCongTrinh" role="presentation">
+                <li id="tabCongTrinh" role="presentation" class="active">
                     <a href="#contruction" aria-controls="contruction" role="tab" data-toggle="tab">
                         <h3>CÔNG TRÌNH</h3>
                     </a>
@@ -106,39 +106,40 @@
                     <a href="javascript:void(0)" onclick="ReturnCongTrinh()">
                         <i class="fa fa-caret-left"></i>
                     </a>
-                    @*<div id="headerStt" class="route-number color-white">
-                    01
-                </div>*@
+                    <div id="headerStt" class="route-number color-white">
+                        01
+                    </div>
                     <div id="headerNameCT" class="route-name color-white font-normal ng-binding">
                         Bến Thành- BX Chợ Lớn
                     </div>
+                    
                 </div>
-                <div class="treeviewSearch">
-                    <input id="DeviceInput" name="DeviceInput" type="text" value="@ViewData["inputDevice"]" placeholder="Tìm thiết bị...">
+                <div class="treeviewSearch" id="divThietBiCongTrinhInput">
+                    <form action="">
+                        <input name="ThietBiCongTrinhInput" type="text" placeholder="Tìm công trình...">
+                    </form>
                 </div>
-                <div id="congtrinh-body">
-                    <div id="TreeCongTrinh" class="contruction_list">
-                        @if (Model.ListCongTrinh != null)
-                        {
-                            @Html.Partial("TreeCongTrinhPartial", Model.ListCongTrinh)
-                        }
+                <div id="devices-body" class="contruction_list">
+                    <div style="display:none;" >
+                        @Html.Partial("TreeViewDevice", Model.TreeDevice)
                     </div>
+                    @if (Model.ListCongTrinh != null)
+                    {
+                        @Html.Partial("TreeCongTrinhPartial", Model.ListCongTrinh)
+                    }
                 </div>
-                <div id="devices-body" style="display:none">
-                    @Html.Partial("TreeViewDevice", Model.TreeDevice)
-                </div>
-
+                
             </div>
-            <div role="tabpanel" class="tab-pane" id="contruction">
+            <div role="tabpanel" class="tab-pane " id="contruction">
                 <div class="treeviewSearch">
                     <form action="">
                         <input name="CongTrinhInput" type="text" placeholder="Tìm công trình...">
                     </form>
                 </div>
-                <div id="TreeCongTrinh2" class="contruction_list">
+                <div id="TreeCongTrinh" class="contruction_list">
                     @if (Model.ListCongTrinh != null)
                     {
-                        @Html.Partial("TreeCongTrinh2Partial", Model.ListCongTrinh)
+                        @Html.Partial("TreeCongTrinhPartial", Model.ListCongTrinh)
                     }
                 </div>
             </div>
@@ -354,10 +355,6 @@
                     data: { "inputDevice": inputDevice },
                     success: function (data) {
                         $("#devices-body").html(data);
-                        $('#headerNameCT').html('Back');
-                        $('#headerNameCongTrinh').show();
-                        $('#devices-body').show();
-                        $('#congtrinh-body').hide();
                     }
                 });
             }
@@ -365,6 +362,10 @@
 
     });
 
+    function SearchOnTreeView() {
+        $("#loading").show();
+        window.location = '@Url.Action("Device", "Monitoring")' + '?strSearch=' + $('#txtSearch').val();     
+    }
     function RenderDevice(c){
         // var a = c.length;
         //  for (var i = 0; i < a; i++) {
@@ -563,21 +564,26 @@
         }
     }
 
-    function CongTrinhSelected(elmId, elmName){
+    function CongTrinhSelected(elmId, stt, elmName){
         $("#devices-body").load('@(Url.Action("GetDeviceByCongTrinh", "Monitoring"))?congTrinhId=' + elmId);
+        $('#headerStt').html(stt);
         $('#headerNameCT').html(elmName);
         $('#headerNameCongTrinh').show();
-        $('#devices-body').show();
-        $('#congtrinh-body').hide();
-        //$('#contruction').removeClass('active');
-        //$('#devices').addClass('active');
-        //$('#tabCongTrinh').removeClass('active');
-        //$('#tabDevice').addClass('active');
+        $('#divThietBiCongTrinhInput').hide();
+
+        $('#contruction').removeClass('active');
+        $('#devices').addClass('active');
+        $('#tabCongTrinh').removeClass('active');
+        $('#tabDevice').addClass('active');
+        $('#devices-body').removeClass('contruction_list');
+        
     }
     function ReturnCongTrinh(){
+        $("#devices-body").html($("#TreeCongTrinh").html());
+        $('#devices-body').addClass('contruction_list');
+        
         $('#headerNameCongTrinh').hide();
-        $('#devices-body').hide();
-        $('#congtrinh-body').show();
+        $('#divThietBiCongTrinhInput').show();
         //$('#devices').removeClass('active');
         //$('#contruction').addClass('active');
         //$('#tabDevice').removeClass('active');

@@ -1,0 +1,20 @@
+﻿@model List<WebManageFridgeMQTT.Models.GetInfoCongTrinhResult>
+<ul>
+@{
+    int i = 1;
+    foreach (var elm in Model)
+    {
+        //onclick = "CongTrinhSelected('@elm.CongTrinhId', '@elm.TenCongTrinh')"
+        <li >
+            <a href="javascript:void(0)">
+                <h5>@i</h5>
+                <strong>
+                    @elm.TenCongTrinh
+                    <span>@elm.DiaDiem</span>
+                </strong>
+            </a>
+        </li>
+        i++;
+    }
+}
+</ul>

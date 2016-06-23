@@ -213,9 +213,18 @@ namespace WebManageFridgeMQTT.Controllers
             if (SessionHelper.GetSession<List<GetTreeThietBiResult>>("ListTreeDevice") != null)
             {
                 var data = SessionHelper.GetSession<List<GetTreeThietBiResult>>("ListTreeDevice");
-                model = data.Where(x => x.Cap == 1 && x.Name.Contains(inputDevice)).ToList();
+                if (inputDevice == "")
+                {
+                    model = data.ToList();
+                    ViewData["ParentID"] = 0;
+                }
+                else
+                {
+                    model = data.Where(x => x.Cap == 1 && x.Name.Contains(inputDevice)).ToList();
+                    ViewData["ParentID"] = 1;
+                }
+                
             }
-            ViewData["ParentID"] = 1;
             ViewData["inputDevice"] = inputDevice;
             return PartialView("TreeViewDevice", model);
         }

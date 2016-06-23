@@ -101,35 +101,46 @@
             </ul>
         </div>
         <div class="tab-content">
-            <div role="tabpanel" class="tab-pane magin-padding" id="devices">
+            <div role="tabpanel" class="tab-pane magin-padding active" id="devices">
                 <div id="headerNameCongTrinh" class="header row" style="display:none">
                     <a href="javascript:void(0)" onclick="ReturnCongTrinh()">
                         <i class="fa fa-caret-left"></i>
                     </a>
                     @*<div id="headerStt" class="route-number color-white">
-                        01
-                    </div>*@
+                    01
+                </div>*@
                     <div id="headerNameCT" class="route-name color-white font-normal ng-binding">
                         Bến Thành- BX Chợ Lớn
                     </div>
                 </div>
-                <div id="devices-body">
+                <div class="treeviewSearch">
+                    <input id="DeviceInput" name="DeviceInput" type="text" value="@ViewData["inputDevice"]" placeholder="Tìm thiết bị...">
+                </div>
+                <div id="congtrinh-body">
+                    <div id="TreeCongTrinh" class="contruction_list">
+                        @if (Model.ListCongTrinh != null)
+                        {
+                            @Html.Partial("TreeCongTrinhPartial", Model.ListCongTrinh)
+                        }
+                    </div>
+                </div>
+                <div id="devices-body" style="display:none">
                     @Html.Partial("TreeViewDevice", Model.TreeDevice)
                 </div>
-                
+
             </div>
-            <div role="tabpanel" class="tab-pane active" id="contruction">
+            <div role="tabpanel" class="tab-pane" id="contruction">
                 <div class="treeviewSearch">
                     <form action="">
                         <input name="CongTrinhInput" type="text" placeholder="Tìm công trình...">
                     </form>
                 </div>
-                <div id="TreeCongTrinh" class="contruction_list">
+                @*<div id="TreeCongTrinh" class="contruction_list">
                     @if (Model.ListCongTrinh != null)
                     {
                         @Html.Partial("TreeCongTrinhPartial", Model.ListCongTrinh)
                     }
-                </div>
+                </div>*@
             </div>
         </div>
     </div>
@@ -343,6 +354,10 @@
                     data: { "inputDevice": inputDevice },
                     success: function (data) {
                         $("#devices-body").html(data);
+                        $('#headerNameCT').html('Back');
+                        $('#headerNameCongTrinh').show();
+                        $('#devices-body').show();
+                        $('#congtrinh-body').hide();
                     }
                 });
             }
@@ -350,10 +365,6 @@
 
     });
 
-    function SearchOnTreeView() {
-        $("#loading").show();
-        window.location = '@Url.Action("Device", "Monitoring")' + '?strSearch=' + $('#txtSearch').val();     
-    }
     function RenderDevice(c){
         // var a = c.length;
         //  for (var i = 0; i < a; i++) {
@@ -556,15 +567,20 @@
         $("#devices-body").load('@(Url.Action("GetDeviceByCongTrinh", "Monitoring"))?congTrinhId=' + elmId);
         $('#headerNameCT').html(elmName);
         $('#headerNameCongTrinh').show();
-        $('#contruction').removeClass('active');
-        $('#devices').addClass('active');
-        $('#tabCongTrinh').removeClass('active');
-        $('#tabDevice').addClass('active');
+        $('#devices-body').show();
+        $('#congtrinh-body').hide();
+        //$('#contruction').removeClass('active');
+        //$('#devices').addClass('active');
+        //$('#tabCongTrinh').removeClass('active');
+        //$('#tabDevice').addClass('active');
     }
     function ReturnCongTrinh(){
-        $('#devices').removeClass('active');
-        $('#contruction').addClass('active');
-        $('#tabDevice').removeClass('active');
-        $('#tabCongTrinh').addClass('active');
+        $('#headerNameCongTrinh').hide();
+        $('#devices-body').hide();
+        $('#congtrinh-body').show();
+        //$('#devices').removeClass('active');
+        //$('#contruction').addClass('active');
+        //$('#tabDevice').removeClass('active');
+        //$('#tabCongTrinh').addClass('active');
     }
 </script>

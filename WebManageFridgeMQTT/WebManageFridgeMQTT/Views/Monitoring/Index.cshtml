@@ -7,30 +7,30 @@
 }
 @section Scripts
     {
-        <link rel="stylesheet" href="@Url.Content("~/Content/NewEtool/css/leaflet.css")" />
-        <link rel="stylesheet" href="@Url.Content("~/Content/NewEtool/css/leaflet.iconlabel.css")" />
-        <link rel="stylesheet" href="@Url.Content("~/Content/NewEtool/css/leaflet.label.css")" />
-        <link rel="stylesheet" href="@Url.Content("~/Scripts/Leaflet/MarkerCluster.css")" />
-        <link rel="stylesheet" href="@Url.Content("~/Scripts/Leaflet/MarkerCluster.Default.css")" />
-        <link rel="stylesheet" href="@Url.Content("~/Scripts/Leaflet/MarkerCluster.css")" />
-        <link rel="stylesheet" href="@Url.Content("~/Scripts/Leaflet/MarkerCluster.Default.css")" />
-        <link rel="stylesheet" href="@Url.Content("~/Scripts/Leaflet/font-awesome.css")" />
-        <link rel="stylesheet" href="@Url.Content("~/Scripts/Leaflet/leaflet.awesome-markers.css")" />
-        <link rel="stylesheet" href="@Url.Content("~/Scripts/Leaflet/L.Control.SlideMenu.css")" />
+    <link rel="stylesheet" href="@Url.Content("~/Content/NewEtool/css/leaflet.css")" />
+    <link rel="stylesheet" href="@Url.Content("~/Content/NewEtool/css/leaflet.iconlabel.css")" />
+    <link rel="stylesheet" href="@Url.Content("~/Content/NewEtool/css/leaflet.label.css")" />
+    <link rel="stylesheet" href="@Url.Content("~/Scripts/Leaflet/MarkerCluster.css")" />
+    <link rel="stylesheet" href="@Url.Content("~/Scripts/Leaflet/MarkerCluster.Default.css")" />
+    <link rel="stylesheet" href="@Url.Content("~/Scripts/Leaflet/MarkerCluster.css")" />
+    <link rel="stylesheet" href="@Url.Content("~/Scripts/Leaflet/MarkerCluster.Default.css")" />
+    <link rel="stylesheet" href="@Url.Content("~/Scripts/Leaflet/font-awesome.css")" />
+    <link rel="stylesheet" href="@Url.Content("~/Scripts/Leaflet/leaflet.awesome-markers.css")" />
+    <link rel="stylesheet" href="@Url.Content("~/Scripts/Leaflet/L.Control.SlideMenu.css")" />
 
-        <script type="text/javascript" src="@Url.Content("~/Scripts/Leaflet/leaflet.js")"></script>
-        <script type="text/javascript" src="http://maps.google.com/maps/api/js?v=3.2&sensor=false"></script>
-        <script type="text/javascript" src="@Url.Content("~/Scripts/Leaflet/leaflet-google.js")"></script>
-        <script type="text/javascript" src="@Url.Content("~/Scripts/Leaflet/leaflet.iconlabel.js")"></script>
-        <script type="text/javascript" src="@Url.Content("~/Scripts/Leaflet/Label.js")"></script>
-        <script type="text/javascript" src="@Url.Content("~/Scripts/Leaflet/Marker.Label.js")"></script>
-        <script type="text/javascript" src="@Url.Content("~/Scripts/Leaflet/Control.MiniMap.js")"></script>
-        <script type="text/javascript" src="@Url.Content("~/Scripts/Leaflet/Map.Label.js")"></script>
-        <script type="text/javascript" src="@Url.Content("~/Scripts/Leaflet/leaflet.markercluster-src.js")"></script>
-        <script type="text/javascript" src="@Url.Content("~/Scripts/Leaflet/GeoFridge.js")"></script>
-        <script type="text/javascript" src="@Url.Content("~/Scripts/Leaflet/L.Control.SlideMenu.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Scripts/Leaflet/leaflet.js")"></script>
+    <script type="text/javascript" src="http://maps.google.com/maps/api/js?v=3.2&sensor=false"></script>
+    <script type="text/javascript" src="@Url.Content("~/Scripts/Leaflet/leaflet-google.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Scripts/Leaflet/leaflet.iconlabel.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Scripts/Leaflet/Label.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Scripts/Leaflet/Marker.Label.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Scripts/Leaflet/Control.MiniMap.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Scripts/Leaflet/Map.Label.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Scripts/Leaflet/leaflet.markercluster-src.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Scripts/Leaflet/GeoFridge.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Scripts/Leaflet/L.Control.SlideMenu.js")"></script>
 
-    }
+}
 <script>
     $(function () {
         $('.datepicker').datepicker({
@@ -39,7 +39,21 @@
     })
 </script>
 <!-- define a DIV into which the map will appear. Make it take up the whole window -->
+<style>
+    #ImageContainer {
+        width:490px; 
+        overflow-y:scroll; 
+        position:relative;
+        height: 420px;
+    }
 
+    .ImageContainerBlock {
+        /*width: 100px;*/
+        background-color: #fff;
+        margin: 10px;
+        float: left;
+    }
+</style>
 <div id="loading" class="loading">
 </div>
 <div class='insider'>
@@ -107,8 +121,8 @@
                         <i class="fa fa-caret-left"></i>
                     </a>
                     @*<div id="headerStt" class="route-number color-white">
-                    01
-                </div>*@
+                            01
+                        </div>*@
                     <div id="headerNameCT" class="route-name color-white font-normal ng-binding">
                         Bến Thành- BX Chợ Lớn
                     </div>
@@ -146,7 +160,7 @@
     </div>
     <div id="DevicePopupTemplete" style="display: none;">
         <!-- Nav tabs -->
-        <ul class="nav nav-tabs" role="tablist">
+        <ul class="nav nav-tabs" role="tablist" id="ul-tab">
             <li role="presentation" class="active"><a href="#info" aria-controls="Thông tin" role="tab" data-toggle="tab">Thông tin</a></li>
             <li role="presentation"><a href="#detail" aria-controls="Báo Cáo" role="tab" data-toggle="tab" onclick="RenderBaoCao('816AF6D7-4793-4D25-99B7-EA60E37EA41F')">Báo Cáo</a></li>
             <li role="presentation"><a href="#activity" aria-controls="Theo Dõi Hoạt Động (Chip)" role="tab" data-toggle="tab" onclick="RenderHoatDong('816AF6D7-4793-4D25-99B7-EA60E37EA41F')">Theo Dõi Hoạt Động (Chip)</a></li>
@@ -213,7 +227,7 @@
                                     </tr>
                                     <tr>
                                         <td class="text-left">Thành Tiền Hiện Tại</td>
-                                        <td class="text-right" ><span id="ThanhTien">0 VNĐ</span></td>
+                                        <td class="text-right"><span id="ThanhTien">0 VNĐ</span></td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -249,16 +263,12 @@
                 <span id="bcMoTa">buc tic nang can</span>
             </div>
         </div>
-        <div class="slider">
-            <ul>
-                <li>
-                    <img id="bcImage" width="200" src="@Url.Content("~/Content/img/71691be9-cf4c-4829-9ab5-0705903cdf82 (1).jpg")" alt="">
-                </li>
-            </ul>
+        <div id=ImageContainer>
         </div>
     </div>
 </div>
 <script type='text/javascript'>
+    var currentDeviceID = '';
     var PathFolderImage = '@System.Configuration.ConfigurationManager.AppSettings["PathFolderImage"].ToString()';
     var mapData = [];
     mapData.LatLongBounds = [];
@@ -276,13 +286,12 @@
         ]
     }
     );
-    
+
     var googleLayer = new L.Google('ROADMAP');
     map.addLayer(googleLayer);
     map.zoomControl.setPosition('bottomright');
     // js tree
     $('.treeviewContent').jstree();
-
     $(document).ready(function () {
         $(document).ajaxStart(function () {
             $(".loading").show();
@@ -298,16 +307,11 @@
         $('#lblnote').on('click', function () {
             $notePanel.toggleClass('toggled');
         });
-        $('.slider ul').slick({
-            prevArrow: '<button type="button" class="slick-prev button"><i class="fa fa-angle-left"></i></button>',
-            nextArrow: '<button type="button" class="slick-next button" ><i class="fa fa-angle-right"></i></button>'
-        });
         $('.fancybox').fancybox({
             tpl: {
                 closeBtn: '<a title="Close" class="fancybox-item fancybox-close" href="javascript:;">×</a>'
             }
         });
-
         var data = @Html.Raw(new System.Web.Script.Serialization.JavaScriptSerializer().Serialize(Model.ListDeviceInfo));
         for (var i in data) {
             $.ajax({
@@ -320,6 +324,16 @@
                 }
             });
         }
+
+        //$.ajax({
+        //    url: '../Monitoring/GetInfoDeviceById',
+        //    type: 'POST',
+        //    dataType: 'json',
+        //    data: { "id": 'EE84393C-9363-419D-A66C-4471180853D4' },
+        //    success: function (meta) {
+        //        RenderDevice(meta);
+        //    }
+        //});
 
         $('body').on('click', '#table-report > table > tbody > tr', function () {
             var listtd = $(this).children('td');
@@ -336,7 +350,15 @@
             data.find('span[id="bcTrangThai"]').html(trangThai.outerText);
             data.find('span[id="bcMoTa"]').html(moTa.outerText);
             //alert(hinhanh.outerText);
-            data.find('img[id="bcImage"]').attr('src', PathFolderImage + hinhanh.outerText);
+            //data.find('img[id="bcImage"]').attr('src', PathFolderImage + hinhanh.outerText);
+
+            var img = '';
+            var res = hinhanh.outerText.split(',');
+            res.forEach(function(item) {
+                // do something with `item`
+                img += '<div class="ImageContainerBlock"><img height="200px" src="'+ PathFolderImage + item +'" alt="" title=""></div>'
+            });
+            data.find('div[id="ImageContainer"]').html(img);
 
             var elm = data[0];
             htmlData += elm.outerHTML;
@@ -362,8 +384,10 @@
                 });
             }
         });
-
     });
+
+
+
 
     function RenderDevice(c){
         // var a = c.length;
@@ -385,7 +409,7 @@
             strIconUrl = 'ic_map_blue';
         }
 
-        RenderMarker([c.Latitude, c.Longitude], c.TenThietBi, RederPopupDevice(c), strIconUrl, mapData.LayerDevice);
+        RenderMarker(c.ThietBiId, [c.Latitude, c.Longitude], c.TenThietBi, RederPopupDevice(c), strIconUrl, mapData.LayerDevice);
 
         if(map.hasLayer(mapData.LayerDevice)==false){
             map.addLayer(mapData.LayerDevice);
@@ -394,22 +418,21 @@
     }
     function RederPopupDevice(item)
     {
-        var btnxemHoatDong = '<button onclick="RenderHoatDong(\''+ item.ThietBiId + '\');"><i class="icon-submit" title="Xem báo cáo"></i>Xem</button>'
-        var btnxemDiChuyen = '<button onclick="RenderDiChuyen(\''+ item.ThietBiId + '\');"><i class="icon-submit" title="Xem báo cáo"></i>Xem</button>'
-        var btnxemBaoDuong = '<button onclick="RenderBaoDuong(\''+ item.ThietBiId + '\');"><i class="icon-submit" title="Xem báo cáo"></i>Xem</button>'
-        var btnxemBaoCao = '<button onclick="RenderBaoCao(\''+ item.ThietBiId + '\');"><i class="icon-submit" title="Xem báo cáo"></i>Xem</button>'
-        var ultab = '<li class="active"><a data-toggle="tab" href="#info">Thông tin Chung</a></li>';
-        ultab +=    '<li><a data-toggle="tab" href="#detail" onclick="RenderBaoCao(\''+ item.ThietBiId + '\');">Thông Tin Báo Cáo</a></li>';
-        ultab +=    '<li><a data-toggle="tab" href="#activity" onclick="RenderHoatDong(\''+ item.ThietBiId + '\');">Theo Dõi Hoạt Động (Chip)</a></li>';
-        ultab +=    '<li><a data-toggle="tab" href="#dichuyen" onclick="RenderDiChuyen(\''+ item.ThietBiId + '\');">Lịch sử di chuyển</a></li>';
-        ultab +=    '<li><a data-toggle="tab" href="#baoduong" onclick="RenderBaoDuong(\''+ item.ThietBiId + '\');">Bảo dưỡng sửa chửa</a></li>';
-
-
+        //var id = currentDeviceID;
         var htmlData = '';
         var id = item.ThietBiId;
         var matadata = $('#DevicePopupTemplete');
         var data = matadata.clone();
         data.css('display','');
+        var ultab = '';
+        ultab += '<li role="presentation" class="active"><a href="#info" aria-controls="Thông tin" role="tab" data-toggle="tab">Thông tin</a></li>';
+        ultab += '<li role="presentation"><a role="tab" data-toggle="tab" href="#detail" onclick="RenderBaoCao(\'' + id + '\');">Thông Tin Báo Cáo</a></li>';
+        ultab += '<li role="presentation"><a role="tab" data-toggle="tab" href="#activity" onclick="RenderHoatDong(\'' + id + '\');">Theo Dõi Hoạt Động (Chip)</a></li>';
+        ultab += '<li role="presentation"><a role="tab" data-toggle="tab" href="#dichuyen" onclick="RenderDiChuyen(\'' + id + '\');">Lịch sử di chuyển</a></li>';
+        ultab += '<li role="presentation"><a role="tab" data-toggle="tab" href="#baoduong" onclick="RenderBaoDuong(\'' + id + '\');">Bảo dưỡng sửa chửa</a></li>';
+
+
+        $('div#info').addClass("active");
 
         data.find('h3[id="TenThietBi"]').html(item.TenThietBi);
         data.find('span[id="TenThietBi"]').html(item.TenThietBi);
@@ -425,9 +448,6 @@
         data.find('span[id="GiaThue"]').html(item.GiaThue + ' VNĐ');
         data.find('span[id="ThanhTien"]').html(item.ThanhTien + ' VNĐ');
         data.find('ul[id="ul-tab"]').html(ultab);
-        data.find('div[id="btn-xemHoatDong"]').html(btnxemHoatDong);
-        data.find('div[id="btn-xemDiChuyen"]').html(btnxemDiChuyen);
-        data.find('div[id="btn-xemBaoDuong"]').html(btnxemBaoDuong);
         var imgavatar = PathFolderImage + item.HinhAnhAvatar;
         data.find('img[id="avatar"]').attr('src', imgavatar);
 
@@ -438,6 +458,7 @@
 
     function RenderBaoDuong(thietbiId)
     {
+        //thietbiId = currentDeviceID;
         var strFromDate = $('#strFromDateBaoDuong').val();
         if(strFromDate == undefined)
         {
@@ -453,6 +474,7 @@
 
     function RenderDiChuyen(thietbiId)
     {
+        //thietbiId = currentDeviceID;
         var strFromDate = $('#strFromDateDiChuyen').val();
         if(strFromDate == undefined)
         {
@@ -468,6 +490,7 @@
 
     function RenderBaoCao(thietbiId)
     {
+        //thietbiId = currentDeviceID;
         var strFromDate = $('#strFromDateBaoCao').val();
         if(strFromDate == undefined)
         {
@@ -483,11 +506,13 @@
 
     function RenderHoatDong(thietbiId)
     {
+        //thietbiId = currentDeviceID;
         $("#activity").load('@(Url.Action("DeviceActivity", "Monitoring"))?thietBiID=' + thietbiId);
     }
 
     function showPopup(thietbiId)
     {
+        //thietbiId = currentDeviceID;
         var strFromDate = $('#strFromDateHoatDong').val();
         if(strFromDate == undefined)
         {
@@ -529,6 +554,7 @@
 
     function FocusDevice(DeviceID)
     {
+        currentDeviceID = DeviceID;
         $.ajax({
             url: '../Monitoring/GetThietBi',
             type: 'POST',
@@ -537,8 +563,19 @@
             success: function (data) {
                 mapData.LatLongBounds = []
                 BoundEquiqments(data.info);
+                RederPopupDevice(data.info);
             }
         });
+
+        //$.ajax({
+        //    url:'../Monitoring/GetInfoDeviceById',
+        //    type:'POST',
+        //    dataType:'json',
+        //    data:{"id":DeviceID},
+        //    success:function(meta){
+        //        RederPopupDevice(meta);
+        //    }
+        //});
     }
 
     function BoundEquiqments(data) {

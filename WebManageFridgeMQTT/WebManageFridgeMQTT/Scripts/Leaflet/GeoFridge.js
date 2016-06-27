@@ -28,16 +28,20 @@ function labelTextAnchor(text) {
     }
 }
 
-function RenderMarker(latlng, label, popup, icon, layer1) {
+function RenderMarker(deviceID, latlng, label, popup, icon, layer1) {
     var iconURL = '../Content/Icon/markers/' + icon + '.png';
     //alert(iconURL);
     //$('#DEV').append(label + ' - ' + iconURL);
-    console.log(label + ' - ' + iconURL);
+    //console.log(label + ' - ' + iconURL);
     var marker = L.marker(latlng, {
         icon: new placeMarker_double({
             labelText: label
             , iconUrl: iconURL
         })
+        ,
+        options: {
+            deviceID: deviceID
+        }
     })
     //if (label != '') {
     //    marker.bindLabel(label, { noHide: false })

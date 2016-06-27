@@ -221,7 +221,7 @@ namespace WebManageFridgeMQTT.Controllers
                 }
                 else
                 {
-                    model = data.Where(x => x.Cap == 1 && x.Name.Contains(inputDevice)).ToList();
+                    model = data.Where(x => x.Cap == 1 && x.Name.ToLower().Contains(inputDevice.ToLower())).ToList();
                     ViewData["ParentID"] = 1;
                 }
                 

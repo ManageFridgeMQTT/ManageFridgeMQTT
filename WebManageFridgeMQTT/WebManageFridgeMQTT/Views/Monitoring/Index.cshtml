@@ -564,6 +564,13 @@
                 mapData.LatLongBounds = []
                 BoundEquiqments(data.info);
                 RederPopupDevice(data.info);
+                mapData.LayerDevice.eachLayer(function (layer) {
+                    if (layer.options.options.deviceID == DeviceID) {
+                        layer.openPopup();
+                    }else{
+                        layer.closePopup();
+                    }
+                })
             }
         });
 
@@ -609,18 +616,10 @@
         $('#headerNameCongTrinh').show();
         $('#devices-body').show();
         $('#congtrinh-body').hide();
-        //$('#contruction').removeClass('active');
-        //$('#devices').addClass('active');
-        //$('#tabCongTrinh').removeClass('active');
-        //$('#tabDevice').addClass('active');
     }
     function ReturnCongTrinh(){
         $('#headerNameCongTrinh').hide();
         $('#devices-body').hide();
         $('#congtrinh-body').show();
-        //$('#devices').removeClass('active');
-        //$('#contruction').addClass('active');
-        //$('#tabDevice').removeClass('active');
-        //$('#tabCongTrinh').addClass('active');
     }
 </script>

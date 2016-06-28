@@ -37,8 +37,7 @@ function RenderMarker(deviceID, latlng, label, popup, icon, layer1) {
         icon: new placeMarker_double({
             labelText: label
             , iconUrl: iconURL
-        })
-        ,
+        }),
         options: {
             deviceID: deviceID
         }

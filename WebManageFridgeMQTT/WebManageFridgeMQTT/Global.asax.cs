@@ -36,21 +36,21 @@ namespace WebManageFridgeMQTT
             CustomLog.LogPath = HttpContext.Current.Server.MapPath("~/Logs/");
 
 
-            //#region Config
-            //Gateway gateway = new Gateway();
-            //gateway.client = new MqttClient(IPAddress.Parse("45.117.80.39"));
-            //clientID = "1111AAAA";
-            //gateway.client.Connect(clientID);
-            //CustomLog.LogError("connect thanh cong");
-            //string[] topic = { "#", "Test/#" };
+            #region Config
+            Gateway gateway = new Gateway();
+            gateway.client = new MqttClient(IPAddress.Parse("45.117.80.39"));
+            clientID = "1111AAAA";
+            gateway.client.Connect(clientID);
+            CustomLog.LogError("connect thanh cong");
+            string[] topic = { "#", "Test/#" };
 
-            //byte[] qosLevels = { MqttMsgBase.QOS_LEVEL_AT_MOST_ONCE, MqttMsgBase.QOS_LEVEL_AT_MOST_ONCE };
-            //gateway.client.Subscribe(topic, qosLevels);
+            byte[] qosLevels = { MqttMsgBase.QOS_LEVEL_AT_MOST_ONCE, MqttMsgBase.QOS_LEVEL_AT_MOST_ONCE };
+            gateway.client.Subscribe(topic, qosLevels);
 
-            //gateway.client.MqttMsgPublishReceived += gateway.client_MqttMsgPublishReceived;
-            //gateway.client.MqttMsgSubscribed += gateway.client_MqttMsgSubscribed;
-            //gateway.client.MqttMsgUnsubscribed += gateway.client_MqttMsgUnsubscribed;
-            //#endregion
+            gateway.client.MqttMsgPublishReceived += gateway.client_MqttMsgPublishReceived;
+            gateway.client.MqttMsgSubscribed += gateway.client_MqttMsgSubscribed;
+            gateway.client.MqttMsgUnsubscribed += gateway.client_MqttMsgUnsubscribed;
+            #endregion
         }
     }
 }

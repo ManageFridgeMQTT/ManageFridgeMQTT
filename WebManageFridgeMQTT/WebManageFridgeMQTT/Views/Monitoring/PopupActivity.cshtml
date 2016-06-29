@@ -3,8 +3,8 @@
     <div class="col-sm-12">
         <div class="item fl">
             <label class="fl">Chọn Ngày</label>
-            @Html.TextBox("strFromDateHoatDong", Model.FromDate.ToShortDateString(), new { @class = "datepicker" })
-            @Html.TextBox("strToDateHoatDong", Model.ToDate.ToShortDateString(), new { @class = "datepicker" })
+            @Html.TextBox("strFromDateHoatDong", Model.FromDate != null ? Model.FromDate.ToShortDateString() : "", new { @class = "datepicker" })
+            @Html.TextBox("strToDateHoatDong", Model.ToDate != null ? Model.ToDate.ToShortDateString() : "", new { @class = "datepicker" })
             <button class="btn" onclick="showPopup('@Model.ThietBiID')">
                 <i class="icon-submit" title="Xem báo cáo"></i>Xem
             </button>

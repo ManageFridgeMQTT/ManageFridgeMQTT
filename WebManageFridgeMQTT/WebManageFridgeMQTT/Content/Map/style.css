@@ -846,3 +846,6 @@ input[name='txtSearch'] {
     font-size: 26px;
     padding: 8px;
 }
+.modal-header{
+    padding:8px;
+}

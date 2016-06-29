@@ -112,12 +112,10 @@ namespace WebManageFridgeMQTT.Controllers
             {
                 model.FromDate = DateTime.Parse(strFromDate);
             }
-            if (!string.IsNullOrEmpty(strFromDate))
+            if (!string.IsNullOrEmpty(strToDate))
             {
                 model.ToDate = DateTime.Parse(strToDate);
             }
-            DateTime FromDate = DateTime.Now.AddMonths(-1);
-            DateTime ToDate = DateTime.Now;
             model.ListDataModify = Global.Context.GetInfoDeviceModify(model.ThietBiID, model.FromDate, model.ToDate).ToList();
             return PartialView("DeviceModify", model);
         }
@@ -145,14 +143,11 @@ namespace WebManageFridgeMQTT.Controllers
             {
                 model.FromDate = DateTime.Parse(strFromDate);
             }
-            if (!string.IsNullOrEmpty(strFromDate))
+            if (!string.IsNullOrEmpty(strToDate))
             {
                 model.ToDate = DateTime.Parse(strToDate);
             }
-
-            //TEST
-            model.FromDate = DateTime.Now.AddMonths(-1);
-            model.ToDate = DateTime.Now;
+            
             model.ListData = Global.Context.GetInfoDeviceActivity(model.ThietBiID, model.FromDate, model.ToDate).OrderByDescending(x => x.ThoiGian).ToList();
             return PartialView("PopupActivity", model);
         }
@@ -169,12 +164,10 @@ namespace WebManageFridgeMQTT.Controllers
                 model.FromDate = DateTime.Parse(strFromDate);
             }
 
-            if (!string.IsNullOrEmpty(strFromDate))
+            if (!string.IsNullOrEmpty(strToDate))
             {
                 model.ToDate = DateTime.Parse(strToDate);
             }
-            DateTime FromDate = DateTime.Now.AddMonths(-1);
-            DateTime ToDate = DateTime.Now;
             model.ListDataMove = Global.Context.GetInfoDeviceMove(thietBiID, model.FromDate, model.ToDate).ToList();
             return PartialView("DeviceMove", model);
         }

@@ -334,7 +334,7 @@ namespace WebManageFridgeMQTT.Utility
                     string strData = System.Text.Encoding.UTF8.GetString(arrayData);
                     string strToaDo = strData.Substring(0, 2);
                     string strPhut = strData.Substring(2, 7);
-                    strPhut = strPhut.Replace('.', ',');
+                    strPhut = strPhut.Replace(',', '.');
                     decimal toado = Decimal.Parse(strToaDo);
                     decimal phut = Decimal.Parse(strPhut);
                     result = toado + (phut / 60);
@@ -358,7 +358,7 @@ namespace WebManageFridgeMQTT.Utility
                     string strData = System.Text.Encoding.UTF8.GetString(arrayData);
                     string strToaDo = strData.Substring(0, 3);
                     string strPhut = strData.Substring(3, 7);
-                    strPhut = strPhut.Replace('.', ',');
+                    strPhut = strPhut.Replace(',', '.');
                     decimal toado = Decimal.Parse(strToaDo);
                     decimal phut = Decimal.Parse(strPhut);
                     result = toado + (phut / 60);

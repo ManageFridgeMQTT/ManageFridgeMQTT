@@ -1,34 +1,52 @@
-﻿@model WebManageFridgeMQTT.Utility.DeviceActivity
+﻿@model WebManageFridgeMQTT.Utility.CongTringPopupMV
 <div class="row">
     <div class="col-sm-12">
         <div class="item fl">
             <label class="fl">Chọn Ngày</label>
-            @Html.TextBox("strFromDateDiChuyen", Model.FromDate.ToShortDateString(), new { @class = "datepicker" })
-            @Html.TextBox("strToDateDiChuyen", Model.ToDate.ToShortDateString(), new { @class = "datepicker" })
-            <button class="btn" onclick="RenderDiChuyen('@Model.ThietBiID')">
+            @Html.TextBox("strFromDateThiCong", Model.FromDate.ToShortDateString(), new { @class = "datepicker" })
+            @Html.TextBox("strToDateThiCong", Model.ToDate.ToShortDateString(), new { @class = "datepicker" })
+            <button class="btn" onclick="RenderThiCong('@Model.CongTrinhId')">
                 <i class="icon-submit" title="Xem báo cáo"></i>Xem
             </button>
         </div>
         <div class="content-body">
-            <div id="table-move" class="tab-content wrapper">
+            <div id="table-thicong" class="tab-content wrapper">
                 <table class="table table-striped">
                     <thead>
                         <tr class="tablesorter-headerRow">
-                            <th nowrap>STT</th>
-                            <th nowrap>Thời Gian</th>
-                            <th nowrap>Vị trí</th>
+                            <th nowrap>
+                                STT <i class="tablesorter-icon"></i>
+                            </th>
+                            <th nowrap>
+                                Thời gian tạo <i class="tablesorter-icon"></i>
+                            </th>
+                            <th nowrap>
+                                Tên cọc <i class="tablesorter-icon"></i>
+                            </th>
+                            <th nowrap>
+                                Mét đất <i class="tablesorter-icon"></i>
+                            </th>
+                            <th nowrap>
+                                Mét đá <i class="tablesorter-icon"></i>
+                            </th>
+                            <th nowrap>
+                                Trạng thái <i class="tablesorter-icon"></i>
+                            </th>
                         </tr>
                     </thead>
-                    <tbody id="tbBodyMove">
-                        @if (Model.ListDataMove != null && Model.ListDataMove.Count > 0)
+                    <tbody>
+                        @if (Model.ListThiCong != null)
                         {
                             int i = 1;
-                            foreach (var item in Model.ListDataMove)
+                            foreach (var item in Model.ListThiCong)
                             {
-                                <tr >
+                                <tr role="row">
                                     <td>@i</td>
-                                    <td>@item.Ngay.ToString()</td>
-                                    <td>@item.TuViTri</td>
+                                    <td>@item.ThoiGian</td>
+                                    <td><a href="javascript:void(0)" onclick="ShowModalCocDetail('@item.CongTrinhID','@item.CocID')">@item.TenCoc</a></td>
+                                    <td>@item.MetDat</td>
+                                    <td>@item.MetDa</td>
+                                    <td>@item.ThiCong</td>
                                 </tr>
                                 i++;
                             }
@@ -36,7 +54,7 @@
                     </tbody>
                 </table>
             </div>
-            <nav class="ts-pager-dichuyen">
+            <nav class="ts-pager-thicong">
                 <ul class="pagination pagination-sm">
                     <li>
                         <a href="javascript:void(0)" aria-label="Previous" class="prev">
@@ -65,20 +83,23 @@
         $('.datepicker').datepicker({
             dateFormat: 'dd/mm/yy'
         });
-        $('#table-move table').tablesorter({
+        $('#table-thicong table').tablesorter({
             headerTemplate: '{content} {icon}', // Add icon for various themes
             widgets: ['uitheme', 'zebra', 'stickyHeaders', 'stickyFooters'], //, 'filter'
             widgetOptions: {
                 stickyHeaders_attachTo: '.wrapper', // or $('.wrapper')
             }
         }).tablesorterPager({
-            container: $(".ts-pager-dichuyen"),
+            container: $(".ts-pager-thicong"),
             cssGoto: ".pagenum",
             prev: '.prev',
             next: '.next',
-            size: 3,
+            size: 5,
             removeRows: false,
             output: ' {startRow} to {endRow} of {totalRows}' //'Showing {startRow} to {endRow} of {totalRows} entries' //'{startRow} - {endRow} / {filteredRows} ({totalRows})'  //'/ {totalPages}'
         });
+
+
+
     });
 </script>

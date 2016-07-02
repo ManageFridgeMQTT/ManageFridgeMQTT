@@ -152,13 +152,13 @@
                 <div id="TreeCongTrinh2" class="contruction_list">
                     @if (Model.ListCongTrinh != null)
                     {
-                        @Html.Partial("CongTrinhPartial", Model.ListCongTrinh)
+                        @Html.Partial("TreeCongTrinh2Partial", Model.ListCongTrinh)
                     }
                 </div>
             </div>
         </div>
     </div>
-    <div id="DevicePopupTemplete" class="PopupTemplete" style="display: none;">
+    <div id="DevicePopupTemplete" style="display: none;">
         <!-- Nav tabs -->
         <ul class="nav nav-tabs" role="tablist" id="ul-tab">
             <li role="presentation" class="active"><a href="#info" aria-controls="Thông tin" role="tab" data-toggle="tab">Thông tin</a></li>
@@ -241,26 +241,6 @@
             <div id="baoduong" role="tabpanel" class="tab-pane"></div>
         </div>
     </div>
-    <div id="CongTrinhPopupTemplete" class="PopupTemplete" style="display: none;">
-        <!-- Nav tabs -->
-        <ul class="nav nav-tabs" role="tablist" id="ul-tab">
-            <li role="presentation" class="active"><a href="#taichinh" aria-controls="Báo Cáo Tài Chính" role="tab" data-toggle="tab">Báo Cáo Tài Chính</a></li>
-            <li role="presentation"><a href="#sanluong" aria-controls="Báo Cáo Sản Lượng" role="tab" data-toggle="tab" onclick="RenderSanLuong('')">Báo Cáo Sản Lượng</a></li>
-            <li role="presentation"><a href="#chiphidevice" aria-controls="Báo Cáo Chi Phí Thiết Bị" role="tab" data-toggle="tab" onclick="RenderCPDevice('')">Báo Cáo Chi Phí Thiết Bị</a></li>
-            <li role="presentation"><a href="#chiphivattu" aria-controls="Báo Cáo Chi Phí Vật Tư" role="tab" data-toggle="tab" onclick="RenderCPVatTu('')">Báo Cáo Chi Phí Vật Tư</a></li>
-            <li role="presentation"><a href="#thicong" aria-controls="Báo Cáo Tình Hình Thi Công" role="tab" data-toggle="tab" onclick="RenderThiCong('');">Báo Cáo Tình Hình Thi Công</a></li>
-            <li role="presentation"><a href="#nhanvien" aria-controls="Danh Sách Nhân Viên" role="tab" data-toggle="tab" onclick="RenderNhanVien('');">Danh Sách Nhân Viên</a></li>
-        </ul>
-        <!-- Tab panes -->
-        <div class="tab-content">
-            <div id="taichinh" role="tabpanel" class="tab-pane active"></div>
-            <div id="sanluong" role="tabpanel" class="tab-pane"></div>
-            <div id="chiphidevice" role="tabpanel" class="tab-pane"></div>
-            <div id="chiphivattu" role="tabpanel" class="tab-pane"></div>
-            <div id="thicong" role="tabpanel" class="tab-pane"></div>
-            <div id="nhanvien" role="tabpanel" class="tab-pane"></div>
-        </div>
-    </div>
 </div>
 <div id="inlineBaoCao" style="width:450px;display: none;">
     <h3>Hình ảnh báo cáo</h3>
@@ -287,42 +267,12 @@
         </div>
     </div>
 </div>
-<!-- Modal -->
-<div id="HoatdongModal" class="modal fade" role="dialog">
-    <div class="modal-dialog">
-        <!-- Modal content-->
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h3 class="modal-title">Hình ảnh báo cáo</h3>
-            </div>
-            <div id="HoatDongModalBody" class="modal-body">
-            </div>
-        </div>
-
-    </div>
-</div>
-<div id="CocDetailModal" class="modal fade" role="dialog">
-    <div class="modal-dialog">
-        <!-- Modal content-->
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h3 class="modal-title">Chi tiết thi công cọc</h3>
-            </div>
-            <div id="CocDetailModalBody" class="modal-body">
-            </div>
-        </div>
-
-    </div>
-</div>
 <script type='text/javascript'>
     var currentDeviceID = '';
     var PathFolderImage = '@System.Configuration.ConfigurationManager.AppSettings["PathFolderImage"].ToString()';
     var mapData = [];
     mapData.LatLongBounds = [];
     mapData.LayerDevice = L.layerGroup();
-    mapData.LayerCongTrinh = L.layerGroup();
     var map = new L.Map('map', {
         center: [16, 106],
         zoom: 7,
@@ -362,8 +312,6 @@
                 closeBtn: '<a title="Close" class="fancybox-item fancybox-close" href="javascript:;">×</a>'
             }
         });
-
-
         var data = @Html.Raw(new System.Web.Script.Serialization.JavaScriptSerializer().Serialize(Model.ListDeviceInfo));
         for (var i in data) {
             $.ajax({
@@ -377,14 +325,15 @@
             });
         }
 
-        var dataCongTrinh = @Html.Raw(new System.Web.Script.Serialization.JavaScriptSerializer().Serialize(Model.ListCongTrinh));
-        $('#tabCongTrinh').on('click', function(){
-            map.removeLayer(mapData.LayerDevice);
-            for (var i in dataCongTrinh) {
-                RenderCongTrinh(dataCongTrinh[i]);
-            }
-        });
-        
+        //$.ajax({
+        //    url: '../Monitoring/GetInfoDeviceById',
+        //    type: 'POST',
+        //    dataType: 'json',
+        //    data: { "id": 'EE84393C-9363-419D-A66C-4471180853D4' },
+        //    success: function (meta) {
+        //        RenderDevice(meta);
+        //    }
+        //});
 
         $('body').on('click', '#table-report > table > tbody > tr', function () {
             var listtd = $(this).children('td');
@@ -615,13 +564,13 @@
                 mapData.LatLongBounds = []
                 BoundEquiqments(data.info);
                 RederPopupDevice(data.info);
-                mapData.LayerDevice.eachLayer(function (layer) {
+				mapData.LayerDevice.eachLayer(function (layer) {
                     if (layer.options.options.deviceID == DeviceID) {
                         layer.openPopup();
                     }else{
                         layer.closePopup();
                     }
-                })
+                });
             }
         });
 
@@ -667,144 +616,18 @@
         $('#headerNameCongTrinh').show();
         $('#devices-body').show();
         $('#congtrinh-body').hide();
+        //$('#contruction').removeClass('active');
+        //$('#devices').addClass('active');
+        //$('#tabCongTrinh').removeClass('active');
+        //$('#tabDevice').addClass('active');
     }
     function ReturnCongTrinh(){
         $('#headerNameCongTrinh').hide();
         $('#devices-body').hide();
         $('#congtrinh-body').show();
-    }
-
-    
-    ///Cong Trinh 
-    function RenderCongTrinh(c){
-        var strIconUrl = '030';
-        if(c.TrangThai == 0){
-            strIconUrl = '060';
-        }else if(c.TrangThai == 1){
-            strIconUrl = '050';
-        }
-        console.log(c.Latitude + '====' + c.Longitude);
-        RenderMarker(c.CongTrinhId, [c.Latitude, c.Longitude], c.TenCongTrinh, RederPopupCongTrinh(c), strIconUrl, mapData.LayerCongTrinh);
-        if(map.hasLayer(mapData.LayerCongTrinh)==false){
-            map.addLayer(mapData.LayerCongTrinh);
-        }
-
-    }
-    function RederPopupCongTrinh(item){
-        //var id = currentDeviceID;
-        var htmlData = '';
-        var id = item.CongTrinhId;
-        var matadata = $('#CongTrinhPopupTemplete');
-        var data = matadata.clone();
-        data.css('display','');
-        var ultab = '';
-        ultab += '<li role="presentation" class="active"><a href="#taichinh" aria-controls="Báo Cáo Tài Chính" role="tab" data-toggle="tab">Tài Chính</a></li>';
-        ultab += '<li role="presentation"><a href="#sanluong" aria-controls="Báo Cáo Sản Lượng" role="tab" data-toggle="tab" onclick="RenderSanLuong(\'' + id + '\')">Sản Lượng</a></li>';
-        ultab += '<li role="presentation"><a href="#chiphidevice" aria-controls="Báo Cáo Chi Phí Thiết Bị" role="tab" data-toggle="tab" onclick="RenderCPDevice(\'' + id + '\')">Chi Phí Thiết Bị</a></li>';
-        ultab += '<li role="presentation"><a href="#chiphivattu" aria-controls="Báo Cáo Chi Phí Vật Tư" role="tab" data-toggle="tab" onclick="RenderCPVatTu(\'' + id + '\')">Chi Phí Vật Tư</a></li>';
-        ultab += '<li role="presentation"><a href="#thicong" aria-controls="Báo Cáo Tình Hình Thi Công" role="tab" data-toggle="tab" onclick="RenderThiCong(\'' + id + '\')">Tình Hình Thi Công</a></li>';
-        ultab += '<li role="presentation"><a href="#nhanvien" aria-controls="Danh Sách Nhân Viên" role="tab" data-toggle="tab" onclick="RenderNhanVien(\'' + id + '\')">Nhân Viên</a></li>';
-
-
-        $('div#taichinh').addClass("active");
-        data.find('ul[id="ul-tab"]').html(ultab);
-
-        $.ajax({
-            url: '../Monitoring/TaiChinhCT',
-            type: 'POST',
-            dataType: 'html',
-            data: { "congTrinhId": item.CongTrinhId },
-            async: false,
-            success: function (result) {
-                data.find('div[id="taichinh"]').html(result);
-            }
-        });
-
-        var elm = data[0];
-        htmlData += elm.outerHTML;
-        return htmlData;
-    }
-    function FocusCongTrinh(item){
-        mapData.LayerCongTrinh.eachLayer(function (layer) {
-            if (layer.options.options.deviceID == item) {
-                layer.openPopup();
-            }else{
-                layer.closePopup();
-            }
-        })
-    }
-
-    function RenderSanLuong(item)
-    {
-        //thietbiId = currentDeviceID;
-        var strFromDate = $('#strFromDateSanLuong').val();
-        if(strFromDate == undefined)
-        {
-            strFromDate = '';
-        }
-        var strToDate = $('#strToDateSanLuong').val();
-        if(strToDate == undefined)
-        {
-            strToDate = '';
-        }
-        $("#sanluong").load('@(Url.Action("SanLuongCT", "Monitoring"))?congTrinhId=' + item + '&strFromDate=' + strFromDate + '&strToDate=' + strToDate);
-    }
-    
-    function RenderCPDevice(item){
-        var strFromDate = $('#strFromDateCPDevice').val();
-        if(strFromDate == undefined)
-        {
-            strFromDate = '';
-        }
-        var strToDate = $('#strToDateCPDevice').val();
-        if(strToDate == undefined)
-        {
-            strToDate = '';
-        }
-        $("#chiphidevice").load('@(Url.Action("CPDeviceCT", "Monitoring"))?congTrinhId=' + item + '&strFromDate=' + strFromDate + '&strToDate=' + strToDate);
-    }
-    function RenderCPVatTu(item){
-        var strFromDate = $('#strFromDateCPVatTu').val();
-        if(strFromDate == undefined)
-        {
-            strFromDate = '';
-        }
-        var strToDate = $('#strToDateCPVatTu').val();
-        if(strToDate == undefined)
-        {
-            strToDate = '';
-        }
-        $("#chiphivattu").load('@(Url.Action("CPVatTuCT", "Monitoring"))?congTrinhId=' + item + '&strFromDate=' + strFromDate + '&strToDate=' + strToDate);
-    }
-    function RenderThiCong(item){
-        var strFromDate = $('#strFromDateCPVatTu').val();
-        if(strFromDate == undefined)
-        {
-            strFromDate = '';
-        }
-        var strToDate = $('#strToDateCPVatTu').val();
-        if(strToDate == undefined)
-        {
-            strToDate = '';
-        }
-        $("#thicong").load('@(Url.Action("ThiCongCT", "Monitoring"))?congTrinhId=' + item + '&strFromDate=' + strFromDate + '&strToDate=' + strToDate);
-    }
-    function ShowModalCocDetail(congTrinhId, cocId){
-        $('#CocDetailModalBody').load('@(Url.Action("CocDetailCT", "Monitoring"))?congTrinhId=' + congTrinhId +'&cocId=' + cocId);
-        $("#CocDetailModal").modal('show');
-    };
-
-    function RenderNhanVien(item){
-        var strFromDate = $('#strFromDateNhanVien').val();
-        if(strFromDate == undefined)
-        {
-            strFromDate = '';
-        }
-        var strToDate = $('#strToDateNhanVien').val();
-        if(strToDate == undefined)
-        {
-            strToDate = '';
-        }
-        $("#nhanvien").load('@(Url.Action("NhanVienCT", "Monitoring"))?congTrinhId=' + item + '&strFromDate=' + strFromDate + '&strToDate=' + strToDate);
+        //$('#devices').removeClass('active');
+        //$('#contruction').addClass('active');
+        //$('#tabDevice').removeClass('active');
+        //$('#tabCongTrinh').addClass('active');
     }
 </script>

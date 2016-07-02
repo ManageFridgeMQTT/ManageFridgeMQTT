@@ -239,7 +239,7 @@ li.current > span {
                     font-weight: 300;
                 }
 
-#DevicePopupTemplete {
+.PopupTemplete {
     width: 720px;
 }
 
@@ -257,51 +257,51 @@ li.current > span {
         color: #6f6f6f;
     }
 
-#DevicePopupTemplete .device_img img {
+.PopupTemplete .device_img img {
     width: 100%;
 }
 
-#DevicePopupTemplete h3 {
+.PopupTemplete h3 {
     margin: 0 0 8px 0px;
     font-size: 18px;
     font-weight: 600;
 }
 
-#DevicePopupTemplete table {
+.PopupTemplete table {
     font-size: 13px;
 }
 
-    #DevicePopupTemplete table th {
+    .PopupTemplete table th {
         font-size: 14px;
     }
 
-        #DevicePopupTemplete table th i {
+        .PopupTemplete table th i {
             float: right;
             line-height: 19px;
             font-size: 12px;
         }
 
-    #DevicePopupTemplete table td {
+    .PopupTemplete table td {
         height: 28px;
         padding-left: 10px;
         padding-right: 10px;
     }
 
-    #DevicePopupTemplete table tr + tr td {
+    .PopupTemplete table tr + tr td {
         border-top: 1px solid #eee;
     }
 
-#DevicePopupTemplete .item {
+.PopupTemplete .item {
     margin-bottom: 10px;
     height: 35px;
     line-height: 35px;
 }
 
-    #DevicePopupTemplete .item label {
+    .PopupTemplete .item label {
         margin-right: 10px;
     }
 
-    #DevicePopupTemplete .item button {
+    .PopupTemplete .item button {
         float: right;
         background: #5b96d1;
         color: #fff;
@@ -312,11 +312,11 @@ li.current > span {
         border: 0;
     }
 
-        #DevicePopupTemplete .item button:hover {
+        .PopupTemplete .item button:hover {
             background: #006c90;
         }
 
-#DevicePopupTemplete .datepicker {
+.PopupTemplete .datepicker {
     height: 25px;
     line-height: 25px;
     padding: 0px 8px;
@@ -325,11 +325,11 @@ li.current > span {
     border: 1px solid #ccc;
 }
 
-#DevicePopupTemplete .nav-tabs {
+.PopupTemplete .nav-tabs {
     border: 0;
 }
 
-    #DevicePopupTemplete .nav-tabs > li > a {
+    .PopupTemplete .nav-tabs > li > a {
         border-color: transparent;
         margin-right: 1px;
         background-color: #006c90;
@@ -340,23 +340,23 @@ li.current > span {
         border-radius:0px 0px 0px 0px;
     }
 
-    #DevicePopupTemplete .nav > li > a:hover,
-    #DevicePopupTemplete .nav > li > a:focus,
-    #DevicePopupTemplete .nav-tabs > li.active > a,
-    #DevicePopupTemplete .nav-tabs > li.active > a:hover,
-    #DevicePopupTemplete .nav-tabs > li.active > a:focus {
+    .PopupTemplete .nav > li > a:hover,
+    .PopupTemplete .nav > li > a:focus,
+    .PopupTemplete .nav-tabs > li.active > a,
+    .PopupTemplete .nav-tabs > li.active > a:hover,
+    .PopupTemplete .nav-tabs > li.active > a:focus {
         background: #fff;
         color: #5b96d1;
         border-color: transparent;
     }
 
-#DevicePopupTemplete .tab-content > .tab-pane {
+.PopupTemplete .tab-content > .tab-pane {
     padding: 15px;
     overflow-y: auto;
-    height: 300px;
+    max-height: 400px;
 }
 
-#DevicePopupTemplete .tab-content > .active {
+.PopupTemplete .tab-content > .active {
     background: #fff;
 }
 
@@ -645,7 +645,7 @@ input[name='txtSearch'] {
 }
 
 @media (max-width: 991px) {
-    #DevicePopupTemplete {
+    .PopupTemplete {
         width: 80%;
     }
 
@@ -709,35 +709,35 @@ input[name='txtSearch'] {
         bottom: 145px;
     }
 
-    #DevicePopupTemplete {
+    .PopupTemplete {
         width: 85%;
     }
 
-        #DevicePopupTemplete .device_img,
-        #DevicePopupTemplete .info {
+        .PopupTemplete .device_img,
+        .PopupTemplete .info {
             width: 100%;
         }
 
-        #DevicePopupTemplete .device_img {
+        .PopupTemplete .device_img {
             margin-bottom: 15px;
         }
 
-        #DevicePopupTemplete .item {
+        .PopupTemplete .item {
             position: relative;
             height: auto;
         }
 
-            #DevicePopupTemplete .item label {
+            .PopupTemplete .item label {
                 margin-right: 0;
                 display: block;
             }
 
-        #DevicePopupTemplete .datepicker {
+        .PopupTemplete .datepicker {
             margin: 0;
             width: 49%;
         }
 
-        #DevicePopupTemplete .item button {
+        .PopupTemplete .item button {
             position: absolute;
             top: 0;
             right: 0;
@@ -781,7 +781,7 @@ input[name='txtSearch'] {
     padding: 15px 15px 15px 17px !important;
     background: #5B96D1 !important;
     min-width: 756px !important;
-    max-height: 460px;
+    max-height: 560px;
     color: none !important;
 }
 

@@ -1,5 +1,5 @@
-﻿<?xml version="1.0" encoding="utf-8"?><Database Name="DF-DEV_20160531" Class="DeviceTrackingDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
-  <Connection Mode="WebSettings" ConnectionString="Data Source=45.117.80.39;Initial Catalog=DF-DEV_20160531;Persist Security Info=True;User ID=sa;Connect Timeout=500" SettingsObjectName="System.Configuration.ConfigurationManager.ConnectionStrings" SettingsPropertyName="DefaultConnection" Provider="System.Data.SqlClient" />
+﻿<?xml version="1.0" encoding="utf-8"?><Database Name="DF_RELEASE" Class="DeviceTrackingDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
+  <Connection Mode="WebSettings" ConnectionString="Data Source=45.117.80.39;Initial Catalog=DF_RELEASE;Persist Security Info=True;User ID=sa;Connect Timeout=500" SettingsObjectName="System.Configuration.ConfigurationManager.ConnectionStrings" SettingsPropertyName="DF_RELEASEConnectionString" Provider="System.Data.SqlClient" />
   <Table Name="dbo.[User]" Member="Users">
     <Type Name="User">
       <Column Name="UserId" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
@@ -122,17 +122,6 @@
     <Parameter Name="LongtitudeHienTai" Parameter="longtitudeHienTai" Type="System.Decimal" DbType="Decimal(18,10)" />
     <Return Type="System.Int32" />
   </Function>
-  <Function Name="dbo.GetInfoCongTrinh" Method="GetInfoCongTrinh">
-    <Parameter Name="NameCongTring" Parameter="nameCongTring" Type="System.String" DbType="NVarChar(500)" />
-    <ElementType Name="GetInfoCongTrinhResult">
-      <Column Name="CongTrinhId" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" CanBeNull="false" />
-      <Column Name="TenCongTrinh" Type="System.String" DbType="NVarChar(500) NOT NULL" CanBeNull="false" />
-      <Column Name="NgayKhoiCong" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
-      <Column Name="NgayKetThuc" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
-      <Column Name="TrangThai" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Column Name="DiaDiem" Type="System.String" DbType="NVarChar(1000)" CanBeNull="true" />
-    </ElementType>
-  </Function>
   <Function Name="dbo.Sp_GetInfoDevice" Method="Sp_GetInfoDevice">
     <Parameter Name="StrCongTrinhID" Parameter="strCongTrinhID" Type="System.String" DbType="NVarChar(250)" />
     <ElementType Name="Sp_GetInfoDeviceResult">
@@ -164,6 +153,141 @@
       <Column Name="Name" Type="System.String" DbType="NVarChar(500) NOT NULL" CanBeNull="false" />
       <Column Name="Father" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
       <Column Name="Cap" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.CongTrinhGetInfoQuanLyThuChi" Method="CongTrinhGetInfoQuanLyThuChi">
+    <Parameter Name="CongTrinhId" Parameter="congTrinhId" Type="System.String" DbType="NVarChar(500)" />
+    <Parameter Name="FromDate" Parameter="fromDate" Type="System.DateTime" DbType="Date" />
+    <Parameter Name="ToDate" Parameter="toDate" Type="System.DateTime" DbType="Date" />
+    <ElementType Name="CongTrinhGetInfoQuanLyThuChiResult">
+      <Column Name="CongTrinhId" Type="System.String" DbType="VarChar(36) NOT NULL" CanBeNull="false" />
+      <Column Name="ThuChiName" Type="System.String" DbType="NVarChar(13) NOT NULL" CanBeNull="false" />
+      <Column Name="ThuChiType" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="ThuChiValue" Type="System.String" DbType="NVarChar(200)" CanBeNull="true" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.CongTrinhGetInfoBCQuyTrinhThiCong" Method="CongTrinhGetInfoBCQuyTrinhThiCong">
+    <Parameter Name="CongTrinhId" Parameter="congTrinhId" Type="System.String" DbType="NVarChar(500)" />
+    <Parameter Name="FromDate" Parameter="fromDate" Type="System.DateTime" DbType="Date" />
+    <Parameter Name="ToDate" Parameter="toDate" Type="System.DateTime" DbType="Date" />
+    <ElementType Name="CongTrinhGetInfoBCQuyTrinhThiCongResult">
+      <Column Name="CongTrinhID" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" CanBeNull="false" />
+      <Column Name="CocID" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" CanBeNull="false" />
+      <Column Name="ThoiGian" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
+      <Column Name="TenCoc" Type="System.String" DbType="NVarChar(200) NOT NULL" CanBeNull="false" />
+      <Column Name="MetDat" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
+      <Column Name="MetDa" Type="System.String" DbType="NVarChar(200)" CanBeNull="true" />
+      <Column Name="ThiCong" Type="System.String" DbType="NVarChar(200) NOT NULL" CanBeNull="false" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.CongTrinhGetInfoBCQuyTrinhThiCongCoc" Method="CongTrinhGetInfoBCQuyTrinhThiCongCoc">
+    <Parameter Name="CongTrinhId" Parameter="congTrinhId" Type="System.String" DbType="NVarChar(500)" />
+    <Parameter Name="CocId" Parameter="cocId" Type="System.String" DbType="NVarChar(500)" />
+    <Parameter Name="FromDate" Parameter="fromDate" Type="System.DateTime" DbType="Date" />
+    <Parameter Name="ToDate" Parameter="toDate" Type="System.DateTime" DbType="Date" />
+    <ElementType Name="CongTrinhGetInfoBCQuyTrinhThiCongCocResult">
+      <Column Name="CongTrinhID" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" CanBeNull="false" />
+      <Column Name="CocID" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" CanBeNull="false" />
+      <Column Name="ThoiGian" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
+      <Column Name="TenCoc" Type="System.String" DbType="NVarChar(200) NOT NULL" CanBeNull="false" />
+      <Column Name="MetDat" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
+      <Column Name="MetDa" Type="System.String" DbType="NVarChar(200)" CanBeNull="true" />
+      <Column Name="TongThoiGianThucHien" Type="System.String" DbType="NVarChar(200)" CanBeNull="true" />
+      <Column Name="TongGio" Type="System.String" DbType="NVarChar(200)" CanBeNull="true" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.CongTrinhGetInfoBCQuyTrinhThiCongChiTiet" Method="CongTrinhGetInfoBCQuyTrinhThiCongChiTiet">
+    <Parameter Name="CongTrinhId" Parameter="congTrinhId" Type="System.String" DbType="NVarChar(500)" />
+    <Parameter Name="CocId" Parameter="cocId" Type="System.String" DbType="NVarChar(500)" />
+    <Parameter Name="FromDate" Parameter="fromDate" Type="System.DateTime" DbType="Date" />
+    <Parameter Name="ToDate" Parameter="toDate" Type="System.DateTime" DbType="Date" />
+    <ElementType Name="CongTrinhGetInfoBCQuyTrinhThiCongChiTietResult">
+      <Column Name="CocID" Type="System.Guid" DbType="UniqueIdentifier" CanBeNull="true" />
+      <Column Name="ThiCongCocID" Type="System.Guid" DbType="UniqueIdentifier" CanBeNull="true" />
+      <Column Name="ThiCongID" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" CanBeNull="false" />
+      <Column Name="ThiCong" Type="System.String" DbType="NVarChar(200) NOT NULL" CanBeNull="false" />
+      <Column Name="ThoiGianThiCong" Type="System.String" DbType="NVarChar(200)" CanBeNull="true" />
+      <Column Name="ThoiGian" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
+      <Column Name="GhiChu" Type="System.String" DbType="NVarChar(500)" CanBeNull="true" />
+      <Column Name="ThuTu" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.CongTrinhGetInfoBCSanLuong" Method="CongTrinhGetInfoBCSanLuong">
+    <Parameter Name="CongTrinhId" Parameter="congTrinhId" Type="System.String" DbType="NVarChar(500)" />
+    <Parameter Name="FromDate" Parameter="fromDate" Type="System.DateTime" DbType="Date" />
+    <Parameter Name="ToDate" Parameter="toDate" Type="System.DateTime" DbType="Date" />
+    <ElementType Name="CongTrinhGetInfoBCSanLuongResult">
+      <Column Name="CongTrinhId" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" CanBeNull="false" />
+      <Column Name="TenCongTrinh" Type="System.String" DbType="NVarChar(500) NOT NULL" CanBeNull="false" />
+      <Column Name="ThoiGian" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="TenCongViec" Type="System.String" DbType="NVarChar(400)" CanBeNull="true" />
+      <Column Name="DonViTinh" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="KhoiLuong" Type="System.String" DbType="NVarChar(200)" CanBeNull="true" />
+      <Column Name="DaThucHien" Type="System.String" DbType="NVarChar(200)" CanBeNull="true" />
+      <Column Name="ThanhTien" Type="System.String" DbType="NVarChar(200)" CanBeNull="true" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.CongTrinhGetInfoBCThietbi" Method="CongTrinhGetInfoBCThietbi">
+    <Parameter Name="CongTrinhId" Parameter="congTrinhId" Type="System.String" DbType="NVarChar(500)" />
+    <Parameter Name="FromDate" Parameter="fromDate" Type="System.DateTime" DbType="Date" />
+    <Parameter Name="ToDate" Parameter="toDate" Type="System.DateTime" DbType="Date" />
+    <ElementType Name="CongTrinhGetInfoBCThietbiResult">
+      <Column Name="ThietBiId" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" CanBeNull="false" />
+      <Column Name="CongTrinhID" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" CanBeNull="false" />
+      <Column Name="TenThietBi" Type="System.String" DbType="NVarChar(250) NOT NULL" CanBeNull="false" />
+      <Column Name="DonViThue" Type="System.String" DbType="NVarChar(250)" CanBeNull="true" />
+      <Column Name="NgayDen" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
+      <Column Name="NgayDi" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
+      <Column Name="DonGia" Type="System.String" DbType="NVarChar(200)" CanBeNull="true" />
+      <Column Name="SoNgay" Type="System.String" DbType="NVarChar(200)" CanBeNull="true" />
+      <Column Name="SoTien" Type="System.String" DbType="NVarChar(200)" CanBeNull="true" />
+      <Column Name="TongNgayOCongTrinh" Type="System.String" DbType="NVarChar(200)" CanBeNull="true" />
+      <Column Name="TongSoTien" Type="System.String" DbType="NVarChar(200)" CanBeNull="true" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.CongTrinhGetInfoBCVatTu" Method="CongTrinhGetInfoBCVatTu">
+    <Parameter Name="CongTrinhId" Parameter="congTrinhId" Type="System.String" DbType="NVarChar(500)" />
+    <Parameter Name="FromDate" Parameter="fromDate" Type="System.DateTime" DbType="Date" />
+    <Parameter Name="ToDate" Parameter="toDate" Type="System.DateTime" DbType="Date" />
+    <ElementType Name="CongTrinhGetInfoBCVatTuResult">
+      <Column Name="CongTrinhId" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" CanBeNull="false" />
+      <Column Name="VatTuID" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" CanBeNull="false" />
+      <Column Name="TenCongTrinh" Type="System.String" DbType="NVarChar(500) NOT NULL" CanBeNull="false" />
+      <Column Name="TenVatTu" Type="System.String" DbType="NVarChar(250) NOT NULL" CanBeNull="false" />
+      <Column Name="SoLuong" Type="System.String" DbType="NVarChar(200)" CanBeNull="true" />
+      <Column Name="GiaBan" Type="System.String" DbType="NVarChar(200)" CanBeNull="true" />
+      <Column Name="ThanhTien" Type="System.String" DbType="NVarChar(200)" CanBeNull="true" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.CongTrinhGetInfoCongTrinhNhanVien" Method="CongTrinhGetInfoCongTrinhNhanVien" IsComposable="true">
+    <Parameter Name="CongTrinhId" Parameter="congTrinhId" Type="System.String" DbType="NVarChar(500)" />
+    <Parameter Name="FromDate" Parameter="fromDate" Type="System.DateTime" DbType="Date" />
+    <Return Type="object" />
+  </Function>
+  <Function Name="dbo.CongTrinhGetInfoDSNhanVien" Method="CongTrinhGetInfoDSNhanVien">
+    <Parameter Name="CongTrinhId" Parameter="congTrinhId" Type="System.String" DbType="NVarChar(500)" />
+    <Parameter Name="FromDate" Parameter="fromDate" Type="System.DateTime" DbType="Date" />
+    <Parameter Name="ToDate" Parameter="toDate" Type="System.DateTime" DbType="Date" />
+    <ElementType Name="CongTrinhGetInfoDSNhanVienResult">
+      <Column Name="NhanVienID" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" CanBeNull="false" />
+      <Column Name="TenNhanVien" Type="System.String" DbType="NVarChar(200) NOT NULL" CanBeNull="false" />
+      <Column Name="ChucVu" Type="System.String" DbType="NVarChar(100) NOT NULL" CanBeNull="false" />
+      <Column Name="NgaySinh" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
+      <Column Name="GioiTinh" Type="System.String" DbType="NVarChar(3) NOT NULL" CanBeNull="false" />
+      <Column Name="Mobile" Type="System.String" DbType="VarChar(20) NOT NULL" CanBeNull="false" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.GetInfoCongTrinh" Method="GetInfoCongTrinh">
+    <Parameter Name="NameCongTring" Parameter="nameCongTring" Type="System.String" DbType="NVarChar(500)" />
+    <ElementType Name="GetInfoCongTrinhResult">
+      <Column Name="CongTrinhId" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" CanBeNull="false" />
+      <Column Name="TenCongTrinh" Type="System.String" DbType="NVarChar(500) NOT NULL" CanBeNull="false" />
+      <Column Name="NgayKhoiCong" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="NgayKetThuc" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="TrangThai" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="DiaDiem" Type="System.String" DbType="NVarChar(1000)" CanBeNull="true" />
+      <Column Name="Latitude" Type="System.Double" DbType="Float" CanBeNull="true" />
+      <Column Name="Longitude" Type="System.Double" DbType="Float" CanBeNull="true" />
     </ElementType>
   </Function>
 </Database>

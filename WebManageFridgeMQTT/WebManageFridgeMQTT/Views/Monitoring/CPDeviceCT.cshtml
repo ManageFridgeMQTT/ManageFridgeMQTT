@@ -1,16 +1,16 @@
-﻿@model WebManageFridgeMQTT.Utility.DeviceActivity
+﻿@model WebManageFridgeMQTT.Utility.CongTringPopupMV
 <div class="row">
     <div class="col-sm-12">
         <div class="item fl">
             <label class="fl">Chọn Ngày</label>
-            @Html.TextBox("strFromDateBaoCao", Model.FromDate.ToShortDateString(), new { @class = "datepicker" })
-            @Html.TextBox("strToDateBaoCao", Model.ToDate.ToShortDateString(), new { @class = "datepicker" })
-            <button class="btn" onclick="RenderBaoCao('@Model.ThietBiID')">
+            @Html.TextBox("strFromDateCPDevice", Model.FromDate.ToShortDateString(), new { @class = "datepicker" })
+            @Html.TextBox("strToDateCPDevice", Model.ToDate.ToShortDateString(), new { @class = "datepicker" })
+            <button class="btn" onclick="RenderBaoCao('@Model.CongTrinhId')">
                 <i class="icon-submit" title="Xem báo cáo"></i>Xem
             </button>
         </div>
         <div class="content-body">
-            <div id="table-report" class="tab-content wrapper">
+            <div id="table-cpthietbi" class="tab-content wrapper">
                 <table class="table table-striped">
                     <thead>
                         <tr class="tablesorter-headerRow">
@@ -18,35 +18,51 @@
                                 STT <i class="tablesorter-icon"></i>
                             </th>
                             <th nowrap>
-                                Thời Gian <i class="tablesorter-icon"></i>
+                                Tên thiết bị <i class="tablesorter-icon"></i>
                             </th>
                             <th nowrap>
-                                Trạng Thái <i class="tablesorter-icon"></i>
+                                Đơn vị thuê <i class="tablesorter-icon"></i>
                             </th>
                             <th nowrap>
-                                Tình Trạng <i class="tablesorter-icon"></i>
+                                Ngày đến <i class="tablesorter-icon"></i>
                             </th>
                             <th nowrap>
-                                Ghi Chú <i class="tablesorter-icon"></i>
+                                Ngày đi <i class="tablesorter-icon"></i>
                             </th>
-                            <th style="display:none">
-                                Hình Ảnh <i class="tablesorter-icon"></i>
+                            <th nowrap>
+                                Đơn giá <i class="tablesorter-icon"></i>
+                            </th>
+                            <th nowrap>
+                                Số ngày <i class="tablesorter-icon"></i>
+                            </th>
+                            <th nowrap>
+                                Số tiền <i class="tablesorter-icon"></i>
+                            </th>
+                            <th nowrap>
+                                Tổng ngày ở CT <i class="tablesorter-icon"></i>
+                            </th>
+                            <th nowrap>
+                                Tổng tiền <i class="tablesorter-icon"></i>
                             </th>
                         </tr>
                     </thead>
-                    <tbody id="tbBodyReport">
-                        @if (Model.ListDataReport != null && Model.ListDataReport.Count > 0)
+                    <tbody>
+                        @if (Model.ListThietBi != null)
                         {
                             int i = 1;
-                            foreach (var item in Model.ListDataReport)
+                            foreach (var item in Model.ListThietBi)
                             {
-                                <tr role="row" class="fancybox" href='#inlineBaoCao'>
+                                <tr role="row">
                                     <td>@i</td>
-                                    <td>@item.ThoiGian</td>
-                                    <td>@item.strTrangThai</td>
-                                    <td>@item.strTinhTrang</td>
-                                    <td>@item.GhiChu</td>
-                                    <td style="display:none">@item.HinhAnh</td>
+                                    <td>@item.TenThietBi</td>
+                                    <td>@item.DonViThue</td>
+                                    <td>@item.NgayDen</td>
+                                    <td>@item.NgayDi</td>
+                                    <td>@item.DonGia</td>
+                                    <td>@item.SoNgay</td>
+                                    <td>@item.SoTien</td>
+                                    <td>@item.TongNgayOCongTrinh</td>
+                                    <td>@item.TongSoTien</td>
                                 </tr>
                                 i++;
                             }
@@ -54,7 +70,7 @@
                     </tbody>
                 </table>
             </div>
-            <nav class="ts-pager-baocao">
+            <nav class="ts-pager-cpthietbi">
                 <ul class="pagination pagination-sm">
                     <li>
                         <a href="javascript:void(0)" aria-label="Previous" class="prev">
@@ -83,23 +99,23 @@
         $('.datepicker').datepicker({
             dateFormat: 'dd/mm/yy'
         });
-        $('#table-report table').tablesorter({
+        $('#table-cpthietbi table').tablesorter({
             headerTemplate: '{content} {icon}', // Add icon for various themes
             widgets: ['uitheme', 'zebra', 'stickyHeaders', 'stickyFooters'], //, 'filter'
             widgetOptions: {
                 stickyHeaders_attachTo: '.wrapper', // or $('.wrapper')
             }
         }).tablesorterPager({
-            container: $(".ts-pager-baocao"),
+            container: $(".ts-pager-cpthietbi"),
             cssGoto: ".pagenum",
             prev: '.prev',
             next: '.next',
-            size: 3,
+            size: 5,
             removeRows: false,
             output: ' {startRow} to {endRow} of {totalRows}' //'Showing {startRow} to {endRow} of {totalRows} entries' //'{startRow} - {endRow} / {filteredRows} ({totalRows})'  //'/ {totalPages}'
         });
 
-        
-        
+
+
     });
 </script>

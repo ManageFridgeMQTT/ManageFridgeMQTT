@@ -1,5 +1,4 @@
-﻿using DevExpress.Web.Mvc;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
@@ -62,21 +61,6 @@ namespace WebManageFridgeMQTT.Controllers
                    mergeModel = mergeModel.Union(ParentModel).ToList();
                }
                return PartialView(mergeModel);
-            }
-        }
-        public static void CreateTreeViewLeftPanel(List<GetTreeThietBiResult> listNote, MVCxTreeViewNodeCollection nodesCollection, string parentID)
-        {
-            var lstTemp = listNote.Where(x => x.Father == parentID).OrderBy(x => x.Name);
-
-            foreach (var row in lstTemp)
-            {
-                string name = row.Name;
-                string id = row.Id.ToString();
-                if (id != null && name != null)
-                {
-                    MVCxTreeViewNode node = nodesCollection.Add(name, id);
-                    CreateTreeViewLeftPanel(listNote, node.Nodes, id);
-                }
             }
         }
         public ActionResult GetInfoDeviceById(string id)
@@ -228,6 +212,160 @@ namespace WebManageFridgeMQTT.Controllers
             ViewData["inputDevice"] = inputDevice;
             return PartialView("TreeViewDevice", model);
         }
+
+        #region CongTrinh
+        public ActionResult TaiChinhCT(string congTrinhId, string strFromDate, string strToDate)
+        {
+            CongTringPopupMV model = new CongTringPopupMV();
+            string totalMoney = "0";
+            model.FromDate = DateTime.Now.AddYears(-5);
+            model.ToDate = DateTime.Now;
+            if (!string.IsNullOrEmpty(strFromDate))
+            {
+                model.FromDate = DateTime.Parse(strFromDate);
+            }
+            if (!string.IsNullOrEmpty(strFromDate))
+            {
+                model.ToDate = DateTime.Parse(strToDate);
+            }
+
+            if (!string.IsNullOrEmpty(congTrinhId))
+            {
+                model.CongTrinhId = congTrinhId;
+                model.ListTaiChinh = Global.Context.CongTrinhGetInfoQuanLyThuChi(model.CongTrinhId, model.FromDate, model.ToDate).ToList();
+                if(model.ListTaiChinh != null)
+                {
+                    
+                }
+
+                ViewData["TotalMoney"] = totalMoney;
+            }
+
+            return PartialView("TaiChinhCT", model);
+        }
+        public ActionResult SanLuongCT(string congTrinhId, string strFromDate, string strToDate)
+        {
+            CongTringPopupMV model = new CongTringPopupMV();
+            model.FromDate = DateTime.Now.AddYears(-5);
+            model.ToDate = DateTime.Now;
+            if (!string.IsNullOrEmpty(strFromDate))
+            {
+                model.FromDate = DateTime.Parse(strFromDate);
+            }
+            if (!string.IsNullOrEmpty(strFromDate))
+            {
+                model.ToDate = DateTime.Parse(strToDate);
+            }
+
+            if (!string.IsNullOrEmpty(congTrinhId))
+            {
+                model.CongTrinhId = congTrinhId;
+                model.ListSanLuong = Global.Context.CongTrinhGetInfoBCSanLuong(model.CongTrinhId, model.FromDate, model.ToDate).ToList();
+            }
+
+            return PartialView("SanLuongCT", model);
+        }
+        public ActionResult CPDeviceCT(string congTrinhId, string strFromDate, string strToDate)
+        {
+            CongTringPopupMV model = new CongTringPopupMV();
+            model.FromDate = DateTime.Now.AddYears(-5);
+            model.ToDate = DateTime.Now;
+            if (!string.IsNullOrEmpty(strFromDate))
+            {
+                model.FromDate = DateTime.Parse(strFromDate);
+            }
+            if (!string.IsNullOrEmpty(strFromDate))
+            {
+                model.ToDate = DateTime.Parse(strToDate);
+            }
+
+            if (!string.IsNullOrEmpty(congTrinhId))
+            {
+                model.CongTrinhId = congTrinhId;
+                model.ListThietBi = Global.Context.CongTrinhGetInfoBCThietbi(model.CongTrinhId, model.FromDate, model.ToDate).ToList();
+            }
+
+            return PartialView("CPDeviceCT", model);
+        }
+        public ActionResult CPVatTuCT(string congTrinhId, string strFromDate, string strToDate)
+        {
+            CongTringPopupMV model = new CongTringPopupMV();
+            model.FromDate = DateTime.Now.AddYears(-5);
+            model.ToDate = DateTime.Now;
+            if (!string.IsNullOrEmpty(strFromDate))
+            {
+                model.FromDate = DateTime.Parse(strFromDate);
+            }
+            if (!string.IsNullOrEmpty(strFromDate))
+            {
+                model.ToDate = DateTime.Parse(strToDate);
+            }
+
+            if (!string.IsNullOrEmpty(congTrinhId))
+            {
+                model.CongTrinhId = congTrinhId;
+                model.ListVatTu = Global.Context.CongTrinhGetInfoBCVatTu(model.CongTrinhId, model.FromDate, model.ToDate).ToList();
+            }
+
+            return PartialView("CPVatTuCT", model);
+        }
+        public ActionResult ThiCongCT(string congTrinhId, string strFromDate, string strToDate)
+        {
+            CongTringPopupMV model = new CongTringPopupMV();
+            model.FromDate = DateTime.Now.AddYears(-5);
+            model.ToDate = DateTime.Now;
+            if (!string.IsNullOrEmpty(strFromDate))
+            {
+                model.FromDate = DateTime.Parse(strFromDate);
+            }
+            if (!string.IsNullOrEmpty(strFromDate))
+            {
+                model.ToDate = DateTime.Parse(strToDate);
+            }
+
+            if (!string.IsNullOrEmpty(congTrinhId))
+            {
+                model.CongTrinhId = congTrinhId;
+                model.ListThiCong = Global.Context.CongTrinhGetInfoBCQuyTrinhThiCong(model.CongTrinhId, model.FromDate, model.ToDate).ToList();
+            }
+            return PartialView("ThiCongCT", model);
+        }
+        public ActionResult CocDetailCT(string congTrinhId, string cocId)
+        {
+            CongTringPopupMV model = new CongTringPopupMV();
+            if (!string.IsNullOrEmpty(congTrinhId) && !string.IsNullOrEmpty(cocId))
+            {
+                model.CongTrinhId = congTrinhId;
+                model.ListThiCongCoc = Global.Context.CongTrinhGetInfoBCQuyTrinhThiCongCoc(model.CongTrinhId, cocId, null, null).ToList();
+                model.ListThiCongChiTiet = Global.Context.CongTrinhGetInfoBCQuyTrinhThiCongChiTiet(model.CongTrinhId, cocId, null, null).ToList();
+            }
+            return PartialView("CocDetailCT", model);
+        }
+        public ActionResult NhanVienCT(string congTrinhId, string strFromDate, string strToDate)
+        {
+            CongTringPopupMV model = new CongTringPopupMV();
+            model.FromDate = DateTime.Now.AddYears(-5);
+            model.ToDate = DateTime.Now;
+            if (!string.IsNullOrEmpty(strFromDate))
+            {
+                model.FromDate = DateTime.Parse(strFromDate);
+            }
+            if (!string.IsNullOrEmpty(strFromDate))
+            {
+                model.ToDate = DateTime.Parse(strToDate);
+            }
+
+            if (!string.IsNullOrEmpty(congTrinhId))
+            {
+                model.CongTrinhId = congTrinhId;
+                model.ListNhanVien = Global.Context.CongTrinhGetInfoDSNhanVien(model.CongTrinhId, model.FromDate, model.ToDate).ToList();
+            }
+
+            return PartialView("NhanVienCT", model);
+        }
+
+
+        #endregion
 
     }
 }

@@ -7,30 +7,30 @@
 }
 @section Scripts
     {
-    <link rel="stylesheet" href="@Url.Content("~/Content/NewEtool/css/leaflet.css")" />
-    <link rel="stylesheet" href="@Url.Content("~/Content/NewEtool/css/leaflet.iconlabel.css")" />
-    <link rel="stylesheet" href="@Url.Content("~/Content/NewEtool/css/leaflet.label.css")" />
-    <link rel="stylesheet" href="@Url.Content("~/Scripts/Leaflet/MarkerCluster.css")" />
-    <link rel="stylesheet" href="@Url.Content("~/Scripts/Leaflet/MarkerCluster.Default.css")" />
-    <link rel="stylesheet" href="@Url.Content("~/Scripts/Leaflet/MarkerCluster.css")" />
-    <link rel="stylesheet" href="@Url.Content("~/Scripts/Leaflet/MarkerCluster.Default.css")" />
-    <link rel="stylesheet" href="@Url.Content("~/Scripts/Leaflet/font-awesome.css")" />
-    <link rel="stylesheet" href="@Url.Content("~/Scripts/Leaflet/leaflet.awesome-markers.css")" />
-    <link rel="stylesheet" href="@Url.Content("~/Scripts/Leaflet/L.Control.SlideMenu.css")" />
+        <link rel="stylesheet" href="@Url.Content("~/Content/NewEtool/css/leaflet.css")" />
+        <link rel="stylesheet" href="@Url.Content("~/Content/NewEtool/css/leaflet.iconlabel.css")" />
+        <link rel="stylesheet" href="@Url.Content("~/Content/NewEtool/css/leaflet.label.css")" />
+        <link rel="stylesheet" href="@Url.Content("~/Scripts/Leaflet/MarkerCluster.css")" />
+        <link rel="stylesheet" href="@Url.Content("~/Scripts/Leaflet/MarkerCluster.Default.css")" />
+        <link rel="stylesheet" href="@Url.Content("~/Scripts/Leaflet/MarkerCluster.css")" />
+        <link rel="stylesheet" href="@Url.Content("~/Scripts/Leaflet/MarkerCluster.Default.css")" />
+        <link rel="stylesheet" href="@Url.Content("~/Scripts/Leaflet/font-awesome.css")" />
+        <link rel="stylesheet" href="@Url.Content("~/Scripts/Leaflet/leaflet.awesome-markers.css")" />
+        <link rel="stylesheet" href="@Url.Content("~/Scripts/Leaflet/L.Control.SlideMenu.css")" />
 
-    <script type="text/javascript" src="@Url.Content("~/Scripts/Leaflet/leaflet.js")"></script>
-    <script type="text/javascript" src="http://maps.google.com/maps/api/js?v=3.2&sensor=false"></script>
-    <script type="text/javascript" src="@Url.Content("~/Scripts/Leaflet/leaflet-google.js")"></script>
-    <script type="text/javascript" src="@Url.Content("~/Scripts/Leaflet/leaflet.iconlabel.js")"></script>
-    <script type="text/javascript" src="@Url.Content("~/Scripts/Leaflet/Label.js")"></script>
-    <script type="text/javascript" src="@Url.Content("~/Scripts/Leaflet/Marker.Label.js")"></script>
-    <script type="text/javascript" src="@Url.Content("~/Scripts/Leaflet/Control.MiniMap.js")"></script>
-    <script type="text/javascript" src="@Url.Content("~/Scripts/Leaflet/Map.Label.js")"></script>
-    <script type="text/javascript" src="@Url.Content("~/Scripts/Leaflet/leaflet.markercluster-src.js")"></script>
-    <script type="text/javascript" src="@Url.Content("~/Scripts/Leaflet/GeoFridge.js")"></script>
-    <script type="text/javascript" src="@Url.Content("~/Scripts/Leaflet/L.Control.SlideMenu.js")"></script>
+        <script type="text/javascript" src="@Url.Content("~/Scripts/Leaflet/leaflet.js")"></script>
+        <script type="text/javascript" src="http://maps.google.com/maps/api/js?v=3.2&sensor=false"></script>
+        <script type="text/javascript" src="@Url.Content("~/Scripts/Leaflet/leaflet-google.js")"></script>
+        <script type="text/javascript" src="@Url.Content("~/Scripts/Leaflet/leaflet.iconlabel.js")"></script>
+        <script type="text/javascript" src="@Url.Content("~/Scripts/Leaflet/Label.js")"></script>
+        <script type="text/javascript" src="@Url.Content("~/Scripts/Leaflet/Marker.Label.js")"></script>
+        <script type="text/javascript" src="@Url.Content("~/Scripts/Leaflet/Control.MiniMap.js")"></script>
+        <script type="text/javascript" src="@Url.Content("~/Scripts/Leaflet/Map.Label.js")"></script>
+        <script type="text/javascript" src="@Url.Content("~/Scripts/Leaflet/leaflet.markercluster-src.js")"></script>
+        <script type="text/javascript" src="@Url.Content("~/Scripts/Leaflet/GeoFridge.js")"></script>
+        <script type="text/javascript" src="@Url.Content("~/Scripts/Leaflet/L.Control.SlideMenu.js")"></script>
 
-}
+    }
 <script>
     $(function () {
         $('.datepicker').datepicker({
@@ -39,21 +39,7 @@
     })
 </script>
 <!-- define a DIV into which the map will appear. Make it take up the whole window -->
-<style>
-    #ImageContainer {
-        width:490px; 
-        overflow-y:scroll; 
-        position:relative;
-        height: 420px;
-    }
 
-    .ImageContainerBlock {
-        /*width: 100px;*/
-        background-color: #fff;
-        margin: 10px;
-        float: left;
-    }
-</style>
 <div id="loading" class="loading">
 </div>
 <div class='insider'>
@@ -102,12 +88,12 @@
     <div id="treeviewPanel">
         <div class="treeviewHeader">
             <ul class="nav nav-tabs nav-justified" role="tablist">
-                <li id="tabDevice" role="presentation" class="active">
+                <li id="tabDevice" role="presentation" >
                     <a href="#devices" aria-controls="devices" role="tab" data-toggle="tab">
                         <h3>THIẾT BỊ</h3>
                     </a>
                 </li>
-                <li id="tabCongTrinh" role="presentation">
+                <li id="tabCongTrinh" role="presentation" class="active">
                     <a href="#contruction" aria-controls="contruction" role="tab" data-toggle="tab">
                         <h3>CÔNG TRÌNH</h3>
                     </a>
@@ -120,47 +106,48 @@
                     <a href="javascript:void(0)" onclick="ReturnCongTrinh()">
                         <i class="fa fa-caret-left"></i>
                     </a>
-                    @*<div id="headerStt" class="route-number color-white">
-                            01
-                        </div>*@
+                    <div id="headerStt" class="route-number color-white">
+                        01
+                    </div>
                     <div id="headerNameCT" class="route-name color-white font-normal ng-binding">
                         Bến Thành- BX Chợ Lớn
                     </div>
+                    
                 </div>
-                <div class="treeviewSearch">
-                    <input id="DeviceInput" name="DeviceInput" type="text" value="@ViewData["inputDevice"]" placeholder="Tìm thiết bị...">
+                <div class="treeviewSearch" id="divThietBiCongTrinhInput">
+                    <form action="">
+                        <input name="ThietBiCongTrinhInput" type="text" placeholder="Tìm công trình...">
+                    </form>
                 </div>
-                <div id="congtrinh-body">
-                    <div id="TreeCongTrinh" class="contruction_list">
-                        @if (Model.ListCongTrinh != null)
-                        {
-                            @Html.Partial("TreeCongTrinhPartial", Model.ListCongTrinh)
-                        }
+                <div id="devices-body" class="contruction_list">
+                    <div style="display:none;" >
+                        @Html.Partial("TreeViewDevice", Model.TreeDevice)
                     </div>
+                    @if (Model.ListCongTrinh != null)
+                    {
+                        @Html.Partial("TreeCongTrinhPartial", Model.ListCongTrinh)
+                    }
                 </div>
-                <div id="devices-body" style="display:none">
-                    @Html.Partial("TreeViewDevice", Model.TreeDevice)
-                </div>
-
+                
             </div>
-            <div role="tabpanel" class="tab-pane" id="contruction">
+            <div role="tabpanel" class="tab-pane " id="contruction">
                 <div class="treeviewSearch">
                     <form action="">
                         <input name="CongTrinhInput" type="text" placeholder="Tìm công trình...">
                     </form>
                 </div>
-                <div id="TreeCongTrinh2" class="contruction_list">
+                <div id="TreeCongTrinh" class="contruction_list">
                     @if (Model.ListCongTrinh != null)
                     {
-                        @Html.Partial("CongTrinhPartial", Model.ListCongTrinh)
+                        @Html.Partial("TreeCongTrinhPartial", Model.ListCongTrinh)
                     }
                 </div>
             </div>
         </div>
     </div>
-    <div id="DevicePopupTemplete" class="PopupTemplete" style="display: none;">
+    <div id="DevicePopupTemplete" style="display: none;">
         <!-- Nav tabs -->
-        <ul class="nav nav-tabs" role="tablist" id="ul-tab">
+        <ul class="nav nav-tabs" role="tablist">
             <li role="presentation" class="active"><a href="#info" aria-controls="Thông tin" role="tab" data-toggle="tab">Thông tin</a></li>
             <li role="presentation"><a href="#detail" aria-controls="Báo Cáo" role="tab" data-toggle="tab" onclick="RenderBaoCao('816AF6D7-4793-4D25-99B7-EA60E37EA41F')">Báo Cáo</a></li>
             <li role="presentation"><a href="#activity" aria-controls="Theo Dõi Hoạt Động (Chip)" role="tab" data-toggle="tab" onclick="RenderHoatDong('816AF6D7-4793-4D25-99B7-EA60E37EA41F')">Theo Dõi Hoạt Động (Chip)</a></li>
@@ -227,7 +214,7 @@
                                     </tr>
                                     <tr>
                                         <td class="text-left">Thành Tiền Hiện Tại</td>
-                                        <td class="text-right"><span id="ThanhTien">0 VNĐ</span></td>
+                                        <td class="text-right" ><span id="ThanhTien">0 VNĐ</span></td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -239,26 +226,6 @@
             <div id="activity" role="tabpanel" class="tab-pane"></div>
             <div id="dichuyen" role="tabpanel" class="tab-pane"></div>
             <div id="baoduong" role="tabpanel" class="tab-pane"></div>
-        </div>
-    </div>
-    <div id="CongTrinhPopupTemplete" class="PopupTemplete" style="display: none;">
-        <!-- Nav tabs -->
-        <ul class="nav nav-tabs" role="tablist" id="ul-tab">
-            <li role="presentation" class="active"><a href="#taichinh" aria-controls="Báo Cáo Tài Chính" role="tab" data-toggle="tab">Báo Cáo Tài Chính</a></li>
-            <li role="presentation"><a href="#sanluong" aria-controls="Báo Cáo Sản Lượng" role="tab" data-toggle="tab" onclick="RenderSanLuong('')">Báo Cáo Sản Lượng</a></li>
-            <li role="presentation"><a href="#chiphidevice" aria-controls="Báo Cáo Chi Phí Thiết Bị" role="tab" data-toggle="tab" onclick="RenderCPDevice('')">Báo Cáo Chi Phí Thiết Bị</a></li>
-            <li role="presentation"><a href="#chiphivattu" aria-controls="Báo Cáo Chi Phí Vật Tư" role="tab" data-toggle="tab" onclick="RenderCPVatTu('')">Báo Cáo Chi Phí Vật Tư</a></li>
-            <li role="presentation"><a href="#thicong" aria-controls="Báo Cáo Tình Hình Thi Công" role="tab" data-toggle="tab" onclick="RenderThiCong('');">Báo Cáo Tình Hình Thi Công</a></li>
-            <li role="presentation"><a href="#nhanvien" aria-controls="Danh Sách Nhân Viên" role="tab" data-toggle="tab" onclick="RenderNhanVien('');">Danh Sách Nhân Viên</a></li>
-        </ul>
-        <!-- Tab panes -->
-        <div class="tab-content">
-            <div id="taichinh" role="tabpanel" class="tab-pane active"></div>
-            <div id="sanluong" role="tabpanel" class="tab-pane"></div>
-            <div id="chiphidevice" role="tabpanel" class="tab-pane"></div>
-            <div id="chiphivattu" role="tabpanel" class="tab-pane"></div>
-            <div id="thicong" role="tabpanel" class="tab-pane"></div>
-            <div id="nhanvien" role="tabpanel" class="tab-pane"></div>
         </div>
     </div>
 </div>
@@ -283,46 +250,20 @@
                 <span id="bcMoTa">buc tic nang can</span>
             </div>
         </div>
-        <div id=ImageContainer>
+        <div class="slider">
+            <ul>
+                <li>
+                    <img id="bcImage" width="200" src="@Url.Content("~/Content/img/71691be9-cf4c-4829-9ab5-0705903cdf82 (1).jpg")" alt="">
+                </li>
+            </ul>
         </div>
-    </div>
-</div>
-<!-- Modal -->
-<div id="HoatdongModal" class="modal fade" role="dialog">
-    <div class="modal-dialog">
-        <!-- Modal content-->
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h3 class="modal-title">Hình ảnh báo cáo</h3>
-            </div>
-            <div id="HoatDongModalBody" class="modal-body">
-            </div>
-        </div>
-
-    </div>
-</div>
-<div id="CocDetailModal" class="modal fade" role="dialog">
-    <div class="modal-dialog">
-        <!-- Modal content-->
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h3 class="modal-title">Chi tiết thi công cọc</h3>
-            </div>
-            <div id="CocDetailModalBody" class="modal-body">
-            </div>
-        </div>
-
     </div>
 </div>
 <script type='text/javascript'>
-    var currentDeviceID = '';
     var PathFolderImage = '@System.Configuration.ConfigurationManager.AppSettings["PathFolderImage"].ToString()';
     var mapData = [];
     mapData.LatLongBounds = [];
     mapData.LayerDevice = L.layerGroup();
-    mapData.LayerCongTrinh = L.layerGroup();
     var map = new L.Map('map', {
         center: [16, 106],
         zoom: 7,
@@ -336,12 +277,13 @@
         ]
     }
     );
-
+    
     var googleLayer = new L.Google('ROADMAP');
     map.addLayer(googleLayer);
     map.zoomControl.setPosition('bottomright');
     // js tree
     $('.treeviewContent').jstree();
+
     $(document).ready(function () {
         $(document).ajaxStart(function () {
             $(".loading").show();
@@ -357,12 +299,15 @@
         $('#lblnote').on('click', function () {
             $notePanel.toggleClass('toggled');
         });
+        $('.slider ul').slick({
+            prevArrow: '<button type="button" class="slick-prev button"><i class="fa fa-angle-left"></i></button>',
+            nextArrow: '<button type="button" class="slick-next button" ><i class="fa fa-angle-right"></i></button>'
+        });
         $('.fancybox').fancybox({
             tpl: {
                 closeBtn: '<a title="Close" class="fancybox-item fancybox-close" href="javascript:;">×</a>'
             }
         });
-
 
         var data = @Html.Raw(new System.Web.Script.Serialization.JavaScriptSerializer().Serialize(Model.ListDeviceInfo));
         for (var i in data) {
@@ -376,15 +321,6 @@
                 }
             });
         }
-
-        var dataCongTrinh = @Html.Raw(new System.Web.Script.Serialization.JavaScriptSerializer().Serialize(Model.ListCongTrinh));
-        $('#tabCongTrinh').on('click', function(){
-            map.removeLayer(mapData.LayerDevice);
-            for (var i in dataCongTrinh) {
-                RenderCongTrinh(dataCongTrinh[i]);
-            }
-        });
-        
 
         $('body').on('click', '#table-report > table > tbody > tr', function () {
             var listtd = $(this).children('td');
@@ -401,15 +337,7 @@
             data.find('span[id="bcTrangThai"]').html(trangThai.outerText);
             data.find('span[id="bcMoTa"]').html(moTa.outerText);
             //alert(hinhanh.outerText);
-            //data.find('img[id="bcImage"]').attr('src', PathFolderImage + hinhanh.outerText);
-
-            var img = '';
-            var res = hinhanh.outerText.split(',');
-            res.forEach(function(item) {
-                // do something with `item`
-                img += '<div class="ImageContainerBlock"><img height="200px" src="'+ PathFolderImage + item +'" alt="" title=""></div>'
-            });
-            data.find('div[id="ImageContainer"]').html(img);
+            data.find('img[id="bcImage"]').attr('src', PathFolderImage + hinhanh.outerText);
 
             var elm = data[0];
             htmlData += elm.outerHTML;
@@ -427,19 +355,17 @@
                     data: { "inputDevice": inputDevice },
                     success: function (data) {
                         $("#devices-body").html(data);
-                        $('#headerNameCT').html('Back');
-                        $('#headerNameCongTrinh').show();
-                        $('#devices-body').show();
-                        $('#congtrinh-body').hide();
                     }
                 });
             }
         });
+
     });
 
-
-
-
+    function SearchOnTreeView() {
+        $("#loading").show();
+        window.location = '@Url.Action("Device", "Monitoring")' + '?strSearch=' + $('#txtSearch').val();     
+    }
     function RenderDevice(c){
         // var a = c.length;
         //  for (var i = 0; i < a; i++) {
@@ -456,11 +382,8 @@
             strIconUrl = 'ic_map_purple';
         }else if(c.TrangThaiHienTai == 8){
             strIconUrl = 'ic_map_red';
-        }else {
-            strIconUrl = 'ic_map_blue';
         }
-
-        RenderMarker(c.ThietBiId, [c.Latitude, c.Longitude], c.TenThietBi, RederPopupDevice(c), strIconUrl, mapData.LayerDevice);
+        RenderMarker([c.Latitude, c.Longitude], c.TenThietBi, RederPopupDevice(c), strIconUrl, mapData.LayerDevice);
 
         if(map.hasLayer(mapData.LayerDevice)==false){
             map.addLayer(mapData.LayerDevice);
@@ -469,21 +392,22 @@
     }
     function RederPopupDevice(item)
     {
-        //var id = currentDeviceID;
+        var btnxemHoatDong = '<button onclick="RenderHoatDong(\''+ item.ThietBiId + '\');"><i class="icon-submit" title="Xem báo cáo"></i>Xem</button>'
+        var btnxemDiChuyen = '<button onclick="RenderDiChuyen(\''+ item.ThietBiId + '\');"><i class="icon-submit" title="Xem báo cáo"></i>Xem</button>'
+        var btnxemBaoDuong = '<button onclick="RenderBaoDuong(\''+ item.ThietBiId + '\');"><i class="icon-submit" title="Xem báo cáo"></i>Xem</button>'
+        var btnxemBaoCao = '<button onclick="RenderBaoCao(\''+ item.ThietBiId + '\');"><i class="icon-submit" title="Xem báo cáo"></i>Xem</button>'
+        var ultab = '<li class="active"><a data-toggle="tab" href="#info">Thông tin Chung</a></li>';
+        ultab +=    '<li><a data-toggle="tab" href="#detail" onclick="RenderBaoCao(\''+ item.ThietBiId + '\');">Thông Tin Báo Cáo</a></li>';
+        ultab +=    '<li><a data-toggle="tab" href="#activity" onclick="RenderHoatDong(\''+ item.ThietBiId + '\');">Theo Dõi Hoạt Động (Chip)</a></li>';
+        ultab +=    '<li><a data-toggle="tab" href="#dichuyen" onclick="RenderDiChuyen(\''+ item.ThietBiId + '\');">Lịch sử di chuyển</a></li>';
+        ultab +=    '<li><a data-toggle="tab" href="#baoduong" onclick="RenderBaoDuong(\''+ item.ThietBiId + '\');">Bảo dưỡng sửa chửa</a></li>';
+
+
         var htmlData = '';
         var id = item.ThietBiId;
         var matadata = $('#DevicePopupTemplete');
         var data = matadata.clone();
         data.css('display','');
-        var ultab = '';
-        ultab += '<li role="presentation" class="active"><a href="#info" aria-controls="Thông tin" role="tab" data-toggle="tab">Thông tin</a></li>';
-        ultab += '<li role="presentation"><a role="tab" data-toggle="tab" href="#detail" onclick="RenderBaoCao(\'' + id + '\');">Thông Tin Báo Cáo</a></li>';
-        ultab += '<li role="presentation"><a role="tab" data-toggle="tab" href="#activity" onclick="RenderHoatDong(\'' + id + '\');">Theo Dõi Hoạt Động (Chip)</a></li>';
-        ultab += '<li role="presentation"><a role="tab" data-toggle="tab" href="#dichuyen" onclick="RenderDiChuyen(\'' + id + '\');">Lịch sử di chuyển</a></li>';
-        ultab += '<li role="presentation"><a role="tab" data-toggle="tab" href="#baoduong" onclick="RenderBaoDuong(\'' + id + '\');">Bảo dưỡng sửa chửa</a></li>';
-
-
-        $('div#info').addClass("active");
 
         data.find('h3[id="TenThietBi"]').html(item.TenThietBi);
         data.find('span[id="TenThietBi"]').html(item.TenThietBi);
@@ -499,6 +423,9 @@
         data.find('span[id="GiaThue"]').html(item.GiaThue + ' VNĐ');
         data.find('span[id="ThanhTien"]').html(item.ThanhTien + ' VNĐ');
         data.find('ul[id="ul-tab"]').html(ultab);
+        data.find('div[id="btn-xemHoatDong"]').html(btnxemHoatDong);
+        data.find('div[id="btn-xemDiChuyen"]').html(btnxemDiChuyen);
+        data.find('div[id="btn-xemBaoDuong"]').html(btnxemBaoDuong);
         var imgavatar = PathFolderImage + item.HinhAnhAvatar;
         data.find('img[id="avatar"]').attr('src', imgavatar);
 
@@ -509,7 +436,6 @@
 
     function RenderBaoDuong(thietbiId)
     {
-        //thietbiId = currentDeviceID;
         var strFromDate = $('#strFromDateBaoDuong').val();
         if(strFromDate == undefined)
         {
@@ -525,7 +451,6 @@
 
     function RenderDiChuyen(thietbiId)
     {
-        //thietbiId = currentDeviceID;
         var strFromDate = $('#strFromDateDiChuyen').val();
         if(strFromDate == undefined)
         {
@@ -541,7 +466,6 @@
 
     function RenderBaoCao(thietbiId)
     {
-        //thietbiId = currentDeviceID;
         var strFromDate = $('#strFromDateBaoCao').val();
         if(strFromDate == undefined)
         {
@@ -557,13 +481,11 @@
 
     function RenderHoatDong(thietbiId)
     {
-        //thietbiId = currentDeviceID;
         $("#activity").load('@(Url.Action("DeviceActivity", "Monitoring"))?thietBiID=' + thietbiId);
     }
 
     function showPopup(thietbiId)
     {
-        //thietbiId = currentDeviceID;
         var strFromDate = $('#strFromDateHoatDong').val();
         if(strFromDate == undefined)
         {
@@ -605,7 +527,6 @@
 
     function FocusDevice(DeviceID)
     {
-        currentDeviceID = DeviceID;
         $.ajax({
             url: '../Monitoring/GetThietBi',
             type: 'POST',
@@ -614,26 +535,8 @@
             success: function (data) {
                 mapData.LatLongBounds = []
                 BoundEquiqments(data.info);
-                RederPopupDevice(data.info);
-                mapData.LayerDevice.eachLayer(function (layer) {
-                    if (layer.options.options.deviceID == DeviceID) {
-                        layer.openPopup();
-                    }else{
-                        layer.closePopup();
-                    }
-                })
             }
         });
-
-        //$.ajax({
-        //    url:'../Monitoring/GetInfoDeviceById',
-        //    type:'POST',
-        //    dataType:'json',
-        //    data:{"id":DeviceID},
-        //    success:function(meta){
-        //        RederPopupDevice(meta);
-        //    }
-        //});
     }
 
     function BoundEquiqments(data) {
@@ -661,150 +564,29 @@
         }
     }
 
-    function CongTrinhSelected(elmId, elmName){
+    function CongTrinhSelected(elmId, stt, elmName){
         $("#devices-body").load('@(Url.Action("GetDeviceByCongTrinh", "Monitoring"))?congTrinhId=' + elmId);
+        $('#headerStt').html(stt);
         $('#headerNameCT').html(elmName);
         $('#headerNameCongTrinh').show();
-        $('#devices-body').show();
-        $('#congtrinh-body').hide();
+        $('#divThietBiCongTrinhInput').hide();
+
+        $('#contruction').removeClass('active');
+        $('#devices').addClass('active');
+        $('#tabCongTrinh').removeClass('active');
+        $('#tabDevice').addClass('active');
+        $('#devices-body').removeClass('contruction_list');
+        
     }
     function ReturnCongTrinh(){
+        $("#devices-body").html($("#TreeCongTrinh").html());
+        $('#devices-body').addClass('contruction_list');
+        
         $('#headerNameCongTrinh').hide();
-        $('#devices-body').hide();
-        $('#congtrinh-body').show();
-    }
-
-    
-    ///Cong Trinh 
-    function RenderCongTrinh(c){
-        var strIconUrl = '030';
-        if(c.TrangThai == 0){
-            strIconUrl = '060';
-        }else if(c.TrangThai == 1){
-            strIconUrl = '050';
-        }
-        console.log(c.Latitude + '====' + c.Longitude);
-        RenderMarker(c.CongTrinhId, [c.Latitude, c.Longitude], c.TenCongTrinh, RederPopupCongTrinh(c), strIconUrl, mapData.LayerCongTrinh);
-        if(map.hasLayer(mapData.LayerCongTrinh)==false){
-            map.addLayer(mapData.LayerCongTrinh);
-        }
-
-    }
-    function RederPopupCongTrinh(item){
-        //var id = currentDeviceID;
-        var htmlData = '';
-        var id = item.CongTrinhId;
-        var matadata = $('#CongTrinhPopupTemplete');
-        var data = matadata.clone();
-        data.css('display','');
-        var ultab = '';
-        ultab += '<li role="presentation" class="active"><a href="#taichinh" aria-controls="Báo Cáo Tài Chính" role="tab" data-toggle="tab">Tài Chính</a></li>';
-        ultab += '<li role="presentation"><a href="#sanluong" aria-controls="Báo Cáo Sản Lượng" role="tab" data-toggle="tab" onclick="RenderSanLuong(\'' + id + '\')">Sản Lượng</a></li>';
-        ultab += '<li role="presentation"><a href="#chiphidevice" aria-controls="Báo Cáo Chi Phí Thiết Bị" role="tab" data-toggle="tab" onclick="RenderCPDevice(\'' + id + '\')">Chi Phí Thiết Bị</a></li>';
-        ultab += '<li role="presentation"><a href="#chiphivattu" aria-controls="Báo Cáo Chi Phí Vật Tư" role="tab" data-toggle="tab" onclick="RenderCPVatTu(\'' + id + '\')">Chi Phí Vật Tư</a></li>';
-        ultab += '<li role="presentation"><a href="#thicong" aria-controls="Báo Cáo Tình Hình Thi Công" role="tab" data-toggle="tab" onclick="RenderThiCong(\'' + id + '\')">Tình Hình Thi Công</a></li>';
-        ultab += '<li role="presentation"><a href="#nhanvien" aria-controls="Danh Sách Nhân Viên" role="tab" data-toggle="tab" onclick="RenderNhanVien(\'' + id + '\')">Nhân Viên</a></li>';
-
-
-        $('div#taichinh').addClass("active");
-        data.find('ul[id="ul-tab"]').html(ultab);
-
-        $.ajax({
-            url: '../Monitoring/TaiChinhCT',
-            type: 'POST',
-            dataType: 'html',
-            data: { "congTrinhId": item.CongTrinhId },
-            async: false,
-            success: function (result) {
-                data.find('div[id="taichinh"]').html(result);
-            }
-        });
-
-        var elm = data[0];
-        htmlData += elm.outerHTML;
-        return htmlData;
-    }
-    function FocusCongTrinh(item){
-        mapData.LayerCongTrinh.eachLayer(function (layer) {
-            if (layer.options.options.deviceID == item) {
-                layer.openPopup();
-            }else{
-                layer.closePopup();
-            }
-        })
-    }
-
-    function RenderSanLuong(item)
-    {
-        //thietbiId = currentDeviceID;
-        var strFromDate = $('#strFromDateSanLuong').val();
-        if(strFromDate == undefined)
-        {
-            strFromDate = '';
-        }
-        var strToDate = $('#strToDateSanLuong').val();
-        if(strToDate == undefined)
-        {
-            strToDate = '';
-        }
-        $("#sanluong").load('@(Url.Action("SanLuongCT", "Monitoring"))?congTrinhId=' + item + '&strFromDate=' + strFromDate + '&strToDate=' + strToDate);
-    }
-    
-    function RenderCPDevice(item){
-        var strFromDate = $('#strFromDateCPDevice').val();
-        if(strFromDate == undefined)
-        {
-            strFromDate = '';
-        }
-        var strToDate = $('#strToDateCPDevice').val();
-        if(strToDate == undefined)
-        {
-            strToDate = '';
-        }
-        $("#chiphidevice").load('@(Url.Action("CPDeviceCT", "Monitoring"))?congTrinhId=' + item + '&strFromDate=' + strFromDate + '&strToDate=' + strToDate);
-    }
-    function RenderCPVatTu(item){
-        var strFromDate = $('#strFromDateCPVatTu').val();
-        if(strFromDate == undefined)
-        {
-            strFromDate = '';
-        }
-        var strToDate = $('#strToDateCPVatTu').val();
-        if(strToDate == undefined)
-        {
-            strToDate = '';
-        }
-        $("#chiphivattu").load('@(Url.Action("CPVatTuCT", "Monitoring"))?congTrinhId=' + item + '&strFromDate=' + strFromDate + '&strToDate=' + strToDate);
-    }
-    function RenderThiCong(item){
-        var strFromDate = $('#strFromDateCPVatTu').val();
-        if(strFromDate == undefined)
-        {
-            strFromDate = '';
-        }
-        var strToDate = $('#strToDateCPVatTu').val();
-        if(strToDate == undefined)
-        {
-            strToDate = '';
-        }
-        $("#thicong").load('@(Url.Action("ThiCongCT", "Monitoring"))?congTrinhId=' + item + '&strFromDate=' + strFromDate + '&strToDate=' + strToDate);
-    }
-    function ShowModalCocDetail(congTrinhId, cocId){
-        $('#CocDetailModalBody').load('@(Url.Action("CocDetailCT", "Monitoring"))?congTrinhId=' + congTrinhId +'&cocId=' + cocId);
-        $("#CocDetailModal").modal('show');
-    };
-
-    function RenderNhanVien(item){
-        var strFromDate = $('#strFromDateNhanVien').val();
-        if(strFromDate == undefined)
-        {
-            strFromDate = '';
-        }
-        var strToDate = $('#strToDateNhanVien').val();
-        if(strToDate == undefined)
-        {
-            strToDate = '';
-        }
-        $("#nhanvien").load('@(Url.Action("NhanVienCT", "Monitoring"))?congTrinhId=' + item + '&strFromDate=' + strFromDate + '&strToDate=' + strToDate);
+        $('#divThietBiCongTrinhInput').show();
+        //$('#devices').removeClass('active');
+        //$('#contruction').addClass('active');
+        //$('#tabDevice').removeClass('active');
+        //$('#tabCongTrinh').addClass('active');
     }
 </script>

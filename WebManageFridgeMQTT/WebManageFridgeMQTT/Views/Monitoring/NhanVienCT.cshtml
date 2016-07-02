@@ -1,34 +1,52 @@
-﻿@model WebManageFridgeMQTT.Utility.DeviceActivity
+﻿@model WebManageFridgeMQTT.Utility.CongTringPopupMV
 <div class="row">
     <div class="col-sm-12">
         <div class="item fl">
             <label class="fl">Chọn Ngày</label>
-            @Html.TextBox("strFromDateDiChuyen", Model.FromDate.ToShortDateString(), new { @class = "datepicker" })
-            @Html.TextBox("strToDateDiChuyen", Model.ToDate.ToShortDateString(), new { @class = "datepicker" })
-            <button class="btn" onclick="RenderDiChuyen('@Model.ThietBiID')">
+            @Html.TextBox("strFromDateNhanVien", Model.FromDate.ToShortDateString(), new { @class = "datepicker" })
+            @Html.TextBox("strToDateNhanVien", Model.ToDate.ToShortDateString(), new { @class = "datepicker" })
+            <button class="btn" onclick="RenderNhanVien('@Model.CongTrinhId')">
                 <i class="icon-submit" title="Xem báo cáo"></i>Xem
             </button>
         </div>
         <div class="content-body">
-            <div id="table-move" class="tab-content wrapper">
+            <div id="table-nhanvien" class="tab-content wrapper">
                 <table class="table table-striped">
                     <thead>
                         <tr class="tablesorter-headerRow">
-                            <th nowrap>STT</th>
-                            <th nowrap>Thời Gian</th>
-                            <th nowrap>Vị trí</th>
+                            <th nowrap>
+                                STT <i class="tablesorter-icon"></i>
+                            </th>
+                            <th nowrap>
+                                Tên nhân viên <i class="tablesorter-icon"></i>
+                            </th>
+                            <th nowrap>
+                                Chức vụ <i class="tablesorter-icon"></i>
+                            </th>
+                            <th nowrap>
+                                Ngày sinh <i class="tablesorter-icon"></i>
+                            </th>
+                            <th nowrap>
+                                Giới tính <i class="tablesorter-icon"></i>
+                            </th>
+                            <th nowrap>
+                                Số điện thoại <i class="tablesorter-icon"></i>
+                            </th>
                         </tr>
                     </thead>
-                    <tbody id="tbBodyMove">
-                        @if (Model.ListDataMove != null && Model.ListDataMove.Count > 0)
+                    <tbody>
+                        @if (Model.ListNhanVien != null)
                         {
                             int i = 1;
-                            foreach (var item in Model.ListDataMove)
+                            foreach (var item in Model.ListNhanVien)
                             {
-                                <tr >
+                                <tr role="row">
                                     <td>@i</td>
-                                    <td>@item.Ngay.ToString()</td>
-                                    <td>@item.TuViTri</td>
+                                    <td>@item.TenNhanVien</td>
+                                    <td>@item.ChucVu</td>
+                                    <td>@item.NgaySinh</td>
+                                    <td>@item.GioiTinh</td>
+                                    <td>@item.Mobile</td>
                                 </tr>
                                 i++;
                             }
@@ -36,7 +54,7 @@
                     </tbody>
                 </table>
             </div>
-            <nav class="ts-pager-dichuyen">
+            <nav class="ts-pager-nhanvien">
                 <ul class="pagination pagination-sm">
                     <li>
                         <a href="javascript:void(0)" aria-label="Previous" class="prev">
@@ -65,20 +83,23 @@
         $('.datepicker').datepicker({
             dateFormat: 'dd/mm/yy'
         });
-        $('#table-move table').tablesorter({
+        $('#table-nhanvien table').tablesorter({
             headerTemplate: '{content} {icon}', // Add icon for various themes
             widgets: ['uitheme', 'zebra', 'stickyHeaders', 'stickyFooters'], //, 'filter'
             widgetOptions: {
                 stickyHeaders_attachTo: '.wrapper', // or $('.wrapper')
             }
         }).tablesorterPager({
-            container: $(".ts-pager-dichuyen"),
+            container: $(".ts-pager-nhanvien"),
             cssGoto: ".pagenum",
             prev: '.prev',
             next: '.next',
-            size: 3,
+            size: 5,
             removeRows: false,
             output: ' {startRow} to {endRow} of {totalRows}' //'Showing {startRow} to {endRow} of {totalRows} entries' //'{startRow} - {endRow} / {filteredRows} ({totalRows})'  //'/ {totalPages}'
         });
+
+
+
     });
 </script>

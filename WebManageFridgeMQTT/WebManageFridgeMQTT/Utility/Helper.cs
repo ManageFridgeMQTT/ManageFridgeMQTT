@@ -635,4 +635,35 @@ namespace WebManageFridgeMQTT.Utility
         public Sp_GetInfoDeviceByIdResult infoDevice { get; set; }
         public List<GetInfoDeviceActivityResult> ListData { get; set; }
     }
+
+    public class CongTringPopupMV
+    {
+        public string CongTrinhId { get; set; }
+        public DateTime FromDate { get; set; }
+        public DateTime ToDate { get; set; }
+        public List<CongTrinhGetInfoQuanLyThuChiResult> ListTaiChinh {get; set;}
+        public List<CongTrinhGetInfoBCSanLuongResult> ListSanLuong {get; set;}
+        public List<CongTrinhGetInfoBCThietbiResult> ListThietBi {get; set;}
+        public List<CongTrinhGetInfoBCVatTuResult> ListVatTu {get; set;}
+        public List<CongTrinhGetInfoBCQuyTrinhThiCongResult> ListThiCong {get; set;}
+        public List<CongTrinhGetInfoBCQuyTrinhThiCongCocResult> ListThiCongCoc { get; set; }
+        public List<CongTrinhGetInfoBCQuyTrinhThiCongChiTietResult> ListThiCongChiTiet { get; set; }
+        public List<CongTrinhGetInfoDSNhanVienResult> ListNhanVien {get; set;}
+
+
+        public CongTringPopupMV()
+        {
+            this.CongTrinhId = null;
+            this.FromDate = DateTime.Now.AddMonths(-1);
+            this.ToDate = DateTime.Now;
+            this.ListTaiChinh = new List<CongTrinhGetInfoQuanLyThuChiResult>();
+            this.ListSanLuong = new List<CongTrinhGetInfoBCSanLuongResult>();
+            this.ListThietBi = new List<CongTrinhGetInfoBCThietbiResult>();
+            this.ListVatTu = new List<CongTrinhGetInfoBCVatTuResult>();
+            this.ListThiCong = new List<CongTrinhGetInfoBCQuyTrinhThiCongResult>();
+            this.ListThiCongCoc = new List<CongTrinhGetInfoBCQuyTrinhThiCongCocResult>();
+            this.ListThiCongChiTiet = new List<CongTrinhGetInfoBCQuyTrinhThiCongChiTietResult>();
+            this.ListNhanVien = new List<CongTrinhGetInfoDSNhanVienResult>();
+        }
+    }
 }

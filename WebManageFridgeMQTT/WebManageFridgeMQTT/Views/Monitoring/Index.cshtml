@@ -305,7 +305,7 @@
 <div id="CocDetailModal" class="modal fade" role="dialog">
     <div class="modal-dialog">
         <!-- Modal content-->
-        <div class="modal-content">
+        <div class="modal-content" style="min-width:800px">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 <h3 class="modal-title">Chi tiết thi công cọc</h3>
@@ -378,10 +378,20 @@
         }
 
         var dataCongTrinh = @Html.Raw(new System.Web.Script.Serialization.JavaScriptSerializer().Serialize(Model.ListCongTrinh));
+        for (var i in dataCongTrinh) {
+            RenderCongTrinh(dataCongTrinh[i]);
+        }
+
         $('#tabCongTrinh').on('click', function(){
             map.removeLayer(mapData.LayerDevice);
-            for (var i in dataCongTrinh) {
-                RenderCongTrinh(dataCongTrinh[i]);
+            if(map.hasLayer(mapData.LayerCongTrinh) == false){
+                map.addLayer(mapData.LayerCongTrinh);
+            }
+        });
+        $('#tabDevice').on('click', function(){
+            map.removeLayer(mapData.LayerCongTrinh);
+            if(map.hasLayer(mapData.LayerDevice) == false){
+                map.addLayer(mapData.LayerDevice);
             }
         });
         
@@ -685,9 +695,9 @@
         }
         console.log(c.Latitude + '====' + c.Longitude);
         RenderMarker(c.CongTrinhId, [c.Latitude, c.Longitude], c.TenCongTrinh, RederPopupCongTrinh(c), strIconUrl, mapData.LayerCongTrinh);
-        if(map.hasLayer(mapData.LayerCongTrinh)==false){
-            map.addLayer(mapData.LayerCongTrinh);
-        }
+        //if(map.hasLayer(mapData.LayerCongTrinh)==false){
+        //    map.addLayer(mapData.LayerCongTrinh);
+        //}
 
     }
     function RederPopupCongTrinh(item){

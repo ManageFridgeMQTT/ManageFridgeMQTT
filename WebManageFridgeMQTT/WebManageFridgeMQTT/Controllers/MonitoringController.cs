@@ -233,9 +233,12 @@ namespace WebManageFridgeMQTT.Controllers
             {
                 model.CongTrinhId = congTrinhId;
                 model.ListTaiChinh = Global.Context.CongTrinhGetInfoQuanLyThuChi(model.CongTrinhId, model.FromDate, model.ToDate).ToList();
-                if(model.ListTaiChinh != null)
+                if (model.ListTaiChinh != null)
                 {
-                    
+                    double totalThu = model.ListTaiChinh.Where(x=>x.ThuChiType.HasValue && x.ThuChiType.Value).Sum(s => s.Tien);
+                    double totalChi = model.ListTaiChinh.Where(x => x.ThuChiType.HasValue && !x.ThuChiType.Value).Sum(s => s.Tien);
+                    double totalLoiNhuan = (totalThu > totalChi) ? (totalThu - totalChi) : 0;
+                    totalMoney = totalLoiNhuan.ToString();
                 }
 
                 ViewData["TotalMoney"] = totalMoney;
@@ -246,6 +249,7 @@ namespace WebManageFridgeMQTT.Controllers
         public ActionResult SanLuongCT(string congTrinhId, string strFromDate, string strToDate)
         {
             CongTringPopupMV model = new CongTringPopupMV();
+            string totalMoney = "0";
             model.FromDate = DateTime.Now.AddYears(-5);
             model.ToDate = DateTime.Now;
             if (!string.IsNullOrEmpty(strFromDate))
@@ -261,6 +265,12 @@ namespace WebManageFridgeMQTT.Controllers
             {
                 model.CongTrinhId = congTrinhId;
                 model.ListSanLuong = Global.Context.CongTrinhGetInfoBCSanLuong(model.CongTrinhId, model.FromDate, model.ToDate).ToList();
+                if (model.ListSanLuong != null)
+                {
+                    double total = model.ListSanLuong.Where(x=>x.Tien.HasValue).Sum(s => s.Tien.Value);
+                    totalMoney = total.ToString();
+                    ViewData["TotalMoney"] = totalMoney;
+                }
             }
 
             return PartialView("SanLuongCT", model);
@@ -268,6 +278,7 @@ namespace WebManageFridgeMQTT.Controllers
         public ActionResult CPDeviceCT(string congTrinhId, string strFromDate, string strToDate)
         {
             CongTringPopupMV model = new CongTringPopupMV();
+            string totalMoney = "0";
             model.FromDate = DateTime.Now.AddYears(-5);
             model.ToDate = DateTime.Now;
             if (!string.IsNullOrEmpty(strFromDate))
@@ -283,6 +294,12 @@ namespace WebManageFridgeMQTT.Controllers
             {
                 model.CongTrinhId = congTrinhId;
                 model.ListThietBi = Global.Context.CongTrinhGetInfoBCThietbi(model.CongTrinhId, model.FromDate, model.ToDate).ToList();
+                if (model.ListThietBi != null)
+                {
+                    double total = model.ListThietBi.Sum(s => s.Tien);
+                    totalMoney = total.ToString();
+                    ViewData["TotalMoney"] = totalMoney;
+                }
             }
 
             return PartialView("CPDeviceCT", model);
@@ -290,6 +307,7 @@ namespace WebManageFridgeMQTT.Controllers
         public ActionResult CPVatTuCT(string congTrinhId, string strFromDate, string strToDate)
         {
             CongTringPopupMV model = new CongTringPopupMV();
+            string totalMoney = "0";
             model.FromDate = DateTime.Now.AddYears(-5);
             model.ToDate = DateTime.Now;
             if (!string.IsNullOrEmpty(strFromDate))
@@ -305,6 +323,12 @@ namespace WebManageFridgeMQTT.Controllers
             {
                 model.CongTrinhId = congTrinhId;
                 model.ListVatTu = Global.Context.CongTrinhGetInfoBCVatTu(model.CongTrinhId, model.FromDate, model.ToDate).ToList();
+                if (model.ListVatTu != null)
+                {
+                    double total = model.ListVatTu.Where(x => x.Tien.HasValue).Sum(s => s.Tien.Value);
+                    totalMoney = total.ToString();
+                    ViewData["TotalMoney"] = totalMoney;
+                }
             }
 
             return PartialView("CPVatTuCT", model);
@@ -336,7 +360,7 @@ namespace WebManageFridgeMQTT.Controllers
             if (!string.IsNullOrEmpty(congTrinhId) && !string.IsNullOrEmpty(cocId))
             {
                 model.CongTrinhId = congTrinhId;
-                model.ListThiCongCoc = Global.Context.CongTrinhGetInfoBCQuyTrinhThiCongCoc(model.CongTrinhId, cocId, null, null).ToList();
+                model.ThiCongCoc = Global.Context.CongTrinhGetInfoBCQuyTrinhThiCongCoc(model.CongTrinhId, cocId, null, null).FirstOrDefault();
                 model.ListThiCongChiTiet = Global.Context.CongTrinhGetInfoBCQuyTrinhThiCongChiTiet(model.CongTrinhId, cocId, null, null).ToList();
             }
             return PartialView("CocDetailCT", model);

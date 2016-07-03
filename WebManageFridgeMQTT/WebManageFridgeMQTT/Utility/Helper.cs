@@ -646,7 +646,7 @@ namespace WebManageFridgeMQTT.Utility
         public List<CongTrinhGetInfoBCThietbiResult> ListThietBi {get; set;}
         public List<CongTrinhGetInfoBCVatTuResult> ListVatTu {get; set;}
         public List<CongTrinhGetInfoBCQuyTrinhThiCongResult> ListThiCong {get; set;}
-        public List<CongTrinhGetInfoBCQuyTrinhThiCongCocResult> ListThiCongCoc { get; set; }
+        public CongTrinhGetInfoBCQuyTrinhThiCongCocResult ThiCongCoc { get; set; }
         public List<CongTrinhGetInfoBCQuyTrinhThiCongChiTietResult> ListThiCongChiTiet { get; set; }
         public List<CongTrinhGetInfoDSNhanVienResult> ListNhanVien {get; set;}
 
@@ -661,7 +661,7 @@ namespace WebManageFridgeMQTT.Utility
             this.ListThietBi = new List<CongTrinhGetInfoBCThietbiResult>();
             this.ListVatTu = new List<CongTrinhGetInfoBCVatTuResult>();
             this.ListThiCong = new List<CongTrinhGetInfoBCQuyTrinhThiCongResult>();
-            this.ListThiCongCoc = new List<CongTrinhGetInfoBCQuyTrinhThiCongCocResult>();
+            this.ThiCongCoc = new CongTrinhGetInfoBCQuyTrinhThiCongCocResult();
             this.ListThiCongChiTiet = new List<CongTrinhGetInfoBCQuyTrinhThiCongChiTietResult>();
             this.ListNhanVien = new List<CongTrinhGetInfoDSNhanVienResult>();
         }

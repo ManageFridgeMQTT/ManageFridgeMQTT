@@ -2,7 +2,35 @@
 <div class="row">
     <div class="col-sm-12">
         <div class="item fl">
+            <table style="width:100%">
+                <tr>
+                    <td>
+                        <label class="fl">Tên Cọc: </label>
+                        <span>@Model.ThiCongCoc.TenCoc</span>
+                    </td>
+                    <td>
+                        <label class="fl">Mét đất: </label>
+                        <span>@Model.ThiCongCoc.MetDat</span>
+                    </td>
+                    <td>
+                        <label class="fl">Mét đá: </label>
+                        <span>@Model.ThiCongCoc.MetDa</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label class="fl">Tổng ngày thực hiện: </label>
+                        <span>@Model.ThiCongCoc.TongThoiGianThucHien</span>
+                    </td>
+                    <td>
+                        <label class="fl">Tổng giờ: </label>
+                        <span>@Model.ThiCongCoc.TongGio</span>
+                    </td>
+                    <td></td>
+                </tr>
+            </table>
         </div>
+        <br />
         <div class="content-body">
             <div id="table-thicongdetail" class="tab-content wrapper">
                 <table class="table table-striped">

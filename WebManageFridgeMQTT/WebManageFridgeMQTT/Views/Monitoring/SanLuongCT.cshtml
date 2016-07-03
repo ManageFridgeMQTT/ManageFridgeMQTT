@@ -5,13 +5,13 @@
             <label class="fl">Chọn Ngày</label>
             @Html.TextBox("strFromDateSanLuong", Model.FromDate.ToShortDateString(), new { @class = "datepicker" })
             @Html.TextBox("strToDateSanLuong", Model.ToDate.ToShortDateString(), new { @class = "datepicker" })
-            <button class="btn" onclick="RenderBaoCao('@Model.CongTrinhId')">
+            <button class="btn" onclick="RenderSanLuong('@Model.CongTrinhId')">
                 <i class="icon-submit" title="Xem báo cáo"></i>Xem
             </button>
         </div>
         <div class="content-body">
             <div id="table-sanluong" class="tab-content wrapper">
-                <table class="table table-striped">
+                <table class="table table-striped" style="margin-bottom:5px">
                     <thead>
                         <tr class="tablesorter-headerRow">
                             <th nowrap>
@@ -53,6 +53,14 @@
                         }
                     </tbody>
                 </table>
+                
+                    <table style="width:100%">
+                        <thead>
+                            <tr>
+                                <th style="text-align:right">@ViewData["TotalMoney"] VNĐ</th>
+                            </tr>
+                        </thead>
+                    </table>
             </div>
             <nav class="ts-pager-sanluong">
                 <ul class="pagination pagination-sm">

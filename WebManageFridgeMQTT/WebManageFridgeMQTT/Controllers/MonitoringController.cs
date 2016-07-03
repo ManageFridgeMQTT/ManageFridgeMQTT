@@ -113,7 +113,7 @@ namespace WebManageFridgeMQTT.Controllers
                 model.infoDevice = Global.Context.Sp_GetInfoDeviceById(thietBiID).FirstOrDefault();
                 DateTime FromDate = DateTime.Now.AddMonths(-1);
                 DateTime ToDate = DateTime.Now;
-                model.ListData = Global.Context.GetInfoDeviceActivity(thietBiID, FromDate, ToDate).OrderByDescending(x => x.ThoiGian).Take(5).ToList();
+                model.ListData = Global.Context.GetInfoDeviceActivity(thietBiID, FromDate, ToDate).Skip(0).Take(10).ToList();
             }
             return PartialView("DeviceActivity", model);
         }
@@ -238,7 +238,7 @@ namespace WebManageFridgeMQTT.Controllers
                     double totalThu = model.ListTaiChinh.Where(x=>x.ThuChiType.HasValue && x.ThuChiType.Value).Sum(s => s.Tien);
                     double totalChi = model.ListTaiChinh.Where(x => x.ThuChiType.HasValue && !x.ThuChiType.Value).Sum(s => s.Tien);
                     double totalLoiNhuan = (totalThu > totalChi) ? (totalThu - totalChi) : 0;
-                    totalMoney = totalLoiNhuan.ToString();
+                    totalMoney = String.Format("{0:n0}", totalLoiNhuan);
                 }
 
                 ViewData["TotalMoney"] = totalMoney;
@@ -268,7 +268,7 @@ namespace WebManageFridgeMQTT.Controllers
                 if (model.ListSanLuong != null)
                 {
                     double total = model.ListSanLuong.Where(x=>x.Tien.HasValue).Sum(s => s.Tien.Value);
-                    totalMoney = total.ToString();
+                    totalMoney = String.Format("{0:n0}", total); 
                     ViewData["TotalMoney"] = totalMoney;
                 }
             }
@@ -297,7 +297,7 @@ namespace WebManageFridgeMQTT.Controllers
                 if (model.ListThietBi != null)
                 {
                     double total = model.ListThietBi.Sum(s => s.Tien);
-                    totalMoney = total.ToString();
+                    totalMoney = String.Format("{0:n0}", total); 
                     ViewData["TotalMoney"] = totalMoney;
                 }
             }
@@ -326,7 +326,7 @@ namespace WebManageFridgeMQTT.Controllers
                 if (model.ListVatTu != null)
                 {
                     double total = model.ListVatTu.Where(x => x.Tien.HasValue).Sum(s => s.Tien.Value);
-                    totalMoney = total.ToString();
+                    totalMoney = String.Format("{0:n0}", total); 
                     ViewData["TotalMoney"] = totalMoney;
                 }
             }

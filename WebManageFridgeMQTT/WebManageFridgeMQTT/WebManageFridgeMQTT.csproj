@@ -668,6 +668,7 @@
     <Content Include="Content\NewEtool\css\images\kendoui.ttf" />
     <Content Include="Content\NewEtool\css\images\kendoui.woff" />
     <Content Include="Content\NewEtool\img\statistic\icon-visibility-big.psd" />
+    <Content Include="logo_df.ico" />
     <Content Include="Logs\Log.txt" />
     <Content Include="Models\DeviceTracking.dbml">
       <Generator>MSLinqToSQLGenerator</Generator>
@@ -820,6 +821,9 @@
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>logo_df.ico</ApplicationIcon>
   </PropertyGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />

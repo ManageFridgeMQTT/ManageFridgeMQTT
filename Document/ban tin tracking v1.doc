@@ -54,15 +54,15 @@ khoảng thời gian nỗ máy bảo dưỡng:
 03 01 0B
 05 01 00 : đã khởi động máy
 24 01 03
-07 01 00 : trạng thái di chuyển
+06 01 00 : trạng thái di chuyển
 
 khoảng thời gian nỗ máy di chuyển:
 03 01 0B
 05 01 01 : tắt máy
 24 01 23: length 
-07 01 01 : trạng thái không di chuyển
-08 04 xx xx xx xx (4 byte time)
-09 18 xx xx xx xx xx xx xx xx xx xx xx xx xx xx xx xx xx xx xx xx xx xx xx xx (tọa độ lúc kết thúc di chuyển)
+06 01 01 : trạng thái không di chuyển
+07 04 xx xx xx xx (4 byte time)
+08 18 xx xx xx xx xx xx xx xx xx xx xx xx xx xx xx xx xx xx xx xx xx xx xx xx (tọa độ lúc kết thúc di chuyển)
 */
 
 5.Nỗ máy khoan
@@ -70,15 +70,15 @@ khoảng thời gian nỗ máy di chuyển:
 03 01 0C
 05 01 00 : đã khởi động máy
 24 01 03
-08 01 00 : trạng thái khoan
+06 01 00 : trạng thái khoan
 
 khoảng thời gian nỗ máy khoan:
 03 01 0C
 05 01 01 : tắt máy
 24 01 23: length 
-08 01 01 : trạng thái không khoan
-09 04 xx xx xx xx (4 byte time)
-0A 18 xx xx xx xx xx xx xx xx xx xx xx xx xx xx xx xx xx xx xx xx xx xx xx xx (tọa độ lúc kết thúc khoan)
+06 01 01 : trạng thái không khoan
+07 04 xx xx xx xx (4 byte time)
+08 18 xx xx xx xx xx xx xx xx xx xx xx xx xx xx xx xx xx xx xx xx xx xx xx xx (tọa độ lúc kết thúc khoan)
 */
 
 6.Nỗ máy cẩy
@@ -86,15 +86,15 @@ khoảng thời gian nỗ máy khoan:
 03 01 0D
 05 01 00 : đã khởi động máy
 24 01 03
-09 01 00 : trạng thái cẩy
+06 01 00 : trạng thái cẩy
 
 khoảng thời gian nỗ máy khoan:
 03 01 0D
 05 01 01 : tắt máy
 24 01 23: length 
 09 01 01 : trạng thái không cẩy
-0A 04 xx xx xx xx (4 byte time)
-0B 18 xx xx xx xx xx xx xx xx xx xx xx xx xx xx xx xx xx xx xx xx xx xx xx xx (tọa độ lúc kết thúc khoan)
+07 04 xx xx xx xx (4 byte time)
+08 18 xx xx xx xx xx xx xx xx xx xx xx xx xx xx xx xx xx xx xx xx xx xx xx xx (tọa độ lúc kết thúc khoan)
 */
 
 10 bản tin I/o không biết mục đích dùng để làm gì

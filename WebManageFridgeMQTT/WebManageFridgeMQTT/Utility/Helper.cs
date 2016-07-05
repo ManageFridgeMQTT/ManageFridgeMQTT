@@ -244,6 +244,18 @@ namespace WebManageFridgeMQTT.Utility
                 {
                     model.Loai = 1;
                 }
+                else if (Helper.ByteArrayCompare(data.CommandAction, ConstParam.HoatDong))
+                {
+                    model.Loai = 100;
+                    if (Helper.ByteArrayCompare(data.States, ConstParam.Dang))
+                    {
+                        model.TrangThai = 1;  //đang hoạt động
+                    }
+                    else if (Helper.ByteArrayCompare(data.States, ConstParam.Khong))
+                    {
+                        model.TrangThai = 2;
+                    }
+                }
                 else if (Helper.ByteArrayCompare(data.CommandAction, ConstParam.BaoDuong))
                 {
                     model.Loai = 2;
@@ -585,6 +597,7 @@ namespace WebManageFridgeMQTT.Utility
         public static byte[] DiChuyen = new byte[] { 0x03, 0x01, 0x0B };
         public static byte[] Khoan = new byte[] { 0x03, 0x01, 0x0C };
         public static byte[] Cau = new byte[] { 0x03, 0x01, 0x0D };
+        public static byte[] HoatDong = new byte[] { 0x03, 0x01, 0x0E };
         public static byte[] NoMay = new byte[] { 0x05, 0x01, 0x00 };
         public static byte[] TatMay = new byte[] { 0x05, 0x01, 0x01 };
 

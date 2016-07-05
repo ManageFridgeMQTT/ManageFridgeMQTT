@@ -61,7 +61,7 @@
     @*<input type='text' name="txtSearch" class="form-control" placeholder='Search...' id='txtSearch' />*@
     <button id="lblnote" class="toggle-button button"></button>
     <div id="notePanel">
-        <div class="note_item col-xs-3">
+        @*<div class="note_item col-xs-3">
             <img src="@Url.Content("~/Content/Icon/markers/ic_map_red.png")" />
             <span>Đang bảo dưỡng</span>
         </div>
@@ -96,6 +96,14 @@
         <div class="note_item col-xs-3">
             <img src="@Url.Content("~/Content/Icon/markers/ic_map_orange.png")" />
             <span>Không xác định</span>
+        </div>*@
+        <div class="note_item col-xs-3">
+            <img src="@Url.Content("~/Content/Icon/markers/ic_map_gray.png")" />
+            <span>Tắt máy</span>
+        </div>
+        <div class="note_item col-xs-3">
+            <img src="@Url.Content("~/Content/Icon/markers/ic_map_blue.png")" />
+            <span>Đang nổ máy</span>
         </div>
     </div>
     <button id="treeviewToggle" class="toggle-button button"></button>
@@ -453,8 +461,12 @@
     function RenderDevice(c){
         // var a = c.length;
         //  for (var i = 0; i < a; i++) {
-        var strIconUrl = 'ic_map_blue';
-        if(c.TrangThaiHienTai == 3){
+        var strIconUrl = 'ic_map_gray';
+        if(c.TrangThaiHienTai == 1){
+            strIconUrl = 'ic_map_blue';
+        }else if(c.TrangThaiHienTai == 2){
+            strIconUrl = 'ic_map_gray';
+        }else if(c.TrangThaiHienTai == 3){
             strIconUrl = 'ic_map_brown';
         }else if(c.TrangThaiHienTai == 4){
             strIconUrl = 'ic_map_gray';
@@ -467,7 +479,7 @@
         }else if(c.TrangThaiHienTai == 8){
             strIconUrl = 'ic_map_red';
         }else {
-            strIconUrl = 'ic_map_orange';
+            strIconUrl = 'ic_map_gray';
         }
 
         RenderMarker(c.ThietBiId, [c.Latitude, c.Longitude], c.TenThietBi, RederPopupDevice(c), strIconUrl, mapData.LayerDevice);

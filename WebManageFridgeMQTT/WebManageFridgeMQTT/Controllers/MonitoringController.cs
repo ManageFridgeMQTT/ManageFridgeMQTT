@@ -5,6 +5,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.UI.WebControls;
+using DF.DataAccess;
 using WebManageFridgeMQTT.Models;
 using WebManageFridgeMQTT.Utility;
 
@@ -214,12 +215,24 @@ namespace WebManageFridgeMQTT.Controllers
         }
 
         #region CongTrinh
+        protected IUnitOfWork unitofwork;
+
+        #region TaiChinhCT
         public ActionResult TaiChinhCT(string congTrinhId, string strFromDate, string strToDate)
         {
             CongTringPopupMV model = new CongTringPopupMV();
             string totalMoney = "0";
-            model.FromDate = DateTime.Now.AddYears(-5);
-            model.ToDate = DateTime.Now;
+
+            #region DefaultDate
+            DateTime date = DateTime.Now;
+            DateTime datett = new DateTime(date.Year, date.Month, 1);
+            DateTime date5nam = date.AddMonths(-60);
+            DateTime tungay = new DateTime(date5nam.Year, date5nam.Month, 1);
+            DateTime denngay = datett.AddMonths(1).AddTicks(-1);
+            #endregion
+
+            model.FromDate = tungay;// DateTime.Now.AddYears(-5);
+            model.ToDate = denngay;//DateTime.Now;
             if (!string.IsNullOrEmpty(strFromDate))
             {
                 model.FromDate = DateTime.Parse(strFromDate);
@@ -232,20 +245,428 @@ namespace WebManageFridgeMQTT.Controllers
             if (!string.IsNullOrEmpty(congTrinhId))
             {
                 model.CongTrinhId = congTrinhId;
-                model.ListTaiChinh = Global.Context.CongTrinhGetInfoQuanLyThuChi(model.CongTrinhId, model.FromDate, model.ToDate).ToList();
-                if (model.ListTaiChinh != null)
-                {
-                    double totalThu = model.ListTaiChinh.Where(x=>x.ThuChiType.HasValue && x.ThuChiType.Value).Sum(s => s.Tien);
-                    double totalChi = model.ListTaiChinh.Where(x => x.ThuChiType.HasValue && !x.ThuChiType.Value).Sum(s => s.Tien);
-                    double totalLoiNhuan = (totalThu > totalChi) ? (totalThu - totalChi) : 0;
-                    totalMoney = String.Format("{0:n0}", totalLoiNhuan);
-                }
 
-                ViewData["TotalMoney"] = totalMoney;
+                BaoCaoThuChiModel bc = QuanLyThuChi(model.CongTrinhId, model.FromDate, model.ToDate);
+                model.ListTaiChinh = ViewQuanLyThuChi(bc);
+
+                //model.ListTaiChinh = Global.Context.CongTrinhGetInfoQuanLyThuChi(model.CongTrinhId, model.FromDate, model.ToDate).ToList();
+                //if (model.ListTaiChinh != null)
+                //{
+                //    double totalThu = model.ListTaiChinh.Where(x => x.ThuChiType.HasValue && x.ThuChiType.Value).Sum(s => s.Tien);
+                //    double totalChi = model.ListTaiChinh.Where(x => x.ThuChiType.HasValue && !x.ThuChiType.Value).Sum(s => s.Tien);
+                //    double totalLoiNhuan = (totalThu > totalChi) ? (totalThu - totalChi) : 0;
+                //    totalMoney = String.Format("{0:n0}", totalLoiNhuan);
+                //}
+
+                //ViewData["TotalMoney"] = totalMoney;
             }
 
             return PartialView("TaiChinhCT", model);
         }
+
+        private BaoCaoThuChiModel QuanLyThuChi(string congTrinhId, DateTime _tungay, DateTime _denngay)
+        {
+            unitofwork = new UnitOfWork();
+            BaoCaoThuChiModel model = new BaoCaoThuChiModel();
+            List<SelectListItem> lst = new List<SelectListItem>();
+            Guid dfctid = Guid.Parse(congTrinhId);//Guid.Parse("FFFFFFFF-FFFF-FFFF-FFFF-FFFFFFFFFFFF");
+            var lstCongTrinh = unitofwork.CongTrinhs.GetAll().Where(c => c.Dept != 1 || c.CongTrinhId == dfctid).ToList();
+            Guid defaultCTId = new Guid();
+            int tmp = 1;
+            foreach (var ct in lstCongTrinh)
+            {
+                bool selected = false;
+                if (tmp == 1)
+                {
+                    selected = true;
+                    defaultCTId = ct.CongTrinhId;
+                }
+                tmp += 1;
+                lst.Add(new SelectListItem()
+                {
+                    Text = ct.TenCongTrinh,
+                    Value = ct.CongTrinhId.ToString(),
+                    Selected = selected
+                });
+            }
+            DateTime date = DateTime.Now;
+            //DateTime datett = new DateTime(date.Year, date.Month, 1);
+            //DateTime date5nam = date.AddMonths(-60);
+            DateTime tungay = _tungay;//new DateTime(date5nam.Year, date5nam.Month, 1);
+            DateTime denngay = _denngay;// datett.AddMonths(1).AddTicks(-1);
+            DataTable kq = unitofwork.BaoCaoChiPhis.getBaoCaoDoanhThu(tungay, denngay);
+
+            #region MAPCODE where theo cong trinh
+            //where theo cong trinh
+            foreach (DataRow r in kq.Rows)
+            {
+                if (r["CongTrinhId"].ToString().ToUpper() != congTrinhId.ToUpper())
+                {
+                    r.Delete();
+                }
+            } 
+            #endregion
+
+            kq.Columns.Add("CPTB", typeof(Double));
+            foreach (DataColumn col in kq.Columns)
+                col.ReadOnly = false;
+            DateTime bgindate = Convert.ToDateTime("Jan 01, 1900");
+
+            //thiet bi
+            double tngay = (tungay - bgindate).TotalDays;
+            DateTime denngaytemp = denngay;
+            if (denngay > date)
+            {
+                //string ddd = date.Month + " " + date.Day + ", " + date.Year;
+                denngay = Convert.ToDateTime(date.ToShortDateString());//.AddDays(1);
+            }
+            double dngay = (denngay - bgindate).TotalDays;
+            foreach (DataRow r in kq.Rows)
+            {
+                if (r["CongTrinhId"].ToString().ToUpper() != "FFFFFFFF-FFFF-FFFF-FFFF-FFFFFFFFFFFF")
+                {
+                    double chiphitb = 0;
+                    Guid ctid = Guid.Parse(r[0].ToString());
+                    DataTable tbden = unitofwork.TrangThaiThietBis.getTBChuyenDen(ctid);
+                    DataTable tbdi = unitofwork.TrangThaiThietBis.getTBChuyenDi(ctid);
+
+                    // DataTable temp = tbden.Clone();
+                    foreach (DataRow r1 in tbden.Rows)
+                    {
+                        string thietbidenid = r1[0].ToString();
+                        double tgdi = 0;
+                        double giamuathue = 0;
+                        double tgden = Convert.ToDouble(r1[4].ToString());
+                        if (tgden <= dngay)
+                        {
+                            foreach (DataRow r2 in tbdi.Rows)
+                            {
+                                if (r2[0].ToString() == thietbidenid)
+                                {
+                                    tgdi = Convert.ToDouble(r2[4].ToString());
+                                    giamuathue = Convert.ToDouble(r2[2].ToString());
+                                    tbdi.Rows.Remove(r2);
+                                    break;
+                                }
+                            }
+                            if (tgdi == 0 && r1[7].ToString() == "1" && r1[6].ToString() != null && r1[6].ToString() != "")
+                            {
+                                tgdi = Convert.ToDouble(r1[6].ToString());
+                                giamuathue = Convert.ToDouble(r1[2].ToString());
+                            }
+                            if (tgdi != 0) // nếu đã đi
+                            {
+                                if (tgdi < tngay) // nếu đã đi trước thời gian tìm kiếm => không tính
+                                {
+
+                                }
+                                else
+                                {
+                                    if (tgden < tngay) // nếu đến trước ngày bắt đầu tìm kiêm
+                                    {
+                                        tgden = tngay;
+                                    }
+                                    if (tgdi > dngay) // nếu đi sau ngay kết thúc tìm kiếm
+                                    {
+                                        tgdi = dngay;
+                                    }
+                                    chiphitb = chiphitb + (tgdi - tgden) * (giamuathue / 30);
+                                }
+                            }
+                            else
+                            { //nếu chưa đi
+                                if (tgden < tngay) // nếu đến trước ngày bắt đầu tìm kiêm
+                                {
+                                    tgden = tngay;
+                                }
+                                if (r1[6].ToString() != "" && r1[6].ToString() != null)
+                                {
+                                    double trangay = Convert.ToDouble(r1[6].ToString());
+                                    if (trangay < dngay)
+                                    {
+                                        if (trangay < tngay)
+                                        {
+                                            dngay = tngay;
+                                        }
+                                        else
+                                        {
+                                            dngay = trangay;
+                                        }
+                                    }
+                                }
+                                chiphitb = chiphitb + ((dngay - tgden) * (Convert.ToDouble(r1[2].ToString()) / 30));
+                            }
+                        }
+
+                    }
+                    double tongchiphitbtb = chiphitb;
+                    DataTable tongcpsuachua = unitofwork.BCThietBis.getSuaChuaBCThietBi(ctid, tungay, denngay);
+                    if (tongcpsuachua.Rows[0][2].ToString() != "" && tongcpsuachua.Rows[0][2].ToString() != null)
+                    {
+                        tongchiphitbtb += Convert.ToDouble(tongcpsuachua.Rows[0][2].ToString());
+                    }
+                    r["CPTB"] = tongchiphitbtb;
+                }
+                else
+                {
+                    r["thuvt"] = "0";
+                }
+            }
+
+            //Đoạn này MAP ko xài
+            //DataTable tongvc = unitofwork.BCVanChuyens.getTongVanChuyen(tungay, denngay);
+            //model.ThoiGian = (tungay.ToString("dd/MM/yyyy") + " - " + denngaytemp.ToString("dd/MM/yyyy"));
+            //model.TKDoanhThu = kq;
+            //model.listCongTrinh = lst;
+            //if (tongvc.Rows[0][0].ToString() != "")
+            //{
+            //    model.TongVanChuyen = Convert.ToDouble(tongvc.Rows[0][0].ToString());
+            //}
+
+            return model;
+        }
+
+        private List<CongTrinhGetInfoQuanLyThuChiResult> ViewQuanLyThuChi(BaoCaoThuChiModel model)
+        {
+            List<CongTrinhGetInfoQuanLyThuChiResult> listItem = new List<CongTrinhGetInfoQuanLyThuChiResult>();
+
+            double tong = 0;
+            List<string> labelchart = new List<string>();
+            List<double> datachart = new List<double>();
+            System.Globalization.CultureInfo cul = System.Globalization.CultureInfo.GetCultureInfo("vi-VN");
+            int countCols = model.TKDoanhThu.Columns.Count;
+            double tttchi = 0;
+            double tttthu = 0;
+            double thuhd = 0;
+            double tongthuhd = 0;
+            double thuhd2 = 0;
+            double tongthuhd2 = 0;
+            double tongthukhac = 0;
+            double thukhac = 0;
+            double tttdoanhthu = 0;
+            double tongdonhthuchia11 = 0;
+            double tongchiVattu = 0;
+            double tongchithietbi = 0;
+            double tongchiccdc = 0;
+            double tongchinhancong = 0;
+            double tongchiluongvp = 0;
+            double tongchivanchuyen = 0;
+
+            for (int r = 0; r < model.TKDoanhThu.Rows.Count; r++)
+            {
+                string tencongtrinh = model.TKDoanhThu.Rows[r][1].ToString().ToUpper();
+                tencongtrinh = tencongtrinh.Contains("CÔNG TRÌNH ") ? tencongtrinh.Replace("CÔNG TRÌNH ", "") : tencongtrinh;
+                labelchart.Add(tencongtrinh);
+                double dtchart = 0;
+                string chiphipop = "";
+                double tongchi = 0;
+                if (model.TKDoanhThu.Rows[r][2].ToString() != "")
+                {
+                    tongchi = double.Parse(model.TKDoanhThu.Rows[r][2].ToString());
+                    tttchi += tongchi;
+                    chiphipop = tongchi.ToString("#,###", cul.NumberFormat).Replace(".", ",");
+
+                }
+                double chiVattu = 0;
+                string chivattustring = "";
+                if (model.TKDoanhThu.Rows[r][5].ToString() != "")
+                {
+                    chiVattu = double.Parse(model.TKDoanhThu.Rows[r][5].ToString());
+                    tongchiVattu += chiVattu;
+                    chivattustring = chiVattu.ToString("#,###", cul.NumberFormat).Replace(".", ",");
+
+                }
+
+                double chiccdc = 0;
+                string chiccdctring = "";
+                if (model.TKDoanhThu.Rows[r][6].ToString() != "")
+                {
+                    chiccdc = double.Parse(model.TKDoanhThu.Rows[r][6].ToString());
+                    tongchiccdc += chiccdc;
+                    chiccdctring = chiccdc.ToString("#,###", cul.NumberFormat).Replace(".", ",");
+
+                }
+
+                double chinhancong = 0;
+                string chinhancongstring = "";
+                if (model.TKDoanhThu.Rows[r][7].ToString() != "")
+                {
+                    chinhancong = double.Parse(model.TKDoanhThu.Rows[r][7].ToString());
+                    tongchinhancong += chinhancong;
+                    chinhancongstring = chinhancong.ToString("#,###", cul.NumberFormat).Replace(".", ",");
+
+                }
+
+                double chivanchuyen = 0;
+                string chivanchuyenstring = "";
+                if (model.TKDoanhThu.Rows[r][8].ToString() != "")
+                {
+                    chivanchuyen = double.Parse(model.TKDoanhThu.Rows[r][8].ToString());
+                    tongchivanchuyen += chivanchuyen;
+                    chivanchuyenstring = chivanchuyen.ToString("#,###", cul.NumberFormat).Replace(".", ",");
+                }
+
+                double chithietbi = 0;
+                string chithietbistring = "";
+                if (model.TKDoanhThu.Rows[r][10].ToString() != "")
+                {
+                    chithietbi = double.Parse(model.TKDoanhThu.Rows[r][10].ToString());
+                    tongchithietbi += chithietbi;
+                    chithietbistring = chithietbi.ToString("#,###", cul.NumberFormat).Replace(".", ",");
+
+                }
+
+                string tongthu = "";
+                thuhd = 0;
+                thukhac = 0;
+                if (model.TKDoanhThu.Rows[r][3].ToString() != "")
+                {
+                    thuhd = double.Parse(model.TKDoanhThu.Rows[r][3].ToString());
+                }
+                thuhd2 = 0;
+                if (model.TKDoanhThu.Rows[r][9].ToString() != "")
+                {
+                    thuhd2 = double.Parse(model.TKDoanhThu.Rows[r][9].ToString());
+                }
+
+                if (model.TKDoanhThu.Rows[r][0].ToString() == "af3cc397-da63-4154-8b70-8277b3fdc345")
+                {
+                    thukhac = model.TongVanChuyen;
+                }
+                else if (model.TKDoanhThu.Rows[r][4].ToString() != "")
+                {
+                    thukhac = double.Parse(model.TKDoanhThu.Rows[r][4].ToString());
+                }
+                tongthu = (thuhd + thukhac).ToString("#,###", cul.NumberFormat).Replace(".", ",");
+                tttthu += (thuhd + thukhac);
+                tongthuhd += thuhd;
+                tongthuhd2 += thuhd2;
+                tongthukhac += thukhac;
+                string luongvp = (thuhd * 0.07).ToString("#,###", cul.NumberFormat).Replace(".", ",");
+                tongchiluongvp += (thuhd * 0.07);
+                string tttthuhd = thuhd.ToString("#,###", cul.NumberFormat).Replace(".", ",");
+                string tttdoanhthuchia11 = (thuhd / 1.1).ToString("#,###", cul.NumberFormat).Replace(".", ",");
+                string tttthuhd2 = thuhd2.ToString("#,###", cul.NumberFormat).Replace(".", ",");
+                string tttthukhac = thukhac.ToString("#,###", cul.NumberFormat).Replace(".", ",");
+                double tongdoanhthu = thukhac + (thuhd / 1.1) - tongchi - chiVattu - chiccdc - chinhancong - chivanchuyen - chithietbi - (thuhd * 0.07);
+                tttdoanhthu += tongdoanhthu;
+                tongdonhthuchia11 += (thuhd / 1.1);
+                string tdaonhthu = tongdoanhthu.ToString("#,###", cul.NumberFormat).Replace(".", ",");
+                dtchart = tongdoanhthu;
+                datachart.Add(dtchart);
+                int stt = r + 1;
+
+                #region MAPCODE BANANA
+                #region THU
+                CongTrinhGetInfoQuanLyThuChiResult thusanluong = new CongTrinhGetInfoQuanLyThuChiResult()
+                {
+                    CongTrinhId = model.TKDoanhThu.Rows[r][0].ToString().ToUpper(),
+                    ThuChiName = "Sản lượng",
+                    ThuChiType = true,
+                    ThuChiValue = tttthuhd2
+                };
+                CongTrinhGetInfoQuanLyThuChiResult thudoanhthu = new CongTrinhGetInfoQuanLyThuChiResult()
+                {
+                    CongTrinhId = model.TKDoanhThu.Rows[r][0].ToString().ToUpper(),
+                    ThuChiName = "Doanh thu",
+                    ThuChiType = true,
+                    ThuChiValue = tttdoanhthuchia11
+                };
+                CongTrinhGetInfoQuanLyThuChiResult thuKhac = new CongTrinhGetInfoQuanLyThuChiResult()
+                {
+                    CongTrinhId = model.TKDoanhThu.Rows[r][0].ToString().ToUpper(),
+                    ThuChiName = "Khác",
+                    ThuChiType = true,
+                    ThuChiValue = tttthukhac
+                };
+                #endregion
+
+                #region CHI
+                CongTrinhGetInfoQuanLyThuChiResult chiThietBi = new CongTrinhGetInfoQuanLyThuChiResult()
+                {
+                    CongTrinhId = model.TKDoanhThu.Rows[r][0].ToString().ToUpper(),
+                    ThuChiName = "Thiết bị",
+                    ThuChiType = false,
+                    ThuChiValue = chithietbistring
+                };
+                CongTrinhGetInfoQuanLyThuChiResult chiCCDC = new CongTrinhGetInfoQuanLyThuChiResult()
+                {
+                    CongTrinhId = model.TKDoanhThu.Rows[r][0].ToString().ToUpper(),
+                    ThuChiName = "CCDC",
+                    ThuChiType = false,
+                    ThuChiValue = chiccdctring
+                };
+                CongTrinhGetInfoQuanLyThuChiResult chiVatTu = new CongTrinhGetInfoQuanLyThuChiResult()
+                {
+                    CongTrinhId = model.TKDoanhThu.Rows[r][0].ToString().ToUpper(),
+                    ThuChiName = "Vật tư",
+                    ThuChiType = false,
+                    ThuChiValue = chivattustring
+                };
+                CongTrinhGetInfoQuanLyThuChiResult chiNhanCong = new CongTrinhGetInfoQuanLyThuChiResult()
+                {
+                    CongTrinhId = model.TKDoanhThu.Rows[r][0].ToString().ToUpper(),
+                    ThuChiName = "Nhân công",
+                    ThuChiType = false,
+                    ThuChiValue = chinhancongstring
+                };
+                CongTrinhGetInfoQuanLyThuChiResult chiLuongVP = new CongTrinhGetInfoQuanLyThuChiResult()
+                {
+                    CongTrinhId = model.TKDoanhThu.Rows[r][0].ToString().ToUpper(),
+                    ThuChiName = "Lương VP",
+                    ThuChiType = false,
+                    ThuChiValue = luongvp
+                };
+                CongTrinhGetInfoQuanLyThuChiResult chiVanChuyen = new CongTrinhGetInfoQuanLyThuChiResult()
+                {
+                    CongTrinhId = model.TKDoanhThu.Rows[r][0].ToString().ToUpper(),
+                    ThuChiName = "Vận chuyển",
+                    ThuChiType = false,
+                    ThuChiValue = chivanchuyenstring
+                };
+                CongTrinhGetInfoQuanLyThuChiResult chiKhac= new CongTrinhGetInfoQuanLyThuChiResult()
+                {
+                    CongTrinhId = model.TKDoanhThu.Rows[r][0].ToString().ToUpper(),
+                    ThuChiName = "Khác",
+                    ThuChiType = false,
+                    ThuChiValue = chiphipop
+                };
+
+                #endregion
+
+                ViewData["TotalMoney"] = tdaonhthu;
+
+                listItem.Add(thusanluong);
+                listItem.Add(thudoanhthu);
+                listItem.Add(thuKhac);
+
+                listItem.Add(chiThietBi);
+                listItem.Add(chiCCDC);
+                listItem.Add(chiVatTu);
+                listItem.Add(chiNhanCong);
+                listItem.Add(chiLuongVP);
+                listItem.Add(chiVanChuyen);
+                listItem.Add(chiKhac);
+                #endregion
+            }
+            return listItem;
+        }
+
+        public class BaoCaoThuChiModel
+        {
+            public List<SelectListItem> listCongTrinh { get; set; }
+            public DataTable TKDoanhThu { get; set; }
+            public string ThoiGian { get; set; }
+            public double TongThu { get; set; }
+            public double ThuHopDong { get; set; }
+            public double ThuKhac { get; set; }
+            public double TongChi { get; set; }
+            public double DoanhThu { get; set; }
+            public double TongVanChuyen { get; set; }
+
+        }
+        #endregion
+
         public ActionResult SanLuongCT(string congTrinhId, string strFromDate, string strToDate)
         {
             CongTringPopupMV model = new CongTringPopupMV();

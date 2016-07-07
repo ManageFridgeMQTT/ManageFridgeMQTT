@@ -850,3 +850,6 @@ input[name='txtSearch'] {
 .leaflet-popup-content-wrapper{
     border-radius:0px !important;
 }
+.align-right{
+    text-align:right;
+}

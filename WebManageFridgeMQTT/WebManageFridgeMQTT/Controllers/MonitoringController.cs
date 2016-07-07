@@ -297,14 +297,19 @@ namespace WebManageFridgeMQTT.Controllers
             DataTable kq = unitofwork.BaoCaoChiPhis.getBaoCaoDoanhThu(tungay, denngay);
 
             #region MAPCODE where theo cong trinh
-            //where theo cong trinh
-            foreach (DataRow r in kq.Rows)
+            List<DataRow> rowsToDelete = new List<DataRow>();
+            foreach (DataRow row in kq.Rows)
             {
-                if (r["CongTrinhId"].ToString().ToUpper() != congTrinhId.ToUpper())
+                if (row["CongTrinhId"].ToString().ToUpper() != congTrinhId.ToUpper())
                 {
-                    r.Delete();
+                    rowsToDelete.Add(row);
                 }
-            } 
+            }
+            foreach (DataRow row in rowsToDelete)
+            {
+                kq.Rows.Remove(row);
+            }
+            kq.AcceptChanges();
             #endregion
 
             kq.Columns.Add("CPTB", typeof(Double));
@@ -416,7 +421,7 @@ namespace WebManageFridgeMQTT.Controllers
             //Đoạn này MAP ko xài
             //DataTable tongvc = unitofwork.BCVanChuyens.getTongVanChuyen(tungay, denngay);
             //model.ThoiGian = (tungay.ToString("dd/MM/yyyy") + " - " + denngaytemp.ToString("dd/MM/yyyy"));
-            //model.TKDoanhThu = kq;
+            model.TKDoanhThu = kq;
             //model.listCongTrinh = lst;
             //if (tongvc.Rows[0][0].ToString() != "")
             //{
@@ -551,7 +556,11 @@ namespace WebManageFridgeMQTT.Controllers
                 double tongdoanhthu = thukhac + (thuhd / 1.1) - tongchi - chiVattu - chiccdc - chinhancong - chivanchuyen - chithietbi - (thuhd * 0.07);
                 tttdoanhthu += tongdoanhthu;
                 tongdonhthuchia11 += (thuhd / 1.1);
-                string tdaonhthu = tongdoanhthu.ToString("#,###", cul.NumberFormat).Replace(".", ",");
+                string tdaonhthu = "0";
+                if(tongdoanhthu > 0)
+                {
+                    tdaonhthu = tongdoanhthu.ToString("#,###", cul.NumberFormat).Replace(".", ",");
+                }
                 dtchart = tongdoanhthu;
                 datachart.Add(dtchart);
                 int stt = r + 1;

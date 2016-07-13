@@ -6,6 +6,7 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.UI.WebControls;
 using DF.DataAccess;
+using DF.DBMapping.Models;
 using WebManageFridgeMQTT.Models;
 using WebManageFridgeMQTT.Utility;
 
@@ -54,14 +55,14 @@ namespace WebManageFridgeMQTT.Controllers
             }
             else
             {
-             var  ChildModel = model.Where(x=> x.Cap == 1 && x.Name.Contains(strSearch.Trim())).ToList();
-               var mergeModel = ChildModel;
-               foreach (var level1 in ChildModel)
-               {
-                   var ParentModel = from p in model where p.Id == level1.Father select p;
-                   mergeModel = mergeModel.Union(ParentModel).ToList();
-               }
-               return PartialView(mergeModel);
+                var ChildModel = model.Where(x => x.Cap == 1 && x.Name.Contains(strSearch.Trim())).ToList();
+                var mergeModel = ChildModel;
+                foreach (var level1 in ChildModel)
+                {
+                    var ParentModel = from p in model where p.Id == level1.Father select p;
+                    mergeModel = mergeModel.Union(ParentModel).ToList();
+                }
+                return PartialView(mergeModel);
             }
         }
         public ActionResult GetInfoDeviceById(string id)
@@ -69,9 +70,9 @@ namespace WebManageFridgeMQTT.Controllers
             var model = Global.Context.Sp_GetInfoDeviceById(id).FirstOrDefault();
             return Json(model);
         }
-        public ActionResult Device(FormCollection formParam,  string strSearch)
+        public ActionResult Device(FormCollection formParam, string strSearch)
         {
-            
+
             DeviceInfoMV model = new DeviceInfoMV();
             try
             {
@@ -82,7 +83,7 @@ namespace WebManageFridgeMQTT.Controllers
                 CustomLog.LogError(ex);
                 throw;
             }
-            
+
             return View(model.ListDeviceInfo);
         }
 
@@ -208,7 +209,7 @@ namespace WebManageFridgeMQTT.Controllers
                     model = data.Where(x => x.Cap == 1 && x.Name.Contains(inputDevice)).ToList();
                     ViewData["ParentID"] = 1;
                 }
-                
+
             }
             ViewData["inputDevice"] = inputDevice;
             return PartialView("TreeViewDevice", model);
@@ -557,7 +558,7 @@ namespace WebManageFridgeMQTT.Controllers
                 tttdoanhthu += tongdoanhthu;
                 tongdonhthuchia11 += (thuhd / 1.1);
                 string tdaonhthu = "0";
-                if(tongdoanhthu > 0)
+                if (tongdoanhthu > 0)
                 {
                     tdaonhthu = tongdoanhthu.ToString("#,###", cul.NumberFormat).Replace(".", ",");
                 }
@@ -633,7 +634,7 @@ namespace WebManageFridgeMQTT.Controllers
                     ThuChiType = false,
                     ThuChiValue = chivanchuyenstring
                 };
-                CongTrinhGetInfoQuanLyThuChiResult chiKhac= new CongTrinhGetInfoQuanLyThuChiResult()
+                CongTrinhGetInfoQuanLyThuChiResult chiKhac = new CongTrinhGetInfoQuanLyThuChiResult()
                 {
                     CongTrinhId = model.TKDoanhThu.Rows[r][0].ToString().ToUpper(),
                     ThuChiName = "Khác",
@@ -697,14 +698,15 @@ namespace WebManageFridgeMQTT.Controllers
                 model.ListSanLuong = Global.Context.CongTrinhGetInfoBCSanLuong(model.CongTrinhId, model.FromDate, model.ToDate).ToList();
                 if (model.ListSanLuong != null)
                 {
-                    double total = model.ListSanLuong.Where(x=>x.Tien.HasValue).Sum(s => s.Tien.Value);
-                    totalMoney = String.Format("{0:n0}", total); 
+                    double total = model.ListSanLuong.Where(x => x.Tien.HasValue).Sum(s => s.Tien.Value);
+                    totalMoney = String.Format("{0:n0}", total);
                     ViewData["TotalMoney"] = totalMoney;
                 }
             }
 
             return PartialView("SanLuongCT", model);
         }
+        #region BCThietbi
         public ActionResult CPDeviceCT(string congTrinhId, string strFromDate, string strToDate)
         {
             CongTringPopupMV model = new CongTringPopupMV();
@@ -723,17 +725,327 @@ namespace WebManageFridgeMQTT.Controllers
             if (!string.IsNullOrEmpty(congTrinhId))
             {
                 model.CongTrinhId = congTrinhId;
-                model.ListThietBi = Global.Context.CongTrinhGetInfoBCThietbi(model.CongTrinhId, model.FromDate, model.ToDate).ToList();
+
+                BaoCaoThietBiModel bc = BaoCaoThietBi(model.CongTrinhId, model.FromDate, model.ToDate);
+                model.ListThietBi = ViewBaoCaoThietBi(bc);
+                //model.ListThietBi = Global.Context.CongTrinhGetInfoBCThietbi(model.CongTrinhId, model.FromDate, model.ToDate).ToList();
                 if (model.ListThietBi != null)
                 {
                     double total = model.ListThietBi.Sum(s => s.Tien);
-                    totalMoney = String.Format("{0:n0}", total); 
+                    totalMoney = String.Format("{0:n0}", total);
                     ViewData["TotalMoney"] = totalMoney;
                 }
             }
 
             return PartialView("CPDeviceCT", model);
         }
+
+        private BaoCaoThietBiModel BaoCaoThietBi(string CongTrinhID, DateTime _tungay, DateTime _denngay)
+        {
+
+
+            unitofwork = new UnitOfWork();
+            BaoCaoThietBiModel model = new BaoCaoThietBiModel();
+            //string[] TGArray = ThoiGian.Split('-');
+            DateTime tungay = _tungay;// DateTime.ParseExact(TGArray[0].Trim().ToString(), "dd/MM/yyyy", null);
+            DateTime denngay = _denngay;// DateTime.ParseExact(TGArray[1].Trim().ToString(), "dd/MM/yyyy", null).AddDays(1).AddTicks(-1);
+            DataTable dt = new DataTable();
+            dt.Clear();
+            dt.Columns.Add("CTID");
+            dt.Columns.Add("CT");
+            dt.Columns.Add("khauhao");
+            dt.Columns.Add("tongkhauhao");
+            dt.Columns.Add("cpsuachua");
+            dt.Columns.Add("tongcpsuachua");
+            dt.Columns.Add("chiphi");
+            dt.Columns.Add("tongchiphi");
+            DateTime bgindate = Convert.ToDateTime("Jan 01, 1900");
+
+            DateTime date = DateTime.Now;
+            //thiet bi
+            double tngay = (tungay - bgindate).TotalDays;
+            DateTime denngaytemp = denngay;
+            if (denngay > date)
+            {
+                string ddd = date.Month + " " + date.Day + ", " + date.Year;
+                denngay = Convert.ToDateTime(ddd);//.AddDays(1);
+            }
+            double dngay = (denngay - bgindate).TotalDays;
+
+            //Thời gian 5 năm
+            DateTime datenow5nam = DateTime.Now;
+            DateTime datett5nam = new DateTime(datenow5nam.Year, datenow5nam.Month, 1);
+            DateTime date5nam = datenow5nam.AddMonths(-120);
+            DateTime tungay5nam = new DateTime(date5nam.Year, date5nam.Month, 1);
+            DateTime denngay5nam = datett5nam.AddMonths(1).AddTicks(-1);
+
+            double tngay555 = (tungay5nam - bgindate).TotalDays;
+            DateTime denngay5namtemp = denngay5nam;
+            if (denngay5nam > date)
+            {
+                string ddd = date.Month + " " + date.Day + ", " + date.Year;
+                denngay5nam = Convert.ToDateTime(ddd);//.AddDays(1);
+            }
+            double denngay555 = (denngay5nam - bgindate).TotalDays;
+
+            List<CongTrinh> lstCongTrinh = new List<CongTrinh>();
+            if (CongTrinhID == "" || CongTrinhID.Contains("0000000000") || CongTrinhID == null)
+            {
+                lstCongTrinh = unitofwork.CongTrinhs.GetAll().Where(ct => ct.Dept != 1).ToList();
+            }
+            else
+            {
+                var lstCongTrinhtemp = unitofwork.CongTrinhs.GetAll().Where(ct => ct.Dept != 1).ToList();
+                foreach (var lctt in lstCongTrinhtemp)
+                {
+                    if (CongTrinhID.Contains(lctt.CongTrinhId.ToString()))
+                    {
+                        lstCongTrinh.Add(lctt);
+                    }
+                }
+            }
+            List<SelectListItem> lst = new List<SelectListItem>();
+            foreach (var ct in lstCongTrinh)
+            {
+                lst.Add(new SelectListItem()
+                {
+                    Text = ct.TenCongTrinh,
+                    Value = ct.CongTrinhId.ToString()
+                });
+            }
+            foreach (var r in lstCongTrinh)
+            {
+                double chiphitb = 0;
+                double tongkhauhao = 0;
+                Guid ctid = r.CongTrinhId;
+                DataTable tbden = unitofwork.TrangThaiThietBis.getTBChuyenDen(ctid);
+                DataTable tbdi = unitofwork.TrangThaiThietBis.getTBChuyenDi(ctid);
+                DataTable ttbbdi = tbdi;
+                // DataTable temp = tbden.Clone();
+                foreach (DataRow r1 in tbden.Rows)
+                {
+                    string thietbidenid = r1[0].ToString();
+                    if (thietbidenid.ToUpper() == "2A21F6AB-9B39-4AFB-929B-1C5107D0F0E9")
+                    {
+                        int kkk = 0;
+                    }
+                    double tgdi = 0;
+                    double giamuathue = 0;
+                    double tgden = Convert.ToDouble(r1[4].ToString());
+                    double tttgden = tgden;
+                    if (tgden <= dngay)
+                    {
+                        foreach (DataRow r2 in tbdi.Rows)
+                        {
+                            if (r2[0].ToString() == thietbidenid)
+                            {
+                                tgdi = Convert.ToDouble(r2[4].ToString());
+                                giamuathue = Convert.ToDouble(r2[2].ToString());
+                                tbdi.Rows.Remove(r2);
+                                break;
+                            }
+                        }
+                        if (tgdi == 0 && r1[7].ToString() == "1" && r1[6].ToString() != null && r1[6].ToString() != "")
+                        {
+                            tgdi = Convert.ToDouble(r1[6].ToString());
+                            giamuathue = Convert.ToDouble(r1[2].ToString());
+                        }
+                        //if (r1[7].ToString() == "1" && r1[6].ToString() != null && r1[6].ToString() != "")
+                        //{
+                        //    tgdi = Convert.ToDouble(r1[6].ToString());
+                        //    giamuathue = Convert.ToDouble(r1[2].ToString());
+                        //}
+                        //else
+                        //{
+                        //    foreach (DataRow r2 in tbdi.Rows)
+                        //    {
+                        //        if (r2[0].ToString() == thietbidenid)
+                        //        {
+                        //            tgdi = Convert.ToDouble(r2[4].ToString());
+                        //            giamuathue = Convert.ToDouble(r2[2].ToString());
+                        //            tbdi.Rows.Remove(r2);
+                        //            break;
+                        //        }
+                        //    }
+                        //}
+                        if (tgdi != 0) // nếu đã đi
+                        {
+                            if (tgdi < tngay) // nếu đã đi trước thời gian tìm kiếm => không tính
+                            {
+
+                            }
+                            else
+                            {
+                                if (tgden < tngay) // nếu đến trước ngày bắt đầu tìm kiêm
+                                {
+                                    tgden = tngay;
+                                }
+                                if (tgdi > dngay) // nếu đi sau ngay kết thúc tìm kiếm
+                                {
+                                    tgdi = dngay;
+                                }
+                                chiphitb = chiphitb + (tgdi - tgden) * (giamuathue / 30);
+                            }
+                        }
+                        else
+                        { //nếu chưa đi
+                            if (tgden < tngay) // nếu đến trước ngày bắt đầu tìm kiêm
+                            {
+                                tgden = tngay;
+                            }
+                            if (r1[6].ToString() != "" && r1[6].ToString() != null)
+                            {
+                                double trangay = Convert.ToDouble(r1[6].ToString());
+                                if (trangay < dngay)
+                                {
+                                    if (trangay < tngay)
+                                    {
+                                        dngay = tngay;
+                                    }
+                                    else
+                                    {
+                                        dngay = trangay;
+                                    }
+                                }
+                            }
+                            chiphitb = chiphitb + ((dngay - tgden) * (Convert.ToDouble(r1[2].ToString()) / 30));
+                        }
+                    }
+
+                    tgdi = 0;
+                    foreach (DataRow r2 in ttbbdi.Rows)
+                    {
+                        if (r2[0].ToString() == thietbidenid)
+                        {
+                            tgdi = Convert.ToDouble(r2[4].ToString());
+                            giamuathue = Convert.ToDouble(r2[2].ToString());
+                            ttbbdi.Rows.Remove(r2);
+                            break;
+                        }
+                    }
+                    if (tgdi == 0 && r1[7].ToString() == "1" && r1[6].ToString() != null && r1[6].ToString() != "") //thiết bị thuê và đã trả
+                    {
+                        tgdi = Convert.ToDouble(r1[6].ToString());
+                        giamuathue = Convert.ToDouble(r1[2].ToString());
+                    }
+
+                    //if (r1[7].ToString() == "1" && r1[6].ToString() != null && r1[6].ToString() != "") //thiết bị thuê và đã trả
+                    //{
+                    //    tgdi = Convert.ToDouble(r1[6].ToString());
+                    //    giamuathue = Convert.ToDouble(r1[2].ToString());
+                    //}
+                    //else //tìm ngày điều chuyển sang ctrinh khác
+                    //{
+                    //    foreach (DataRow r2 in ttbbdi.Rows)
+                    //    {
+                    //        if (r2[0].ToString() == thietbidenid)
+                    //        {
+                    //            tgdi = Convert.ToDouble(r2[4].ToString());
+                    //            giamuathue = Convert.ToDouble(r2[2].ToString());
+                    //            ttbbdi.Rows.Remove(r2);
+                    //            break;
+                    //        }
+                    //    }
+                    //}
+                    if (tgdi != 0) // nếu đã đi
+                    {
+                        tongkhauhao = tongkhauhao + (tgdi - tttgden) * (giamuathue / 30);
+                    }
+                    else
+                    { //nếu chưa đi
+                        tongkhauhao = tongkhauhao + (denngay555 - tttgden) * (Convert.ToDouble(r1[2].ToString()) / 30);
+                    }
+                }
+                //tính chi phí sửa chữa
+                DataTable cpsuachua = unitofwork.BCThietBis.getSuaChuaBCThietBi(ctid, tungay, denngay);
+                DataTable tongcpsuachua = unitofwork.BCThietBis.getSuaChuaBCThietBi(ctid, tungay5nam, denngay5nam);
+                DataRow _ravi = dt.NewRow();
+                double chiphitbtb = chiphitb;
+                if (cpsuachua.Rows[0][2].ToString() != "" && cpsuachua.Rows[0][2].ToString() != null)
+                {
+                    chiphitbtb += Convert.ToDouble(cpsuachua.Rows[0][2].ToString());
+                }
+
+                double tongchiphitbtb = tongkhauhao;
+                if (tongcpsuachua.Rows[0][2].ToString() != "" && tongcpsuachua.Rows[0][2].ToString() != null)
+                {
+                    tongchiphitbtb += Convert.ToDouble(tongcpsuachua.Rows[0][2].ToString());
+                }
+                _ravi["ctid"] = r.CongTrinhId.ToString();
+                _ravi["ct"] = r.TenCongTrinh;
+                _ravi["khauhao"] = chiphitb;
+                _ravi["tongkhauhao"] = tongkhauhao;
+                _ravi["cpsuachua"] = cpsuachua.Rows[0][2];
+                _ravi["tongcpsuachua"] = tongcpsuachua.Rows[0][2];
+                _ravi["chiphi"] = chiphitbtb;
+                _ravi["tongchiphi"] = tongchiphitbtb;
+                dt.Rows.Add(_ravi);
+
+                //_ravi["ctid"] = r.CongTrinhId.ToString();
+                //_ravi["ct"] = r.TenCongTrinh;
+                //_ravi["khauhao"] = chiphitb;
+                //_ravi["tongkhauhao"] = tongkhauhao;
+                //dt.Rows.Add(_ravi);
+            }
+            model.TKBCBaoCaoThietBi = dt;
+            //model.ThoiGian = ThoiGian;
+
+            return model;
+        }
+
+        private List<CongTrinhGetInfoBCThietbiResult> ViewBaoCaoThietBi(BaoCaoThietBiModel model)
+        {
+            System.Globalization.CultureInfo cul = System.Globalization.CultureInfo.GetCultureInfo("vi-VN");
+            List<CongTrinhGetInfoBCThietbiResult> listItem = new List<CongTrinhGetInfoBCThietbiResult>();
+
+            for (int r = 0; r < model.TKBCBaoCaoThietBi.Rows.Count; r++)
+            {
+                int stt = r + 1;
+                string dongia = "";
+                if (model.TKBCBaoCaoThietBi.Rows[r][3].ToString() != "")
+                {
+                    double temp1 = double.Parse(model.TKBCBaoCaoThietBi.Rows[r][3].ToString());
+                    dongia = temp1.ToString("#,###", cul.NumberFormat).Replace(".", ",");
+                }
+                string thanhtien = "";
+                if (model.TKBCBaoCaoThietBi.Rows[r][8].ToString() != "")
+                {
+                    double temp1 = double.Parse(model.TKBCBaoCaoThietBi.Rows[r][8].ToString());
+                    thanhtien = temp1.ToString("#,###", cul.NumberFormat).Replace(".", ",");
+                }
+                string ttthanhtien = "";
+                if (model.TKBCBaoCaoThietBi.Rows[r][9].ToString() != "")
+                {
+                    double temp1 = double.Parse(model.TKBCBaoCaoThietBi.Rows[r][9].ToString());
+                    ttthanhtien = temp1.ToString("#,###", cul.NumberFormat).Replace(".", ",");
+                }
+
+                CongTrinhGetInfoBCThietbiResult item = new CongTrinhGetInfoBCThietbiResult() {
+                    TenThietBi = model.TKBCBaoCaoThietBi.Rows[r][1].ToString(),
+                    DonViThue = model.TKBCBaoCaoThietBi.Rows[r][2].ToString(),
+                    NgayDen = model.TKBCBaoCaoThietBi.Rows[r][4].ToString(),
+                    NgayDi = model.TKBCBaoCaoThietBi.Rows[r][5].ToString(),
+                    DonGia = dongia,
+                    SoNgay = model.TKBCBaoCaoThietBi.Rows[r][6].ToString(),
+                    SoTien = thanhtien,
+                    TongNgayOCongTrinh = model.TKBCBaoCaoThietBi.Rows[r][7].ToString(),
+                    TongSoTien = ttthanhtien,
+                };
+                listItem.Add(item);
+            }
+
+            return listItem;
+        }
+
+        public class BaoCaoThietBiModel
+        {
+            public List<SelectListItem> listCongTrinh { get; set; }
+            public DataTable TKBCBaoCaoThietBi { get; set; }
+            public DataTable TKSuaChuaThietBi { get; set; }
+            public string ThoiGian { get; set; }
+            public string TenCongTrinh { get; set; }
+        }
+        #endregion
         public ActionResult CPVatTuCT(string congTrinhId, string strFromDate, string strToDate)
         {
             CongTringPopupMV model = new CongTringPopupMV();
@@ -756,7 +1068,7 @@ namespace WebManageFridgeMQTT.Controllers
                 if (model.ListVatTu != null)
                 {
                     double total = model.ListVatTu.Where(x => x.Tien.HasValue).Sum(s => s.Tien.Value);
-                    totalMoney = String.Format("{0:n0}", total); 
+                    totalMoney = String.Format("{0:n0}", total);
                     ViewData["TotalMoney"] = totalMoney;
                 }
             }

@@ -402,7 +402,7 @@
                 map.addLayer(mapData.LayerDevice);
             }
         });
-        
+
 
         $('body').on('click', '#table-report > table > tbody > tr', function () {
             var listtd = $(this).children('td');
@@ -435,24 +435,50 @@
             //$("#inlineBaoCao").show();
         });
 
-        $(document).keypress(function (e) {
-            if (e.which == 13) {
-                var inputDevice = $('#DeviceInput').val();
-                $.ajax({
-                    url: '../Monitoring/SearchDeviceBy',
-                    type: 'POST',
-                    dataType: 'html',
-                    data: { "inputDevice": inputDevice },
-                    success: function (data) {
-                        $("#devices-body").html(data);
+        $.ajax({
+            url: '../Monitoring/SearchDeviceBy',
+            type: 'POST',
+            dataType: "json",
+            data: { "inputDevice": '' },
+            success: function (data) {
+                $("#DeviceInput").autocomplete({
+                    minLength: 0,
+                    source: data,
+                    focus: function (event, ui) {
+                        $("#project").val(ui.item.label);
+                        return false;
+                    },
+                    select: function (e, ui) {
+                        FocusDevice(ui.item.id);
+                        $('#DeviceInput').val(ui.item.label);
                         $('#headerNameCT').html('Back');
                         $('#headerNameCongTrinh').show();
                         $('#devices-body').show();
                         $('#congtrinh-body').hide();
+                        return false;
                     }
                 });
             }
         });
+
+        //$(document).keypress(function (e) {
+        //    if (e.which == 13) {
+        //        var inputDevice = $('#DeviceInput').val();
+        //        $.ajax({
+        //            url: '../Monitoring/SearchDeviceBy',
+        //            type: 'POST',
+        //            dataType: 'html',
+        //            data: { "inputDevice": inputDevice },
+        //            success: function (data) {
+        //                $("#devices-body").html(data);
+        //                $('#headerNameCT').html('Back');
+        //                $('#headerNameCongTrinh').show();
+        //                $('#devices-body').show();
+        //                $('#congtrinh-body').hide();
+        //            }
+        //        });
+        //    }
+        //});
     });
 
 
@@ -696,8 +722,8 @@
         $('#congtrinh-body').show();
     }
 
-    
-    ///Cong Trinh 
+
+    ///Cong Trinh
     function RenderCongTrinh(c){
         var strIconUrl = '030';
         if(c.TrangThai == 0){
@@ -771,7 +797,7 @@
         }
         $("#sanluong").load('@(Url.Action("SanLuongCT", "Monitoring"))?congTrinhId=' + item + '&strFromDate=' + strFromDate + '&strToDate=' + strToDate);
     }
-    
+
     function RenderCPDevice(item){
         var strFromDate = $('#strFromDateCPDevice').val();
         if(strFromDate == undefined)

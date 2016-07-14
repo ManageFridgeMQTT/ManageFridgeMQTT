@@ -70,21 +70,10 @@ namespace WebManageFridgeMQTT.Controllers
             var model = Global.Context.Sp_GetInfoDeviceById(id).FirstOrDefault();
             return Json(model);
         }
-        public ActionResult Device(FormCollection formParam, string strSearch)
+        public ActionResult Device()
         {
-
-            DeviceInfoMV model = new DeviceInfoMV();
-            try
-            {
-                model.ListDeviceInfo = Global.Context.Sp_GetInfoDevice("").ToList();
-            }
-            catch (Exception ex)
-            {
-                CustomLog.LogError(ex);
-                throw;
-            }
-
-            return View(model.ListDeviceInfo);
+            List<Sp_GetInfoDeviceResult> data = Global.Context.Sp_GetInfoDevice("").ToList();
+            return View(data);
         }
 
         public ActionResult DeviceModify(string thietBiID, string strFromDate, string strToDate)
@@ -193,26 +182,13 @@ namespace WebManageFridgeMQTT.Controllers
             ViewData["DisplayHeader"] = true;
             return PartialView("TreeViewDevice", model);
         }
-        public ActionResult SearchDeviceBy(string inputDevice)
+        [HttpPost]
+        public JsonResult SearchDeviceBy(string inputDevice)
         {
-            List<GetTreeThietBiResult> model = new List<GetTreeThietBiResult>();
-            if (SessionHelper.GetSession<List<GetTreeThietBiResult>>("ListTreeDevice") != null)
-            {
-                var data = SessionHelper.GetSession<List<GetTreeThietBiResult>>("ListTreeDevice");
-                if (inputDevice == "")
-                {
-                    model = data.ToList();
-                    ViewData["ParentID"] = 0;
-                }
-                else
-                {
-                    model = data.Where(x => x.Cap == 1 && x.Name.Contains(inputDevice)).ToList();
-                    ViewData["ParentID"] = 1;
-                }
+            List<GetTreeThietBiResult> data = SessionHelper.GetSession<List<GetTreeThietBiResult>>("ListTreeDevice");
+            var result = data.Where(x => x.Cap == 1).Select(s => new { id = s.Id, label = s.Name, value = s.Name }).ToList();
 
-            }
-            ViewData["inputDevice"] = inputDevice;
-            return PartialView("TreeViewDevice", model);
+            return Json(result, JsonRequestBehavior.AllowGet);
         }
 
         #region CongTrinh

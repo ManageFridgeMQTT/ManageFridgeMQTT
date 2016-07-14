@@ -853,3 +853,6 @@ input[name='txtSearch'] {
 .align-right{
     text-align:right;
 }
+.ui-autocomplete{
+    z-index:999999;
+}

@@ -54,8 +54,7 @@
         float: left;
     }
 </style>
-<div id="loading" class="loading">
-</div>
+<div id="loading" class="loading" style="display:none"></div>
 <div class='insider'>
     <div style="width:100%; height:100%" id="map"></div>
     @*<input type='text' name="txtSearch" class="form-control" placeholder='Search...' id='txtSearch' />*@
@@ -350,13 +349,9 @@
     map.zoomControl.setPosition('bottomright');
     // js tree
     $('.treeviewContent').jstree();
+    
     $(document).ready(function () {
-        $(document).ajaxStart(function () {
-            $(".loading").show();
-        });
-        $(document).ajaxStop(function () {
-            $(".loading").hide();
-        });
+        
         var $treeView = $('#treeviewToggle, #treeviewPanel');
         $('#treeviewToggle').on('click', function () {
             $treeView.toggleClass('toggled');
@@ -568,6 +563,7 @@
         {
             strToDate = '';
         }
+        $(".loading").show();
         $("#baoduong").load('@(Url.Action("DeviceModify", "Monitoring"))?thietBiID=' + thietbiId + '&strFromDate=' + strFromDate + '&strToDate=' + strToDate);
     }
 
@@ -584,6 +580,7 @@
         {
             strToDate = '';
         }
+        $(".loading").show();
         $("#dichuyen").load('@(Url.Action("DeviceMove", "Monitoring"))?thietBiID=' + thietbiId + '&strFromDate=' + strFromDate + '&strToDate=' + strToDate);
     }
 
@@ -600,12 +597,14 @@
         {
             strToDate = '';
         }
+        $(".loading").show();
         $("#detail").load('@(Url.Action("DeviceReport", "Monitoring"))?thietBiID=' + thietbiId + '&strFromDate=' + strFromDate + '&strToDate=' + strToDate);
     }
 
     function RenderHoatDong(thietbiId)
     {
         //thietbiId = currentDeviceID;
+        $(".loading").show();
         $("#activity").load('@(Url.Action("DeviceActivity", "Monitoring"))?thietBiID=' + thietbiId);
     }
 
@@ -795,6 +794,7 @@
         {
             strToDate = '';
         }
+        $(".loading").show();
         $("#sanluong").load('@(Url.Action("SanLuongCT", "Monitoring"))?congTrinhId=' + item + '&strFromDate=' + strFromDate + '&strToDate=' + strToDate);
     }
 
@@ -809,6 +809,7 @@
         {
             strToDate = '';
         }
+        $(".loading").show();
         $("#chiphidevice").load('@(Url.Action("CPDeviceCT", "Monitoring"))?congTrinhId=' + item + '&strFromDate=' + strFromDate + '&strToDate=' + strToDate);
     }
     function RenderCPVatTu(item){
@@ -822,6 +823,7 @@
         {
             strToDate = '';
         }
+        $(".loading").show();
         $("#chiphivattu").load('@(Url.Action("CPVatTuCT", "Monitoring"))?congTrinhId=' + item + '&strFromDate=' + strFromDate + '&strToDate=' + strToDate);
     }
     function RenderThiCong(item){
@@ -835,6 +837,7 @@
         {
             strToDate = '';
         }
+        $(".loading").show();
         $("#thicong").load('@(Url.Action("ThiCongCT", "Monitoring"))?congTrinhId=' + item + '&strFromDate=' + strFromDate + '&strToDate=' + strToDate);
     }
     function ShowModalCocDetail(congTrinhId, cocId){
@@ -853,6 +856,7 @@
         {
             strToDate = '';
         }
+        $(".loading").show();
         $("#nhanvien").load('@(Url.Action("NhanVienCT", "Monitoring"))?congTrinhId=' + item + '&strFromDate=' + strFromDate + '&strToDate=' + strToDate);
     }
 </script>

@@ -22,7 +22,7 @@ namespace WebManageFridgeMQTT.Utility
         {
             try
             {
-                CustomLog.LogArrayByte(e.Message);
+                string log = Helper.ByteToString(e.Message);
                 string clientID = (string)Utility.Helper.GetPropertyValue(sender, "ClientId");
                 bool isConnected = (bool)Utility.Helper.GetPropertyValue(sender, "IsConnected");
 
@@ -32,22 +32,20 @@ namespace WebManageFridgeMQTT.Utility
                     if (topicList[0].ToString() == "info")
                     {
                         string strThietBiID = topicList[2].ToString();
-
                         ModelMess modelMess = Helper.ParseMessToModel(e.Message.ToList());
-                        CustomLog.LogError(modelMess.WriteByteLog());
+                        log += Environment.NewLine + modelMess.WriteByteLog();
                         ThietBiStatusMess TbMess = Helper.ParseMessToValue(modelMess, strThietBiID);
                         if (!string.IsNullOrEmpty(strThietBiID))
                         {
-                            CustomLog.LogError(TbMess.WriteLog());
                             using (DeviceTrackingDataContext Context = new DeviceTrackingDataContext())
                             {
-                                //Context.UpdateThieBiSatusMess("7E151BF7-559D-4BCC-B8B5-6F5FFAEB86FD", "", "", "", 0, 1, 0, 0, 0, 0);
                                 Context.UpdateThieBiSatusMess(strThietBiID, TbMess.CommandType, TbMess.CommandId, TbMess.CommandAction, TbMess.Loai, TbMess.StatusMay, TbMess.Time, TbMess.TrangThai, TbMess.Latitude, TbMess.Longitude);
                             }
-
+                            log += Environment.NewLine + TbMess.WriteLog();
                         }
                     }
                 }
+                CustomLog.LogDevice(log);
             }
             catch (Exception ex)
             {
@@ -95,7 +93,7 @@ namespace WebManageFridgeMQTT.Utility
                 {
                     #region Config
                     this.client = new MqttClient(IPAddress.Parse("45.117.80.39"));
-                    string clientID = "1111AAAA";
+                    string clientID = "1111AAAAzzz";
                     this.client.Connect(clientID);
                     CustomLog.LogError("reconnect thanh cong");
                     string[] topic = { "#", "Test/#" };

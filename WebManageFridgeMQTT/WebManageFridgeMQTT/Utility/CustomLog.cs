@@ -91,6 +91,26 @@ namespace WebManageFridgeMQTT.Utility
             }
         }
 
+        public static void LogDevice(string ex)
+        {
+            lock (locker)
+            {
+                StringBuilder builder = new StringBuilder();
+                builder
+                    .AppendLine("----------")
+                    .AppendLine(DateTime.Now.ToString())
+                    .AppendFormat("Message:\t{0}", ex)
+                    .AppendLine();
+
+                string filePath = CustomLog.LogPath + "LogDevice.txt";
+                using (StreamWriter writer = File.AppendText(filePath))
+                {
+                    writer.Write(builder.ToString());
+                    writer.Flush();
+                }
+            }
+        }
+
         public static void LogError(string filename, dynamic obj)
         {
             lock (locker)

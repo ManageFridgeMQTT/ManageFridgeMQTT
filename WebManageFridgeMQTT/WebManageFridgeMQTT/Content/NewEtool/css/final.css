@@ -602,17 +602,6 @@ table.table-raw td {
     z-index: 999 !important
 }
 
-.loading {
-			width: 100%;
-			height: 100%;
-			position: fixed;
-			top: 0;
-			left: 0;
-			z-index: 99999999999999999999;
-			opacity: .3;
-			background: url(/MapTest/images/loading.gif) no-repeat center #bbb;
-			display: none;
-		}
 
 .ui-datepicker .ui-datepicker-calendar td {
             line-height: normal;

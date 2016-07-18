@@ -384,6 +384,13 @@ namespace WebManageFridgeMQTT.Utility
             }
             return result;
         }
+
+        public static string ByteToString(byte[] mess)
+        {
+            string hex = BitConverter.ToString(mess);
+            string text = hex.Replace("-", "");
+            return text;
+        }
     }
     
     #region class SessionHelper
@@ -473,56 +480,56 @@ namespace WebManageFridgeMQTT.Utility
             if (this.CommandType != null)
             {
                 string hex = BitConverter.ToString(this.CommandType);
-                string text = hex.Replace("-", " ");
-                result += "---  CommandType:" + text;
+                string text = hex.Replace("-", "");
+                result += "     CommandType:" + text;
             }
             if (this.CommandId != null)
             {
                 string hex = BitConverter.ToString(this.CommandId);
-                string text = hex.Replace("-", " ");
-                result += "---  CommandId:" + text;
+                string text = hex.Replace("-", "");
+                result += "     CommandId:" + text;
             }
             if (this.CommandAction != null)
             {
                 string hex = BitConverter.ToString(this.CommandAction);
-                string text = hex.Replace("-", " ");
-                result += "---  CommandAction:" + text;
+                string text = hex.Replace("-", "");
+                result += "     CommandAction:" + text;
             }
             if (this.Status != null)
             {
                 string hex = BitConverter.ToString(this.Status);
-                string text = hex.Replace("-", " ");
-                result += "---  Status:" + text;
+                string text = hex.Replace("-", "");
+                result += "     Status:" + text;
             }
             if (this.States != null)
             {
                 string hex = BitConverter.ToString(this.States);
-                string text = hex.Replace("-", " ");
-                result += "---  States:" + text;
+                string text = hex.Replace("-", "");
+                result += "     States:" + text;
             }
             if (this.Time != null)
             {
                 string hex = BitConverter.ToString(this.Time);
-                string text = hex.Replace("-", " ");
-                result += "---  Time:" + text;
+                string text = hex.Replace("-", "");
+                result += "     Time:" + text;
             }
             if (this.Sequence != null)
             {
                 string hex = BitConverter.ToString(this.Sequence);
-                string text = hex.Replace("-", " ");
-                result += "---  Sequence:" + text;
+                string text = hex.Replace("-", "");
+                result += "     Sequence:" + text;
             };
             if (this.GPSByte != null)
             {
                 string hex = BitConverter.ToString(this.GPSByte);
-                string text = hex.Replace("-", " ");
-                result += "---  GPSByte:" + text;
+                string text = hex.Replace("-", "");
+                result += "     GPSByte:" + text;
             }
             if (this.Length != null)
             {
                 string hex = BitConverter.ToString(this.Length);
-                string text = hex.Replace("-", " ");
-                result += "---  Length:" + text;
+                string text = hex.Replace("-", "");
+                result += "     Length:" + text;
             }
             return result;
         }
@@ -549,43 +556,43 @@ namespace WebManageFridgeMQTT.Utility
             string result = "";
             if (this.CommandType != null)
             {
-                result += "CommandType:" + string.Join(" ", this.CommandType);
+                result += "     CommandType:" + string.Join(" ", this.CommandType);
             }
             if (this.CommandId != null)
             {
-                result += "CommandId:" + string.Join(" ", this.CommandId);
+                result += "     CommandId:" + string.Join(" ", this.CommandId);
             }
             if (this.CommandAction != null)
             {
-                result += "CommandAction:" + string.Join(" ", this.CommandAction);
+                result += "     CommandAction:" + string.Join(" ", this.CommandAction);
             }
             if (this.ThietBiID != null)
             {
-                result += "ThietBiID:" + this.ThietBiID;
+                result += "     ThietBiID:" + this.ThietBiID;
             }
             if (this.Loai != null)
             {
-                result += "Loai:" + this.Loai.Value.ToString();
+                result += "     Loai:" + this.Loai.Value.ToString();
             }
             if (this.StatusMay != null)
             {
-                result += "StatusMay:" + this.StatusMay.Value.ToString();
+                result += "     StatusMay:" + this.StatusMay.Value.ToString();
             }
             if (this.TrangThai != null)
             {
-                result += "TrangThai:" + this.TrangThai.Value.ToString();
+                result += "     TrangThai:" + this.TrangThai.Value.ToString();
             }
             if (this.Time != null)
             {
-                result += "Time:" + this.Time.Value.ToString();
+                result += "     Time:" + this.Time.Value.ToString();
             }
             if (this.Latitude != null)
             {
-                result += "Latitude:" + this.Latitude.Value.ToString();
+                result += "     Latitude:" + this.Latitude.Value.ToString();
             }
             if (this.Longitude != null)
             {
-                result += "Longitude:" + this.Longitude.Value.ToString();
+                result += "     Longitude:" + this.Longitude.Value.ToString();
             }
             return result;
         }

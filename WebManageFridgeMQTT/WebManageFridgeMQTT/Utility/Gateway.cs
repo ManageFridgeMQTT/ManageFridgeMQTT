@@ -50,7 +50,7 @@ namespace WebManageFridgeMQTT.Utility
             catch (Exception ex)
             {
                 CustomLog.LogError(ex);
-                throw;
+                //throw;
             }
 
         }

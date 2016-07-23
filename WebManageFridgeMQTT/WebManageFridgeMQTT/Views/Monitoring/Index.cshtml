@@ -349,9 +349,9 @@
     map.zoomControl.setPosition('bottomright');
     // js tree
     $('.treeviewContent').jstree();
-    
+
     $(document).ready(function () {
-        
+
         var $treeView = $('#treeviewToggle, #treeviewPanel');
         $('#treeviewToggle').on('click', function () {
             $treeView.toggleClass('toggled');
@@ -367,7 +367,7 @@
         });
 
 
-        var data = @Html.Raw(new System.Web.Script.Serialization.JavaScriptSerializer().Serialize(Model.ListDeviceInfo));
+        @*var data = @Html.Raw(new System.Web.Script.Serialization.JavaScriptSerializer().Serialize(Model.ListDeviceInfo));
         for (var i in data) {
             $.ajax({
                 url:'../Monitoring/GetInfoDeviceById',
@@ -378,6 +378,11 @@
                     RenderDevice(meta);
                 }
             });
+        }*@
+
+        var data = @Html.Raw(new System.Web.Script.Serialization.JavaScriptSerializer().Serialize(Model.ListDeviceInfoAll));
+        for (var i in data) {
+            RenderDevice(data[i]);
         }
 
         var dataCongTrinh = @Html.Raw(new System.Web.Script.Serialization.JavaScriptSerializer().Serialize(Model.ListCongTrinh));

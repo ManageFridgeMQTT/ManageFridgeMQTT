@@ -641,8 +641,8 @@ namespace WebManageFridgeMQTT.Utility
         public DeviceActivity()
         {
             this.ThietBiID = null;
-            this.FromDate = DateTime.Now.AddMonths(-1);
-            this.ToDate = DateTime.Now;
+            this.FromDate = DateTime.Today.AddMonths(-1);
+            this.ToDate = DateTime.Today;
             this.ListData = new List<GetInfoDeviceActivityResult>();
             this.ListDataMove = new List<GetInfoDeviceMoveResult>();
             this.ListDataModify = new List<GetInfoDeviceModifyResult>();

@@ -294,4 +294,33 @@
       <Column Name="Tien" Type="System.Double" DbType="Float" CanBeNull="true" />
     </ElementType>
   </Function>
+  <Function Name="dbo.Sp_GetInfoDeviceByIdAll" Method="Sp_GetInfoDeviceByIdAll">
+    <ElementType Name="Sp_GetInfoDeviceByIdAllResult">
+      <Column Name="STT" Type="System.Int64" DbType="BigInt" CanBeNull="true" />
+      <Column Name="HinhAnhAvatar" Type="System.String" DbType="NVarChar(500) NOT NULL" CanBeNull="false" />
+      <Column Name="ThietBiId" Type="System.String" DbType="NVarChar(250)" CanBeNull="true" />
+      <Column Name="TenCongTrinh" Type="System.String" DbType="NVarChar(500)" CanBeNull="true" />
+      <Column Name="DiaDiem" Type="System.String" DbType="NVarChar(1000)" CanBeNull="true" />
+      <Column Name="TenVietTat" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="TenThietBi" Type="System.String" DbType="NVarChar(250) NOT NULL" CanBeNull="false" />
+      <Column Name="TrangThai" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="strTinhTrang" Type="System.String" DbType="NVarChar(500)" CanBeNull="true" />
+      <Column Name="TrangThaiHienTai" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="StrTrangThai" Type="System.String" DbType="NVarChar(500)" CanBeNull="true" />
+      <Column Name="DaHoatDong" Type="System.String" DbType="NVarChar(30)" CanBeNull="true" />
+      <Column Name="LoaiHinh" Type="System.String" DbType="NVarChar(11) NOT NULL" CanBeNull="false" />
+      <Column Name="ThoiGianVao" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
+      <Column Name="NgayOCongTrinh" Type="System.String" DbType="NVarChar(55)" CanBeNull="true" />
+      <Column Name="GiaThue" Type="System.String" DbType="NVarChar(200)" CanBeNull="true" />
+      <Column Name="ThanhTien" Type="System.String" DbType="NVarChar(200)" CanBeNull="true" />
+      <Column Name="ThayDauLanCuoi" Type="System.String" DbType="VarChar(1) NOT NULL" CanBeNull="false" />
+      <Column Name="ThayLocLanCuoi" Type="System.String" DbType="VarChar(1) NOT NULL" CanBeNull="false" />
+      <Column Name="SoGioThayDau" Type="System.String" DbType="NVarChar(250)" CanBeNull="true" />
+      <Column Name="SoGioThayLoc" Type="System.String" DbType="NVarChar(250)" CanBeNull="true" />
+      <Column Name="ThayDauTiep" Type="System.Double" DbType="Float" CanBeNull="true" />
+      <Column Name="ThayLocTiep" Type="System.Double" DbType="Float" CanBeNull="true" />
+      <Column Name="Latitude" Type="System.Decimal" DbType="Decimal(18,10) NOT NULL" CanBeNull="false" />
+      <Column Name="Longitude" Type="System.Decimal" DbType="Decimal(18,10) NOT NULL" CanBeNull="false" />
+    </ElementType>
+  </Function>
 </Database>

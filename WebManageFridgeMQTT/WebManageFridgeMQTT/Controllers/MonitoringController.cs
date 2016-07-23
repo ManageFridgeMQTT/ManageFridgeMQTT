@@ -14,9 +14,7 @@ namespace WebManageFridgeMQTT.Controllers
 {
     public class MonitoringController : Controller
     {
-        //
-        // GET: /Monitoring/
-
+        #region Index
         public ActionResult Index()
         {
             DeviceInfoMV model = new DeviceInfoMV();
@@ -25,6 +23,7 @@ namespace WebManageFridgeMQTT.Controllers
                 model.TreeDevice = Global.Context.GetTreeThietBi("").ToList();
                 model.ListDeviceInfo = Global.Context.Sp_GetInfoDevice("").ToList();
                 model.ListCongTrinh = Global.Context.GetInfoCongTrinh("").ToList();
+                model.ListDeviceInfoAll = Global.Context.Sp_GetInfoDeviceByIdAll().ToList();
             }
             catch (Exception ex)
             {
@@ -33,8 +32,10 @@ namespace WebManageFridgeMQTT.Controllers
             }
             SessionHelper.SetSession<List<GetTreeThietBiResult>>("ListTreeDevice", model.TreeDevice);
             return View(model);
-        }
+        } 
+        #endregion
 
+        #region ThietBi
         public ActionResult PopupReport()
         {
             DeviceActivity model = new DeviceActivity();
@@ -172,8 +173,10 @@ namespace WebManageFridgeMQTT.Controllers
             DateTime ToDate = DateTime.Now;
             model.ListDataReport = Global.Context.GetInfoDeviceReport(thietBiID, model.FromDate, model.ToDate).ToList();
             return PartialView("DeviceReport", model);
-        }
+        } 
+        #endregion
 
+        #region Menu Left
         public ActionResult GetDeviceByCongTrinh(string congTrinhId)
         {
             List<GetTreeThietBiResult> model = new List<GetTreeThietBiResult>();
@@ -189,7 +192,8 @@ namespace WebManageFridgeMQTT.Controllers
             var result = data.Where(x => x.Cap == 1).Select(s => new { id = s.Id, label = s.Name, value = s.Name }).ToList();
 
             return Json(result, JsonRequestBehavior.AllowGet);
-        }
+        } 
+        #endregion
 
         #region CongTrinh
         protected IUnitOfWork unitofwork;

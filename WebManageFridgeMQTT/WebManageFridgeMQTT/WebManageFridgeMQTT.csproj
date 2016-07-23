@@ -42,15 +42,15 @@
   <ItemGroup>
     <Reference Include="DF.DataAccess, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>bin\DF.DataAccess.dll</HintPath>
+      <HintPath>..\..\..\..\duafatWEB\WEBSITE\DFWeb_v2\DFWeb\DFWeb\bin\DF.DataAccess.dll</HintPath>
     </Reference>
     <Reference Include="DF.DBMapping, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>bin\DF.DBMapping.dll</HintPath>
+      <HintPath>..\..\..\..\duafatWEB\WEBSITE\DFWeb_v2\DFWeb\DFWeb\bin\DF.DBMapping.dll</HintPath>
     </Reference>
     <Reference Include="DF.Utilities, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>bin\DF.Utilities.dll</HintPath>
+      <HintPath>..\..\..\..\duafatWEB\WEBSITE\DFWeb_v2\DFWeb\DFWeb\bin\DF.Utilities.dll</HintPath>
     </Reference>
     <Reference Include="EntityFramework">
       <HintPath>..\packages\EntityFramework.6.0.0\lib\net45\EntityFramework.dll</HintPath>

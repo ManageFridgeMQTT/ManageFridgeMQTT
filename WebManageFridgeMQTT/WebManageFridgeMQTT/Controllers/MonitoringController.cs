@@ -14,6 +14,9 @@ namespace WebManageFridgeMQTT.Controllers
 {
     public class MonitoringController : Controller
     {
+        DateTime DeviceDefaultFromDate = DateTime.Today.AddMonths(-1);
+        DateTime DeviceDefaultToDate = DateTime.Today;
+
         #region Index
         public ActionResult Index()
         {
@@ -71,6 +74,19 @@ namespace WebManageFridgeMQTT.Controllers
             var model = Global.Context.Sp_GetInfoDeviceById(id).FirstOrDefault();
             return Json(model);
         }
+
+        public ActionResult PrepareInfoDeviceById(string id)
+        {
+            if (!string.IsNullOrEmpty(id))
+            {
+                Session["ListDataModify"] = Global.Context.GetInfoDeviceModify(id, DeviceDefaultFromDate, DeviceDefaultToDate).ToList();
+                Session["ListData"] = Global.Context.GetInfoDeviceActivity(id, DeviceDefaultFromDate, DeviceDefaultToDate).Skip(0).Take(10).ToList();
+                Session["ListDataMove"] = Global.Context.GetInfoDeviceMove(id, DeviceDefaultFromDate, DeviceDefaultToDate).ToList();
+                Session["ListDataReport"] = Global.Context.GetInfoDeviceReport(id, DeviceDefaultFromDate, DeviceDefaultToDate).ToList();
+            }
+            return Json(null);
+        }
+
         public ActionResult Device()
         {
             List<Sp_GetInfoDeviceResult> data = Global.Context.Sp_GetInfoDevice("").ToList();
@@ -92,8 +108,8 @@ namespace WebManageFridgeMQTT.Controllers
             {
                 model.ToDate = DateTime.Parse(strToDate);
             }
-            DateTime FromDate = DateTime.Now.AddMonths(-1);
-            DateTime ToDate = DateTime.Now;
+
+            //(List<GetInfoDeviceModifyResult>) Session["ListDataModify"];//
             model.ListDataModify = Global.Context.GetInfoDeviceModify(model.ThietBiID, model.FromDate, model.ToDate).ToList();
             return PartialView("DeviceModify", model);
         }
@@ -105,7 +121,9 @@ namespace WebManageFridgeMQTT.Controllers
                 model.infoDevice = Global.Context.Sp_GetInfoDeviceById(thietBiID).FirstOrDefault();
                 DateTime FromDate = DateTime.Now.AddMonths(-1);
                 DateTime ToDate = DateTime.Now;
-                model.ListData = Global.Context.GetInfoDeviceActivity(thietBiID, FromDate, ToDate).Skip(0).Take(10).ToList();
+
+                //(List<GetInfoDeviceActivityResult>) Session["ListData"]; //
+                model.ListData =  Global.Context.GetInfoDeviceActivity(thietBiID, FromDate, ToDate).Skip(0).Take(10).ToList();
             }
             return PartialView("DeviceActivity", model);
         }
@@ -125,9 +143,7 @@ namespace WebManageFridgeMQTT.Controllers
                 model.ToDate = DateTime.Parse(strToDate);
             }
 
-            //TEST
-            model.FromDate = DateTime.Now.AddMonths(-1);
-            model.ToDate = DateTime.Now;
+            //(List<GetInfoDeviceActivityResult>)Session["ListData"];  //
             model.ListData = Global.Context.GetInfoDeviceActivity(model.ThietBiID, model.FromDate, model.ToDate).ToList();
             return PartialView("PopupActivity", model);
         }
@@ -148,8 +164,8 @@ namespace WebManageFridgeMQTT.Controllers
             {
                 model.ToDate = DateTime.Parse(strToDate);
             }
-            DateTime FromDate = DateTime.Now.AddMonths(-1);
-            DateTime ToDate = DateTime.Now;
+
+            // (List<GetInfoDeviceMoveResult>)Session["ListDataMove"];//
             model.ListDataMove = Global.Context.GetInfoDeviceMove(thietBiID, model.FromDate, model.ToDate).ToList();
             return PartialView("DeviceMove", model);
         }
@@ -169,8 +185,8 @@ namespace WebManageFridgeMQTT.Controllers
             {
                 model.ToDate = DateTime.Parse(strToDate);
             }
-            DateTime FromDate = DateTime.Now.AddMonths(-1);
-            DateTime ToDate = DateTime.Now;
+
+            //(List<GetInfoDeviceReportResult>) Session["ListDataReport"];//
             model.ListDataReport = Global.Context.GetInfoDeviceReport(thietBiID, model.FromDate, model.ToDate).ToList();
             return PartialView("DeviceReport", model);
         } 

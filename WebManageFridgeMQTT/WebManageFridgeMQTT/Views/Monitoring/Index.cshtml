@@ -326,6 +326,7 @@
 <script type='text/javascript'>
     var currentDeviceID = '';
     var PathFolderImage = '@System.Configuration.ConfigurationManager.AppSettings["PathFolderImage"].ToString()';
+    var data = [];
     var mapData = [];
     mapData.LatLongBounds = [];
     mapData.LayerDevice = L.layerGroup();
@@ -349,6 +350,14 @@
     map.zoomControl.setPosition('bottomright');
     // js tree
     $('.treeviewContent').jstree();
+
+    $(document).ajaxStart(function(){
+        $("#loading").css("display", "block");
+    });
+
+    $(document).ajaxComplete(function(){
+        $("#loading").css("display", "none");
+    });
 
     $(document).ready(function () {
 
@@ -380,14 +389,14 @@
             });
         }*@
 
-        var data = @Html.Raw(new System.Web.Script.Serialization.JavaScriptSerializer().Serialize(Model.ListDeviceInfoAll));
+        data = @Html.Raw(new System.Web.Script.Serialization.JavaScriptSerializer().Serialize(Model.ListDeviceInfoAll));
         for (var i in data) {
             RenderDevice(data[i]);
         }
 
         var dataCongTrinh = @Html.Raw(new System.Web.Script.Serialization.JavaScriptSerializer().Serialize(Model.ListCongTrinh));
-        for (var i in dataCongTrinh) {
-            RenderCongTrinh(dataCongTrinh[i]);
+        for (var n in dataCongTrinh) {
+            RenderCongTrinh(dataCongTrinh[n]);
         }
 
         $('#tabCongTrinh').on('click', function(){
@@ -552,6 +561,16 @@
 
         var elm = data[0];
         htmlData += elm.outerHTML;
+
+        //Chèn 1 đoạn để chuẩn bị data        
+        //$.ajax({
+        //    url:'../Monitoring/PrepareInfoDeviceById',
+        //    type:'POST',
+        //    dataType:'json',
+        //    data:{"id":item.ThietBiId}
+        //});
+        //##Chèn 1 đoạn để chuẩn bị data
+
         return htmlData;
     }
 
@@ -568,7 +587,6 @@
         {
             strToDate = '';
         }
-        $(".loading").show();
         $("#baoduong").load('@(Url.Action("DeviceModify", "Monitoring"))?thietBiID=' + thietbiId + '&strFromDate=' + strFromDate + '&strToDate=' + strToDate);
     }
 
@@ -585,7 +603,6 @@
         {
             strToDate = '';
         }
-        $(".loading").show();
         $("#dichuyen").load('@(Url.Action("DeviceMove", "Monitoring"))?thietBiID=' + thietbiId + '&strFromDate=' + strFromDate + '&strToDate=' + strToDate);
     }
 
@@ -602,14 +619,11 @@
         {
             strToDate = '';
         }
-        $(".loading").show();
         $("#detail").load('@(Url.Action("DeviceReport", "Monitoring"))?thietBiID=' + thietbiId + '&strFromDate=' + strFromDate + '&strToDate=' + strToDate);
     }
 
     function RenderHoatDong(thietbiId)
     {
-        //thietbiId = currentDeviceID;
-        $(".loading").show();
         $("#activity").load('@(Url.Action("DeviceActivity", "Monitoring"))?thietBiID=' + thietbiId);
     }
 
@@ -632,41 +646,37 @@
     }
 
     function showPopupReport(){
-        $("#loading").css("display", "none");
         $("#ReportBody").load('@Url.Action("PopupReport", "Monitoring")');
         $("#ReportModal").modal('show');
-        $("#loading").css("display", "none");
     }
 
     function formatDate(date) {
-        if(date){
-            var d = new Date(parseInt(date.substr(6)));
-            dformat = [ (d.getMonth()+1).padLeft(),
-                        d.getDate().padLeft(),
-                        d.getFullYear()].join('/')+
-                        ' ' +
-                      [ d.getHours().padLeft(),
-                        d.getMinutes().padLeft(),
-                        d.getSeconds().padLeft()].join(':');
-            return dformat;
-        }else{
-            return '';
-        }
+        //if(date){
+        //    var d = new Date(parseInt(date.substr(6)));
+        //    dformat = [ (d.getMonth()+1).padLeft(),
+        //                d.getDate().padLeft(),
+        //                d.getFullYear()].join('/')+
+        //                ' ' +
+        //              [ d.getHours().padLeft(),
+        //                d.getMinutes().padLeft(),
+        //                d.getSeconds().padLeft()].join(':');
+        //    return dformat;
+        //}else{
+        //    return '';
+        //}
+        return '';
     }
 
 
     function FocusDevice(DeviceID)
     {
         currentDeviceID = DeviceID;
-        $.ajax({
-            url: '../Monitoring/GetThietBi',
-            type: 'POST',
-            dataType: 'json',
-            data: { "equipmentId": DeviceID, "isParent": false },
-            success: function (data) {
+        for (var i in data) {
+            if(data[i].ThietBiId == currentDeviceID)
+            {
                 mapData.LatLongBounds = []
-                BoundEquiqments(data.info);
-                RederPopupDevice(data.info);
+                BoundEquiqments(data[i]);
+                RederPopupDevice(data[i]);
                 mapData.LayerDevice.eachLayer(function (layer) {
                     if (layer.options.options.deviceID == DeviceID) {
                         layer.openPopup();
@@ -674,16 +684,26 @@
                         layer.closePopup();
                     }
                 })
+                break;
             }
-        });
+        }
 
         //$.ajax({
-        //    url:'../Monitoring/GetInfoDeviceById',
-        //    type:'POST',
-        //    dataType:'json',
-        //    data:{"id":DeviceID},
-        //    success:function(meta){
-        //        RederPopupDevice(meta);
+        //    url: '../Monitoring/GetThietBi',
+        //    type: 'POST',
+        //    dataType: 'json',
+        //    data: { "equipmentId": DeviceID, "isParent": false },
+        //    success: function (data) {
+        //        mapData.LatLongBounds = []
+        //        BoundEquiqments(data.info);
+        //        RederPopupDevice(data.info);
+        //        mapData.LayerDevice.eachLayer(function (layer) {
+        //            if (layer.options.options.deviceID == DeviceID) {
+        //                layer.openPopup();
+        //            }else{
+        //                layer.closePopup();
+        //            }
+        //        })
         //    }
         //});
     }
@@ -799,7 +819,6 @@
         {
             strToDate = '';
         }
-        $(".loading").show();
         $("#sanluong").load('@(Url.Action("SanLuongCT", "Monitoring"))?congTrinhId=' + item + '&strFromDate=' + strFromDate + '&strToDate=' + strToDate);
     }
 
@@ -814,7 +833,6 @@
         {
             strToDate = '';
         }
-        $(".loading").show();
         $("#chiphidevice").load('@(Url.Action("CPDeviceCT", "Monitoring"))?congTrinhId=' + item + '&strFromDate=' + strFromDate + '&strToDate=' + strToDate);
     }
     function RenderCPVatTu(item){
@@ -828,7 +846,6 @@
         {
             strToDate = '';
         }
-        $(".loading").show();
         $("#chiphivattu").load('@(Url.Action("CPVatTuCT", "Monitoring"))?congTrinhId=' + item + '&strFromDate=' + strFromDate + '&strToDate=' + strToDate);
     }
     function RenderThiCong(item){
@@ -842,7 +859,6 @@
         {
             strToDate = '';
         }
-        $(".loading").show();
         $("#thicong").load('@(Url.Action("ThiCongCT", "Monitoring"))?congTrinhId=' + item + '&strFromDate=' + strFromDate + '&strToDate=' + strToDate);
     }
     function ShowModalCocDetail(congTrinhId, cocId){
@@ -861,7 +877,6 @@
         {
             strToDate = '';
         }
-        $(".loading").show();
         $("#nhanvien").load('@(Url.Action("NhanVienCT", "Monitoring"))?congTrinhId=' + item + '&strFromDate=' + strFromDate + '&strToDate=' + strToDate);
     }
 </script>

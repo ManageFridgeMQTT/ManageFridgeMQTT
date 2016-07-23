@@ -727,7 +727,7 @@ namespace WebManageFridgeMQTT.Controllers
                 //model.ListThietBi = Global.Context.CongTrinhGetInfoBCThietbi(model.CongTrinhId, model.FromDate, model.ToDate).ToList();
                 if (model.ListThietBi != null)
                 {
-                    double total = model.ListThietBi.Sum(s => s.Tien);
+                    decimal total = model.ListThietBi.Sum(s => s.Tien.Value);
                     totalMoney = String.Format("{0:n0}", total);
                     ViewData["TotalMoney"] = totalMoney;
                 }
@@ -738,26 +738,26 @@ namespace WebManageFridgeMQTT.Controllers
 
         private BaoCaoThietBiModel BaoCaoThietBi(string CongTrinhID, DateTime _tungay, DateTime _denngay)
         {
-
-
             unitofwork = new UnitOfWork();
-            BaoCaoThietBiModel model = new BaoCaoThietBiModel();
-            //string[] TGArray = ThoiGian.Split('-');
+            BaoCaoThietBiModel kq = new BaoCaoThietBiModel();
+            Guid ctid = Guid.Parse(CongTrinhID);
             DateTime tungay = _tungay;// DateTime.ParseExact(TGArray[0].Trim().ToString(), "dd/MM/yyyy", null);
-            DateTime denngay = _denngay;// DateTime.ParseExact(TGArray[1].Trim().ToString(), "dd/MM/yyyy", null).AddDays(1).AddTicks(-1);
+            DateTime denngay = _denngay;//DateTime.ParseExact(TGArray[1].Trim().ToString(), "dd/MM/yyyy", null).AddDays(1).AddTicks(-1);
+            DateTime date = DateTime.Now;
             DataTable dt = new DataTable();
             dt.Clear();
-            dt.Columns.Add("CTID");
-            dt.Columns.Add("CT");
-            dt.Columns.Add("khauhao");
-            dt.Columns.Add("tongkhauhao");
-            dt.Columns.Add("cpsuachua");
-            dt.Columns.Add("tongcpsuachua");
-            dt.Columns.Add("chiphi");
-            dt.Columns.Add("tongchiphi");
+            dt.Columns.Add("ThietBiId");
+            dt.Columns.Add("TenThietBi");
+            dt.Columns.Add("DonViThue");
+            dt.Columns.Add("GiaBan");
+            dt.Columns.Add("ThoiGian");
+            dt.Columns.Add("ThoiGianDi");
+            dt.Columns.Add("NgayOCT");
+            dt.Columns.Add("TNgayOCT");
+            dt.Columns.Add("ThanhTien");
+            dt.Columns.Add("TongThanhTien");
             DateTime bgindate = Convert.ToDateTime("Jan 01, 1900");
 
-            DateTime date = DateTime.Now;
             //thiet bi
             double tngay = (tungay - bgindate).TotalDays;
             DateTime denngaytemp = denngay;
@@ -784,209 +784,117 @@ namespace WebManageFridgeMQTT.Controllers
             }
             double denngay555 = (denngay5nam - bgindate).TotalDays;
 
-            List<CongTrinh> lstCongTrinh = new List<CongTrinh>();
-            if (CongTrinhID == "" || CongTrinhID.Contains("0000000000") || CongTrinhID == null)
-            {
-                lstCongTrinh = unitofwork.CongTrinhs.GetAll().Where(ct => ct.Dept != 1).ToList();
-            }
-            else
-            {
-                var lstCongTrinhtemp = unitofwork.CongTrinhs.GetAll().Where(ct => ct.Dept != 1).ToList();
-                foreach (var lctt in lstCongTrinhtemp)
-                {
-                    if (CongTrinhID.Contains(lctt.CongTrinhId.ToString()))
-                    {
-                        lstCongTrinh.Add(lctt);
-                    }
-                }
-            }
-            List<SelectListItem> lst = new List<SelectListItem>();
-            foreach (var ct in lstCongTrinh)
-            {
-                lst.Add(new SelectListItem()
-                {
-                    Text = ct.TenCongTrinh,
-                    Value = ct.CongTrinhId.ToString()
-                });
-            }
-            foreach (var r in lstCongTrinh)
+            DataTable tbden = unitofwork.TrangThaiThietBis.getTBChuyenDen(ctid);
+            DataTable tbdi = unitofwork.TrangThaiThietBis.getTBChuyenDi(ctid);
+
+            // DataTable temp = tbden.Clone();
+            foreach (DataRow r1 in tbden.Rows)
             {
                 double chiphitb = 0;
-                double tongkhauhao = 0;
-                Guid ctid = r.CongTrinhId;
-                DataTable tbden = unitofwork.TrangThaiThietBis.getTBChuyenDen(ctid);
-                DataTable tbdi = unitofwork.TrangThaiThietBis.getTBChuyenDi(ctid);
-                DataTable ttbbdi = tbdi;
-                // DataTable temp = tbden.Clone();
-                foreach (DataRow r1 in tbden.Rows)
+                double tongsongayoct = 0;
+                double tongchiphi = 0;
+                string thietbidenid = r1[0].ToString();
+                double tgdi = 0;
+                double giamuathue = 0;
+                double tgden = Convert.ToDouble(r1[4].ToString());
+                DataRow _ravi = dt.NewRow();
+                _ravi["ThietBiId"] = r1[0].ToString();
+                _ravi["TenThietBi"] = r1[1].ToString();
+                _ravi["DonViThue"] = r1[9].ToString();
+                _ravi["GiaBan"] = r1[2].ToString();
+                _ravi["ThoiGian"] = r1[3].ToString();
+                double snoct = 0;
+                //if (tgden <= dngay)
+                //{
+                foreach (DataRow r2 in tbdi.Rows)
                 {
-                    string thietbidenid = r1[0].ToString();
-                    if (thietbidenid.ToUpper() == "2A21F6AB-9B39-4AFB-929B-1C5107D0F0E9")
+                    if (r2[0].ToString() == thietbidenid)
                     {
-                        int kkk = 0;
+                        tgdi = Convert.ToDouble(r2[4].ToString());
+                        giamuathue = Convert.ToDouble(r2[2].ToString());
+                        _ravi["ThoiGianDi"] = r2[3].ToString();
+                        tbdi.Rows.Remove(r2);
+                        break;
                     }
-                    double tgdi = 0;
-                    double giamuathue = 0;
-                    double tgden = Convert.ToDouble(r1[4].ToString());
-                    double tttgden = tgden;
-                    if (tgden <= dngay)
+                }
+                if (tgdi == 0 && r1[7].ToString() == "1" && r1[6].ToString() != null && r1[6].ToString() != "") //thiết bị thuê và đã trả
+                {
+                    tgdi = Convert.ToDouble(r1[6].ToString());
+                    giamuathue = Convert.ToDouble(r1[2].ToString());
+                    _ravi["ThoiGianDi"] = r1[8].ToString();
+                }
+                //else //tìm ngày điều chuyển sang ctrinh khác
+                //{
+                //    foreach (DataRow r2 in tbdi.Rows)
+                //    {
+                //        if (r2[0].ToString() == thietbidenid)
+                //        {
+                //            tgdi = Convert.ToDouble(r2[4].ToString());
+                //            giamuathue = Convert.ToDouble(r2[2].ToString());
+                //            _ravi["ThoiGianDi"] = r2[3].ToString();
+                //            tbdi.Rows.Remove(r2);
+                //            break;
+                //        }
+                //    }
+                //}
+                if (tgdi != 0) // nếu đã đi
+                {
+                    tongsongayoct = tgdi - tgden;
+                    tongchiphi = tongsongayoct * (giamuathue / 30);
+                    if (tgdi < tngay) // nếu đã đi trước thời gian tìm kiếm => không tính
                     {
-                        foreach (DataRow r2 in tbdi.Rows)
-                        {
-                            if (r2[0].ToString() == thietbidenid)
-                            {
-                                tgdi = Convert.ToDouble(r2[4].ToString());
-                                giamuathue = Convert.ToDouble(r2[2].ToString());
-                                tbdi.Rows.Remove(r2);
-                                break;
-                            }
-                        }
-                        if (tgdi == 0 && r1[7].ToString() == "1" && r1[6].ToString() != null && r1[6].ToString() != "")
-                        {
-                            tgdi = Convert.ToDouble(r1[6].ToString());
-                            giamuathue = Convert.ToDouble(r1[2].ToString());
-                        }
-                        //if (r1[7].ToString() == "1" && r1[6].ToString() != null && r1[6].ToString() != "")
-                        //{
-                        //    tgdi = Convert.ToDouble(r1[6].ToString());
-                        //    giamuathue = Convert.ToDouble(r1[2].ToString());
-                        //}
-                        //else
-                        //{
-                        //    foreach (DataRow r2 in tbdi.Rows)
-                        //    {
-                        //        if (r2[0].ToString() == thietbidenid)
-                        //        {
-                        //            tgdi = Convert.ToDouble(r2[4].ToString());
-                        //            giamuathue = Convert.ToDouble(r2[2].ToString());
-                        //            tbdi.Rows.Remove(r2);
-                        //            break;
-                        //        }
-                        //    }
-                        //}
-                        if (tgdi != 0) // nếu đã đi
-                        {
-                            if (tgdi < tngay) // nếu đã đi trước thời gian tìm kiếm => không tính
-                            {
 
+                    }
+                    else
+                    {
+                        if (tgden < tngay) // nếu đến trước ngày bắt đầu tìm kiêm
+                        {
+                            tgden = tngay;
+                        }
+                        if (tgdi > dngay) // nếu đi sau ngay kết thúc tìm kiếm
+                        {
+                            tgdi = dngay;
+                        }
+                        chiphitb = chiphitb + (tgdi - tgden) * (giamuathue / 30);
+                        snoct = tgdi - tgden;
+                    }
+                }
+                else
+                { //nếu chưa đi
+                    tongsongayoct = denngay555 - tgden;
+                    tongchiphi = tongsongayoct * (Convert.ToDouble(r1[2].ToString()) / 30);
+                    if (tgden < tngay) // nếu đến trước ngày bắt đầu tìm kiêm
+                    {
+                        tgden = tngay;
+                    }
+                    if (r1[6].ToString() != "" && r1[6].ToString() != null)
+                    {
+                        double trangay = Convert.ToDouble(r1[6].ToString());
+                        if (trangay < dngay)
+                        {
+                            if (trangay < tngay)
+                            {
+                                dngay = tngay;
                             }
                             else
                             {
-                                if (tgden < tngay) // nếu đến trước ngày bắt đầu tìm kiêm
-                                {
-                                    tgden = tngay;
-                                }
-                                if (tgdi > dngay) // nếu đi sau ngay kết thúc tìm kiếm
-                                {
-                                    tgdi = dngay;
-                                }
-                                chiphitb = chiphitb + (tgdi - tgden) * (giamuathue / 30);
+                                dngay = trangay;
                             }
                         }
-                        else
-                        { //nếu chưa đi
-                            if (tgden < tngay) // nếu đến trước ngày bắt đầu tìm kiêm
-                            {
-                                tgden = tngay;
-                            }
-                            if (r1[6].ToString() != "" && r1[6].ToString() != null)
-                            {
-                                double trangay = Convert.ToDouble(r1[6].ToString());
-                                if (trangay < dngay)
-                                {
-                                    if (trangay < tngay)
-                                    {
-                                        dngay = tngay;
-                                    }
-                                    else
-                                    {
-                                        dngay = trangay;
-                                    }
-                                }
-                            }
-                            chiphitb = chiphitb + ((dngay - tgden) * (Convert.ToDouble(r1[2].ToString()) / 30));
-                        }
                     }
-
-                    tgdi = 0;
-                    foreach (DataRow r2 in ttbbdi.Rows)
-                    {
-                        if (r2[0].ToString() == thietbidenid)
-                        {
-                            tgdi = Convert.ToDouble(r2[4].ToString());
-                            giamuathue = Convert.ToDouble(r2[2].ToString());
-                            ttbbdi.Rows.Remove(r2);
-                            break;
-                        }
-                    }
-                    if (tgdi == 0 && r1[7].ToString() == "1" && r1[6].ToString() != null && r1[6].ToString() != "") //thiết bị thuê và đã trả
-                    {
-                        tgdi = Convert.ToDouble(r1[6].ToString());
-                        giamuathue = Convert.ToDouble(r1[2].ToString());
-                    }
-
-                    //if (r1[7].ToString() == "1" && r1[6].ToString() != null && r1[6].ToString() != "") //thiết bị thuê và đã trả
-                    //{
-                    //    tgdi = Convert.ToDouble(r1[6].ToString());
-                    //    giamuathue = Convert.ToDouble(r1[2].ToString());
-                    //}
-                    //else //tìm ngày điều chuyển sang ctrinh khác
-                    //{
-                    //    foreach (DataRow r2 in ttbbdi.Rows)
-                    //    {
-                    //        if (r2[0].ToString() == thietbidenid)
-                    //        {
-                    //            tgdi = Convert.ToDouble(r2[4].ToString());
-                    //            giamuathue = Convert.ToDouble(r2[2].ToString());
-                    //            ttbbdi.Rows.Remove(r2);
-                    //            break;
-                    //        }
-                    //    }
-                    //}
-                    if (tgdi != 0) // nếu đã đi
-                    {
-                        tongkhauhao = tongkhauhao + (tgdi - tttgden) * (giamuathue / 30);
-                    }
-                    else
-                    { //nếu chưa đi
-                        tongkhauhao = tongkhauhao + (denngay555 - tttgden) * (Convert.ToDouble(r1[2].ToString()) / 30);
-                    }
+                    chiphitb = chiphitb + ((dngay - tgden) * (Convert.ToDouble(r1[2].ToString()) / 30));
+                    snoct = dngay - tgden;
                 }
-                //tính chi phí sửa chữa
-                DataTable cpsuachua = unitofwork.BCThietBis.getSuaChuaBCThietBi(ctid, tungay, denngay);
-                DataTable tongcpsuachua = unitofwork.BCThietBis.getSuaChuaBCThietBi(ctid, tungay5nam, denngay5nam);
-                DataRow _ravi = dt.NewRow();
-                double chiphitbtb = chiphitb;
-                if (cpsuachua.Rows[0][2].ToString() != "" && cpsuachua.Rows[0][2].ToString() != null)
-                {
-                    chiphitbtb += Convert.ToDouble(cpsuachua.Rows[0][2].ToString());
-                }
-
-                double tongchiphitbtb = tongkhauhao;
-                if (tongcpsuachua.Rows[0][2].ToString() != "" && tongcpsuachua.Rows[0][2].ToString() != null)
-                {
-                    tongchiphitbtb += Convert.ToDouble(tongcpsuachua.Rows[0][2].ToString());
-                }
-                _ravi["ctid"] = r.CongTrinhId.ToString();
-                _ravi["ct"] = r.TenCongTrinh;
-                _ravi["khauhao"] = chiphitb;
-                _ravi["tongkhauhao"] = tongkhauhao;
-                _ravi["cpsuachua"] = cpsuachua.Rows[0][2];
-                _ravi["tongcpsuachua"] = tongcpsuachua.Rows[0][2];
-                _ravi["chiphi"] = chiphitbtb;
-                _ravi["tongchiphi"] = tongchiphitbtb;
+                _ravi["NgayOCT"] = snoct;
+                _ravi["TNgayOCT"] = tongsongayoct;
+                _ravi["ThanhTien"] = chiphitb;
+                _ravi["TongThanhTien"] = tongchiphi;
                 dt.Rows.Add(_ravi);
-
-                //_ravi["ctid"] = r.CongTrinhId.ToString();
-                //_ravi["ct"] = r.TenCongTrinh;
-                //_ravi["khauhao"] = chiphitb;
-                //_ravi["tongkhauhao"] = tongkhauhao;
-                //dt.Rows.Add(_ravi);
             }
-            model.TKBCBaoCaoThietBi = dt;
-            //model.ThoiGian = ThoiGian;
-
-            return model;
+            DataTable lstsuachua = unitofwork.BCThietBis.getListSuaChuaBCThietBi(ctid, tungay, denngay);
+            kq.TKSuaChuaThietBi = lstsuachua;
+            kq.TKBCBaoCaoThietBi = dt;
+            return kq;
         }
 
         private List<CongTrinhGetInfoBCThietbiResult> ViewBaoCaoThietBi(BaoCaoThietBiModel model)
@@ -1026,7 +934,8 @@ namespace WebManageFridgeMQTT.Controllers
                     SoTien = thanhtien,
                     TongNgayOCongTrinh = model.TKBCBaoCaoThietBi.Rows[r][7].ToString(),
                     TongSoTien = ttthanhtien,
-                };
+                    Tien = decimal.Parse(model.TKBCBaoCaoThietBi.Rows[r][9].ToString())
+            };
                 listItem.Add(item);
             }
 

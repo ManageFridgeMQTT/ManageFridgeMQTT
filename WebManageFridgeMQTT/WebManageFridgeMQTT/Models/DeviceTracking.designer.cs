@@ -191,13 +191,6 @@ namespace WebManageFridgeMQTT.Models
 			return ((ISingleResult<CongTrinhGetInfoBCVatTuResult>)(result.ReturnValue));
 		}
 		
-		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.CongTrinhGetInfoBCThietbi")]
-		public ISingleResult<CongTrinhGetInfoBCThietbiResult> CongTrinhGetInfoBCThietbi([global::System.Data.Linq.Mapping.ParameterAttribute(Name="CongTrinhId", DbType="NVarChar(500)")] string congTrinhId, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="FromDate", DbType="Date")] System.Nullable<System.DateTime> fromDate, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="ToDate", DbType="Date")] System.Nullable<System.DateTime> toDate)
-		{
-			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), congTrinhId, fromDate, toDate);
-			return ((ISingleResult<CongTrinhGetInfoBCThietbiResult>)(result.ReturnValue));
-		}
-		
 		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.CongTrinhGetInfoBCSanLuong")]
 		public ISingleResult<CongTrinhGetInfoBCSanLuongResult> CongTrinhGetInfoBCSanLuong([global::System.Data.Linq.Mapping.ParameterAttribute(Name="CongTrinhId", DbType="NVarChar(500)")] string congTrinhId, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="FromDate", DbType="Date")] System.Nullable<System.DateTime> fromDate, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="ToDate", DbType="Date")] System.Nullable<System.DateTime> toDate)
 		{
@@ -210,6 +203,13 @@ namespace WebManageFridgeMQTT.Models
 		{
 			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())));
 			return ((ISingleResult<Sp_GetInfoDeviceByIdAllResult>)(result.ReturnValue));
+		}
+		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.CongTrinhGetInfoBCThietbi")]
+		public ISingleResult<CongTrinhGetInfoBCThietbiResult> CongTrinhGetInfoBCThietbi([global::System.Data.Linq.Mapping.ParameterAttribute(Name="CongTrinhId", DbType="NVarChar(500)")] string congTrinhId, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="FromDate", DbType="Date")] System.Nullable<System.DateTime> fromDate, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="ToDate", DbType="Date")] System.Nullable<System.DateTime> toDate)
+		{
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), congTrinhId, fromDate, toDate);
+			return ((ISingleResult<CongTrinhGetInfoBCThietbiResult>)(result.ReturnValue));
 		}
 	}
 	
@@ -2915,230 +2915,6 @@ namespace WebManageFridgeMQTT.Models
 		}
 	}
 	
-	public partial class CongTrinhGetInfoBCThietbiResult
-	{
-		
-		private System.Guid _ThietBiId;
-		
-		private System.Guid _CongTrinhID;
-		
-		private string _TenThietBi;
-		
-		private string _DonViThue;
-		
-		private string _NgayDen;
-		
-		private string _NgayDi;
-		
-		private string _DonGia;
-		
-		private string _SoNgay;
-		
-		private string _SoTien;
-		
-		private string _TongNgayOCongTrinh;
-		
-		private string _TongSoTien;
-		
-		private int _Tien;
-		
-		public CongTrinhGetInfoBCThietbiResult()
-		{
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ThietBiId", DbType="UniqueIdentifier NOT NULL")]
-		public System.Guid ThietBiId
-		{
-			get
-			{
-				return this._ThietBiId;
-			}
-			set
-			{
-				if ((this._ThietBiId != value))
-				{
-					this._ThietBiId = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CongTrinhID", DbType="UniqueIdentifier NOT NULL")]
-		public System.Guid CongTrinhID
-		{
-			get
-			{
-				return this._CongTrinhID;
-			}
-			set
-			{
-				if ((this._CongTrinhID != value))
-				{
-					this._CongTrinhID = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_TenThietBi", DbType="NVarChar(250) NOT NULL", CanBeNull=false)]
-		public string TenThietBi
-		{
-			get
-			{
-				return this._TenThietBi;
-			}
-			set
-			{
-				if ((this._TenThietBi != value))
-				{
-					this._TenThietBi = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DonViThue", DbType="NVarChar(250)")]
-		public string DonViThue
-		{
-			get
-			{
-				return this._DonViThue;
-			}
-			set
-			{
-				if ((this._DonViThue != value))
-				{
-					this._DonViThue = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_NgayDen", DbType="NVarChar(100)")]
-		public string NgayDen
-		{
-			get
-			{
-				return this._NgayDen;
-			}
-			set
-			{
-				if ((this._NgayDen != value))
-				{
-					this._NgayDen = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_NgayDi", DbType="NVarChar(100)")]
-		public string NgayDi
-		{
-			get
-			{
-				return this._NgayDi;
-			}
-			set
-			{
-				if ((this._NgayDi != value))
-				{
-					this._NgayDi = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DonGia", DbType="NVarChar(200)")]
-		public string DonGia
-		{
-			get
-			{
-				return this._DonGia;
-			}
-			set
-			{
-				if ((this._DonGia != value))
-				{
-					this._DonGia = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_SoNgay", DbType="NVarChar(200)")]
-		public string SoNgay
-		{
-			get
-			{
-				return this._SoNgay;
-			}
-			set
-			{
-				if ((this._SoNgay != value))
-				{
-					this._SoNgay = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_SoTien", DbType="NVarChar(200)")]
-		public string SoTien
-		{
-			get
-			{
-				return this._SoTien;
-			}
-			set
-			{
-				if ((this._SoTien != value))
-				{
-					this._SoTien = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_TongNgayOCongTrinh", DbType="NVarChar(200)")]
-		public string TongNgayOCongTrinh
-		{
-			get
-			{
-				return this._TongNgayOCongTrinh;
-			}
-			set
-			{
-				if ((this._TongNgayOCongTrinh != value))
-				{
-					this._TongNgayOCongTrinh = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_TongSoTien", DbType="NVarChar(200)")]
-		public string TongSoTien
-		{
-			get
-			{
-				return this._TongSoTien;
-			}
-			set
-			{
-				if ((this._TongSoTien != value))
-				{
-					this._TongSoTien = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Tien", DbType="Int NOT NULL")]
-		public int Tien
-		{
-			get
-			{
-				return this._Tien;
-			}
-			set
-			{
-				if ((this._Tien != value))
-				{
-					this._Tien = value;
-				}
-			}
-		}
-	}
-	
 	public partial class CongTrinhGetInfoBCSanLuongResult
 	{
 		
@@ -3762,6 +3538,230 @@ namespace WebManageFridgeMQTT.Models
 				if ((this._Longitude != value))
 				{
 					this._Longitude = value;
+				}
+			}
+		}
+	}
+	
+	public partial class CongTrinhGetInfoBCThietbiResult
+	{
+		
+		private System.Guid _ThietBiId;
+		
+		private System.Guid _CongTrinhID;
+		
+		private string _TenThietBi;
+		
+		private string _DonViThue;
+		
+		private string _NgayDen;
+		
+		private string _NgayDi;
+		
+		private string _DonGia;
+		
+		private string _SoNgay;
+		
+		private string _SoTien;
+		
+		private string _TongNgayOCongTrinh;
+		
+		private string _TongSoTien;
+		
+		private System.Nullable<decimal> _Tien;
+		
+		public CongTrinhGetInfoBCThietbiResult()
+		{
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ThietBiId", DbType="UniqueIdentifier NOT NULL")]
+		public System.Guid ThietBiId
+		{
+			get
+			{
+				return this._ThietBiId;
+			}
+			set
+			{
+				if ((this._ThietBiId != value))
+				{
+					this._ThietBiId = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CongTrinhID", DbType="UniqueIdentifier NOT NULL")]
+		public System.Guid CongTrinhID
+		{
+			get
+			{
+				return this._CongTrinhID;
+			}
+			set
+			{
+				if ((this._CongTrinhID != value))
+				{
+					this._CongTrinhID = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_TenThietBi", DbType="NVarChar(250) NOT NULL", CanBeNull=false)]
+		public string TenThietBi
+		{
+			get
+			{
+				return this._TenThietBi;
+			}
+			set
+			{
+				if ((this._TenThietBi != value))
+				{
+					this._TenThietBi = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DonViThue", DbType="NVarChar(250)")]
+		public string DonViThue
+		{
+			get
+			{
+				return this._DonViThue;
+			}
+			set
+			{
+				if ((this._DonViThue != value))
+				{
+					this._DonViThue = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_NgayDen", DbType="NVarChar(100)")]
+		public string NgayDen
+		{
+			get
+			{
+				return this._NgayDen;
+			}
+			set
+			{
+				if ((this._NgayDen != value))
+				{
+					this._NgayDen = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_NgayDi", DbType="NVarChar(100)")]
+		public string NgayDi
+		{
+			get
+			{
+				return this._NgayDi;
+			}
+			set
+			{
+				if ((this._NgayDi != value))
+				{
+					this._NgayDi = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DonGia", DbType="NVarChar(200)")]
+		public string DonGia
+		{
+			get
+			{
+				return this._DonGia;
+			}
+			set
+			{
+				if ((this._DonGia != value))
+				{
+					this._DonGia = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_SoNgay", DbType="NVarChar(200)")]
+		public string SoNgay
+		{
+			get
+			{
+				return this._SoNgay;
+			}
+			set
+			{
+				if ((this._SoNgay != value))
+				{
+					this._SoNgay = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_SoTien", DbType="NVarChar(200)")]
+		public string SoTien
+		{
+			get
+			{
+				return this._SoTien;
+			}
+			set
+			{
+				if ((this._SoTien != value))
+				{
+					this._SoTien = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_TongNgayOCongTrinh", DbType="NVarChar(200)")]
+		public string TongNgayOCongTrinh
+		{
+			get
+			{
+				return this._TongNgayOCongTrinh;
+			}
+			set
+			{
+				if ((this._TongNgayOCongTrinh != value))
+				{
+					this._TongNgayOCongTrinh = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_TongSoTien", DbType="NVarChar(200)")]
+		public string TongSoTien
+		{
+			get
+			{
+				return this._TongSoTien;
+			}
+			set
+			{
+				if ((this._TongSoTien != value))
+				{
+					this._TongSoTien = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Tien", DbType="Decimal(18,2)")]
+		public System.Nullable<decimal> Tien
+		{
+			get
+			{
+				return this._Tien;
+			}
+			set
+			{
+				if ((this._Tien != value))
+				{
+					this._Tien = value;
 				}
 			}
 		}

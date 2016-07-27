@@ -74,7 +74,7 @@ namespace WebManageFridgeMQTT.Utility
 
         public Gateway()
         {
-            int interval = 10000;
+            int interval = 60000;
             if(!string.IsNullOrEmpty(ConfigurationManager.AppSettings["TimePingInterval"].ToString())){
                 Int32.Parse(ConfigurationManager.AppSettings["TimePingInterval"].ToString());
             }
@@ -96,7 +96,7 @@ namespace WebManageFridgeMQTT.Utility
                 {
                     #region Config
                     this.client = new MqttClient(IPAddress.Parse("45.117.80.39"));
-                    string clientID = "1111AAAAzzz";
+                    string clientID = "1111AAAA";
                     this.client.Connect(clientID);
                     CustomLog.LogError("reconnect thanh cong");
                     string[] topic = { "#", "Test/#" };

@@ -43,6 +43,10 @@
             this.button8 = new System.Windows.Forms.Button();
             this.button9 = new System.Windows.Forms.Button();
             this.button10 = new System.Windows.Forms.Button();
+            this.DKNoMay = new System.Windows.Forms.Button();
+            this.DKTatMay = new System.Windows.Forms.Button();
+            this.button5 = new System.Windows.Forms.Button();
+            this.button6 = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // button1
@@ -60,7 +64,7 @@
             this.textBox1.Location = new System.Drawing.Point(21, 149);
             this.textBox1.Multiline = true;
             this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(333, 71);
+            this.textBox1.Size = new System.Drawing.Size(174, 71);
             this.textBox1.TabIndex = 1;
             // 
             // imageList1
@@ -149,7 +153,6 @@
             this.button8.TabIndex = 5;
             this.button8.Text = "button3";
             this.button8.UseVisualStyleBackColor = true;
-            this.button8.Click += new System.EventHandler(this.button6_Click);
             // 
             // button9
             // 
@@ -169,13 +172,56 @@
             this.button10.TabIndex = 5;
             this.button10.Text = "button3";
             this.button10.UseVisualStyleBackColor = true;
-            this.button10.Click += new System.EventHandler(this.button6_Click);
+            // 
+            // DKNoMay
+            // 
+            this.DKNoMay.Location = new System.Drawing.Point(235, 163);
+            this.DKNoMay.Name = "DKNoMay";
+            this.DKNoMay.Size = new System.Drawing.Size(75, 23);
+            this.DKNoMay.TabIndex = 5;
+            this.DKNoMay.Text = "DKNoMay";
+            this.DKNoMay.UseVisualStyleBackColor = true;
+            this.DKNoMay.Click += new System.EventHandler(this.DKNoMay_Click);
+            // 
+            // DKTatMay
+            // 
+            this.DKTatMay.Location = new System.Drawing.Point(346, 163);
+            this.DKTatMay.Name = "DKTatMay";
+            this.DKTatMay.Size = new System.Drawing.Size(75, 23);
+            this.DKTatMay.TabIndex = 5;
+            this.DKTatMay.Text = "DKTắtMay";
+            this.DKTatMay.UseVisualStyleBackColor = true;
+            this.DKTatMay.Click += new System.EventHandler(this.DKTatMay_Click);
+            // 
+            // button5
+            // 
+            this.button5.Location = new System.Drawing.Point(235, 197);
+            this.button5.Name = "button5";
+            this.button5.Size = new System.Drawing.Size(75, 23);
+            this.button5.TabIndex = 6;
+            this.button5.Text = "button5";
+            this.button5.UseVisualStyleBackColor = true;
+            this.button5.Click += new System.EventHandler(this.button5_Click_1);
+            // 
+            // button6
+            // 
+            this.button6.Location = new System.Drawing.Point(346, 197);
+            this.button6.Name = "button6";
+            this.button6.Size = new System.Drawing.Size(75, 23);
+            this.button6.TabIndex = 7;
+            this.button6.Text = "button6";
+            this.button6.UseVisualStyleBackColor = true;
+            this.button6.Click += new System.EventHandler(this.button6_Click);
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(535, 253);
+            this.Controls.Add(this.button6);
+            this.Controls.Add(this.button5);
+            this.Controls.Add(this.DKTatMay);
+            this.Controls.Add(this.DKNoMay);
             this.Controls.Add(this.button10);
             this.Controls.Add(this.button8);
             this.Controls.Add(this.button9);
@@ -212,6 +258,10 @@
         private System.Windows.Forms.Button button8;
         private System.Windows.Forms.Button button9;
         private System.Windows.Forms.Button button10;
+        private System.Windows.Forms.Button DKNoMay;
+        private System.Windows.Forms.Button DKTatMay;
+        private System.Windows.Forms.Button button5;
+        private System.Windows.Forms.Button button6;
     }
 }
 

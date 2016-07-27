@@ -40,17 +40,14 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="DF.DataAccess, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\duafatWEB\WEBSITE\DFWeb_v2\DFWeb\DFWeb\bin\DF.DataAccess.dll</HintPath>
+    <Reference Include="DF.DataAccess">
+      <HintPath>..\..\..\ManageFridgeMQTT\WebManageFridgeMQTT\WebManageFridgeMQTT\bin\DF.DataAccess.dll</HintPath>
     </Reference>
-    <Reference Include="DF.DBMapping, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\duafatWEB\WEBSITE\DFWeb_v2\DFWeb\DFWeb\bin\DF.DBMapping.dll</HintPath>
+    <Reference Include="DF.DBMapping">
+      <HintPath>..\..\..\ManageFridgeMQTT\WebManageFridgeMQTT\WebManageFridgeMQTT\bin\DF.DBMapping.dll</HintPath>
     </Reference>
-    <Reference Include="DF.Utilities, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\duafatWEB\WEBSITE\DFWeb_v2\DFWeb\DFWeb\bin\DF.Utilities.dll</HintPath>
+    <Reference Include="DF.Utilities">
+      <HintPath>..\..\..\ManageFridgeMQTT\WebManageFridgeMQTT\WebManageFridgeMQTT\bin\DF.Utilities.dll</HintPath>
     </Reference>
     <Reference Include="EntityFramework">
       <HintPath>..\packages\EntityFramework.6.0.0\lib\net45\EntityFramework.dll</HintPath>

@@ -119,63 +119,89 @@ namespace WebManageFridgeMQTT.Utility
                     value = data.Skip(3).ToList();
                 }
 
-                if (value != null)
+                if (Helper.ByteArrayCompare(modelMess.CommandAction, ConstParam.DinhKyGPS))
                 {
-                    if (value[0] == 0x05)
+                    modelMess.Status = value.Skip(0).Take(3).ToArray();
+                    if (value[3] == 0x1F && value.Count > 40)
                     {
-                        modelMess.Status = value.Skip(0).Take(3).ToArray();
-                        if (value.Count >= 6)
+                        if (Helper.ByteArrayCompare(value.Skip(3).Take(3).ToArray(), ConstParam.Value))
                         {
-                            if (value[3] == 0x24)
-                            {
-                                modelMess.Length = value.Skip(3).Take(3).ToArray();
-                            }
-                            
+                            modelMess.GPSByte = value.Skip(6).Take(24).ToArray();
+                            modelMess.LatitudeByte = modelMess.GPSByte.Skip(0).Take(9).ToArray();
+                            modelMess.LongitudeByte = modelMess.GPSByte.Skip(12).Take(10).ToArray();
                         }
-                        if (value.Count >= 9 )
+                        var indexCmd = value.FindLastIndex(x => x == 0x1F);
+                        if (value[indexCmd + 1] == 0x24 && value[indexCmd + 2] == 0x04)
                         {
-                            if (value[6] == 0x06)
-                            {
-                                modelMess.States = value.Skip(6).Take(3).ToArray();
-                            }
+                            modelMess.TypeDinhKy = value.Skip(indexCmd).Take(4).ToArray();
+                            modelMess.States = value.Skip(indexCmd + 4).Take(3).ToArray();
                         }
-                        if (value.Count >= 15)
+                    }
+                }
+                else
+                {
+                    #region Parse Sau Command
+                    if (value != null)
+                    {
+                        if (value[0] == 0x05)
                         {
-                            if (value[9] == 0x07)
+                            modelMess.Status = value.Skip(0).Take(3).ToArray();
+                            if (value.Count >= 6)
                             {
-                                modelMess.Time = value.Skip(11).Take(4).ToArray();
-                            }
-                        }
-                        if (value.Count >= 40)
-                        {
-                            if (value[15] == 0x08)
-                            {
-                                modelMess.GPSByte = value.Skip(17).Take(26).ToArray();
-                                modelMess.LatitudeByte = modelMess.GPSByte.Skip(0).Take(9).ToArray();
-                                modelMess.LongitudeByte = modelMess.GPSByte.Skip(12).Take(10).ToArray();
-                            }
-                        }
-                        if (value.Count >= 30)
-                        {
-                            if (value[3] == 0x1F)
-                            {
-                                if (Helper.ByteArrayCompare(value.Skip(3).Take(3).ToArray(), ConstParam.Value))
+                                if (value[3] == 0x24)
                                 {
-                                    modelMess.GPSByte = value.Skip(6).Take(24).ToArray();
+                                    modelMess.Length = value.Skip(3).Take(3).ToArray();
+                                }
+
+                            }
+                            if (value.Count >= 9)
+                            {
+                                if (value[6] == 0x06)
+                                {
+                                    modelMess.States = value.Skip(6).Take(3).ToArray();
+                                }
+                            }
+                            if (value.Count >= 15)
+                            {
+                                if (value[9] == 0x07)
+                                {
+                                    modelMess.Time = value.Skip(11).Take(4).ToArray();
+                                }
+                            }
+                            if (value.Count >= 40)
+                            {
+                                if (value[15] == 0x08)
+                                {
+                                    modelMess.GPSByte = value.Skip(17).Take(26).ToArray();
                                     modelMess.LatitudeByte = modelMess.GPSByte.Skip(0).Take(9).ToArray();
                                     modelMess.LongitudeByte = modelMess.GPSByte.Skip(12).Take(10).ToArray();
                                 }
                             }
-                            /// Check định kỳ
-                            /// 
+                            if (value.Count >= 30)
+                            {
+                                if (value[3] == 0x1F)
+                                {
+                                    if (Helper.ByteArrayCompare(value.Skip(3).Take(3).ToArray(), ConstParam.Value))
+                                    {
+                                        modelMess.GPSByte = value.Skip(6).Take(24).ToArray();
+                                        modelMess.LatitudeByte = modelMess.GPSByte.Skip(0).Take(9).ToArray();
+                                        modelMess.LongitudeByte = modelMess.GPSByte.Skip(12).Take(10).ToArray();
+                                    }
+                                    /// Check định kỳ
+                                    /// 
+                                    foreach (byte elm in value)
+                                    {
 
-                        
+                                    }
+                                }
+                            }
+                        }
+                        else if (value[0] == 0x24)
+                        {
+                            modelMess.Sequence = value.Skip(0).Take(3).ToArray();
                         }
                     }
-                    else if (value[0] == 0x24)
-                    {
-                        modelMess.Sequence = value.Skip(0).Take(3).ToArray();
-                    }
+                    #endregion
                 }
             }
 
@@ -243,14 +269,71 @@ namespace WebManageFridgeMQTT.Utility
                     }
                 }
 
-
                 if (Helper.ByteArrayCompare(data.CommandAction, ConstParam.DinhKyGPS))
                 {
-                    model.Loai = 1;
+                    model.Loai = 0;
+                    #region Trạng Thái định kỳ
+                    if (Helper.ByteArrayCompare(data.TypeDinhKy, ConstParam.DKHoatDong))
+                    {
+                        if (Helper.ByteArrayCompare(data.States, ConstParam.NoMay))
+                        {
+                            model.TrangThai = 1;  //đang hoạt động
+                        }
+                        else if (Helper.ByteArrayCompare(data.States, ConstParam.TatMay))
+                        {
+                            model.TrangThai = 2;
+                        }
+                    }
+                    else if (Helper.ByteArrayCompare(data.TypeDinhKy, ConstParam.DKBaoDuong))
+                    {
+                        if (Helper.ByteArrayCompare(data.States, ConstParam.NoMay))
+                        {
+                            model.TrangThai = 3;  //đang bảo dưỡng
+                        }
+                        else if (Helper.ByteArrayCompare(data.States, ConstParam.TatMay))
+                        {
+                            model.TrangThai = 4;
+                        }
+                    }
+                    else if (Helper.ByteArrayCompare(data.TypeDinhKy, ConstParam.DKDiChuyen))
+                    {
+                        if (Helper.ByteArrayCompare(data.States, ConstParam.NoMay))
+                        {
+                            model.TrangThai = 5;  //đang Di chuyển
+                        }
+                        else if (Helper.ByteArrayCompare(data.States, ConstParam.TatMay))
+                        {
+                            model.TrangThai = 6;
+                        }
+                    }
+                    else if (Helper.ByteArrayCompare(data.TypeDinhKy, ConstParam.DKKhoan))
+                    {
+                        if (Helper.ByteArrayCompare(data.States, ConstParam.NoMay))
+                        {
+                            model.TrangThai = 7;  //đang bảo dưỡng
+                        }
+                        else if (Helper.ByteArrayCompare(data.States, ConstParam.TatMay))
+                        {
+                            model.TrangThai = 8;
+                        }
+                    }
+                    else if (Helper.ByteArrayCompare(data.TypeDinhKy, ConstParam.DKCau))
+                    {
+                        if (Helper.ByteArrayCompare(data.States, ConstParam.NoMay))
+                        {
+                            model.TrangThai = 9;  //đang bảo dưỡng
+                        }
+                        else if (Helper.ByteArrayCompare(data.States, ConstParam.TatMay))
+                        {
+                            model.TrangThai = 10;
+                        }
+                    }
+                    #endregion
+                    
                 }
                 else if (Helper.ByteArrayCompare(data.CommandAction, ConstParam.HoatDong))
                 {
-                    model.Loai = 100;
+                    model.Loai = 1;
                     if (Helper.ByteArrayCompare(data.States, ConstParam.Dang))
                     {
                         model.TrangThai = 1;  //đang hoạt động
@@ -320,7 +403,7 @@ namespace WebManageFridgeMQTT.Utility
         {
             try
             {
-                if (a1.Length == a2.Length)
+                if (a1.Count() == a2.Count())
                 {
                     for (int i = 0; i < a1.Length; i++)
                         if (a1[i] != a2[i])
@@ -345,7 +428,7 @@ namespace WebManageFridgeMQTT.Utility
             decimal result = 0;
             try
             {
-                if(arrayData[3] != 0x00)
+                if (arrayData[3] != 0x00)
                 {
                     string strData = System.Text.Encoding.UTF8.GetString(arrayData);
                     string strToaDo = strData.Substring(0, 2);
@@ -396,7 +479,7 @@ namespace WebManageFridgeMQTT.Utility
             return text;
         }
     }
-    
+
     #region class SessionHelper
     public class SessionHelper
     {
@@ -465,6 +548,7 @@ namespace WebManageFridgeMQTT.Utility
         public byte[] LatitudeByte { get; set; }
         public byte[] LongitudeByte { get; set; }
         public byte[] Length { get; set; }
+        public byte[] TypeDinhKy { get; set; }
 
         public ModelMess()
         {
@@ -477,6 +561,7 @@ namespace WebManageFridgeMQTT.Utility
             this.Sequence = null;
             this.GPSByte = null;
             this.Length = null;
+            this.TypeDinhKy = null;
         }
         public string WriteByteLog()
         {
@@ -534,6 +619,12 @@ namespace WebManageFridgeMQTT.Utility
                 string hex = BitConverter.ToString(this.Length);
                 string text = hex.Replace("-", "");
                 result += "     Length:" + text;
+            }
+            if (this.TypeDinhKy != null)
+            {
+                string hex = BitConverter.ToString(this.TypeDinhKy);
+                string text = hex.Replace("-", "");
+                result += "     TypeDinhKy:" + text;
             }
             return result;
         }
@@ -635,7 +726,7 @@ namespace WebManageFridgeMQTT.Utility
         public static byte[] DKCau = new byte[] { 0x1F, 0x24, 0x04, 0x0D };
     }
 
-    public class DeviceActivity 
+    public class DeviceActivity
     {
         public string ThietBiID { get; set; }
         public DateTime FromDate { get; set; }
@@ -647,7 +738,7 @@ namespace WebManageFridgeMQTT.Utility
         public List<GetInfoDeviceModifyResult> ListDataModify { get; set; }
 
         public List<GetInfoDeviceReportResult> ListDataReport { get; set; }
-        
+
 
         public DeviceActivity()
         {
@@ -672,14 +763,14 @@ namespace WebManageFridgeMQTT.Utility
         public string CongTrinhId { get; set; }
         public DateTime FromDate { get; set; }
         public DateTime ToDate { get; set; }
-        public List<CongTrinhGetInfoQuanLyThuChiResult> ListTaiChinh {get; set;}
-        public List<CongTrinhGetInfoBCSanLuongResult> ListSanLuong {get; set;}
-        public List<CongTrinhGetInfoBCThietbiResult> ListThietBi {get; set;}
-        public List<CongTrinhGetInfoBCVatTuResult> ListVatTu {get; set;}
-        public List<CongTrinhGetInfoBCQuyTrinhThiCongResult> ListThiCong {get; set;}
+        public List<CongTrinhGetInfoQuanLyThuChiResult> ListTaiChinh { get; set; }
+        public List<CongTrinhGetInfoBCSanLuongResult> ListSanLuong { get; set; }
+        public List<CongTrinhGetInfoBCThietbiResult> ListThietBi { get; set; }
+        public List<CongTrinhGetInfoBCVatTuResult> ListVatTu { get; set; }
+        public List<CongTrinhGetInfoBCQuyTrinhThiCongResult> ListThiCong { get; set; }
         public CongTrinhGetInfoBCQuyTrinhThiCongCocResult ThiCongCoc { get; set; }
         public List<CongTrinhGetInfoBCQuyTrinhThiCongChiTietResult> ListThiCongChiTiet { get; set; }
-        public List<CongTrinhGetInfoDSNhanVienResult> ListNhanVien {get; set;}
+        public List<CongTrinhGetInfoDSNhanVienResult> ListNhanVien { get; set; }
 
 
         public CongTringPopupMV()

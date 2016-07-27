@@ -47,8 +47,8 @@ namespace WebManageFridgeMQTT.Utility
                             log += Environment.NewLine + TbMess.WriteLog();
                         }
                     }
+                    CustomLog.LogDevice(log);
                 }
-                CustomLog.LogDevice(log);
             }
             catch (Exception ex)
             {
@@ -74,7 +74,7 @@ namespace WebManageFridgeMQTT.Utility
 
         public Gateway()
         {
-            int interval = 600000;
+            int interval = 10000;
             if(!string.IsNullOrEmpty(ConfigurationManager.AppSettings["TimePingInterval"].ToString())){
                 Int32.Parse(ConfigurationManager.AppSettings["TimePingInterval"].ToString());
             }

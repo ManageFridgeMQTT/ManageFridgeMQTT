@@ -25,8 +25,11 @@ namespace WebManageFridgeMQTT.Utility
                 string log = Helper.ByteToString(e.Message);
                 string clientID = (string)Utility.Helper.GetPropertyValue(sender, "ClientId");
                 bool isConnected = (bool)Utility.Helper.GetPropertyValue(sender, "IsConnected");
-
                 List<string> topicList = e.Topic.Split(new char[] { '/' }).ToList();
+                if(topicList[0] == "ping")
+                {
+                    CustomLog.LogPing(Encoding.UTF8.GetString(e.Message.ToArray()));
+                }
                 if (topicList.Count >= 3)
                 {
                     if (topicList[0].ToString() == "info")

@@ -166,6 +166,10 @@ namespace WebManageFridgeMQTT.Utility
                                     modelMess.LongitudeByte = modelMess.GPSByte.Skip(12).Take(10).ToArray();
                                 }
                             }
+                            /// Check định kỳ
+                            /// 
+
+                        
                         }
                     }
                     else if (value[0] == 0x24)
@@ -621,7 +625,14 @@ namespace WebManageFridgeMQTT.Utility
         public static byte[] KoCau = new byte[] { 0x09, 0x01, 0x01 };
 
         public static byte[] Value = new byte[] { 0x1F, 0x21, 0x18 };
+        public static byte[] KhoangCach = new byte[] { 0x1F, 0x23, 0x04 };
 
+
+        public static byte[] DKHoatDong = new byte[] { 0x1F, 0x24, 0x04, 0x0E };
+        public static byte[] DKBaoDuong = new byte[] { 0x1F, 0x24, 0x04, 0x0A };
+        public static byte[] DKDiChuyen = new byte[] { 0x1F, 0x24, 0x04, 0x0B };
+        public static byte[] DKKhoan = new byte[] { 0x1F, 0x24, 0x04, 0x0C };
+        public static byte[] DKCau = new byte[] { 0x1F, 0x24, 0x04, 0x0D };
     }
 
     public class DeviceActivity 

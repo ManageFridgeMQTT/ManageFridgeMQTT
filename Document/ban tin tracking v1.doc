@@ -1,34 +1,10 @@
-﻿1	Đọc tín hiệu GPS tức thời thời gian thực ( set cấu hình GPS gốc), tính khoảng cách
-chiều gửi
-/*
-01 01 01 --> CommandType
-02 04 00 00 00 01 --> CommandId
-03 01 02 --> 02 Command Action đọc Gps
-24 01 03 --> sequence
-01 01 01 Đọc thông số tức thì
-*/
-chiều nhận:
-/* 
-CommandID 02 04 00 00 00 01 
-Status 05 01 01 
-CommandAction 03 04 00 00 00 02 
-GPSData 1F 21 18 xx xx xx xx xx xx xx xx xx xx xx xx xx xx xx xx xx xx xx xx xx xx xx xx (24 byte giá trị long lat)	
-        1F 23 04 xx xx xx xx (4 byte giá trị khoảng cách so với gốc)
-Data Invalid(Không bắt được sóng GPS) 
+﻿
+Bản tin định kỳ:
 
-02 04 00 00 00 01 05 01 00 03 04 00 00 00 01
-CommandID : 02 04 00 00 00 01
- 		Status: 05 01 00 
-CommandAction: 03 04 00 00 00 02
+CommandAction: 	03 01 02   
+Máy:            05 01 01
+				1F 24 04 0E0501xx
 
-2.	Gửi bản tin định kì GPS ( nếu GPS mới lệch với GPS gốc và khoảng cách > khoảng cách set up) thì sẽ gửi bản tin tọa độ và khoảng cách. (time định kỳl tùy chọn)
-/*
-Bản tin GPS
-03 01 02 05 01 01 1F xx xx xx xx xx xx xx xx xx xx xx xx xx xx xx xx xx xx xx xx xx xx xx xx 1F 23 04 xx xx xx xx
-CommandAction  03 01 02
-Status 05 01 00 (00 không cảnh báo vị trí,01 Cảnh báo vị trí)
-GPS Data 1F 21 18 xx xx xx xx xx xx xx xx xx xx xx xx xx xx xx xx xx xx xx xx xx xx xx xx
-Khoảng cách sai lệch: 1F 23 xx xx xx xx
 
 */
 3	Nỗ máy bảo dưỡng
@@ -92,157 +68,10 @@ khoảng thời gian nỗ máy khoan:
 03 01 0D
 05 01 01 : tắt máy
 24 01 23: length 
-09 01 01 : trạng thái không cẩy
+06 01 01 : trạng thái không cẩy
 07 04 xx xx xx xx (4 byte time)
 08 18 xx xx xx xx xx xx xx xx xx xx xx xx xx xx xx xx xx xx xx xx xx xx xx xx (tọa độ lúc kết thúc khoan)
 */
-
-10 bản tin I/o không biết mục đích dùng để làm gì
-1. chức năng 1
-01 01 03
-02 04 00 00 00 01 
-03 01 10
-24 01 xx
-xx xx xx xx xx xx
-xx xx xx xx xx xx
-xx xx xx xx xx xx
-xx xx xx xx xx xx
-
-
-2. chức năng 2
-01 01 03
-02 04 00 00 00 01 
-03 01 11
-24 01 xx
-xx xx xx xx xx xx
-xx xx xx xx xx xx
-xx xx xx xx xx xx
-xx xx xx xx xx xx
-
-3. chức năng 3
-01 01 03
-02 04 00 00 00 01 
-03 01 12
-24 01 xx
-xx xx xx xx xx xx
-xx xx xx xx xx xx
-xx xx xx xx xx xx
-xx xx xx xx xx xx
-
-4. chức năng 4
-01 01 03
-02 04 00 00 00 01 
-03 01 13
-24 01 xx
-xx xx xx xx xx xx
-xx xx xx xx xx xx
-xx xx xx xx xx xx
-xx xx xx xx xx xx
-
-5. chức năng 5
-01 01 03
-02 04 00 00 00 01 
-03 01 14
-24 01 xx
-xx xx xx xx xx xx
-xx xx xx xx xx xx
-xx xx xx xx xx xx
-xx xx xx xx xx xx
-
-6. chức năng 6
-01 01 03
-02 04 00 00 00 01 
-03 01 15
-24 01 xx
-xx xx xx xx xx xx
-xx xx xx xx xx xx
-xx xx xx xx xx xx
-xx xx xx xx xx xx
-
-7. chức năng 7
-01 01 03
-02 04 00 00 00 01 
-03 01 16
-24 01 xx
-xx xx xx xx xx xx
-xx xx xx xx xx xx
-xx xx xx xx xx xx
-xx xx xx xx xx xx
-
-8. chức năng 8
-01 01 03
-02 04 00 00 00 01 
-03 01 17
-24 01 xx
-xx xx xx xx xx xx
-xx xx xx xx xx xx
-xx xx xx xx xx xx
-xx xx xx xx xx xx
-
-9. chức năng 9
-01 01 03
-02 04 00 00 00 01 
-03 01 18
-24 01 xx
-xx xx xx xx xx xx
-xx xx xx xx xx xx
-xx xx xx xx xx xx
-xx xx xx xx xx xx
-
-10. chức năng 10
-01 01 03
-02 04 00 00 00 01 
-03 01 19
-24 01 xx
-xx xx xx xx xx xx
-xx xx xx xx xx xx
-xx xx xx xx xx xx
-xx xx xx xx xx xx
-
-
-
-
-
-////////////////////////////////////////////////////
-chức năng phụ
-Reset thiết bị:
-01 01 03
-02 04 00 00 00 01
-03 01 05 (action reset)
-
-•	Update firmware (dota)
-/*
-01 01 03 --> CommandType
-02 04 00 00 00 01 --> CommandId
-03 01 07 --> 07 Command Action Update config
-24 01 3D --> sequence
-01 0D 31 32 35 2e 32 31 32 2e 31 39 33 2e 36 --> 01 là Ip của ftp với giá trị chuỗi ASCII, ở ví dụ thể hiện giá trị “125.212.193.6”.
-03 0C 68 61 6e 64 5f 64 63 75 2e 64 77 6c --> 03 là tên file cần download với giá trị là chuỗi ASCII, ở ví dụ này giá trị là “hand_dcu.dwl”
-04 01 2e --> 04 chỉ path cụ thể của file name, ở ví dụ này giá trị là “.”
-05 0F 63 74 64 74 5f 32 30 31 33 61 62 63 31 32 33--> 05 là username của ftp với giá trị là chuỗi ASCII, ở ví dụ này giá trị là “ctdt_2013abc123”
-06 0A 73 61 69 67 6f 6e 32 30 31 33 --> 06 là password của ftp với giá trị chuỗi ASCII, ở ví dụ này giá trị là “saigon2013”
-
-
-*/
-
-•	Chức năng set up
-01 01 03 --> CommandType
-02 04 00 00 00 01 --> CommandId
-03 01 09 ->09 Command Action
-24 01 03 --> sequence
-01 04 00 00 00 1E --> 01 là cấu hình tần suất gửi bản tin vị trí lên server track log GPS
-
-. Cấu hình tọa độ gốc và khoảng cách xảy ra cảnh báo
-
-01 01 03 -->CommandType
-02 04 00 00 00 01 --> CommandId
-03 01 0B ->0B Command Action
-24 01 1D --> sequence
-01 09 31 30 2e 38 31 37 37 33 31 --> 01 là cấu hình tọa độ latitude Gps gốc(10.817731)
-02 0A 31 30 36 2e 36 32 30 37 32 38-> 02 là cấu hình longtitude Gps gốc(106.620728)
-03 04 00 00 00 64-->02 là cấu hình khoảng cách cảnh báo 64(100m)
-
-
 
 
 

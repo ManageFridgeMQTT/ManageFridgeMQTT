@@ -94,17 +94,19 @@ namespace WindowsService
 
         void myThread()
         {
-            //CustomLog.LogError("EmailNotify", "aTimerSFA_Elapsed");
-            string url = ConfigurationSettings.AppSettings["Website"];
+            try
+            {
+                //CustomLog.LogError("EmailNotify", "aTimerSFA_Elapsed");
+                string url = ConfigurationSettings.AppSettings["Website"];
 
-            #region Call Web site
-            //using (var wb = new WebBrowser())
-            //{
-            //    wb.Navigate(url.ToString());
-            //    CustomLog.LogError("EmailNotify", "Done_" + url.ToString());
-            //}
-            ProcedureLoadPage(url.ToString());
-            #endregion
+                #region Call Web site
+                ProcedureLoadPage(url.ToString());
+                #endregion
+            }
+            catch (Exception ex)
+            {
+                CustomLog.LogError(ex);
+            }
         }
 
         void ActionsToExecuteInWebBrowser()
@@ -112,12 +114,10 @@ namespace WindowsService
             //Whatever you want to do in the WebBrowser here
         }
 
-        static HtmlAgilityPack.HtmlDocument ProcedureLoadPage(string urlToLoad)//, HtmlDocument htmlDoc
+        static void ProcedureLoadPage(string urlToLoad)//, HtmlDocument htmlDoc
         {
             try
             {
-                
-
                 HtmlAgilityPack.HtmlDocument htmlDoc = new HtmlAgilityPack.HtmlDocument();
                 HttpWebRequest request = HttpWebRequest.Create(urlToLoad) as HttpWebRequest;
                 request.Method = "GET";
@@ -133,20 +133,18 @@ namespace WindowsService
                 request.Headers.Add(HttpRequestHeader.AcceptLanguage, "en-US,en;q=0.8,vi;q=0.6");
                 /* Sart browser signature */
 
-
-
                 //Console.WriteLine(request.RequestUri.AbsoluteUri);
                 WebResponse response = request.GetResponse();
                 htmlDoc.Load(response.GetResponseStream(), true);
 
                 CustomLog.LogError("EmailNotify", "Done_" + urlToLoad.ToString());
-                return htmlDoc;
+                //return htmlDoc;
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex);
+                CustomLog.LogError(ex);
             }
-            return null;
+            //return null;
         }
     }
 }

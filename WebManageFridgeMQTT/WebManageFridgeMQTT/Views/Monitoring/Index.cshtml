@@ -34,7 +34,7 @@
 <script>
     $(function () {
         $('.datepicker').datepicker({
-            dateFormat: 'dd/mm/yy'
+            dateFormat: 'dd-mm-yy'
         });
     })
 </script>
@@ -250,6 +250,7 @@
     </div>
     <div id="CongTrinhPopupTemplete" class="PopupTemplete" style="display: none;">
         <!-- Nav tabs -->
+        <h3 id="PopupTitleTenCongTrinh" style="color:white;">Tên công trình</h3>
         <ul class="nav nav-tabs" role="tablist" id="ul-tab">
             <li role="presentation" class="active"><a href="#taichinh" aria-controls="Báo Cáo Tài Chính" role="tab" data-toggle="tab">Báo Cáo Tài Chính</a></li>
             <li role="presentation"><a href="#sanluong" aria-controls="Báo Cáo Sản Lượng" role="tab" data-toggle="tab" onclick="RenderSanLuong('')">Báo Cáo Sản Lượng</a></li>
@@ -766,6 +767,7 @@
         //var id = currentDeviceID;
         var htmlData = '';
         var id = item.CongTrinhId;
+        $('#PopupTitleTenCongTrinh').html(item.TenCongTrinh);
         var matadata = $('#CongTrinhPopupTemplete');
         var data = matadata.clone();
         data.css('display','');

@@ -3,8 +3,8 @@
     <div class="col-sm-12">
         <div class="item fl">
             <label class="fl">Chọn Ngày</label>
-            @Html.TextBox("strFromDateCPVatTu", Model.FromDate.ToShortDateString(), new { @class = "datepicker" })
-            @Html.TextBox("strToDateCPVatTu", Model.ToDate.ToShortDateString(), new { @class = "datepicker" })
+            @Html.TextBox("strFromDateCPVatTu", Model.FromDate.ToShortPattern(), new { @class = "datepicker" })
+            @Html.TextBox("strToDateCPVatTu", Model.ToDate.ToShortPattern(), new { @class = "datepicker" })
             <button class="btn" onclick="RenderCPVatTu('@Model.CongTrinhId')">
                 <i class="icon-submit" title="Xem báo cáo"></i>Xem
             </button>
@@ -40,7 +40,7 @@
                                 <tr role="row">
                                     <td>@i</td>
                                     <td>@item.TenVatTu</td>
-                                    <td>@item.SoLuong</td>
+                                    <td class="align-right">@item.SoLuong</td>
                                     <td class="align-right">@item.GiaBan</td>
                                     <td class="align-right">@item.ThanhTien</td>
                                 </tr>
@@ -86,7 +86,7 @@
 <script type="text/javascript">
     $(document).ready(function () {
         $('.datepicker').datepicker({
-            dateFormat: 'dd/mm/yy'
+            dateFormat: 'dd-mm-yy'
         });
         $('#table-sanluong table').tablesorter({
             headerTemplate: '{content} {icon}', // Add icon for various themes

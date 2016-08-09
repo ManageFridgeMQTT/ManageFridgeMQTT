@@ -1,10 +1,16 @@
 ﻿@model WebManageFridgeMQTT.Utility.CongTringPopupMV
+@{
+    double tong = 0;
+    double tong2 = 0;
+    double tongkltc = 0;
+    System.Globalization.CultureInfo cul = System.Globalization.CultureInfo.GetCultureInfo("vi-VN");
+}
 <div class="row">
     <div class="col-sm-12">
         <div class="item fl">
             <label class="fl">Chọn Ngày</label>
-            @Html.TextBox("strFromDateSanLuong", Model.FromDate.ToShortDateString(), new { @class = "datepicker" })
-            @Html.TextBox("strToDateSanLuong", Model.ToDate.ToShortDateString(), new { @class = "datepicker" })
+            @Html.TextBox("strFromDateSanLuong", Model.FromDate.ToShortPattern(), new { @class = "datepicker" })
+            @Html.TextBox("strToDateSanLuong", Model.ToDate.ToShortPattern(), new { @class = "datepicker" })
             <button class="btn" onclick="RenderSanLuong('@Model.CongTrinhId')">
                 <i class="icon-submit" title="Xem báo cáo"></i>Xem
             </button>
@@ -13,7 +19,7 @@
             <div id="table-sanluong" class="tab-content wrapper">
                 <table class="table table-striped" style="margin-bottom:5px">
                     <thead>
-                        <tr class="tablesorter-headerRow">
+                        @*<tr class="tablesorter-headerRow">
                             <th nowrap>
                                 STT <i class="tablesorter-icon"></i>
                             </th>
@@ -32,10 +38,77 @@
                             <th nowrap>
                                 Thành tiền <i class="tablesorter-icon"></i>
                             </th>
+                        </tr>*@
+                        <tr class="tablesorter-headerRow">
+                            <th nowrap>
+                                STT <i class="tablesorter-icon"></i>
+                            </th>
+                            <th nowrap>
+                                Tên hạng mục <i class="tablesorter-icon"></i>
+                            </th>
+                            <th nowrap>
+                                ĐVT <i class="tablesorter-icon"></i>
+                            </th>
+                            <th nowrap>
+                                Tổng khối lượng <i class="tablesorter-icon"></i>
+                            </th>
+                            <th nowrap>
+                                Đã thực hiện <i class="tablesorter-icon"></i>
+                            </th>
+                            <th nowrap>
+                                Đơn giá <i class="tablesorter-icon"></i>
+                            </th>
+                            <th nowrap>
+                                Thành tiền <i class="tablesorter-icon"></i>
+                            </th>
+                            <th nowrap>
+                                Đơn giá 2<i class="tablesorter-icon"></i>
+                            </th>
+                            <th nowrap>
+                                Thành tiền 2<i class="tablesorter-icon"></i>
+                            </th>
                         </tr>
                     </thead>
                     <tbody id="tbBodyReport">
-                        @if (Model.ListSanLuong != null)
+                        @{
+
+                            for (int r = 0; r < Model.ListSanLuong.Count; r++)
+                            {
+                                int stt = r + 1;
+                                string thanhtienkl = "";
+                                string dongiakltc = "";
+                                string thanhtienkl2 = "";
+                                string dongiakltc2 = "";
+                                if (Model.ListSanLuong[r].DaThucHien != null && Model.ListSanLuong[r].DonGia != null)
+                                {
+                                    double temp = (double)Model.ListSanLuong[r].DaThucHien * (double)Model.ListSanLuong[r].DonGia;
+                                    //  tongkltc += temp;
+                                    thanhtienkl = temp.ToString("#,###", cul.NumberFormat).Replace(".", ",");
+                                    dongiakltc = ((double)Model.ListSanLuong[r].DonGia).ToString("#,###", cul.NumberFormat).Replace(".", ",");
+                                }
+                                if (Model.ListSanLuong[r].DaThucHien != null && Model.ListSanLuong[r].DonGia2 != null)
+                                {
+                                    double temp2 = (double)Model.ListSanLuong[r].DaThucHien * (double)Model.ListSanLuong[r].DonGia2;
+                                    tongkltc += temp2;
+                                    thanhtienkl2 = temp2.ToString("#,###", cul.NumberFormat).Replace(".", ",");
+                                    dongiakltc2 = ((double)Model.ListSanLuong[r].DonGia2).ToString("#,###", cul.NumberFormat).Replace(".", ",");
+                                }
+                                <tr>
+                                    <td>@stt</td>
+                                    <td>@Model.ListSanLuong[r].TenCongViec</td>
+                                    <td>@Model.ListSanLuong[r].DonViTinh</td>
+                                    <td>@Model.ListSanLuong[r].KhoiLuong</td>
+                                    <td>@Model.ListSanLuong[r].DaThucHien</td>
+                                    <td style="text-align:right;">@dongiakltc</td>
+                                    <td style="text-align:right;">@thanhtienkl</td>
+                                    <td style="text-align:right;">@dongiakltc2</td>
+                                    <td style="text-align:right;">@thanhtienkl2</td>
+                                    @*<td>@Model.TKBCSanLuong.Rows[r][6] / @Model.TKBCSanLuong.Rows[r][7]</td>*@
+                                </tr>
+                            }
+                        }
+
+                        @*@if (Model.ListSanLuong != null)
                         {
                             int i = 1;
                             foreach (var item in Model.ListSanLuong)
@@ -50,14 +123,14 @@
                                 </tr>
                                 i++;
                             }
-                        }
+                        }*@
                     </tbody>
                 </table>
                 
                     <table style="width:100%">
                         <thead>
                             <tr>
-                                <th style="text-align:right">@ViewData["TotalMoney"] VNĐ</th>
+                                <th style="text-align:right">@tongkltc.ToString("#,###", cul.NumberFormat).Replace(".", ",") VNĐ</th>
                             </tr>
                         </thead>
                     </table>
@@ -89,7 +162,7 @@
 <script type="text/javascript">
     $(document).ready(function () {
         $('.datepicker').datepicker({
-            dateFormat: 'dd/mm/yy'
+            dateFormat: 'dd-mm-yy'
         });
         $('#table-sanluong table').tablesorter({
             headerTemplate: '{content} {icon}', // Add icon for various themes

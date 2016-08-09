@@ -1,8 +1,10 @@
-﻿using System;
+﻿using DF.DBMapping.Models;
+using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
+using System.Globalization;
 using System.Linq;
 using System.Reflection;
 using System.Web;
@@ -13,6 +15,9 @@ namespace WebManageFridgeMQTT.Utility
 {
     public static class Helper
     {
+        public static CultureInfo info;
+
+
         public static object GetPropertyValue(object ob, string propertyName)
         {
             return ob.GetType().GetProperties().Single(pi => pi.Name == propertyName).GetValue(ob, null);
@@ -329,7 +334,7 @@ namespace WebManageFridgeMQTT.Utility
                         }
                     }
                     #endregion
-                    
+
                 }
                 else if (Helper.ByteArrayCompare(data.CommandAction, ConstParam.HoatDong))
                 {
@@ -477,6 +482,32 @@ namespace WebManageFridgeMQTT.Utility
             string hex = BitConverter.ToString(mess);
             string text = hex.Replace("-", "");
             return text;
+        }
+
+        public static DateTime DateTimeParse(object o)
+        {
+            if (o == null)
+            {
+                return DateTime.Today;
+            }
+            DateTime dt = new DateTime();
+            if (DateTime.TryParse(o.ToString(), info, DateTimeStyles.None, out dt))
+            {
+                return dt;
+            }
+            return DateTime.Today;
+        }
+
+        public static string ToTimePattern(this DateTime? dateTime)
+        {
+            if (dateTime == null) { return String.Empty; }
+            return dateTime.Value.ToString(info.DateTimeFormat.ShortTimePattern);
+        }
+
+        public static string ToShortPattern(this DateTime dateTime)
+        {
+            if (dateTime == null || dateTime.Year == 1) { return String.Empty; }
+            return dateTime.ToString(info.DateTimeFormat.ShortDatePattern);
         }
     }
 
@@ -764,7 +795,8 @@ namespace WebManageFridgeMQTT.Utility
         public DateTime FromDate { get; set; }
         public DateTime ToDate { get; set; }
         public List<CongTrinhGetInfoQuanLyThuChiResult> ListTaiChinh { get; set; }
-        public List<CongTrinhGetInfoBCSanLuongResult> ListSanLuong { get; set; }
+        //public List<CongTrinhGetInfoBCSanLuongResult> ListSanLuong { get; set; }
+        public List<KhoiLuongThiCong> ListSanLuong { get; set; }
         public List<CongTrinhGetInfoBCThietbiResult> ListThietBi { get; set; }
         public List<CongTrinhGetInfoBCVatTuResult> ListVatTu { get; set; }
         public List<CongTrinhGetInfoBCQuyTrinhThiCongResult> ListThiCong { get; set; }
@@ -779,7 +811,8 @@ namespace WebManageFridgeMQTT.Utility
             this.FromDate = DateTime.Now.AddMonths(-1);
             this.ToDate = DateTime.Now;
             this.ListTaiChinh = new List<CongTrinhGetInfoQuanLyThuChiResult>();
-            this.ListSanLuong = new List<CongTrinhGetInfoBCSanLuongResult>();
+            //this.ListSanLuong = new List<CongTrinhGetInfoBCSanLuongResult>();
+            this.ListSanLuong = new List<KhoiLuongThiCong>();
             this.ListThietBi = new List<CongTrinhGetInfoBCThietbiResult>();
             this.ListVatTu = new List<CongTrinhGetInfoBCVatTuResult>();
             this.ListThiCong = new List<CongTrinhGetInfoBCQuyTrinhThiCongResult>();

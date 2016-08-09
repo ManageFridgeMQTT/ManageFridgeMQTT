@@ -3,8 +3,8 @@
     <div class="col-sm-12">
         <div class="item fl">
             <label class="fl">Chọn Ngày</label>
-            @Html.TextBox("strFromDateThiCong", Model.FromDate.ToShortDateString(), new { @class = "datepicker" })
-            @Html.TextBox("strToDateThiCong", Model.ToDate.ToShortDateString(), new { @class = "datepicker" })
+            @Html.TextBox("strFromDateThiCong", Model.FromDate.ToShortPattern(), new { @class = "datepicker" })
+            @Html.TextBox("strToDateThiCong", Model.ToDate.ToShortPattern(), new { @class = "datepicker" })
             <button class="btn" onclick="RenderThiCong('@Model.CongTrinhId')">
                 <i class="icon-submit" title="Xem báo cáo"></i>Xem
             </button>
@@ -81,7 +81,7 @@
 <script type="text/javascript">
     $(document).ready(function () {
         $('.datepicker').datepicker({
-            dateFormat: 'dd/mm/yy'
+            dateFormat: 'dd-mm-yy'
         });
         $('#table-thicong table').tablesorter({
             headerTemplate: '{content} {icon}', // Add icon for various themes

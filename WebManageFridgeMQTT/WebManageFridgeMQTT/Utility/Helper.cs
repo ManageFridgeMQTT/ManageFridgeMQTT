@@ -403,11 +403,18 @@ namespace WebManageFridgeMQTT.Utility
         {
             try
             {
-                if (a1.Count() == a2.Count())
+                if (a1 != null && a2 != null)
                 {
-                    for (int i = 0; i < a1.Length; i++)
-                        if (a1[i] != a2[i])
-                            return false;
+                    if (a1.Count() == a2.Count())
+                    {
+                        for (int i = 0; i < a1.Count(); i++)
+                            if (a1[i] != a2[i])
+                                return false;
+                    }
+                    else
+                    {
+                        return false;
+                    }
                 }
                 else
                 {

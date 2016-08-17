@@ -7,14 +7,14 @@
 }
 <div class="row">
     <div class="col-sm-12">
-        <div class="item fl">
+        @*<div class="item fl">
             <label class="fl">Chọn Ngày</label>
             @Html.TextBox("strFromDateSanLuong", Model.FromDate.ToShortPattern(), new { @class = "datepicker" })
             @Html.TextBox("strToDateSanLuong", Model.ToDate.ToShortPattern(), new { @class = "datepicker" })
             <button class="btn" onclick="RenderSanLuong('@Model.CongTrinhId')">
                 <i class="icon-submit" title="Xem báo cáo"></i>Xem
             </button>
-        </div>
+        </div>*@
         <div class="content-body">
             <div id="table-sanluong" class="tab-content wrapper">
                 <table class="table table-striped" style="margin-bottom:5px">
@@ -130,7 +130,7 @@
                     <table style="width:100%">
                         <thead>
                             <tr>
-                                <th style="text-align:right">@tongkltc.ToString("#,###", cul.NumberFormat).Replace(".", ",") VNĐ</th>
+                                <th style="text-align:right">Tổng Tiền: @tongkltc.ToString("#,###", cul.NumberFormat).Replace(".", ",") VNĐ</th>
                             </tr>
                         </thead>
                     </table>

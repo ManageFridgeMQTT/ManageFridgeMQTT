@@ -62,14 +62,14 @@ namespace WebManageFridgeMQTT.Utility
         {
             string clientID = (string)Utility.Helper.GetPropertyValue(sender, "ClientId");
             string result = "MqttMsgUnsubscribed------ ClientID: " + clientID + " --- MessageId: " + e.MessageId;
-            CustomLog.LogError(result);
+            CustomLog.LogDevice(result);
         }
 
         public void client_MqttMsgSubscribed(object sender, MqttMsgSubscribedEventArgs e)
         {
             string clientID = (string)Utility.Helper.GetPropertyValue(sender, "ClientId");
             string result = "MqttMsgSubscribed----- ClientID: " + clientID + " --- MessageId: " + e.MessageId + " --- GrantedQoSLevels: " + Encoding.UTF8.GetString(e.GrantedQoSLevels);
-            CustomLog.LogError(result);
+            CustomLog.LogDevice(result);
         }
 
         public Gateway()
@@ -98,7 +98,7 @@ namespace WebManageFridgeMQTT.Utility
                     this.client = new MqttClient(IPAddress.Parse("45.117.80.39"));
                     string clientID = "1111AAAA";
                     this.client.Connect(clientID);
-                    CustomLog.LogError("reconnect thanh cong");
+                    CustomLog.LogDevice("reconnect thanh cong");
                     string[] topic = { "#", "Test/#" };
 
                     byte[] qosLevels = { MqttMsgBase.QOS_LEVEL_AT_MOST_ONCE, MqttMsgBase.QOS_LEVEL_AT_MOST_ONCE };

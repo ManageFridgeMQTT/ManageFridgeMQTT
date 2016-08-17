@@ -711,8 +711,8 @@ namespace WebManageFridgeMQTT.Controllers
         {
             CongTringPopupMV model = new CongTringPopupMV();
             string totalMoney = "0";
-            model.FromDate = DateTime.Now.AddYears(-5);
-            model.ToDate = DateTime.Now;
+            model.FromDate = new DateTime(DateTime.Today.AddYears(-5).Year, DateTime.Today.Month,1);
+            model.ToDate = DateTime.Today;
             if (!string.IsNullOrEmpty(strFromDate))
             {
                 model.FromDate = Helper.DateTimeParse(strFromDate);
@@ -783,8 +783,8 @@ namespace WebManageFridgeMQTT.Controllers
             DateTime denngay5namtemp = denngay5nam;
             if (denngay5nam > date)
             {
-                string ddd = date.Month + " " + date.Day + ", " + date.Year;
-                denngay5nam = Convert.ToDateTime(ddd);//.AddDays(1);
+                //string ddd = date.Month + " " + date.Day + ", " + date.Year;
+                denngay5nam = DateTime.ParseExact(date.ToString("dd/MM/yyyy"), "dd/MM/yyyy", null);//.AddDays(1);
             }
             double denngay555 = (denngay5nam - bgindate).TotalDays;
 
@@ -898,6 +898,8 @@ namespace WebManageFridgeMQTT.Controllers
             DataTable lstsuachua = unitofwork.BCThietBis.getListSuaChuaBCThietBi(ctid, tungay, denngay);
             kq.TKSuaChuaThietBi = lstsuachua;
             kq.TKBCBaoCaoThietBi = dt;
+            //kq.ThoiGian = ThoiGian;
+
             return kq;
         }
 

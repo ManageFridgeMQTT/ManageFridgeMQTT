@@ -1,4 +1,13 @@
 ﻿@model WebManageFridgeMQTT.Utility.CongTringPopupMV
+@{ 
+    DateTime ngaybatdau = DateTime.Now;
+    DateTime ngaykt = DateTime.Now;
+    double tongsongay = 0;
+    double tongsogio = 0;
+    string tgio = "";
+    string tngay = "";
+}
+
 <div class="row">
     <div class="col-sm-12">
         <div class="item fl">
@@ -20,11 +29,11 @@
                 <tr>
                     <td>
                         <label class="fl">Tổng ngày thực hiện: </label>
-                        <span>@Model.ThiCongCoc.TongThoiGianThucHien</span>
+                        <span id="tongngay">@Model.ThiCongCoc.TongThoiGianThucHien</span>
                     </td>
                     <td>
                         <label class="fl">Tổng giờ: </label>
-                        <span>@Model.ThiCongCoc.TongGio</span>
+                        <span id="tonggio" >@Model.ThiCongCoc.TongGio</span>
                     </td>
                     <td></td>
                 </tr>
@@ -56,19 +65,64 @@
                     <tbody id="tbBodyReport">
                         @if (Model.ListThiCongChiTiet != null)
                         {
-                            int i = 1;
-                            foreach (var item in Model.ListThiCongChiTiet)
-                            {
-                                <tr role="row">
-                                    <td>@i</td>
-                                    <td>@item.ThiCong</td>
-                                    <td>@item.ThoiGian</td>
-                                    <td>@item.ThoiGianThiCong</td>
-                                    <td>@item.GhiChu</td>
-                                </tr>
-                                i++;
+                        ngaybatdau = Model.ListThiCongChiTiet.OrderBy(a => a.ThoiGian).FirstOrDefault().ThoiGian.Value;
+                        ngaykt = Model.ListThiCongChiTiet.OrderByDescending(a => a.ThoiGian).FirstOrDefault().ThoiGian.Value;
+                        for (int r = 0; r < Model.ListThiCongChiTiet.Count; r++)
+                        {
+                            int stt = r + 1;
+                                    <tr>
+                                        <td>@stt</td>
+                                        <td>@Model.ListThiCongChiTiet[r].ThiCong</td>
+                                        <td>@Model.ListThiCongChiTiet[r].strThoiGian</td> 
+                                        
+                                        @{
+                                            var result = string.Empty;
+                                            string hours = Model.ListThiCongChiTiet[r].ThoiGianThiCong.HasValue ? Model.ListThiCongChiTiet[r].ThoiGianThiCong.Value.ToString() : "";
+                                            if (hours == null || hours == "")
+                                            {
+                                                <td></td>
+                                            }
+                                            else
+                                            {
+                                                double gioh = Convert.ToDouble(hours);
+                                                tongsogio += gioh;
+
+                                                var ts = TimeSpan.FromHours(gioh);
+                                                int ngayh = Convert.ToInt16(gioh / 24);
+                                                result += ts.Seconds.Equals(0) ? "" : string.Format("{0} Giây", ts.Seconds);
+                                                result = string.Format("{0}{1}",
+                                                    string.IsNullOrEmpty(result)
+                                                        ? (ts.Minutes.Equals(0) ? "" : string.Format("{0} Phút", ts.Minutes))
+                                                        : (ts.Minutes.Equals(0) && ts.Hours.Equals(0) ? "" : string.Format("{0} Phút ", ts.Minutes)), result);
+                                                result = string.Format("{0}{1}", ts.Hours.Equals(0) ? "" : string.Format("{0} Giờ ", 24 * ngayh + ts.Hours), result);
+                                                <td>@result</td>
+                                                ts = TimeSpan.FromHours(tongsogio);
+                                                ngayh = Convert.ToInt16(tongsogio / 24);
+                                                result += ts.Seconds.Equals(0) ? "" : string.Format("{0} Giây", ts.Seconds);
+                                                result = string.Format("{0}{1}",
+                                                    string.IsNullOrEmpty(result)
+                                                        ? (ts.Minutes.Equals(0) ? "" : string.Format("{0} Phút", ts.Minutes))
+                                                        : (ts.Minutes.Equals(0) && ts.Hours.Equals(0) ? "" : string.Format("{0} Phút ", ts.Minutes)), result);
+                                                result = string.Format("{0}{1}", ts.Hours.Equals(0) ? "" : string.Format("{0} Giờ ", 24 * ngayh + ts.Hours), result);
+                                                tgio = result;
+                                            }
+
+                                        }
+                                        <td>@Model.ListThiCongChiTiet[r].GhiChu</td>
+                                    </tr>
+                                            }
+                                            tongsongay = (ngaykt - ngaybatdau).TotalHours;
+                                            var ts1 = TimeSpan.FromHours(tongsongay);
+                                            int ngayh1 = Convert.ToInt16(tongsongay / 24);
+                                            var result1 = string.Empty;
+                                            result1 += ts1.Seconds.Equals(0) ? "" : string.Format("{0} Giây", ts1.Seconds);
+                                            result1 = string.Format("{0}{1}",
+                                                string.IsNullOrEmpty(result1)
+                                                    ? (ts1.Minutes.Equals(0) ? "" : string.Format("{0} Phút", ts1.Minutes))
+                                                    : (ts1.Minutes.Equals(0) && ts1.Hours.Equals(0) ? "" : string.Format("{0} Phút ", ts1.Minutes)), result1);
+                                            result1 = string.Format("{0}{1}", ts1.Hours.Equals(0) ? "" : string.Format("{0} Giờ ", 24 * ngayh1 + ts1.Hours), result1);
+                                            tngay = result1;
                             }
-                        }
                     </tbody>
                 </table>
             </div>
@@ -116,5 +170,10 @@
             removeRows: false,
             output: ' {startRow} to {endRow} of {totalRows}' //'Showing {startRow} to {endRow} of {totalRows} entries' //'{startRow} - {endRow} / {filteredRows} ({totalRows})'  //'/ {totalPages}'
         });
+
+        var $tongng = '@tngay';
+        $("#tongngay").html($tongng);
+        var $tonggio = '@tgio';
+        $("#tonggio").html($tonggio);
     });
 </script>

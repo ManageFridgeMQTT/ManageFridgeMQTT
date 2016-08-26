@@ -1,10 +1,17 @@
 ﻿@model WebManageFridgeMQTT.Utility.DeviceActivity
+    @using WebManageFridgeMQTT.Utility
+<style>
+    .table > tfoot > tr > td {
+        padding: 0px;
+    }
+</style>
+
 <div class="row">
     <div class="col-sm-12">
         <div class="item fl">
             <label class="fl">Chọn Ngày</label>
-            @Html.TextBox("strFromDateHoatDong", Model.FromDate.ToShortDateString(), new { @class = "datepicker" })
-            @Html.TextBox("strToDateHoatDong", Model.ToDate.ToShortDateString(), new { @class = "datepicker" })
+            @Html.TextBox("strFromDateHoatDong", Model.FromDate.ToShortPattern(), new { @class = "datepicker" })
+            @Html.TextBox("strToDateHoatDong", Model.ToDate.ToShortPattern(), new { @class = "datepicker" })
             <button class="btn" onclick="showPopup('@Model.ThietBiID')">
                 <i class="icon-submit" title="Xem báo cáo"></i>Xem
             </button>
@@ -25,10 +32,10 @@
                 int i = 1;
                 foreach (var item in Model.ListData)
                 {
-                                <tr>
-                                    <td>@i</td>
-                                    <td>@item.ThoiGian.ToString()</td>
-                                    <td>@item.StrTrangThai</td>
+                                <tr style="padding: 0px;">
+                                    <td style="padding: 0px;">@i</td>
+                                    <td style="padding: 0px;">@item.ThoiGian.ToString()</td>
+                                    <td style="padding: 0px;">@item.StrTrangThai</td>
                                 </tr>
                                 i++;
                             }
@@ -63,7 +70,7 @@
 <script type="text/javascript">
     $(document).ready(function () {
         $('.datepicker').datepicker({
-            dateFormat: 'dd/mm/yy'
+            dateFormat: 'dd-mm-yy'
         });
         $('#table-activitypopup table').tablesorter({
             headerTemplate: '{content} {icon}', // Add icon for various themes
@@ -76,10 +83,12 @@
             cssGoto: ".pagenum",
             prev: '.prev',
             next: '.next',
-            size: 10,
+            size: 15,
             removeRows: false,
             output: ' {startRow} to {endRow} of {totalRows}' //'Showing {startRow} to {endRow} of {totalRows} entries' //'{startRow} - {endRow} / {filteredRows} ({totalRows})'  //'/ {totalPages}'
         });
+
+        $('#table-activitypopup table').trigger('pageSize', 15);
 
     });
 </script>

@@ -52,6 +52,17 @@ namespace WebManageFridgeMQTT
 
             gateway.TimerTick.Start();
             #endregion
+
+
+            Helper.info = new System.Globalization.CultureInfo("en-US");
+            Helper.info.NumberFormat.NumberDecimalDigits = 2;
+            Helper.info.NumberFormat.CurrencyDecimalDigits = 2;
+            Helper.info.NumberFormat.CurrencyGroupSeparator = ",";
+            Helper.info.NumberFormat.CurrencyDecimalSeparator = ".";
+            Helper.info.NumberFormat.CurrencySymbol = String.Empty;
+            Helper.info.DateTimeFormat.FullDateTimePattern = "dd-MM-yyyy HH:mm";
+            Helper.info.DateTimeFormat.ShortTimePattern = "HH:mm:ss";
+            Helper.info.DateTimeFormat.ShortDatePattern = "dd-MM-yyyy";
         }
     }
 }

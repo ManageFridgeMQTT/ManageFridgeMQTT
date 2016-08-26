@@ -34,7 +34,7 @@
 <script>
     $(function () {
         $('.datepicker').datepicker({
-            dateFormat: 'dd/mm/yy'
+            dateFormat: 'dd-mm-yy'
         });
     })
 </script>
@@ -63,41 +63,41 @@
         @*<div class="note_item col-xs-3">
             <img src="@Url.Content("~/Content/Icon/markers/ic_map_red.png")" />
             <span>Đang bảo dưỡng</span>
-        </div>
-        <div class="note_item col-xs-3">
+        </div>*@
+        @*<div class="note_item col-xs-3">
             <img src="@Url.Content("~/Content/Icon/markers/ic_map_red.png")" />
-            <span>Tắt máy bảo dưỡng</span>
-        </div>
+            <span>Tắt máy</span>
+        </div>*@
         <div class="note_item col-xs-3">
-            <img src="@Url.Content("~/Content/Icon/markers/ic_map_purple.png")" />
+            <img src="@Url.Content("~/Content/Icon/markers/ic_map_blue.png")" />
             <span>Đang di chuyển</span>
         </div>
-        <div class="note_item col-xs-3">
+        @*<div class="note_item col-xs-3">
             <img src="@Url.Content("~/Content/Icon/markers/ic_map_red.png")" />
             <span>Tắt máy di chuyển</span>
-        </div>
+        </div>*@
         <div class="note_item col-xs-3">
             <img src="@Url.Content("~/Content/Icon/markers/ic_map_blue.png")" />
             <span>Đang khoan</span>
         </div>
-        <div class="note_item col-xs-3">
-            <img src="@Url.Content("~/Content/Icon/markers/ic_map_brown.png")" />
+        @*<div class="note_item col-xs-3">
+            <img src="@Url.Content("~/Content/Icon/markers/ic_map_red.png")" />
             <span>Tắt máy khoan</span>
-        </div>
+        </div>*@
         <div class="note_item col-xs-3">
-            <img src="@Url.Content("~/Content/Icon/markers/ic_map_gray.png")" />
+            <img src="@Url.Content("~/Content/Icon/markers/ic_map_blue.png")" />
             <span>Đang cẩu</span>
         </div>
-        <div class="note_item col-xs-3">
-            <img src="@Url.Content("~/Content/Icon/markers/ic_map_green.png")" />
+        @*<div class="note_item col-xs-3">
+            <img src="@Url.Content("~/Content/Icon/markers/ic_map_red.png")" />
             <span>Tắt máy cẩu</span>
-        </div>
-        <div class="note_item col-xs-3">
-            <img src="@Url.Content("~/Content/Icon/markers/ic_map_orange.png")" />
-            <span>Không xác định</span>
         </div>*@
         <div class="note_item col-xs-3">
             <img src="@Url.Content("~/Content/Icon/markers/ic_map_gray.png")" />
+            <span>Không xác định</span>
+        </div>
+        <div class="note_item col-xs-3">
+            <img src="@Url.Content("~/Content/Icon/markers/ic_map_red.png")" />
             <span>Tắt máy</span>
         </div>
         <div class="note_item col-xs-3">
@@ -250,6 +250,7 @@
     </div>
     <div id="CongTrinhPopupTemplete" class="PopupTemplete" style="display: none;">
         <!-- Nav tabs -->
+        <h3 id="PopupTitleTenCongTrinh" style="color:white;">Tên công trình</h3>
         <ul class="nav nav-tabs" role="tablist" id="ul-tab">
             <li role="presentation" class="active"><a href="#taichinh" aria-controls="Báo Cáo Tài Chính" role="tab" data-toggle="tab">Báo Cáo Tài Chính</a></li>
             <li role="presentation"><a href="#sanluong" aria-controls="Báo Cáo Sản Lượng" role="tab" data-toggle="tab" onclick="RenderSanLuong('')">Báo Cáo Sản Lượng</a></li>
@@ -301,7 +302,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h3 class="modal-title">Hình ảnh báo cáo</h3>
+                <h3 class="modal-title">Chi tiết hoạt động</h3>
             </div>
             <div id="HoatDongModalBody" class="modal-body">
             </div>
@@ -494,25 +495,44 @@
 
 
     function RenderDevice(c){
-        // var a = c.length;
-        //  for (var i = 0; i < a; i++) {
-        var strIconUrl = 'ic_map_gray';
+        //WHEN 1 THEN N'Đang nổ máy'--ic_map_blue
+        //WHEN 2 THEN N'Tắt máy'--ic_map_red
+        //WHEN 3 THEN N'Đang bảo dưỡng'--ic_map_blue
+        //WHEN 4 THEN N'Tắt máy bảo dưỡng'--ic_map_red
+        //WHEN 5 THEN N'Đang di chuyển'--ic_map_blue
+        //WHEN 6 THEN N'Tắt máy di chuyển'--ic_map_red
+        //WHEN 7 THEN N'Đang khoan'--ic_map_blue
+        //WHEN 8 THEN N'Tắt máy khoan'--ic_map_red
+        //WHEN 9 THEN N'Đang cẩu'--ic_map_blue
+        //WHEN 10 THEN N'Tắt máy cẩu'--ic_map_red
+        //ELSE N'Không Xác Định'--ic_map_gray
+        //Tắt máy-Đỏ
+        //Di chuyển-Hồng
+        //Đang Cau-Xanh lá
+        //Dang Khoan-Xanh da trời
+        //Dang No May - Tím
+        //Khong Xac Dinh-Xám
+        var strIconUrl = 'ic_map_blue';
         if(c.TrangThaiHienTai == 1){
             strIconUrl = 'ic_map_blue';
         }else if(c.TrangThaiHienTai == 2){
-            strIconUrl = 'ic_map_gray';
+            strIconUrl = 'ic_map_red';
         }else if(c.TrangThaiHienTai == 3){
-            strIconUrl = 'ic_map_brown';
+            strIconUrl = 'ic_map_blue';
         }else if(c.TrangThaiHienTai == 4){
-            strIconUrl = 'ic_map_gray';
+            strIconUrl = 'ic_map_red';
         }else if(c.TrangThaiHienTai == 5){
-            strIconUrl = 'ic_map_green';
+            strIconUrl = 'ic_map_blue';
         }else if(c.TrangThaiHienTai == 6){
-            strIconUrl = 'ic_map_orange';
+            strIconUrl = 'ic_map_red';
         }else if(c.TrangThaiHienTai == 7){
-            strIconUrl = 'ic_map_purple';
+            strIconUrl = 'ic_map_blue';
         }else if(c.TrangThaiHienTai == 8){
             strIconUrl = 'ic_map_red';
+        }else if(c.TrangThaiHienTai == 9){
+            strIconUrl = 'ic_map_blue';
+        }else if(c.TrangThaiHienTai == 10){
+            strIconUrl = 'ic_map_gray';
         }else {
             strIconUrl = 'ic_map_gray';
         }
@@ -766,6 +786,7 @@
         //var id = currentDeviceID;
         var htmlData = '';
         var id = item.CongTrinhId;
+        $('#PopupTitleTenCongTrinh').html(item.TenCongTrinh);
         var matadata = $('#CongTrinhPopupTemplete');
         var data = matadata.clone();
         data.css('display','');

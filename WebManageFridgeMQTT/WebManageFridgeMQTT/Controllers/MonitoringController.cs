@@ -102,11 +102,11 @@ namespace WebManageFridgeMQTT.Controllers
             }
             if (!string.IsNullOrEmpty(strFromDate))
             {
-                model.FromDate = DateTime.Parse(strFromDate);
+                model.FromDate = Helper.DateTimeParse(strFromDate);
             }
             if (!string.IsNullOrEmpty(strFromDate))
             {
-                model.ToDate = DateTime.Parse(strToDate);
+                model.ToDate = Helper.DateTimeParse(strToDate);
             }
 
             //(List<GetInfoDeviceModifyResult>) Session["ListDataModify"];//
@@ -136,11 +136,11 @@ namespace WebManageFridgeMQTT.Controllers
             }
             if (!string.IsNullOrEmpty(strFromDate))
             {
-                model.FromDate = DateTime.Parse(strFromDate);
+                model.FromDate = Helper.DateTimeParse(strFromDate);
             }
             if (!string.IsNullOrEmpty(strFromDate))
             {
-                model.ToDate = DateTime.Parse(strToDate);
+                model.ToDate = Helper.DateTimeParse(strToDate);
             }
 
             //(List<GetInfoDeviceActivityResult>)Session["ListData"];  //
@@ -157,12 +157,12 @@ namespace WebManageFridgeMQTT.Controllers
             }
             if (!string.IsNullOrEmpty(strFromDate))
             {
-                model.FromDate = DateTime.Parse(strFromDate);
+                model.FromDate = Helper.DateTimeParse(strFromDate);
             }
 
             if (!string.IsNullOrEmpty(strFromDate))
             {
-                model.ToDate = DateTime.Parse(strToDate);
+                model.ToDate = Helper.DateTimeParse(strToDate);
             }
 
             // (List<GetInfoDeviceMoveResult>)Session["ListDataMove"];//
@@ -178,12 +178,12 @@ namespace WebManageFridgeMQTT.Controllers
             }
             if (!string.IsNullOrEmpty(strFromDate))
             {
-                model.FromDate = DateTime.Parse(strFromDate);
+                model.FromDate = Helper.DateTimeParse(strFromDate);
             }
 
             if (!string.IsNullOrEmpty(strFromDate))
             {
-                model.ToDate = DateTime.Parse(strToDate);
+                model.ToDate = Helper.DateTimeParse(strToDate);
             }
 
             //(List<GetInfoDeviceReportResult>) Session["ListDataReport"];//
@@ -232,11 +232,11 @@ namespace WebManageFridgeMQTT.Controllers
             model.ToDate = denngay;//DateTime.Now;
             if (!string.IsNullOrEmpty(strFromDate))
             {
-                model.FromDate = DateTime.Parse(strFromDate);
+                model.FromDate = Helper.DateTimeParse(strFromDate);
             }
             if (!string.IsNullOrEmpty(strFromDate))
             {
-                model.ToDate = DateTime.Parse(strToDate);
+                model.ToDate = Helper.DateTimeParse(strToDate);
             }
 
             if (!string.IsNullOrEmpty(congTrinhId))
@@ -681,23 +681,27 @@ namespace WebManageFridgeMQTT.Controllers
             model.ToDate = DateTime.Now;
             if (!string.IsNullOrEmpty(strFromDate))
             {
-                model.FromDate = DateTime.Parse(strFromDate);
+                model.FromDate = Helper.DateTimeParse(strFromDate);
             }
             if (!string.IsNullOrEmpty(strFromDate))
             {
-                model.ToDate = DateTime.Parse(strToDate);
+                model.ToDate = Helper.DateTimeParse(strToDate);
             }
 
             if (!string.IsNullOrEmpty(congTrinhId))
             {
                 model.CongTrinhId = congTrinhId;
-                model.ListSanLuong = Global.Context.CongTrinhGetInfoBCSanLuong(model.CongTrinhId, model.FromDate, model.ToDate).ToList();
-                if (model.ListSanLuong != null)
-                {
-                    double total = model.ListSanLuong.Where(x => x.Tien.HasValue).Sum(s => s.Tien.Value);
-                    totalMoney = String.Format("{0:n0}", total);
-                    ViewData["TotalMoney"] = totalMoney;
-                }
+
+                unitofwork = new UnitOfWork();
+                Guid ctid = Guid.Parse(congTrinhId);
+                model.ListSanLuong = unitofwork.KhoiLuongThiCongs.GetAll().Where(cp => cp.IsActive == true && cp.CongTrinhID == ctid).ToList();
+                //model.ListSanLuong = Global.Context.CongTrinhGetInfoBCSanLuong(model.CongTrinhId, model.FromDate, model.ToDate).ToList();
+                //if (model.ListSanLuong != null)
+                //{
+                //    double total = model.ListSanLuong.Where(x => x.Tien.HasValue).Sum(s => s.Tien.Value);
+                //    totalMoney = String.Format("{0:n0}", total);
+                //    ViewData["TotalMoney"] = totalMoney;
+                //}
             }
 
             return PartialView("SanLuongCT", model);
@@ -707,15 +711,15 @@ namespace WebManageFridgeMQTT.Controllers
         {
             CongTringPopupMV model = new CongTringPopupMV();
             string totalMoney = "0";
-            model.FromDate = DateTime.Now.AddYears(-5);
-            model.ToDate = DateTime.Now;
+            model.FromDate = new DateTime(DateTime.Today.AddYears(-5).Year, DateTime.Today.Month,1);
+            model.ToDate = DateTime.Today;
             if (!string.IsNullOrEmpty(strFromDate))
             {
-                model.FromDate = DateTime.Parse(strFromDate);
+                model.FromDate = Helper.DateTimeParse(strFromDate);
             }
             if (!string.IsNullOrEmpty(strFromDate))
             {
-                model.ToDate = DateTime.Parse(strToDate);
+                model.ToDate = Helper.DateTimeParse(strToDate);
             }
 
             if (!string.IsNullOrEmpty(congTrinhId))
@@ -741,8 +745,8 @@ namespace WebManageFridgeMQTT.Controllers
             unitofwork = new UnitOfWork();
             BaoCaoThietBiModel kq = new BaoCaoThietBiModel();
             Guid ctid = Guid.Parse(CongTrinhID);
-            DateTime tungay = _tungay;// DateTime.ParseExact(TGArray[0].Trim().ToString(), "dd/MM/yyyy", null);
-            DateTime denngay = _denngay;//DateTime.ParseExact(TGArray[1].Trim().ToString(), "dd/MM/yyyy", null).AddDays(1).AddTicks(-1);
+            DateTime tungay = _tungay;// Helper.DateTimeParseExact(TGArray[0].Trim().ToString(), "dd/MM/yyyy", null);
+            DateTime denngay = _denngay;//Helper.DateTimeParseExact(TGArray[1].Trim().ToString(), "dd/MM/yyyy", null).AddDays(1).AddTicks(-1);
             DateTime date = DateTime.Now;
             DataTable dt = new DataTable();
             dt.Clear();
@@ -779,8 +783,8 @@ namespace WebManageFridgeMQTT.Controllers
             DateTime denngay5namtemp = denngay5nam;
             if (denngay5nam > date)
             {
-                string ddd = date.Month + " " + date.Day + ", " + date.Year;
-                denngay5nam = Convert.ToDateTime(ddd);//.AddDays(1);
+                //string ddd = date.Month + " " + date.Day + ", " + date.Year;
+                denngay5nam = DateTime.ParseExact(date.ToString("dd/MM/yyyy"), "dd/MM/yyyy", null);//.AddDays(1);
             }
             double denngay555 = (denngay5nam - bgindate).TotalDays;
 
@@ -894,6 +898,8 @@ namespace WebManageFridgeMQTT.Controllers
             DataTable lstsuachua = unitofwork.BCThietBis.getListSuaChuaBCThietBi(ctid, tungay, denngay);
             kq.TKSuaChuaThietBi = lstsuachua;
             kq.TKBCBaoCaoThietBi = dt;
+            //kq.ThoiGian = ThoiGian;
+
             return kq;
         }
 
@@ -959,11 +965,11 @@ namespace WebManageFridgeMQTT.Controllers
             model.ToDate = DateTime.Now;
             if (!string.IsNullOrEmpty(strFromDate))
             {
-                model.FromDate = DateTime.Parse(strFromDate);
+                model.FromDate = Helper.DateTimeParse(strFromDate);
             }
             if (!string.IsNullOrEmpty(strFromDate))
             {
-                model.ToDate = DateTime.Parse(strToDate);
+                model.ToDate = Helper.DateTimeParse(strToDate);
             }
 
             if (!string.IsNullOrEmpty(congTrinhId))
@@ -987,11 +993,11 @@ namespace WebManageFridgeMQTT.Controllers
             model.ToDate = DateTime.Now;
             if (!string.IsNullOrEmpty(strFromDate))
             {
-                model.FromDate = DateTime.Parse(strFromDate);
+                model.FromDate = Helper.DateTimeParse(strFromDate);
             }
             if (!string.IsNullOrEmpty(strFromDate))
             {
-                model.ToDate = DateTime.Parse(strToDate);
+                model.ToDate = Helper.DateTimeParse(strToDate);
             }
 
             if (!string.IsNullOrEmpty(congTrinhId))
@@ -1019,11 +1025,11 @@ namespace WebManageFridgeMQTT.Controllers
             model.ToDate = DateTime.Now;
             if (!string.IsNullOrEmpty(strFromDate))
             {
-                model.FromDate = DateTime.Parse(strFromDate);
+                model.FromDate = Helper.DateTimeParse(strFromDate);
             }
             if (!string.IsNullOrEmpty(strFromDate))
             {
-                model.ToDate = DateTime.Parse(strToDate);
+                model.ToDate = Helper.DateTimeParse(strToDate);
             }
 
             if (!string.IsNullOrEmpty(congTrinhId))

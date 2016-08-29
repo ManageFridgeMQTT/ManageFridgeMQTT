@@ -1,0 +1,185 @@
+﻿@model eRoute.Models.ViewModel.AssesmentVM
+@{
+    Layout = "~/Views/Shared/_rootLayout.cshtml";
+    ViewBag.Title = "AuditorList";
+    AjaxOptions ajaxOptions = new AjaxOptions
+    {
+        LoadingElementId = "Progress",
+        UpdateTargetId = "searchResults",
+        OnBegin = "OnBegin",
+        OnComplete = "OnComplete"
+    };
+}
+<script type="text/javascript">
+    function OnBegin() {
+        document.getElementById('LoadingImg').setAttribute("style", "display");
+    }
+    function OnComplete() {
+        document.getElementById('LoadingImg').setAttribute("style", "display:none");
+    }
+</script>
+<div style="padding: 7px;">
+    <div id="LoadingImg" class="AjaxLoaderOuter" style="display: none">
+        <div class="AjaxLoaderInner">
+            <img src="/Content/Images/ajax-loader.gif" />
+        </div>
+    </div>
+    <table width="100%" cellpadding="0" cellspacing="0">
+        <tr>
+            <td valign="top" width="28%">
+                @using (Ajax.BeginForm("GridViewPartialLeader", ajaxOptions))
+                {
+                    <table width="100%" cellpadding="2" cellspacing="2">
+                        <tr>
+                            <td>
+                                @Localization.Date
+                            </td>
+                            <td>
+                                @Html.DevExpress().DateEdit(settings =>
+                       {
+                           settings.Width = 274;
+                           settings.Name = "deDate";
+                           System.Collections.ArrayList ar = (System.Collections.ArrayList)Session["deDateLeader"];
+                           if (ar != null)
+                           {
+                               settings.Date = DateTime.Parse(ar[0].ToString());
+                           }
+                           else
+                           {
+                               settings.Date = DateTime.Now;
+                           }
+                           settings.Properties.EditFormat = EditFormat.Custom;
+                           settings.Properties.EditFormatString = "dd/MM/yyyy";
+                           settings.Properties.DisplayFormatString = "dd/MM/yyyy";
+                       }).GetHtml()
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                @Localization.Leader
+                            </td>
+                            <td>
+                                @Html.DevExpress().TextBoxFor(model => Model.sp_Assesment_Leader_View.FirstOrDefault().Leader, settings =>
+                       {
+                           settings.Name = "txtLeader";
+                           settings.ReadOnly = true;
+                           settings.Width = 274;
+                       }).GetHtml()
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                @Localization.Auditor
+                            </td>
+                            <td>
+                                @Html.DevExpress().ComboBox(settings =>
+                           {
+                               settings.Name = "cbbAuditor";
+                               settings.Width = 274;
+                               settings.Properties.IncrementalFilteringMode = IncrementalFilteringMode.StartsWith;
+                               settings.Properties.DropDownStyle = DropDownStyle.DropDownList;
+                               foreach (var item in Model.sp_Assesment_Leader_View.Select(x => new { x.LoginIDAuditor, x.Auditor }).Distinct().ToList())
+                               {
+                                   settings.Properties.Items.Add(item.Auditor, item.LoginIDAuditor);
+                               }
+                               settings.Properties.AllowMouseWheel = true;
+                               settings.Properties.ClientSideEvents.SelectedIndexChanged = "function(s, e) { cbbDistributor.PerformCallback();}";
+                               settings.SelectedIndex = 0;
+                               settings.PreRender = (sender, e) =>
+                               {
+                                   System.Collections.ArrayList ar = (System.Collections.ArrayList)Session["deDateLeader"];
+                                   if (ar != null)
+                                   {
+                                       MVCxComboBox cmb = sender as MVCxComboBox;
+                                       cmb.Value = ar[1].ToString();
+                                       cmb.DataBind();
+                                   }
+                               };
+                           }).GetHtml()
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                @Localization.Distributor
+                            </td>
+                            <td>
+                                @Html.DevExpress().ComboBox(settings =>
+                       {
+                           settings.Name = "cbbDistributor";
+                           settings.Width = 274;
+                           settings.Properties.IncrementalFilteringMode = IncrementalFilteringMode.StartsWith;
+                           settings.CallbackRouteValues = new { Controller = "Assesment", Action = "ComboBoxPartialDistributor" };
+                           settings.Properties.DropDownStyle = DropDownStyle.DropDownList;
+                           settings.Properties.AllowMouseWheel = true;
+                           settings.Properties.ClientSideEvents.BeginCallback = "function(s, e) { e.customArgs['cbbAuditor'] = cbbAuditor.GetValue(); }";
+                           settings.Properties.Items.Add(" ------------ " + @Localization.SelectAll + " ------------ ", "-1");
+                           foreach (var item in Model.sp_Assesment_Leader_View_By_Auditor.Select(x => new { x.DistributorID, DistributorName = ("(" + x.DistributorCode + ") " + x.DistributorName) }).Distinct().ToList())
+                           {
+                               settings.Properties.Items.Add(item.DistributorName, item.DistributorID);
+                           }
+                           settings.SelectedIndex = 0;
+                           settings.PreRender = (sender, e) =>
+                           {
+                               System.Collections.ArrayList ar = (System.Collections.ArrayList)Session["deDateLeader"];
+                               if (ar != null)
+                               {
+                                   MVCxComboBox cmb = sender as MVCxComboBox;
+                                   cmb.SelectedIndex = cmb.Items.FindByValue(ar[2].ToString()).Index;
+                                   cmb.DataBind();
+                               }
+                           };
+                       }).GetHtml()
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                @Localization.Status
+                            </td>
+                            <td>
+                                @Html.DevExpress().ComboBox(settings =>
+                       {
+                           settings.Name = "cbbStatus";
+                           settings.Width = 274;
+                           settings.Properties.IncrementalFilteringMode = IncrementalFilteringMode.StartsWith;
+                           settings.Properties.DropDownStyle = DropDownStyle.DropDownList;
+                           settings.Properties.ValueField = "StatusID";
+                           settings.Properties.TextField = "Name";
+                           settings.Properties.NullDisplayText = string.Empty;
+                           settings.SelectedIndex = 0;
+                           settings.PreRender = (sender, e) =>
+                           {
+                               System.Collections.ArrayList ar = (System.Collections.ArrayList)Session["deDateLeader"];
+                               if (ar != null)
+                               {
+                                   MVCxComboBox cmb = sender as MVCxComboBox;
+                                   cmb.SelectedIndex = cmb.Items.FindByValue(ar[3].ToString()).Index;
+                                   cmb.DataBind();
+                               }
+                           };
+                       }).BindList(@ViewData["LD"]).GetHtml()
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                            </td>
+                            <td>
+                                <div style="float: left; padding-right: 10px">
+                                    @Html.DevExpress().Button(settings =>
+                       {
+                           settings.Name = "btnSearch";
+                           settings.Text = Localization.BtnSearch;
+                           settings.UseSubmitBehavior = true;
+                       }).GetHtml()</div>
+                            </td>
+                        </tr>
+                    </table>
+                }
+            </td>
+            <td valign="top" width="72%">
+                <div id="searchResults" style="padding-top: 4px; padding-bottom: 10px">
+                    @Html.Action("GridViewPartialLeader", new { dis = string.Empty })
+                </div>
+            </td>
+        </tr>
+    </table>
+</div>

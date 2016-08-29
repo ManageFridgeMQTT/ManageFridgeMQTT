@@ -1,0 +1,57 @@
+﻿@model List<pp_ReportPC_SMResult>
+<div id="report-assPC" class="tab-pane fade in active box-table-ressult">
+    <table id="table-result" class="tablesorter valuation">
+        <thead>
+            <tr>
+                <th>@Utility.Phrase("Report_Region")</th>
+                <th>@Utility.Phrase("Report_Area")</th>
+                <th>@Utility.Phrase("Report_Distributor")</th>
+                <th>@Utility.Phrase("Report_Route")</th>
+                <th>@Utility.Phrase("TB_NVBH")</th>
+                <th>@Utility.Phrase("TB_DayVisit")</th>
+                <th>@Utility.Phrase("TB_AchievingPC")</th>
+                <th>@Utility.Phrase("TB_MCP")</th>
+                <th>@Utility.Phrase("TB_OrderCount")</th>
+                <th>@Utility.Phrase("TB_OderMCPRate")</th>
+                <th>@Utility.Phrase("TB_WorkingDayPlan")</th>
+                <th>@Utility.Phrase("TB_WorkingDay")</th>
+                <th>@Utility.Phrase("TB_DayPassPC")</th>
+                <th>@Utility.Phrase("TB_MTDMCP")</th>
+                <th>@Utility.Phrase("TB_MTDNumberOrder")</th>
+                <th>@Utility.Phrase("TB_MTDOrderAverage")</th>
+                <th style="min-width:62px">@Utility.Phrase("TB_MTDOderMCPRate")</th>
+                <th>@Utility.Phrase("TB_MTDTotalSKU")</th>
+                <th>@Utility.Phrase("TB_MTDLPPC")</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model != null)
+            {
+                foreach (var elm in Model)
+                {
+                <tr>
+                    <td>@elm.RegionName</td>
+                    <td>@elm.AreaName</td>
+                    <td>@elm.DistributorName</td>
+                    <td>@elm.RouteName</td>
+                    <td>@elm.SalesmanName</td>
+                    <td>@elm.VisitDate.ToShortDateString()</td>
+                    <td>@Utility.Phrase(elm.PCPass + "PCPass")</td>
+                    <td class="align-right">@String.Format("{0:n0}",elm.MCP)</td>
+                    <td class="align-right">@String.Format("{0:n0}",elm.OrderCount)</td>
+                    <td class="align-right">@String.Format("{0:n2}%",elm.PC_MCP)</td>
+                    <td class="align-right">@elm.MTDWorkPlan</td>
+                    <td class="align-right">@elm.ActualManday</td>
+                    <td class="align-right">@elm.MTDPCPass</td>
+                    <td class="align-right">@String.Format("{0:n0}",elm.MTDMCP)</td>
+                    <td class="align-right">@String.Format("{0:n0}",elm.MTDOrderCount)</td>
+                    <td class="align-right">@String.Format("{0:n2}",elm.MTD_AVG_PC)</td>
+                    <td class="align-right">@String.Format("{0:n2}%",elm.MTDPC_MCP)</td>
+                    <td class="align-right">@String.Format("{0:n0}",elm.MTDTotalSKU)</td>
+                    <td class="align-right">@String.Format("{0:n2}",elm.MTDLPPC)</td>
+                </tr>
+                }
+            }
+        </tbody>
+    </table>
+</div>

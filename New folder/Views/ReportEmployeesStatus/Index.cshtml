@@ -1,0 +1,275 @@
+﻿@*@{ Layout = "~/Views/Shared/_lightLayout.cshtml"; }*@
+
+
+@{
+    ViewBag.Title = Utility.Phrase("ReportEmployeesStatus");
+    Layout = "~/Views/Shared/_NewLayout.cshtml";
+}
+@model Hammer.Models.ReportEmployeesStatusFilterModel
+<script type="text/javascript">
+
+    //function submitProcessSchedule(form) {
+    //    LoadingPanel.Show();         
+    //    var data = $(form).serialize();
+    //    $.ajax({
+    //        url: 'ReportEmployeesStatus/ProcessSchedule',
+    //        data: data,
+    //        type: 'POST',
+    //        success: function (response) {                
+    //            renderExportExcelButton();
+    //            $('#prepareScheduleContent').html(response);
+    //            $('#action').css('display', '');
+    //            LoadingPanel.Hide();
+    //        },
+    //        error: function (err) {
+    //            //alert(err);
+    //        }
+    //    });
+    //    return false;
+    //}
+
+    function renderExportExcelButton() {
+        var data = 'scheduleType';
+        $.ajax({
+            url: 'ExportExcelPartialView',
+            data: data,
+            type: 'POST',
+            success: function (response) {
+                $('#action').html(response);
+            },
+            error: function (err) {
+                //alert(err);
+            }
+        });
+    }
+    function FromDate_ValueChanged(s, e) {
+        var fromDate = FromDate.GetDate();
+        var endDate = EndDate.GetDate();
+
+        if (fromDate > endDate) {
+            EndDate.SetDate(fromDate);
+        }
+    }
+
+    function EndDate_ValueChanged(s, e) {
+        var fromDate = FromDate.GetDate();
+        var endDate = EndDate.GetDate();
+
+        if (endDate < fromDate) {
+            EndDate.SetDate(fromDate);
+        }
+    }
+   
+</script>
+
+<div class="insider">
+     <div id="loading" class="loading"></div>
+
+
+    <div class="row display-table w-100pr mb-10 content-header">
+    <div class="report-content-header">
+        <div class="col-sm-8">
+            <h1>@Utility.Phrase("ReportEmployeesStatus")</h1>
+        </div>
+    </div>          
+               @* @using (Ajax.BeginForm("ProcessSchedule", "ReportEmployeesStatus",
+            new AjaxOptions
+            {
+                HttpMethod = "POST",
+                InsertionMode = InsertionMode.Replace,
+                UpdateTargetId = "prepareScheduleContent"
+            }, new { id = "frmProcessSchedule", onsubmit = "return submitProcessSchedule(this);" }
+                ))
+            {
+                    
+                     *@
+             @using (Html.BeginForm("Index", "ReportEmployeesStatus", FormMethod.Post))
+            {
+                        <div class="item fl">
+                          <label for="display" class="fl">@Utility.Phrase("Region")</label>
+                        <div class="input-group">           
+                            <div >
+                               
+                                @Html.DevExpress().ComboBox(
+                        settings =>
+                        {
+                            settings.Name = "RegionID";
+                            settings.CallbackRouteValues = new { Controller = "ReportEmployeesStatus", Action = "ComboBoxPartialRegion" };
+                            //settings.Width = System.Web.UI.WebControls.Unit.Percentage(105);                         
+                            settings.Properties.AllowMouseWheel = true;
+                            settings.Properties.TextFormatString = "{1}";
+                            settings.Properties.ValueField = "RegionID";
+                            settings.Properties.ValueType = typeof(string);
+                            settings.ShowModelErrors = true;
+                            settings.Properties.DropDownStyle = DropDownStyle.DropDownList;
+                            settings.Properties.IncrementalFilteringMode = IncrementalFilteringMode.Contains;
+                            settings.Properties.Columns.Add("RegionID", Utility.Phrase("RegionID"), 110);
+                            settings.Properties.Columns.Add("RegionName", Utility.Phrase("Region"), 200);
+                            settings.Properties.ClientSideEvents.SelectedIndexChanged = "function(s, e) { AreaID.PerformCallback(); EmployeeID.PerformCallback()}";
+                            settings.PreRender = (sender, e) =>
+                            {
+                                MVCxComboBox cmb = sender as MVCxComboBox;
+                                if (string.IsNullOrEmpty(Model.regionID))
+                                {
+                                    cmb.Value = Model.regionID;
+                                }
+                            };
+                        }
+                             ).BindList(Model.ListRegion).Bind(Model.regionID).GetHtml()
+
+                            </div>
+                        </div>
+                     </div>
+                        <div class="item fl">
+                          <label for="display" class="fl">@Utility.Phrase("Area")</label>
+                        <div class="input-group">           
+                            <div class="input-group-btn">                               
+                                 @Html.DevExpress().ComboBox(
+                        settings =>
+                        {
+                            settings.Name = "AreaID";
+                            settings.CallbackRouteValues = new { Controller = "ReportEmployeesStatus", Action = "ComboBoxPartialArea" };
+                            settings.Properties.CallbackPageSize = 50;
+                            //settings.Width = System.Web.UI.WebControls.Unit.Percentage(105);
+                            settings.Properties.DropDownRows = 15;
+                            settings.Properties.AllowMouseWheel = true;
+                            settings.Properties.TextFormatString = "{1}";
+                            settings.Properties.ValueField = "AreaID";
+                            settings.Properties.ValueType = typeof(string);
+                            settings.Properties.DropDownStyle = DropDownStyle.DropDownList;
+                            settings.Properties.IncrementalFilteringMode = IncrementalFilteringMode.Contains;
+                            settings.Properties.Columns.Add("AreaID", Utility.Phrase("AreaID"), 110);
+                            settings.Properties.Columns.Add("Name", Utility.Phrase("Area"), 200);
+
+                            settings.PreRender = (sender, e) =>
+                            {
+                                MVCxComboBox cmb = sender as MVCxComboBox;
+                                if (string.IsNullOrEmpty(Model.areaID))
+                                {
+                                    cmb.Value = Model.areaID;
+                                }
+                            };
+                            settings.Properties.EnableCallbackMode = true;
+                            settings.Properties.ClientSideEvents.SelectedIndexChanged = "function(s, e) { EmployeeID.PerformCallback(); }";
+                            settings.Properties.ClientSideEvents.BeginCallback = "function(s, e) { e.customArgs['RegionID'] = RegionID.GetValue(); }";
+                        }
+                            ).BindList(Model.ListArea).Bind(Model.areaID).GetHtml()
+
+                            </div>
+                        </div>
+                     </div>
+                    
+                       <div class="item fl">
+                          <label for="display" class="fl">@Utility.Phrase("Employee")
+                          </label>
+                        <div class="input-group">           
+                            <div class="input-group-btn">   
+                              @Html.DevExpress().ComboBoxFor(m => m.EmployeeID, cb =>
+                       {
+                           cb.CallbackRouteValues = new { Controller = "ReportEmployeesStatus", Action = "ComboBoxPartialEm" };
+                           cb.ShowModelErrors = true;
+                           cb.Properties.AnimationType = AnimationType.Fade;
+                           cb.ReadOnly = false;
+                           cb.Properties.ValueField = "EmployeeID";
+                           cb.Properties.TextField = "EmployeeName";
+                           cb.Properties.TextFormatString = "{1}";
+                           cb.Properties.ValueType = typeof(string);                          
+                           cb.Properties.Columns.Add("EmployeeID");
+                           cb.Properties.Columns.Add("EmployeeName");
+                           cb.Properties.Columns.Add("Level");
+                           cb.PreRender = (sender, e) =>
+                           {
+                               MVCxComboBox cmb = sender as MVCxComboBox;
+                               if (string.IsNullOrEmpty(Model.EmployeeID))
+                               {
+                                   cmb.Value = Model.EmployeeID;
+                               }
+                           };
+                           cb.Properties.IncrementalFilteringMode = IncrementalFilteringMode.StartsWith;
+                           //cb.Properties.Columns.Add("Level");
+                           //cb.Width = System.Web.UI.WebControls.Unit.Percentage(105);
+                           cb.Properties.ClientSideEvents.BeginCallback = "function(s, e) { e.customArgs['RegionID'] = RegionID.GetValue();e.customArgs['AreaID'] = AreaID.GetValue(); }";
+                           cb.Properties.ClientSideEvents.EndCallback = "function(s, e) {  s.SetValue(null);}";
+                           // cb.Properties.ClientSideEvents.SelectedIndexChanged = "cbEmployeeID_SelectedIndexChanged";
+                       }).BindList(eRoute.Models.eCalendar.HammerDataProvider.GetSubordinateNoDuplicate(User.Identity.Name).Where(x => x.Level != "SM").ToList()).Bind(Model.EmployeeID).GetHtml()
+
+                            </div>
+                        </div>
+                     </div>
+                    
+                    
+                     <div class="item fl required">
+                          <label for="display" class="fl"> @Utility.Phrase("StartDate")
+                          </label>
+                        <div class="input-group">           
+                            <div class="input-group-btn">   
+                                 @Html.DevExpress().DateEditFor(model => model.FromDate, dateEdit =>
+                        {
+                            dateEdit.Properties.AllowUserInput = false;
+                            dateEdit.Date = DateTime.Now.Date;
+                            dateEdit.Properties.ClientSideEvents.ValueChanged = "FromDate_ValueChanged";                         
+                        }).GetHtml()
+                            </div>
+                        </div>
+                     </div>
+                     <div class="item fl required">
+                          <label for="display" class="fl"> @Utility.Phrase("EndDate")
+                          </label>
+                        <div class="input-group">           
+                            <div class="input-group-btn">   
+                                 @Html.DevExpress().DateEditFor(model => model.EndDate, dateEdit =>
+                        {
+                              dateEdit.Properties.AllowUserInput = false;
+                              dateEdit.Properties.ClientSideEvents.ValueChanged = "EndDate_ValueChanged";
+                              dateEdit.Date = DateTime.Now.Date;                         
+                        }).GetHtml()
+                            </div>
+                        </div>
+                     </div>
+                     <div class="item fl">
+                           <button class="btn-Add" id="btnAdd" title="@Utility.Phrase("Load")"><i class="icon-progress"></i>@Utility.Phrase("Load")</button>
+                           @*@Html.DevExpress().Button(button =>
+                                           {
+                                               button.Name = "btnAdd";
+                                               button.Text = @Utility.Phrase("PrepareScheduleNew.Messages.btnLoad");
+                                               button.UseSubmitBehavior = true;
+                                           }).GetHtml()*@
+                         </div>                    
+                  
+                }
+                  
+</div>
+
+
+     <!-- Button Header -->
+<div class="button-box p-0">
+	<div class="toolbox fr w-auto">
+		<ul class="fr m-0">
+			<li>	
+                         @using (Html.BeginForm("ExportExcel", "ReportEmployeesStatus", FormMethod.Post))
+                         {
+                     <button><i class="icon-excel"></i>@Utility.Phrase("Excel")</button>	
+                         }
+       
+                		
+			</li>			
+			
+		</ul>
+	</div>
+</div>
+ <div class="content-body row">
+	
+
+        @Html.Partial("DetailView", Session["DataReportEmployeeStatus"])		
+	     @*<div id="prepareScheduleContent">
+                </div>*@
+	
+</div>
+
+</div>
+
+
+
+
+
+

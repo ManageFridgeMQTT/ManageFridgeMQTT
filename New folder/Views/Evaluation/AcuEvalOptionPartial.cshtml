@@ -1,0 +1,16 @@
+﻿@model List<DMSAcuDisplayEval>
+
+@if (Model != null)
+{
+    int i = 1;
+    foreach (var item in Model)
+    {
+        <tr>
+            <td>@i</td>
+            <td>@item.EvaluationID</td>
+            <td>@item.FromDate.ToShortDateString()</td>
+            <td>@item.ToDate.ToShortDateString()</td>
+        </tr>
+        i++;
+    }
+}

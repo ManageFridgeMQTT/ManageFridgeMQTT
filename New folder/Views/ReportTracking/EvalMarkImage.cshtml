@@ -1,0 +1,359 @@
+﻿@model ReportEvalVM
+@{
+    ViewBag.Title = Utility.Phrase("ReportEvalMarkImage");
+    Layout = "~/Views/Shared/_NewLayout.cshtml";
+}
+<div class="insider">
+    <div id="loading" class="loading"></div>
+    @using (Html.BeginForm("EvalMarkImage", "ReportTracking", FormMethod.Post))
+    {
+        <div class="row display-table w-100pr mb-10 content-header">
+            <div class="report-content-header">
+                <div class="col-sm-8">
+                    <h1>@Utility.Phrase("ReportEvalMarkImage")</h1>
+                </div>
+                <div class="col-sm-4">
+                    <div class="p-0 fr">
+                        @if (PermissionHelper.CheckPermissionByFeature("Tracking_ReportSyncExportExecl"))
+                        {
+                            <button type="button" id="btnExportExcel" class="btn p-0 m-0 ml-10 block-theme" title="Excel"><i class="icon-etool-excel"></i></button>
+                        }
+                        @if (PermissionHelper.CheckPermissionByFeature("Tracking_ReportSyncExportPDF"))
+                        {
+                            <button type="button" id="btnExportPDF" class="btn p-0 m-0 ml-10 block-theme" title="PDF"><i class="icon-etool-pdf"></i></button>
+                        }
+                    </div>
+                </div>
+            </div>
+            <div class="w-100pr">
+                <div class="item fl required">
+                    <label for class="fl">@Utility.Phrase("Date")</label>
+                    @Html.TextBox("strFromDate", (Model.FromDate != null ? Model.FromDate.Value.ToShortDateString() : ""), new { @class = "datepicker" })
+                    @Html.TextBox("strToDate", (Model.ToDate != null ? Model.ToDate.Value.ToShortDateString() : ""), new { @class = "datepicker" })
+                </div>
+                <div class="item fl">
+                    <label class="fl">@Utility.Phrase("Program")</label>
+                    <div id="ProgramCbox" class="ctr_combobox input-group">
+                        @Html.Partial("~/Views/Shared/Control/ComboboxPartial.cshtml", Model.listComboboxProgram, new ViewDataDictionary { { "NameID", "Program" } })
+                    </div>
+                </div>
+                <div class="item fl required">
+                    <label class="fl">@Utility.Phrase("Evaluation")</label>
+                    <div id="EvaluationCbox" class="ctr_combobox input-group">
+                        @Html.Partial("~/Views/Shared/Control/ComboboxPartial.cshtml", Model.listComboboxEvaluation, new ViewDataDictionary { { "NameID", "Evaluation" } })
+                    </div>
+                </div>
+                <div class="item fl">
+                    <label class="fl">@Utility.Phrase("Report_Region")</label>
+                    <div id="RegionCbox" class="ctr_combobox input-group">
+                        @Html.Partial("~/Views/Shared/Control/ComboboxPartial.cshtml", Model.listComboboxRegion, new ViewDataDictionary { { "NameID", "Region" } })
+                    </div>
+                </div>
+                <div class="item fl">
+                    <label class="fl">@Utility.Phrase("Report_Area")</label>
+                    <div id="AreaCbox" class="ctr_combobox input-group">
+                        @Html.Partial("~/Views/Shared/Control/ComboboxPartial.cshtml", Model.listComboboxArea, new ViewDataDictionary { { "NameID", "Area" } })
+                    </div>
+                </div>
+                <div class="item fl required">
+                    <label class="fl">@Utility.Phrase("Report_Distributor")</label>
+                    <div id="DistributorCbox" class="ctr_combobox input-group">
+                        @Html.Partial("~/Views/Shared/Control/ComboboxPartial.cshtml", Model.listComboboxDistributor, new ViewDataDictionary { { "NameID", "Distributor" } })
+                    </div>
+                </div>
+                <div class="item fl required">
+                    <label class="fl">@Utility.Phrase("Report_Route")</label>
+                    <div id="RouteCbox" class="ctr_combobox input-group">
+                        @Html.Partial("~/Views/Shared/Control/ComboboxPartial.cshtml", Model.listComboboxRoute, new ViewDataDictionary { { "NameID", "Route" } })
+                    </div>
+                </div>
+                <div class="item fl">
+                    <label class="fl">@Utility.Phrase("Outlet")</label>
+                    <div id="OutletCbox" class="ctr_combobox input-group">
+                        @Html.Partial("~/Views/Shared/Control/ComboboxPartial.cshtml", Model.listComboboxOutlet, new ViewDataDictionary { { "NameID", "Outlet" } })
+                    </div>
+                </div>
+                <div class="item fl">
+                    <button id="Search" type="button"><i class="icon-search"></i>@Utility.Phrase("Report_View")</button>
+                </div>
+            </div>
+        </div>
+        <div id="ErMesgBox" class="row"><span style="color: red" class="error"></span></div>
+    }
+    <div class="row content-body">
+        <div class="tab-header">
+            <div class="toolbox">
+                <ul class="fr m-0">
+                    <li class="ts-pager">
+                        <a href="#" title="prev">
+                            <img src="@Url.Content("~/Content/NewEtool/img/per.png")" class="prev" />
+                        </a>
+                        <span class="pagedisplay"></span>
+                        <a href="#" title="next">
+                            <img src="@Url.Content("~/Content/NewEtool/img/next.png")" class="next" />
+                        </a>
+                        <span>
+                            @Utility.Phrase("GotoPage")
+                        <select class="pagenum input-mini" title="Select page number"></select>
+                    </span>
+                    <span>@Utility.Phrase("Pages")</span>
+                    <select class="pagesize input-mini m-0" title="Select page size">
+                        <option selected="selected" value="10">10</option>
+                        <option value="20">20</option>
+                        <option value="30">30</option>
+                        <option value="40">40</option>
+                        <option value="50">50</option>
+                    </select>
+                </li>
+            </ul>
+        </div>
+        <ul class="nav nav-tabs display-none">
+            <li class="active"><a data-toggle="tab" href="#report-outlet">@Utility.Phrase("Report_Report")</a></li>
+        </ul>
+    </div>
+    <div class="tab-content wrapper">
+            <table id="table-result" class="tablesorter">
+                <thead class="block-theme">
+                    <tr>
+                        <th style="@(string.IsNullOrEmpty(Model.ProgramID) ? "" : "display:none")">@Utility.Phrase("TB_Program")</th>
+                        <th style="@(string.IsNullOrEmpty(Model.EvaluationID) ? "" : "display:none")">@Utility.Phrase("TB_Evaluation")</th>
+                        <th style="@(string.IsNullOrEmpty(Model.RegionID) ? "" : "display:none")">@Utility.Phrase("Report_Region")</th>
+                        <th style="@(string.IsNullOrEmpty(Model.AreaID) ? "" : "display:none")">@Utility.Phrase("Report_Area")</th>
+                        <th style="@(Model.DistributorID == 0 ? "" : "display:none")">@Utility.Phrase("Report_Distributor")</th>
+                        <th style="@(string.IsNullOrEmpty(Model.RouteID) ? "" : "display:none")">@Utility.Phrase("Report_Route")</th>
+                        <th>@Utility.Phrase("TB_GSBH")</th>
+                        <th>@Utility.Phrase("TB_NVBH")</th>
+                        <th>@Utility.Phrase("TB_Outlet")</th>
+                        <th>@Utility.Phrase("TB_Address")</th>
+                        <th>@Utility.Phrase("TB_Date")</th>
+                        <th>@Utility.Phrase("TB_TotalImg")</th>
+                        <th>@Utility.Phrase("TB_ImgMarked")</th>
+                        <th>@Utility.Phrase("TB_ImgPass")</th>
+                        <th>@Utility.Phrase("TB_ImgNotPass")</th>
+                        <th>@Utility.Phrase("TB_ImgFake")</th>
+                        <th>@Utility.Phrase("TB_ImgNotAccepted")</th>
+                        <th>@Utility.Phrase("TB_ImgNotMark")</th>
+                        <th>@Utility.Phrase("TB_RateImgPass")</th>
+                        <th>@Utility.Phrase("TB_RateImgNotPass")</th>
+                        <th>@Utility.Phrase("TB_RateImgNotMark")</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model.DataEvalImage != null)
+                    {
+                        foreach (var elm in Model.DataEvalImage)
+                        {
+                            <tr>
+                                <td style="@(string.IsNullOrEmpty(Model.ProgramID) ? "" : "display:none")">@elm.ProgramName</td>                       
+                                <td style="@(string.IsNullOrEmpty(Model.EvaluationID) ? "" : "display:none")">@elm.EvaluationID</td>
+                                <td style="@(string.IsNullOrEmpty(Model.RegionID) ? "" : "display:none")">@elm.RegionName</td>
+                                <td style="@(string.IsNullOrEmpty(Model.AreaID) ? "" : "display:none")">@elm.AreaName</td>
+                                <td style="@(Model.DistributorID == 0 ? "" : "display:none")">@elm.DistributorName</td>
+                                <td style="@(string.IsNullOrEmpty(Model.RouteID) ? "" : "display:none")">@elm.RouteName</td>
+                                <td>@elm.SaleSupName</td>
+                                <td>@elm.SalesmanName</td>
+                                <td>@elm.OutletName</td>
+                                <td>@elm.Address</td>
+                                <td>@elm.DateImage</td>
+                                <td>@elm.TotalImg</td>
+                                <td>@elm.ImgMarked</td>
+                                <td>@elm.ImgPass</td>
+                                <td>@(elm.TotalImg - elm.ImgPass)</td>
+                                <td>@elm.ImgFake</td>
+                                <td>@elm.ImgNotCaptured</td>
+                                <td>@(elm.TotalImg - elm.ImgMarked)</td>
+                                <td>@String.Format("{0:n2}%",elm.RateImgPass)</td>
+                                <td>@String.Format("{0:n2}%",(100 - elm.RateImgPass))</td>
+                                <td>@String.Format("{0:n2}%",(100 - elm.RateImgMark))</td>
+                            </tr>
+                        }
+                    }
+                </tbody>
+            </table>
+    </div>
+</div>
+</div>
+
+<script type='text/javascript'>
+    $(document).ready(function () {
+        $('.tablesorter').tablesorter({
+            headerTemplate: '{content} {icon}', // Add icon for various themes
+            widgets: ['uitheme', 'zebra', 'stickyHeaders', 'stickyFooters'], //, 'filter'
+            widgetOptions: {
+                stickyHeaders_attachTo: '.wrapper', // or $('.wrapper')
+            }
+        });
+
+        $("body").on('click', '.input-group-btn table tbody tr', function () {
+            $(this).addClass('selected').siblings().removeClass('selected');
+            var keyVal = $(this).find('td:first').html();
+            var codeVal = $(this).find('td:nth-child(2)').html();
+            var nameVal = $(this).find('td:last').html();
+            if (keyVal == 0) { keyVal = ""; }
+            var parentdiv = $(this).parents('div[class^="ctr_combobox"]');
+            parentdiv.find('input[type^="text"]').val(codeVal + ' - ' + nameVal);
+            parentdiv.find('input[type^="hidden"]').val(keyVal);
+
+            var RegionVal = '';
+            if ($('#Region').val() != undefined) {
+                RegionVal = $('#Region').val();
+            }
+            var AreaVal = '';
+            if ($('#Area').val() != undefined) {
+                AreaVal = $('#Area').val();
+            }
+            var DistributorVal = 0;
+            if ($('#Distributor').val() != undefined && $('#Distributor').val() != "") {
+                DistributorVal = $('#Distributor').val();
+            }
+
+            var Program = '';
+            if ($('#Program').val() != undefined) {
+                Program = $('#Program').val();
+            }
+            var Route = '';
+            if ($('#Route').val() != undefined) {
+                Route = $('#Route').val();
+            }
+            var Outlet = '';
+            if ($('#Outlet').val() != undefined) {
+                Outlet = $('#Outlet').val();
+            }
+
+            if (parentdiv.find('input[id^="Region"]').val() != undefined) {
+                $("#AreaCbox").load('@(Url.Action("ReloadOptionArea", "ReportTracking"))?regionID=' + RegionVal);
+                $("#DistributorCbox").load('@(Url.Action("ReloadOptionDistributor", "ReportTracking"))?regionID=' + RegionVal + '&areaID=' + AreaVal);
+            }
+            if (parentdiv.find('input[id^="Area"]').val() != undefined) {
+                $("#DistributorCbox").load('@(Url.Action("ReloadOptionDistributor", "ReportTracking"))?regionID=' + RegionVal + '&areaID=' + AreaVal);
+            }
+            if (parentdiv.find('input[id^="Distributor"]').val() != undefined) {
+                $("#RouteCbox").load('@(Url.Action("ReloadOptionRoute", "ReportTracking"))?regionID=' + RegionVal + '&areaID=' + AreaVal + '&distributorID=' + DistributorVal);
+            }
+            if (parentdiv.find('input[id^="Program"]').val() != undefined) {
+                $("#EvaluationCbox").load('@(Url.Action("ReloadOptionProgram", "ReportTracking"))?ProgramID=' + Program);
+            }
+            if (parentdiv.find('input[id^="Route"]').val() != undefined) {
+                $("#OutletCbox").load('@(Url.Action("ReloadOptionOutlet", "ReportTracking"))?distributorID=' + DistributorVal + '&routeID=' + Route);
+            }
+        });
+
+        $('#btnExportExcel').click(function () {
+            $('form').attr('action', '@Utility.FooMethod("/ReportTracking/ReportEvalMarkImageExportExecl")');
+            $('form').submit();
+        });
+        $('#btnExportPDF').click(function () {
+            $('form').attr('action', '@Utility.FooMethod("/ReportTracking/ReportEvalMarkImageExportPDF")');
+            $('form').submit();
+        });
+        $('#Search').click(function () {
+            if (validation())
+            {
+                $('form').attr('action', '@Utility.FooMethod("/ReportTracking/EvalMarkImage")');
+                $('form').submit();
+                $(".loading").show();
+            }
+        });
+        //hideColumnFilter();
+        function hideColumnFilter()
+        {
+            if ($('#Program').val() != undefined) {
+                if ($('#Program').val() != "") {
+                    $('#table-result td:nth-child(1),#table-result th:nth-child(1)').hide();
+                }
+            }
+            if ($('#Evaluation').val() != undefined) {
+                if ($('#Evaluation').val() != "") {
+                    $('#table-result td:nth-child(1),#table-result th:nth-child(1)').hide();
+                    $('#table-result td:nth-child(2),#table-result th:nth-child(2)').hide();
+                }
+            }
+            if ($('#Region').val() != undefined) {
+                if ($('#Region').val() != "") {
+                    $('#table-result td:nth-child(3),#table-result th:nth-child(3)').hide();
+                }
+            }
+            if ($('#Area').val() != undefined) {
+                if ($('#Area').val() != "") {
+                    $('#table-result td:nth-child(3),#table-result th:nth-child(3)').hide();
+                    $('#table-result td:nth-child(4),#table-result th:nth-child(4)').hide();
+                }
+            }
+            if ($('#Distributor').val() != undefined) {
+                if ($('#Distributor').val() == "" | $('#Distributor').val() == "0") {
+                    $('#table-result table td:nth-child(5),#table-result table th:nth-child(5)').show();
+                } else {
+                    $('#table-result td:nth-child(3),#table-result th:nth-child(3)').hide();
+                    $('#table-result td:nth-child(4),#table-result th:nth-child(4)').hide();
+                    $('#table-result td:nth-child(5),#table-result th:nth-child(5)').hide();
+                }
+            }
+            if ($('#Route').val() != undefined) {
+                if ($('#Route').val() != "") {
+                    $('#table-result td:nth-child(3),#table-result th:nth-child(3)').hide();
+                    $('#table-result td:nth-child(4),#table-result th:nth-child(4)').hide();
+                    $('#table-result td:nth-child(5),#table-result th:nth-child(5)').hide();
+                    $('#table-result td:nth-child(6),#table-result th:nth-child(6)').hide();
+                    $('#table-result td:nth-child(7),#table-result th:nth-child(7)').hide();
+                    $('#table-result td:nth-child(8),#table-result th:nth-child(8)').hide();
+                }
+            }
+        }
+        //-----------validation----------
+        function validation()
+        {
+            $('#ErMesgBox span[class^="error"]').html("");
+            strFromDate = $('#strFromDate').val();
+            strToDate = $('#strToDate').val();
+            if (strFromDate == "" | strFromDate == 0 || strToDate == "" | strToDate == 0) {
+                $('#ErMesgBox span[class^="error"]').html('@Utility.Phrase("DateIsNotNull")');
+                return false;
+            }
+            if (stringToDate(strFromDate, "dd/MM/yyyy", "/") > stringToDate(strToDate, "dd/MM/yyyy", "/")) {
+                alert("Thời gian bắt đầu phải nhỏ hơn thời gian kết thúc. Xin chọn lại");
+                return false;
+            }
+            if (!valiEvaluation()) { return false; }
+            if (!valiDistributor()) { return false; }
+            if (!valiRoute()) { return false; }
+            else { return true;}
+        }
+
+        function valiEvaluation() {
+            $('#ErMesgBox span[class^="error"]').html("");
+            EvaluationVal = $('#Evaluation').val();
+            if (EvaluationVal == "" | EvaluationVal == 0) {
+                $('#ErMesgBox span[class^="error"]').html('@Utility.Phrase("EvaluationIsNotNull")');
+                return false;
+            }
+            else {
+                return true;
+            }
+        }
+
+        function valiDistributor() {
+            $('#ErMesgBox span[class^="error"]').html("");
+            DistributorVal = $('#Distributor').val();
+            if (DistributorVal == "" | DistributorVal == 0) {
+                $('#ErMesgBox span[class^="error"]').html('@Utility.Phrase("DistributorIsNotNull")');
+                return false;
+            }
+            else {
+                return true;
+            }
+        }
+
+        function valiRoute() {
+            $('#ErMesgBox span[class^="error"]').html("");
+            RouteVal = $('#Route').val();
+            if (RouteVal == "" | RouteVal == 0) {
+                $('#ErMesgBox span[class^="error"]').html('@Utility.Phrase("RouteIsNotNull")');
+                return false;
+            }
+            else {
+                return true;
+            }
+        }
+
+    });
+</script>

@@ -1,0 +1,382 @@
+﻿@model List<rpSFMCPTrackingItem>
+@using DevExpress.Web.Mvc.UI;
+@using DevExpress.Web.Mvc;
+@using System.Web.UI.WebControls;
+@Html.DevExpress().PivotGrid(
+    settings =>
+    {
+        settings.Name = "pivotGrid";
+        settings.CallbackRouteValues = new { Controller = "Tracking", Action = "SalesForceMCPTrackingPartial" };
+        settings.OptionsView.ShowHorizontalScrollBar = true;
+        settings.OptionsCustomization.AllowDrag = false;
+        settings.OptionsCustomization.AllowDragInCustomizationForm = false;
+        settings.OptionsView.ShowColumnGrandTotalHeader = false;
+        settings.OptionsView.ColumnTotalsLocation = PivotTotalsLocation.Far;
+        //settings.OptionsView.ShowGrandTotalsForSingleValues = true;
+        settings.OptionsView.ShowRowTotals = false;
+        settings.OptionsView.ShowTotalsForSingleValues = false;
+
+        settings.Groups.Add("RegionName - RSMName - AreaName - ASMName - ProvinceName - DistributorCode - SaleSupID - RouteID - SalesmanID - AuditorID");
+
+
+        settings.Fields.Add(field =>
+        {
+            field.Area = PivotArea.RowArea;
+            field.AreaIndex = 0;
+
+            field.FieldName = "RegionID";
+            field.Caption = Utility.Phrase("RegionID");
+            field.CellStyle.VerticalAlign = VerticalAlign.Top;
+            field.SummaryFilter.Mode = PivotSummaryFilterMode.SpecificLevel;
+            field.RunningTotal = false;
+            field.TotalsVisibility = PivotTotalsVisibility.None;
+        });
+        settings.Fields.Add(field =>
+        {
+            field.Area = PivotArea.RowArea;
+            field.AreaIndex = 1;
+
+            field.FieldName = "RegionName";
+            field.Caption = Utility.Phrase("RegionName");
+            field.CellStyle.VerticalAlign = VerticalAlign.Top;
+            field.SummaryFilter.Mode = PivotSummaryFilterMode.SpecificLevel;
+            field.RunningTotal = false;
+            field.TotalsVisibility = PivotTotalsVisibility.None;
+        });
+        
+        settings.Fields.Add(field =>
+        {
+            field.Area = PivotArea.RowArea;
+            field.AreaIndex = 2;
+
+            field.FieldName = "RSMID";
+            field.Caption = Utility.Phrase("RSMID");
+            field.RunningTotal = false;
+            field.TotalsVisibility = PivotTotalsVisibility.None;
+        });
+        settings.Fields.Add(field =>
+        {
+            field.Area = PivotArea.RowArea;
+            field.AreaIndex = 3;
+
+            field.FieldName = "RSMName";
+            field.Caption = Utility.Phrase("RSMName");
+            field.RunningTotal = false;
+            field.TotalsVisibility = PivotTotalsVisibility.None;
+        });        
+        settings.Fields.Add(field =>
+        {
+            field.Area = PivotArea.RowArea;
+            field.AreaIndex = 4;
+
+            field.FieldName = "RSMEmail";
+            field.Caption = Utility.Phrase("RSMEmail");
+            field.RunningTotal = false;
+            field.TotalsVisibility = PivotTotalsVisibility.None;
+        });
+        settings.Fields.Add(field =>
+        {
+            field.Area = PivotArea.RowArea;
+            field.AreaIndex = 5;
+
+            field.FieldName = "RSMPhone";
+            field.Caption = Utility.Phrase("RSMPhone");
+            field.RunningTotal = false;
+            field.TotalsVisibility = PivotTotalsVisibility.None;
+        });
+        settings.Fields.Add(field =>
+        {
+            field.Area = PivotArea.RowArea;
+            field.AreaIndex = 6;
+
+            field.FieldName = "AreaID";
+            field.Caption = Utility.Phrase("AreaID");
+            field.RunningTotal = false;
+            field.TotalsVisibility = PivotTotalsVisibility.None;
+        });
+        settings.Fields.Add(field =>
+        {
+            field.Area = PivotArea.RowArea;
+            field.AreaIndex = 7;
+
+            field.FieldName = "AreaName";
+            field.Caption = Utility.Phrase("AreaName");
+            field.RunningTotal = false;
+            field.TotalsVisibility = PivotTotalsVisibility.None;
+        });
+
+        settings.Fields.Add(field =>
+        {
+            field.Area = PivotArea.RowArea;
+            field.AreaIndex = 8;
+
+            field.FieldName = "ASMID";
+            field.Caption = Utility.Phrase("ASMID");
+            field.RunningTotal = false;
+            field.TotalsVisibility = PivotTotalsVisibility.None;
+        });
+        
+        settings.Fields.Add(field =>
+        {
+            field.Area = PivotArea.RowArea;
+            field.AreaIndex = 9;
+
+            field.FieldName = "ASMName";
+            field.Caption = Utility.Phrase("ASMName");
+            field.RunningTotal = false;
+            field.TotalsVisibility = PivotTotalsVisibility.None;
+        });
+        settings.Fields.Add(field =>
+        {
+            field.Area = PivotArea.RowArea;
+            field.AreaIndex = 10;
+
+            field.FieldName = "ASMEmail";
+            field.Caption = Utility.Phrase("ASMEmail");
+            field.RunningTotal = false;
+            field.TotalsVisibility = PivotTotalsVisibility.None;
+        });
+        settings.Fields.Add(field =>
+        {
+            field.Area = PivotArea.RowArea;
+            field.AreaIndex = 11;
+
+            field.FieldName = "ASMPhone";
+            field.Caption = Utility.Phrase("ASMPhone");
+            field.RunningTotal = false;
+            field.TotalsVisibility = PivotTotalsVisibility.None;
+        });
+        settings.Fields.Add(field =>
+        {
+            field.Area = PivotArea.RowArea;
+            field.AreaIndex = 12;
+
+            field.FieldName = "ProvinceID";
+            field.Caption = Utility.Phrase("ProvinceID");
+            field.RunningTotal = false;
+            field.TotalsVisibility = PivotTotalsVisibility.None;
+        });
+        settings.Fields.Add(field =>
+        {
+            field.Area = PivotArea.RowArea;
+            field.AreaIndex = 13;
+
+            field.FieldName = "ProvinceName";
+            field.Caption = Utility.Phrase("ProvinceName");
+            field.RunningTotal = false;
+            field.TotalsVisibility = PivotTotalsVisibility.None;
+        });
+        
+        settings.Fields.Add(field =>
+        {
+            field.Area = PivotArea.RowArea;
+            field.AreaIndex = 14;
+
+            field.FieldName = "DistributorCode";
+            field.Caption = Utility.Phrase("DistributorCode");
+            field.RunningTotal = false;
+            field.TotalsVisibility = PivotTotalsVisibility.None;
+        });
+        settings.Fields.Add(field =>
+        {
+            field.Area = PivotArea.RowArea;
+            field.AreaIndex = 15;
+
+            field.FieldName = "DistributorName";
+            field.Caption = Utility.Phrase("DistributorName");
+            field.RunningTotal = false;
+            field.TotalsVisibility = PivotTotalsVisibility.None;
+        });
+
+        settings.Fields.Add(field =>
+        {
+            field.Area = PivotArea.RowArea;
+            field.AreaIndex = 16;
+
+            field.FieldName = "DistributorEmail";
+            field.Caption = Utility.Phrase("DistributorEmail");
+            field.RunningTotal = false;
+            field.TotalsVisibility = PivotTotalsVisibility.None;
+        });
+
+        settings.Fields.Add(field =>
+        {
+            field.Area = PivotArea.RowArea;
+            field.AreaIndex = 17;
+
+            field.FieldName = "DistributorAddress";
+            field.Caption = Utility.Phrase("DistributorAddress");
+            field.RunningTotal = false;
+            field.TotalsVisibility = PivotTotalsVisibility.None;
+        });
+
+        settings.Fields.Add(field =>
+        {
+            field.Area = PivotArea.RowArea;
+            field.AreaIndex = 18;
+
+            field.FieldName = "DistributorPhone1";
+            field.Caption = Utility.Phrase("DistributorPhone1");
+            field.RunningTotal = false;
+            field.TotalsVisibility = PivotTotalsVisibility.None;
+        });
+
+        settings.Fields.Add(field =>
+        {
+            field.Area = PivotArea.RowArea;
+            field.AreaIndex = 19;
+
+            field.FieldName = "DistributorPhone2";
+            field.Caption = Utility.Phrase("DistributorPhone2");
+            field.RunningTotal = false;
+            field.TotalsVisibility = PivotTotalsVisibility.None;
+        });
+        
+        settings.Fields.Add(field =>
+        {
+            field.Area = PivotArea.RowArea;
+            field.AreaIndex = 20;
+
+            field.FieldName = "SaleSupID";
+            field.Caption = Utility.Phrase("SaleSupID");
+            field.RunningTotal = false;
+            field.TotalsVisibility = PivotTotalsVisibility.None;
+        });
+        settings.Fields.Add(field =>
+        {
+            field.Area = PivotArea.RowArea;
+            field.AreaIndex = 21;
+
+            field.FieldName = "SaleSupName";
+            field.Caption = Utility.Phrase("SaleSupName");
+            field.RunningTotal = false;
+            field.TotalsVisibility = PivotTotalsVisibility.None;
+        });
+        settings.Fields.Add(field =>
+        {
+            field.Area = PivotArea.RowArea;
+            field.AreaIndex = 22;
+
+            field.FieldName = "SaleSupIDEmail";
+            field.Caption = Utility.Phrase("SaleSupIDEmail");
+            field.RunningTotal = false;
+            field.TotalsVisibility = PivotTotalsVisibility.None;
+        });
+        settings.Fields.Add(field =>
+        {
+            field.Area = PivotArea.RowArea;
+            field.AreaIndex = 23;
+
+            field.FieldName = "SaleSupIDPhone";
+            field.Caption = Utility.Phrase("SaleSupIDPhone");
+            field.RunningTotal = false;
+            field.TotalsVisibility = PivotTotalsVisibility.None;
+        });        
+        
+        settings.Fields.Add(field =>
+        {
+            field.Area = PivotArea.RowArea;
+            field.AreaIndex = 24;
+
+            field.FieldName = "RouteID";
+            field.Caption = Utility.Phrase("RouteID");
+            field.RunningTotal = false;
+            field.TotalsVisibility = PivotTotalsVisibility.None;
+        });
+        settings.Fields.Add(field =>
+        {
+            field.Area = PivotArea.RowArea;
+            field.AreaIndex = 25;
+
+            field.FieldName = "RouteName";
+            field.Caption = Utility.Phrase("RouteName");
+            field.RunningTotal = false;
+            field.TotalsVisibility = PivotTotalsVisibility.None;
+        });
+        settings.Fields.Add(field =>
+        {
+            field.Area = PivotArea.RowArea;
+            field.AreaIndex = 26;
+
+            field.FieldName = "SalesmanID";
+            field.Caption = Utility.Phrase("SalesmanID");
+            field.RunningTotal = false;
+            field.TotalsVisibility = PivotTotalsVisibility.None;
+        });
+        settings.Fields.Add(field =>
+        {
+            field.Area = PivotArea.RowArea;
+            field.AreaIndex = 27;
+
+            field.FieldName = "SalesmanName";
+            field.Caption = Utility.Phrase("SalesmanName");
+            field.RunningTotal = false;
+            field.TotalsVisibility = PivotTotalsVisibility.None;
+        });
+        
+        settings.Fields.Add(field =>
+        {
+            field.Area = PivotArea.RowArea;
+            field.AreaIndex = 28;
+
+            field.FieldName = "AuditorID";
+            field.Caption = Utility.Phrase("AuditorID");
+            field.RunningTotal = false;
+            field.TotalsVisibility = PivotTotalsVisibility.None;
+        });
+        settings.Fields.Add(field =>
+        {
+            field.Area = PivotArea.RowArea;
+            field.AreaIndex = 29;
+
+            field.FieldName = "AuditorName";
+            field.Caption = Utility.Phrase("AuditorName");
+            field.RunningTotal = false;
+            field.TotalsVisibility = PivotTotalsVisibility.None;
+        });
+        settings.Fields.Add(field =>
+        {
+            field.Area = PivotArea.RowArea;
+            field.AreaIndex = 30;
+
+            field.FieldName = "AuditorEmail";
+            field.Caption = Utility.Phrase("AuditorEmail");
+            field.RunningTotal = false;
+            field.TotalsVisibility = PivotTotalsVisibility.None;
+        });
+        settings.Fields.Add(field =>
+        {
+            field.Area = PivotArea.RowArea;
+            field.AreaIndex = 31;
+
+            field.FieldName = "AuditorPhone";
+            field.Caption = Utility.Phrase("AuditorPhone");
+            field.RunningTotal = false;
+            field.TotalsVisibility = PivotTotalsVisibility.None;
+        });
+
+        settings.SetCellTemplateContent(c =>
+        {
+            if (c.DataField != null
+                && (
+                    c.Item.RowValueType == PivotGridValueType.Total
+                    || c.Item.RowValueType == PivotGridValueType.CustomTotal
+                    || c.Item.RowValueType == PivotGridValueType.GrandTotal
+                    )
+                )
+
+            // && c.DataField.FieldName == "Percents"
+            // && c.DataField.Caption == "Percents"
+            {
+                ViewContext.Writer.Write(
+                    "<span style=\"font-weight:bold; \" >" + c.Item.Text + "</span>"
+                );
+            }
+            else
+            {
+                ViewContext.Writer.Write(c.Text);
+            }
+        });
+        
+        settings.OptionsPager.RowsPerPage = 0;
+    }).Bind(Model).GetHtml()

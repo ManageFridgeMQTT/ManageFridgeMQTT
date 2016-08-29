@@ -1,0 +1,129 @@
+﻿@model eRoute.Models.ViewModel.RoleFeatureAssignmentVM
+@{
+    ViewBag.Title = Utility.Phrase("RoleFeatureAssignment");
+    Layout = "~/Views/Shared/_ReportLayout.cshtml";
+}
+@using DevExpress.Web.Mvc.UI;
+@using DevExpress.Web.Mvc;
+@using System.Web.UI.WebControls;
+@using (Html.BeginForm("RoleFeatureAssignment", "User", FormMethod.Post, new { id = "RoleFeatureAssignment" }))
+{
+    @Html.Hidden("act")
+    <style type="text/css">
+        .dxpgCell_Aqua.dxpgGrandTotalCell_Aqua
+        {
+            background-color: White;
+        }
+        #tbFilter td
+        {
+            padding-bottom: 5px;
+        }
+    </style>
+    <h1 class="sales-report-h1">
+        @Utility.Phrase("RoleFeatureAssignmentTitle")
+    </h1>
+    @Html.Partial("_MessagePartial", Utility.Copy<BaseModel>(Model))
+    <table class='head-report' cellpadding="3px" style="border-collapse: collapse; display: block;">
+        <tbody style="width: 100%; font-size: 14px;">
+            <tr>
+                <td>
+                    <span class="alignleft">@Utility.Phrase("ChooseRole") :</span>
+                </td>
+                <td>
+                    <span class="alignright">
+                        @Html.DevExpress().ComboBox(
+                            settings =>
+                            {
+                                settings.Name = "roleID";
+                                settings.Width = Unit.Pixel(330);
+                                settings.Properties.AllowMouseWheel = true;
+                                settings.Properties.TextFormatString = "{1}";
+                                settings.Properties.ValueField = "ID";
+                                settings.Properties.ValueType = typeof(Int32);
+                                settings.Properties.DropDownStyle = DropDownStyle.DropDownList;
+                                settings.Properties.IncrementalFilteringMode = IncrementalFilteringMode.Contains;
+                                settings.Properties.Columns.Add("ID", Utility.Phrase("RoleID"), 110);
+                                settings.Properties.Columns.Add("RoleName", Utility.Phrase("RoleName"), 200);
+                                settings.Properties.Height = Unit.Pixel(20);
+
+                                settings.Properties.ClientSideEvents.SelectedIndexChanged = "function(s, e) { LoadFeature(); }";
+                                settings.PreRender = (sender, e) =>
+                                {
+                                    MVCxComboBox cmb = sender as MVCxComboBox;
+                                    if (Model.roleID != 0)
+                                    {
+                                        cmb.Value = Model.roleID;
+                                    }
+                                };
+                            }
+                        ).BindList(Model.ListRole).Bind(Model.roleID).GetHtml()
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span class="alignleft">@Utility.Phrase("ListFeature") :</span>
+                </td>
+                <td>
+                    <span class="alignright">
+                        @Html.DevExpress().CheckBoxList(
+                        settings =>
+                        {
+                            settings.Name = "cbListFeature";
+                            settings.Properties.ValueField = "Value";
+                            settings.Properties.ValueType = typeof(int);
+                            settings.Properties.TextField = "Text";
+                            settings.Properties.RepeatLayout = RepeatLayout.Table;
+                            settings.Properties.RepeatDirection = RepeatDirection.Vertical;
+                            settings.Properties.RepeatColumns = 5;
+
+                            settings.PreRender = (sender, e) =>
+                            {
+                                ASPxCheckBoxList cbl = (ASPxCheckBoxList)sender;
+                                foreach (ListEditItem item in cbl.Items)
+                                {
+                                    var m = Model.ListRF.Where(a => a.FeatureID == Utility.IntParse(item.Value)).FirstOrDefault();
+                                    if (m != null && m.FeatureID != 0)
+                                    {
+                                        item.Selected = true;
+                                    }
+                                }
+                            };
+                        }).BindList(Model.ListCheckBox).GetHtml()
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    @*<input type="submit" name="save" id="btnSave" class="btn btn-success" value="@Utility.Phrase("Save")" />*@
+                    @Html.DevExpress().Button(settings =>
+               {
+                   settings.Name = "btnSave";
+                   settings.Text = Utility.Phrase("Save");
+                   settings.UseSubmitBehavior = false;
+                   settings.ClientSideEvents.Click = "function(s, e) { SaveFeature(); }";
+               }).GetHtml()
+                </td>
+                <td>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    
+    <script type='text/javascript'>
+        $(document).ready(function () {
+
+        });
+
+        function LoadFeature() {
+            $('#act').val("LoadData");
+            $('form').submit();
+        }
+
+        function SaveFeature() {
+            $('#act').val("Save");
+            $('form').submit();
+        }
+    </script>
+
+}

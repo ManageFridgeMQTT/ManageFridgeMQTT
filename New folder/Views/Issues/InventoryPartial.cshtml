@@ -1,0 +1,158 @@
+﻿@model List<DMSEvalInventoryItem>
+@using DevExpress.Web.Mvc.UI;
+@using DevExpress.Web.Mvc;
+@using System.Web.UI.WebControls;
+@using eRoute.Models;
+@{
+    var grid = Html.DevExpress().GridView(
+    settings =>
+    {
+        settings.Name = "dxGridView";
+        settings.Width = Unit.Percentage(100);
+        settings.KeyFieldName = "InventoryID";
+        settings.CallbackRouteValues = new { Controller = "Issues", Action = "InventoryPartial" };
+        settings.CustomActionRouteValues = new { Cotroller = "Issues", Action = "ActionInventory" };
+        settings.SettingsLoadingPanel.Mode = GridViewLoadingPanelMode.Disabled;
+        settings.Styles.Header.Font.Bold = true;
+        settings.Styles.Header.HorizontalAlign = HorizontalAlign.Center;
+        settings.Styles.Footer.ForeColor = System.Drawing.Color.Red;
+        settings.Styles.Footer.Font.Size = 12;
+        settings.Settings.ShowHeaderFilterButton = true;
+        settings.SettingsPopup.HeaderFilter.Height = 200;
+        settings.SettingsText.EmptyDataRow = Utility.Phrase("EmptyDataRow");
+        settings.SettingsPager.Summary.Text = Utility.Phrase("Page") + " {0} - {1} ({2} " + Utility.Phrase("Row") +" )";
+        settings.SettingsPager.PageSizeItemSettings.Caption = Utility.Phrase("RowInPage");
+        settings.Settings.ShowFilterBar = GridViewStatusBarMode.Visible;
+        settings.SettingsEditing.AddNewRowRouteValues = new { Controller = "Issues", Action = "AddNewInventory" };
+        settings.SettingsEditing.UpdateRowRouteValues = new { Controller = "Issues", Action = "UpdateInventory" };
+
+        settings.SettingsEditing.Mode = GridViewEditingMode.EditFormAndDisplayRow;
+        settings.SettingsPopup.EditForm.Width = 600;
+        settings.SettingsBehavior.ConfirmDelete = true;
+        settings.SettingsBehavior.AllowFocusedRow = true;
+        settings.Settings.ShowFilterRowMenu = true;
+        settings.Settings.ShowFooter = false;
+
+        settings.SettingsCommandButton.NewButton.Text = Utility.Phrase("Create");
+        settings.SettingsCommandButton.UpdateButton.ButtonType = GridViewCommandButtonType.Button;
+        settings.SettingsCommandButton.UpdateButton.Text = Utility.Phrase("Update");
+        settings.SettingsCommandButton.CancelButton.ButtonType = GridViewCommandButtonType.Button;
+        settings.SettingsCommandButton.CancelButton.Text = Utility.Phrase("Cancel");
+        
+        
+        settings.CommandColumn.VisibleIndex = -1;
+        settings.SetFooterRowTemplateContent(c =>
+        {
+            Html.ViewContext.Writer.Write(ViewData["StatusMessage"]);
+        });
+
+        settings.Columns.Add(column =>
+        {
+            column.Caption = "#";
+            column.SetDataItemTemplateContent(c =>
+            {
+                var value = DataBinder.Eval(c.DataItem, "InventoryID");
+                Html.DevExpress().HyperLink(hl =>
+                {
+                    hl.NavigateUrl = "javascript:ButtonClick(" + value + ",'btnUpdate');";
+                    hl.Properties.ImageUrl = "~/Content/Images/Edit.png";
+                }).Render();
+                ViewContext.Writer.Write(" ");
+                if ((bool)DataBinder.Eval(c.DataItem, "Active"))
+                {
+                    Html.DevExpress().HyperLink(hl =>
+                    {
+                        hl.NavigateUrl = "javascript:ButtonClick(" + value + ",'btnInactive');";
+                        hl.Properties.ImageUrl = "~/Content/Images/Inactive.png";
+                        hl.ToolTip = Utility.Phrase("Inactive");
+                    }).Render();
+                }
+                else
+                {
+                    Html.DevExpress().HyperLink(hl =>
+                    {
+                        hl.NavigateUrl = "javascript:ButtonClick(" + value + ",'btnActive');";
+                        hl.Properties.ImageUrl = "~/Content/Images/Active.png";
+                        hl.ToolTip = Utility.Phrase("Active");
+                    }).Render();
+                }
+
+            });
+            column.Width = Unit.Pixel(50);
+            column.SetHeaderTemplateContent(c =>
+            {
+                Html.DevExpress().HyperLink(hl =>
+                {
+                    hl.Name = "hlNew";
+                    hl.NavigateUrl = "javascript:ButtonClick('','btnAddNew');";
+                    hl.Properties.ImageUrl = "~/Content/Images/addNew.png";
+                    hl.ToolTip = Utility.Phrase("AddNew");
+                }).Render();
+            });
+            column.Width = Unit.Pixel(80);
+            
+        });
+        settings.Columns.Add(field =>
+        {
+            field.FieldName = "InventoryCD";
+            field.Caption = Utility.Phrase("InventoryCode") + " *"; ;
+            field.CellStyle.HorizontalAlign = HorizontalAlign.Left;
+
+            field.EditFormSettings.Visible = DefaultBoolean.True;
+            field.ReadOnly = false;
+        });
+
+        settings.Columns.Add(field =>
+        {
+            field.FieldName = "Descr";
+            field.Caption = Utility.Phrase("Description");
+            field.CellStyle.HorizontalAlign = HorizontalAlign.Left;
+        });
+        settings.Columns.Add(field =>
+        {
+            field.FieldName = "VendorID";
+            field.Caption = Utility.Phrase("VendorName") + " *";
+            field.ColumnType = MVCxGridViewColumnType.ComboBox;
+            field.CellStyle.CssClass = "border-none";
+            var comboBoxProperties = field.PropertiesEdit as ComboBoxProperties;
+            comboBoxProperties.DataSource = Global.VisibilityContext.usp_GetListVendor("").ToList();
+            comboBoxProperties.TextField = "VendorName";
+            comboBoxProperties.ValueField = "VendorID";
+            comboBoxProperties.ValueType = typeof(string);
+        });
+
+        settings.Columns.Add(field =>
+        {
+            field.FieldName = "Type";
+            field.Caption = Utility.Phrase("Commany");
+            field.ColumnType = MVCxGridViewColumnType.CheckBox;
+            field.CellStyle.HorizontalAlign = HorizontalAlign.Center;
+            field.EditCellStyle.HorizontalAlign = HorizontalAlign.Left;
+            field.EditFormSettings.Visible = DefaultBoolean.True;
+            field.ReadOnly = false;
+        });
+        settings.Columns.Add(field =>
+        {
+            field.FieldName = "CategoryID";
+            field.Caption = Utility.Phrase("Category") + " *";
+            field.ColumnType = MVCxGridViewColumnType.ComboBox;
+            var comboBoxProperties = field.PropertiesEdit as ComboBoxProperties;
+            comboBoxProperties.DataSource = Global.VisibilityContext.usp_GetListCategory(-1).ToList();
+            comboBoxProperties.TextField = "CategoryName";
+            comboBoxProperties.ValueField = "CategoryID";
+            comboBoxProperties.ValueType = typeof(string);
+        });
+        settings.SettingsPager.Position = PagerPosition.Bottom;
+        settings.SettingsPager.FirstPageButton.Visible = true;
+        settings.SettingsPager.LastPageButton.Visible = true;
+        settings.SettingsPager.PageSizeItemSettings.Visible = true;
+        settings.SettingsPager.PageSizeItemSettings.Items = new string[] { "10", "20", "50" };
+        settings.SettingsPager.PageSize = 12;
+    });
+
+    if (ViewData["EditError"] != null)
+    {
+        grid.SetEditErrorText((string)ViewData["EditError"]);
+    }
+}
+@grid.Bind(Model).GetHtml()

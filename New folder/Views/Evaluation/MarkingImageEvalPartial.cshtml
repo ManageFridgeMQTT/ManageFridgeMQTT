@@ -1,0 +1,459 @@
+﻿@model MarkModel
+@Html.Hidden("sOutletID", Model.CurentImage.CustomerID)
+@Html.Hidden("sImageID", Model.CurentImage.ImageID)
+<div class="content-body row">
+    <div class="img-content">
+        <div class="img-box">
+            <div class="img-all-box">
+                <div class="img-big-box img-current-template">
+                    <div class="img-big-insider">
+                        <div class="title">
+                            <h3>@Utility.Phrase("ImageSimple")</h3>
+                            <div class="button-mini-box">
+                                <button class="clockwise"><i class="icon-rotate-clockwise m-0"></i></button>
+                                <button class="counter-clockwise"><i class="icon-rotate-counter-clockwise m-0"></i></button>
+                            </div>
+                        </div>
+                        <a href="#">
+                            <img id="selectedComparedImage" src="@(Model.PathImageCompare + Model.CurentImage.ComparedImageIDName)" />
+                        </a>
+                        <span>@Model.CurentImage.ComparedImageDesc</span>
+                    </div>
+                </div>
+                <div class="img-big-box img-current-assume">
+                    <div class="img-big-insider">
+                        <div class="title">
+                            <h3>@Utility.Phrase("ImgMarking") @(Model.CurentImage.ImgDate != null ? Model.CurentImage.ImgDate.Value.ToShortDateString() : "")</h3>
+                            <div class="button-mini-box">
+                                <button class="clockwise"><i class="icon-rotate-clockwise m-0"></i></button>
+                                <button class="counter-clockwise"><i class="icon-rotate-counter-clockwise m-0 "></i></button>
+                            </div>
+                        </div>
+                        <a href="#">
+                            <img id="selectedEvalLargeImage" src="@(Constant.SalesOrdersImageFolder + Model.CurentImage.ImageIDName)" />
+                        </a>
+                        <span>@Model.CurentImage.ImageDesc</span>
+                    </div>
+                </div>
+                <div class="img-scroll-box img-assumed">
+                    <div class="img-scroll-insider mt-10">
+                        @foreach (var elm in Model.ListLatestComparedImages)
+                        {
+                            <div class="img-mini-box">
+                                <h3>@elm.NgayAnhSoSanh</h3>
+                                <div class="square-box">
+                                    <a href="@elm.AnhSoSanh">
+                                        <img src="@(Constant.SalesOrdersImageFolder + elm.AnhSoSanh)" />
+                                    </a>
+                                    <div class="assumer bold">@elm.NumberWeek @Utility.Phrase("WeekAgo")</div>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="img-assume">
+            <div class="img-assume-content">
+                <div class="align-center mb-10">
+                    <label class="fl" for="code">@Utility.Phrase("Outlet")</label>
+                    <div class="input-group">
+                        @Html.DropDownList("OutletSearch", Model.ListOultet)
+                    </div>
+                    <button class="btn-refresh fr" title="@Utility.Phrase("Refresh")"><i class="icon-update"></i></button>
+                </div>
+            </div>
+            <div class="align-center mb-10">
+                <button onclick="GoImageLoad('@Model.ImgFirst')"><i class="icon-go-first"></i></button>
+                <button onclick="GoImageLoad('@Model.ImgPrev')"><i class="icon-go-back"></i></button>
+                <button onclick="GoImageLoad('@Model.ImgNext')"><i class="icon-go-next"></i></button>
+                <button onclick="GoImageLoad('@Model.ImgLast')"><i class="icon-go-final"></i></button>
+                <label class="fl" for="code">@Utility.Phrase("Marked/TotalImg"): @Model.ImgMarked / @Model.TotalImg</label>
+            </div>
+            <table>
+                <thead>
+                    <tr>
+                        <th style="min-width: 95px">@Utility.Phrase("Avata")</th>
+                        <th>@Utility.Phrase("ImageMark")</th>
+                        <th>@Utility.Phrase("Info")</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            <div class="square-box m-0">
+                                <a href="javascript:void(0)">
+                                    <img id="selectedAvatarImage" src="@(Constant.SalesmanAvatarFolder + Model.CurentImage.AvatarImageFile)" />
+                                </a>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="square-box  m-0">
+                                <a href="javascript:void(0)">
+                                    <img id="selectedEvalSmallImage" src="@(Constant.SalesOrdersImageFolder + Model.CurentImage.ImageIDName)" />
+                                </a>
+                            </div>
+                        </td>
+                        <td>
+                            <p class="p-0 m-0">
+                                @Utility.Phrase("Saleman") : @Model.CurentImage.SalemanName<br />
+                                @Utility.Phrase("DateTake") : @(Model.CurentImage.ImgDate != null ? Model.CurentImage.ImgDate.ToShortDatePattern() : "")<br />
+                                @Utility.Phrase("CaptureDistance") : @Model.CurentImage.CaptureDistance<br />
+                                @Utility.Phrase("SyncDate"): @(Model.CurentImage.SyncDate != null ? Model.CurentImage.SyncDate.ToShortDatePattern() : "")<br />
+                                @Utility.Phrase("EvalDate"): @(Model.CurentImage.ImgDateMark != null ? Model.CurentImage.ImgDateMark.ToShortDatePattern() : "")<br />
+                            </p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="3" class="p-0">
+                            <div class="img-scroll-box">
+                                <div class="img-scroll-insider">
+                                    <ul>
+                                        @foreach (var item in Model.ListImgCurentOutlet)
+                                        {
+                                            <li onclick="GoImageLoad('@item.ImageID');" data-image-link="@item.ImageIDName">
+                                                <div class="img-mini-box">
+                                                    <h3>@(item.ImgDate != null ? item.ImgDate.ToShortDatePattern() : "")</h3>
+                                                    <div class="square-box">
+                                                        <a href="javascript:void(0)" onclick="GoImageLoad('@item.ImageID');" class="@(item.ImageID == Model.CurentImage.ImageID ? "active" : "")">
+                                                            <img src="@(Constant.SalesOrdersImageFolder + item.ImageIDName)" />
+                                                        </a>
+                                                    </div>
+                                                    <div class="assumer bold">
+                                                        <span class="@item.ImageColorStatus bold">@Utility.Phrase("ImageStatus_" + item.ImageStatus)</span>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                        }
+                                    </ul>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <table>
+                <thead>
+                    <tr>
+                        <th>@Utility.Phrase("EvalResult") </th>
+                        <th>@Utility.Phrase("ImgMarkingOfOutlet"): @Model.ImgOutletMarked / @Model.TotalOutletImg</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>@Utility.Phrase("EvalSame4Image")</td>
+                        <td style="min-width:185px">
+                            <label>
+                                <input @((Model.CurentImage.isMatchedWithBefore != null && Model.CurentImage.isMatchedWithBefore.Value) ? "checked" : "") value="1" name="matched" type="radio" @(Model.CurentImage.isEdit ? "" : "disabled") />@Utility.Phrase("Eval_Yes")
+                            </label>
+                            <label>
+                                <input @((Model.CurentImage.isMatchedWithBefore != null && !Model.CurentImage.isMatchedWithBefore.Value) ? "checked" : "") value="0" name="matched" type="radio" @(Model.CurentImage.isEdit ? "" : "disabled") />@Utility.Phrase("Eval_No")
+                            </label>
+                        </td>
+                    </tr>
+                    <tr id="row-captured">
+                        <td style="min-width:185px">
+                            <label>
+                                <input @((Model.CurentImage.isCaptured != null && Model.CurentImage.isCaptured.Value) ? "checked" : "") value="1" name="captured" type="radio" @(Model.CurentImage.isEdit ? "" : "disabled") />@Utility.Phrase("Eval_Real")
+                            </label>
+                            <label>
+                                <input @((Model.CurentImage.isCaptured != null && !Model.CurentImage.isCaptured.Value) ? "checked" : "") value="0" name="captured" type="radio" @(Model.CurentImage.isEdit ? "" : "disabled") />@Utility.Phrase("Eval_Fake")
+                            </label>
+                        </td>
+                        <td>
+                            <select style="max-width: 205px; display: @((Model.CurentImage.isCaptured != null && Model.CurentImage.isCaptured.Value) ? "none" : "")" id="reason-captured" @(Model.CurentImage.isEdit ? "" : "disabled")>
+                                <option id="R1-Op_0" value="">@Utility.Phrase("ChooseReason")</option>
+                                @foreach (var item in Model.ReasonFake)
+                                {
+                                    <option value="@item.ReasonCode" @(item.ReasonCode == Model.CurentImage.Reason1 ? "selected" : "")>@Html.DisplayFor(modelItem => item.ShortDescription)</option>
+                                }
+                            </select>
+                        </td>
+                    </tr>
+                    <tr id="row-standard" style="@((Model.CurentImage.isCaptured != null && Model.CurentImage.isCaptured.Value) ? "" : "display:none")">
+                        <td style="min-width:185px">
+                            <label>
+                                <input @((Model.CurentImage.isAccepted != null && Model.CurentImage.isAccepted.Value) ? "checked" : "") value="1" name="standard" type="radio" @(Model.CurentImage.isEdit ? "" : "disabled") />@Utility.Phrase("Standard")
+                            </label>
+                            <label>
+                                <input @((Model.CurentImage.isAccepted != null && !Model.CurentImage.isAccepted.Value) ? "checked" : "") value="0" name="standard" type="radio" @(Model.CurentImage.isEdit ? "" : "disabled") />@Utility.Phrase("NoneStandard")
+                            </label>
+                        </td>
+                        <td>
+                            <select style="max-width: 205px; display: @((Model.CurentImage.isAccepted != null && Model.CurentImage.isAccepted.Value) ? "none" : "")" id="reason-standard" @(Model.CurentImage.isEdit ? "" : "disabled")>
+                                <option id="R2-Op_0" value="">@Utility.Phrase("ChooseReason")</option>
+                                @foreach (var item in Model.ReasonAccepted)
+                                {
+                                    <option value="@item.ReasonCode" @(item.ReasonCode == Model.CurentImage.Reason2 ? "selected" : "")>@Html.DisplayFor(modelItem => item.ShortDescription)</option>
+                                }
+                            </select>
+                        </td>
+                    </tr>
+                    <tr id="row-passed" style="@((Model.CurentImage.isAccepted != null && Model.CurentImage.isAccepted.Value) ? "" : "display:none")">
+                        <td>
+                            <label>
+                                @* <input id="isPassed" onclick ="CheckEvaluation()" data-value ="@data.isPassed" name="good" type="radio"/>@Utility.Phrase("Pass")</label>*@
+                                <input @((Model.CurentImage.isPassed != null && Model.CurentImage.isPassed.Value) ? "checked" : "") value="1" name="passed" type="radio" @(Model.CurentImage.isEdit ? "" : "disabled") />@Utility.Phrase("Pass")
+                            </label>
+                            <label>
+                                <input @((Model.CurentImage.isPassed != null && !Model.CurentImage.isPassed.Value) ? "checked" : "") value="0" name="passed" type="radio" @(Model.CurentImage.isEdit ? "" : "disabled") />@Utility.Phrase("NonePass")
+                            </label>
+                        </td>
+                        <td>
+                            <select style="max-width: 205px; display: @((Model.CurentImage.isPassed != null && Model.CurentImage.isPassed.Value) ? "none" : "")" id="reason-passed" @(Model.CurentImage.isEdit ? "" : "disabled")>
+                                <option value="">@Utility.Phrase("ChooseReason")</option>
+                                @foreach (var item in Model.ReasonDisplay)
+                                {
+                                    <option value="@item.ReasonCode" @(item.ReasonCode == Model.CurentImage.Reason3 ? "selected" : "")>@Html.DisplayFor(modelItem => item.ShortDescription)</option>
+                                }
+                            </select>
+                        </td>
+                    </tr>
+
+                </tbody>
+            </table>
+            <div class="button-box align-center">
+                @if (Model.Evaluation.isNumeric == "1")
+                {
+                    <button id="btnNumeric" data-toggle="modal" data-target="#product-list" @((Model.CurentImage.isAccepted != null && Model.CurentImage.isAccepted.Value) ? "" : "disabled")><i class="icon-submit"></i>@Utility.Phrase("MarkNumeric")</button>
+                }
+                @if (Model.CurentImage.isEdit)
+                {
+                    <button onclick="SaveImageMarkingData()"><i class="icon-submit"></i>@Utility.Phrase("Complete")</button>
+                }
+                <a href="@Url.Action("OutletImageEvaluation", "Evaluation")">
+                    <button type="button" title="@Utility.Phrase("Back")"><i class="icon-back"></i>@Utility.Phrase("Back")</button>
+                </a>
+
+            </div>
+            <div id="OkiMesgBox" class="p-10 fl">
+                <span style="color: green" class="error"></span>
+            </div>
+        </div>
+        @if (Model.Evaluation.isNumeric == "1")
+        {
+            <div id="product-list" class="modal fade" role="dialog">
+                <div class="modal-dialog w-90pr mw-1000 bottom">
+                    <!-- Modal content-->
+                    <div class="modal-content">
+                        <div class="modal-header block-theme">
+                            <button type="button" class="close" data-dismiss="modal"><i class="icon-delete icon-white"></i></button>
+                            <h4 class="modal-title">@Utility.Phrase("Eval_ListProductPresent")</h4>
+                        </div>
+                        <div class="modal-body p-0">
+                            <div class="table-box wrapper">
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th>@Utility.Phrase("No")</th>
+                                            <th>@Utility.Phrase("Product")</th>
+                                            <th>@Utility.Phrase("Producer")</th>
+                                            <th>@Utility.Phrase("Present")</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="my_table_numericitem">
+                                        @foreach (var item in Model.ListItem)
+                                        {
+                                            <tr>
+                                                <td>@Html.DisplayFor(modelItem => item.STT)</td>
+                                                <td style="display: none;">@Html.DisplayFor(modelItem => item.ITEMID)</td>
+                                                <td>@Html.DisplayFor(modelItem => item.TENSANPHAM)</td>
+                                                <td>@Html.DisplayFor(modelItem => item.NHASANXUAT)</td>
+                                                <td>
+                                                    <input id="numitem-@item.ITEMID" @(item.HIENDIEN == 1 ? "checked" : "") type="checkbox">
+                                                </td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#sOutletID').val('@Model.CurentImage.CustomerID')
+        $('#sImageID').val('@Model.CurentImage.ImageID')
+        $('input:radio[name="captured"]').change(function () {
+            if ($(this).val() == '1') {
+                $("#reason-captured").val("");
+                $('#reason-captured').hide();
+                $("#row-standard").show();
+            } else {
+                $.each($('input:radio[name="standard"]'), function (index, element) {
+                    if ($(this).val() == '0') {
+                        $(this).prop('checked', false);
+                    } else {
+                        $(this).prop('checked', false);
+                    }
+                });
+
+                $('#reason-captured').show();
+                $("#row-standard").hide();
+                $("#row-passed").hide();
+                $("#btnNumeric").prop('disabled', true);
+            }
+        });
+
+        $('input:radio[name="standard"]').change(function () {
+            if ($(this).val() == '1') {
+                //$('#reason-standard').prop('disabled', true);
+                $("#reason-standard").val("");
+                $("#reason-standard").hide();
+                $("#row-passed").show();
+                $("#btnNumeric").prop('disabled', false);
+            } else {
+                $.each($('input:radio[name="passed"]'), function (index, element) {
+                    if ($(this).val() == '0') {
+                        $(this).prop('checked', false);
+                    } else {
+                        $(this).prop('checked', false);
+                    }
+                });
+                //$('#reason-standard').prop('disabled', false);
+                $("#reason-standard").show();
+                $("#row-passed").hide();
+                $("#btnNumeric").prop('disabled', true);
+            }
+        });
+        $('input:radio[name="passed"]').change(function () {
+            if ($(this).val() == '1') {
+                //$('#reason-passed').prop('disabled', true);
+                $("#reason-passed").val("");
+                $('#reason-passed').hide();
+            } else {
+                $('#reason-passed').prop('disabled', false);
+                $('#reason-passed').show();
+            }
+        });
+        $('.popup-search').hide();
+        $('#OutletSearch').on('change', function () {
+            var sEvalID = $('#sEvalID').val();
+            $("#FormMarking").load('@(Url.Action("MarkingImageEvalPartial", "Evaluation"))?sEvalID=' + sEvalID + '&sOutletID=' + this.value);
+        });
+
+    });
+
+    function GoImageLoad(ImageID) {
+        var sEvalID = $('#sEvalID').val();
+        var sOutletID = $('#sOutletID').val();
+        $("#FormMarking").load('@(Url.Action("MarkingImageEvalPartial", "Evaluation"))?sEvalID=' + sEvalID + '&sOutletID=' + sOutletID + '&ImageID=' + ImageID);
+    }
+
+    function SaveImageMarkingData() {
+        var isMatchedWithBefore = '0';
+        var isCaptured = '0';
+        var isAccepted = '0';
+        var isPassed = '0';
+        var error = "";
+        var reasonCaptured = $('#reason-captured').val();
+        var reasonStandard = $('#reason-standard').val();
+        var reasonPassed = $('#reason-passed').val();
+
+        var sEvalID = $('#sEvalID').val();
+        var sOutletID = $('#sOutletID').val();
+        var sImageID = $('#sImageID').val();
+
+        isMatchedWithBefore = $('input[name="matched"]:checked').val();
+        if (isMatchedWithBefore == undefined) {
+            error = Evaluation_ValiCheck_KPI_Radio4Image;
+        }
+        isCaptured = $('input[name="captured"]:checked').val();
+        if (isCaptured != undefined) {
+            if (isCaptured == '1') {
+                isAccepted = $('input[name="standard"]:checked').val();
+                if (isAccepted != undefined) {
+                    if (isAccepted == '1') {
+                        isPassed = $('input[name="passed"]:checked').val();
+                        if (isPassed != undefined) {
+                            if (isPassed == '0') {
+                                if (reasonPassed == "") {
+                                    error = Evaluation_ValiCheck_Reason_PassImage
+                                }
+                            }
+                        }
+                        else {
+                            isPassed = '0';
+                            error = Evaluation_ValiCheck_KPI_PassImage
+                        }
+                    }
+                    else {
+                        if (reasonStandard == "") {
+                            error = Evaluation_ValiCheck_Reason_Standard
+                        }
+                    }
+                }
+                else {
+                    isAccepted = '0';
+                    error = Evaluation_ValiCheck_KPI_StandardImage
+                }
+            }
+            else {
+                if (reasonCaptured == "") {
+                    error = Evaluation_ValiCheck_Reason_Fake
+                }
+            }
+        }
+        else {
+            isCaptured = '0';
+            error = Evaluation_ValiCheck_KPI_FakeImage
+        }
+        var ListNumericChamDiem = "";
+        var rows = $('#my_table_numericitem').children();
+        for (i = 0; i < rows.length; i++) {
+            if ($('#numitem-' + rows[i].children[1].innerHTML).prop('checked')) {
+
+                ListNumericChamDiem = ListNumericChamDiem + rows[i].children[1].innerHTML + ";";
+            }
+            else
+                ListNumericChamDiem = ListNumericChamDiem + "0;";
+        }
+
+        ListImageID.push(sImageID);
+        ListResultImg.push(isMatchedWithBefore + ';' + isCaptured + ';' + isAccepted + ';' + isPassed);
+        ListReasonImg.push(reasonCaptured + ';' + reasonStandard + ';' + reasonPassed);
+        ListInventoryImg.push(ListNumericChamDiem);
+
+        if (error == "") {
+            $.ajax({
+                type: 'POST',
+                url: 'SaveImageMarkingData',
+                data: {
+                    'sEvalID': sEvalID,
+                    'sOutletID': sOutletID,
+                    'listImage': ListImageID.toString(),
+                    'listResultImg': ListResultImg.toString(),
+                    'listReasonImg': ListReasonImg.toString(),
+                    'listInventoryImg': ListInventoryImg.toString()
+                },
+                success: function (result) {
+                    ListImageID = [];
+                    ListResultImg = [];
+                    ListReasonImg = [];
+                    ListInventoryImg = [];
+                    if (result == 1 || result == '1') {
+                        var url = '@(Url.Action("OutletImageEvaluation", "Evaluation"))?sEvalID=' + sEvalID;
+                        window.location = url;
+                        ShowMessageNoData('@Html.Raw(Utility.Phrase("Eval_Mess_MarkingAllSuccessfully"))');
+                    } else if (result == 0 || result == '0') {
+                        GoImageLoad('@Model.ImgMarkNext');
+                        ShowMessageNoData('@Html.Raw(Utility.Phrase("Eval_MarkingSuccessfully"))');
+                    } else {
+                        GoImageLoad('@Model.CurentImage.ImageID');
+                        ShowMessageNoData('@Html.Raw(Utility.Phrase("Eval_MarkingFail"))');
+                    }
+                }
+            }).done(function () {
+
+            });
+        } else {
+            alert(error);
+        }
+
+    }
+</script>

@@ -1,0 +1,81 @@
+﻿@model  MV_ReportIssues
+<div id="report-SummaryHeader" class="tab-pane fade in active box-table-ressult">
+    <table id="table-result" class="tablesorter">
+        <thead>
+            <tr>
+                <th data-placeholder="" class="filter-false">@Utility.Phrase("Action")</th>
+                <th>@Utility.Phrase("Report_Region")</th>
+                <th>@Utility.Phrase("Report_Area")</th>
+                <th>@Utility.Phrase("Report_Distributor")</th>
+                <th>@Utility.Phrase("TB_RouteName")</th>
+                <th>@Utility.Phrase("TB_NVBH")</th>
+                <th>@Utility.Phrase("VisitDate")</th>
+                <th>@Utility.Phrase("OutletName")</th>
+                <th>@Utility.Phrase("Status")</th>
+                <th>@Utility.Phrase("StatusConfirm")</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model != null)
+            {
+                foreach (var elm in Model.ReportIssuesResult)
+                {
+                    <tr>
+                        <td>
+                            <a href="@Url.Action("ReportIssuesDetailConfirm", "ReportTracking", new
+                                {
+                                    VisitDate = elm.VisitDate.ToShortDatePattern(),
+                                    IssuesID = elm.IssueID,
+                                    SalesmanCode = elm.SalesmanCode,
+                                    OutletID = elm.OutletID
+                                })">
+                                <button type="button" title="@Utility.Phrase("Detail")"><i class="icon-display"></i>@Utility.Phrase("Detail")</button>
+                            </a>
+                        </td>
+                        <td>@elm.RegionName</td>
+                        <td>@elm.AreaName</td>
+                        <td>@elm.DistributorName</td>
+                        <td>@elm.RouteName</td>
+                        <td>@elm.SalemanName</td>
+                        <td>@elm.VisitDate.ToShortDatePattern()</td>
+                        <td>@elm.OutletName</td>
+                        <td>
+                            @if (elm.StatusIssues != null)
+                            {
+                                switch (elm.StatusIssues)
+                                {
+                                    case 110:
+                                        @Utility.Phrase("Open");
+                                        break;
+                                    case 111:
+                                        @Utility.Phrase("ReOpen");
+                                        break;
+                                    case 112:
+                                        @Utility.Phrase("WAITING_CONFIRM");
+                                        break;
+                                    case 113:
+                                        @Utility.Phrase("Close");
+                                        break;
+                                }
+                            }
+                        </td>
+                        <td>
+                            @if (elm.StatusIssuesConfirm != null)
+                            {
+                                switch (elm.StatusIssuesConfirm)
+                                {
+                                    case 121:
+                                        @Utility.Phrase("BtnOK");
+                                        break;
+                                    case 122:
+                                        @Utility.Phrase("DontAgree");
+                                        break;
+                                }
+                            }
+                        </td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+</div>

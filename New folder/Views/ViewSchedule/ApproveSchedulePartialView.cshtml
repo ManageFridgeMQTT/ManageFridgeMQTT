@@ -1,0 +1,215 @@
+﻿@functions{
+    AppointmentRecurrenceFormSettings CreateAppointmentRecurrenceFormSettings(Hammer.Models.CustomAppointmentTemplateContainer container)
+    {
+        var settings = new AppointmentRecurrenceFormSettings();
+        settings.Name = "appointmentRecurrenceForm";
+        settings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+        settings.IsRecurring = container.Appointment.IsRecurring;
+        settings.DayNumber = container.RecurrenceDayNumber;
+        settings.End = container.RecurrenceEnd;
+        settings.Month = container.RecurrenceMonth;
+        settings.OccurrenceCount = container.RecurrenceOccurrenceCount;
+        settings.Periodicity = container.RecurrencePeriodicity;
+        settings.RecurrenceRange = container.RecurrenceRange;
+        settings.Start = container.Start;
+        settings.WeekDays = container.RecurrenceWeekDays;
+        settings.WeekOfMonth = container.RecurrenceWeekOfMonth;
+        settings.RecurrenceType = container.RecurrenceType;
+        settings.IsFormRecreated = container.IsFormRecreated;
+
+        return settings;
+    }
+}
+@Html.DevExpress().Scheduler(schedule =>
+{
+    schedule.Name = "approvalScheduler";
+    schedule.CallbackRouteValues = new { Controller = "ViewSchedule", Action = "ApproveSchedulePartialView" };
+    schedule.EditAppointmentRouteValues = new { Controller = "ViewSchedule", Action = "EditAppointment" };
+   
+    schedule.Storage.EnableReminders = false;
+    schedule.Storage.Appointments.Assign(eRoute.Models.eCalendar.HammerDataProvider.CustomAppointmentStorage);
+    schedule.Storage.Resources.Assign(eRoute.Models.eCalendar.HammerDataProvider.DefaultResourceStorage);
+    schedule.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+    //schedule.Views.TimelineView.Enabled = false;
+    //schedule.Views.WorkWeekView.Enabled = false;
+    schedule.Views.MonthView.CompressWeekend = false;
+    //schedule.Views.MonthView.Styles.DateCellBody.Height = 260;
+    //schedule.Views.WeekView.Styles.DateCellBody.Height = 50;
+    schedule.Views.MonthView.WeekCount = 4;
+    schedule.ActiveViewType = SchedulerViewType.Month;
+    schedule.Views.MonthView.ShortDisplayName = Utility.Phrase("SendCalendar.Messages.ViewMonth");
+    schedule.Views.MonthView.CellAutoHeightOptions.Mode = AutoHeightMode.FitToContent;
+    //schedule.Views.MonthView.CellAutoHeightOptions.MaxHeight = 350;
+    schedule.Views.WeekView.ShortDisplayName = Utility.Phrase("SendCalendar.Messages.ViewWeek");
+    schedule.Views.DayView.ShortDisplayName = Utility.Phrase("SendCalendar.Messages.ViewDay");
+    schedule.Views.WorkWeekView.ShortDisplayName = Utility.Phrase("SendCalendar.Messages.ViewWWeek");
+    schedule.Views.TimelineView.ShortDisplayName = Utility.Phrase("SendCalendar.Messages.ViewTimeLine");
+    schedule.Start = DateTime.Now;
+    
+    schedule.OptionsForms.RecurrentAppointmentEditFormVisibility = SchedulerFormVisibility.None;
+    schedule.AppointmentFormShowing = (sender, e) =>
+    {
+        var scheduler = sender as MVCxScheduler;
+        if (scheduler != null)
+
+            e.Container = new Hammer.Models.CustomAppointmentTemplateContainer(scheduler);
+            e.Container.Caption = Utility.Phrase("Info");
+            e.Container.Control.ControlStyle.CssClass = "block-theme";
+    };
+
+    schedule.OptionsCustomization.AllowAppointmentResize = UsedAppointmentType.None;
+    schedule.OptionsCustomization.AllowAppointmentCreate = UsedAppointmentType.None;
+    
+    schedule.OptionsForms.SetAppointmentFormTemplateContent(form =>
+    {
+        var container = (Hammer.Models.CustomAppointmentTemplateContainer)form;
+       eRoute.Models.eCalendar.Appointment app = eRoute.Models.eCalendar.HammerDataProvider.GetAppointmentById((int)container.Appointment.Id);
+       eRoute.Models.eCalendar.DMSSFHierarchy query =eRoute.Models.eCalendar.HammerDataProvider.PrepareScheduleGetDMSSFHierarchy(app.UserLogin);
+        string EmployeTem = string.Empty;
+        if (app.Employees != null)
+        {
+            if (query.LevelName == "NSM")
+            {
+                Hammer.Models.EmployeeModel SS = eRoute.Models.eCalendar.HammerDataProvider.GetSMForSS(app.Employees);
+                Hammer.Models.EmployeeModel ASM = eRoute.Models.eCalendar.HammerDataProvider.GetASMForSS(SS.SS);
+                Hammer.Models.EmployeeModel RSM = eRoute.Models.eCalendar.HammerDataProvider.GetRSMForASM(ASM.EmployeeID);
+                if (SS != null)
+                {
+                    if (ASM != null)
+                    {
+                        if (ASM.EmployeeID == null)
+                        {
+                            if (ASM.EmployeeID == null)
+                            {
+                                EmployeTem = app.Employees + ": " + SS.EmployeeName + " - " + SS.SS + ": " + eRoute.Models.eCalendar.HammerDataProvider.GetNameEmployee(SS.SS);
+                            }
+                            else
+                            {
+                                if (RSM != null)
+                                {
+                                    if (RSM.EmployeeID == null)
+                                    {
+                                        EmployeTem = app.Employees + ": " + SS.EmployeeName + " - " + SS.SS + ": " + eRoute.Models.eCalendar.HammerDataProvider.GetNameEmployee(SS.SS) + " - " + ASM.EmployeeID + ":" + ASM.EmployeeName;
+                                    }
+                                    else
+                                    {
+                                        EmployeTem = app.Employees + ": " + SS.EmployeeName + " - " + SS.SS + ": " + eRoute.Models.eCalendar.HammerDataProvider.GetNameEmployee(SS.SS) + " - " + ASM.EmployeeID + ": " + ASM.EmployeeName + " - " + RSM.EmployeeID + ": " + RSM.EmployeeName;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    else
+                    {
+                        EmployeTem = app.Employees;
+                    }
+                }
+            }
+            else if (query.LevelName == "RSM")
+            {
+                Hammer.Models.EmployeeModel SS = eRoute.Models.eCalendar.HammerDataProvider.GetSMForSS(app.Employees);
+                if (SS == null)
+                {
+                    EmployeTem = app.Employees + ": " + eRoute.Models.eCalendar.HammerDataProvider.GetNameEmployee(app.Employees);                  
+                }
+                else
+                {
+                    Hammer.Models.EmployeeModel ASM = eRoute.Models.eCalendar.HammerDataProvider.GetASMForSS(SS.SS);
+                    if (SS.SS != null)
+                    {
+                        if (ASM.EmployeeID == null)
+                        {
+                            EmployeTem = app.Employees + ":" + SS.EmployeeName + " - " + SS.SS + ":" + eRoute.Models.eCalendar.HammerDataProvider.GetNameEmployee(SS.EmployeeID);
+                        }
+                        else
+                        {
+                            EmployeTem = app.Employees + ": " + SS.EmployeeName + " - " + SS.SS + ": " + eRoute.Models.eCalendar.HammerDataProvider.GetNameEmployee(SS.SS) + " - " + ASM.EmployeeID + ":" + ASM.EmployeeName;
+                        }
+                    }
+                    else
+                    {
+                        EmployeTem = app.Employees + ": " + SS.EmployeeName;
+                    }
+                }
+
+            }
+            else if (query.LevelName == "ASM")
+            {
+                Hammer.Models.EmployeeModel SS = eRoute.Models.eCalendar.HammerDataProvider.GetSMForSS(app.Employees);
+                if (SS != null)
+                {
+                    if (SS.SS != null)
+                    {
+                        EmployeTem = app.Employees + ": " + SS.EmployeeName + " - " + SS.SS + ": " + eRoute.Models.eCalendar.HammerDataProvider.GetNameEmployee(SS.SS);
+                    }
+                    else
+                    {
+                        EmployeTem = app.Employees + ": " + SS.EmployeeName;
+                    }
+                }
+            }
+            else
+            {
+                Hammer.Models.EmployeeModel SS = eRoute.Models.eCalendar.HammerDataProvider.GetSMForSS(app.Employees);
+                if (SS != null)
+                {
+                    EmployeTem = app.Employees + ": " + SS.EmployeeName;
+                }
+            }
+        }
+        var scheduler = ViewData["EditableSchedule"] != null
+            ? (Hammer.Models.ValidationSchedule)ViewData["EditableSchedule"]
+            : new Hammer.Models.ValidationSchedule()
+            {
+                UniqueID = app.UniqueID,
+                Subject = app.Subject,
+                Location = app.Location,
+                StartDate = app.StartDate.Value,
+                EndDate = app.EndDate.Value,
+                Description = app.Description,
+                Phone = app.Phone,
+                Employees = EmployeTem,
+                Label = app.Label,
+                RejectReason = app.RejectReason,
+                UserLogin = app.UserLogin,
+                Route = app.RouteID,
+                UserApprove = app.UserAppro                
+            };
+        ViewBag.DeleteButtonEnabled = container.CanDeleteAppointment;
+        ViewBag.IsRecurring = container.Appointment.IsRecurring;
+        ViewBag.AppointmentRecurrenceFormSettings = CreateAppointmentRecurrenceFormSettings(container);
+
+        Html.RenderPartial("CustomAppointmentFormPartial", scheduler);
+    });
+
+    schedule.PopupMenuShowing = (s, e) =>
+    {
+        if (e.Menu.Id.Equals(SchedulerMenuItemId.AppointmentMenu))
+        {
+            e.Menu.Items[3].Visible = false;
+            e.Menu.Items[4].Visible = false;
+            e.Menu.Items[5].Visible = false;
+            e.Menu.Items[0].Text = Utility.Phrase("Detail");
+            //bool kq = eRoute.Models.eCalendar.HammerDataProvider.CheckPermissionRoles(User.Identity.Name);
+            //if (kq == false)
+            //{
+            //    e.Menu.Items[5].Visible = false;
+            //}
+            //else
+            //{
+            //    e.Menu.Items[5].Visible = true;
+            //}
+        }
+    };
+
+    schedule.OptionsCustomization.AllowAppointmentCopy = UsedAppointmentType.None;
+    schedule.OptionsCustomization.AllowAppointmentDrag = UsedAppointmentType.None;
+    schedule.ClientSideEvents.AppointmentsSelectionChanged = "OnAppointmentsSelectionChangedAdmin";     
+    //
+    schedule.ClientSideEvents.AppointmentClick = "Approve_AppointmentClick";
+    //
+    schedule.OptionsCustomization.AllowAppointmentMultiSelect = true;
+    schedule.OptionsCustomization.AllowInplaceEditor = UsedAppointmentType.None;
+
+}).Bind((Model as Hammer.Models.ApproveScheduleObject).Appointments,
+(Model as Hammer.Models.ApproveScheduleObject).Resources).GetHtml()

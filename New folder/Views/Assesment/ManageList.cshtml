@@ -1,0 +1,76 @@
+﻿@model eRoute.Models.ViewModel.AssesmentVM
+@{
+    Layout = "~/Views/Shared/_rootLayout.cshtml";
+    ViewBag.Title = "AuditorList";
+    AjaxOptions ajaxOptions = new AjaxOptions
+    {
+        LoadingElementId = "Progress",
+        UpdateTargetId = "searchResults",
+        OnBegin = "OnBegin",
+        OnComplete = "OnComplete"
+    };
+}
+<script type="text/javascript">
+    function OnBegin() {
+        document.getElementById('LoadingImg').setAttribute("style", "display");
+    }
+    function OnComplete() {
+        document.getElementById('LoadingImg').setAttribute("style", "display:none");
+    }
+</script>
+<div style="padding: 7px;">
+    <div id="LoadingImg" class="AjaxLoaderOuter" style="display: none">
+        <div class="AjaxLoaderInner">
+            <img src="/Content/Images/ajax-loader.gif" />
+        </div>
+    </div>
+    <table width="100%" cellpadding="0" cellspacing="0">
+        <tr>
+            <td valign="top" width="25%">
+                @using (Ajax.BeginForm("GridViewPartialManage", ajaxOptions))
+                {
+                    <table width="100%" cellpadding="2" cellspacing="2">
+                        <tr>
+                            <td>
+                                @Localization.Date
+                            </td>
+                            <td>
+                                @Html.DevExpress().DateEdit(settings =>
+                       {
+                           settings.Width = 274;
+                           settings.Name = "deDate";
+                           settings.Date = DateTime.Now;
+                           if (Session["dt"] != null)
+                           {
+                               settings.Date = DateTime.Parse(Session["dt"].ToString());
+                           }
+                           settings.Properties.EditFormat = EditFormat.Custom;
+                           settings.Properties.EditFormatString = "dd/MM/yyyy";
+                           settings.Properties.DisplayFormatString = "dd/MM/yyyy";
+                       }).GetHtml()
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                            </td>
+                            <td>
+                                <div style="float: left; padding-right: 10px">
+                                    @Html.DevExpress().Button(settings =>
+                       {
+                           settings.Name = "btnSearch";
+                           settings.Text = Localization.BtnSearch;
+                           settings.UseSubmitBehavior = true;
+                       }).GetHtml()</div>
+                            </td>
+                        </tr>
+                    </table>
+                }
+            </td>
+            <td valign="top" width="75%">
+                <div id="searchResults" style="padding-top: 4px; padding-bottom: 10px">
+                    @Html.Action("GridViewPartialManage", new { dis = string.Empty })
+                </div>
+            </td>
+        </tr>
+    </table>
+</div>

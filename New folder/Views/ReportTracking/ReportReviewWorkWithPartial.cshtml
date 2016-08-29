@@ -1,0 +1,59 @@
+﻿@model List<pp_ReportReviewWorkWithResult>
+<div id="report-sync" class="tab-pane fade in active box-table-ressult">
+    <table id="table-result" class="tablesorter">
+        <thead>
+            <tr>
+                <th>@Utility.Phrase("Report_Region")</th>
+                <th>@Utility.Phrase("Report_Area")</th>
+                <th>@Utility.Phrase("ASM/SS")</th>
+                <th>@Utility.Phrase("Name_ASM/SS")</th>
+                <th>@Utility.Phrase("Titile_ASM/SS")</th>
+                <th>@Utility.Phrase("RouteID")</th>
+                <th>@Utility.Phrase("RouteName")</th>
+                <th>@Utility.Phrase("SalesManID")</th>
+                <th>@Utility.Phrase("SalesManName")</th>
+                <th>@Utility.Phrase("VisitDate")</th>
+                <th>@Utility.Phrase("SMWorkAM")</th>
+                <th>@Utility.Phrase("SMWorkPM")</th>
+                <th>@Utility.Phrase("OrderSuccessAM")</th>
+                <th>@Utility.Phrase("OrderSuccessPM")</th>
+                <th>@Utility.Phrase("GPSInvalid")</th>
+                <th>@Utility.Phrase("APMInvalid")</th>
+                <th>@Utility.Phrase("VisitValidAM")</th>
+                <th>@Utility.Phrase("VisitValidPM")</th>
+                <th>@Utility.Phrase("VisitValid")</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model != null)
+            {
+                foreach (var elm in Model)
+                {
+                    <tr>
+                        <td>@elm.RegionName</td>
+                        <td>@elm.AreaName</td>
+                        <td>@elm.WWID</td>
+                        <td>@elm.WWName</td>
+                        <td>@elm.WWTitle</td>
+                        <td>@elm.RouteID</td>
+                        <td>@elm.RouteName</td>
+                        <td>@elm.SalesmanID</td>
+                        <td>@elm.SalesmanName</td>
+                        <td>@elm.VisitDate.ToString(Utility.info.DateTimeFormat.ShortDatePattern)</td>
+                        <td>@elm.SMWorkAM</td>
+                        <td>@elm.SMWorkPM</td>
+                        <td>@elm.OrderSuccessAM</td>
+                        <td>@elm.OrderSuccessPM</td>
+                        <td>@elm.GPSInvalid</td>
+                        <td>@elm.APMInvalid</td>
+                        <td>@elm.VisitValidAM</td>
+                        <td>@elm.VisitValidPM</td>
+                        @*<td class="align-right">@elm.DistanceWithBase</td>
+                        <td class="align-right">@elm.ValidDistance</td>*@
+                        <td>@elm.VisitValid</td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+</div>

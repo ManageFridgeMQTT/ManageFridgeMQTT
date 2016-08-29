@@ -1,0 +1,133 @@
+﻿@model eRoute.Models.EvaluationDataModel
+
+@{
+    ViewBag.Title = Utility.Phrase("EvaluationDefinition");
+    Layout = "~/Views/Shared/_NewLayout.cshtml";
+}
+
+@{
+    <script src="~/Scripts/EvaluationScripts/EvaluationScript.js"></script>
+    <script type="text/javascript">
+        Evaluation_ValidateDisPlayNull = "@Utility.Phrase("Evaluation_MesValidateDisplayNull")";
+        Evaluation_ConfirmYesNo = "@Utility.Phrase("Evaluation_ConfirmYesNo")";
+        Evaluation_ValidateListRegionNull = "@Utility.Phrase("Evaluation_MesValidateListRegioNull")";
+        Evaluation_ValidateTimeInformationEmpty = "@Utility.Phrase("Evaluation_MesValidateTimeInformationEmptyNull")";
+        Evaluation_ValidateTypeEvaluationNull = "@Utility.Phrase("Evaluation_MesValidateListEmployeeNotNull")";
+        Evaluation_SaveOki = "@Utility.Phrase("Evaluation_SaveOK")";
+        Evaluation_ValidateSumOutletCurentMustSumOutletFill = "@Utility.Phrase("Evaluation_ValidateSumOutletCurentMustSumOutletFill")";
+    </script>
+}
+<div class="insider">
+<div id="loading" class="loading"></div>
+<div class="row display-table w-100pr mb-10 content-header">
+    <div class="report-content-header">
+        <div class="col-sm-8">
+            <h1>@Utility.Phrase("EvaluationDefinition")</h1>
+        </div>
+    </div>
+    @using (Html.BeginForm("EvaluationDefinition", "Evaluation", FormMethod.Post))
+    {
+        @Html.Partial("EvaluationListFilterPartial", Model.FilterModel)
+    }
+</div>
+    <div class="row content-body">
+        @using (Html.BeginForm("EvaluationDefinition", "Evaluation", null, FormMethod.Post, new { @id = "myFormID", @name = "myFormName" }))
+        {
+            <div class="tab-header">
+                <div class="toolbox">
+                    <ul class="fr m-0">
+                        <li>
+                            <a href="@Url.Action("CreateEvalDefinition", "Evaluation")">
+                                <button type="button" title="@Utility.Phrase("Add")"><i class="icon-add"></i>@Utility.Phrase("Add")</button>
+                            </a>
+                            <button class="btn-refresh" title="Làm mới"><i class="icon-update"></i>@Utility.Phrase("Refresh")</button>
+                        </li>
+                        <li class="ts-pager">
+                            <button type="button" title="@Utility.Phrase("GoBack")" class="prev"><i class="icon-go-back"></i></button>
+                            <span class="pagedisplay"></span>
+                            <button type="button" title="@Utility.Phrase("GoNext")" class="next"><i class="icon-go-next"></i></button>
+                            <span>@Utility.Phrase("GotoPage")
+                                <select class="pagenum input-mini" title="Select page number"></select>
+                            </span>
+                            <span>@Utility.Phrase("Pages")</span>
+                            <select class="pagesize input-mini m-0" title="Select page size">
+                                <option selected="selected" value="10">10</option>
+                                <option value="20">20</option>
+                                <option value="30">30</option>
+                                <option value="40">40</option>
+                                <option value="50">50</option>
+                            </select>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="tab-content wrapper">
+                <table class="tablesorter">
+                    <thead class="block-theme">
+                        <tr>
+                            <th>@Utility.Phrase("Action")</th>
+                            <th>@Utility.Phrase("No")</th>
+                            <th>@Utility.Phrase("DisplayName")</th>
+                            <th>@Utility.Phrase("TimeDisplay")</th>
+                            <th>@Utility.Phrase("EvaluationCode")</th>
+                            <th>@Utility.Phrase("Content")</th>                            
+                            <th>@Utility.Phrase("TimeEvaluation")</th>
+                            <th>@Utility.Phrase("Type")</th>
+                            <th>@Utility.Phrase("EvaluationStatus")</th>
+                            
+                            
+                            @*<th>@Utility.Phrase("ReferenceCode")</th>*@
+                            @*<th>@Utility.Phrase("Description")</th>*@
+                        </tr>
+                    </thead>
+                    <tbody id="my_table_DetailEvaluation">
+                        @if (Model.EvalDefinitionResult != null)
+                        {
+                         //   int stt = 1;
+                            foreach (var item in Model.EvalDefinitionResult)
+                        {
+                            <tr>
+                                <td>
+                                    <a href="@Url.Action("DetailEvaluationDefinitionView", "Evaluation", new { sEvalID = item.MaDanhGia})">
+                                        <button type="button" id="btnBack" title="Back"><i class="icon-display"></i>@Utility.Phrase("Detail")</button>
+                                    </a>
+                                </td>
+                                <td>@item.OrderNum.ToString()</td>
+                                <td>@item.MoTaCTTB</td>
+                                <td>@item.ThoiGianTrungBay</td>
+                                <td>@item.MaDanhGia</td>
+                                <td>@item.NoiDungCTTB</td>
+                                <td>@item.ThoiGianDanhGia</td>
+                                @*<td>@item.MaThamChieu</td>*@
+                               
+                                    @{
+                                        if (item.LoaiDanhGia == "A")
+                                        {
+                                             <td> @Utility.Phrase("Auto")</td>
+                                        }
+                                        else
+                                        { 
+                                              <td> @Utility.Phrase("Manual")</td>
+                                        }
+                                         
+                                    }
+                                <td><span class="@item.MauTrangThai bold">@Utility.Phrase("EvalState_" + item.TrangThai)</span></td>
+                                
+                                
+                                
+                                @*<td>@item.MoTaCTTB</td>*@
+                            </tr>
+                        }   
+                        }
+                    </tbody>
+                </table>
+                <input type="hidden" id="selectedEvaluationID" name="NameofEvaluationID" value="">
+            </div>       
+        }
+    </div>
+</div>
+@*<script type="text/javascript">
+    $(document).ready(function () {
+        $('#box-filter-Type').hide();
+    });
+</script>*@

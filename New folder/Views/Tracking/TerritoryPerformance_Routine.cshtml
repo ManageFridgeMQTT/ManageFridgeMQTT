@@ -1,0 +1,110 @@
+﻿@{
+    //ViewBag.Title = "TerritoryPerformance_Routine";
+}
+
+<script type="text/javascript">
+    //Region Routine
+    function ViewRoutine() {
+        if ($('#rdRoutine').is(':checked')) {
+            $('#sl-treeView').hide();
+            ClearOptionRoutine();
+            ClearMap();
+            map.locate({ setView: true, maxZoom: 17 });
+            map.on('locationfound', onLocationFound);
+        }
+    }
+    //Find near by
+    function GetLocationDistributor() {
+        $("#loading").show();
+        if ($('#MarkerDistributor').is(':checked')) {
+            if (markerArray != null) {
+                for (i = 0; i < markerArray.length; i++) {
+                    map.removeLayer(markerArray[i]);
+                }
+            }
+            if (routing != null) {
+                map.removeControl(routing);
+                routing = null;
+            }
+            $('#listob').find('option').remove();
+            $.ajax({
+                type: 'POST',
+                url: "@Url.Action("ShowDistributors", "Tracking")",
+                data: { latitude: lat, longtitude: long },
+            dataType: 'json',
+            success: function (data) {
+                var iconDistributor = L.icon({
+                    iconUrl: '../Content/THP/img/markerFFFF00.png',
+                    iconSize: [20, 37]
+                    //shadowUrl: null
+                });
+                for (var item in data) {
+                    var markerDistributor = L.marker([data[item].Latitude, data[item].Longtitude], { title: data[item].DistributorName, icon: iconDistributor }, { opacity: 0.8 })
+                        .addTo(map).bindPopup("<b>@Html.Raw(Utility.Phrase("Distributor")): " + data[item].DistributorName + "</b><br> @Html.Raw(Utility.Phrase("Address")): " + data[item].Address).openPopup()
+                        .on('click', onClick);
+                    markerArray.push(markerDistributor);
+                    $('#listob').append(new Option(data[item].DistributorName, data[item].Latitude + "-" + data[item].Longtitude));
+                    $('#listob').show();
+                    $('#lblListOb').show();
+                    $('#lblListOb').html('@Html.Raw(Utility.Phrase("ListDistributor"))');
+                }
+            }
+        });
+    }
+    }
+    function GetLocationSaleman() {
+        //$("#loading").show();
+        if ($('#MarkerSL').is(':checked')) {
+            if (markerArray != null) {
+                for (i = 0; i < markerArray.length; i++) {
+                    map.removeLayer(markerArray[i]);
+                }
+            }
+            if (routing != null) {
+                map.removeControl(routing);
+                routing = null;
+            }
+            $('#listob').find('option').remove();
+            $('#listob').hide();
+        }
+    }
+    function GetLocationOutLet() {
+        $("#loading").show();
+        if ($('#MarkerOutLetS').is(':checked')) {
+            if (markerArray != null) {
+                for (i = 0; i < markerArray.length; i++) {
+                    map.removeLayer(markerArray[i]);
+                }
+            }
+            if (routing != null) {
+                map.removeControl(routing);
+                routing = null;
+            }
+            $('#listob').find('option').remove();
+            $.ajax({
+                type: 'POST',
+                url: "@Url.Action("ShowOutLets", "Tracking")",
+                data: { latitude: lat, longtitude: long },
+            dataType: 'json',
+            success: function (data) {
+                var iconOutlet = L.icon({
+                    iconUrl: '../Content/THP/img/markerFFFF00.png',
+                    iconSize: [20, 37]
+                    //shadowUrl: null
+                });
+                for (var item in data) {
+                    var markerOutLet = L.marker([data[item].Latitude, data[item].Longtitude], { title: data[item].OutletName, icon: iconOutlet }, { opacity: 0.8 })
+                        .addTo(map).bindPopup("<b>@Html.Raw(Utility.Phrase("Outlet")): " + data[item].OutletName + "</b><br> @Html.Raw(Utility.Phrase("Address")): " + data[item].Address).openPopup()
+                        .on('click', onClick);
+                    markerArray.push(markerOutLet);
+                    $('#listob').append(new Option(data[item].OutletName, data[item].Latitude + "-" + data[item].Longtitude));
+                    $('#listob').show();
+                    $('#lblListOb').show();
+                    $('#lblListOb').html('@Html.Raw(Utility.Phrase("ListOutlet"))');
+                }
+
+            }
+        });
+    }
+    }
+</script>

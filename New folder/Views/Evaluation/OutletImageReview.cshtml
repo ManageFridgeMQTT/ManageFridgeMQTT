@@ -1,0 +1,173 @@
+﻿@model eRoute.Models.EvaluationDataModel
+@{
+    ViewBag.Title = Utility.Phrase("OutletImageReview");
+    Layout = "~/Views/Shared/_NewLayout.cshtml";
+}
+
+<div class="insider">
+    <div id="loading" class="loading"></div>
+    <input type="hidden" id="selectedDisplayID">
+    <input type="hidden" id ="PageID" value ="@ViewBag.PageInformation"/>
+    <input type="hidden" id ="ScreenID" value ="@ViewBag.ScreenID"/>
+
+
+    @*@Html.Partial("HeaderEvaluationLayout")*@
+    <div class="row display-table w-100pr mb-10 content-header">
+        <div class="report-content-header">
+            <div class="col-sm-8">
+                <h1>@Utility.Phrase("OutletImageReview")</h1>
+            </div>
+        </div>
+        <div class="w-100pr">
+            <div class="item fl">
+                <label for="code" class="fl">@Utility.Phrase("EvaluationCode")</label>
+                <div class="input-group">
+                    @Html.TextBox("EvaluationCode", Model.FilterModel.EvaluationID, new { @class = "form-control", @placeholder = Utility.Phrase("SelectEvaluationCode") })
+                    <div class="input-group-btn">
+                        <button type="button" id="btncode" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="caret"></span></button>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <div style="height: auto; overflow-y: auto; overflow-x: auto;" class="table-box wrapper">
+                                    <table class="table table-striped nowrap m-0">
+                                        <thead class="block-theme">
+                                            <tr>
+                                                <th>@Utility.Phrase("No")</th>
+                                                <th>@Utility.Phrase("ProgramName")</th>
+                                                <th>@Utility.Phrase("EvaluationCode")</th>
+                                                <th>@Utility.Phrase("DateTimeEval")</th>
+                                                <th style="display:none">@Utility.Phrase("EvaluationStatus")</th>
+                                                <th>@Utility.Phrase("YourStatus")</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="my_table_EvaluationID">
+                                            @if (Model.FilterModel.EvaluationData != null)
+                                            {
+                                                int i = 1;
+                                                foreach (var item in Model.FilterModel.EvaluationData)
+                                                {
+                                                    <tr>
+                                                        <td>@i</td>
+                                                        <td style="display:none">@item.EvaluationID</td>
+                                                        <td>@item.ProgramName</td>
+                                                        <td>@item.EvaluationID - @item.ProgramContent</td>
+                                                        <td>@item.EvalDateFrom.ToShortDateString() - @item.EvalDateTo.ToShortDateString()</td>
+                                                        <td style="display:none"><span class="@item.ColorStatus bold">@Utility.Phrase("EvalState_" + item.EvalState)</span></td>
+                                                        <td><span class="@item.ColorYourStatus bold">@Utility.Phrase("EvalLeaderStatus_" + item.YourStatus)</span></td>
+                                                    </tr>
+                                                    i++;
+                                                }
+                                            }
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row content-body">
+        <div class="tab-header">
+            <div class="toolbox">
+                <ul class="fr m-0">
+                    <li>
+                        @*<span class="button">
+                            <a href="detail-review-assume.html"><i class="icon-display"></i>@Html.ActionLink("Xét duyệt tất cả", "DetailOutletImageReview", "Evaluation", new { onclick = "GoToDetailOutletImageReview('All')" })</a>
+                        </span>*@
+                        <button class="btn-refresh" title="@Utility.Phrase("Refresh")"><i class="icon-update"></i>@Utility.Phrase("Refresh")</button>
+                    </li>
+                    <li class="ts-pager">
+                        <button type="button" title="@Utility.Phrase("GoBack")" class="prev"><i class="icon-go-back"></i></button>
+                        <span class="pagedisplay"></span>
+                        <button type="button" title="@Utility.Phrase("GoNext")" class="next"><i class="icon-go-next"></i></button>
+                        <span>@Utility.Phrase("GotoPage")
+                            <select class="pagenum input-mini" title="Select page number"></select>
+                        </span>
+                        <span>@Utility.Phrase("Pages")</span>
+                        <select class="pagesize input-mini m-0" title="Select page size">
+                            <option selected="selected" value="10">10</option>
+                            <option value="20">20</option>
+                            <option value="30">30</option>
+                            <option value="40">40</option>
+                            <option value="50">50</option>
+                        </select>
+                    </li>
+                </ul>
+            </div>
+            <ul class="nav nav-tabs display-none">
+                <li class="active"><a data-toggle="tab" href="#report-outlet">@Utility.Phrase("Report_Report")</a></li>
+            </ul>
+        </div>
+        <div class="tab-content wrapper">
+            <table class="tablesorter">
+                <thead class="block-theme">
+                    <tr>
+                        <th>@Utility.Phrase("Action")</th>
+                        <th>@Utility.Phrase("No")</th>
+                        <th>@Utility.Phrase("EmployeeName")</th>
+                        <th>@Utility.Phrase("Eval_Status")</th>
+                        <th>@Utility.Phrase("Eval_SumImage")</th>
+                        <th>@Utility.Phrase("Eval_SumOutlet")</th>
+                        <th>@Utility.Phrase("Eval_SumImageNotReviewd")</th>
+                        <th>@Utility.Phrase("Eval_SumImageReviewed")</th>
+                        <th>@Utility.Phrase("Eval_SumImagePass")</th>
+                        @*<th>@Utility.Phrase("Eval_SumImageNotPass")</th>*@
+                        <th>@Utility.Phrase("Eval_SumImageReject")</th>
+
+
+                    </tr>
+                </thead>
+                <tbody id="my_table_DetailReview">
+                    @foreach (var item in Model.ReviewList)
+                    {
+                        <tr>
+                            <td>
+                                @if (item.EvalStatus.HasValue && item.YourStatus >= 3)
+                                {
+                                    <a href="@Url.Action("ReviewImageEmployer", "Evaluation", new
+                                    {
+                                        sEvalID = item.MaDanhGia.Trim(),
+                                        auditor = item.MaAuditor
+                                    })">
+                                        <button type="button" id="btnDetail" title="@Utility.Phrase("Detail")"><i class="icon-display"></i>@Utility.Phrase("Detail")</button>
+                                    </a>
+                                }
+                            </td>
+                            <td>@Html.DisplayFor(modelItem => item.STT)</td>
+                            <td>@Html.DisplayFor(modelItem => item.TenAuditor)</td>
+                            <td><span class="@item.MauSac bold">@Utility.Phrase("EvalState_" + item.EvalStatus)</span></td>
+                            <td>@Html.DisplayFor(modelItem => item.TongAnhCanXet)</td>
+                            <td>@Html.DisplayFor(modelItem => item.TongCuaHang)</td>
+                            <td>@(item.TongAnhDaCham - item.TongAnhDaXet)</td>
+                            <td>@Html.DisplayFor(modelItem => item.TongAnhDaXet)</td>
+                            <td>@Html.DisplayFor(modelItem => item.TongAnhDat)</td>
+                            <td>@Html.DisplayFor(modelItem => item.TongAnhKhongDat)</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+
+            <input type="hidden" id="selectedEvaluationID" name="NameofselectedEvaluationID" value="">
+            <input type="hidden" id="selectedAuditorID" name="NameofselectedAuditorID" value="">
+        </div>
+    </div>
+
+</div>
+<script type="text/javascript">
+    $(document).ready(function () {
+        @*var mess = '@TempData["Mess"]';
+        if (mess != '') {
+            ShowMessageNoData('@TempData["Mess"]');
+        }*@
+
+        $("table").on('click', '#my_table_EvaluationID tr', function () {
+            $(this).addClass('selected').siblings().removeClass('selected');
+            var keyVal = $(this).find('td:nth-child(2)').html();
+            $('#EvaluationCode').val(keyVal);
+            var url = '@(Url.Action("OutletImageReview", "Evaluation"))?sEvalID=' + keyVal;
+            window.location = url;
+        });
+    });
+</script>

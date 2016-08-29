@@ -1,0 +1,28 @@
+﻿
+    
+@Html.DevExpress().PageControl(tab =>
+{
+    tab.Name = "tabAccManagement";   
+    tab.TabPosition = TabPosition.Top;
+    tab.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+    tab.Height = System.Web.UI.WebControls.Unit.Percentage(100);
+    //tab.Styles.ActiveTab.CssClass = "block-theme";
+    tab.Styles.Tab.HoverStyle.CssClass = "block-theme";
+    tab.TabPages.Add(Utility.Phrase("PrepareScheduleNew.Messages.TabViewWW")).SetContent(() =>
+    {            
+     
+        Html.RenderPartial("DetailViewWW", Session["GirdWW"]);      
+       
+    });;
+    tab.TabPages.Add(Utility.Phrase("PrepareScheduleNew.Messages.TabViewNoWW")).SetContent(() =>
+    {
+       
+        Html.RenderPartial("DetailViewNoWW", Session["GirdNoWW"]); 
+
+    });
+    tab.EnableTabScrolling = true;
+   
+   tab.ClientSideEvents.TabClick = "TabClick";
+   
+  
+}).GetHtml()

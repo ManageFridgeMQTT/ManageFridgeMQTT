@@ -1,0 +1,25 @@
+﻿@model eRoute.Models.eCalendar.Appointment
+@*@Html.DevExpress().RoundPanel(
+            settings =>
+            {
+                settings.Name = "rpFeatures";
+                settings.HeaderText = @Utility.Phrase("SendCalendar.Messages.ContentDetail");
+                settings.ShowHeader = true;               
+                settings.View = View.GroupBox;
+                settings.Height = System.Web.UI.WebControls.Unit.Percentage(100);
+                settings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+                settings.SetContent(() =>
+                {
+
+                    ViewContext.Writer.Write(
+                        "<div style='width: 100%'>" +
+                        "</br><div> <span style='width: 20%; padding: 0px; font-weight: bold'>" + @Utility.Phrase("SendCalendar.Messages.Subject") + " </span> : <span id='aptsubj'>"+ Model.Subject +"</span></div>" +         
+                        "</br><div><span style='width: 20%; padding: 0px; font-weight: bold'>" + @Utility.Phrase("SendCalendar.Messages.Description") + " </span>: <span id='aptdesc'>"+ Model.Description +"</span></div>" +                  
+                        "</div>"
+
+                    );
+
+                });
+            }).GetHtml() *@
+
+

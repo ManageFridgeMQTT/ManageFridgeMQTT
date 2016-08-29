@@ -1,0 +1,63 @@
+﻿@model List<pp_ReportWorkWithResult>
+<div id="report-sync" class="tab-pane fade in active box-table-ressult">
+    <table id="table-result" class="tablesorter">
+        <thead>
+            <tr>
+                <th>@Utility.Phrase("Report_Region")</th>
+                <th>@Utility.Phrase("Report_Area")</th>
+                <th>@Utility.Phrase("DistributorCode")</th>
+                <th>@Utility.Phrase("DistributorName")</th>
+                <th>@Utility.Phrase("RouteID")</th>
+                <th>@Utility.Phrase("RouteName")</th>
+                <th>@Utility.Phrase("SalesManID")</th>
+                <th>@Utility.Phrase("SalesManName")</th>
+                <th>@Utility.Phrase("SaleSupName")</th>
+                <th>@Utility.Phrase("ASM")</th>
+                <th>@Utility.Phrase("OutletID")</th>
+                <th>@Utility.Phrase("OutletName")</th>
+                <th>@Utility.Phrase("Address")</th>
+                <th>@Utility.Phrase("HasOrder")</th>
+                <th>@Utility.Phrase("VisitTimeSM")</th>
+                <th>@Utility.Phrase("VisitTimeSS")</th>
+                <th>@Utility.Phrase("VisitTimeASM")</th>
+                <th>@Utility.Phrase("DistanceSM")</th>
+                <th>@Utility.Phrase("DistanceSS")</th>
+                <th>@Utility.Phrase("DistanceASM")</th>
+                <th>@Utility.Phrase("ConfirmTimeSS")</th>
+                <th>@Utility.Phrase("ConfirmTimeASM")</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model != null)
+            {
+                foreach (var elm in Model)
+                {
+                    <tr>
+                        <td>@elm.RegionName</td>
+                        <td>@elm.AreaName</td>
+                        <td>@elm.DistributorCode</td>
+                        <td>@elm.DistributorName</td>
+                        <td>@elm.RouteID</td>
+                        <td>@elm.RouteName</td>
+                        <td>@elm.SalesmanID</td>
+                        <td>@elm.SalesmanName</td>
+                        <td>@elm.SaleSupName</td>
+                        <td>@elm.ASM</td>
+                        <td>@elm.OutletID</td>
+                        <td>@elm.OutletName</td>
+                        <td>@elm.Address</td>
+                        <td>@elm.HasOrder</td>
+                        <td>@elm.SMTime</td>
+                        <td>@elm.SUPTime</td>
+                        <td>@elm.ASMTime</td>
+                        <td>@elm.SMDistance</td>
+                        <td>@elm.SUPDistance</td>
+                        <td>@elm.ASMDistance</td>
+                        <td>@elm.ConfirmTimeSS</td>
+                        <td>@elm.ConfirmTimeASM</td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+</div>

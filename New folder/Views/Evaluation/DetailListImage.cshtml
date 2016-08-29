@@ -1,0 +1,152 @@
+﻿@model EvalAutoMarkMV
+@using System.Web.UI.WebControls;
+@{
+    ViewBag.Title = Utility.Phrase("Report_ReportSyschronous");
+    Layout = "~/Views/Shared/_NewLayout.cshtml";
+}
+<div class="insider">
+    <div id="loading" class="loading"></div>
+    <div class="row display-table w-100pr mb-10 content-header">
+        <div class="report-content-header">
+            <div class="col-sm-8">
+                <h1>@Model.NameSceen @Model.Evaluation.EvaluationID</h1>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-9 list-image-box">
+            @if (Model.ListImageBy != null)
+            {
+                int numberRow = Model.ListImageBy.Count / 6;
+                for (int i = 0; i < (numberRow + 1); i++)
+                {
+                    int index = i * 6;
+                    int count = 6;
+                    if ((Model.ListImageBy.Count - index) < 6)
+                    {
+                        count = Model.ListImageBy.Count - index;
+                    }
+                        
+                <div class="row">
+                    @foreach (var image in Model.ListImageBy.GetRange(index, count))
+                    {
+                        <div class="col-sm-2">
+                            <div class="item-image-box">
+                                <h3>@image.CustomerName</h3>
+                                <div class="square-bsox">
+                                    <a href="@Url.Action("DetailImages", "Evaluation", new { @sEvalID = Model.Evaluation.EvaluationID, @customerID = image.CustomerID, @imageID = image.CustomerImageID})">
+                                        <img src="@(Constant.SalesOrdersImageFolder + image.ImageFileName)" />
+                                    </a>
+                                </div>
+                                <div class="item-detail-img">
+                                    <p><span>@Utility.Phrase("Salesman"): </span>@image.SalesmanName</p>
+                                    <p><span>@Utility.Phrase("DateTake"): </span>@image.CapturedDate.ToShortDateString()</p>
+                                    <p><span>@Utility.Phrase("Img_Des"): </span>@( image.isCaptured.Value ? Utility.Phrase("Img_isTrue") : Utility.Phrase("Img_isFakes")), @( image.isAccepted.Value ? Utility.Phrase("Img_isAccepted") : Utility.Phrase("Img_notAccepted"))</p>
+                                    <p><span>@Utility.Phrase("Img_Marker"): </span> @image.CreatedByID</p>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+                }
+
+            }
+        </div>
+        <div class="col-md-3">
+            <div class="table-box">
+                <table>
+                    <thead class="block-theme">
+                        <tr>
+                            <th colspan="2">@Utility.Phrase("EvalID") : @Model.Evaluation.EvaluationID</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th colspan="2">
+                                <p>@Utility.Phrase("Display"): @Model.Evaluation.ProgramName</p>
+                                <p>@Utility.Phrase("DisplayDate"): @Model.Evaluation.ProgramDateFrom.ToShortDateString() - @Model.Evaluation.ProgramDateTo.ToShortDateString()</p>
+                            </th>
+                        </tr>
+                        <tr>
+                            <th colspan="2">@Utility.Phrase("DateEvaluate"): @Model.Evaluation.EvalDateFrom.ToShortDateString() - @Model.Evaluation.EvalDateTo.ToShortDateString()</th>
+                        </tr>
+                        <tr>
+                            <th>@Utility.Phrase("TotalImages")</th>
+                            <td class="align-right">@Model.TotalImages</td>
+                        </tr>
+                        <tr>
+                            <th>@Utility.Phrase("OutetMarking-TotalOutlet")</th>
+                            <td class="align-right" id="OutletMarking">@Model.OutletMarking / @Model.TotalOutlet</td>
+                        </tr>
+                        <tr>
+                            <th>@Utility.Phrase("ImagesPass-ImagesProgress")</th>
+                            <td class="align-right" id="ImgPass">@Model.ImgPass / @Model.ImagesProgress</td>
+                        </tr>
+                        <tr>
+                            <th>@Utility.Phrase("ImagesRealy-ImagesProgress")</th>
+                            <td class="align-right" id="ImgThat">@Model.ImgThat / @Model.ImagesProgress</td>
+                        </tr>
+                        <tr>
+                            <th>@Utility.Phrase("ImagesChuan-ImagesProgress")</th>
+                            <td class="align-right" id="ImgChuan">@Model.ImgChuan / @Model.ImagesProgress</td>
+                        </tr>
+                        <tr>
+                            <th>@Utility.Phrase("ImageNumberic-ImagesProgress")</th>
+                            <td class="align-right" id="ImgNumberic">@Model.ImgNumberic / @Model.ImagesProgress</td>
+                        </tr>
+                        <tr>
+                            <th>@Utility.Phrase("ImgErrorMarking-ImagesProgress")</th>
+                            <td class="align-right" id="ImgErrorMarking">@Model.ImgErrorMarking / @Model.ImagesProgress</td>
+                        </tr>
+                        <tr>
+                            <th>@Utility.Phrase("TimeMarking") </th>
+                            <td class="align-right" id="TimeMarking">@Model.TimeMarking.ToString("N2")</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type='text/javascript'>
+    $(document).ready(function () {
+
+    });
+</script>
+
+
+
+
+@*@if (Model.ListImageBy != null)
+                    {
+                        foreach (var elm in Model.ListImageBy.GroupBy(x => new { x.CustomerID, x.CustomerName }).Select(s => new { s.Key.CustomerID, s.Key.CustomerName }).ToList())
+                        {
+                        <div class="row">
+                            <div class="tab-header">
+                                    <h3>@Utility.Phrase("Customer"): @elm.CustomerName</h3>
+                            </div>
+                            <div class="img-scroll-insider">
+                                <ul>
+                                    @foreach (var image in Model.ListImageBy.Where(x => x.CustomerID == elm.CustomerID))
+                                    {
+                                        <li onclick="GetSelectedEvalImage($(this));" data-image-link ="@image.ImageFileName" id="@image.CustomerImageID">
+                                            <div class="img-mini-box">
+                                                <h3>@image.CustomerImageID</h3>
+                                                <div class="square-box">
+                                                    <a href="javascript:void(0)">
+                                                        <img src="@(pathImage + image.ImageFileName)" />
+                                                    </a>
+                                                </div>
+
+                                                <div class="assumer bold">
+                                                    @Utility.Phrase("Eval_NotEvaluated")
+                                                </div>
+                                            </div>
+                                        </li>
+                                    }
+                                </ul>
+                            </div>
+                        </div>
+                        }
+                    }*@

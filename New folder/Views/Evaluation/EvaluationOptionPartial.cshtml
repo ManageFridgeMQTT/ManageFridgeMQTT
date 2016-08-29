@@ -1,0 +1,17 @@
+﻿@model List<usp_GetEvaluationInfoByTypeResult>
+
+@if (Model != null)
+{
+    int i = 1;
+    foreach (var item in Model)
+    {
+    <tr>
+        <td>@i</td>
+        <td>@item.EvaluationID</td>
+        <td>@item.ProgramContent</td>
+        <td>@item.EvalDateFrom.ToShortDateString() - @item.EvalDateTo.ToShortDateString()</td>
+        <td><span class="@item.ColorStatus bold">@Utility.Phrase("EvalState_" + item.EvalState)</span></td>
+    </tr>
+        i++;
+    }
+}

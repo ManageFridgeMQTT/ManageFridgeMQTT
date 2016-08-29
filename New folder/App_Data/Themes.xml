@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Themes>
+  <ThemeGroup Title="Defaults" Name="Defaults">
+    <Theme Title="Default" Name="" SpriteCssClass="ThemeDefaultImage"></Theme>
+    <Theme Title="DevExpress Style" Name="DevEx" SpriteCssClass="ThemeDevExImage"></Theme>
+  </ThemeGroup>
+  <ThemeGroup Title="Office 2010" Name="Office2010">
+    <Theme Title="Office 2010 Blue" Name="Office2010Blue" SpriteCssClass="ThemeOffice2010BlueImage"></Theme>
+    <Theme Title="Office 2010 Black" Name="Office2010Black" SpriteCssClass="ThemeOffice2010BlackImage"></Theme>
+    <Theme Title="Office 2010 Silver" Name="Office2010Silver" SpriteCssClass="ThemeOffice2010SilverImage"></Theme>
+  </ThemeGroup>
+  <ThemeGroup Title="Office 2003" Name="Office2003">
+    <Theme Title="Office 2003 Blue" Name="Office2003Blue" SpriteCssClass="ThemeOffice2003BlueImage"></Theme>
+    <Theme Title="Office 2003 Olive" Name="Office2003Olive" SpriteCssClass="ThemeOffice2003OliveImage"></Theme>
+    <Theme Title="Office 2003 Silver" Name="Office2003Silver" SpriteCssClass="ThemeOffice2003SilverImage"></Theme>
+  </ThemeGroup>
+  <ThemeGroup Title="Misc" Name="Misc">
+    <Theme Title="Aqua" Name="Aqua" SpriteCssClass="ThemeAquaImage"></Theme>
+    <Theme Title="Glass" Name="Glass" SpriteCssClass="ThemeGlassImage"></Theme>
+    <Theme Title="Black Glass" Name="BlackGlass" SpriteCssClass="ThemeBlackGlassImage"></Theme>
+    <Theme Title="Plastic Blue" Name="PlasticBlue" SpriteCssClass="ThemePlasticBlueImage"></Theme>
+    <Theme Title="Red Wine" Name="RedWine" SpriteCssClass="ThemeRedWineImage"></Theme>
+    <Theme Title="Soft Orange" Name="SoftOrange" SpriteCssClass="ThemeSoftOrangeImage"></Theme>
+    <Theme Title="Youthful" Name="Youthful" SpriteCssClass="ThemeYouthfulImage"></Theme>
+  </ThemeGroup>
+</Themes>

@@ -1,0 +1,99 @@
+﻿@model System.Collections.IEnumerable
+
+
+    @Html.DevExpress().GridView(grid =>
+{
+    grid.Name = "gridDetailSchedule";
+    grid.KeyFieldName = "Date";
+    //grid.KeyFieldName = "EmployeeID";
+    //grid.KeyFieldName = "Type";
+    grid.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+    grid.Height = System.Web.UI.WebControls.Unit.Percentage(100);
+
+    grid.CallbackRouteValues = new { Controller = "ReportEmployeesStatus", Action = "DetailView" }; 
+    
+    grid.SettingsEditing.Mode = GridViewEditingMode.Inline;  
+    grid.SettingsPager.Position = System.Web.UI.WebControls.PagerPosition.Bottom;   
+    grid.Settings.ShowHeaderFilterButton = true;
+    grid.SettingsPopup.HeaderFilter.Height = 200;
+    grid.SettingsPager.FirstPageButton.Visible = true;
+    grid.SettingsPager.LastPageButton.Visible = true;
+    grid.SettingsPager.PageSizeItemSettings.Visible = true;
+    grid.SettingsText.EmptyDataRow = Utility.Phrase("PrepareScheduleNew.Messages.EmptyDataRow");
+    grid.SettingsPager.PageSizeItemSettings.Items = new string[] { "10", "20", "50" };
+    grid.Styles.Header.CssClass = "block-theme";
+    grid.CommandColumn.Visible = true;    
+    grid.Settings.VerticalScrollBarMode = ScrollBarMode.Visible;
+    grid.Settings.VerticalScrollableHeight = 350;   
+   
+    grid.Columns.Add(col =>
+    {
+        col.FieldName = "Date";       
+        //col.ColumnType = MVCxGridViewColumnType.DateEdit;
+        col.Caption = Utility.Phrase("Date");
+        col.PropertiesEdit.DisplayFormatString = "dd/MM/yyyy";
+        col.Width = System.Web.UI.WebControls.Unit.Percentage(18);
+    });
+    grid.Columns.Add(col =>
+    {
+        col.FieldName = "ShiftID";
+        //col.ColumnType = MVCxGridViewColumnType.DateEdit;
+        col.Caption = Utility.Phrase("PrepareSchedule.Messages.Shift");
+       // col.PropertiesEdit.DisplayFormatString = "dd/MM/yyyy hh:mm tt";
+        col.Width = System.Web.UI.WebControls.Unit.Percentage(10);
+    });
+    //grid.Columns.Add(col =>
+    //{
+    //    col.FieldName = "DateTo";
+    //    //col.ColumnType = MVCxGridViewColumnType.DateEdit;
+    //    col.Caption = @Utility.Phrase("PrepareSchedule.Messages.DateTo");
+    //    //col.PropertiesEdit.DisplayFormatString = "dd/MM/yyyy hh:mm tt";
+    //    col.Width = System.Web.UI.WebControls.Unit.Percentage(18);
+    //});
+
+    grid.Columns.Add(col =>
+    {
+        col.FieldName = "EmployeeID";       
+        col.Caption = Utility.Phrase("EmployeeID");
+        col.Width = System.Web.UI.WebControls.Unit.Percentage(10);
+     });
+       
+    grid.Columns.Add(col =>
+    {
+        col.FieldName = "EmployeeName";
+        //col.ColumnType = MVCxGridViewColumnType.       
+        col.Caption = Utility.Phrase("Employee");
+        col.Width = System.Web.UI.WebControls.Unit.Percentage(19);
+    });
+
+    grid.Columns.Add(col =>
+    {
+        col.FieldName = "Level";
+        //col.ColumnType = MVCxGridViewColumnType.       
+        col.Caption = Utility.Phrase("ReportEmployeesStatus.Messages.Level");
+        col.Width = System.Web.UI.WebControls.Unit.Percentage(8);
+    });    
+    grid.Columns.Add(col =>
+    {
+        col.FieldName = "Status";
+        col.ColumnType = MVCxGridViewColumnType.CheckBox;
+        col.Caption = Utility.Phrase("ReportEmployeesStatus.Messages.Status");
+        col.Width = System.Web.UI.WebControls.Unit.Percentage(10);
+    });
+    grid.Columns.Add(col =>
+    {
+        col.FieldName = "StatusTraining";
+        col.ColumnType = MVCxGridViewColumnType.CheckBox;
+        col.Caption = Utility.Phrase("ReportEmployeesStatus.Messages.StatusTraining");
+        col.Width = System.Web.UI.WebControls.Unit.Percentage(18);
+    });
+    grid.Columns.Add(col =>
+    {
+        col.FieldName = "StatusNotTraining";
+        col.ColumnType = MVCxGridViewColumnType.CheckBox;
+        col.Caption = Utility.Phrase("ReportEmployeesStatus.Messages.StatusNotTraining");
+        col.Width = System.Web.UI.WebControls.Unit.Percentage(20);
+    });
+
+
+}).Bind(Model).GetHtml()

@@ -1,0 +1,20 @@
+﻿
+@Html.DevExpress().ComboBox(
+    settings =>
+    {
+        settings.Name = "EmployeeID";
+        settings.CallbackRouteValues = new { Controller = "ViewAssessment", Action = "ComboBoxPartial" };
+        settings.Properties.CallbackPageSize = 50;
+        settings.Properties.DropDownRows = 15;
+        settings.Properties.AllowMouseWheel = true;
+        settings.Properties.TextFormatString = "{0}";
+        settings.Properties.ValueField = "EmployeeID";
+        settings.Properties.ValueType = typeof(string);
+        settings.Properties.DropDownStyle = DropDownStyle.DropDownList;
+        settings.Properties.IncrementalFilteringMode = IncrementalFilteringMode.Contains;
+        settings.Properties.Columns.Add("EmployeeID", Utility.Phrase("EmployeeID"), 110);
+        settings.Properties.Columns.Add("EmployeeName", Utility.Phrase("EmployeeName"), 200);
+        settings.Properties.Columns.Add("Level", Utility.Phrase("Level"), 200);
+        settings.Properties.ClientSideEvents.SelectedIndexChanged = "function(s, e) { UniqueID.PerformCallback(); }";
+        settings.Properties.ClientSideEvents.BeginCallback = "EmployeeID_BeginCallback";
+    }).BindList(Model).GetHtml()

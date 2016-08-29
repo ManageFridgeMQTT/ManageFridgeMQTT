@@ -1,0 +1,41 @@
+﻿@model ViewControlCombobox
+@{ string valInput = "-";
+   var itemSeleted = Model.listOption.Where(x => x.ID == Model.SeleteID).SingleOrDefault();
+   if (itemSeleted != null)
+   {
+       valInput = itemSeleted.Key + " - " + itemSeleted.Value;
+   }
+   string nameID = ViewData["NameID"].ToString();
+}
+<input type="text" class="form-control" aria-label="..." value="@valInput" readonly/>
+<div class="input-group-btn">
+    @Html.Hidden(nameID, Model.SeleteID)
+    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="caret"></span></button>
+    <ul class="dropdown-menu dropdown-menu-left">
+        <li>
+            @*<div style="overflow-y: auto; height: 250px">*@
+            <div class="table-box" style="max-height: 350px">
+                <table class="table table-striped nowrap m-0">
+                    <thead class="block-theme">
+                        <tr>
+                            <th style="display: none"></th>
+                            <th>@Model.TitleKey</th>
+                            <th>@Model.TitleName</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var elm in Model.listOption)
+                        {
+                            <tr class="@(elm.ID == Model.SeleteID ? "selected" : "")">
+                                <td style="display: none">@elm.ID</td>
+                                <td>@elm.Key</td>
+                                <td>@elm.Value</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </li>
+    </ul>
+</div>
+

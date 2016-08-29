@@ -1,0 +1,157 @@
+﻿@model eRoute.Models.ViewModel.AssesmentVM
+@{
+    Layout = "~/Views/Shared/_rootLayout.cshtml";
+    ViewBag.Title = "AssesmentList";
+    AjaxOptions ajaxOptions = new AjaxOptions
+    {
+        LoadingElementId = "Progress",
+        UpdateTargetId = "searchResults",
+        OnBegin = "OnBegin",
+        OnComplete = "OnComplete"
+    };
+}
+<script type="text/javascript">
+    function OnBegin() {
+        document.getElementById('LoadingImg').setAttribute("style", "display");
+    }
+    function OnComplete() {
+        document.getElementById('LoadingImg').setAttribute("style", "display:none");
+    }
+</script>
+<div style="padding: 7px;">
+    <div id="LoadingImg" class="AjaxLoaderOuter" style="display: none;">
+        <div class="AjaxLoaderInner">
+            <img src="/Content/Images/ajax-loader.gif" />
+        </div>
+    </div>
+    <table width="100%" cellpadding="0" cellspacing="0">
+        <tr>
+            <td valign="top" width="28%">
+                @using (Ajax.BeginForm("GridViewPartialAssesment", ajaxOptions))
+                {
+                    <table width="100%" cellpadding="2" cellspacing="2">
+                        <tr>
+                            <td>
+                                @Localization.Date
+                            </td>
+                            <td>
+                                @Html.DevExpress().DateEdit(settings =>
+                       {
+                           settings.Width = 274;
+                           settings.Name = "deDate";
+                           System.Collections.ArrayList ary = (System.Collections.ArrayList)Session["DateUpdateStatus"];
+                           if (ary != null)
+                           {
+                               settings.Date = DateTime.Parse(ary[0].ToString());
+                           }
+                           else
+                           {
+                               settings.Date = DateTime.Now;
+                           }
+                           settings.Properties.EditFormat = EditFormat.Custom;
+                           settings.Properties.EditFormatString = "dd/MM/yyyy";
+                           settings.Properties.DisplayFormatString = "dd/MM/yyyy";
+                       }).GetHtml()
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                @Localization.Leader
+                            </td>
+                            <td>
+                                @Html.DevExpress().ComboBox(settings =>
+                       {
+                           settings.Name = "cbbLeader";
+                           settings.Width = 274;
+                           settings.Properties.IncrementalFilteringMode = IncrementalFilteringMode.StartsWith;
+                           settings.Properties.DropDownStyle = DropDownStyle.DropDownList;
+                           settings.Properties.TextField = "FullName";
+                           settings.Properties.ValueField = "UserId";
+                           settings.SelectedIndex = 0;
+                           settings.PreRender = (sender, e) =>
+                           {
+                               System.Collections.ArrayList ar = (System.Collections.ArrayList)Session["DateUpdateStatus"];
+                               if (ar != null)
+                               {
+                                   MVCxComboBox cmb = sender as MVCxComboBox;
+                                   cmb.SelectedIndex = cmb.Items.FindByValue(ar[2].ToString()).Index;
+                               }
+                           };
+                           settings.Properties.ClientSideEvents.SelectedIndexChanged = "function(s, e) { cbbDistributor.PerformCallback();cbbAuditor.PerformCallback();}";
+                       }).BindList(@ViewData["cbbLeader"]).GetHtml()
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                @Localization.Auditor
+                            </td>
+                            <td>
+                                @Html.DevExpress().ComboBox(settings =>
+                       {
+                           settings.Name = "cbbAuditor";
+                           settings.Width = 274;
+                           settings.Properties.IncrementalFilteringMode = IncrementalFilteringMode.StartsWith;
+                           settings.CallbackRouteValues = new { Controller = "Assesment", Action = "ComboBoxPartialAuditor" };
+                           settings.Properties.DropDownStyle = DropDownStyle.DropDownList;
+                           settings.Properties.ClientSideEvents.SelectedIndexChanged = "function(s, e) { cbbDistributor.PerformCallback();}";
+                           settings.Properties.TextField = "FullName";
+                           settings.Properties.ValueField = "UserId";
+                           settings.Properties.ClientSideEvents.BeginCallback = "function(s, e) { e.customArgs['cbbLeader'] = cbbLeader.GetValue(); }";
+                           settings.SelectedIndex = 0;
+                           settings.PreRender = (sender, e) =>
+                           {
+                               System.Collections.ArrayList ar = (System.Collections.ArrayList)Session["DateUpdateStatus"];
+                               if (ar != null)
+                               {
+                                   MVCxComboBox cmb = sender as MVCxComboBox;
+                                   cmb.SelectedIndex = cmb.Items.FindByValue(ar[3].ToString()).Index;
+                               }
+                           };
+                       }).BindList(@ViewData["cbbAuditor"]).GetHtml()
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                @Localization.Distributor
+                            </td>
+                            <td>
+                                @Html.DevExpress().ComboBox(settings =>
+                       {
+                           settings.Name = "cbbDistributor";
+                           settings.Width = 274;
+                           settings.Properties.IncrementalFilteringMode = IncrementalFilteringMode.StartsWith;
+                           settings.CallbackRouteValues = new { Controller = "Assesment", Action = "ComboBoxPartialDis" };
+                           settings.Properties.DropDownStyle = DropDownStyle.DropDownList;
+                           settings.Properties.Items.Add(" ------------ " + Localization.SelectAll + " ------------ ", "-1");
+                           foreach (var item in (List<eRoute.Models.sp_Get_All_Info_DistributorResult>)ViewData["cbbDistributor"])
+                           {
+                               settings.Properties.Items.Add(item.DistributorName, item.DistributorID);
+                           }
+                           settings.Properties.ClientSideEvents.BeginCallback = "function(s, e) { e.customArgs['cbbAuditor'] = cbbAuditor.GetValue(); }";
+                           settings.SelectedIndex = 0;
+                       }).GetHtml()
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                            </td>
+                            <td>
+                                @Html.DevExpress().Button(settings =>
+                       {
+                           settings.Name = "btnSearch";
+                           settings.Text = Localization.BtnSearch;
+                           settings.UseSubmitBehavior = true;
+                       }).GetHtml()
+                            </td>
+                        </tr>
+                    </table>
+                }
+            </td>
+            <td valign="top" width="72%">
+                <div id="searchResults" style="padding-top: 4px; padding-bottom: 10px">
+                    @Html.Action("GridViewPartialAssesment", new { dis = string.Empty })
+                </div>
+            </td>
+        </tr>
+    </table>
+</div>

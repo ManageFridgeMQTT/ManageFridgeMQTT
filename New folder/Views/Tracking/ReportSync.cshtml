@@ -1,0 +1,72 @@
+﻿@model ReportSyncVM
+@{
+    Layout = "~/Views/Shared/_ReportLayout.cshtml";
+}
+<form id="search_form" action="@Url.Action("ReportSync", "Tracking")" method="POST" style="overflow:auto" >
+<div class='table-salses-report' width='98%'>
+    <p>
+        <span class="alignright">
+            <button type="button" class="btn btn-success" id="btnExport">
+                Xuất EXCEL</button>
+        </span>
+    </p>
+</div>
+<h1 class="sales-report-h1">
+    THỜI GIAN ÐỒNG BỘ TRONG NGÀY</h1>
+
+<table class='head-report' width='98%' cellpadding="10px">
+    <tr style="font-size: 14px;">
+        <td width='400px' style="vertical-align: top">
+            <p>
+                <span class="alignleft">Ngày dữ liệu: @Model.txt_date</span> <span class="alignright">
+                </span>
+            </p>
+            <br clear="all" />
+            <p>
+                <span class="alignleft">Nhà phân phối: <strong>@Model.distributor.DistributorCode</strong>
+                    - @Model.distributor.DistributorName</span> <span class="alignright"></span>
+            </p>
+            <br clear="all" />
+            <p>
+                <span class="alignleft">Thời gian đồng bộ sớm nhất:</span> <span class="alignright">@Model.firstTimeSync</span>
+            </p>
+            <br clear="all" />
+            <p>
+                <span class="alignleft">Thời gian đồng bộ trễ nhất:</span> <span class="alignright">@Model.lastTimeSync</span>
+            </p>
+        </td>
+        <td width="30px">
+        </td>
+        <td width='400px' style="vertical-align: top">
+            <p>
+                <span class="alignleft">Thời gian ghé thăm đầu tiên sớm nhất:</span> <span class="alignright">@Model.firstTimeVisit</span>
+            </p>
+            <br clear="all" />
+            <p>
+                <span class="alignleft">Thời gian ghé thăm đầu tiên trễ nhất:</span> <span class="alignright">@Model.lastTimeVisit</span>
+            </p>
+            <br clear="all" />
+            <p>
+                <span class="alignleft">Thời gian kết thúc ghé thăm sớm nhất:</span> <span class="alignright">@Model.minTimeCheckOut</span>
+            </p>
+            <br clear="all" />
+            <p>
+                <span class="alignleft">Thời gian kết thúc ghé thăm trễ nhất:</span> <span class="alignright">@Model.maxTimeCheckOut</span>
+            </p>
+        </td>
+    </tr>
+</table>
+<input type="hidden" name="branch" value="@Model.distributor.DistributorID" />
+<input type="hidden" name="txt_date" value="@Model.txt_date" />
+<br clear="all" />
+<div style="width: 100%; overflow: auto">
+    @Html.Partial("PartialReportSync", Model.listM)
+</div>
+<script type='text/javascript'>
+    $(document).ready(function () {
+        $('#btnExport').click(function () {
+            window.open('@Url.Action("ReportSyncExcel", "Tracking")');
+        });
+    });
+</script>
+</form>

@@ -1,0 +1,192 @@
+﻿@*@model IEnumerable<eRoute.Models.usp_GetEvaluationInfoByTypeResult>*@
+@model IEnumerable<eRoute.Models.EvaluationDataModel>
+
+
+@{
+    <script src="~/Scripts/EvaluationScripts/EvaluationScript.js"></script>
+    <script type="text/javascript">
+        Evaluation_ValidateDisPlayNull = "@Utility.Phrase("Evaluation_MesValidateDisplayNull")";
+        Evaluation_ConfirmYesNo = "@Utility.Phrase("Evaluation_ConfirmYesNo")";
+        Evaluation_ValidateListRegionNull = "@Utility.Phrase("Evaluation_MesValidateListRegioNull")";
+        Evaluation_ValidateTimeInformationEmpty = "@Utility.Phrase("Evaluation_MesValidateTimeInformationEmptyNull")";
+        Evaluation_ValidateTypeEvaluationNull = "@Utility.Phrase("Evaluation_MesValidateListEmployeeNotNull")";
+        Evaluation_SaveOki = "@Utility.Phrase("Evaluation_SaveOK")";
+        Evaluation_ValidateSumOutletCurentMustSumOutletFill = "@Utility.Phrase("Evaluation_ValidateSumOutletCurentMustSumOutletFill")";
+        Evaluation_Validate_EvalID_Evaluting = "@Utility.Phrase("Evaluation_Validate_EvalID_Evaluting")";
+    </script>
+    
+}
+
+@{
+   string sEvalID = ViewData["sEvalID"] as string;
+    IEnumerable<eRoute.Models.usp_GetEvaluationInfoByTypeResult> EvaluationData = ViewData["EvaluationInformation"] as IEnumerable<eRoute.Models.usp_GetEvaluationInfoByTypeResult>;
+    IEnumerable<eRoute.Models.uvw_GetDisplayInformation> DisplayData = ViewData["DisplayInformation"] as IEnumerable<eRoute.Models.uvw_GetDisplayInformation>;
+}
+
+<!-- Header  -->
+<input type="hidden" id="selectedDisplayID">
+<input type="hidden" id ="PageID" value ="@ViewBag.PageInformation"/>
+<input type="hidden" id ="ScreenID" value ="@ViewBag.ScreenID"/>
+<input type="hidden" id ="UserID" value ="@ViewBag.UserID"/>
+
+<div id="loading" class="loading"></div>
+<div class="row display-table w-100pr mb-10 content-header">
+    <div class="report-content-header">
+        <div class="col-sm-8">
+            <h1>@ViewBag.PageInformation</h1>
+        </div>
+        <div class="col-sm-4">
+                <div class="p-0 fr">
+                    <a href="@Url.Action("EvaluationDefinition", "Evaluation")">
+                        <button type="button" id="btnBack" title="Back"><i class="icon-back"></i>@Utility.Phrase("Back")</button>
+                    </a>
+                    <a href="@Url.Action("EvalAutoMark", "Evaluation", new { sEvalID = sEvalID})">
+                        <button type="button" id="btnNext" title="Next"><i class="icon-next"></i>@Utility.Phrase("Next")</button>
+                    </a>
+                </div>
+            </div>
+    </div>
+    <div id="HeaderEvaluation" class="w-100pr">
+         @*CTTB*@
+        <div class="item fl">
+            <label for="display" class="fl">@Utility.Phrase("DisplayName")</label>
+            <div class="input-group">
+                <input type="text" id="DisplayCode" class="form-control" aria-label="..." placeholder="@Utility.Phrase("SelectDisplayName")" value ="@ViewBag.DataModel.sChuongTrinhTrungBay">
+                <div class="input-group-btn">
+                    <button type="button" id="btndisplay" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="caret"></span></button>
+                    <ul class="dropdown-menu">
+                        <li>
+                            <div style="height: 400px; overflow-y: auto; overflow-x: auto;" class="table-box wrapper">
+                                <table class="table table-striped nowrap m-0">
+                                    <thead class="block-theme">
+                                        <tr>
+                                            <th>@Utility.Phrase("No")</th>
+                                            <th>@Utility.Phrase("DisplayName")</th>
+                                            @*<th>@Utility.Phrase("Description") </th>*@
+                                            <th>@Utility.Phrase("TimeDisplay")</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="my_table_Display">
+                                        @foreach (var item in DisplayData)
+                                        {
+                                            <tr>
+                                                <td>@Html.DisplayFor(modelItem => item.STT)</td>
+                                                <td style="display: none;">@Html.DisplayFor(modelItem => item.MaCTTB)</td>
+                                                <td>@Html.DisplayFor(modelItem => item.ChuongTrinhTrungBay)</td>
+                                                <td style="display: none;">@Html.DisplayFor(modelItem => item.MoTa)</td>
+                                                <td>@Html.DisplayFor(modelItem => item.ThoiGianTrungBay)</td>
+                                                <td style="display: none;">@Html.DisplayFor(modelItem => item.ThoiGianBatDau)</td>
+                                                <td style="display: none;">@Html.DisplayFor(modelItem => item.ThoiGianKetThuc)</td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        @*Ma Danh Gia*@
+        <div class="item fl">
+            <label for="code" class="fl">@Utility.Phrase("EvaluationCode")</label>
+            <div class="input-group">
+                <input type="text" id="EvaluationCode" class="form-control" aria-label="..." placeholder="@Utility.Phrase("SelectEvaluationCode")" value ="@ViewBag.DataModel.sMaDanhGia"/>
+                <div class="input-group-btn">
+                    <button type="button" id="btncode" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="caret"></span></button>
+                    <ul class="dropdown-menu">
+                        <li>
+                            <div style="height: auto; overflow-y: auto; overflow-x: auto;" class="table-box wrapper">
+                                <table class="table table-striped nowrap m-0">
+                                    <thead class="block-theme">
+                                        <tr>
+                                            <th>@Utility.Phrase("No")</th>
+                                            <th>@Utility.Phrase("EvaluationCode")</th>
+                                            <th>@Utility.Phrase("TimeDisplay")</th>
+                                            <th>@Utility.Phrase("EvaluationStatus")</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="my_table_EvaluationID">
+                                        @if (EvaluationData != null)
+                                    {
+                                        int i = 1;
+                                        foreach (var item in EvaluationData)
+                                        {
+                                        <tr>
+                                            <td>@i</td>
+                                            <td>@item.EvaluationID</td>
+                                            <td>@item.EvalDateFrom.ToShortDateString() - @item.EvalDateTo.ToShortDateString()</td>
+                                            <td><span class="@item.ColorStatus bold">@Utility.Phrase("EvalState_" + item.EvalState)</span></td>
+                                            <td style="display: none">@item.EvalState</td>
+                                        </tr>
+                                            i++;
+                                        }   
+                                    }
+                                    </tbody>
+                                </table>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        @*Noi Dung*@
+        <div class="item fl">
+            <label>@Utility.Phrase("Content")</label>
+            <div class="input-group">
+                <input type="text" id ="EvalCont" value ="@ViewBag.DataModel.sNoiDungCTTB" title="" />
+                @*<input type="text" id ="EvalCont" value ="" title="" />*@
+            </div>
+        </div>
+        @*Thoi Gian Danh Gia*@
+        <div class="item fl">
+            <label id="lbtimeEvaluation" class="fl">@Utility.Phrase("TimeEvaluation")</label>
+            <div class="nowrap fl">
+                <input type ="text" id ="timeEvalfrom" class="datepicker" value="@ViewBag.DataModel.sThoiGianDanhGiaFrom" />
+                <input type ="text" id ="timeEvalto" class="datepicker" value="@ViewBag.DataModel.sThoiGianDanhGiaTo" />
+            </div>
+        </div>
+       
+        @*Mo Ta*@
+        <div class="item fl">
+            <label class="fl">@Utility.Phrase("Description")</label>
+            <div class="input-group">
+                <input type="text" id ="EvalDesc" value ="@ViewBag.DataModel.sMoTaCTTB" title="" />
+            </div>
+        </div>
+        @*Thoi Gian Trung Bay*@
+        <div class="item fl">
+            <label id="lbtimeDisplay" class="fl">@Utility.Phrase("TimeDisplay")</label>
+            <div class="nowrap fl">
+                <input type ="text" id ="timeDisfrom" class="datepicker" value ="@ViewBag.DataModel.sThoiGianTrungBayFrom" />
+                <input type ="text" id ="timeDisto" class="datepicker" value="@ViewBag.DataModel.sThoiGianTrungBayTo" />
+            </div>
+        </div>
+        @*Ma Tham Chieu*@
+        <div class="item fl">
+            <label class="fl">@Utility.Phrase("ReferenceCode")</label>
+            <div class="input-group">
+                <input type="text" id ="refnumber" name ="NameofRefEvaluation" placeholder ="@Utility.Phrase("SelectReferenceCode")" value ="@ViewBag.DataModel.sMaThamChieu" onchange ="LoadItemListByRefNumber()" />
+            </div>
+        </div>
+        @*Trang Thai*@
+        <div class="item fl">
+            <label id="labelEvalState">@Utility.Phrase("Status")</label>
+            <div class="input-group">
+
+                <select id="EvalState">
+                    <option value="0" @(ViewBag.DataModel.sTrangThaiDanhGia == "0" ? "selected" : "")>@Utility.Phrase("SelectAll")</option>
+                    <option value="1" @(ViewBag.DataModel.sTrangThaiDanhGia == "1" ? "selected" : "")>@Utility.Phrase("Evaluating")</option>
+                    <option value="2" @(ViewBag.DataModel.sTrangThaiDanhGia == "2" ? "selected" : "")>@Utility.Phrase("Completed")</option>
+                    <option value="3" @(ViewBag.DataModel.sTrangThaiDanhGia == "3" ? "selected" : "")>@Utility.Phrase("Cancelled")</option>
+                </select>
+            </div>
+        </div>
+        @*Button*@
+        <div class="item fl">
+            @*Filter*@
+            <button class="btn-search" id="btnsearch" title="@Utility.Phrase("Search")" onclick="SearchDetailByInput()"><i class="icon-search"></i>@Utility.Phrase("Search")</button>
+
+        </div>
+    </div>
+</div>

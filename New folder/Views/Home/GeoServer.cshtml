@@ -1,0 +1,58 @@
+﻿@{
+    ViewBag.Title = "GeoServer";
+}
+
+<link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7/leaflet.css" />
+<script src="http://cdn.leafletjs.com/leaflet-0.7/leaflet.js"></script>
+
+<script src="http://maps.google.com/maps/api/js?v=3.2&sensor=false"></script>
+<script src="~/Scripts/leaflet-gg.js"></script>
+<link href="~/Content/style.css" rel="stylesheet" />
+<div id="map" style="height: 600px"></div>
+
+ <script src="./dist/leaflet.js"></script>
+ <script>
+     var googleLayer = new L.Google('ROADMAP'),
+        //latlng = new L.LatLng(37.8, -96);
+        latlng = new L.LatLng(12, 114);
+
+     var map = new L.Map('map', {
+         center: latlng,
+         zoom: 5,
+     });
+     map.addLayer(googleLayer);
+
+     var geojsonLayer = new L.GeoJSON();
+     var currSelectionLayer = 'DRCOGPUB:rea_drcog_jurisdiction_county';
+     var sw_lat = 39.93290692296977;
+     var sw_long = -105.39459228515624;
+     var ne_lat = 40.094882122321174;
+     var ne_long = -105.150146484375;
+
+
+     function loadGeoJson(data) {
+         console.log(data);
+         geojsonLayer.addData(data);
+     }
+     var geoJsonUrl = "http://localhost:8080/geoserver/DRCOGPUB/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=" + currSelectionLayer + "&srsName=EPSG:4326&maxFeatures=10000&outputFormat=json&format_options=callback:getJson&cql_filter=BBOX(the_geom," + ne_long + "," + ne_lat + "," + sw_long + "," + sw_lat + ")";
+
+     $.ajax({
+         url: geoJsonUrl,
+         dataType: 'jsonp',
+         jsonpCallback: 'getJson',
+         contentType: 'application/json',
+         success: loadGeoJson
+     });
+     map.addLayer(geojsonLayer);
+
+     $.ajax({
+         url: "http://localhost:8080/geoserver/cite/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=cite:markers&maxFeatures=50&outputFormat=json&callback=?",
+         dataType: "jsonp",
+         success: function () {
+             //
+         }
+     }).done(function (data) {
+         console.log(data);
+     });
+
+</script>

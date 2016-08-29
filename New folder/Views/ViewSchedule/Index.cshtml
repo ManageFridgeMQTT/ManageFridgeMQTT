@@ -1,0 +1,373 @@
+﻿@*@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_lightLayout.cshtml";
+}*@
+
+@{
+    ViewBag.Title = Utility.Phrase("ViewSchedule");
+    Layout = "~/Views/Shared/_NewLayout.cshtml";
+}
+@model Hammer.Models.ApproveScheduleModel
+
+   
+    <script src="@Url.Content("~/Scripts/jquery-1.6.2.min.js")" type="text/javascript"></script>
+   @* <script src="@Url.Content("~/Scripts/jquery-1.10.1.min.js")" type="text/javascript"></script>*@
+    <script src="@Url.Content("~/Scripts/jquery.validate.min.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/jquery.validate.unobtrusive.min.js")" type="text/javascript"></script>
+
+    @Html.DevExpress().GetStyleSheets( 
+    new StyleSheet { ExtensionSuite = ExtensionSuite.NavigationAndLayout }, 
+    new StyleSheet { ExtensionSuite = ExtensionSuite.Editors }, 
+    new StyleSheet { ExtensionSuite = ExtensionSuite.HtmlEditor }, 
+    new StyleSheet { ExtensionSuite = ExtensionSuite.GridView }, 
+    new StyleSheet { ExtensionSuite = ExtensionSuite.PivotGrid },
+    new StyleSheet { ExtensionSuite = ExtensionSuite.Chart },
+	new StyleSheet { ExtensionSuite = ExtensionSuite.Scheduler },
+	new StyleSheet { ExtensionSuite = ExtensionSuite.TreeList }
+)
+@Html.DevExpress().GetScripts( 
+    new Script { ExtensionSuite = ExtensionSuite.NavigationAndLayout }, 
+    new Script { ExtensionSuite = ExtensionSuite.HtmlEditor }, 
+    new Script { ExtensionSuite = ExtensionSuite.GridView }, 
+    new Script { ExtensionSuite = ExtensionSuite.PivotGrid },
+    new Script { ExtensionSuite = ExtensionSuite.Editors }, 
+    new Script { ExtensionSuite = ExtensionSuite.Chart },
+	new Script { ExtensionSuite = ExtensionSuite.Scheduler },
+	new Script { ExtensionSuite = ExtensionSuite.TreeList }
+)
+
+
+<script type="text/javascript">
+    var appointmentIds;
+    var rejectReason;
+    var employeeId;
+    var scheduleType;
+
+    this.onload = function () {
+        $('.popup-search').hide();
+        $('#tblAction').css('display', 'none');
+        //$('#divScheduler1').css('display', 'none');
+        $('#divView').css('display', 'none');
+        $('#tblActionBack').css('display', 'none');
+        //btnDelete.SetEnabled(false);
+       // btnViewAssessment.SetEnabled(false);
+       
+    }
+
+    function cbEmployeeID_SelectedIndexChanged(s, e) {
+        
+        var employeeID = s.GetValue();
+        employeeId = employeeID;
+        //scheduleType = ScheduleType.GetValue();
+       // alert(employeeId);
+        scheduleType = "D";
+        //$.ajax({
+        //    url: 'ApproveSchedulePartialView',
+        //    data: 'employeeID=' + employeeID + '&scheduleType=' + scheduleType,
+        //    type: 'POST',
+        //    success: function (response) {
+        //        alert("da chay chuyen nhan vien");
+        //        //$('#divScheduler').html(response);
+        //        //$('#divScheduler').height($(window).height() * 0.75);
+        //        //$('#divScheduler1').css('display', '');
+        //        //$('#divView').css('display', 'none');
+        //        //$('#divScheduler').css('display', '');
+        //        //$('#tblAction').css('display', '');
+        //        //$('#divDetail').css('display', '');
+        //    },
+        //    error: function (err) {
+        //        //alert(err);
+        //    }
+        //});
+    }
+    // click app show info
+    function Approve_AppointmentClick(s, e) {        
+        if (e.appointmentId != null && e.appointmentId != '') {
+            var appointment = s.GetAppointmentById(e.appointmentId);
+            apptIds = e.appointmentId;
+            //var sType = ScheduleType.GetValue();
+            var sType = "D";
+            //LoadingPanel.Show();  
+            if (sType == 'M') {
+                $.ajax({
+                    async: false,
+                    url: 'ViewSchedule/MonthInforPartial',
+                    data: 'id=' + e.appointmentId,
+                    type: 'POST',
+                    success: function (response) {
+                        $("#divDetail").html(response);
+                    },
+                    error: function (err) {
+                    }
+                });
+            } else {
+                $.ajax({
+                    async: false,
+                    url: 'ViewSchedule/DetailInfoPartial',
+                    data: 'id=' + e.appointmentId,
+                    type: 'POST',
+                    success: function (response) {
+                        //LoadingPanel.Hide(); 
+                        $("#divDetail").html(response);
+                    },
+                    error: function (err) {
+                    }
+                });
+            }
+        }
+    }
+    //
+    function approvalScheduler_OnAppointmentFormSave(uniqueID) {
+        if (IsValidAppointment()) {
+            appointmentIds = uniqueID;
+            btnApprove_Click(null, null);
+            approvalScheduler.AppointmentFormCancel();
+        }
+
+    }
+
+    function rejectAppointment(uniqueID) {
+        rejectReason =
+        prompt("@Html.Raw(Utility.Phrase("ApproveSchedule.Messages.RejectReason"))");
+        if (rejectReason != null) {
+            appointmentIds = uniqueID;
+            btnReject_Click(null, null);
+        }
+    }
+
+    function IsValidAppointment() {
+        $.validator.unobtrusive.parse(document);
+        return true;
+    }
+    //enble btn view assiment   
+    function OnAppointmentsSelectionChanged(s, e) {
+        appointmentIds = e.appointmentIds;
+        if (appointmentIds != null && appointmentIds.length > 0) {
+            btnDelete.SetEnabled(true);
+            btnViewAssessment.SetEnabled(true)
+            for (var i = 0; i < appointmentIds.length; i++) {
+                var appointment = s.GetAppointmentById(appointmentIds[i]);
+                if (appointment.labelIndex != 10) {
+                    btnDelete.SetEnabled(false);
+                    break;
+                }
+            }
+        } else {
+            btnDelete.SetEnabled(false);
+            btnViewAssessment.SetEnabled(false)
+        }
+    }
+
+    function OnAppointmentsSelectionChangedAdmin(s, e) {
+       // alert("12321");
+        appointmentIds = e.appointmentIds;
+        if (appointmentIds != null && appointmentIds.length > 0) {
+            //btnViewAssessment.SetEnabled(true)
+            for (var i = 0; i < appointmentIds.length; i++) {
+                var appointment = s.GetAppointmentById(appointmentIds[i]);
+                if (appointment.labelIndex != 10) {
+                    break;
+                }
+            }
+        } else {
+            //btnViewAssessment.SetEnabled(false)
+        }
+    }
+    
+
+   
+
+    
+   
+
+   
+
+  
+
+    
+    function checkRejectReasonMinEightWords(reason) {
+        while (reason.indexOf('  ') != -1) {
+            str = str.replace('  ', ' ');
+        }
+        var strArray = reason.split(' ');
+        if (strArray.length < 8) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+    // Hieu code view danh gia
+    function btnViewAssessment_Click(s, e) {
+        //LoadingPanel.Show();  
+        $.ajax({
+            url: 'ViewAssessment',
+            data: 'appointmentIds=' + appointmentIds + '&Em=' + employeeId,
+            type: 'POST',
+            success: function (response) {
+                //LoadingPanel.Hide(); 
+                $('#divView').html(response);
+                $('#divView').height($(window).height() * 0.6);
+                $('#divView').css('display', '');
+                //$('#tblAction').css('display', 'none');
+                //$('#divDetail').css('display', 'none');
+                $('#divScheduler').css('display', 'none');
+                //$('#divScheduler1').css('display', 'none');
+                //$('#divInput').css('display', 'none');
+                //$('#tblActionBack').css('display', '');
+                //document.getElementById("tdInput").style.width = "1%";
+                appointmentIds = '';
+            },
+            error: function (err) {
+                //alert(err);
+            }
+        });
+    }
+    //
+ 
+</script>
+<div class="insider">
+     <div id="loading" class="loading"></div>
+    <div class="row display-table w-100pr mb-10 content-header">
+    <div class="report-content-header">
+        <div class="col-sm-8">
+            <h1>@Utility.Phrase("ViewSchedule")</h1>
+        </div>
+     </div> 
+          @using (Html.BeginForm("Index", "ViewSchedule", FormMethod.Post))
+        {
+             <div class="item fl">
+                              <label for="display" class="fl">@Utility.Phrase("Employee")</label>
+                            <div class="input-group">           
+                                <div >
+                                    @Html.DevExpress().ComboBoxFor(m => m.EmployeeID, cb =>
+                                         {
+                                       cb.Name = "EmployeeID";
+                                       cb.ShowModelErrors = true;
+                                       cb.Properties.AnimationType = AnimationType.Fade;
+                                       cb.ReadOnly = false;
+                                       cb.Properties.ValueField = "EmployeeID";
+                                       cb.Properties.TextField = "EmployeeName";
+                                       cb.Properties.TextFormatString = "{1}";
+                                       cb.Properties.ValueType = typeof(string);
+                                       cb.Properties.Columns.Add("EmployeeID");
+                                       cb.Properties.Columns.Add("EmployeeName");
+                                       cb.Properties.Columns.Add("Level");
+                                       cb.Properties.IncrementalFilteringMode = IncrementalFilteringMode.StartsWith;
+                                       cb.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+                                       cb.Properties.ClientSideEvents.SelectedIndexChanged = "cbEmployeeID_SelectedIndexChanged";
+
+                                            }).BindList(eRoute.Models.eCalendar.HammerDataProvider.GetSubordinateNoDuplicate(User.Identity.Name).Where(x => x.Level != "SM")).GetHtml()
+               
+
+                                </div>
+                            </div>
+                         </div>
+          
+            <div class="item fl">
+                 <button class="btn-Add" id="btnAdd" title="@Utility.Phrase("Search")"><i class="icon-search"></i>@Utility.Phrase("Search")</button>
+                              
+            
+        </div>          
+          }
+        </div>
+         <!-- Button Header -->
+    <div class="button-box p-0">
+	    <div class="toolbox fr w-auto">
+		    <ul class="fr m-0">	
+                <li>	
+                     
+                     <button onclick ="btnViewAssessment_Click()"><i class="icon-display"></i>@Utility.Phrase("ViewAssessment")</button>	
+                		
+			</li>			
+			    <li class="ts-pager">
+
+                                     <strong>
+                                        <button class="btn btn-default dropdown-toggle" title="@Utility.Phrase("Excel")" onclick="$('.popup-search').fadeToggle();">
+                                            <i class="icon-excel"></i>
+
+                                        </button>
+
+                                    </strong>    
+                      @using (Html.BeginForm("ExportExcel", "ViewSchedule", FormMethod.Post))
+                         {
+                     <div  class="popup-search" style="display: marker; position: absolute; top: 96px; right: 127px; box-shadow: rgba(0, 0, 0, 0.2) 0px 3px 5px; width: 300px; background: rgb(238, 238, 238); z-index:99">                                           
+                                          <table class="border-none no-selected">
+                                              <thead class="modal-header block-theme">
+                                                     <tr>
+                                                            <td>
+                                                                 @Utility.Phrase("Information")
+                                                             </td>
+                                                             <td>
+                                                                 <button type="button" class="close"  onclick="$('.popup-search').fadeToggle();" data-dismiss="modal"><i class="icon-delete icon-white"></i>
+</button>
+                                                             </td>
+                                                           
+                                                              
+                                                        </tr>
+                                                  
+                                                    </thead>
+                                             <tbody>
+                                             <tr>                          
+                                                <td>
+                                                    <label>@Utility.Phrase("Start")</label>
+                                                    @Html.DevExpress().DateEditFor(m => m.FromDate, cb =>
+                                                       {
+                                                           cb.ShowModelErrors = true;
+                                                           cb.Date = @DateTime.Now;
+                                                       }).GetHtml()
+                                                                            
+                                                </td>
+                                                  </tr>
+                                           
+                                            <tr>
+                                                <td>
+                                                    <label>@Utility.Phrase("End")</label>
+                                                   @Html.DevExpress().DateEditFor(m => m.ToDate, cb =>
+                                                   {
+                                                       cb.ShowModelErrors = true;
+                                                       cb.Date = @DateTime.Now;
+                                                   }).GetHtml()
+                                                    </td>
+                                              </tr>
+                                      
+                                                 <tr>
+                                                     <td>
+                                                        @Html.DevExpress().CheckBoxFor(m => m.AttachSubordinateSchedule, checkBox =>
+                                                   {
+                                                       checkBox.Text = Utility.Phrase("ApproveSchedule.Messages.AttachSubordinateSchedule");
+                                                   }).GetHtml()
+                                                         </td>
+                                                 </tr>
+                                                 <tr>
+                                                        <td style="text-align:center">
+                                                            <button><i class="icon-excel"></i>@Utility.Phrase("DownloadTemplate")</button>
+                                                         </td>
+                                                     </tr>
+                                                    </tbody>
+                                        </table>
+                                    </div>      
+                      }
+                      </li>
+			
+		    </ul>
+	    </div>
+    </div>         
+
+    <div class="content-body row">
+
+                
+                <div id="divScheduler" style="margin-left: 1%; overflow: auto;">
+                  @Html.Partial("ApproveSchedulePartialView",Session["ApprovalSchedulerData"])
+                </div>
+	            <div id="divView" style="margin-left: 1%; overflow: auto;">
+                   
+                </div>
+               
+               @* <div id="divScheduler1" style="margin-left: 1%; overflow: auto;">
+               
+                </div>   *@
+	
+</div>
+
+</div>
+

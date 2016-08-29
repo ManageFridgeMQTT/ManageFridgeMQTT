@@ -1,0 +1,169 @@
+﻿@using DevExpress.Web.Mvc.UI;
+@using DevExpress.Web.Mvc;
+@using System.Web.UI.WebControls;
+@{
+    Layout = "";
+}
+<html>
+<head>
+    <title>Leaflet Marker Label Example</title>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.4/leaflet.css" />
+    <link rel="stylesheet" href="@Url.Content("~/MapTest/leaflet.iconlabel.css")" />
+    <link rel="stylesheet" href="@Url.Content("~/MapTest/leaflet.label.css")" />
+    <script type="text/javascript" src="@Url.Content("~/MapTest/leaflet.js")"></script>
+
+    <script type="text/javascript" src="http://maps.google.com/maps/api/js?v=3.2&sensor=false"></script>
+    <script type="text/javascript" src="@Url.Content("~/MapTest/leaflet-google.js")"></script>
+
+    <script type="text/javascript" src="@Url.Content("~/MapTest/jquery-1.9.1.min.js")"></script>
+
+
+    <script type="text/javascript" src="@Url.Content("~/MapTest/leaflet.iconlabel.js")"></script>
+    
+    <script type="text/javascript" src="@Url.Content("~/MapTest/Label.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/MapTest/BaseMarkerMethods.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/MapTest/Marker.Label.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/MapTest/CircleMarker.Label.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/MapTest/Path.Label.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/MapTest/Map.Label.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/MapTest/FeatureGroup.Label.js")"></script>
+
+    <link rel="stylesheet" href="@Url.Content("~/MapTest/MarkerCluster.css")" />
+    <link rel="stylesheet" href="@Url.Content("~/MapTest/MarkerCluster.Default.css")" />
+    <script type="text/javascript" src="@Url.Content("~/MapTest/leaflet.markercluster-src.js")"></script>
+
+    <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/font-awesome/4.0.0/css/font-awesome.css">
+    <link rel="stylesheet" href="@Url.Content("~/MapTest/leaflet.awesome-markers.css")"/>
+    <script type="text/javascript" src="@Url.Content("~/MapTest/leaflet.awesome-markers.js")"></script>
+
+    <!--DATA TEMP-->
+    <script type="text/javascript" src="@Url.Content("~/MapTest/mines.js")"></script>
+
+    <style>
+        body
+        {
+            padding: 0;
+            margin: 0;
+        }
+        html, body, #map
+        {
+            height: 100%;
+        }
+        .placeMarks-label
+        {
+            -moz-box-shadow: none;
+            -webkit-box-shadow: none;
+            box-shadow: none;
+            color: #fff;
+            position: relative;
+        }
+    </style>
+</head>
+<body>
+    <div id="container">
+        <div id="map">
+        </div>
+    </div>
+    <script type='text/javascript'>
+        var map = new L.Map('map', {
+            center: [44.5, -90],
+            zoom: 7
+        });
+        var googleLayer = new L.Google('ROADMAP');
+        map.addLayer(googleLayer);
+
+        L.marker([44.5, -90], { 
+            icon: L.AwesomeMarkers.icon({
+                icon: 'coffee'
+                , prefix: 'fa'
+                , markerColor: 'blue'
+                , iconColor: 'white'
+            })
+        })
+        .bindLabel('A sweet static label!', { noHide: true })
+        .bindPopup('Can has popup')
+        .addTo(map);
+
+
+        L.marker([44.7, -90.2], {
+            icon: L.AwesomeMarkers.icon({
+                icon: 'spinner'
+                , prefix: 'fa'
+                , markerColor: 'red'
+                , spin: true
+            })
+        })
+        .bindLabel('A sweet static label!', { noHide: true })
+        .bindPopup('Can has popup')
+        .addTo(map);
+
+        var placeMarker_double = L.Icon.Label.extend({
+            options: {
+                iconUrl: '',
+                shadowUrl: null,
+                iconSize: new L.Point(36, 36),
+                iconAnchor: new L.Point(0, 1),
+                labelAnchor: new L.Point(5, 5),
+                wrapperAnchor: new L.Point(12, 13),
+                labelClassName: 'placeMarks-label'
+            }
+        });
+
+        L.marker([44.9, -90.3], {
+            icon: new placeMarker_double({
+                labelText: '1'
+                , iconUrl: 'mine.png'
+            }) 
+        })
+        .bindLabel('A sweet static label!', { noHide: true })
+        .bindPopup('Can has popup')
+        .addTo(map);
+
+//        var markers = L.markerClusterGroup();
+
+//        var markerList = [];
+//        var marker = L.marker(L.latLng(44.5, -90), { title: 'SyVN' });
+//        markerList.push(marker);
+
+//        markers.addLayers(markerList);
+//        map.addLayer(markers);
+
+
+
+
+
+
+
+//        var mines = L.geoJson(mines, {
+//            pointToLayer: function (feature, latlng) {
+//                return L.marker(latlng);
+//            }
+//        }).addTo(map);
+
+//        var placeMarker_double = L.Icon.Label.extend({
+//            options: {
+//                iconUrl: '',
+//                shadowUrl: null,
+//                iconSize: new L.Point(36, 36),
+//                iconAnchor: new L.Point(0, 1),
+//                labelAnchor: new L.Point(5, 5),
+//                wrapperAnchor: new L.Point(12, 13),
+//                labelClassName: 'placeMarks-label'
+//            }
+//        });
+//        var mines = L.geoJson(mines, {
+//            pointToLayer: function (feature, latlng) {
+//                return L.marker(latlng, { icon: new placeMarker_double({ labelText: feature.properties.id, iconUrl: 'mine.png' }) });
+//            }
+//        })
+//        .bindLabel('A sweet static label!', { noHide: true })
+//        .bindPopup('Can has popup')
+//        .addTo(map)
+////        		.on('click', function () {
+////        		    alert('Hello SyVN');
+////        		})
+//        ;
+    </script>
+</body>
+</html>

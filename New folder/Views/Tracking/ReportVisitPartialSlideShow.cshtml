@@ -1,0 +1,71 @@
+﻿@model List<pp_ReportVisitResult>
+@{
+    Layout = "";
+    var listSorted = Model.OrderBy(a => a.StartTime).ToList();
+}
+<style>
+    /* This rule is read by Galleria to define the gallery height: */
+    .galleria
+    {
+        height: 500px;
+        width: 750px;
+    }
+</style>
+<script src="@Url.Content("~/Scripts/jquery-1.11.0.min.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/Content/THP/js/galleria-1.3.3.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/Content/THP/js/galleria.azur.min.js")" type="text/javascript"></script>
+<div class="content boostrap">
+    <!-- Adding gallery images. We use resized thumbnails here for better performance, but it’s not necessary -->
+    <!-- Adding gallery images. We use resized thumbnails here for better performance, but it’s not necessary -->
+    <div class="galleria">
+        @foreach (pp_ReportVisitResult item in listSorted)
+        {
+            if (!string.IsNullOrEmpty(item.ImageFile))
+            {
+                string a = Url.Content(Constant.SalesOrdersImageFolder + item.ImageFile);
+                string des = string.Empty;
+                if (item.TotalAmount > 0)
+                {
+                    des += Utility.Phrase("OrderCode") + ": " + item.Code + "     " +
+                                Utility.Phrase("DropSize") + ": " + Utility.StringParseWithDecimalDegit(item.DropSize) + "     " +
+                                Utility.Phrase("TotalAmt") + ": " + Utility.StringParseWithDecimalDegit(item.TotalAmount) + "     " +
+                                Utility.Phrase("TotalSKU") + ": " + Utility.StringParseWithDecimalDegit(item.TotalSKU) + "     " +
+                                Utility.Phrase("TimeStart") + ": " + item.StartTime.ToTimePattern() + "     " +
+                                Utility.Phrase("TimeEnd") + ": " + item.EndTime.ToTimePattern() + "     " +
+                                Utility.Phrase("DistanceToOutlet") + ": " + Utility.StringParseWithDecimalDegit(item.Distance);
+                }
+                else
+                {
+                    des += Utility.Phrase("OrderCode") + ": " + Utility.Phrase("NoOrder") + "     " +
+                                Utility.Phrase("Reason") + ": " + item.Reason + "     " +
+                                Utility.Phrase("TimeStart") + ": " + item.StartTime.ToTimePattern() + "     " +
+                                Utility.Phrase("TimeEnd") + ": " + item.EndTime.ToTimePattern() + "     " +
+                                Utility.Phrase("DistanceToOutlet") + ": " + Utility.StringParseWithDecimalDegit(item.Distance);
+                }
+            
+            <a href="@a">
+                <img src="@a" data-big="@a"
+                data-title="@(item.VisitOrder.ToString() + " - " + item.OutletID + " - " + item.OutletName)"
+                data-description="@des" />
+            </a>
+            }
+        }
+    </div>
+</div>
+<script type='text/javascript'>
+    Galleria.run('.galleria', {
+        imagePosition: 'center',
+        responsive: true,
+        imageCrop: false,
+        fullscreenCrop: false
+    });
+
+    Galleria.ready(function () {
+        var gallery = this;
+        this.bind('image', function (e) {
+            $(e.imageTarget).unbind('click').click(function () {
+                gallery.toggleFullscreen();
+            });
+        });
+    });
+</script>

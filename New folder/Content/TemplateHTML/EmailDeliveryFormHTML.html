@@ -1,0 +1,100 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <meta charset="utf-8" />
+</head>
+<body>
+    <strong>{DistributorName}</strong>
+    <br />
+    <strong>{DistributorAddr}</strong>
+    <br />
+    <strong>SĐT: {Phone}</strong>
+    <h2 style="text-align: center;">
+        <strong>PHIẾU GIAO NHẬN THANH TOÁN</strong>
+    </h2>
+    <table width="100%">
+        <tr>
+            <td width="50%">
+                <table summary="">
+                    <tr>
+                        <td style="width: 85px">Số phiếu:</td>
+                        <td style="width: 150px">{Code}</td>
+                        <td style="width: 80px">Ngày lập:</td>
+                        <td>{TimeApprove}</td>
+                    </tr>
+                    <tr>
+                        <td>Khách hàng:</td>
+                        <td colspan="3">{CustomerInfor}</td>
+                    </tr>
+                    <tr>
+                        <td>Địa chỉ:</td>
+                        <td colspan="3">{CustomerAddr}</td>
+                    </tr>
+                </table>
+            </td>
+            <td>&nbsp;</td>
+            <td width="40%">
+                <table>
+                    <tr>
+                        <td>Ngày đặt hàng:</td>
+                        <td>{VisitDate}</td>
+                    </tr>
+                    <tr>
+                        <td>Sales Person:</td>
+                        <td>{SalesmanName}</td>
+                    </tr>
+                    <tr>
+                        <td>NVGH:</td>
+                        <td></td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
+    <table width="100%" style="border-collapse: collapse;">
+        <thead>
+            <tr>
+                <th style="border: 1px solid;width: 50px;">STT</th>
+                <th style="border: 1px solid;width: 100px;">Mã Hàng</th>
+                <th style="border: 1px solid;">Tên Hàng</th>
+                <th style="border: 1px solid;width: 70px;">ĐVT</th>
+                <th style="border: 1px solid;width: 90px;">Số Lượng</th>
+                <th style="border: 1px solid;width: 90px;">Đơn Giá</th>
+                <th style="border: 1px solid;width: 130px;">Tiền KM</th>
+                <th style="border: 1px solid;width: 130px;">Thành Tiền</th>
+            </tr>
+        </thead>
+        <tbody>
+            {rowOrder}
+        </tbody>
+    </table>
+    {PromotionZone}
+    <table width="100%">
+        <tbody>
+            <tr>
+                <td style="width: 150px;">Tổng giá trị đơn hàng:</td>
+                <td><b>{TotalLineAmt}</b></td>
+                <td style="width: 70px;">Tiền KM:</td>
+                <td><b>{TotalDiscountAmt}</b></td>
+                <td style="width: 100px;">Tiền phải thu:</td>
+                <td><b>{TotalPayment}</b></td>
+            </tr>
+        </tbody>
+    </table>
+    <b>Số tiền bằng chữ: {PaymentString}</b>
+    <div>Ghi chú: {Note}</div>
+    <table width="100%" style="text-align: center; font-weight: bold">
+        <tr>
+            <td width="30%">Khách hàng</td>
+            <td width="30%">Nhân viên giao hàng</td>
+            <td>Kế toán</td>
+        </tr>
+        <tr>
+            <td>(Ký tên)</td>
+            <td>(Ký tên)</td>
+            <td>(Ký tên)</td>
+        </tr>
+    </table>
+</body>
+</html>

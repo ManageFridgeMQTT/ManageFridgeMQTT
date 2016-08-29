@@ -1,0 +1,17 @@
+﻿@Html.DevExpress().GridView(grid =>
+{
+    grid.Name = "detailInfo";
+    grid.CallbackRouteValues = new { Controller = "ViewSchedule", Action = "DetailInfoPartialGet" };
+    
+    grid.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+    grid.Columns.Add(col =>
+    {
+        col.FieldName = "Description";
+        col.Caption = Utility.Phrase("Description");
+        col.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+    });
+    grid.CommandColumn.Visible = true;
+    grid.Settings.VerticalScrollBarMode = ScrollBarMode.Visible;
+    grid.Settings.VerticalScrollableHeight = 130;
+    grid.SettingsPager.Mode = GridViewPagerMode.ShowAllRecords;
+}).Bind(Model).GetHtml()

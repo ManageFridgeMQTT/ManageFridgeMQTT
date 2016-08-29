@@ -1,0 +1,19 @@
+﻿
+@Html.DevExpress().ComboBox(
+    settings =>
+    {
+        settings.Name = "Year";
+        settings.CallbackRouteValues = new { Controller = "PrepareScheduleNew", Action = "ComboBoxPartialYear" };
+        settings.Properties.CallbackPageSize = 50;
+        settings.Properties.DropDownRows = 15;
+        settings.Properties.AllowMouseWheel = true;
+        settings.Properties.TextFormatString = "{0}";
+        settings.Properties.ValueField = "YearID";
+        settings.Properties.ValueType = typeof(string);
+        settings.Properties.DropDownStyle = DropDownStyle.DropDownList;
+        settings.Properties.IncrementalFilteringMode = IncrementalFilteringMode.Contains;
+        settings.Properties.Columns.Add("YearID", "Năm", 110);
+        settings.Properties.ClientSideEvents.BeginCallback = "function(s, e) { e.customArgs['EmployeeID'] = EmployeeID.GetValue(); }";
+        settings.Properties.ClientSideEvents.EndCallback = "function(s, e) { s.SetValue(null); }";
+    }
+    ).BindList(Model).GetHtml()

@@ -1,0 +1,148 @@
+﻿@{
+    ViewBag.Title = "EvaluationBaseline";
+    Layout = "~/Views/Shared/_NewLayout.cshtml";
+    @*<link rel="stylesheet" href="~/Content/EvaluationCSS/jquery.monthpicker.css">*@
+}
+
+@{
+    IEnumerable<eRoute.Models.ufn_GetBaselineEvaluationByIDResult> BaselineData = ViewData["BaselineInformation"] as IEnumerable<eRoute.Models.ufn_GetBaselineEvaluationByIDResult>;
+
+    }
+
+<div class="insider">
+
+<input type ="hidden" id ="selectedDisplayID"> 
+<input type="hidden" id ="PageID" value ="@ViewBag.PageInformation"/>
+
+@Html.Partial("HeaderEvaluationLayout")
+   
+<div class="button-box p-0">
+	<div class="toolbox fr w-auto">
+		<ul class="fr m-0">
+			<li>
+				<button data-toggle="modal" data-target="#time-list"><i class="icon-save"></i>Baseline</button>
+                <span class="button">
+				    <a><i class="icon-display"></i>@Html.ActionLink("Xem báo cáo", "EvaluationBaselineView", "Evaluation", new {onclick = "BaseLinedView()"})</a>
+                </span>
+				<button class="btn-refresh" title="Làm mới"><i class="icon-update"></i>Làm mới</button>
+			</li>
+			<li>
+				<button title="Về đầu"><i class="icon-go-first"></i></button>
+				<button title="Trở lại"><i class="icon-go-back"></i></button>
+				<button title="Tới trước"><i class="icon-go-next"></i></button>
+				<button title="Tới cuối"><i class="icon-go-final"></i></button>
+			</li>
+			<li>
+				<span class="mr-10">
+					Trang 
+					<select id="NumPageId">
+						<option value="0" @(ViewBag.NumPage == 0 ? "selected":"")>1</option>
+						<option value="1" @(ViewBag.NumPage == 1 ? "selected":"")>2</option>
+						<option value="2" @(ViewBag.NumPage == 2 ? "selected":"")>3</option>
+                        <option value="3" @(ViewBag.NumPage == 3 ? "selected":"")>4</option>
+                        <option value="4" @(ViewBag.NumPage == 4 ? "selected":"")>5</option>
+                        <option value="5" @(ViewBag.NumPage == 5 ? "selected":"")>6</option>
+                        <option value="6" @(ViewBag.NumPage == 6 ? "selected":"")>7</option>
+                        <option value="7" @(ViewBag.NumPage == 7 ? "selected":"")>8</option>
+                        <option value="8" @(ViewBag.NumPage == 8 ? "selected":"")>9</option>
+                        <option value="9" @(ViewBag.NumPage == 9 ? "selected":"")>10</option>
+					</select>/10
+				</span>
+				<span>Phân trang</span>
+				<select class="m-0" id="NumPagingId">
+					<option value="0" @(ViewBag.NumPaging == 0 ? "selected":"")>10</option>
+				    <option value="1" @(ViewBag.NumPaging == 1 ? "selected":"")>20</option>
+				    <option value="2" @(ViewBag.NumPaging == 2 ? "selected":"")>30</option>
+				    <option value="3" @(ViewBag.NumPaging == 3 ? "selected":"")>40</option>
+                    <option value="4" @(ViewBag.NumPaging == 4 ? "selected":"")>50</option>
+                    <option value="5" @(ViewBag.NumPaging == 5 ? "selected":"")>60</option>
+                    <option value="6" @(ViewBag.NumPaging == 6 ? "selected":"")>70</option>
+                    <option value="7" @(ViewBag.NumPaging == 7 ? "selected":"")>80</option>
+                    <option value="8" @(ViewBag.NumPaging == 8 ? "selected":"")>90</option>
+                    <option value="9" @(ViewBag.NumPaging == 9 ? "selected":"")>100</option>
+				</select>
+			</li>
+		</ul>
+	</div>
+	<div id="time-list" class="modal fade" role="dialog">
+		<div class="modal-dialog w-90pr mw-500">
+			<!-- Modal content-->
+			<div class="modal-content">
+				<div class="modal-header block-theme">
+					<button type="button" class="close" data-dismiss="modal"><i class="icon-delete icon-white"></i></button>
+					<h4 class="modal-title">Chọn kiểu baseline</h4>
+				</div>
+				<div class="modal-body p-0">
+					<div class="display-table p-10">
+						<div class="item nowrap">
+							<label><input type="radio" id="BaselineByDate" name="type" checked />Theo ngày</label>
+							<label for>Từ</label><input type="text" name="datepicker" id="BaselineByDateFrom" value="" /> <label for>Đến</label><input type="text" name="datepicker" id="BaselineByDateTo" value="" />
+						</div>
+						<div class="item nowrap">
+							<label><input type="radio" id="BaselineByWeek" name="type" />Theo tuần</label>
+							<select id="BaselineByWeekNo">
+								<option>Chọn Tuần</option>
+                                <option>Tuần 1</option>
+								<option>Tuần 2</option>
+								<option>Tuần 3</option>
+								<option>Tuần 4</option>
+							</select>
+							<label for>Tháng</label><input type="text" placeholder="@Utility.Phrase("MM/YYYY")" id="BaselineByWeek_MonthYear" />
+						</div>
+						<div class="item nowrap">
+							<label><input type="radio" id="BaselineByMonth" name="type" />Theo tháng</label>
+							<input type="text" placeholder="@Utility.Phrase("MM/YYYY")" id="BaselineByMonthNo" />
+						</div>
+					</div>
+					<div class="button-box nowrap">
+						<button data-dismiss="modal" onclick="BaseLineProcess()"><i class="icon-confirm"></i>Xác nhận</button>
+						<button data-dismiss="modal"><i class="icon-cancel"></i>Bỏ qua</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="content-body row">
+	<div class="table-box wrapper">
+		<table>
+			<thead class="block-theme">
+				<tr>
+                    <th><label><input type="checkbox" class="check-all" />Chọn tất cả</label></th>
+					<th>STT</th>
+					<th>Mã đánh giá</th>
+					<th>Mã tham chiếu</th>
+					<th>Chương trình trưng bày</th>
+					<th>Thời gian trưng bày</th>
+					<th>Thời gian đánh giá</th>
+					<th>Trạng thái</th>
+					<th>Mô tả CTTB</th>
+					<th>Nội dung CTTB</th>
+				</tr>
+			</thead>
+			<tbody id="my_table_EvaluationForBaseline">
+                @foreach (var item in BaselineData)
+                {
+                    <tr>
+                        <td>
+						    <input type="checkbox" id="numitem-@item.MaDanhGia"/>
+					    </td>
+						<td>@Html.DisplayFor(modelItem => item.STT)</td>
+						<td>@Html.DisplayFor(modelItem => item.MaDanhGia)</td>
+                        <td>@Html.DisplayFor(modelItem => item.MaThamChieu)</td>
+                        <td style="display:none;">@Html.DisplayFor(modelItem => item.MaCTTB)</td>
+                        <td>@Html.DisplayFor(modelItem => item.TenCTTB)</td>
+                        <td>@Html.DisplayFor(modelItem => item.ThoiGianCTTB)</td>
+                        <td>@Html.DisplayFor(modelItem => item.ThoiGianDanhGia)</td>
+                        <td>@Html.DisplayFor(modelItem => item.TrangThai)</td>
+                        <td>@Html.DisplayFor(modelItem => item.MoTaCTTB)</td>
+                        <td>@Html.DisplayFor(modelItem => item.NoiDungCTTB)</td>
+					</tr>
+                }
+			</tbody>
+		</table>
+	</div>
+</div>
+
+</div>

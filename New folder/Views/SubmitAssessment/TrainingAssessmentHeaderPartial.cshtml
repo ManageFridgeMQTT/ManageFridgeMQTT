@@ -1,0 +1,311 @@
+﻿@model Hammer.Models.AssessmentModel
+<div id="divupload">
+    @using (Html.BeginForm("DownloadTemplateSSTraining", "SubmitAssessment", FormMethod.Post))
+    {
+        @Html.HiddenFor(m => m.Header.AssessmentDate)
+        @Html.HiddenFor(m => m.Header.AssessmentFor)
+        @Html.HiddenFor(m => m.Header.AreaID)
+        @Html.HiddenFor(m => m.Header.DistributorID)    
+        @Html.HiddenFor(m => m.Header.UserID)    
+        @Html.HiddenFor(m => m.Header.SM) 
+        @Html.HiddenFor(m => m.Header.UniqueID) 
+                                              
+        <table class="border-none no-selected">
+            <tr>
+                <td>
+                      <input type="file" name="uploadFile" id="uploadFile" />
+                     
+                   @* @Html.DevExpress().Button(button =>
+               {
+                   button.Name = "btnDownloadTemplate";
+                   button.Text = Utility.Phrase("DownloadTemplate");
+                   button.UseSubmitBehavior = true;
+                   button.ClientEnabled = (!string.IsNullOrEmpty(Model.Header.UniqueID.Value.ToString()));
+               }).GetHtml()*@
+               
+                  
+                
+                     <button type="button" onclick ="UploadAssessment_Click()" @(Model.Header.UniqueID == null ? "disabled" : "")  ><i class="icon-upload"></i>@Utility.Phrase("UploadFile")</button>
+                    <button  @(Model.Header.UniqueID == null ? "disabled" : "")  ><i class="icon-excel"></i>@Utility.Phrase("DownloadTemplate")</button>
+                   @* @Html.DevExpress().Button(button =>
+               {
+                   button.Name = "btnUpload";
+                   button.Text = Utility.Phrase("UploadFile");
+                   button.ClientSideEvents.Click = "UploadAssessment_Click";
+               }).GetHtml()*@
+                </td>
+            </tr>
+        </table>
+    }
+</div>
+<table width="100%" cellpadding="2" cellspacing="2" class="border-none no-selected">
+    <tr>
+        <td>
+            @Html.HiddenFor(m => m.Header.UserID)
+            @Html.HiddenFor(m => m.Header.AssessmentDate)
+            @Html.HiddenFor(m => m.Header.SM)
+            @Html.HiddenFor(m => m.Header.DistributorID)
+            @Html.HiddenFor(m => m.Header.AreaID)
+            @Html.DevExpress().LabelFor(m => m.Header.UniqueID, label =>
+       {
+           label.Text = Utility.Phrase("SubmitAssessment.Messages.UniqueID");
+       }).GetHtml()
+           
+            @Html.DevExpress().ComboBoxFor(m => m.Header.UniqueID, date =>
+       {
+          
+           date.Properties.AllowUserInput = false;        
+           date.Properties.ValueField = "UniqueID";
+           date.Properties.TextField = "UniqueID";
+           date.Properties.TextFormatString = "{0}";
+           date.Properties.ValueType = typeof(int);
+           date.Properties.Columns.Add("UniqueID").Caption = Utility.Phrase("SubmitAssessment.Messages.UniqueID");
+           date.Properties.Columns.Add("StartTime", Utility.Phrase("StartDate"), 150);
+           date.Properties.Columns.Add("EndTime", Utility.Phrase("EndDate"), 150); 
+           date.Properties.IncrementalFilteringMode = IncrementalFilteringMode.StartsWith;          
+           date.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+           date.Properties.ClientSideEvents.ValueChanged = "AssessmentDate_ValueChanged";         
+           date.Properties.ClientInstanceName = "AssessmentDate";           
+       }).BindList(eRoute.Models.eCalendar.HammerDataProvider.GetAssessmentDateAllTask(User.Identity.Name)).GetHtml()
+        </td>
+       
+    </tr>
+    <tr>
+        <td>
+            @Html.DevExpress().LabelFor(m => m.Header.SM, label =>
+         {
+             label.Text = Utility.Phrase("SubmitAssessment.Messages.LBSM");
+         }).GetHtml()
+            @Html.DevExpress().ComboBoxFor(m => m.Header.SM, cb =>
+       {
+           cb.Name = "txtSM";
+           cb.Width = System.Web.UI.WebControls.Unit.Percentage(100);         
+           cb.ReadOnly = true;
+           cb.Properties.ValueField = "SalespersonCD";
+           cb.Properties.TextField = "Descr";
+           cb.Properties.TextFormatString = "{0} - {1}";
+           cb.Properties.ValueType = typeof(string);
+           cb.Properties.Columns.Add("SalespersonCD");
+           cb.Properties.Columns.Add("Descr");          
+           cb.ReadOnly = true; 
+       }).BindList(eRoute.Models.eCalendar.HammerDataProvider.GetNameSM(Model.Header.SM)).GetHtml()
+     
+        </td>
+        
+        <td>
+        
+            @Html.DevExpress().LabelFor(m => m.Header.DistributorID, label =>
+       {
+           label.Text = Utility.Phrase("SubmitAssessment.Messages.DistributorID");
+       }).GetHtml()
+            @Html.DevExpress().ComboBoxFor(m => m.Header.DistributorID, cb =>
+       {
+           cb.Properties.ValueField = "CompanyID";
+           cb.Properties.TextField = "CompanyCD";
+           cb.Properties.TextFormatString = "{0} - {1}";
+           cb.Properties.ValueType = typeof(string);
+           cb.Properties.Columns.Add("CompanyCD");
+           cb.Properties.Columns.Add("CompanyName");
+           cb.ReadOnly = true;
+           //cb.ClientEnabled = false;
+           cb.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+       }).BindList(eRoute.Models.eCalendar.HammerDataProvider.GetDistributorsNPP(Convert.ToInt32(Model.Header.DistributorID))).GetHtml()
+        </td>
+        <td>
+            @Html.DevExpress().LabelFor(m => m.Header.AreaID, label =>
+        {
+            label.Text = Utility.Phrase("SubmitAssessment.Messages.AreaID");
+        }).GetHtml()
+            @Html.DevExpress().ComboBoxFor(m => m.Header.AreaID, cb =>
+       {
+           cb.Properties.ValueField = "AreaID";
+           cb.Properties.TextField = "AreaName";
+           cb.Properties.TextFormatString = "{0} - {1}";
+           cb.Properties.ValueType = typeof(string);
+           cb.Properties.Columns.Add("AreaID");
+           cb.Properties.Columns.Add("AreaName");
+           cb.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+           cb.ReadOnly = true;
+           //cb.ShowModelErrors = true;
+       }).BindList(eRoute.Models.eCalendar.HammerDataProvider.GetAreas(Model.Header.AreaID)).GetHtml()
+        </td>
+    </tr>
+    <tr>
+        <td>
+        @Html.DevExpress().LabelFor(m => m.Header.AssessmentFor, label =>
+     {
+        eRoute.Models.eCalendar.DMSSFHierarchy query = eRoute.Models.eCalendar.HammerDataProvider.PrepareScheduleGetDMSSFHierarchy(User.Identity.Name);
+         if (query.TerritoryType == 'D' && query.IsSalesForce == true)
+         {
+             label.Text = Utility.Phrase("SubmitAssessment.Messages.AssessmentFor");             
+         }         
+         else 
+         {
+             label.Text = "SalesSup";
+         }      
+        
+     }).GetHtml()
+        @Html.DevExpress().ComboBoxFor(m => m.Header.AssessmentFor, cb =>
+       {
+           cb.Properties.ValueField = "EmployeeID";
+           cb.Properties.TextField = "EmployeeName";
+           cb.Properties.TextFormatString = "{0} - {1}";
+           cb.Properties.ValueType = typeof(string);
+           cb.Properties.Columns.Add("EmployeeID");
+           cb.Properties.Columns.Add("EmployeeName");
+           cb.Properties.Columns.Add("Level");
+           cb.ReadOnly = true;        
+           cb.Width = System.Web.UI.WebControls.Unit.Percentage(100);                   
+       }).BindList(eRoute.Models.eCalendar.HammerDataProvider.GetEmployees(Model.Header.AssessmentFor)).GetHtml()
+        </td>
+        <td >
+            @Html.DevExpress().LabelFor(m => m.Header.SRUnderstood, label =>
+       {
+           label.Text = Utility.Phrase("SaleSupUnderstandWithSaleman");  //"SS có hiểu rõ về SR không";
+       }).GetHtml()
+            @Html.DevExpress().ComboBoxFor(m => m.Header.SRUnderstood, cb =>
+       {
+           cb.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+           //cb.ShowModelErrors = true;
+           cb.ClientEnabled = !Model.Header.Released;
+           cb.Properties.Items.Add(Utility.Phrase("Value_Yes"), true);
+           cb.Properties.Items.Add(Utility.Phrase("Value_No"), false);
+       }).GetHtml()
+        </td>
+        <td>
+            @Html.DevExpress().LabelFor(m => m.Header.OutletUnderstood, label =>
+       {
+           label.Text = Utility.Phrase("SaleSupUnderstandWithOutlet");//"SS có hiểu gì về cửa hàng không";
+       }).GetHtml()
+            @Html.DevExpress().ComboBoxFor(m => m.Header.OutletUnderstood, cb =>
+       {
+           cb.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+           cb.ClientEnabled = !Model.Header.Released;
+           cb.Properties.Items.Add(Utility.Phrase("Value_Yes"), true);
+           cb.Properties.Items.Add(Utility.Phrase("Value_No"), false);
+           //cb.ShowModelErrors = true;
+       }).GetHtml()
+        </td>
+    </tr>
+    <tr>
+        <td colspan ="3">
+         @Html.DevExpress().LabelFor(m => m.Header.Mark, label =>
+        {
+            label.Text = Utility.Phrase("eCalendar_Target");
+        }).GetHtml()
+            @Html.DevExpress().TextBoxFor(m => m.Header.Mark, memo =>
+             {                 
+                 memo.ClientEnabled = !Model.Header.Released;
+                 memo.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+                 memo.ShowModelErrors = true;
+                // memo.Properties.Rows = 5;                 
+             }).GetHtml()
+             </td>
+    </tr>
+    <tr>
+        <td>
+            @Html.DevExpress().LabelFor(m => m.Header.Training, label =>
+       {
+           label.Text = Utility.Phrase("Training");  //"Huấn luyện";
+       }).GetHtml()
+            @Html.DevExpress().TextBoxFor(m => m.Header.Training, textbox =>
+       {
+           textbox.Properties.MaxLength = 10;
+           textbox.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+           textbox.ShowModelErrors = true;
+       }).GetHtml()
+        </td>
+        <td >
+            @Html.DevExpress().LabelFor(m => m.Header.PC, label =>
+       {
+           label.Text = "PC";
+       }).GetHtml()
+            @Html.DevExpress().TextBoxFor(m => m.Header.PC, textbox =>
+       {
+           textbox.Properties.MaxLength = 10;
+           textbox.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+           textbox.ShowModelErrors = true;
+       }).GetHtml()
+        </td>
+        <td >
+            @Html.DevExpress().LabelFor(m => m.Header.LPPC, label =>
+       {
+           label.Text = "LPPC";
+       }).GetHtml()
+            @Html.DevExpress().TextBoxFor(m => m.Header.LPPC, textbox =>
+       {
+           textbox.Properties.MaxLength = 10;
+           textbox.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+           textbox.ShowModelErrors = true;
+       }).GetHtml()
+        </td>
+    </tr>
+</table>
+<div style="width: 100%;">
+    @Html.Partial("TraningAssessmentDetailPartial", Model)
+</div>
+<br />
+<table  class="border-none no-selected">
+    <tr>
+        <td>
+
+            @Html.DevExpress().LabelFor(m => m.Header.Comment, label =>
+       {
+           label.Text = Utility.Phrase("SubmitAssessment.Messages.Comment");
+       }).GetHtml()
+            @Html.DevExpress().MemoFor(m => m.Header.Comment, memo =>
+       {
+           memo.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+           memo.Properties.Rows = 4;
+           memo.ShowModelErrors = true;
+           memo.ClientEnabled = !Model.Header.Released;
+       }).GetHtml()
+        </td>
+        <td>
+            @Html.DevExpress().LabelFor(m => m.Header.NextTrainingObjective, label =>
+       {
+           label.Text = Utility.Phrase("SubmitAssessment.Messages.NextTrainingObjective");
+       }).GetHtml()
+            @Html.DevExpress().MemoFor(m => m.Header.NextTrainingObjective, memo =>
+       {
+           memo.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+           memo.Properties.Rows = 4;
+           memo.ShowModelErrors = true;
+           memo.ClientEnabled = !Model.Header.Released;
+       }).GetHtml()
+        </td>
+    </tr>
+</table>
+<table class="border-none no-selected">
+    <tr>
+        <td>
+               <button><i class="icon-back"></i>@Utility.Phrase("Back")</button>
+             <button type="button" onclick ="btnSaveAssessment_Click()" @(Model.Header.Released == true ? "disabled" : "")  ><i class="icon-confirm"></i>@Utility.Phrase("Save")</button>
+          
+       
+              <button type="button" onclick ="btnSubmitAssessment_Click()" @(Model.Header.Released == true ? "disabled" : "") ><i class="icon-submit"></i>@Utility.Phrase("Released")</button>
+            @*@Html.DevExpress().Button(button =>
+       {
+           button.Name = "btnSaveAssessment";
+           button.Text = "Lưu tạm";
+           button.Width = 150;
+           button.ClientEnabled = !Model.Header.Released;
+           button.ClientSideEvents.Click = "btnSaveAssessment_Click";
+       }).GetHtml()
+        </td>
+        <td>
+            @Html.DevExpress().Button(button =>
+       {
+           button.Name = "btnSubmit";
+           button.Text = "Gởi đánh giá";
+           button.Width = 150;
+           button.ClientEnabled = !Model.Header.Released;
+           button.ClientSideEvents.Click = "btnSubmitAssessment_Click";
+       }).GetHtml()*@
+        
+            <div id="divValidation">
+                @Html.ValidationMessage("")
+            </div>
+        </td>
+    </tr>
+</table>

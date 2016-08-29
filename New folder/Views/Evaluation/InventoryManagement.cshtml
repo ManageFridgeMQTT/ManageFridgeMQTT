@@ -1,0 +1,498 @@
+﻿@model eRoute.Models.InventoryVM
+@{
+    ViewBag.Title = Utility.Phrase("Manage_InventoryManagement");
+    Layout = "~/Views/Shared/_NewLayout.cshtml";
+}
+<link href="@Url.Content("~/Content/NewEtool/css/iviewer/jquery.iviewer.css")" rel="stylesheet" type="text/css" />
+<link href="@Url.Content("~/Content/NewEtool/css/iviewer/style.css")" rel="stylesheet" type="text/css" />
+<style>
+    .thumb {
+        height: 75px;
+        border: 1px solid #000;
+        margin: 10px 5px 0 0;
+    }
+
+    #original-img {
+        float: left;
+        padding: 0;
+        margin: 0;
+    }
+
+        #original-img li {
+            display: inline-table;
+        }
+
+    .cover-img {
+        position: relative;
+    }
+
+    .remove-img {
+        position: absolute;
+        right: 5px;
+        top: 10px;
+        color: red;
+        background: white;
+        width: 15px;
+        text-align: center;
+        cursor: pointer;
+    }
+
+    #new-img {
+        padding: 0;
+    }
+</style>
+
+<div id="shCenter" style="z-index: 9999">
+    <label id="mSNoData" style="align-content: center; color: green"></label>
+</div>
+<div id="loading" class="loading"></div>
+<div class="insider">
+    <div class="row display-table w-100pr mb-10 content-header">
+        <div class="report-content-header">
+            <div class="col-sm-8">
+                <h1 id="TitleHeader">@Utility.Phrase("Manage_InventoryManagement")</h1>
+            </div>
+        </div>
+        @using (Html.BeginForm("InventoryManagement", "Evaluation", FormMethod.Post))
+        {
+        <div id="FilterBox" class="w-100pr">
+            <div class="item fl">
+                <label for class="fl">@Utility.Phrase("CategoryInventory")</label>
+                <div class="ctr_combobox input-group">
+                    @Html.DropDownList("Category", Model.ListCategory)
+                </div>
+            </div>
+            <div class="item fl">
+                <label for class="fl">@Utility.Phrase("TypeInventory")</label>
+                <div class="ctr_combobox input-group">
+                    @Html.DropDownList("Type", Model.ListType)
+                </div>
+            </div>
+            <div class="item fl">
+                <label for class="fl">@Utility.Phrase("InventoryName")</label>
+                <div class="ctr_combobox input-group">
+                    @Html.TextBox("FilterInventoryName", Model.InventoryName)
+                </div>
+            </div>
+            <div class="item fl">
+                <button id="Search" type="submit"><i class="icon-submit"></i>@Utility.Phrase("Report_View")</button>
+            </div>
+        </div>
+        }
+        <div id="InventoryBox" class="w-100pr" style="display:none">
+            @using (Html.BeginForm("AddInventory", "Evaluation", FormMethod.Post, new { id = "InventoryIdBox" }))
+            {
+            @Html.Hidden("InventoryID")
+            <div class="item fl">
+                <label for class="fl">@Utility.Phrase("TB_InventoryCode")</label>
+                <div class="ctr_combobox input-group">
+                    @*@Html.TextBoxFor(m=>m.Inventory.InventoryCD)*@
+                    @Html.TextBox("InventoryCD", Model.Inventory.InventoryCD)
+                </div>
+            </div>
+            <div class="item fl">
+                <label for class="fl">@Utility.Phrase("TB_InventoryName")</label>
+                <div class="ctr_combobox input-group">
+                    @*@Html.TextBoxFor(m => m.Inventory.Descr)*@
+                    @Html.TextBox("Descr", Model.Inventory.Descr)
+                </div>
+            </div>
+            <div class="item fl"></div>
+            <div class="item fl">
+                <label for class="fl">@Utility.Phrase("TB_VendorID")</label>
+                <div class="ctr_combobox input-group">
+                    @*@Html.TextBoxFor(m => m.Inventory.VendorID)*@
+                    @Html.TextBox("VendorID", Model.Inventory.VendorID, new { type = "number" })
+                </div>
+            </div>
+            <div class="item fl">
+                <label for class="fl">@Utility.Phrase("TB_VendorName")</label>
+                <div class="ctr_combobox input-group">
+                    @*@Html.TextBoxFor(m => m.Inventory.VendorName)*@
+                    @Html.TextBox("VendorName", Model.Inventory.VendorName)
+                </div>
+            </div>
+            <div class="item fl"></div>
+            <div class="item fl">
+                <label for class="fl">@Utility.Phrase("TB_CategoryID")</label>
+                <div class="ctr_combobox input-group">
+                    @*@Html.TextBoxFor(m => m.Inventory.CategoryID)*@
+                    @Html.TextBox("CategoryID", Model.Inventory.CategoryID, new { type = "number" })
+                </div>
+            </div>
+            <div class="item fl">
+                <label for class="fl">@Utility.Phrase("TB_CategoryName")</label>
+                <div class="ctr_combobox input-group">
+                    @*@Html.TextBoxFor(m => m.Inventory.CategoryName)*@
+                    @Html.TextBox("CategoryName", Model.Inventory.CategoryName)
+                </div>
+            </div>
+            <div class="item fl"></div>
+            <div class="item fl">
+                <label for class="fl">@Utility.Phrase("TB_Active")</label>
+                <div class="ctr_combobox input-group">
+                    @*@Html.CheckBoxFor(m => m.Inventory.Active)*@
+                    @*<input type="checkbox" name="InventoryActive" @(Model.Inventory.Active ? "" : "checked") />*@
+                    @Html.CheckBox("Active", Model.Inventory.Active)
+                </div>
+            </div>
+            <div class="item fl">
+                <button id="SubmitInventory" value="Add" type="button" onclick="SubmitAction()"><i class="icon-submit"></i>@Utility.Phrase("Save")</button>
+                <button type="button" onclick="FilterBox()"><i class="icon-submit"></i>@Utility.Phrase("Back")</button>
+            </div>
+            }
+        </div>
+    </div>
+    <div id="toggle-zone-upload" style="display: none">
+        @using (Html.BeginForm("UploadFiles", "Evaluation", FormMethod.Post, new { id = "upload-images", enctype = "multipart/form-data" }))
+        {
+            <input type="hidden" id="inventory-upload" name="InventoryID" />
+            <input type="hidden" id="remove-img" name="removeImg" />
+            <div class="row">
+                <div class="col-md-4">
+                    <label>@Utility.Phrase("TB_InventoryCode"):</label>
+                    <h3 id="infor-inventorycd"></h3>
+                </div>
+                <div class="col-md-8">
+                    <label>@Utility.Phrase("TB_InventoryName"):</label>
+                    <h3 id="infor-inventoryname"></h3>
+                </div>
+            </div>
+            <div>
+                <input type="file" id="files" name="files" multiple="" accept="image/*">
+                <button id="clear-new-img">@Utility.Phrase("DeleteImageSelected")</button>
+            </div>
+            <ul id="original-img"></ul>
+            <output id="new-img"></output>
+            <div style="clear: both"></div>
+            <div class="item fl">
+                <input type="submit" name="Submit" id="Submit" value="@Utility.Phrase("Save")">
+                <button type="button" id="cancel-upload"><i class="icon-submit"></i>@Utility.Phrase("Back")</button>
+            </div>
+        }
+    </div>
+    <div id="ErMesgBox" class="row"><span style="color: red" class="error"></span></div>
+
+    <div class="row content-body">
+        <div class="tab-header">
+            <div class="toolbox">
+                <ul class="fr m-0">
+                    <li>
+                        <button type="button" title="@Utility.Phrase("AddCompetitorProduct")" onclick="OpenAddBox()"><i class="icon-display"></i>@Utility.Phrase("AddCompetitorProduct")</button>
+                    </li>
+                    <li class="ts-pager">
+                        <a href="#" title="prev"><img src="@Url.Content("~/Content/NewEtool/img/per.png")" class="prev" /></a>
+                        <span class="pagedisplay"></span>
+                        <a href="#" title="next"><img src="@Url.Content("~/Content/NewEtool/img/next.png")" class="next" /></a>
+                        <span>
+                            @Utility.Phrase("GotoPage")
+                            <select class="pagenum input-mini" title="Select page number"></select>
+                        </span>
+                        <span>@Utility.Phrase("Pages")</span>
+                        <select class="pagesize input-mini m-0" title="Select page size">
+                            <option selected="selected" value="10">10</option>
+                            <option value="20">20</option>
+                            <option value="30">30</option>
+                            <option value="40">40</option>
+                            <option value="50">50</option>
+                        </select>
+                    </li>
+                </ul>
+            </div>
+            <ul class="nav nav-tabs display-none">
+                <li class="active"><a data-toggle="tab" href="#report-outlet">@Utility.Phrase("Report_Report")</a></li>
+            </ul>
+        </div>
+        <div class="tab-content wrapper">
+            <div id="report-sync" class="tab-pane fade in active box-table-ressult">
+                <table id="table-result" class="tablesorter">
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th style="display:none"></th>
+                            <th>@Utility.Phrase("TB_InventoryCode")</th>
+                            <th>@Utility.Phrase("TB_InventoryName")</th>
+                            <th>@Utility.Phrase("TB_InventoryType")</th>
+                            <th>@Utility.Phrase("TB_VendorName")</th>
+                            <th>@Utility.Phrase("Image")</th>
+                            <th>@Utility.Phrase("TB_CategoryName")</th>
+                            <th>@Utility.Phrase("TB_ModifiedDate")</th>
+                            <th>@Utility.Phrase("TB_Active")</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (Model.Result != null)
+                        {
+                            foreach (var elm in Model.Result)
+                            {
+                                <tr>
+                                    <td style="text-align:center">
+                                        @if (elm.Type != 1)
+                                        {
+                                            <a href="javascript:void(0)" onclick="EditBox(this)" class="" title="@Utility.Phrase("Edit")" data-inventoryid="@elm.InventoryID" data-active="@elm.Active">
+                                                <img src="@Url.Content("~/Content/Images/Edit.png")" />
+                                            </a>
+                                        }
+                                    </td>
+                                    <td>@elm.InventoryCD</td>
+                                    <td>@elm.Descr</td>
+                                    <td>@Utility.Phrase("InventoryType_" + elm.Type)</td>
+                                    <td style="display:none">@elm.VendorID</td>
+                                    <td>@elm.VendorName</td>
+                                    <td>
+                                        @{ var img = "";}
+                                        @foreach (var item in Model.ListInventoryPath.Where(t => t.InventoryID == elm.InventoryID))
+                                        {
+                                            img += item.InventoryPathName + ",";
+                                        }
+                                        <a href="javascript:void(0)" class="edit-image" title="@Utility.Phrase("EditImage")" data-inventoryid="@elm.InventoryID" data-inventorycd="@elm.InventoryCD" data-inventoryname="@elm.Descr" data-active="@elm.Active" data-img="@img.Trim(',')">
+                                            <img src="@Url.Content("~/Content/Images/image-edit-icon.png")" />
+                                        </a>
+                                        @foreach (var item in Model.ListInventoryPath.Where(t => t.InventoryID == elm.InventoryID))
+                                        {
+                                            var srcImg = @Url.Content(Model.StorageRoot) + "/" + item.InventoryPathName;
+                                            <a href="@srcImg" class="iviewer_click">
+                                                <img rel="gallery" src="@srcImg" style="max-width:50px; padding-right: 5px; padding-top: 5px" alt="" rel="zoom" class="smoothZoom" />
+                                            </a>
+                                        }
+                                    </td>
+                                    <td style="display:none">@elm.CategoryID</td>
+                                    <td>@elm.CategoryName</td>
+                                    <td>@elm.LastModifiedDateTime</td>
+                                    <td style="display:none">@elm.Active</td>
+                                    <td style="text-align:center">
+                                        @if (elm.Active)
+                                        {
+                                            <a href="#" class="" title="@Utility.Phrase("Active")">
+                                                <img src="@Url.Content("~/Content/Images/Active.png")" />
+                                            </a>
+                                        }
+                                        else
+                                        {
+                                            <a href="#" class="" title="@Utility.Phrase("Inactive")">
+                                                <img src="@Url.Content("~/Content/Images/Inactive.png")" />
+                                            </a>
+                                        }
+                                    </td>
+                                </tr>
+                                                }
+                                            }
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<script type='text/javascript'>
+    var mess = '@TempData["Messages"]';
+    function OpenAddBox() {
+        $('#FilterBox, #toggle-zone-upload').hide();
+        $('#InventoryBox').show();
+        $('input[name="InventoryCD"]').prop("readonly", false);
+        $('#TitleHeader').html('@Utility.Phrase("Manage_AddInventory")');
+        $('#InventoryIdBox').attr('action', '@Utility.FooMethod("/Evaluation/AddInventory")');
+        $('#SubmitInventory').val('Add');
+        $('#inventory-upload, #VendorID, #CategoryID').val(0);
+        $('#InventoryCD, #Descr, #VendorName, #CategoryName').val('');
+        $('#InventoryCD').focus();
+    }
+    function FilterBox() {
+        $('#InventoryBox, #ErMesgBox').hide();
+        $('#FilterBox').show();
+        $('#TitleHeader').html('@Utility.Phrase("Manage_InventoryManagement")');
+    }
+    function EditBox(item) {
+        $('#InventoryID').val($(item).data('inventoryid'));
+        $('#SubmitInventory').val('Edit');
+        var tr = $(item).closest('tr');
+        var InventoryCD = $(tr).find('td:nth-child(2)').html();
+        $('input[name="InventoryCD"]').val(InventoryCD);
+        $('input[name="InventoryCD"]').prop("readonly", true);
+        var InventoryName = $(tr).find('td:nth-child(3)').html();
+        $('input[name="Descr"]').val(InventoryName);
+        var VendorID = $(tr).find('td:nth-child(5)').html();
+        $('input[name="VendorID"]').val(VendorID);
+        var VendorName = $(tr).find('td:nth-child(6)').html();
+        $('input[name="VendorName"]').val(VendorName);
+        var CategoryID = $(tr).find('td:nth-child(8)').html();
+        $('input[name="CategoryID"]').val(CategoryID);
+        var CategoryName = $(tr).find('td:nth-child(9)').html();
+        $('input[name="CategoryName"]').val(CategoryName);
+
+        var InventoryActive = $(item).data('active');
+        if (InventoryActive == 'True') {
+            $('input[name="Active"]').prop("checked", true);
+        } else {
+            $('input[name="Active"]').prop("checked", false);
+        }
+        $('#FilterBox, #toggle-zone-upload, #ErMesgBox').hide();
+        $('#InventoryBox').show();
+        $('#TitleHeader').html('@Utility.Phrase("Manage_EditInventory")');
+        $(item).closest('tr');
+        $('#InventoryIdBox').attr('action', '@Utility.FooMethod("/Evaluation/EditInventory")');
+    }
+    function SubmitAction() {
+        var action = $('#SubmitInventory').val();
+        if ($('#InventoryCD').val() == "") {
+            alert('@Utility.Phrase("TB_InventoryCode")' + ' không được để trống');
+            return;
+        }
+        if (action == 'Add') {
+            var inventoryCD = $('#InventoryCD').val();
+            $.ajax({
+                type: 'POST',
+                url: 'CheckInventoryCode',
+                dataType: "json",
+                data: { 'inventoryCD': inventoryCD },
+                success: function (result) {
+                    $('#ErMesgBox span[class^="error"]').html("");
+                    if (result != '') {
+                        $('#ErMesgBox span[class^="error"]').html(result);
+                    }
+                    else {
+                        $('#InventoryIdBox').submit();
+                    }
+                }
+            }).done(function () {
+            });
+        }
+        else {
+            $('#InventoryIdBox').submit();
+        }
+    }
+
+
+    $(document).ready(function () {
+        if (mess != undefined && mess != '') {
+            ShowMessageNoData(mess);
+        }
+
+        $("body").on('click', '.input-group-btn table tbody tr', function () {
+            $(this).addClass('selected').siblings().removeClass('selected');
+            var keyVal = $(this).find('td:first').html();
+            var codeVal = $(this).find('td:nth-child(2)').html();
+            var nameVal = $(this).find('td:last').html();
+            if (keyVal == 0) { keyVal = ""; }
+            var parentdiv = $(this).parents('div[class^="ctr_combobox"]');
+            parentdiv.find('input[type^="text"]').val(codeVal);
+            parentdiv.find('input[type^="hidden"]').val(keyVal);
+        });
+
+        $(".edit-image").click(function () {
+            $("#infor-inventorycd").text($(this).data('inventorycd'));
+            $("#infor-inventoryname").text($(this).data('inventoryname'));
+            $("#new-img, #original-img").empty();
+            $('#FilterBox, #InventoryBox, #ErMesgBox').hide();
+            $("#toggle-zone-upload").show();
+            $('#inventory-upload').val($(this).data('inventoryid'));
+            $("#files, #remove-img").val("");
+            var img = $(this).data('img');
+            if (img != "") {
+                var arrImg = img.split(',');
+                for (var i in arrImg) {
+                    var link = '@Url.Content(Model.StorageRoot)' + '/' + arrImg[i];
+                    $("#original-img").append('<li>' +
+                        '<div>' +
+                            '<div class="cover-img"><strong class="remove-img" data-name=' + arrImg[i] + '>X</strong></div>' +
+                            '<img class="thumb" src=' + link + '>' +
+                        '</div>' +
+                    '</li>');
+                }
+            }
+        });
+
+        $('#cancel-upload').click(function () {
+            $('#FilterBox').show();
+            $("#toggle-zone-upload").hide();
+        });
+
+        $('#upload-images').submit(function (e) {
+            e.preventDefault();
+            var form = $(this);
+            var formData = new window.FormData($(this)[0]);
+            $.ajax({
+                url: $(form).attr('action'),
+                type: 'POST',
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: function (result) {
+                    ShowMessageNoData('@Utility.Phrase("SuccessfulUpdate")');
+                    location.reload();
+                },
+                error: function (err) {
+                    console.log(err);
+                }
+            });
+        });
+
+        $("#clear-new-img").click(function () {
+            $("#files").val("");
+            $("#new-img").empty();
+        });
+
+        $("#original-img").on('click', '.remove-img', function () {
+            var removeImg = $("#remove-img").val();
+            var arrRemoveImg = removeImg.split(',');
+            arrRemoveImg.push($(this).data('name'));
+            $("#remove-img").val(arrRemoveImg.toString());
+            $(this).parents('li').remove();
+        });
+
+        $("#VendorID").change(function () {
+            var id = $(this).val();
+            $("#VendorName").val("");
+            $.post('@Url.Action("GetVendorName")', { vendorID: id }).done(function (data) {
+                $("#VendorName").val(data);
+            });
+        });
+
+        $("#CategoryID").change(function () {
+            var id = $(this).val();
+            $("#CategoryName").val("");
+            $.post('@Url.Action("GetCategoryName")', { categoryID: id }).done(function (data) {
+                $("#CategoryName").val(data);
+            });
+        });
+    });
+
+    function handleFileSelect(evt) {
+        $("#new-img").empty();
+        var files = evt.target.files; // FileList object
+
+        // Loop through the FileList and render image files as thumbnails.
+        for (var i = 0, f; f = files[i]; i++) {
+
+            // Only process image files.
+            if (!f.type.match('image.*')) {
+                ShowMessageNoData('@Utility.Phrase("NotFileImage")');
+                $("#files").val("");
+                continue;
+            }
+
+            var reader = new FileReader();
+
+            // Closure to capture the file information.
+            reader.onload = (function (theFile) {
+                return function (e) {
+                    // Render thumbnail.
+                    var span = document.createElement('span');
+                    span.innerHTML = ['<img class="thumb" src="', e.target.result,
+                                      '" title="', escape(theFile.name), '"/>'].join('');
+                    document.getElementById('new-img').insertBefore(span, null);
+                };
+            })(f);
+
+            // Read in the image file as a data URL.
+            reader.readAsDataURL(f);
+        }
+    }
+
+    document.getElementById('files').addEventListener('change', handleFileSelect, false);
+</script>
+<script src="@Url.Content("~/Content/NewEtool/js/iviewer/jqueryui.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/Content/NewEtool/js/iviewer/jquery.mousewheel.min.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/Content/NewEtool/js/iviewer/jquery.iviewer.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/Content/NewEtool/js/iviewer/main.js")" type="text/javascript"></script>

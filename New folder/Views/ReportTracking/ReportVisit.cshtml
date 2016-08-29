@@ -1,0 +1,441 @@
+﻿@model MV_ReportVisit
+@using System.Web.UI.WebControls;
+@using System.Linq;
+@using System.Data;
+@{
+    ViewBag.Title = Utility.Phrase("Report_ReportVisit");
+    Layout = "~/Views/Shared/_NewLayout.cshtml";
+}
+
+<link href="@Url.Content("~/Content/NewEtool/css/iviewer/jquery.iviewer.css")" rel="stylesheet" type="text/css" />
+<link href="@Url.Content("~/Content/NewEtool/css/iviewer/style.css")" rel="stylesheet" type="text/css" />
+
+<div class="insider">
+    <div id="loading" class="loading"></div>
+    @using (Html.BeginForm("ReportVisit", "ReportTracking", FormMethod.Post))
+    {
+         @Html.Hidden("act")
+        <div class="row display-table w-100pr mb-10 content-header">
+            <div class="report-content-header">
+                <div class="col-sm-6">
+                    <h1>@Utility.Phrase("Report_ReportWithImage")</h1>
+                </div>
+                <div class="col-sm-6">
+                    <div class="p-0 fr">
+                        @{
+                            var sumTotalAmount = Model.ReportVisitResult.AsEnumerable().Sum(x => x.Field<decimal>("TotalAmount"));
+                            var sumHasOrder = Model.ReportVisitResult.AsEnumerable().Sum(x => x.Field<int>("HasOrder"));                            
+                        }
+                        <strong style="color:red">@Utility.Phrase("Report_SumTotalAmount"): @Utility.StringParseWithRoundingDecimalDegit(sumTotalAmount)   </strong>
+                        &emsp;<strong style="color:red">
+                            @Utility.Phrase("Report_SumHasOrder"): @Utility.StringParseWithRoundingDecimalDegit(sumHasOrder)
+                        </strong>
+                            @if (PermissionHelper.CheckPermissionByFeature("Tracking_ReportVisitExportExecl"))
+                            {
+                                <button type="button" id="btnExportExcel" class="p-0 block-theme" title="Excel"><i class="icon-etool-excel"></i></button>
+                            }
+                            @if (PermissionHelper.CheckPermissionByFeature("Tracking_ReportVisitExportPDF"))
+                            {
+                                <button type="button" id="btnExportPDF" class="p-0 block-theme" title="PDF"><i class="icon-etool-pdf"></i></button>
+                            }
+                    </div>
+                </div>
+            </div>
+            <div class="w-100pr">
+                <div class="item fl required">
+                    <label for class="fl">@Utility.Phrase("Date")</label>
+                    @Html.TextBox("strFromDate", (Model.FromDate != null ? Model.FromDate.ToShortDateString() : ""), new { @class = "datepicker" })
+                </div>
+                <div class="item fl">
+                    <label for class="fl">@Utility.Phrase("Report_Region")</label>
+                    <div id="RegionCbox" class="ctr_combobox input-group">
+                        @Html.Partial("~/Views/Shared/Control/ComboboxPartial.cshtml", Model.listComboboxRegion, new ViewDataDictionary { { "NameID", "Region" } })
+                    </div>
+                </div>
+                <div class="item fl">
+                    <label for class="fl">@Utility.Phrase("Report_Area")</label>
+                    <div id="AreaCbox" class="ctr_combobox input-group">
+                        @Html.Partial("~/Views/Shared/Control/ComboboxPartial.cshtml", Model.listComboboxArea, new ViewDataDictionary { { "NameID", "Area" } })
+                    </div>
+                </div>
+                <div class="item fl required">
+                    <label for class="fl">@Utility.Phrase("Report_Distributor")</label>
+                    <div id="DistributorCbox" class="ctr_combobox input-group">
+                        @Html.Partial("~/Views/Shared/Control/ComboboxPartial.cshtml", Model.listComboboxDistributor, new ViewDataDictionary { { "NameID", "Distributor" } })
+                    </div>
+                </div>
+                <div class="item fl">
+                    <label for class="fl">@Utility.Phrase("Report_Route")</label>
+                    <div id="RouteCbox" class="ctr_combobox input-group">
+                        @Html.Partial("~/Views/Shared/Control/ComboboxPartial.cshtml", Model.listComboboxRoute, new ViewDataDictionary { { "NameID", "Route" } })
+                    </div>
+                </div>
+                <div class="item fl">
+                    <button id="Search" type="button"><i class="icon-search"></i>@Utility.Phrase("View")</button>
+                   
+                    <button id="ViewGallery" type="button"><i class="icon-search"></i>@Utility.Phrase("ViewGallery")</button>
+                          
+                    
+                </div>
+            </div>
+        </div>
+        <div id="ErMesgBox" class="row"><span style="color: red" class="error"></span></div>
+    }
+    <div class="row content-body">
+        <div class="tab-header">
+            <div class="toolbox">
+                <ul class="fr m-0 box-page-summary">
+                    <li class="ts-pager-summary">
+                        <button type="button" title="@Utility.Phrase("GoBack")" class="prev"><i class="icon-go-back"></i></button>
+                        <span class="pagedisplay"></span>
+                        <button type="button" title="@Utility.Phrase("GoNext")" class="next"><i class="icon-go-next"></i></button>
+                        <span>@Utility.Phrase("GotoPage")
+                            <select class="pagenum-summary input-mini" title="Select page number"></select>
+                        </span>
+                        <span>@Utility.Phrase("Pages")</span>
+                        <select class="pagesize input-mini m-0" title="Select page size">
+                            <option selected="selected" value="10">10</option>
+                            <option value="20">20</option>
+                            <option value="30">30</option>
+                            <option value="40">40</option>
+                            <option value="50">50</option>
+                        </select>
+                    </li>
+                </ul>
+                <ul class="fr m-0 box-page-visit"  style="display:none">
+                    <li class="ts-pager" >
+                        <button type="button" title="@Utility.Phrase("GoBack")" class="prev"><i class="icon-go-back"></i></button>
+                        <span class="pagedisplay"></span>
+                        <button type="button" title="@Utility.Phrase("GoNext")" class="next"><i class="icon-go-next"></i></button>
+                        <span>@Utility.Phrase("GotoPage")
+                            <select class="pagenum input-mini" title="Select page number"></select>
+                        </span>
+                        <span>@Utility.Phrase("Pages")</span>
+                        <select class="pagesize input-mini m-0" title="Select page size">
+                            <option selected="selected" value="10">10</option>
+                            <option value="20">20</option>
+                            <option value="30">30</option>
+                            <option value="40">40</option>
+                            <option value="50">50</option>
+                        </select>
+                    </li>
+                </ul>
+                <ul class="fr m-0 box-page-image" style="display:none">
+                    <li class="ts-pager-image">
+                        <button type="button" title="@Utility.Phrase("GoBack")" class="prev"><i class="icon-go-back"></i></button>
+                        <span class="pagedisplay"></span>
+                        <button type="button" title="@Utility.Phrase("GoNext")" class="next"><i class="icon-go-next"></i></button>
+                        <span>
+                            @Utility.Phrase("GotoPage")
+                        <select class="pagenum-image input-mini" title="Select page number"></select>
+                    </span>
+                    <span>@Utility.Phrase("Pages")</span>
+                    <select class="pagesize input-mini m-0" title="Select page size">
+                        <option selected="selected" value="10">10</option>
+                        <option value="20">20</option>
+                        <option value="30">30</option>
+                        <option value="40">40</option>
+                        <option value="50">50</option>
+                    </select>
+                </li>
+                </ul>
+                <ul class="fr m-0 box-page-info" style="display:none">
+                    <li class="ts-pager-info">
+                        <button type="button" title="@Utility.Phrase("GoBack")" class="prev"><i class="icon-go-back"></i></button>
+                        <span class="pagedisplay"></span>
+                        <button type="button" title="@Utility.Phrase("GoNext")" class="next"><i class="icon-go-next"></i></button>
+                        <span>
+                            @Utility.Phrase("GotoPage")
+                            <select class="pagenum-info input-mini" title="Select page number"></select>
+                        </span>
+                        <span>@Utility.Phrase("Pages")</span>
+                        <select class="pagesize input-mini m-0" title="Select page size">
+                            <option selected="selected" value="10">10</option>
+                            <option value="20">20</option>
+                            <option value="30">30</option>
+                            <option value="40">40</option>
+                            <option value="50">50</option>
+                        </select>
+                    </li>
+                </ul>
+            </div>
+            <ul class="nav nav-tabs">
+                <li class="active"><a id="tabSummary" data-toggle="tab" href="#report-summary">@Utility.Phrase("Tab_Summary")</a></li>
+                <li><a id="tabVisit" data-toggle="tab" href="#report-visited">@Utility.Phrase("Tab_Visit")</a></li>
+                @*<li><a id="tabOrder" data-toggle="tab" href="#report-visited">@Utility.Phrase("Tab_StatusOrder")</a></li>*@
+                <li><a id="tabDisplay" data-toggle="tab" href="#report-image">@Utility.Phrase("Tab_ImageDisplay")</a></li>
+                @*<li><a id="tabSale" data-toggle="tab" href="#report-sale">@Utility.Phrase("Tab_MonitoringSales")</a></li>*@
+                <li><a id="tabOther" data-toggle="tab" href="#report-info">@Utility.Phrase("Tab_OtherInfo")</a></li>
+            </ul>
+        </div>
+
+        <div id="tableBox" class="tab-content wrapper">
+            @Html.Partial("VisitPartial", Model)
+        </div>
+    </div>
+</div>
+
+<script type='text/javascript'>
+    $(document).ready(function () {
+        
+        if ($('#Route').val() != "") {
+            document.getElementById("ViewGallery").style.display = "";
+        } else {
+            document.getElementById("ViewGallery").style.display = "none";
+        }
+        //document.getElementById("ViewGallery").style.display = "none";
+        $('#ViewGallery').click(function () {
+            $('#act').val("ViewGallery");
+            $('form').submit();
+        });
+        
+        $("body").on('click', '.nav-tabs li a', function () {
+            $('.toolbox ul').hide();
+            if ($(this).is("#tabSummary")) {
+                $('.box-page-summary').show();
+            } else if ($(this).is("#tabVisit")) {
+                $('.box-page-visit').show();
+            } else if ($(this).is("#tabDisplay")) {
+                $('.box-page-image').show();
+            } else {
+                $('.box-page-info').show();
+            }
+        });
+
+        $("body").on('click', '.input-group-btn table tbody tr', function () {
+            $(this).addClass('selected').siblings().removeClass('selected');
+            var keyVal = $(this).find('td:first').html();
+            var codeVal = $(this).find('td:nth-child(2)').html();
+            var nameVal = $(this).find('td:last').html();
+            if (keyVal == 0) { keyVal = ""; }
+            var parentdiv = $(this).parents('div[class^="ctr_combobox"]');
+            parentdiv.find('input[type^="text"]').val(codeVal + ' - ' + nameVal);
+            parentdiv.find('input[type^="hidden"]').val(keyVal);
+
+            var RegionVal = '';
+            if ($('#Region').val() != undefined) {
+                RegionVal = $('#Region').val();
+            }
+            var AreaVal = '';
+            if ($('#Area').val() != undefined) {
+                AreaVal = $('#Area').val();
+            }
+
+            var DistributorVal = 0;
+            if ($('#Distributor').val() != undefined) {
+                if ($('#Distributor').val() == "") {
+                    DistributorVal = 0;
+                } else {
+                    DistributorVal = $('#Distributor').val();
+                }
+            }
+            if ($('#Route').val() != undefined) {               
+                if ($('#Route').val() != "") {
+                    document.getElementById("ViewGallery").style.display = "";
+                } else {
+                    document.getElementById("ViewGallery").style.display = "none";
+                }
+            }
+            if (parentdiv.find('input[id^="Region"]').val() != undefined) {
+                $("#AreaCbox").load('@(Url.Action("ReloadOptionArea", "ReportTracking"))?regionID=' + RegionVal);
+                $("#DistributorCbox").load('@(Url.Action("ReloadOptionDistributor", "ReportTracking"))?regionID=' + RegionVal + '&areaID=' + AreaVal);
+                $("#RouteCbox").load('@(Url.Action("ReloadOptionRoute", "ReportTracking"))?regionID=' + RegionVal + '&areaID=' + AreaVal + '&distributorID=' + DistributorVal);
+            }
+            if (parentdiv.find('input[id^="Area"]').val() != undefined) {
+                $("#DistributorCbox").load('@(Url.Action("ReloadOptionDistributor", "ReportTracking"))?regionID=' + RegionVal + '&areaID=' + AreaVal);
+                $("#RouteCbox").load('@(Url.Action("ReloadOptionRoute", "ReportTracking"))?regionID=' + RegionVal + '&areaID=' + AreaVal + '&distributorID=' + DistributorVal);
+            }
+            if (parentdiv.find('input[id^="Distributor"]').val() != undefined) {
+                $("#RouteCbox").load('@(Url.Action("ReloadOptionRoute", "ReportTracking"))?regionID=' + RegionVal + '&areaID=' + AreaVal + '&distributorID=' + DistributorVal);
+            }
+        });
+
+        $('#btnExportExcel').click(function () {
+            $('form').attr('action', '@Utility.FooMethod("/ReportTracking/ReportVisitExportExecl")');
+            $('form').submit();
+        });
+        $('#btnExportPDF').click(function () {
+            $('form').attr('action', '@Utility.FooMethod("/ReportTracking/ReportVisitExportPDF")');
+            $('form').submit();
+        });
+        $('#Search').click(function () {
+            if (validation()) {
+                //alert($('#Route').val());
+                $('#act').val("Search");
+                $('form').attr('action', '@Utility.FooMethod("/ReportTracking/ReportVisit")');
+                $('form').submit();
+                $(".loading").show();
+            }
+        });
+
+        function valiDistributor() {
+            $('#ErMesgBox span[class^="error"]').html("");
+            DistributorVal = $('#Distributor').val();
+            if (DistributorVal == "" | DistributorVal == 0) {
+                $('#ErMesgBox span[class^="error"]').html("@Utility.Phrase("DistributorIsNotNull")");
+                return false;
+            }
+            else {
+                return true;
+            }
+        }
+
+        function validation() {
+            $('#ErMesgBox span[class^="error"]').html("");
+            strFromDate = $('#strFromDate').val();
+            if (strFromDate == "" | strFromDate == 0) {
+                $('#ErMesgBox span[class^="error"]').html("@Utility.Phrase("DateIsNotNull")");
+                return false;
+            }
+            else {
+                return true;
+                //if (valiDistributor()) {
+                //    return true;
+                //} else {
+                //    return false;
+                //}
+            }
+        }
+    });
+    hideColumnFilter();
+    hideColumnFilterVisit();
+    hideColumnFilterImage();
+    hideColumnFilterinfo();
+    function hideColumnFilter() {
+
+        if ($('#Region').val() != undefined) {
+            if ($('#Region').val() != "") {
+                $('#table-result td:nth-child(1),#table-result th:nth-child(1)').hide();
+            }
+        }
+
+        if ($('#Area').val() != undefined) {
+            if ($('#Area').val() != "") {
+                $('#table-result td:nth-child(1),#table-result th:nth-child(1)').hide();
+                $('#table-result td:nth-child(2),#table-result th:nth-child(2)').hide();
+            }
+        }
+
+        if ($('#Distributor').val() != undefined) {
+            if ($('#Distributor').val() == "" | $('#Distributor').val() == "0") {
+                $('#table-result td:nth-child(3),#table-result th:nth-child(3)').show();
+            } else {
+                $('#table-result td:nth-child(1),#table-result th:nth-child(1)').hide();
+                $('#table-result td:nth-child(2),#table-result th:nth-child(2)').hide();
+                $('#table-result td:nth-child(3),#table-result th:nth-child(3)').hide();
+            }
+        }
+        if ($('#Route').val() != undefined) {
+            if ($('#Route').val() != "") {
+                $('#table-result td:nth-child(1),#table-result th:nth-child(1)').hide();
+                $('#table-result td:nth-child(2),#table-result th:nth-child(2)').hide();
+                $('#table-result td:nth-child(3),#table-result th:nth-child(3)').hide();
+                $('#table-result td:nth-child(4),#table-result th:nth-child(4)').hide();
+            }
+        }
+    }
+    function hideColumnFilterVisit() {
+
+        if ($('#Region').val() != undefined) {
+            if ($('#Region').val() != "") {
+                $('#report-visited table td:nth-child(1),#report-visited table th:nth-child(1)').hide();
+            }
+        }
+
+        if ($('#Area').val() != undefined) {
+            if ($('#Area').val() != "") {
+                $('#report-visited table td:nth-child(1),#report-visited table th:nth-child(1)').hide();
+                $('#report-visited table td:nth-child(2),#report-visited table th:nth-child(2)').hide();
+            }
+        }
+
+        if ($('#Distributor').val() != undefined) {
+            if ($('#Distributor').val() == "" | $('#Distributor').val() == "0") {
+                $('#report-visited table td:nth-child(3),#report-visited table th:nth-child(3)').show();
+            } else {
+                $('#report-visited table td:nth-child(1),#report-visited table th:nth-child(1)').hide();
+                $('#report-visited table td:nth-child(2),#report-visited table th:nth-child(2)').hide();
+                $('#report-visited table td:nth-child(3),#report-visited table th:nth-child(3)').hide();
+                $('#report-visited table td:nth-child(4),#report-visited table th:nth-child(4)').hide();
+            }
+        }
+        if ($('#Route').val() != undefined) {
+            if ($('#Route').val() != "") {
+                $('#report-visited table td:nth-child(1),#report-visited table th:nth-child(1)').hide();
+                $('#report-visited table td:nth-child(2),#report-visited table th:nth-child(2)').hide();
+                $('#report-visited table td:nth-child(3),#report-visited table th:nth-child(3)').hide();
+                $('#report-visited table td:nth-child(4),#report-visited table th:nth-child(4)').hide();
+            }
+        }
+    }
+    function hideColumnFilterImage() {
+
+        if ($('#Region').val() != undefined) {
+            if ($('#Region').val() != "") {
+                $('#report-image table td:nth-child(1),#report-image table th:nth-child(1)').hide();
+            }
+        }
+
+        if ($('#Area').val() != undefined) {
+            if ($('#Area').val() != "") {
+                $('#report-image table td:nth-child(1),#report-image table th:nth-child(1)').hide();
+                $('#report-image table td:nth-child(2),#report-image table th:nth-child(2)').hide();
+            }
+        }
+
+        if ($('#Distributor').val() != undefined) {
+            if ($('#Distributor').val() == "" | $('#Distributor').val() == "0") {
+                $('#report-image table td:nth-child(3),#report-image table th:nth-child(3)').show();
+            } else {
+                $('#report-image table td:nth-child(1),#report-image table th:nth-child(1)').hide();
+                $('#report-image table td:nth-child(2),#report-image table th:nth-child(2)').hide();
+                $('#report-image table td:nth-child(3),#report-image table th:nth-child(3)').hide();
+            }
+        }
+        if ($('#Route').val() != undefined) {
+            if ($('#Route').val() != "") {
+                $('#report-image table td:nth-child(1),#report-image table th:nth-child(1)').hide();
+                $('#report-image table td:nth-child(2),#report-image table th:nth-child(2)').hide();
+                $('#report-image table td:nth-child(3),#report-image table th:nth-child(3)').hide();
+                $('#report-image table td:nth-child(4),#report-image table th:nth-child(4)').hide();
+            }
+        }
+    }
+    function hideColumnFilterinfo() {
+
+        if ($('#Region').val() != undefined) {
+            if ($('#Region').val() != "") {
+                $('#report-info table td:nth-child(1),#report-info table th:nth-child(1)').hide();
+            }
+        }
+
+        if ($('#Area').val() != undefined) {
+            if ($('#Area').val() != "") {
+                $('#report-info table td:nth-child(1),#report-info table th:nth-child(1)').hide();
+                $('#report-info table td:nth-child(2),#report-info table th:nth-child(2)').hide();
+            }
+        }
+
+        if ($('#Distributor').val() != undefined) {
+            if ($('#Distributor').val() == "" | $('#Distributor').val() == "0") {
+                $('#report-info table td:nth-child(3),#report-info table th:nth-child(3)').show();
+            } else {
+                $('#report-info table td:nth-child(1),#report-info table th:nth-child(1)').hide();
+                $('#report-info table td:nth-child(2),#report-info table th:nth-child(2)').hide();
+                $('#report-info table td:nth-child(3),#report-info table th:nth-child(3)').hide();
+            }
+        }
+        if ($('#Route').val() != undefined) {
+            if ($('#Route').val() != "") {
+                $('#report-info table td:nth-child(1),#report-info table th:nth-child(1)').hide();
+                $('#report-info table td:nth-child(2),#report-info table th:nth-child(2)').hide();
+                $('#report-info table td:nth-child(3),#report-info table th:nth-child(3)').hide();
+                $('#report-info table td:nth-child(4),#report-info table th:nth-child(4)').hide();
+            }
+        }
+    }
+</script>
+<script src="@Url.Content("~/Content/NewEtool/js/iviewer/jqueryui.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/Content/NewEtool/js/iviewer/jquery.mousewheel.min.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/Content/NewEtool/js/iviewer/jquery.iviewer.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/Content/NewEtool/js/iviewer/main.js")" type="text/javascript"></script>

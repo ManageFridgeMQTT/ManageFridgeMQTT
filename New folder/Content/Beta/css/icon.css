@@ -1,0 +1,616 @@
+﻿@charset "utf-8";
+/* CSS Document */
+
+/* icon */
+[class^="icon-"], [class*=" icon-"] {
+    background-image: url("../img/icon/glyphicons-halflings.png");
+    background-position: 14px 14px;
+    background-repeat: no-repeat;
+    display: inline-block;
+    height: 20px;
+    line-height: 20px;
+    width: 20px;
+    vertical-align: middle;
+}
+.icon-black {
+    background-image: url("../img/icon/glyphicons-halflings.png");
+}
+.icon-white {
+    background-image: url("../img/icon/glyphicons-halflings-white.png");
+}
+.icon-red {
+    background-image: url("../img/icon/glyphicons-halflings-red.png");
+}
+.icon-update {
+    background-position: -237px -21px;
+}
+.icon-display {
+    background-position: -262px -22px;
+}
+.icon-show {
+    background-position: -262px -22px;
+}
+.icon-add {
+    background-position: -404px -94px;
+}
+.icon-sub {
+    background-position: -429px -94px;
+}
+.icon-edit {
+    background-position: 3px -70px;
+}
+.icon-save {
+    background-position:  -379px -143px;
+}
+.icon-upload {
+    background-position:  -427px -143px;
+}
+.icon-select {
+    background-position: -141px -70px;
+}
+.icon-confirm {
+    background-position: -287px 2px;
+}
+.icon-confirm_simple {
+    background-position: -70px -94px;
+}
+.icon-back {
+    background-position: -237px -94px;
+}
+.icon-next {
+    background-position: -260px -94px;
+}
+.icon-delete {
+    background-position: -310px 2px;
+}
+.icon-delete_simple {
+    background-position: -47px -94px;
+}
+.icon-error {
+    background-position: -21px -93px;
+}
+.icon-home {
+    background-position: 3px -21px;
+}
+.icon-print {
+    background-position: -93px -45px;
+}
+.icon-alert {
+    background-position: -119px -94px;
+}
+.icon-submit {
+    background-position: -333px -95px;
+}
+.icon-cancel {
+    background-position: -213px -94px;
+}
+.icon-login {
+    background-position: -284px -21px;
+}
+.icon-logout {
+    background-position: -381px 2px;
+}
+.icon-up {
+	background-position: -285px -117px;
+}
+.icon-down {
+	background-position: -143px -167px;
+}
+.icon-lock {
+	background-position: -355px -167px;
+}
+.icon-unlock {
+	background-position: -379px -167px;
+}
+.icon-property {
+	background-position: -406px -166px;
+}
+.icon-album {
+	background-position: -453px -46px;
+}
+.icon-member{
+	background-position: -165px 3px;
+}
+.icon-profile {
+	background-position: -187px -142px;
+}
+.icon-search {
+	background-position: -45px 3px;
+}
+.icon-phone {
+	background-position: -430px -167px;
+}
+.icon-mail {
+	background-position: -450px -167px;
+}
+.icon-address {
+	background-position: -21px -69px;
+}
+.icon-note {
+	background-position: 3px -117px;
+}
+.icon-success {
+	background-position: -69px -93px;
+}
+.icon-user_view {
+	background-position: -93px -117px;
+}
+.icon-like {
+	background-position: -93px 3px;
+}
+.icon-fullscreen {
+	background-position: -450px -143px;
+}
+.icon-align-left {
+	background-position: -259px -45px;
+}
+.icon-align-center {
+	background-position: -282px -45px;
+}
+.icon-align-right {
+	background-position: -305px -45px;
+}
+.icon-go-first {
+    background-position: -188px -69px;
+}
+.icon-go-back {
+    background-position: -428px -69px;
+}
+.icon-go-next {
+    background-position: -453px -70px;
+}
+.icon-go-final {
+    background-position: -380px -69px;
+}
+.icon-progress {
+    background-position: -261px -69px;
+}
+.icon-pause {
+    background-position: -284px -69px;
+}
+.icon-stop {
+    background-position: -310px -69px;
+}
+.icon-rotate-clockwise {
+    background-position: -213px -22px;
+}
+.icon-rotate-counter-clockwise {
+    background-position: 3px -166px;
+}
+.icon-excel {
+    background-position: -21px -166px;
+}
+.icon-inactive {
+    background-position: -165px -93px;
+}
+.icon-active {
+    background-position: -189px -93px;
+}
+.icon-move {
+    background-position: -165px -69px;
+}
+.icon-plus {
+    background-position: -404px -94px;
+}
+.icon-minus {
+    background-position: -430px -94px;
+}
+.icon-uncheck {
+    background-position: -116px -70px;
+}
+.icon-checked {
+    background-position: -140px -70px;
+}
+
+/* icon report */
+[class^="icon-report_"], [class*=" icon-report_"] {
+    background-image: url("img/icon/icon-report.png");
+    background-position: 14px 14px;
+    background-repeat: no-repeat;
+    display: inline-block;
+    height: 20px;
+    line-height: 20px;
+    width: 20px;
+    vertical-align: bottom;
+	margin: 3px;
+}
+.icon-report_house {
+	background-position: 0 0;
+}
+.icon-report_villa {
+	background-position: -20px 0;
+}
+.icon-report_shop {
+	background-position: -40px 0;
+}
+.icon-report_office {
+	background-position: -60px 0;
+}
+.icon-report_building {
+	background-position: -80px 0;
+}
+.icon-report_land {
+	background-position: -100px 0;
+}
+.icon-report_apartment {
+	background-position: -120px 0;
+}
+.icon-report_personal {
+	background-position: 0 -20px;
+}
+.icon-report_buyer {
+	background-position: -20px -20px;
+}
+.icon-report_enterprise {
+	background-position: -40px -20px;
+}
+.icon-report_anonymous {
+	background-position: -60px -20px;
+} 
+.icon-report_bar_chart {
+	background-position: 0 -40px;
+}
+.icon-report_line_chart {
+	background-position: -20px -40px;
+}
+.icon-report_pie_chart {
+	background-position: -40px -40px;
+}
+.icon-report_font_family {
+	background-position: 0 -60px;
+}
+.icon-report_font_size{
+	background-position: -20px -60px;
+}
+.icon-report_font_color {
+	background-position: -40px -60px;
+}
+.icon-report_background_color {
+	background-position: -60px -60px;
+}
+.icon-report_printer {
+	background-position: 0 -80px;
+}
+.icon-report_excel {
+	background-position: -20px -80px;
+}
+.icon-report_pdf {
+	background-position: -40px -80px;
+}
+.icon-report_html {
+	background-position: -60px -80px;
+}
+
+/* icon emotion */
+[class^="icon-emotion_"], [class*=" icon-emotion_"] {
+	background-image: url("img/icon/emotion_icon.png");
+	background-position: 0px 0px;
+	background-repeat: no-repeat;
+	display: inline-block;
+	height: 40px;
+	line-height: 40px;
+	width: 40px;
+	vertical-align: bottom;
+}
+.icon-emotion_love {
+	background-position: 0px 0px;
+}
+.icon-emotion_love.icon-emotion_blue {
+	background-position: 0px -40px;
+}
+.icon-emotion_view {
+	background-position: -40px 0px;
+}
+.icon-emotion_view.icon-emotion_blue {
+	background-position: -40px -40px;
+}
+.icon-emotion_talk {
+	background-position: -80px 0px;
+}
+.icon-emotion_talk.icon-emotion_blue {
+	background-position: -80px -40px;
+}
+
+/* icon resource */
+[class^="icon-resource_"], [class*=" icon-resource_"] {
+	background-image: url("img/icon/resource_icon.png");
+	background-position: 0px 0px;
+	background-repeat: no-repeat;
+	display: inline-block;
+	height: 40px;
+	line-height: 40px;
+	width: 40px;
+	vertical-align: bottom;
+}
+.icon-resource_photo {
+	background-position: 0px 0px;
+}
+
+/* icon social */
+[class^="icon-social_"], [class*=" icon-social_"] {
+    background-image: url("img/icon/icon-social-white.png");
+    background-position: 14px 14px;
+    background-repeat: no-repeat;
+    display: inline-block;
+    height: 40px;
+    line-height: 40px;
+    width: 40px;
+    vertical-align: bottom;
+}
+.icon-social_facebook {
+	background-position: 0px 0px;
+}
+.icon-social_linkin {
+	background-position: -40px 0px;
+}
+.icon-social_twiter {
+	background-position: -80px 0px;
+}
+.icon-social_flickr{
+	background-position: -120px 0px;
+}
+
+/* icon component */
+[class^="icon-component_"], [class*=" icon-component_"] {
+	background-image: url("img/icon/icon-component.png");
+	background-position: 0px 0px;
+	background-repeat: no-repeat;
+	display: inline-block;
+	height: 80px;
+	line-height: 80px;
+	width: 80px;
+	vertical-align: bottom;
+}
+.icon-component_journal{
+	background-position: 0px 0px;
+}
+.icon-component_destination{
+	background-position: -80px 0px;
+}
+.icon-component_promotion{
+	background-position: -160px 0px;
+}
+
+/* icon visibility */
+[class^="icon-etool-"], [class*=" icon-etool-"] {
+	background-image: url("img/icon/icon-etool.png");
+	background-position: 0px 0px;
+	background-repeat: no-repeat;
+	display: inline-block;
+	height: 40px;
+	line-height: 40px;
+	width: 40px;
+	vertical-align: bottom;
+}
+.icon-etool-black {
+	background-image: url("img/icon/icon-etool-black.png");
+}
+.icon-etool-cyan {
+	background-image: url("img/icon/icon-etool-cyan.png");
+}
+.icon-etool-dashboard {
+	background-position: 0px 0px;
+}
+.icon-etool-report{
+	background-position: -40px 0px;
+}
+.icon-etool-image {
+	background-position: -80px 0px;
+}
+.icon-etool-image-confirm {
+	background-position: -120px 0px;
+}
+.icon-etool-image-confirm-route {
+	background-position: -160px 0px;
+}
+.icon-etool-image-confirm-leader {
+	background-position: -200px 0px;
+}
+.icon-etool-outlet {
+	background-position: -240px 0px;
+}
+.icon-etool-outlet-confirm {
+	background-position: -280px 0px;
+}
+.icon-etool-outlet-confirm-daily {
+	background-position: -320px 0px;
+}
+.icon-etool-leader-staff {
+	background-position: -360px 0px;
+}
+.icon-etool-display {
+	background-position: 0px -40px;
+}
+.icon-etool-display-confirm {
+	background-position: -40px -40px;
+}
+.icon-etool-product {
+	background-position: -80px -40px;
+}
+.icon-etool-saleman-confirm {
+	background-position: -120px -40px;
+}
+.icon-etool-saleman-route {
+	background-position: -160px -40px;
+}
+.icon-etool-saleman-list {
+	background-position: -200px -40px;
+}
+.icon-etool-config {
+	background-position: -240px -40px;
+}
+.icon-etool-global {
+	background-position: -280px -40px;
+}
+.icon-etool-bell {
+	background-position: -320px -40px;
+}
+.icon-etool-english {
+	background-position: 0px -80px;
+}
+.icon-etool-vietnamese {
+	background-position: -40px -80px;
+}
+.icon-etool-saleman-report {
+	background-position: -80px -80px;
+}
+.icon-etool-pencil-report {
+	background-position: -120px -80px;
+}
+.icon-etool-saleman-config {
+	background-position: -160px -80px;
+}
+.icon-etool-pencil-config {
+	background-position: -200px -80px;
+}
+.icon-etool-reason {
+	background-position: -240px -80px;
+}
+.icon-etool-image-reject {
+	background-position: -280px -80px;
+}
+.icon-etool-auto {
+	background-position: -320px -80px;
+}
+.icon-etool-auto-effort {
+	background-position: -360px -80px;
+}
+.icon-etool-supervisor {
+	background-position: 0px -120px;
+}
+.icon-etool-image-saleman {
+	background-position: -40px -120px;
+}
+.icon-etool-saleman-product {
+	background-position: -80px -120px;
+}
+.icon-etool-saleman-product-confirm {
+	background-position: -120px -120px;
+}
+.icon-etool-outlet-active {
+	background-position: -160px -120px;
+}
+.icon-etool-route-outlet-none {
+	background-position: -200px -120px;
+}
+.icon-etool-product-confirm {
+	background-position: -240px -120px;
+}
+.icon-etool-timekeeping {
+	background-position: -280px -120px;
+}
+.icon-etool-schedule {
+	background-position: -320px -120px;
+}
+.icon-etool-user-list {
+	background-position: -360px -120px;
+}
+.icon-etool-permission {
+	background-position: 0px -160px;
+}
+.icon-etool-user-history {
+	background-position: -40px -160px;
+}
+.icon-etool-menu-config {
+	background-position: -80px -160px;
+}
+.icon-etool-dictionary {
+	background-position: -120px -160px;
+}
+.icon-etool-calendar {
+	background-position: -160px -160px;
+}
+.icon-etool-calendar-repair {
+	background-position: -200px -160px;
+}
+.icon-etool-calendar-confirm {
+	background-position: -240px -160px;
+}
+.icon-etool-training {
+	background-position: -280px -160px;
+}
+.icon-etool-calendar-supervisor {
+	background-position: -320px -160px;
+}
+.icon-etool-calendar-training {
+	background-position: -360px -160px;
+}
+.icon-etool-theme {
+	background-position: 0px -200px;
+}
+.icon-etool-group-permission {
+	background-position: -40px -200px;
+}
+.icon-etool-staff-outlet {
+	background-position: -80px -200px;
+}
+.icon-etool-staff-display {
+	background-position: -120px -200px;
+}
+.icon-etool-image-auto {
+	background-position: -160px -200px;
+}
+.icon-etool-image-view {
+	background-position: -200px -200px;
+}
+.icon-etool-refresh {
+	background-position: -240px -200px;
+}
+.icon-etool-baseline {
+	background-position: -280px -200px;
+}
+.icon-etool-print {
+	background-position: 0px -240px;
+}
+.icon-etool-excel {
+	background-position: -40px -240px;
+}
+.icon-etool-pdf {
+	background-position: -80px -240px;
+}
+.icon-etool-csv {
+	background-position: -120px -240px;
+}
+.icon-etool-assume {
+	background-position: -320px -200px;
+}
+.icon-etool-import-excel {
+	background-position: -160px -240px;
+}
+
+/* icon visibility big */
+[class^="icon-etool-big-"], [class*=" icon-etool-big-"] {
+	background-image: url("img/icon/icon-etool-big.png");
+	background-position: 0px 0px;
+	background-repeat: no-repeat;
+	display: block;
+	height: 100px;
+	line-height: 100px;
+	width: 100px;
+	vertical-align: bottom;
+	margin: 0 auto;
+}
+.icon-etool-big-route-staff {
+	background-position: 0px 0px;
+}
+.icon-etool-big-result-confirm {
+	background-position: -100px 0px;
+}
+.icon-etool-big-image-deny {
+	background-position: -200px 0px;
+}
+.icon-etool-big-datetime {
+	background-position: -300px 0px;
+}
+.icon-etool-big-image {
+	background-position: 0px -100px;
+}
+.icon-etool-big-image-confirm {
+	background-position: -100px -100px;
+}
+.icon-etool-big-product {
+	background-position: -200px -100px;
+}
+.icon-etool-big-report {
+	background-position: -300px -100px;
+}

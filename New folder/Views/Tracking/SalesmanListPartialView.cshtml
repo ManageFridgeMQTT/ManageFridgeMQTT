@@ -1,0 +1,27 @@
+﻿@model List<Map_Salesman>
+@using DevExpress.Web.Mvc.UI;
+@using DevExpress.Web.Mvc;
+@using System.Web.UI.WebControls;
+<div style="max-height: 250px; overflow: auto;">
+    @Html.DevExpress().CheckBox(
+        settings =>
+        {
+            settings.Name = "checkAll";
+            settings.Checked = true;
+            settings.Text = "Check All";
+            //settings.ClientVisible = Model.Count > 0 ? true : false;
+            settings.Properties.ClientSideEvents.CheckedChanged = "function (s, e){ ToggleListSM(); }";
+        }).GetHtml()
+    @Html.DevExpress().CheckBoxList(
+        settings =>
+        {
+            settings.Name = "listSM";
+            settings.Properties.ValueField = "SalesmanID";
+            settings.Properties.TextField = "SalesmanName";
+            settings.Properties.RepeatLayout = RepeatLayout.Flow;
+            settings.Properties.RepeatDirection = RepeatDirection.Vertical;
+            settings.Properties.RepeatColumns = 1;
+            settings.Width = Unit.Pixel(250);
+            settings.Properties.TextWrap = false;
+        }).BindList(Model).GetHtml()
+</div>

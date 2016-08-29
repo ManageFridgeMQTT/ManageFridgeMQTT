@@ -1,0 +1,26 @@
+﻿@model List<OptionKPIPeriodConfig>
+<tr>
+    <td style="display: none"></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+</tr>
+@foreach (var item in Model)
+{
+    <tr>
+        <td style="display: none">@item.RefNbr</td>
+        <td>@item.RefNbr</td>
+        <td>@item.ShortDescription</td>
+        <td>@item.FromDate.ToShortPattern()</td>
+        <td>@item.ToDate.ToShortPattern()</td>
+        <td>@item.CodeListSalesID</td>
+        <td>@item.Description</td>
+        <td>@item.CodeKPI</td>
+        <td>@item.NameKPI</td>
+    </tr>
+}

@@ -1,0 +1,41 @@
+﻿@model System.Data.DataTable
+<div id="report-sale-supervisor-work-with" class="tab-pane">
+    <table class="tablesorter">
+        <thead>
+            <tr>
+                <th>Vùng</th>
+                <th>Khu vực</th>
+                <th>Nhà phân phối</th>
+                <th>Tuyến</th>
+                <th>NVBH</th>
+                <th>Khách hàng</th>
+                <th>Làm việc với giám sát</th>
+                <th>Thời điểm giám sát ghé cửa hàng</th>
+                <th>Thời điểm NVBH ghé cửa hàng</th>
+                <th>Thời gian chênh lệch</th>
+                <th>Khoảng cách giám sát và cửa hàng</th>
+                <th>Call hợp lệ</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (System.Data.DataRow elm in Model.Rows)
+            {
+                <tr>
+                    <td class="fixed">@elm["RegionName"]</td>
+                    <td class="fixed">@elm["AreaName"]</td>
+                    <td class="fixed">@elm["DistributorName"]</td>
+                    <td>@elm["RouteName"]</td>
+                    <td>@elm["SalesmanName"]</td>
+                    <td>@elm["OutletName"]</td>
+                    <td style="display: none">@elm["HasSaleSup"]</td>
+                    <td style="display: none">@elm["TimeSaleSupVisit"]</td>
+                    <td style="display: none">@elm["TimeSalemanVisit"]</td>
+                    <td style="display: none">@elm["Distance"]</td>
+                    <td style="display: none">@elm["DistanceSaleSup"]</td>
+                    <td style="display: none">@elm["ValidCall"]</td>
+                </tr>
+            }
+        </tbody>
+
+    </table>
+</div>

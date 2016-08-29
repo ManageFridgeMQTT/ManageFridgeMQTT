@@ -1,0 +1,33 @@
+﻿<div class="dd" id="nestable">
+  @{
+      List<pp_GetListMenuResult> listMenu = ViewData["FeaturesSelected"] as List<pp_GetListMenuResult>;
+      if (listMenu != null)
+      {
+        @Html.Partial("PartialTreeMenu", listMenu, new ViewDataDictionary() { {"ParentID", 0} })
+      }
+      }
+</div>
+@Html.Hidden("valJsonMenu")
+<script type="text/ecmascript">
+    $(document).ready(function () {
+        var updateOutput = function (e) {
+            var list = e.length ? e : $(e.target),
+                output = list.data('output');
+            if (window.JSON) {
+                output.val(window.JSON.stringify(list.nestable('serialize')));//, null, 2));
+            } else {
+                output.val('JSON browser support required for this demo.');
+            }
+        };
+
+        // activate Nestable for list 1
+        $('#nestable').nestable({
+            group: 1
+        })
+        .on('change', updateOutput);
+
+        // output initial serialised data
+        updateOutput($('#nestable').data('output', $('#valJsonMenu')));
+
+    });
+</script>

@@ -1,0 +1,165 @@
+﻿@{
+    ViewBag.Title = Utility.Phrase("LBL_Dictionary");
+    Layout = "~/Views/Shared/_NewLayout.cshtml";
+}
+<script type="text/javascript">
+    $(function () {
+
+        $('#searchbtn').click(function () {
+            $('form').attr('action', '/Phrase/Dictionary');
+            $('form').submit();
+        });
+        $('#uploadbtn').click(function () {
+            $('form').attr('action', '/Phrase/FileUpload');
+            $('form').submit();
+        });
+        $('#downloadbtn').click(function () {
+            $('form').attr('action', '/Phrase/DownTemplate');
+            $('form').submit();
+        });
+
+        $("table tr:even input").addClass("even");
+        //$("input.dic").blur(function () {
+        //    var languageID = $(this).attr("langid");
+        //    var code = $(this).attr("code");
+        //    var text = $(this).val();
+        //    var input = $(this);
+           @* if(input.attr("curPhrase") != text)
+            {
+                //var loading = $(this).next();               
+                //loading.show();
+                $.ajax({
+                    url: '../Phrase/UpdatePhrase',
+                    data: { 
+                    languageID: languageID, code: code, text: text
+                    },
+                    type: 'POST',
+                    success: function (data) {                       
+                        if (data == true) {                           
+                            input.attr("curPhrase", text);
+                        }
+                        else {
+                            alert('@Utility.Phrase("AnErrorOccurWhenUpdatePhrase")');
+                            input.val(input.attr("curPhrase"));
+                        }
+                        //loading.hide();
+                    },
+                    error: function (xhr, status, err) {
+                       // loading.hide();
+                    }
+                });
+             }*@
+        // });
+    });
+    function savePhare(text, languageID, code) {
+        $.ajax({
+            url: '../Phrase/UpdatePhrase',
+            data: 'languageID=' + languageID + '&code=' + code + '&text=' + text,
+            type: 'POST',
+            success: function (response) {
+                if (data == true) {
+                    input.attr("curPhrase", text);
+                }
+                else {
+                    alert('@Utility.Phrase("AnErrorOccurWhenUpdatePhrase")');
+                    input.val(input.attr("curPhrase"));
+                }
+            },
+            error: function (err) {
+                alert(err);
+            }
+        });
+    }
+</script>
+<!-- ------------- -->
+
+<form action="" id="Dictionary" method="post" name="Dictionary" enctype="multipart/form-data">
+   <div class="insider">
+    <div class="row content-header">
+        <h1 class="sales-report-h1">@ViewBag.Title</h1>
+    </div>
+
+<!-- UploadFile -->
+<input name="uploadFile" id="uploadFile" type="file" />
+<button type="submit" class="btn_long" id="uploadbtn" name="uploadbtn">
+    @Utility.Phrase("UploadFile")
+</button>
+<button type="submit" class="btn_long" id="downloadbtn" name="uploadbtn">
+    @Utility.Phrase("DownTemplateDictionary")
+</button>
+    <button type="submit" class="btn_long" id="save-btn">
+    @Utility.Phrase("ApplyAllChange")
+</button>
+
+    @Html.TextBox("txtSearch")
+    <button type="submit" class="btn_long" id="searchbtn" name="searchbtn">
+        @Utility.Phrase("Search")
+    </button
+
+<br clear="all" />
+@{
+    Dictionary<string, Dictionary<string, string>> Dictionaries = (Dictionary<string, Dictionary<string, string>>)ViewData["Dictionaries"];
+    List<eRoute.Models.Language> LanguageList = (List<eRoute.Models.Language>)ViewData["LanguageList"];
+}
+<div style="margin: 5px 0px">
+    @Utility.Phrase("Total")
+    <b>@Dictionaries[Utility.DefaultLanguage].Count</b>
+    @Utility.Phrase("records")
+    @Utility.Phrase("SYVN")
+</div>
+<table class ="border-none no-selected">
+    <thead>
+        <tr>
+            <th style="text-align: left; width: 20px;">
+                #
+            </th>
+            <th>
+                @Utility.Phrase("Code")
+            </th>
+            @for (int i = 0; i < LanguageList.Count; i++)
+            {
+                <th>
+                    @LanguageList[i].LangName
+                </th>
+            }
+        </tr>
+    </thead>
+    <tbody>
+        @{
+            string[] KeyList = Dictionaries[Utility.DefaultLanguage].Keys.ToArray<string>();
+            for (int i = 0; i < KeyList.Length; i++)
+            {    
+            <tr>
+                <td style="text-align: left;" notallowclicktocheck>
+                    @Html.Raw((i + 1).ToString())
+                </td>
+                <td notallowclicktocheck style="width: 150px; text-align: left;">
+                    @Html.Raw(KeyList[i])
+                    <input type ="hidden" id ="Code + @(i + 1)" value="@KeyList[i]"> 
+                </td>
+                @for (int j = 0; j < LanguageList.Count; j++)
+                {
+                    <td class="phrase" notallowclicktocheck style="width: 300px">
+                        @if (Dictionaries[LanguageList[j].Code].ContainsKey(KeyList[i]))
+                        {
+
+                            <input type="text" 
+                                    value='@Html.Raw(Utility.StringParse(Dictionaries[LanguageList[j].Code][KeyList[i]]))'
+                                    code="@Utility.StringParse(KeyList[i])" 
+                                    langid="@LanguageList[j].LangID" 
+                                    curphrase="@Html.Raw(Utility.StringParse(Dictionaries[LanguageList[j].Code][KeyList[i]]))"
+                                    style="width:95%"
+                                    class="dic"
+                             onchange="savePhare(this.value,@LanguageList[j].LangID,document.getElementById('Code + @(i + 1)').value)" />
+                           
+                        }
+                    </td>
+                }
+            </tr>
+            }
+        }
+    </tbody>
+</table>
+      </div>
+</form>
+       

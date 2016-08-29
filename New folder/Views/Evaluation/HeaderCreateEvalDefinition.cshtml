@@ -1,0 +1,78 @@
+﻿@model eRoute.Models.FilterModel
+<div id="HeaderEvaluation" class="w-100pr">
+    @*Ma Danh Gia*@
+    <div class="item fl">
+        <label for="code" class="fl">@Utility.Phrase("EvaluationCode")</label>
+        <div class="input-group">
+            @Html.TextBox("EvaluationCode", Model.EvaluationID, new { @placeholder = Utility.Phrase("AutoEvaluationCode"), @disabled = true })
+        </div>
+    </div>
+    @*CTTB*@
+    <div class="item fl">
+        <label for="display" class="fl">@Utility.Phrase("DisplayName")</label>
+        <div class="input-group">
+            @Html.Hidden("DisplayID")
+            @Html.TextBox("DisplayCode", Model.Display, new { @class = "form-control", @placeholder = Utility.Phrase("SelectDisplayName") })
+            <div class="input-group-btn">
+                <button type="button" id="btndisplay" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="caret"></span></button>
+                <ul class="dropdown-menu">
+                    <li>
+                        <div style="height: 400px; overflow-y: auto; overflow-x: auto;" class="table-box wrapper">
+                            <table class="table table-striped nowrap m-0">
+                                <thead class="block-theme">
+                                    <tr>
+                                        <th>@Utility.Phrase("No")</th>
+                                        <th>@Utility.Phrase("DisplayName")</th>
+                                        @*<th>@Utility.Phrase("Description") </th>*@
+                                        <th>@Utility.Phrase("TimeDisplay")</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="my_table_Display">
+                                    @if (Model.DisplayData != null)
+                                    {
+                                        foreach (var item in Model.DisplayData)
+                                        {
+                                        <tr>
+                                            <td>@Html.DisplayFor(modelItem => item.STT)</td>
+                                            <td style="display: none;">@Html.DisplayFor(modelItem => item.MaCTTB)</td>
+                                            <td>@Html.DisplayFor(modelItem => item.ChuongTrinhTrungBay)</td>
+                                            <td style="display: none;">@Html.DisplayFor(modelItem => item.MoTa)</td>
+                                            <td>@Html.DisplayFor(modelItem => item.ThoiGianTrungBay)</td>
+                                            <td style="display: none;">@Html.DisplayFor(modelItem => item.ThoiGianBatDau)</td>
+                                            <td style="display: none;">@Html.DisplayFor(modelItem => item.ThoiGianKetThuc)</td>
+                                            <td style="display: none;">@(item.IsNummeric ? "1" : "0")</td>
+                                        </tr>
+                                        }
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    @*Ma Tham Chieu*@
+    @*<div class="item fl">
+        <label class="fl">@Utility.Phrase("ReferenceCode")</label>
+        <div class="input-group">
+            @Html.TextBox("RefNumber", Model.ReferenceCD, new { @name ="NameofRefEvaluation", @placeholder = Utility.Phrase("SelectReferenceCode"), @onchange ="LoadItemListByRefNumber()" })
+        </div>
+    </div>*@
+    <table><tr></tr></table>
+    @*Noi Dung*@
+    <div class="item fl">
+        <label>@Utility.Phrase("Content")</label>
+        <div class="input-group">
+            @Html.TextBox("EvalContent", Model.Content)
+        </div>
+    </div>
+    @*Mo Ta*@
+    <div class="item fl">
+        <label class="fl">@Utility.Phrase("Description")</label>
+        <div class="input-group">
+            @Html.TextBox("EvalDesc", Model.Description)
+        </div>
+    </div>
+    
+</div>

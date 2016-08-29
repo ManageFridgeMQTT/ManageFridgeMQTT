@@ -1,0 +1,29 @@
+﻿@model BaseModel
+<span class="error">@Model.strError</span> <span class="message">@Model.strMessage</span>
+<span class="success">@Model.strSuccess</span>
+<style type="text/css">
+    .error
+    {
+        color: Black;
+        display: block;
+        font-weight: bold;
+        margin: 10px;
+        font-size: 16px;
+    }
+    .message
+    {
+        color: Red;
+        display: block;
+        font-weight: bold;
+        margin: 10px;
+        font-size: 16px;
+    }
+    .success
+    {
+        color: Green;
+        display: block;
+        font-weight: bold;
+        margin: 10px;
+        font-size: 16px;
+    }
+</style>

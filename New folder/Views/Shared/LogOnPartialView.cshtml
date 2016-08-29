@@ -1,0 +1,198 @@
+@{
+    eRoute.ACModels.ChangePasswordModel m = new eRoute.ACModels.ChangePasswordModel();
+    if (SessionHelper.GetSession<eRoute.ACModels.ChangePasswordModel>("ChangePasswordModel") != null)
+    {
+        m = SessionHelper.GetSession<eRoute.ACModels.ChangePasswordModel>("ChangePasswordModel");
+    }
+    else
+    {
+        //System.Web.HttpContext.Current.Response.Redirect("../Account/Login");
+    }
+}
+<input type="hidden" value = "@Session["lang"]" id="myHiddenVar" />
+<input type="hidden" value = "@Utility.Phrase("ErrorUpdateUser")" id="ErrorUpdateUser" />
+<input type="hidden" value = "@Utility.Phrase("SucceedUpdateUser")" id="SucceedUpdateUser" />
+<link href="@Url.Content("~/Content/Site.css")" rel="stylesheet" type="text/css" />
+<link href="@Url.Content("~/Content/Css/style.css")" rel="stylesheet" type="text/css" />
+<link href="@Url.Content("~/Content/Css/tooltipster.css")" rel="stylesheet" type="text/css" />
+
+@*@Html.Partial("~/Views/Shared/Header/ThemeSelectorPartial.cshtml") |*@
+@*@Html.Partial("~/Views/Shared/Header/LanguageSelectorPartial.cshtml") |*@
+@if (!string.IsNullOrEmpty(SessionHelper.GetSession<string>("UserName")))//Request.IsAuthenticated)
+{
+    @*<span id="demo-interactT" title="<table cellpadding='5' cellspacing='5'><tr><td><a id='Aqua' style='cursor:pointer' onclick='DXCommon.SetCurrentTheme(this.id)'><span style='border: 1px solid #dadada;background-color: #96B9EC;vertical-align: middle;margin: 1px 7px 3px 2px;display: inline-block;width: 32px;height: 22px;padding: 1px;' /></a></td><td><a id='DevEx' style='cursor:pointer' onclick='DXCommon.SetCurrentTheme(this.id)'><span style='border: 1px solid #dadada;background-color: #DCDCDC;vertical-align: middle;margin: 1px 7px 3px 2px;display: inline-block;width: 32px;height: 22px;padding: 1px;'  /></a></td><td><a id='Moderno' style='cursor:pointer' onclick='DXCommon.SetCurrentTheme(this.id)'><span style='border: 1px solid #dadada;background-color: #1279C0;vertical-align: middle;margin: 1px 7px 3px 2px;display: inline-block;width: 32px;height: 22px;padding: 1px;'/></a></td></tr></table>">
+        <a href="javascript:;">@DMSERoute.Helpers.Utility.Phrase("Themes")</a> </span> @:|
+    <span id="demo-interactL"><a href="javascript:;">@DMSERoute.Helpers.Utility.Phrase("Languages")</a>
+    </span> @: |*@
+    @Html.ActionLink(@DMSERoute.Helpers.Utility.Phrase("ChangePassword"), "", null, new { href = "javascript:pcModalMode.Show();" })
+    @:|
+   
+    @: @DMSERoute.Helpers.Utility.Phrase("Welcome") <b>@User.Identity.Name</b>
+    
+    @: |
+    @Html.ActionLink(DMSERoute.Helpers.Utility.Phrase("LogOff"), "LogOff", "Account")
+    <script src="@Url.Content("~/Content/Js/jquery.tooltipster.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Content/Js/scripts.js")" type="text/javascript"></script>
+    <script type="text/javascript">
+        var str = $('#myHiddenVar').val().split('|')
+        var tableHtml = "<table cellpadding='5' cellspacing='5'><tr>";
+        for (var i = 0; i < str.length; i++) {
+            var sub = str[i].split(',');
+            tableHtml += "<td><a id='" + sub[0] + "' style='cursor:pointer' onclick='DXCommon.SetCurrentLanguage(this.id)'><img src='" + sub[1] + "' /></a></td>";
+        }
+        tableHtml += "</tr></table>";
+        $('#demo-interactL').attr("title", tableHtml);
+
+        $('#demo-interactT').tooltipster({
+            contentAsHTML: true,
+            interactive: true
+        });
+        $('#demo-interactL').tooltipster({
+            contentAsHTML: true,
+            interactive: true
+        });
+
+        function UpdateUser(s, e) {
+            $.ajax({
+                url: '../Account/UpdateUser',
+                data: 'UserName=' + pcModalMode_txtUserName.GetText() + '&FullName=' + pcModalMode_txtFullName.GetText() + '&Email=' + pcModalMode_txtEmail.GetText() + '&Phone=' + pcModalMode_txtPhone.GetText() + '&PasswordOld=' + pcModalMode_txtPasswordOld.GetText() + '&NewPassword=' + pcModalMode_txtNewPassword.GetText(),
+                type: 'POST',
+                cache: false,
+                dataType: 'json',
+                error: function (xhr, status, errorThrown) {
+                    alert(errorThrown);
+                },
+                success: function (data) {
+                    if (data.Val == 'No') {
+                        alert($('#ErrorUpdateUser').val());
+                    }
+                    else {
+                        pcModalMode.Hide();
+                        alert($('#SucceedUpdateUser').val());
+                        window.location.href = "../Account/LogOff";
+                    }
+                }
+            });
+        }
+    </script>
+    @Html.DevExpress().PopupControl(
+    settings =>
+    {
+        settings.Name = "pcModalMode";
+        settings.Width = 600;
+        settings.AllowDragging = true;
+        settings.CloseAction = CloseAction.CloseButton;
+        settings.PopupAnimationType = AnimationType.Fade;
+        settings.HeaderText = DMSERoute.Helpers.Utility.Phrase("ChangePassword");
+        settings.Modal = true;
+        settings.PopupHorizontalAlign = PopupHorizontalAlign.WindowCenter;
+        settings.PopupVerticalAlign = PopupVerticalAlign.WindowCenter;
+        string strCreate = WebSecurity.GetCreateDate(SessionHelper.GetSession<string>("UserName")).ToString("dd/MM/yyyy hh:ss:mm");
+        string strUpdate = WebSecurity.GetPasswordChangedDate(SessionHelper.GetSession<string>("UserName")).ToString("dd/MM/yyyy hh:ss:mm");
+        bool check = false;
+        //if (strCreate == strUpdate)
+        //{
+        //    settings.ShowOnPageLoad = true;
+        //    settings.AllowDragging = false;
+        //    check = true;
+        //    settings.CloseAction = CloseAction.None;
+        //}
+        settings.SetContent(() =>
+        {
+            ViewContext.Writer.Write("<table cellpadding='5' cellspacing='2' width='100%'><tr><td>" + DMSERoute.Helpers.Utility.Phrase("UserName") + "</td><td>");
+            Html.DevExpress().TextBox(
+                textBoxSettings =>
+                {
+                    textBoxSettings.Name = "pcModalMode_txtUserName";
+                    textBoxSettings.Text = m.UserName;
+                    textBoxSettings.ClientEnabled = false;
+                    textBoxSettings.Width = 170;
+                }
+            )
+            .GetHtml();
+            ViewContext.Writer.Write("</td><td> " + DMSERoute.Helpers.Utility.Phrase("FullName") + "</td><td>");
+            Html.DevExpress().TextBox(
+               textBoxSettings =>
+               {
+                   textBoxSettings.Name = "pcModalMode_txtFullName";
+                   textBoxSettings.Width = 170;
+                   textBoxSettings.ClientEnabled = false;
+                   textBoxSettings.Text = m.FullName;
+               }
+           )
+           .GetHtml();
+            ViewContext.Writer.Write("</td></tr><tr><td>" + DMSERoute.Helpers.Utility.Phrase("Email") + "</td><td>");
+            Html.DevExpress().TextBox(
+               textBoxSettings =>
+               {
+                   textBoxSettings.Name = "pcModalMode_txtEmail";
+                   textBoxSettings.Width = 170;
+                   textBoxSettings.ClientEnabled = false;
+                   textBoxSettings.Text = m.Email;
+               }
+           )
+           .GetHtml();
+            ViewContext.Writer.Write("</td><td>" + DMSERoute.Helpers.Utility.Phrase("Phone") + "</td><td>");
+            Html.DevExpress().TextBox(
+               textBoxSettings =>
+               {
+                   textBoxSettings.Name = "pcModalMode_txtPhone";
+                   textBoxSettings.Width = 170;
+                   textBoxSettings.ClientEnabled = false;
+                   textBoxSettings.Text = m.Phone;
+               }
+           )
+           .GetHtml();
+            ViewContext.Writer.Write("</td></tr><tr><td>" + DMSERoute.Helpers.Utility.Phrase("PasswordOld") + "</td><td>");
+            Html.DevExpress().TextBox(
+              textBoxSettings =>
+              {
+                  textBoxSettings.Properties.Password = true;
+                  textBoxSettings.Name = "pcModalMode_txtPasswordOld";
+                  textBoxSettings.Width = 170;
+              }
+          )
+          .GetHtml();
+            ViewContext.Writer.Write("</td><td>" + DMSERoute.Helpers.Utility.Phrase("NewPassword") + "</td><td>");
+            Html.DevExpress().TextBox(
+              textBoxSettings =>
+              {
+                  textBoxSettings.Properties.Password = true;
+                  textBoxSettings.Name = "pcModalMode_txtNewPassword";
+                  textBoxSettings.Width = 170;
+              }
+          )
+          .GetHtml();
+            ViewContext.Writer.Write("</td></tr><tr><td align='center' colspan='4'><table><tr><td>");
+
+            Html.DevExpress().Button(
+                   buttonSettings =>
+                   {
+                       buttonSettings.Name = "pcModalMode_btnUpdate";
+                       buttonSettings.ControlStyle.CssClass = "button";
+                       buttonSettings.Width = 80;
+                       buttonSettings.Text = DMSERoute.Helpers.Utility.Phrase("Update");
+                       buttonSettings.ClientSideEvents.Click = "function(s, e){ UpdateUser(s, e) }";
+                   }
+               )
+               .GetHtml();
+            ViewContext.Writer.Write("</td><td>");
+            Html.DevExpress().Button(
+                    buttonSettings =>
+                    {
+                        buttonSettings.Name = "pcModalMode_btnCancel";
+                        buttonSettings.ControlStyle.CssClass = "button";
+                        if (check)
+                        {
+                            buttonSettings.ClientEnabled = false;
+                        }
+                        buttonSettings.Width = 80;
+                        buttonSettings.Text = DMSERoute.Helpers.Utility.Phrase("Cancel");
+                        buttonSettings.ClientSideEvents.Click = "function(s, e){ pcModalMode.Hide(); }";
+                    }
+                )
+                .GetHtml();
+            ViewContext.Writer.Write("</td></tr></table></td></tr></table>");
+        });
+    }).GetHtml()
+}

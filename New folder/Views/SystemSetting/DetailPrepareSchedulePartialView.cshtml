@@ -1,0 +1,224 @@
+﻿@model System.Collections.IEnumerable
+@using DevExpress.Web.Mvc.UI;
+@using DevExpress.Web.Mvc;
+@using System.Web.UI.WebControls;
+@Html.DevExpress().GridView(grid =>
+{
+    //grid.Name = "gridDetailSchedule";
+    //grid.KeyFieldName = "ID";
+    //grid.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+    //grid.Height = System.Web.UI.WebControls.Unit.Percentage(100);
+
+    //grid.CallbackRouteValues = new { Controller = "SystemSetting", Action = "DetailPrepareSchedulePartialView" };
+    //grid.SettingsEditing.UpdateRowRouteValues = new { Controller = "SystemSetting", Action = "UpdateDetailSchedule" };
+
+
+    grid.Name = "gridDetailSchedule";
+    grid.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+    grid.Height = System.Web.UI.WebControls.Unit.Percentage(100);
+    grid.KeyFieldName = "ID";
+    grid.CallbackRouteValues = new { Controller = "SystemSetting", Action = "DetailPrepareSchedulePartialView" };
+    grid.CustomActionRouteValues = new { Cotroller = "SystemSetting", Action = "UpdateDetailSchedule" };
+    grid.Styles.Header.Font.Bold = true;
+    grid.Styles.Header.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
+    grid.Styles.Footer.ForeColor = System.Drawing.Color.Red;
+    grid.Styles.Footer.Font.Size = 12;
+    grid.Settings.ShowHeaderFilterButton = true;
+    grid.SettingsPopup.HeaderFilter.Height = 200;
+    grid.SettingsText.EmptyDataRow = Utility.Phrase("EmptyDataRow");
+    grid.SettingsPager.Summary.Text = Utility.Phrase("Page") + " {0} - {1} ({2} " + Utility.Phrase("Row") + " )";
+    grid.SettingsPager.PageSizeItemSettings.Caption = Utility.Phrase("RowInPage");
+    grid.Settings.ShowFilterBar = GridViewStatusBarMode.Visible;
+   // grid.SettingsEditing.AddNewRowRouteValues = new { Controller = "SystemSetting", Action = "AddNewUser" };
+    grid.SettingsEditing.UpdateRowRouteValues = new { Controller = "SystemSetting", Action = "UpdateDetailSchedule" };
+
+    grid.SettingsEditing.Mode = GridViewEditingMode.EditFormAndDisplayRow;
+    grid.SettingsPopup.EditForm.Width = 600;
+    grid.SettingsBehavior.ConfirmDelete = true;
+
+    grid.SettingsBehavior.AllowFocusedRow = true;
+    //grid.Settings.ShowFilterBar = true;
+    grid.Settings.ShowFilterRowMenu = true;
+    grid.Settings.ShowFooter = false;
+
+    grid.SettingsCommandButton.UpdateButton.ButtonType = GridViewCommandButtonType.Button;
+    grid.SettingsCommandButton.UpdateButton.Text = Utility.Phrase("Update");
+    grid.SettingsCommandButton.CancelButton.ButtonType = GridViewCommandButtonType.Button;
+    grid.SettingsCommandButton.CancelButton.Text = Utility.Phrase("Cancel");
+
+    //settings.CommandColumn.FixedStyle = GridViewColumnFixedStyle.None;
+    grid.CommandColumn.VisibleIndex = -1;
+    grid.ClientSideEvents.FocusedRowChanged = "function(s, e) {LoginID = s.GetRowKey(s.GetFocusedRowIndex()); }";
+
+    grid.SetFooterRowTemplateContent(c =>
+    {
+        Html.ViewContext.Writer.Write(ViewData["StatusMessage"]);
+    });
+
+    grid.Columns.Add(column =>
+    {
+        column.Caption = "#";
+        column.SetDataItemTemplateContent(c =>
+        {
+            Html.DevExpress().HyperLink(hl =>
+            {
+                hl.NavigateUrl = "javascript:ButtonClick('btnUpdate');";
+                hl.Properties.ImageUrl = "~/Content/Images/Edit.png";
+            }).Render();
+            ViewContext.Writer.Write(" ");
+            Html.DevExpress().HyperLink(hl =>
+            {
+                hl.NavigateUrl = "javascript:ButtonClick('btnResetPass');";
+                hl.Properties.ImageUrl = "~/Content/Images/Refresh.png";
+                hl.ToolTip = Utility.Phrase("ResetPass");
+            }).Render();
+            ViewContext.Writer.Write(" "); 
+
+        });
+        //column.Width = Unit.Pixel(50);
+        column.SetHeaderTemplateContent(c =>
+        {
+            Html.DevExpress().HyperLink(hl =>
+            {
+                hl.Name = "hlNew";
+                hl.NavigateUrl = "";
+                hl.Properties.ImageUrl = "~/Content/Images/addNew.png";
+                hl.Properties.ClientSideEvents.Click = "function(s, e) { ButtonClick('btnAddNew'); }";
+                hl.ToolTip = Utility.Phrase("AddNew");
+            }).Render();
+        });
+        //column.Width = dev.Pixel(80);
+
+    });
+    grid.Columns.Add(col =>
+    {
+        col.FieldName = "ID";
+        col.ColumnType = MVCxGridViewColumnType.TextBox;
+        col.Caption = Utility.Phrase("SystemSetting.Messages.ID");
+        col.Width = System.Web.UI.WebControls.Unit.Percentage(10);
+    });
+    grid.Columns.Add(col =>
+    {
+        col.FieldName = "Number";
+        col.ColumnType = MVCxGridViewColumnType.TextBox;
+        col.Caption = Utility.Phrase("NumberMonth");
+        col.Width = System.Web.UI.WebControls.Unit.Percentage(10);
+        col.SetEditItemTemplateContent(c =>
+        {
+            var ID = DataBinder.Eval(c.DataItem, "ID");
+            if (ID.ToString() == "LO")
+            {
+                var value = DataBinder.Eval(c.DataItem, "Number");
+                if (value != null)
+                {
+                    Html.DevExpress().ComboBox(props =>
+                    {
+                        props.Name = "Number";
+                        props.ShowModelErrors = true;
+                        props.Properties.Items.Add(new ListEditItem()
+                        {
+                            Index = 0,
+                            Text = Utility.Phrase("Monday"),
+                            Value = 1
+                        });
+                        props.Properties.Items.Add(new ListEditItem()
+                        {
+                            Index = 1,
+                            Text = Utility.Phrase("Tuesday"),
+                            Value = 2
+                        });
+
+                        props.Properties.Items.Add(new ListEditItem()
+                        {
+                            Index = 2,
+                            Text = Utility.Phrase("Wednesday"),
+                            Value = 3
+                        });
+                        props.Properties.Items.Add(new ListEditItem()
+                        {
+                            Index = 3,
+                            Text = Utility.Phrase("Thursday"),
+                            Value = 4
+                        });
+                        props.Properties.Items.Add(new ListEditItem()
+                        {
+                            Index = 4,
+                            Text = Utility.Phrase("Friday"),
+                            Value = 5
+                        });
+                        props.Properties.Items.Add(new ListEditItem()
+                        {
+                            Index = 5,
+                            Text = Utility.Phrase("Saturday"),
+                            Value = 6
+                        });
+                        props.Properties.Items.Add(new ListEditItem()
+                        {
+                            Index = 6,
+                            Text = Utility.Phrase("Sunday"),
+                            Value = 7
+                        });
+                        props.PreRender = (sender, e) =>
+                        {
+                           
+                                MVCxComboBox cmb = sender as MVCxComboBox;
+                                cmb.SelectedIndex = cmb.Items.FindByValue(value.ToString()).Index;                           
+                        };
+                    }).GetHtml();
+                }
+            }
+            else
+            {
+                var value = DataBinder.Eval(c.DataItem, "Number");
+                if (value != null)
+                {
+                    Html.DevExpress().TextBox(props =>
+                    {
+                        props.Name = "Number";
+                        props.ShowModelErrors = true;
+                        props.Text = value.ToString();
+                        props.Properties.MaskSettings.Mask = "999999999";
+
+                    }).GetHtml();
+                }
+            }
+        });
+    });
+    grid.Columns.Add(col =>
+    {
+        col.FieldName = "Desr";
+        col.ColumnType = MVCxGridViewColumnType.TextBox;
+        col.Caption = Utility.Phrase("SystemSetting.Messages.NameSys");
+        col.Width = System.Web.UI.WebControls.Unit.Percentage(30);
+    });
+    grid.Columns.Add(col =>
+    {
+        col.FieldName = "UserLogin";
+        col.ColumnType = MVCxGridViewColumnType.TextBox;
+        col.Caption = Utility.Phrase("Employee");
+        col.Width = System.Web.UI.WebControls.Unit.Percentage(18);
+    });
+
+    grid.Columns.Add(col =>
+    {
+        col.FieldName = "CreatedDate";
+        col.ColumnType = MVCxGridViewColumnType.TextBox;
+        col.Caption = Utility.Phrase("CreatedDate");
+        col.Width = System.Web.UI.WebControls.Unit.Percentage(20);
+    });
+    grid.CellEditorInitialize = (sender, e) =>
+    {
+        if (e.Column.FieldName == "ID")
+        {
+            e.Editor.Enabled = false;
+        }
+        if (e.Column.FieldName == "UserLogin")
+        {
+            e.Editor.Enabled = false;
+        }
+        if (e.Column.FieldName == "CreatedDate")
+        {
+            e.Editor.Enabled = false;
+        }
+    };
+}).Bind(Model).GetHtml()

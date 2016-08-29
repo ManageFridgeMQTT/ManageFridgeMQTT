@@ -1,0 +1,241 @@
+﻿@model List<MV_ChartBox>
+<div class="block padding0">
+    @if (Model.Count == 1)
+    {
+        MV_ChartBox chartBox = Model[0];
+        string idTab = chartBox.NameTab + "ID";
+        <div class="tab-content">
+            <div class="chart-box tab-pane fade in active ">
+                <div id="@idTab"></div>
+                <div class="toggle-box disable">
+                @*<button class="toggle-button mini btn-transparent">
+                    <i class="icon-up icon-black"></i>
+                </button>*@
+                <div class="toggle-content">
+                    <div class="table-responsive">
+                        @if (chartBox.Tables != null)
+                        {
+                            <table class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        @{
+                            List<string> columnNames = chartBox.Tables.Columns.Cast<System.Data.DataColumn>().Select(x => x.ColumnName).ToList();
+                            foreach (string elm in columnNames)
+                            {
+                                            <th>@elm</th>
+                            }
+                                        }
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @{
+                            foreach (System.Data.DataRow row in chartBox.Tables.Rows)
+                            {
+                                        <tr>
+                                            @for (int i = 0; i < chartBox.Tables.Columns.Count; i++)
+                                            {
+                                                string classAlign = "";
+                                                <td class="@classAlign">@String.Format("{0:0.##}", row[i])</td>
+                                                classAlign = "align-right";
+                                            }
+                                        </tr>
+                            }
+                                    }
+                                </tbody>
+                            </table>
+                        }
+                    </div>
+                </div>
+            </div>
+            </div>
+            
+        </div>
+    }
+    else
+    {
+        <div class="tab-header">
+            <ul class="nav nav-tabs">
+                @{
+        string liClass = "active";
+        foreach (var elm in Model)
+        {
+            string idTab = elm.NameTab + "Tab"; 
+                    <li class="@liClass"><a data-toggle="tab" href="#@idTab">@Utility.Phrase(@elm.NameTab)</a></li>
+            liClass = "";
+        }
+                }
+            </ul>
+        </div>
+        <div class="tab-content">
+            @{
+        liClass = "active";
+        foreach (MV_ChartBox item in Model)
+        {
+            string idTab = item.NameTab + "Tab";
+            string idChart = item.NameTab + "ID";
+                <div id="@idTab" class="chart-box tab-pane fade in @liClass ">
+                    <div id="@idChart">
+                    </div>
+                    <div class="toggle-box disable">
+                        @*<button class="toggle-button mini btn-transparent">
+                            <i class="icon-up icon-black"></i>
+                        </button>*@
+                        <div class="toggle-content disable">
+                            <div class="table-responsive">
+                                @if (item.Tables != null)
+                                {
+                                    <table class="table table-striped">
+                                        <thead>
+                                            <tr>
+                                                @{
+                                    List<string> columnNames = item.Tables.Columns.Cast<System.Data.DataColumn>().Select(x => x.ColumnName).ToList();
+                                    foreach (string name in columnNames)
+                                    {
+                                                    <th>@name</th>
+                                                    
+                                    }
+                                                }
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @{
+                                    foreach (System.Data.DataRow row in item.Tables.Rows)
+                                    {
+                                        string classAlign = "";
+                                                <tr>
+                                                    @for (int i = 0; i < item.Tables.Columns.Count; i++)
+                                                    {
+                                                        <td class="@classAlign">@String.Format("{0:0.##}", row[i])</td>
+                                                        classAlign = "align-right";
+                                                    }
+                                                </tr>
+                                    }
+                                            }
+                                        </tbody>
+                                    </table>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            liClass = "";
+        }
+            }
+        </div>
+        
+        
+    }
+</div>
+
+<script type='text/javascript'>
+    var width= $(".chart-box").width();
+</script>
+@foreach (MV_ChartBox item in Model)
+{
+    if(item.TypeChart == Utility.ChartName.RevenueDayPerOfSS | item.TypeChart == Utility.ChartName.RevenueDayPerOfASM_RSM)
+    {
+        string idChart = item.NameTab + "ID";
+        <script type='text/javascript'>
+            var dataRevenuePer = @Html.Raw(Json.Encode(@item.Chart))
+            RenderChartRevenueInDayColumn('@idChart', dataRevenuePer);
+        </script>
+    } 
+    else if(item.TypeChart == Utility.ChartName.RevenueDayOfSS | item.TypeChart == Utility.ChartName.RevenueDayOfASM_RSM)
+    {
+        string idChart = item.NameTab + "ID";
+        <script type='text/javascript'>
+            var dataRevenue = @Html.Raw(Json.Encode(@item.Chart))
+            RenderChartColum('@idChart', dataRevenue, width)
+        </script>
+    }
+    else if (item.TypeChart == Utility.ChartName.VisitDayPerOfSS | item.TypeChart == Utility.ChartName.VisitDayPerOfASM_RSM)
+    {
+        string idChart = item.NameTab + "ID";
+        <script type='text/javascript'>
+            var dataVisitPer = @Html.Raw(Json.Encode(@item.Chart))
+            RenderChartVisitInDay('@idChart', dataVisitPer, width);
+        </script>
+    }
+    else if (item.TypeChart == Utility.ChartName.VisitDayOfSS | item.TypeChart == Utility.ChartName.VisitDayOfASM_RSM)
+    {
+         string idChart = item.NameTab + "ID";
+        <script type='text/javascript'>
+            var dataVisit = @Html.Raw(Json.Encode(@item.Chart))
+            RenderChartColum('@idChart', dataVisit, width)
+        </script>
+    }
+    else if (item.TypeChart == Utility.ChartName.VisitMonthOfASM_RSM)
+    {
+        string idChart = item.NameTab + "ID";
+        <script type='text/javascript'>
+            var dataVisitMonth = @Html.Raw(Json.Encode(@item.Chart))
+            RenderChart('@idChart', dataVisitMonth, 'column', width);
+        </script>
+    }
+    else if (item.TypeChart == Utility.ChartName.VisitMonthLine)
+    {
+        string idChart = item.NameTab + "ID";
+        <script type='text/javascript'>
+            var dataVisitMonthLine = @Html.Raw(Json.Encode(@item.Chart))
+            RenderChartWithTarget('@idChart', dataVisitMonthLine, 'line', 50, 'goal', width);
+        </script>
+    }
+    else if (item.TypeChart == Utility.ChartName.SyncDaySS | item.TypeChart == Utility.ChartName.SyncDayASM_RSM)
+    {
+        string idChart = item.NameTab + "ID";
+        <script type='text/javascript'>
+            var dataSync = @Html.Raw(Json.Encode(@item.Chart))
+            RenderChartSync('@idChart', dataSync, 'column', width);
+        </script>
+    }
+    else if (item.TypeChart == Utility.ChartName.RevenueInMonth)
+    {
+        string idChart = item.NameTab + "ID";
+        <script type='text/javascript'>
+            var dataCumulativeRevenue = @Html.Raw(Json.Encode(@item.Chart))
+            RenderCumulativeRevenue('@idChart', dataCumulativeRevenue, width);
+        </script>
+        
+    }
+    else if (item.TypeChart == Utility.ChartName.RevenueInMonthOfBOD)
+    {
+        string idChart = item.NameTab + "ID";
+        <script type='text/javascript'>
+            var dataRevenueMonth = @Html.Raw(Json.Encode(@item.Chart))
+            RenderChartTarget('@idChart', dataRevenueMonth, 'column', width);
+        </script>
+    }
+    else if (item.TypeChart == Utility.ChartName.OtherInMonth)
+    {
+        string idChart = item.NameTab + "ID";
+        <script type='text/javascript'>
+            var dataOther = @Html.Raw(Json.Encode(@item.Chart))
+            RenderChart('@idChart', dataOther, 'line', width)
+        </script>
+    }
+}
+
+<script type='text/javascript'>
+    @*var width= $(".chart-box").width();
+    var dataRevenue = @Html.Raw(Json.Encode(@Model[0].Chart))
+    var dataVisit = @Html.Raw(Json.Encode(@Model[1].Chart))
+    var dataSync = @Html.Raw(Json.Encode(@Model[2].Chart))
+    var dataOther = @Html.Raw(Json.Encode(@Model[3].Chart))
+    var dataCumulativeRevenue = @Html.Raw(Json.Encode(@Model[4].Chart))
+    RenderChartRevenueInDay('TabRevenueID', dataRevenue);
+    RenderChartVisitInDay('TabVisitID', dataVisit, width);
+    RenderChartSync('TabSyncID', dataSync, 'column', width);
+    RenderChart('TabOtherID', dataOther, 'line', width)
+    RenderCumulativeRevenue('TabRevenueInMonthID', dataCumulativeRevenue, width);*@
+    
+
+    @*var chartType = 'column';
+    var groupby = 'Region';
+    
+    var dataRevenue = @Html.Raw(Json.Encode(@Model.ChartDataRevenue))
+    var dataVisit = @Html.Raw(Json.Encode(@Model.ChartDataVisit))
+    var dataOther = @Html.Raw(Json.Encode(@Model.ChartDataOther))
+    RenderChartTarget('tabChartRevenue', dataRevenue, chartType);
+    RenderChartWithTarget('tabChartVisit', dataVisit, 'line', 50, 'goal', width);
+    RenderChart('tabChartOther', dataOther, 'line', width)*@
+</script>

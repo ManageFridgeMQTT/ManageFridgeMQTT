@@ -1,0 +1,53 @@
+﻿@model System.Data.DataTable
+<div id="report-order-status" class="tab-pane fade in active">
+    <table class="tablesorter">
+        <thead>
+            <tr>
+                <th>Vùng</th>
+                <th>Khu vực</th>
+                <th>Nhà phân phối</th>
+                <th>Tuyến</th>
+                <th>NVBH</th>
+                <th>Khách hàng</th>
+                <th>Trạng thái đặt hàng</th>
+                <th>Số SKU</th>
+                <th>Số lượng</th>
+                <th>Giá trị đơn đặt hàng (VND)</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (System.Data.DataRow elm in Model.Rows)
+            {
+                <tr>
+                    <td class="fixed">@elm["RegionName"]</td>
+                    <td class="fixed">@elm["AreaName"]</td>
+                    <td class="fixed">@elm["DistributorName"]</td>
+                    <td>@elm["RouteName"]</td>
+                    <td>@elm["SalesmanName"]</td>
+                    <td>@elm["OutletName"]</td>
+                    <td style="display: none">@elm["HasOrder"]</td>
+                    <td style="display: none">@elm["TotalSKU"]</td>
+                    <td style="display: none">@elm["DropSize"]</td>
+                    <td style="display: none">@elm["TotalAmount"]</td>
+                </tr>
+            }
+        </tbody>
+
+    </table>
+</div>
+<script type="text/javascript">
+    $('.tab-content .tablesorter').tablesorter({
+        headerTemplate: '{content} {icon}', // Add icon for various themes
+        widgets: ['uitheme', 'zebra', 'stickyHeaders', 'stickyFooters', 'filter'],
+        widgetOptions: {
+            stickyHeaders_attachTo: '.wrapper', // or $('.wrapper')
+        }
+    })
+				.tablesorterPager({
+				    container: $(".ts-pager"),
+				    cssGoto: ".pagenum",
+				    size: 10,
+				    removeRows: false,
+				    output: '/ {totalPages}'
+				});
+</script>

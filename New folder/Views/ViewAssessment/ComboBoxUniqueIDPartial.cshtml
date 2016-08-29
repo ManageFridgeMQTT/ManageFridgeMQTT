@@ -1,0 +1,22 @@
+﻿@Html.DevExpress().ComboBox( cb =>
+                       {
+                           cb.Name = "UniqueID";
+                           cb.CallbackRouteValues = new { Controller = "ViewAssessment", Action = "ComboBoxUniqueIDPartial" };
+                           cb.ShowModelErrors = true;
+                           cb.Properties.AnimationType = AnimationType.Fade;
+                           cb.ReadOnly = false;
+                           cb.Properties.ValueField = "UniqueID";
+                           cb.Properties.TextField = "UniqueID";
+                           cb.Properties.TextFormatString = "{0}";
+                           cb.Properties.ValueType = typeof(string);
+                           cb.Properties.ValueType = typeof(string);
+                           cb.Properties.Columns.Add("UniqueID");
+                           cb.Properties.Columns.Add("StartTime");
+                           cb.Properties.Columns.Add("EndTime");                          
+                           cb.Properties.IncrementalFilteringMode = IncrementalFilteringMode.StartsWith;
+                           //cb.Properties.Columns.Add("Level");
+                           //cb.Width = System.Web.UI.WebControls.Unit.Percentage(105);
+                           cb.Properties.ClientSideEvents.BeginCallback = "UniqueID_BeginCallback";
+                           cb.Properties.ClientSideEvents.EndCallback = "function(s, e) {  s.SetValue(null);}";
+                           // cb.Properties.ClientSideEvents.SelectedIndexChanged = "cbEmployeeID_SelectedIndexChanged";
+                       }).BindList(Model).GetHtml()

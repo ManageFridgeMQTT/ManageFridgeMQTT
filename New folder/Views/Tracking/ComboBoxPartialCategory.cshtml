@@ -1,0 +1,32 @@
+﻿@model List<pp_GetCategoryItem_HeatMapResult>
+@using DevExpress.Web.Mvc.UI;
+@using DevExpress.Web.Mvc;
+@using System.Web.UI.WebControls;
+@using eRoute.Models;
+@Html.DevExpress().ComboBox(
+                            settings =>
+                            {
+                                settings.Name = "CategoryID";
+                                settings.Width = Unit.Pixel(130);
+                                settings.CallbackRouteValues = new { Controller = "Tracking", Action = "ComboBoxPartialCategory" };
+                                settings.Properties.CallbackPageSize = 50;
+                                settings.Properties.DropDownRows = 15;
+                                settings.Properties.AllowMouseWheel = true;
+                                //settings.Properties.TextFormatString = "{0}-{1}";s
+                                settings.Properties.TextField = "CategoryName";
+                                settings.Properties.ValueField = "CategoryID";
+                                settings.Properties.ValueType = typeof(string);
+                                settings.Properties.DropDownStyle = DropDownStyle.DropDownList;
+                                settings.Properties.IncrementalFilteringMode = IncrementalFilteringMode.Contains;
+                                settings.Properties.Height = Unit.Pixel(20);
+                                settings.Style.Add("float", "right");
+
+                                settings.Properties.ClientSideEvents.SelectedIndexChanged = "function(s, e) {InventoryID.PerformCallback();SelectCategoryChange() ;}";
+                                settings.PreRender = (sender, e) =>
+                                {
+                                    MVCxComboBox cmb = sender as MVCxComboBox;
+                                    cmb.Value = 0;
+                                    cmb.Text = "";
+                                };
+                            }
+                                               ).BindList(Model).GetHtml()

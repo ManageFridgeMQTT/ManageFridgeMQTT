@@ -1,0 +1,257 @@
+﻿@model Hammer.Models.ValidationSchedule
+
+@{
+    Html.EnableClientValidation();
+    Html.EnableUnobtrusiveJavaScript();
+}
+@using (Html.BeginForm("", "", FormMethod.Post, new {id = "frmAppointment" }))
+{
+   <table style="width: 100%; height: 285px;">
+        <tr>
+            <td>
+                @Html.DevExpress().Label(
+                    settings =>
+                    {
+                        settings.AssociatedControlName = "Subject";
+                        settings.Text = Utility.Phrase("ApproveSchedule.Messages.Subject");
+                        settings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+                       
+                    }).GetHtml()
+            </td>
+            <td colspan="3" >
+                @Html.DevExpress().TextBox(
+                    settings =>
+                    {
+                        settings.Name = "Subject";
+                        settings.ShowModelErrors = true;
+                        settings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+                        settings.ReadOnly = true;
+                    }).Bind(Model.Subject).GetHtml()
+            </td>
+        </tr>
+        <tr>
+            
+              <td >
+                @Html.DevExpress().Label(
+                    settings =>
+                    {
+                        settings.AssociatedControlName = "Phone";
+                        settings.Text = Utility.Phrase("Phone");
+                        settings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+                     
+                    }).GetHtml()
+            </td>
+            <td >
+                @Html.DevExpress().TextBox(
+                    settings =>
+                    {
+                        settings.Name = "Phone";
+                        settings.ShowModelErrors = true;
+                        settings.ReadOnly = true;
+                        settings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+                    }).Bind(Model.Phone).GetHtml()
+            </td>
+            
+           <td>
+               @Html.DevExpress().Label(
+                    settings =>
+                    {
+                        settings.AssociatedControlName = "UserApprove";
+                        settings.Text = Utility.Phrase("UserApprove");
+                        settings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+                       
+                    }).GetHtml()
+            </td>
+            <td>
+                @Html.DevExpress().TextBox(
+                    settings =>
+                    {
+                        settings.Name = "UserApprove";
+                        //settings.Properties.Rows = ;
+                        settings.ShowModelErrors = true;
+                        settings.ReadOnly = true;
+                        settings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+                    }).Bind(Model.UserApprove).GetHtml()
+            </td>
+           
+        
+        </tr>
+         <tr>
+            <td>
+               @Html.DevExpress().Label(
+                    settings =>
+                    {
+                        settings.AssociatedControlName = "Employees";
+                        settings.Text = Utility.Phrase("Employee");
+                        settings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+                       
+                    }).GetHtml()
+            </td>
+            <td>
+                @Html.DevExpress().TextBox(
+                    settings =>
+                    {
+                        settings.Name = "Employees";
+                        //settings.Properties.Rows = ;
+                        settings.ShowModelErrors = true;
+                        settings.ReadOnly = true;
+                        //settings.Properties.
+                        settings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+                    }).Bind(Model.Employees).GetHtml()
+            </td>
+             <td >
+               @Html.DevExpress().Label(
+                    settings =>
+                    {
+                        settings.AssociatedControlName = "Route";
+                        settings.Text = Utility.Phrase("Route");
+                        settings.Width = System.Web.UI.WebControls.Unit.Percentage(100);                      
+                    }).GetHtml()
+            </td>
+            <td >
+                @Html.DevExpress().TextBox(
+                    settings =>
+                    {
+                        settings.Name = "Route";
+                        //settings.Properties.Rows = ;
+                        settings.ShowModelErrors = true;
+                        settings.ReadOnly = true;
+                        settings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+                    }).Bind(Model.Route).GetHtml()
+            </td>           
+            
+        </tr>
+        <tr>
+            <td >
+                @Html.DevExpress().Label(
+                    settings =>
+                    {
+                        settings.AssociatedControlName = "StartDate";
+                        settings.Text = Utility.Phrase("ApproveSchedule.Messages.StartDate");
+                        settings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+                        
+                    }).GetHtml()
+            </td>
+            <td>
+                @Html.DevExpress().DateEdit(
+                    settings =>
+                    {
+                        settings.Name = "StartDate";
+                        settings.Properties.EditFormat = EditFormat.DateTime;
+                        settings.ShowModelErrors = true;
+                        settings.Enabled = false;
+                        settings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+                    }).Bind(Model.StartDate).GetHtml()
+            </td>
+            <td >
+                @Html.DevExpress().Label(
+                    settings =>
+                    {
+                        settings.AssociatedControlName = "EndDate";
+                        settings.Text = Utility.Phrase("EndDate");
+                        settings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+                        
+                    }).GetHtml()
+            </td>
+            <td>
+                @Html.DevExpress().DateEdit(
+                    settings =>
+                    {
+                        settings.Name = "EndDate";
+                        settings.Properties.EditFormat = EditFormat.DateTime;
+                        settings.ShowModelErrors = true;
+                        settings.Enabled = false;
+                        settings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+                    }).Bind(Model.EndDate).GetHtml()
+            </td>
+        </tr>
+     
+        <tr>
+            <td colspan="4">
+                @Html.DevExpress().Label(
+                    settings =>
+                    {
+                        settings.AssociatedControlName = "Description";
+                        settings.Text = Utility.Phrase("Description");
+                        settings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+                     
+                    }).GetHtml()
+            </td>
+        </tr>
+        <tr>
+            <td colspan="4">
+                @Html.DevExpress().Memo(
+                    settings =>
+                    {
+                        settings.Name = "Description";
+                        settings.Properties.Rows = 3;
+                        settings.ShowModelErrors = true;
+                        settings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+                        settings.ClientEnabled = false;
+                    }).Bind(Model.Description).GetHtml()
+            </td>
+        </tr>
+        
+    </table>
+    Session["Home_Detail_Date"] = Model.StartDate.Date;
+    Session["Home_Detail_EmployeeID"] = Model.UserLogin;
+    if (Session["Home_ScheduleType"].ToString() == "D")
+    { 
+              
+        
+     @Html.Partial("DetailAppointmentPartial",
+       eRoute.Models.eCalendar.HammerDataProvider.GetDetailAppointments(Model.StartDate.Date, Model.UserLogin))
+                        
+    }
+
+    // @Html.DevExpress().AppointmentRecurrenceForm(ViewBag.AppointmentRecurrenceFormSettings).GetHtml()
+     @Html.DevExpress().Button(
+                                settings =>
+                                {
+                                    settings.Name = "Cancel";
+                                    settings.Text = Utility.Phrase("Close");
+                                    settings.ClientSideEvents.Click = "function(s, e){ ownerScheduler.AppointmentFormCancel(); }";
+                                    settings.Width = System.Web.UI.WebControls.Unit.Percentage(10);
+                                }).GetHtml()
+    <table>
+        <tr>
+            <td style="width: 100%; height: 100%;" align="center">
+                <table style="height: 100%;">
+                    <tr>
+                        <td>
+                       
+                        </td>
+                        <td style="padding: 0 4px;">
+                          @*  @Html.DevExpress().Button(
+                                settings =>
+                                {
+                                    settings.Name = "Cancel";
+                                    settings.Text = Utility.Phrase("Close");
+                                    settings.ClientSideEvents.Click = "function(s, e){ ownerScheduler.AppointmentFormCancel(); }";
+                                    settings.Width = System.Web.UI.WebControls.Unit.Percentage(10);
+                                }).GetHtml()*@
+                        </td>
+                        <td>
+                         
+                        </td>
+                        <td>                        
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
+    @*<table cellpadding="0" cellspacing="0" style="width: 100%;">
+        <tr>
+            <td style="width: 100%;" align="left">
+                @Html.DevExpress().SchedulerStatusInfo(
+                    settings =>
+                    {
+                        settings.Name = "schedulerStatusInfo";
+                        settings.Priority = 1;
+                        settings.SchedulerName = "scheduler";
+                    }).GetHtml()
+            </td>
+        </tr>
+    </table>*@
+}

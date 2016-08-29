@@ -1,0 +1,326 @@
+﻿@model MV_ReportVisit
+@using System.Web.UI.WebControls;
+@using System.Linq;
+@using System.Data;
+@{
+    ViewBag.Title = Utility.Phrase("Report_ReportSaleDaily");
+    Layout = "~/Views/Shared/_NewLayout.cshtml";
+}
+<div class="insider">
+    <div id="loading" class="loading"></div>
+    @using (Html.BeginForm("ReportSaleDaily", "ReportTracking", FormMethod.Post))
+    {
+        <div class="row display-table w-100pr mb-10 content-header">
+            <div class="report-content-header">
+                <div class="col-sm-6">
+                    <h1>@Utility.Phrase("Report_ReportSaleDaily")</h1>
+                </div>
+                <div class="col-sm-6">
+                    <div class="p-0 fr">
+                        @{
+        var sumTotalAmount = Model.ReportSaleDailyResult.AsEnumerable().Sum(x => x.TotalAmount);
+        var sumHasOrder = Model.ReportSaleDailyResult.AsEnumerable().Sum(x => x.OrderCount);
+                        }
+                        <strong style="color: red">@Utility.Phrase("Report_SumTotalAmount"): @Utility.StringParseWithRoundingDecimalDegit(sumTotalAmount)   </strong>
+                        &emsp;<strong style="color: red">
+                            @Utility.Phrase("Report_SumHasOrder"): @Utility.StringParseWithRoundingDecimalDegit(sumHasOrder)
+                        </strong>
+                        @if (PermissionHelper.CheckPermissionByFeature("Tracking_SaleDailyExportExecl"))
+                        {
+                            <button type="button" id="btnExportExcel" class="btn p-0 m-0 ml-10 block-theme" title="Excel"><i class="icon-etool-excel"></i></button>   
+                        }
+                        @if (PermissionHelper.CheckPermissionByFeature("Tracking_SaleDailyExportPDF"))
+                        {
+                            <button type="button" id="btnExportPDF" class="btn p-0 m-0 ml-10 block-theme" title="PDF"><i class="icon-etool-pdf"></i></button>   
+                        }
+                    </div>
+                </div>
+            </div>
+            <div class="w-100pr">
+                <div class="item fl required">
+                    <label for class="fl">@Utility.Phrase("Report_Day")</label>
+                    @Html.TextBox("strFromDate", (Model.FromDate != null ? Model.FromDate.ToShortDateString() : ""), new { @class = "datepicker" })
+                    @Html.TextBox("strToDate", (Model.ToDate != null ? Model.ToDate.ToShortDateString() : ""), new { @class = "datepicker" })
+                </div>
+                <div class="item fl">
+                    <label for class="fl">@Utility.Phrase("Report_Region")</label>
+                    <div id="RegionCbox" class="ctr_combobox input-group">
+                        @Html.Partial("~/Views/Shared/Control/ComboboxPartial.cshtml", Model.listComboboxRegion, new ViewDataDictionary { { "NameID", "Region" } })
+                    </div>
+                </div>
+                <div class="item fl">
+                    <label for class="fl">@Utility.Phrase("Report_Area")</label>
+                    <div id="AreaCbox" class="ctr_combobox input-group">
+                        @Html.Partial("~/Views/Shared/Control/ComboboxPartial.cshtml", Model.listComboboxArea, new ViewDataDictionary { { "NameID", "Area" } })
+                    </div>
+                </div>
+                <div class="item fl">
+                    <label for class="fl">@Utility.Phrase("Report_Distributor")</label>
+                    <div id="DistributorCbox" class="ctr_combobox input-group">
+                        @Html.Partial("~/Views/Shared/Control/ComboboxPartial.cshtml", Model.listComboboxDistributor, new ViewDataDictionary { { "NameID", "Distributor" } })
+                    </div>
+                </div>
+                <div class="item fl">
+                    <label for class="fl">@Utility.Phrase("Report_Route")</label>
+                    <div id="RouteCbox" class="ctr_combobox input-group">
+                        @Html.Partial("~/Views/Shared/Control/ComboboxPartial.cshtml", Model.listComboboxRoute, new ViewDataDictionary { { "NameID", "Route" } })
+                    </div>
+                </div>
+                <div class="item fl">
+                    <label for class="fl">@Utility.Phrase("TG_Visit")</label>
+                    @Html.TextBox("txtTimeVisit", 5, new { type = "number", min = "1" })
+                </div>
+                <div class="item fl">
+                    <button type="button" id="Search"><i class="icon-submit"></i>@Utility.Phrase("Report_View")</button>
+                    <button type="button" id="ShowChart"><i class=""></i>@Utility.Phrase("Report_ShowChart")</button>
+                </div>
+                
+
+            </div>
+            <div id="box-filter-chart" class="w-100pr active-show">
+                <div class="item fl">
+                    <label for class="fl">@Utility.Phrase("Chart"):</label>
+                    <div class="ctr_combobox input-group">
+                        @Html.DropDownList("ChartType", Model.listTypeChart)
+                    </div>
+                </div>
+                <div class="item fl">
+                    <label for class="fl">@Utility.Phrase("GroupBy"):</label>
+                    <div class="ctr_combobox input-group">
+                        @Html.DropDownList("Group", Model.listGroup)
+                    </div>
+                </div>
+                <div class="item fl">
+                    <button type="button" id="Apply"><i class="icon-submit"></i>@Utility.Phrase("Report_Apply")</button>
+                </div>
+            </div>
+        </div>
+        <div id="ErMesgBox" class="row"><span style="color: red" class="error"></span></div>
+    }
+    <div class="row content-body">
+        <div id="box-chart" class="active-show">
+            <div id="chartVisit" class="chart-box"></div>
+        </div>
+        <div class="tab-header">
+            <div class="toolbox">
+                <ul class="fr m-0">
+                    <li class="ts-pager">
+                        <a href="#" title="prev">
+                            <img src="@Url.Content("~/Content/NewEtool/img/per.png")" class="prev"/></a>
+                        <span class="pagedisplay"></span>
+                        <a href="#" title="next">
+                            <img src="@Url.Content("~/Content/NewEtool/img/next.png")" class="next"/></a>
+                        <span>@Utility.Phrase("GotoPage")
+                            <select class="pagenum input-mini" title="Select page number"></select>
+                        </span>
+                        <span>@Utility.Phrase("Pages")</span>
+                        <select class="pagesize input-mini m-0" title="Select page size">
+                            <option selected="selected" value="10">10</option>
+                            <option value="20">20</option>
+                            <option value="30">30</option>
+                            <option value="40">40</option>
+                            <option value="50">50</option>
+                        </select>
+                    </li>
+                </ul>
+            </div>
+            <ul class="nav nav-tabs display-none">
+                <li class="active"><a data-toggle="tab" href="#report-outlet">@Utility.Phrase("Report_Report")</a></li>
+            </ul>
+        </div>
+        <div class="tab-content wrapper">
+            @Html.Partial("SaleDailyPartial", Model.ReportSaleDailyResult)
+        </div>
+    </div>
+</div>
+<script src="@Url.Content("~/MapTest/HighCharts/highcharts.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/MapTest/HighCharts/modules/data.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/MapTest/HighCharts/modules/exporting.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/Content/NewEtool/js/style-setting-chart.js")" type="text/javascript"></script>
+<script type='text/javascript'>
+    $(document).ready(function () {
+        $('#ShowChart').on('click', function () {
+            var hasData = $('#box-chart').find(".highcharts-container")[0];
+            if (hasData == undefined) {
+                var chartType = $('#ChartType').val();
+                var group = $('#Group').val();
+                var strFromDate = $('#strFromDate').val();
+                $.ajax({
+                    type: 'POST',
+                    async: true,
+                    url: '../ReportTracking/SaleDailyLoadChart',
+                    data: { fromDate: strFromDate, group: group },
+                    dataType: 'json',
+                    success: function (data) {
+                        if (data.chartData != null) {
+                            RenderChart('chartVisit', data.chartData, chartType);
+                        } else {
+
+                        }
+
+                    }
+                });
+            }
+
+            if ($('#box-chart').hasClass("active-show")) {
+                $('#box-chart').removeClass("active-show");
+                $('#box-filter-chart').removeClass("active-show");
+
+            } else {
+                $('#box-chart').addClass("active-show");
+                $('#box-filter-chart').addClass("active-show");
+            }
+        });
+
+        $('#Apply').on('click', function () {
+            var chartType = $('#ChartType').val();
+            var group = $('#Group').val();
+            var strFromDate = $('#strFromDate').val();
+            $.ajax({
+                type: 'POST', //Method type
+                async: true,
+                url: '../ReportTracking/SaleDailyLoadChart',
+                data: { fromDate: strFromDate, group: group },
+                dataType: 'json',
+                success: function (data) {
+                    if (data.chartData != null) {
+                        RenderChart('chartVisit', data.chartData, chartType);
+                    } else {
+
+                    }
+                }
+            });
+        });
+
+        hideColumnFilter();
+        $("body").on('click', '.input-group-btn table tbody tr', function () {
+            $(this).addClass('selected').siblings().removeClass('selected');
+            var keyVal = $(this).find('td:first').html();
+            var codeVal = $(this).find('td:nth-child(2)').html();
+            var nameVal = $(this).find('td:last').html();
+            if (keyVal == 0) { keyVal = ""; }
+            var parentdiv = $(this).parents('div[class^="ctr_combobox"]');
+            parentdiv.find('input[type^="text"]').val(codeVal + ' - ' + nameVal);
+            parentdiv.find('input[type^="hidden"]').val(keyVal);
+
+            var RegionVal = '';
+            if ($('#Region').val() != undefined) {
+                RegionVal = $('#Region').val();
+            }
+            var AreaVal = '';
+            if ($('#Area').val() != undefined) {
+                AreaVal = $('#Area').val();
+            }
+            var DistributorVal = 0;
+            if ($('#Distributor').val() != undefined) {
+                if ($('#Distributor').val() == "") {
+                    DistributorVal = 0;
+                } else {
+                    DistributorVal = $('#Distributor').val();
+                }
+            }
+
+            if (parentdiv.find('input[id^="Region"]').val() != undefined) {
+                $("#AreaCbox").load('@(Url.Action("ReloadOptionArea", "ReportTracking"))?regionID=' + RegionVal);
+                $("#DistributorCbox").load('@(Url.Action("ReloadOptionDistributor", "ReportTracking"))?regionID=' + RegionVal + '&areaID=' + AreaVal);
+                $("#RouteCbox").load('@(Url.Action("ReloadOptionRoute", "ReportTracking"))?regionID=' + RegionVal + '&areaID=' + AreaVal + '&distributorID=' + DistributorVal);
+            }
+            if (parentdiv.find('input[id^="Area"]').val() != undefined) {
+                $("#DistributorCbox").load('@(Url.Action("ReloadOptionDistributor", "ReportTracking"))?regionID=' + RegionVal + '&areaID=' + AreaVal);
+                $("#RouteCbox").load('@(Url.Action("ReloadOptionRoute", "ReportTracking"))?regionID=' + RegionVal + '&areaID=' + AreaVal + '&distributorID=' + DistributorVal);
+            }
+            if (parentdiv.find('input[id^="Distributor"]').val() != undefined) {
+                $("#RouteCbox").load('@(Url.Action("ReloadOptionRoute", "ReportTracking"))?regionID=' + RegionVal + '&areaID=' + AreaVal + '&distributorID=' + DistributorVal);
+            }
+
+            if ($('#Distributor').val() == "0" | $('#Distributor').val() == "") {
+                $('.box-table-ressult table td:nth-child(3),.box-table-ressult table th:nth-child(3)').show();
+                if ($('#Area').val() != "") {
+                    $('.box-table-ressult table td:nth-child(2),.box-table-ressult table th:nth-child(2)').hide();
+                    $('.box-table-ressult table td:nth-child(1),.box-table-ressult table th:nth-child(1)').hide();
+                } else {
+                    $('.box-table-ressult table td:nth-child(2),.box-table-ressult table th:nth-child(2)').show();
+                    if ($('#Region').val() != "") {
+                        $('.box-table-ressult table td:nth-child(1),.box-table-ressult table th:nth-child(1)').hide();
+                    } else {
+                        $('.box-table-ressult table td:nth-child(1),.box-table-ressult table th:nth-child(1)').show();
+                    }
+                }
+            } else {
+                $('.box-table-ressult table td:nth-child(1),.box-table-ressult table th:nth-child(1)').hide();
+                $('.box-table-ressult table td:nth-child(2),.box-table-ressult table th:nth-child(2)').hide();
+                $('.box-table-ressult table td:nth-child(3),.box-table-ressult table th:nth-child(3)').hide();
+            }
+        });
+
+        $('#btnExportExcel').click(function () {
+            if (validation()) {
+                $('form').attr('action', '@Utility.FooMethod("/ReportTracking/SaleDailyExportExecl")');
+                $('form').submit();
+            }
+        });
+        $('#btnExportPDF').click(function () {
+            if (validation()) {
+                $('form').attr('action', '@Utility.FooMethod("/ReportTracking/SaleDailyExportPDF")');
+                $('form').submit();
+            }
+        });
+        $('#Search').click(function () {
+            if (validation()) {
+                $('form').attr('action', '@Utility.FooMethod("/ReportTracking/ReportSaleDaily")');
+                $('form').submit();
+                $(".loading").show();
+            }
+        });
+    });
+    function validation() {
+        $('#ErMesgBox span[class^="error"]').html("");
+        strFromDate = $('#strFromDate').val();
+        strToDate = $('#strToDate').val();
+        if (strFromDate == "" | strFromDate == 0) {
+            $('#ErMesgBox span[class^="error"]').html("@Utility.FooMethod("DateIsNotNull")");
+            return false;
+        }
+        else {
+            if (strToDate == "" | strToDate == 0) {
+                $('#ErMesgBox span[class^="error"]').html("@Utility.FooMethod("DateIsNotNull")");
+                return false;
+            }
+            else {
+                if (stringToDate(strFromDate, "dd/MM/yyyy", "/") > stringToDate(strToDate, "dd/MM/yyyy", "/")) {
+                    alert("Thời gian bắt đầu phải nhỏ hơn thời gian kết thúc. Xin chọn lại");
+                    return false;
+                }
+                else {
+                    return true;
+                }
+            }
+        }
+    }
+    function hideColumnFilter() {
+
+        if ($('#Region').val() != undefined) {
+            if ($('#Region').val() != "") {
+                $('.box-table-ressult table td:nth-child(1),.box-table-ressult table th:nth-child(1)').hide();
+            }
+        }
+
+        if ($('#Area').val() != undefined) {
+            if ($('#Area').val() != "") {
+                $('.box-table-ressult table td:nth-child(1),.box-table-ressult table th:nth-child(1)').hide();
+                $('.box-table-ressult table td:nth-child(2),.box-table-ressult table th:nth-child(2)').hide();
+            }
+        }
+
+        if ($('#Distributor').val() != undefined) {
+            if ($('#Distributor').val() == "" | $('#Distributor').val() == "0") {
+                $('.box-table-ressult table td:nth-child(3),.box-table-ressult table th:nth-child(3)').show();
+            } else {
+                $('.box-table-ressult table td:nth-child(1),.box-table-ressult table th:nth-child(1)').hide();
+                $('.box-table-ressult table td:nth-child(2),.box-table-ressult table th:nth-child(2)').hide();
+                $('.box-table-ressult table td:nth-child(3),.box-table-ressult table th:nth-child(3)').hide();
+            }
+        }
+    }
+
+</script>

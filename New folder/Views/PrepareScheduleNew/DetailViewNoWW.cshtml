@@ -1,0 +1,268 @@
+﻿@Html.DevExpress().GridView(grid =>
+{
+    grid.Name = "gridDetailNoTraning";
+    grid.KeyFieldName = "No";
+
+
+    grid.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+    grid.Height = System.Web.UI.WebControls.Unit.Percentage(100);
+
+    grid.CallbackRouteValues = new { Controller = "PrepareScheduleNew", Action = "DetailViewNoWW" };
+    grid.SettingsEditing.UpdateRowRouteValues = new { Controller = "PrepareScheduleNew", Action = "UpdateDetailViewNoWW" };
+
+    grid.SettingsEditing.Mode = GridViewEditingMode.Inline;
+    grid.SettingsText.EmptyDataRow = Utility.Phrase("PrepareScheduleNew.Messages.EmptyDataRow");
+    grid.SettingsBehavior.AllowSort = false;
+    grid.CommandColumn.Visible = true;
+    grid.Settings.VerticalScrollBarMode = ScrollBarMode.Auto;
+    grid.Settings.VerticalScrollableHeight = 390;
+    grid.CommandColumn.Width = System.Web.UI.WebControls.Unit.Percentage(5);
+    grid.Styles.Header.CssClass = "block-theme";
+   // grid.SettingsPager.FirstPageButton.Visible = true;
+   // grid.SettingsPager.LastPageButton.Visible = true;
+    grid.SettingsPager.Mode = GridViewPagerMode.ShowAllRecords;
+    //grid.SettingsPager.PageSize = 12;
+    //grid.SettingsPager.PageSizeItemSettings.Items = new string[] { "10", "20", "50" };
+
+    //grid.Settings.ShowFilterBar = GridViewStatusBarMode.;
+  
+    //grid.Settings.HorizontalScrollBarMode = ScrollBarMode.Visible;
+    
+    //
+    GridViewCommandColumnCustomButton button = new GridViewCommandColumnCustomButton();
+    button.Image.Url = "~/Content/Images/edit-icon.png";
+    button.ID = "btnEdit";
+    button.Text = Utility.Phrase("PrepareSchedule.Messages.CommandEdit");
+    button.Image.Width = System.Web.UI.WebControls.Unit.Pixel(30);
+    grid.CommandColumn.CustomButtons.Add(button);
+    grid.ClientSideEvents.CustomButtonClick = "gridDetailNoTraning_CustomButton_Click";
+    //
+    
+    
+    //grid.CommandColumn.
+    grid.CommandColumn.UpdateButton.Text = Utility.Phrase("PrepareSchedule.Messages.CommandUpdate");
+    
+    
+    grid.CommandColumn.ButtonType = GridViewCommandButtonType.Image;
+    
+    
+    grid.CommandColumn.UpdateButton.Image.Url = "~/Content/Images/save.png";
+    grid.CommandColumn.UpdateButton.Image.Width = System.Web.UI.WebControls.Unit.Pixel(30);
+    
+    
+    
+    grid.CommandColumn.CancelButton.Text = Utility.Phrase("PrepareSchedule.Messages.CommandCancel");
+    
+    
+    grid.CommandColumn.CancelButton.Image.Url = "~/Content/Images/cancel.png";
+    grid.CommandColumn.CancelButton.Image.Width = System.Web.UI.WebControls.Unit.Pixel(35);
+    
+    
+    grid.CommandColumn.Caption = Utility.Phrase("PrepareSchedule.Messages.Action");
+    grid.Columns.Add(col =>
+    {
+        //col.HeaderStyle.CssClass = "block-theme";
+        col.FieldName = "Day";
+        col.ColumnType = MVCxGridViewColumnType.ComboBox;
+        col.Caption = Utility.Phrase("Date");
+        col.Width = System.Web.UI.WebControls.Unit.Percentage(5);
+        var cb = col.PropertiesEdit as ComboBoxProperties;
+        //if (System.Threading.Thread.CurrentThread.CurrentCulture.Name == "vi-VN")
+        //{
+        //    cb.Items.Add(new ListEditItem()
+        //    {
+        //        Index = 0,
+        //        Text = "Thứ 2",
+        //        Value = "Mo"
+        //    });
+        //    cb.Items.Add(new ListEditItem()
+        //    {
+        //        Index = 1,
+        //        Text = "Thứ 3",
+        //        Value = "Tu"
+        //    });
+        //    cb.Items.Add(new ListEditItem()
+        //    {
+        //        Index = 2,
+        //        Text = "Thứ 4",
+        //        Value = "We"
+        //    });
+        //    cb.Items.Add(new ListEditItem()
+        //    {
+        //        Index = 3,
+        //        Text = "Thứ 5",
+        //        Value = "Th"
+        //    });
+        //    cb.Items.Add(new ListEditItem()
+        //    {
+        //        Index = 4,
+        //        Text = "Thứ 6",
+        //        Value = "Fr"
+        //    });
+        //    cb.Items.Add(new ListEditItem()
+        //    {
+        //        Index = 5,
+        //        Text = "Thứ 7",
+        //        Value = "Sa"
+        //    });
+        //}
+        //else
+        //{
+            cb.Items.Add(new ListEditItem()
+            {
+                Index = 0,
+                Text =  Utility.Phrase("Monday"), //"Monday",
+                Value = "Mo"
+            });
+            cb.Items.Add(new ListEditItem()
+            {
+                Index = 1,
+                Text = Utility.Phrase("Tuesday"), //"Tuesday",
+                Value = "Tu"
+            });
+            cb.Items.Add(new ListEditItem()
+            {
+                Index = 2,
+                Text = Utility.Phrase("Wednesday"), //"Wednesday",
+                Value = "We"
+            });
+            cb.Items.Add(new ListEditItem()
+            {
+                Index = 3,
+                Text = Utility.Phrase("Thursday"), //"Thurday",
+                Value = "Th"
+            });
+            cb.Items.Add(new ListEditItem()
+            {
+                Index = 4,
+                Text = Utility.Phrase("Friday"), //"Friday",
+                Value = "Fr"
+            });
+            cb.Items.Add(new ListEditItem()
+            {
+                Index = 5,
+                Text = Utility.Phrase("Saturday"), //"Saturday",
+                Value = "Sa"
+            });
+        //}
+
+    });
+
+    grid.Columns.Add(col =>
+    {
+        //col.HeaderStyle.CssClass = "block-theme";
+        col.FieldName = "Shift";
+        col.ColumnType = MVCxGridViewColumnType.ComboBox;
+        col.Caption = Utility.Phrase("PrepareSchedule.Messages.Shift");
+        col.Width = System.Web.UI.WebControls.Unit.Percentage(5);
+        var cb = col.PropertiesEdit as ComboBoxProperties;
+        cb.EnableCallbackMode = true;
+        
+            cb.Items.Add(new ListEditItem()
+            {
+                Index = 0,
+                Text = Utility.Phrase("Morning"),
+                Value = "AM"
+            });
+            cb.Items.Add(new ListEditItem()
+            {
+                Index = 1,
+                Text = Utility.Phrase("Afternoon"),
+                Value = "PM"
+            });
+        //}
+        //else
+        //{
+        //    cb.Items.Add(new ListEditItem()
+        //    {
+        //        Index = 0,
+        //        Text = "AM",
+        //        Value = "AM"
+        //    });
+        //    cb.Items.Add(new ListEditItem()
+        //    {
+        //        Index = 1,
+        //        Text = "PM",
+        //        Value = "PM"
+        //    });
+        //}
+    });
+    grid.Columns.Add(col =>
+    {
+        //col.HeaderStyle.CssClass = "block-theme";
+        col.FieldName = "RefWWType";
+        col.ColumnType = MVCxGridViewColumnType.ComboBox;
+        col.Caption = Utility.Phrase("PrepareSchedule.Messages.WorkingType");
+        col.Width = System.Web.UI.WebControls.Unit.Percentage(15);
+        var cb = col.PropertiesEdit as ComboBoxProperties;
+        cb.EnableCallbackMode = true;
+        var list = eRoute.Models.eCalendar.HammerDataProvider.GetListNonWWType();
+        int index = 0;
+        foreach (var item in list)
+        {
+
+            cb.Items.Add(new ListEditItem()
+            {
+                Index = index,
+                Text = item.Des,
+                Value = item.RefWWType,
+            });
+            index++;
+        }
+    });
+    grid.Columns.Add(col =>
+    {
+        //col.HeaderStyle.CssClass = "block-theme";
+        col.FieldName = "Des";
+        col.ColumnType = MVCxGridViewColumnType.Memo;
+        col.Caption = Utility.Phrase("PrepareSchedule.Messages.Content");
+        col.Width = System.Web.UI.WebControls.Unit.Percentage(40);        
+    });
+
+    grid.CommandButtonInitialize = (s, e) =>
+    {
+
+        MVCxGridView g = s as MVCxGridView;
+        string value = (string)g.GetRowValues(e.VisibleIndex, "Status"); //use a correct field name and cast a resultant value to a correct value type
+        //e.Visible = true; // for example, only
+        if (value == "R")
+        {
+            if (e.Text == Utility.Phrase("PrepareSchedule.Messages.CommandEdit"))
+            {
+                e.Visible = false;
+            }
+            if (e.Text == Utility.Phrase("PrepareSchedule.Messages.CommandUpdate"))
+            {
+                e.Visible = false;
+            }
+            
+        }
+
+    };
+    
+    if (ViewData["EditError"] != null)
+    {
+        //grid.Settings.sh = true;
+        grid.SetHeaderCaptionTemplateContent(c =>
+        {
+            if (c.Column.Caption == Utility.Phrase("PrepareSchedule.Messages.Content"))
+            {
+                Html.ViewContext.Writer.Write("<b> <span style='color: red;width: 100%;font-size:x-small'>");
+                Html.ViewContext.Writer.Write(ViewData["EditError"]);
+                Html.ViewContext.Writer.Write("</span></b>");
+            }
+        });        
+    }    
+    grid.CellEditorInitialize = (sender, e) =>
+    {
+
+        if (e.Column.FieldName == "Day")
+        {
+            e.Editor.ClientEnabled = false;
+        }
+        if (e.Column.FieldName == "Shift")
+        {
+            e.Editor.ClientEnabled = false;
+        }
+    };
+}).Bind(Session["GirdNoWW"]).GetHtml()

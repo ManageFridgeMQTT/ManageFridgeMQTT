@@ -1,0 +1,100 @@
+﻿<!DOCTYPE html>
+<html class="nav-mini">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="height=device-height,width=device-width,initial-scale=1.0,maximum-scale=1.0, user-scalable=no">
+    <link href="img/favicon.png" rel="shortcut icon" />
+
+    @Html.DevExpress().GetStyleSheets(
+        new StyleSheet { ExtensionSuite = ExtensionSuite.NavigationAndLayout },
+        new StyleSheet { ExtensionSuite = ExtensionSuite.Editors },
+        new StyleSheet { ExtensionSuite = ExtensionSuite.HtmlEditor },
+        new StyleSheet { ExtensionSuite = ExtensionSuite.GridView },
+        new StyleSheet { ExtensionSuite = ExtensionSuite.PivotGrid },
+        new StyleSheet { ExtensionSuite = ExtensionSuite.Chart },
+        new StyleSheet { ExtensionSuite = ExtensionSuite.Report },
+        new StyleSheet { ExtensionSuite = ExtensionSuite.Scheduler },
+        new StyleSheet { ExtensionSuite = ExtensionSuite.TreeList }
+    )
+
+    <link href="@Url.Content("~/Content/NewEtool/css/jquery.theme.default.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/Content/NewEtool/css/boothstrap.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/Content/NewEtool/css/component.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/Content/NewEtool/css/jquery-ui.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/Content/NewEtool/css/icon.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/Content/NewEtool/css/style.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/Content/NewEtool/css/final.css")" rel="stylesheet" type="text/css" />
+    @*<link href="@Url.Content("~/Content/NewEtool/css/fixedColumns.dataTables.css")" rel="stylesheet" type="text/css" />*@
+
+    <script src="@Url.Content("~/Content/NewEtool/js/jquery.min.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Content/NewEtool/js/jquery.cookie.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Content/NewEtool/js/jquery.tablesorter.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Content/NewEtool/js/jquery.tablesorter.widgets.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Content/NewEtool/js/bootstrap.min.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Content/NewEtool/js/angular.min.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Content/NewEtool/js/jquery-ui.js")" type="text/javascript"></script>
+    @*<script src="@Url.Content("~/Content/NewEtool/js/dataTables.fixedColumns.js")" type="text/javascript"></script>*@
+    @*<script src="@Url.Content("~/Content/NewEtool/js/jquery.dataTables.min.js")" type="text/javascript"></script>*@
+    <script src="@Url.Content("~/Content/NewEtool/js/jquery.tablesorter.pager.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Content/NewEtool/js/ui.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Content/NewEtool/js/widget-scroller.js")" type="text/javascript"></script>
+
+
+    @*<script src="@Url.Content("~/Scripts/EvaluationScripts/bootstrap.treeview.js")" type="text/javascript"></script>*@
+    @*<link href="@Url.Content("~/Content/EvaluationCSS/jquery-ui-monthpicker.css")" rel="stylesheet" type="text/css" />
+        <link href="@Url.Content("~/Content/EvaluationCSS/jquery.simple-dtpicker.css")" rel="stylesheet" type="text/css" />*@
+    <link href="@Url.Content("~/Content/EvaluationCSS/Evaluation.css")" rel="stylesheet" type="text/css" />
+    <script src="@Url.Content("~/Scripts/EvaluationScripts/EvaluationScript.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/EvaluationScripts/jquery.simple-dtpicker.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/EvaluationScripts/jquery.mtz.monthpicker.js")" type="text/javascript"></script>
+
+    <script src="@Url.Content("~/Scripts/EvaluationScripts/bootstrap.treeview.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/jquery.nestable.js")"></script>
+
+    <script src="@Url.Content("~/Scripts/EvaluationScripts/bootstrap.treeview.js")" type="text/javascript"></script>
+
+    @RenderSection("Scripts", false/*required*/)
+
+    @Html.DevExpress().GetScripts(
+        new Script { ExtensionSuite = ExtensionSuite.NavigationAndLayout },
+        new Script { ExtensionSuite = ExtensionSuite.HtmlEditor },
+        new Script { ExtensionSuite = ExtensionSuite.GridView },
+        new Script { ExtensionSuite = ExtensionSuite.PivotGrid },
+        new Script { ExtensionSuite = ExtensionSuite.Editors },
+        new Script { ExtensionSuite = ExtensionSuite.Chart },
+        new Script { ExtensionSuite = ExtensionSuite.Report },
+        new Script { ExtensionSuite = ExtensionSuite.Scheduler },
+        new Script { ExtensionSuite = ExtensionSuite.TreeList }
+    )
+    <title>DMSpro Etool</title>
+</head>
+<body>
+    <div id="iviewer" style="display:none">
+        <div class="loading"></div>
+        <div class="viewer"></div>
+        <ul class="controls">
+            <li class="close"><i class="icon-white icon-delete"></i></li>
+            <li class="zoomin"><i class="icon-white icon-zoomin"></i></li>
+            <li class="zoomout"><i class="icon-white icon-zoomout"></i></li>
+            <li class="rotate_right"><i class="icon-white icon-rotate-counter-clockwise m-0 "></i></li>
+            <li class="rotate_left"><i class="icon-white icon-rotate-clockwise m-0"></i></li>
+        </ul>
+        <div class="info">
+            <a href="#" id="prevLink" class="iviewer_event" style="width: 40px;"><i class="icon-white icon-prevLink"></i></a>
+            <p id="imageCount"></p>
+            <a href="#" id="nextLink" class="iviewer_event" style="width: 40px;"><i class="icon-white icon-nextLink"></i></a>
+        </div>
+    </div>
+    <div class="container">
+        <div class="header">
+            @Html.Partial("HeaderPartial")
+        </div>
+        <div class="navigation">
+            @Html.Partial("NavigationMenuPartial")
+        </div>
+        <div class="content">
+            @RenderBody()
+        </div>
+    </div>
+</body>
+</html>

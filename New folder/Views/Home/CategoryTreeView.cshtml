@@ -1,0 +1,22 @@
+﻿@model eRoute.Models.ViewModel.CategoryVM
+@{
+    Layout = null;
+}
+@Html.DevExpress().TreeView(settings =>
+           {
+               settings.Name = "treeView";
+               settings.AllowCheckNodes = true;
+               settings.Height = 435;
+               settings.Nodes.Add(node =>
+               {
+                   node.Text = Localization.TreeList;
+                   node.Checked = true;
+                   eRoute.Controllers.HomeController.CreateTreeViewNodesRecursive(Model.ProjectListModel, node.Nodes, 0);
+                   
+               });
+               settings.PreRender = (source, e) =>
+               {
+                   ASPxTreeView treeView = (ASPxTreeView)source;
+                   treeView.ExpandAll();
+               };
+           }).GetHtml()

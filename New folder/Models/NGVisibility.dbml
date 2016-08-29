@@ -1,0 +1,1489 @@
+﻿<?xml version="1.0" encoding="utf-8"?><Database Name="NhatNhateTools2" Class="NGVisibilityDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
+  <Connection Mode="WebSettings" ConnectionString="Data Source=DMSPRO-SYVN;Initial Catalog=NhatNhateTools2;Persist Security Info=True;User ID=sa;Connect Timeout=300" SettingsObjectName="System.Configuration.ConfigurationManager.ConnectionStrings" SettingsPropertyName="DefaultConnection" Provider="System.Data.SqlClient" />
+  <Table Name="dbo.uvw_GetEvaluationDetailInfo" Member="uvw_GetEvaluationDetailInfos">
+    <Type Name="uvw_GetEvaluationDetailInfo">
+      <Column Name="STT" Type="System.String" DbType="VarChar(10)" CanBeNull="true" />
+      <Column Name="MaDanhGia" Type="System.String" DbType="NVarChar(30) NOT NULL" CanBeNull="false" />
+      <Column Name="MaThamChieu" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="ChuongTrinhTrungBay" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="ThoiGianTrungBay" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="ThoiGianDanhGia" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="TrangThai" Type="System.String" DbType="NVarChar(13) NOT NULL" CanBeNull="false" />
+      <Column Name="MoTaCTTB" Type="System.String" DbType="NVarChar(100) NOT NULL" CanBeNull="false" />
+      <Column Name="NoiDungCTTB" Type="System.String" DbType="NVarChar(100) NOT NULL" CanBeNull="false" />
+      <Column Name="ChiTiet" Type="System.String" DbType="NVarChar(8) NOT NULL" CanBeNull="false" />
+    </Type>
+  </Table>
+  <Table Name="dbo.uvw_GetItemInformation" Member="uvw_GetItemInformations">
+    <Type Name="uvw_GetItemInformation">
+      <Column Name="STT" Type="System.String" DbType="VarChar(10)" CanBeNull="true" />
+      <Column Name="MaSanPham" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="TenSanPham" Type="System.String" DbType="NVarChar(255) NOT NULL" CanBeNull="false" />
+      <Column Name="NhaSanXuat" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+    </Type>
+  </Table>
+  <Table Name="dbo.uvw_GetNumberOfSaleOrg" Member="uvw_GetNumberOfSaleOrgs">
+    <Type Name="uvw_GetNumberOfSaleOrg">
+      <Column Name="SalesOrgID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="SalesOrgCD" Type="System.String" DbType="VarChar(15) NOT NULL" CanBeNull="false" />
+      <Column Name="Descr" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.uvw_GetReasonInformation" Member="uvw_GetReasonInformations">
+    <Type Name="uvw_GetReasonInformation">
+      <Column Name="STT" Type="System.String" DbType="VarChar(2) NOT NULL" CanBeNull="false" />
+      <Column Name="MaBoLyDo" Type="System.String" DbType="NVarChar(5) NOT NULL" CanBeNull="false" />
+      <Column Name="BoLyDo" Type="System.String" DbType="NVarChar(14) NOT NULL" CanBeNull="false" />
+      <Column Name="MaLyDo" Type="System.String" DbType="NVarChar(5) NOT NULL" CanBeNull="false" />
+      <Column Name="LyDo" Type="System.String" DbType="NVarChar(26) NOT NULL" CanBeNull="false" />
+    </Type>
+  </Table>
+  <Table Name="dbo.DMSEvalDefinedRole" Member="DMSEvalDefinedRoles">
+    <Type Name="DMSEvalDefinedRole">
+      <Column Name="EvalRoleID" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="RoleDescription" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+    </Type>
+  </Table>
+  <Table Name="dbo.uvw_GetRolesInformation" Member="uvw_GetRolesInformations">
+    <Type Name="uvw_GetRolesInformation">
+      <Column Name="EvalRoleID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="RoleDescription" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+    </Type>
+  </Table>
+  <Table Name="dbo.DMSEvaluation" Member="DMSEvaluations">
+    <Type Name="DMSEvaluation">
+      <Column Name="ID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="EvaluationID" Type="System.String" DbType="NVarChar(30) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="ReferenceCD" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="ProgramID" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="ProgramCD" Type="System.String" DbType="NVarChar(30) NOT NULL" CanBeNull="false" />
+      <Column Name="ProgramName" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="ProgramDescription" Type="System.String" DbType="NVarChar(100) NOT NULL" CanBeNull="false" />
+      <Column Name="ProgramContent" Type="System.String" DbType="NVarChar(100) NOT NULL" CanBeNull="false" />
+      <Column Name="ProgramDateFrom" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="ProgramDateTo" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="EvalType" Type="System.String" DbType="NVarChar(1) NOT NULL" CanBeNull="false" />
+      <Column Name="EvalDateType" Type="System.String" DbType="NVarChar(1) NOT NULL" CanBeNull="false" />
+      <Column Name="EvalDateTo" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="EvalDateFrom" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="EvalState" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="isNumeric" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="ReviewRate" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="CreatedByID" Type="System.String" DbType="VarChar(20) NOT NULL" CanBeNull="false" />
+      <Column Name="CreatedByScreenID" Type="System.String" DbType="NVarChar(8) NOT NULL" CanBeNull="false" />
+      <Column Name="CreatedDateTime" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="LastModifiedByID" Type="System.String" DbType="VarChar(20) NOT NULL" CanBeNull="false" />
+      <Column Name="LastModifiedByScreenID" Type="System.String" DbType="NVarChar(8) NOT NULL" CanBeNull="false" />
+      <Column Name="LastModifiedDateTime" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="tstamp" Type="System.Data.Linq.Binary" DbType="rowversion NOT NULL" CanBeNull="false" IsVersion="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.DMSEvalWithTerritory" Member="DMSEvalWithTerritories">
+    <Type Name="DMSEvalWithTerritory">
+      <Column Name="ID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="EvaluationID" Type="System.String" DbType="NVarChar(20) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="TerritoryType" Type="System.Char" DbType="NChar(1) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="TerritoryID" Type="System.String" DbType="NVarChar(20) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="TerritoryName" Type="System.String" DbType="NChar(20) NOT NULL" CanBeNull="false" />
+      <Column Name="TerritoryDescription" Type="System.String" DbType="NChar(20) NOT NULL" CanBeNull="false" />
+      <Column Name="CreatedByID" Type="System.String" DbType="NVarChar(20) NOT NULL" CanBeNull="false" />
+      <Column Name="CreatedByScreenID" Type="System.String" DbType="NChar(8) NOT NULL" CanBeNull="false" />
+      <Column Name="CreatedDateTime" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="LastModifiedByID" Type="System.String" DbType="NVarChar(20) NOT NULL" CanBeNull="false" />
+      <Column Name="LastModifiedByScreenID" Type="System.String" DbType="NChar(8) NOT NULL" CanBeNull="false" />
+      <Column Name="LastModifiedDateTime" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="tstamp" Type="System.Data.Linq.Binary" DbType="rowversion NOT NULL" CanBeNull="false" IsVersion="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.BLEvalSM" Member="BLEvalSMs">
+    <Type Name="BLEvalSM">
+      <Column Name="RegionID" Type="System.String" DbType="NVarChar(5)" CanBeNull="true" />
+      <Column Name="RegionName" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="AreaID" Type="System.String" DbType="NVarChar(10)" CanBeNull="true" />
+      <Column Name="AreaName" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="SaleSupID" Type="System.String" DbType="NVarChar(20)" CanBeNull="true" />
+      <Column Name="SaleSupName" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="DistributorID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="DistributorName" Type="System.String" DbType="NVarChar(60)" CanBeNull="true" />
+      <Column Name="RouteID" Type="System.String" DbType="NVarChar(20)" CanBeNull="true" />
+      <Column Name="RouteName" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Column Name="SalesmanID" Type="System.String" DbType="NVarChar(15)" CanBeNull="true" />
+      <Column Name="SalesmanName" Type="System.String" DbType="NVarChar(60)" CanBeNull="true" />
+      <Column Name="ProgramID" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="ProgramName" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="ProgramDateFrom" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="ProgramDateTo" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="EvaluationID" Type="System.String" DbType="NVarChar(30)" CanBeNull="true" />
+      <Column Name="ProgramContent" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
+      <Column Name="EvalDateFrom" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="EvalDateTo" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="EvalType" Type="System.String" DbType="NVarChar(1)" CanBeNull="true" />
+      <Column Name="EvalState" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="isNumeric" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="ReviewRate" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="CustomerID" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="OutletName" Type="System.String" DbType="NVarChar(60)" CanBeNull="true" />
+      <Column Name="Address" Type="System.String" DbType="NVarChar(200)" CanBeNull="true" />
+      <Column Name="Phone" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="CustomerImageID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="CapturedDate" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="ImageFileName" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="isAccepted" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="isCaptured" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="isPassed" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="PassProgram" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="isFinished" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="FinishDate" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="ReFinishDate" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="OutletStatus" Type="System.Char" DbType="NChar(1)" CanBeNull="true" />
+      <Column Name="MarkingAssign" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="AuditorMarking" Type="System.String" DbType="NVarChar(20) NOT NULL" CanBeNull="false" />
+      <Column Name="isApproved" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="Rejected" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="ReReview" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="ReviewDate" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="ReReviewDate" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="ReviewAssign" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="AuditorReview" Type="System.String" DbType="NVarChar(20)" CanBeNull="true" />
+      <Column Name="ReviewLastModifiedDateTime" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.DMSEvalWithInventoryItem" Member="DMSEvalWithInventoryItems">
+    <Type Name="DMSEvalWithInventoryItem">
+      <Column Name="ID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="EvaluationID" Type="System.String" DbType="NVarChar(30) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="ReferenceCD" Type="System.String" DbType="NVarChar(50) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="ItemID" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="IsChecked" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="CreatedByID" Type="System.String" DbType="VarChar(20) NOT NULL" CanBeNull="false" />
+      <Column Name="CreatedByScreenID" Type="System.String" DbType="NVarChar(8) NOT NULL" CanBeNull="false" />
+      <Column Name="CreatedDateTime" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="LastModifiedByID" Type="System.String" DbType="VarChar(20) NOT NULL" CanBeNull="false" />
+      <Column Name="LastModifiedByScreenID" Type="System.String" DbType="NVarChar(8) NOT NULL" CanBeNull="false" />
+      <Column Name="LastModifiedDateTime" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="tstamp" Type="System.Data.Linq.Binary" DbType="rowversion NOT NULL" CanBeNull="false" IsVersion="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.DMSEvalInventoryItems" Member="DMSEvalInventoryItems">
+    <Type Name="DMSEvalInventoryItem">
+      <Column Name="InventoryID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="InventoryCD" Type="System.String" DbType="NVarChar(30) NOT NULL" CanBeNull="false" />
+      <Column Name="Descr" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Column Name="VendorID" Type="System.String" DbType="NVarChar(20)" CanBeNull="true" />
+      <Column Name="VendorName" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="Type" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="CreatedByID" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" CanBeNull="false" />
+      <Column Name="CreatedByScreenID" Type="System.String" DbType="Char(8)" CanBeNull="true" />
+      <Column Name="CreatedDateTime" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="LastModifiedByID" Type="System.Guid" DbType="UniqueIdentifier" CanBeNull="true" />
+      <Column Name="LastModifiedByScreenID" Type="System.String" DbType="Char(8)" CanBeNull="true" />
+      <Column Name="LastModifiedDateTime" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="tstamp" Type="System.Data.Linq.Binary" DbType="rowversion NOT NULL" CanBeNull="false" IsVersion="true" />
+      <Column Name="CategoryID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="CategoryName" Type="System.String" DbType="NVarChar(500)" CanBeNull="true" />
+      <Column Name="Active" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+    </Type>
+  </Table>
+  <Table Name="dbo.uvw_GetUserInformation" Member="uvw_GetUserInformations">
+    <Type Name="uvw_GetUserInformation">
+      <Column Name="STT" Type="System.String" DbType="NVarChar(20)" CanBeNull="true" />
+      <Column Name="MaNhanVien" Type="System.String" DbType="NVarChar(56) NOT NULL" CanBeNull="false" />
+      <Column Name="TenNhanVien" Type="System.String" DbType="NVarChar(60) NOT NULL" CanBeNull="false" />
+      <Column Name="SoDienThoai" Type="System.String" DbType="NVarChar(12) NOT NULL" CanBeNull="false" />
+      <Column Name="[Level]" Member="Level" Type="System.String" DbType="NVarChar(60) NOT NULL" CanBeNull="false" />
+      <Column Name="VaiTro" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Chon" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="LeaderAuditor" Type="System.String" DbType="NVarChar(56) NOT NULL" CanBeNull="false" />
+    </Type>
+  </Table>
+  <Table Name="dbo.uvw_GetDisplayInformation" Member="uvw_GetDisplayInformations">
+    <Type Name="uvw_GetDisplayInformation">
+      <Column Name="STT" Type="System.String" DbType="VarChar(10)" CanBeNull="true" />
+      <Column Name="MaCTTB" Type="System.String" DbType="NVarChar(20) NOT NULL" CanBeNull="false" />
+      <Column Name="ChuongTrinhTrungBay" Type="System.String" DbType="NVarChar(250) NOT NULL" CanBeNull="false" />
+      <Column Name="MoTa" Type="System.String" DbType="NVarChar(250) NOT NULL" CanBeNull="false" />
+      <Column Name="ThoiGianTrungBay" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="ThoiGianBatDau" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="ThoiGianKetThuc" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="IsNummeric" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+    </Type>
+  </Table>
+  <Table Name="dbo.DMSAcuDisplayEval" Member="DMSAcuDisplayEvals">
+    <Type Name="DMSAcuDisplayEval">
+      <Column Name="EvaluationID" Type="System.String" DbType="NVarChar(30) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="DisplayID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="FromDate" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="ToDate" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="CreatedByID" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" CanBeNull="false" />
+      <Column Name="CreatedDateTime" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="LastModifiedByID" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" CanBeNull="false" />
+      <Column Name="LastModifiedDateTime" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+    </Type>
+  </Table>
+  <Table Name="dbo.DMSEvalProgram" Member="DMSEvalPrograms">
+    <Type Name="DMSEvalProgram">
+      <Column Name="RefNbr" Type="System.String" DbType="NVarChar(20)" CanBeNull="true" />
+      <Column Name="ProgramID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="ProgramCD" Type="System.String" DbType="NVarChar(15) NOT NULL" CanBeNull="false" />
+      <Column Name="ProgramName" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
+      <Column Name="ProgramDescr" Type="System.String" DbType="NVarChar(118)" CanBeNull="true" />
+      <Column Name="StartDate" Type="System.DateTime" DbType="Date" CanBeNull="true" />
+      <Column Name="EndDate" Type="System.DateTime" DbType="Date" CanBeNull="true" />
+      <Column Name="IsNummeric" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Type" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="PathImage" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Column Name="CreatedByID" Type="System.Guid" DbType="UniqueIdentifier" CanBeNull="true" />
+      <Column Name="CreatedByScreenID" Type="System.String" DbType="Char(8)" CanBeNull="true" />
+      <Column Name="CreatedDateTime" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="LastModifiedByID" Type="System.Guid" DbType="UniqueIdentifier" CanBeNull="true" />
+      <Column Name="LastModifiedByScreenID" Type="System.String" DbType="Char(8)" CanBeNull="true" />
+      <Column Name="LastModifiedDateTime" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.DMSEvalWithUserRole" Member="DMSEvalWithUserRoles">
+    <Type Name="DMSEvalWithUserRole">
+      <Column Name="ID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="EvaluationID" Type="System.String" DbType="NVarChar(30) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="EvalUserID" Type="System.String" DbType="NVarChar(50) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="EvalRoleID" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="EvalLeaderID" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="Status" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="TotalImage" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="TotalOutlet" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="TotalImageMarked" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="TotalOutletMarked" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="TotalImageReviewed" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="TotalImageApproved" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="TotalImageRejected" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="TotalImareReMark" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="CreatedByID" Type="System.String" DbType="VarChar(20) NOT NULL" CanBeNull="false" />
+      <Column Name="CreatedByScreenID" Type="System.String" DbType="NVarChar(8) NOT NULL" CanBeNull="false" />
+      <Column Name="CreatedDateTime" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="LastModifiedByID" Type="System.String" DbType="VarChar(20) NOT NULL" CanBeNull="false" />
+      <Column Name="LastModifiedByScreenID" Type="System.String" DbType="NVarChar(8) NOT NULL" CanBeNull="false" />
+      <Column Name="LastModifiedDateTime" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="tstamp" Type="System.Data.Linq.Binary" DbType="rowversion NOT NULL" CanBeNull="false" IsVersion="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.DisplayReason" Member="DisplayReasons">
+    <Type Name="DisplayReason">
+      <Column Name="ID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="DisplayID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="ReasonCode" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="LongDescription" Type="System.String" DbType="NVarChar(250)" CanBeNull="true" />
+      <Column Name="ShortDescription" Type="System.String" DbType="NVarChar(128)" CanBeNull="true" />
+      <Column Name="TypeOfReason" Type="System.String" DbType="NVarChar(128) NOT NULL" CanBeNull="false" />
+      <Column Name="CreatedByID" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
+      <Column Name="CreatedDateTime" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="LastModifiedByID" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
+      <Column Name="LastModifiedDateTime" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="Active" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+    </Type>
+  </Table>
+  <Table Name="dbo.InventoryPath" Member="InventoryPaths">
+    <Type Name="InventoryPath">
+      <Column Name="InventoryPathID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="InventoryID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="InventoryPathName" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="CreatedBy" Type="System.Guid" DbType="UniqueIdentifier" CanBeNull="true" />
+      <Column Name="CreatedDateTime" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="LastModifiedBy" Type="System.Guid" DbType="UniqueIdentifier" CanBeNull="true" />
+      <Column Name="LastModifiedDateTime" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Function Name="dbo.usp_UpdateOutletImageStatus" Method="usp_UpdateOutletImageStatus">
+    <Parameter Name="EvaluationID" Parameter="evaluationID" Type="System.String" DbType="VarChar(30)" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.usp_DeleteAllEvaluationData" Method="usp_DeleteAllEvaluationData">
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.usp_DistributeOutletToEvaluation" Method="usp_DistributeOutletToEvaluation">
+    <Parameter Name="EvaluationID" Parameter="evaluationID" Type="System.String" DbType="VarChar(20)" />
+    <ElementType Name="usp_DistributeOutletToEvaluationResult">
+      <Column Name="" Member="Column1" Type="System.String" DbType="VarChar(1)" CanBeNull="true" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.usp_GetEvaluationMoreInfoByID" Method="usp_GetEvaluationMoreInfoByID">
+    <Parameter Name="EvaluationID" Parameter="evaluationID" Type="System.String" DbType="NVarChar(20)" />
+    <Parameter Name="isNumeric" Type="System.String" DbType="NVarChar(1)" Direction="InOut" />
+    <Parameter Name="LoaiKhuVuc" Parameter="loaiKhuVuc" Type="System.String" DbType="NVarChar(1)" Direction="InOut" />
+    <Parameter Name="DanhSachKhuVucID" Parameter="danhSachKhuVucID" Type="System.String" DbType="NVarChar(255)" Direction="InOut" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.usp_GetOutletImageStatusByID" Method="usp_GetOutletImageStatusByID">
+    <Parameter Name="EvaluationID" Parameter="evaluationID" Type="System.String" DbType="VarChar(30)" />
+    <Parameter Name="UserID" Parameter="userID" Type="System.String" DbType="VarChar(50)" />
+    <ElementType Name="usp_GetOutletImageStatusByIDResult">
+      <Column Name="EvaluationID" Type="System.String" DbType="NVarChar(30) NOT NULL" CanBeNull="false" />
+      <Column Name="CustomerID" Type="System.String" DbType="NVarChar(30) NOT NULL" CanBeNull="false" />
+      <Column Name="UserID" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="OutletImageID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="EvalStatus" Type="System.String" DbType="NVarChar(30)" CanBeNull="true" />
+      <Column Name="RevStatus" Type="System.String" DbType="NVarChar(30)" CanBeNull="true" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.usp_InsertOutletImageData" Method="usp_InsertOutletImageData">
+    <Parameter Name="EvaluationID" Parameter="evaluationID" Type="System.String" DbType="NVarChar(30)" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.usp_SaveEvaluationImageResult" Method="usp_SaveEvaluationImageResult">
+    <Parameter Name="EvalID" Parameter="evalID" Type="System.String" DbType="VarChar(30)" />
+    <Parameter Name="AuditorID" Parameter="auditorID" Type="System.String" DbType="VarChar(20)" />
+    <Parameter Name="OutletID" Parameter="outletID" Type="System.String" DbType="VarChar(30)" />
+    <Parameter Name="ListOfImageID" Parameter="listOfImageID" Type="System.String" DbType="VarChar(255)" />
+    <Parameter Name="ListOfKQChamDiem" Parameter="listOfKQChamDiem" Type="System.String" DbType="VarChar(255)" />
+    <Parameter Name="ListOfLyDoChamDiem" Parameter="listOfLyDoChamDiem" Type="System.String" DbType="VarChar(255)" />
+    <Parameter Name="ListOfNumericChamDiem" Parameter="listOfNumericChamDiem" Type="System.String" DbType="VarChar(255)" />
+    <Parameter Name="ListOfDaChamDiem" Parameter="listOfDaChamDiem" Type="System.String" DbType="VarChar(255)" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.ufn_GetAutoEvaluationDataByID" Method="ufn_GetAutoEvaluationDataByID" IsComposable="true">
+    <Parameter Name="EvaluationID" Parameter="evaluationID" Type="System.String" DbType="VarChar(30)" />
+    <ElementType Name="ufn_GetAutoEvaluationDataByIDResult">
+      <Column Name="STT" Type="System.String" DbType="NVarChar(10) NOT NULL" CanBeNull="false" />
+      <Column Name="MaCuaHang" Type="System.String" DbType="NVarChar(30)" CanBeNull="true" />
+      <Column Name="TenCuaHang" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="NgayBatDauDanhGia" Type="System.String" DbType="NVarChar(20)" CanBeNull="true" />
+      <Column Name="NgayKetThucDanhGia" Type="System.String" DbType="NVarChar(20)" CanBeNull="true" />
+      <Column Name="TrangThaiDanhGia" Type="System.String" DbType="NVarChar(30)" CanBeNull="true" />
+      <Column Name="AnhGiaOverTongAnh" Type="System.String" DbType="NVarChar(15)" CanBeNull="true" />
+      <Column Name="AnhKhongChuanOverTongAnh" Type="System.String" DbType="NVarChar(15)" CanBeNull="true" />
+      <Column Name="AnhKhongDatOverTongAnh" Type="System.String" DbType="NVarChar(15)" CanBeNull="true" />
+      <Column Name="HanhDong" Type="System.String" DbType="NVarChar(15)" CanBeNull="true" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.ufn_GetBaselinedInfoByID" Method="ufn_GetBaselinedInfoByID" IsComposable="true">
+    <Parameter Name="ListOfEvalID" Parameter="listOfEvalID" Type="System.String" DbType="VarChar(255)" />
+    <ElementType Name="ufn_GetBaselinedInfoByIDResult">
+      <Column Name="STT" Type="System.String" DbType="NVarChar(10) NOT NULL" CanBeNull="false" />
+      <Column Name="MaDanhGia" Type="System.String" DbType="NVarChar(30)" CanBeNull="true" />
+      <Column Name="MoTaCTTB" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
+      <Column Name="HinhThucBaseline" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="ThoiGianBaseline" Type="System.String" DbType="NVarChar(30)" CanBeNull="true" />
+      <Column Name="ThoiGianCTTB" Type="System.String" DbType="NVarChar(30)" CanBeNull="true" />
+      <Column Name="ThoiGianDanhGia" Type="System.String" DbType="NVarChar(30)" CanBeNull="true" />
+      <Column Name="SoCuaHang" Type="System.String" DbType="NVarChar(10)" CanBeNull="true" />
+      <Column Name="SoNhanVien" Type="System.String" DbType="NVarChar(10)" CanBeNull="true" />
+      <Column Name="SoAnhChamDiemOverTong" Type="System.String" DbType="NVarChar(10)" CanBeNull="true" />
+      <Column Name="SoAnhThuc" Type="System.String" DbType="NVarChar(10)" CanBeNull="true" />
+      <Column Name="SoAnhChapNhan" Type="System.String" DbType="NVarChar(10)" CanBeNull="true" />
+      <Column Name="SoAnhDat" Type="System.String" DbType="NVarChar(10)" CanBeNull="true" />
+      <Column Name="TyLeBaseline" Type="System.String" DbType="NVarChar(10)" CanBeNull="true" />
+      <Column Name="TrangThai" Type="System.String" DbType="NVarChar(20)" CanBeNull="true" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.ufn_GetBaselineEvaluationByID" Method="ufn_GetBaselineEvaluationByID" IsComposable="true">
+    <Parameter Name="EvaluationID" Parameter="evaluationID" Type="System.String" DbType="VarChar(30)" />
+    <ElementType Name="ufn_GetBaselineEvaluationByIDResult">
+      <Column Name="STT" Type="System.String" DbType="NVarChar(10) NOT NULL" CanBeNull="false" />
+      <Column Name="MaDanhGia" Type="System.String" DbType="NVarChar(30)" CanBeNull="true" />
+      <Column Name="MaThamChieu" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="MaCTTB" Type="System.String" DbType="NVarChar(10)" CanBeNull="true" />
+      <Column Name="TenCTTB" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="ThoiGianCTTB" Type="System.String" DbType="NVarChar(30)" CanBeNull="true" />
+      <Column Name="ThoiGianDanhGia" Type="System.String" DbType="NVarChar(30)" CanBeNull="true" />
+      <Column Name="TrangThai" Type="System.String" DbType="NVarChar(20)" CanBeNull="true" />
+      <Column Name="MoTaCTTB" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
+      <Column Name="NoiDungCTTB" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
+      <Column Name="LuaChon" Type="System.String" DbType="NVarChar(1)" CanBeNull="true" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.ufn_GetOutletInforByID" Method="ufn_GetOutletInforByID" IsComposable="true">
+    <Parameter Name="EvaluationID" Parameter="evaluationID" Type="System.String" DbType="VarChar(30)" />
+    <Parameter Name="MaAuditor" Parameter="maAuditor" Type="System.String" DbType="VarChar(50)" />
+    <ElementType Name="ufn_GetOutletInforByIDResult">
+      <Column Name="STT" Type="System.String" DbType="NVarChar(10) NOT NULL" CanBeNull="false" />
+      <Column Name="MaCuaHang" Type="System.String" DbType="VarChar(30)" CanBeNull="true" />
+      <Column Name="TenCuaHang" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="MaNhaPhanPhoi" Type="System.String" DbType="NVarChar(40)" CanBeNull="true" />
+      <Column Name="TenNhaPhanPhoi" Type="System.String" DbType="NVarChar(80)" CanBeNull="true" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.usp_CheckAndUpdateEvalMasterTables" Method="usp_CheckAndUpdateEvalMasterTables">
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.ufn_GetOutletsImageReviewByID" Method="ufn_GetOutletsImageReviewByID" IsComposable="true">
+    <Parameter Name="EvaluationID" Parameter="evaluationID" Type="System.String" DbType="VarChar(30)" />
+    <ElementType Name="ufn_GetOutletsImageReviewByIDResult">
+      <Column Name="STT" Type="System.String" DbType="NVarChar(10) NOT NULL" CanBeNull="false" />
+      <Column Name="MaDanhGia" Type="System.String" DbType="NVarChar(30)" CanBeNull="true" />
+      <Column Name="MaCuaHang" Type="System.String" DbType="NVarChar(30)" CanBeNull="true" />
+      <Column Name="TenCuaHang" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="MaAuditor" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="TenAuditor" Type="System.String" DbType="NVarChar(30)" CanBeNull="true" />
+      <Column Name="SoAnhCanDanhGia" Type="System.String" DbType="NVarChar(10)" CanBeNull="true" />
+      <Column Name="SoAnhDaDanhGia" Type="System.String" DbType="NVarChar(10)" CanBeNull="true" />
+      <Column Name="TrangThaiDanhGia" Type="System.String" DbType="NVarChar(30)" CanBeNull="true" />
+      <Column Name="TrangThaiXetDuyet" Type="System.String" DbType="NVarChar(30)" CanBeNull="true" />
+      <Column Name="SoAnhXetDuyet" Type="System.String" DbType="NVarChar(10)" CanBeNull="true" />
+      <Column Name="SoAnhTuChoi" Type="System.String" DbType="NVarChar(10)" CanBeNull="true" />
+      <Column Name="SoAnhDanhGiaLai" Type="System.String" DbType="NVarChar(10)" CanBeNull="true" />
+      <Column Name="KetQuaXetDuyet" Type="System.String" DbType="NVarChar(30)" CanBeNull="true" />
+      <Column Name="HanhDong" Type="System.String" DbType="NVarChar(15)" CanBeNull="true" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.usp_BaselineProcess" Method="usp_BaselineProcess">
+    <Parameter Name="ListEvaluationForBaseline" Parameter="listEvaluationForBaseline" Type="System.String" DbType="VarChar(255)" />
+    <Parameter Name="BaselineByDate" Parameter="baselineByDate" Type="System.String" DbType="VarChar(1)" />
+    <Parameter Name="BaselineByWeek" Parameter="baselineByWeek" Type="System.String" DbType="VarChar(1)" />
+    <Parameter Name="BaselineByMonth" Parameter="baselineByMonth" Type="System.String" DbType="VarChar(1)" />
+    <Parameter Name="BaselineByDateFrom" Parameter="baselineByDateFrom" Type="System.String" DbType="VarChar(30)" />
+    <Parameter Name="BaselineByDateTo" Parameter="baselineByDateTo" Type="System.String" DbType="VarChar(30)" />
+    <Parameter Name="BaselineByWeekNo" Parameter="baselineByWeekNo" Type="System.String" DbType="VarChar(5)" />
+    <Parameter Name="BaselineByWeek_MonthYear" Parameter="baselineByWeek_MonthYear" Type="System.String" DbType="VarChar(10)" />
+    <Parameter Name="BaselineByMonthNo" Parameter="baselineByMonthNo" Type="System.String" DbType="VarChar(10)" />
+    <Parameter Name="UserID" Parameter="userID" Type="System.String" DbType="VarChar(30)" />
+    <Parameter Name="ScreenID" Parameter="screenID" Type="System.String" DbType="VarChar(10)" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.usp_GetBaselineInfoFromEvaluationID" Method="usp_GetBaselineInfoFromEvaluationID">
+    <Parameter Name="ListEvaluationForBaseline" Parameter="listEvaluationForBaseline" Type="System.String" DbType="VarChar(255)" />
+    <Parameter Name="BaselineByDate" Parameter="baselineByDate" Type="System.String" DbType="VarChar(1)" />
+    <Parameter Name="BaselineByWeek" Parameter="baselineByWeek" Type="System.String" DbType="VarChar(1)" />
+    <Parameter Name="BaselineByMonth" Parameter="baselineByMonth" Type="System.String" DbType="VarChar(1)" />
+    <Parameter Name="BaselineByDateFrom" Parameter="baselineByDateFrom" Type="System.String" DbType="VarChar(30)" />
+    <Parameter Name="BaselineByDateTo" Parameter="baselineByDateTo" Type="System.String" DbType="VarChar(30)" />
+    <Parameter Name="BaselineByWeekNo" Parameter="baselineByWeekNo" Type="System.String" DbType="VarChar(5)" />
+    <Parameter Name="BaselineByWeek_MonthYear" Parameter="baselineByWeek_MonthYear" Type="System.String" DbType="VarChar(10)" />
+    <Parameter Name="BaselineByMonthNo" Parameter="baselineByMonthNo" Type="System.String" DbType="VarChar(10)" />
+    <Parameter Name="BaselineInformation" Parameter="baselineInformation" Type="System.String" DbType="NVarChar(255)" Direction="InOut" />
+    <Parameter Name="isBaselined" Type="System.String" DbType="NVarChar(1)" Direction="InOut" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.usp_ReportDetailEvaluation" Method="usp_ReportDetailEvaluation">
+    <Parameter Name="ListEvaluationBaseline" Parameter="listEvaluationBaseline" Type="System.String" DbType="VarChar(255)" />
+    <ElementType Name="usp_ReportDetailEvaluationResult">
+      <Column Name="STT" Type="System.String" DbType="VarChar(10)" CanBeNull="true" />
+      <Column Name="MaBaseline" Type="System.String" DbType="NChar(30) NOT NULL" CanBeNull="false" />
+      <Column Name="TenNVDanhGia" Type="System.String" DbType="NVarChar(60) NOT NULL" CanBeNull="false" />
+      <Column Name="TenCuaHang" Type="System.String" DbType="NVarChar(60)" CanBeNull="true" />
+      <Column Name="SoAnhDaDanhGia" Type="System.String" DbType="NVarChar(9)" CanBeNull="true" />
+      <Column Name="SoAnhKhongDanhGia" Type="System.String" DbType="NVarChar(9)" CanBeNull="true" />
+      <Column Name="SoAnhDanhGiaLai" Type="System.String" DbType="NVarChar(9)" CanBeNull="true" />
+      <Column Name="SoAnhGiaThat" Type="System.String" DbType="NVarChar(17)" CanBeNull="true" />
+      <Column Name="SoAnhKhongNChapNhan" Type="System.String" DbType="NVarChar(17)" CanBeNull="true" />
+      <Column Name="SoAnhKhongNDat" Type="System.String" DbType="NVarChar(17)" CanBeNull="true" />
+      <Column Name="TyleAnhDanhGiaLai" Type="System.String" DbType="VarChar(8)" CanBeNull="true" />
+      <Column Name="TyleAnhThat" Type="System.String" DbType="VarChar(8)" CanBeNull="true" />
+      <Column Name="TyleAnhChapNhan" Type="System.String" DbType="VarChar(8)" CanBeNull="true" />
+      <Column Name="TyleAnhDat" Type="System.String" DbType="VarChar(8)" CanBeNull="true" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.usp_ReportNumericEvaluation" Method="usp_ReportNumericEvaluation">
+    <Parameter Name="ListEvaluationBaseline" Parameter="listEvaluationBaseline" Type="System.String" DbType="VarChar(255)" />
+    <ElementType Name="usp_ReportNumericEvaluationResult">
+      <Column Name="STT" Type="System.String" DbType="VarChar(10)" CanBeNull="true" />
+      <Column Name="MaBaseline" Type="System.String" DbType="NChar(30) NOT NULL" CanBeNull="false" />
+      <Column Name="TenSanPham" Type="System.String" DbType="NVarChar(255) NOT NULL" CanBeNull="false" />
+      <Column Name="NhaSanXuat" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="TongAnhDanhGia" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="SoAnhCoSanPham" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="SoAnhKhongCoSanPham" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="TyLeXuatHien" Type="System.String" DbType="VarChar(8)" CanBeNull="true" />
+      <Column Name="TyLeKhongXuatHien" Type="System.String" DbType="VarChar(8)" CanBeNull="true" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.usp_ReportGeneralEvaluation" Method="usp_ReportGeneralEvaluation">
+    <Parameter Name="ListEvaluationBaseline" Parameter="listEvaluationBaseline" Type="System.String" DbType="VarChar(255)" />
+    <ElementType Name="usp_ReportGeneralEvaluationResult">
+      <Column Name="STT" Type="System.String" DbType="VarChar(10)" CanBeNull="true" />
+      <Column Name="MaBaseline" Type="System.String" DbType="NChar(30) NOT NULL" CanBeNull="false" />
+      <Column Name="HinhThucBaseline" Type="System.String" DbType="NVarChar(10) NOT NULL" CanBeNull="false" />
+      <Column Name="KhoangThoiGianBaseline" Type="System.String" DbType="NVarChar(23)" CanBeNull="true" />
+      <Column Name="KhoangThoiGianDanhGia" Type="System.String" DbType="NVarChar(23)" CanBeNull="true" />
+      <Column Name="SoAnhTrongKyBaseline" Type="System.String" DbType="NVarChar(9)" CanBeNull="true" />
+      <Column Name="TongSoAnhDanhGia" Type="System.String" DbType="NVarChar(9)" CanBeNull="true" />
+      <Column Name="SoAnhDaDanhGia" Type="System.String" DbType="NVarChar(9)" CanBeNull="true" />
+      <Column Name="SoAnhKhongDanhGia" Type="System.String" DbType="NVarChar(9)" CanBeNull="true" />
+      <Column Name="SoAnhGiaThat" Type="System.String" DbType="NVarChar(17)" CanBeNull="true" />
+      <Column Name="SoAnhKhongNChapNhan" Type="System.String" DbType="NVarChar(17)" CanBeNull="true" />
+      <Column Name="SoAnhKhongNDat" Type="System.String" DbType="NVarChar(17)" CanBeNull="true" />
+      <Column Name="TyLeXetDuyetBaseline" Type="System.String" DbType="NVarChar(8)" CanBeNull="true" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.usp_CancelEvaluationByID" Method="usp_CancelEvaluationByID">
+    <Parameter Name="EvaluationID" Parameter="evaluationID" Type="System.String" DbType="NVarChar(20)" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.usp_GetAutoEvalOutletImageByID" Method="usp_GetAutoEvalOutletImageByID">
+    <Parameter Name="EvaluationID" Parameter="evaluationID" Type="System.String" DbType="VarChar(20)" />
+    <ElementType Name="usp_GetAutoEvalOutletImageByIDResult">
+      <Column Name="EvaluationID" Type="System.String" DbType="NChar(30) NOT NULL" CanBeNull="false" />
+      <Column Name="MaCuaHang" Type="System.String" DbType="NChar(30) NOT NULL" CanBeNull="false" />
+      <Column Name="MaHinhAnh" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="MaHinhAnhGocChup" Type="System.String" DbType="NVarChar(10)" CanBeNull="true" />
+      <Column Name="HinhAnh" Type="System.String" DbType="NVarChar(4000)" CanBeNull="true" />
+      <Column Name="AnhGocChup" Type="System.String" DbType="NVarChar(4000)" CanBeNull="true" />
+      <Column Name="isCaptured" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="isAccepted" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="isPassed" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="isFinished" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="FinishDate" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="ReFinishDate" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="Reason1" Type="System.String" DbType="NChar(50)" CanBeNull="true" />
+      <Column Name="Reason2" Type="System.String" DbType="NChar(50)" CanBeNull="true" />
+      <Column Name="Reason3" Type="System.String" DbType="NChar(50)" CanBeNull="true" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.ufn_GetOutletsImageEvaluationByID" Method="ufn_GetOutletsImageEvaluationByID" IsComposable="true">
+    <Parameter Name="EvaluationID" Parameter="evaluationID" Type="System.String" DbType="VarChar(30)" />
+    <Parameter Name="UserID" Parameter="userID" Type="System.String" DbType="VarChar(50)" />
+    <Parameter Name="FilterInformation" Parameter="filterInformation" Type="System.String" DbType="VarChar(15)" />
+    <ElementType Name="ufn_GetOutletsImageEvaluationByIDResult">
+      <Column Name="STT" Type="System.String" DbType="NVarChar(10) NOT NULL" CanBeNull="false" />
+      <Column Name="MaCuaHang" Type="System.String" DbType="NVarChar(30)" CanBeNull="true" />
+      <Column Name="TenCuaHang" Type="System.String" DbType="NVarChar(80)" CanBeNull="true" />
+      <Column Name="MaAuditor" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="TrangThaiDanhGia" Type="System.String" DbType="NVarChar(30)" CanBeNull="true" />
+      <Column Name="NgayHoanThanhDanhGia" Type="System.String" DbType="NVarChar(30)" CanBeNull="true" />
+      <Column Name="KetQuaXetDuyet" Type="System.String" DbType="NVarChar(20)" CanBeNull="true" />
+      <Column Name="TrangThaiDanhGiaLai" Type="System.String" DbType="NVarChar(30)" CanBeNull="true" />
+      <Column Name="KetQuaXetDuyetDanhGiaLai" Type="System.String" DbType="NVarChar(20)" CanBeNull="true" />
+      <Column Name="NgayHoanThanhDanhGiaLai" Type="System.String" DbType="NVarChar(30)" CanBeNull="true" />
+      <Column Name="MauSacKetQuaXetDuyet" Type="System.String" DbType="NVarChar(30)" CanBeNull="true" />
+      <Column Name="MauSacTrangThaiDanhGiaLai" Type="System.String" DbType="NVarChar(30)" CanBeNull="true" />
+      <Column Name="MauSacKetQuaXetDuyetDanhGiaLai" Type="System.String" DbType="NVarChar(30)" CanBeNull="true" />
+      <Column Name="HanhDong" Type="System.String" DbType="NVarChar(15)" CanBeNull="true" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.usp_GetOutletsImageEvaluationByFilter" Method="usp_GetOutletsImageEvaluationByFilter">
+    <Parameter Name="FilterInformation" Parameter="filterInformation" Type="System.String" DbType="NVarChar(MAX)" />
+    <Parameter Name="StatusFilter" Parameter="statusFilter" Type="System.String" DbType="VarChar(15)" />
+    <ElementType Name="usp_GetOutletsImageEvaluationByFilterResult">
+      <Column Name="STT" Type="System.String" DbType="VarChar(10)" CanBeNull="true" />
+      <Column Name="MaDanhGia" Type="System.String" DbType="NChar(30) NOT NULL" CanBeNull="false" />
+      <Column Name="MaCuaHang" Type="System.String" DbType="NVarChar(10) NOT NULL" CanBeNull="false" />
+      <Column Name="TenCuaHang" Type="System.String" DbType="NVarChar(60)" CanBeNull="true" />
+      <Column Name="MaAuditor" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="TrangThaiDanhGia" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="NgayHoanThanhDanhGia" Type="System.String" DbType="VarChar(30)" CanBeNull="true" />
+      <Column Name="KetQuaXetDuyet" Type="System.String" DbType="NVarChar(10) NOT NULL" CanBeNull="false" />
+      <Column Name="TrangThaiDanhGiaLai" Type="System.String" DbType="NVarChar(13) NOT NULL" CanBeNull="false" />
+      <Column Name="KetQuaXetDuyetDanhGiaLai" Type="System.String" DbType="NVarChar(10) NOT NULL" CanBeNull="false" />
+      <Column Name="NgayHoanThanhDanhGiaLai" Type="System.String" DbType="VarChar(30)" CanBeNull="true" />
+      <Column Name="MauSacKetQuaXetDuyet" Type="System.String" DbType="VarChar(14) NOT NULL" CanBeNull="false" />
+      <Column Name="MauSacTrangThaiDanhGiaLai" Type="System.String" DbType="VarChar(14) NOT NULL" CanBeNull="false" />
+      <Column Name="MauSacKetQuaXetDuyetDanhGiaLai" Type="System.String" DbType="VarChar(14) NOT NULL" CanBeNull="false" />
+      <Column Name="HanhDong" Type="System.String" DbType="NVarChar(8) NOT NULL" CanBeNull="false" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.ufn_GetOutletAvatarImageByCustomerID" Method="ufn_GetOutletAvatarImageByCustomerID" IsComposable="true">
+    <Parameter Name="CustomerID" Parameter="customerID" Type="System.String" DbType="VarChar(15)" />
+    <Return Type="System.String" />
+  </Function>
+  <Function Name="dbo.usp_GetOutletImageDataByID" Method="usp_GetOutletImageDataByID">
+    <Parameter Name="EvaluationID" Parameter="evaluationID" Type="System.String" DbType="VarChar(30)" />
+    <Parameter Name="UserID" Parameter="userID" Type="System.String" DbType="VarChar(50)" />
+    <Parameter Name="CustomerID" Parameter="customerID" Type="System.String" DbType="VarChar(30)" />
+    <Parameter Name="ViewType" Parameter="viewType" Type="System.String" DbType="VarChar(10)" />
+    <ElementType Name="usp_GetOutletImageDataByIDResult">
+      <Column Name="EvaluationID" Type="System.String" DbType="NChar(30) NOT NULL" CanBeNull="false" />
+      <Column Name="OutletID" Type="System.String" DbType="NChar(30) NOT NULL" CanBeNull="false" />
+      <Column Name="OutletImageID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="FolderLocation" Type="System.String" DbType="NVarChar(4000)" CanBeNull="true" />
+      <Column Name="ImageFileName" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="ImageType" Type="System.String" DbType="NVarChar(30)" CanBeNull="true" />
+      <Column Name="CapturedDate" Type="System.String" DbType="VarChar(30) NOT NULL" CanBeNull="false" />
+      <Column Name="isFinished" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="isMatchedWithBefore" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="isCaptured" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="isAccepted" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="isPassed" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="Reason1" Type="System.String" DbType="NChar(50)" CanBeNull="true" />
+      <Column Name="Reason2" Type="System.String" DbType="NChar(50)" CanBeNull="true" />
+      <Column Name="Reason3" Type="System.String" DbType="NChar(50)" CanBeNull="true" />
+      <Column Name="DSNumericChamDiem" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="SalesmanName" Type="System.String" DbType="NChar(50)" CanBeNull="true" />
+      <Column Name="CapturedDistance" Type="System.String" DbType="VarChar(3) NOT NULL" CanBeNull="false" />
+      <Column Name="FullName" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Column Name="NgayChamDiem" Type="System.String" DbType="VarChar(30) NOT NULL" CanBeNull="false" />
+      <Column Name="isApproved" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="Reason" Type="System.String" DbType="NChar(50)" CanBeNull="true" />
+      <Column Name="AnhGocChup" Type="System.String" DbType="NVarChar(4000)" CanBeNull="true" />
+      <Column Name="NgayAnhGocChup" Type="System.String" DbType="VarChar(30) NOT NULL" CanBeNull="false" />
+      <Column Name="AnhDaiDien" Type="System.String" DbType="NVarChar(4000)" CanBeNull="true" />
+      <Column Name="NgayAnhDaiDien" Type="System.String" DbType="VarChar(30) NOT NULL" CanBeNull="false" />
+      <Column Name="EvalStatus" Type="System.String" DbType="NVarChar(30)" CanBeNull="true" />
+      <Column Name="RevStatus" Type="System.String" DbType="NVarChar(30)" CanBeNull="true" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.usp_GetOutletsImageReviewByFilter" Method="usp_GetOutletsImageReviewByFilter">
+    <Parameter Name="FilterInformation" Parameter="filterInformation" Type="System.String" DbType="NVarChar(MAX)" />
+    <ElementType Name="usp_GetOutletsImageReviewByFilterResult">
+      <Column Name="STT" Type="System.String" DbType="VarChar(10)" CanBeNull="true" />
+      <Column Name="MaDanhGia" Type="System.String" DbType="NChar(30) NOT NULL" CanBeNull="false" />
+      <Column Name="MaCuaHang" Type="System.String" DbType="VarChar(1) NOT NULL" CanBeNull="false" />
+      <Column Name="TenCuaHang" Type="System.String" DbType="VarChar(1) NOT NULL" CanBeNull="false" />
+      <Column Name="MaAuditor" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="TenAuditor" Type="System.String" DbType="NVarChar(255) NOT NULL" CanBeNull="false" />
+      <Column Name="SoAnhCanDanhGia" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="SoAnhDaDanhGia" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="TrangThaiDanhGia" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="TrangThaiXetDuyet" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="SoAnhXetDuyet" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="SoAnhTuChoi" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="SoAnhDanhGiaLai" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="KetQuaXetDuyet" Type="System.String" DbType="NVarChar(25)" CanBeNull="true" />
+      <Column Name="HanhDong" Type="System.String" DbType="NVarChar(8) NOT NULL" CanBeNull="false" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.usp_GetAddUserInformationByID" Method="usp_GetAddUserInformationByID">
+    <Parameter Name="EvaluationID" Parameter="evaluationID" Type="System.String" DbType="VarChar(20)" />
+    <Parameter Name="DSNhanVienDuocChon" Parameter="dSNhanVienDuocChon" Type="System.String" DbType="VarChar(MAX)" />
+    <Parameter Name="EvalRoleID" Parameter="evalRoleID" Type="System.String" DbType="VarChar(1)" />
+    <ElementType Name="usp_GetAddUserInformationByIDResult">
+      <Column Name="STT" Type="System.String" DbType="VarChar(10)" CanBeNull="true" />
+      <Column Name="EvalUserID" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="TenNhanVien" Type="System.String" DbType="NVarChar(60) NOT NULL" CanBeNull="false" />
+      <Column Name="SoDienThoai" Type="System.String" DbType="NVarChar(12) NOT NULL" CanBeNull="false" />
+      <Column Name="VaiTro" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="SoOutletChamDiem" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.usp_ModifiyParticipants" Method="usp_ModifiyParticipants">
+    <Parameter Name="EvaluationID" Parameter="evaluationID" Type="System.String" DbType="VarChar(30)" />
+    <Parameter Name="DanhSachUserID" Parameter="danhSachUserID" Type="System.String" DbType="VarChar(255)" />
+    <Parameter Name="DanhSachUserRole" Parameter="danhSachUserRole" Type="System.String" DbType="VarChar(255)" />
+    <Parameter Name="UserID" Parameter="userID" Type="System.String" DbType="VarChar(30)" />
+    <Parameter Name="ScreenID" Parameter="screenID" Type="System.String" DbType="VarChar(10)" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.ufn_GetStatusBasedOnFilter" Method="ufn_GetStatusBasedOnFilter" IsComposable="true">
+    <Parameter Name="EvaluationID" Parameter="evaluationID" Type="System.String" DbType="VarChar(30)" />
+    <Parameter Name="CustomerID" Parameter="customerID" Type="System.String" DbType="VarChar(15)" />
+    <Parameter Name="UserID" Parameter="userID" Type="System.String" DbType="VarChar(50)" />
+    <Parameter Name="ImageID" Parameter="imageID" Type="System.Int32" DbType="Int" />
+    <Parameter Name="FilterIndex" Parameter="filterIndex" Type="System.Int32" DbType="Int" />
+    <Parameter Name="EvalOrRev" Parameter="evalOrRev" Type="System.String" DbType="VarChar(5)" />
+    <Return Type="System.String" />
+  </Function>
+  <Function Name="dbo.usp_GetNumFromEvaluationID" Method="usp_GetNumFromEvaluationID">
+    <Parameter Name="EvaluationID" Parameter="evaluationID" Type="System.String" DbType="VarChar(20)" />
+    <Parameter Name="SoOutLet" Parameter="soOutLet" Type="System.String" DbType="VarChar(10)" Direction="InOut" />
+    <Parameter Name="SoAuditor" Parameter="soAuditor" Type="System.String" DbType="VarChar(10)" Direction="InOut" />
+    <Parameter Name="SoPhanBo" Parameter="soPhanBo" Type="System.String" DbType="VarChar(10)" Direction="InOut" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.usp_GetEvaluationInfoByID" Method="usp_GetEvaluationInfoByID">
+    <Parameter Name="EvaluationID" Parameter="evaluationID" Type="System.String" DbType="NVarChar(20)" />
+    <Parameter Name="MaDanhGia" Parameter="maDanhGia" Type="System.String" DbType="NVarChar(20)" Direction="InOut" />
+    <Parameter Name="MaThamChieu" Parameter="maThamChieu" Type="System.String" DbType="NVarChar(30)" Direction="InOut" />
+    <Parameter Name="ChuongTrinhTrungBay" Parameter="chuongTrinhTrungBay" Type="System.String" DbType="NVarChar(30)" Direction="InOut" />
+    <Parameter Name="ThoiGianTrungBayFrom" Parameter="thoiGianTrungBayFrom" Type="System.String" DbType="NVarChar(20)" Direction="InOut" />
+    <Parameter Name="ThoiGianTrungBayTo" Parameter="thoiGianTrungBayTo" Type="System.String" DbType="NVarChar(20)" Direction="InOut" />
+    <Parameter Name="ThoiGianDanhGiaFrom" Parameter="thoiGianDanhGiaFrom" Type="System.String" DbType="NVarChar(20)" Direction="InOut" />
+    <Parameter Name="ThoiGianDanhGiaTo" Parameter="thoiGianDanhGiaTo" Type="System.String" DbType="NVarChar(20)" Direction="InOut" />
+    <Parameter Name="MoTaCTTB" Parameter="moTaCTTB" Type="System.String" DbType="NVarChar(30)" Direction="InOut" />
+    <Parameter Name="NoiDungCTTB" Parameter="noiDungCTTB" Type="System.String" DbType="NVarChar(30)" Direction="InOut" />
+    <Parameter Name="LoaiHinhDanhGia" Parameter="loaiHinhDanhGia" Type="System.String" DbType="NVarChar(15)" Direction="InOut" />
+    <Parameter Name="KieuTGDanhGia" Parameter="kieuTGDanhGia" Type="System.String" DbType="NVarChar(30)" Direction="InOut" />
+    <Parameter Name="TyLeReview" Parameter="tyLeReview" Type="System.String" DbType="NVarChar(2)" Direction="InOut" />
+    <Parameter Name="TrangThaiDanhGia" Parameter="trangThaiDanhGia" Type="System.String" DbType="NVarChar(1)" Direction="InOut" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.usp_DistributeOutletToAuditor" Method="usp_DistributeOutletToAuditor">
+    <Parameter Name="EvaluationID" Parameter="evaluationID" Type="System.String" DbType="VarChar(20)" />
+    <Parameter Name="DistributionDataFrom" Parameter="distributionDataFrom" Type="System.String" DbType="VarChar(255)" />
+    <Parameter Name="DistributionDataTo" Parameter="distributionDataTo" Type="System.String" DbType="VarChar(255)" />
+    <Parameter Name="UserID" Parameter="userID" Type="System.String" DbType="VarChar(30)" />
+    <Parameter Name="ScreenID" Parameter="screenID" Type="System.String" DbType="VarChar(10)" />
+    <ElementType Name="usp_DistributeOutletToAuditorResult">
+      <Column Name="" Member="Column1" Type="System.String" DbType="VarChar(1)" CanBeNull="true" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.usp_ReDistributeOutletToAuditor" Method="usp_ReDistributeOutletToAuditor">
+    <Parameter Name="EvaluationID" Parameter="evaluationID" Type="System.String" DbType="VarChar(20)" />
+    <Parameter Name="DistributionDataFrom" Parameter="distributionDataFrom" Type="System.String" DbType="VarChar(255)" />
+    <Parameter Name="DistributionDataTo" Parameter="distributionDataTo" Type="System.String" DbType="VarChar(255)" />
+    <Parameter Name="UserID" Parameter="userID" Type="System.String" DbType="VarChar(30)" />
+    <Parameter Name="ScreenID" Parameter="screenID" Type="System.String" DbType="VarChar(10)" />
+    <ElementType Name="usp_ReDistributeOutletToAuditorResult">
+      <Column Name="EvaluationID" Type="System.String" DbType="NVarChar(20) NOT NULL" CanBeNull="false" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.ufn_GetNumberOfCustomersByGeo_New" Method="ufn_GetNumberOfCustomersByGeo_New" IsComposable="true">
+    <Parameter Name="InputSr" Parameter="inputSr" Type="System.String" DbType="VarChar(10)" />
+    <Parameter Name="ProgramID" Parameter="programID" Type="System.String" DbType="NVarChar(30)" />
+    <Parameter Name="DateFrom" Parameter="dateFrom" Type="System.DateTime" DbType="Date" />
+    <Parameter Name="DateTo" Parameter="dateTo" Type="System.DateTime" DbType="Date" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.ufn_GetGeoologyInforTree_New" Method="ufn_GetGeoologyInforTree_New" IsComposable="true">
+    <Parameter Name="ProgramID" Parameter="programID" Type="System.String" DbType="NVarChar(30)" />
+    <Parameter Name="DateFrom" Parameter="dateFrom" Type="System.DateTime" DbType="Date" />
+    <Parameter Name="DateTo" Parameter="dateTo" Type="System.DateTime" DbType="Date" />
+    <ElementType Name="ufn_GetGeoologyInforTree_NewResult">
+      <Column Name="MaKhuVuc" Type="System.String" DbType="NVarChar(10) NOT NULL" CanBeNull="false" />
+      <Column Name="LoaiKhuVuc" Type="System.String" DbType="NVarChar(15)" CanBeNull="true" />
+      <Column Name="KhuVucDiaLy" Type="System.String" DbType="NVarChar(30)" CanBeNull="true" />
+      <Column Name="Cap" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="KhuVucDiaLyID" Type="System.String" DbType="NVarChar(10)" CanBeNull="true" />
+      <Column Name="KhuVucDiaLyChaID" Type="System.String" DbType="NVarChar(10)" CanBeNull="true" />
+      <Column Name="HanhDong" Type="System.String" DbType="NVarChar(10)" CanBeNull="true" />
+      <Column Name="SoLuongCuaHang" Type="System.String" DbType="NVarChar(10)" CanBeNull="true" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.ufn_GetOutletInforByScreenID" Method="ufn_GetOutletInforByScreenID" IsComposable="true">
+    <Parameter Name="EvaluationID" Parameter="evaluationID" Type="System.String" DbType="VarChar(30)" />
+    <Parameter Name="MaAuditor" Parameter="maAuditor" Type="System.String" DbType="VarChar(50)" />
+    <Parameter Name="ScreenID" Parameter="screenID" Type="System.String" DbType="VarChar(50)" />
+    <ElementType Name="ufn_GetOutletInforByScreenIDResult">
+      <Column Name="STT" Type="System.String" DbType="NVarChar(10) NOT NULL" CanBeNull="false" />
+      <Column Name="MaCuaHang" Type="System.String" DbType="VarChar(30)" CanBeNull="true" />
+      <Column Name="TenCuaHang" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="MaNhaPhanPhoi" Type="System.String" DbType="NVarChar(40)" CanBeNull="true" />
+      <Column Name="TenNhaPhanPhoi" Type="System.String" DbType="NVarChar(80)" CanBeNull="true" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.ufn_GetOutletReviewInforByID" Method="ufn_GetOutletReviewInforByID" IsComposable="true">
+    <Parameter Name="EvaluationID" Parameter="evaluationID" Type="System.String" DbType="VarChar(30)" />
+    <Parameter Name="MaAuditor" Parameter="maAuditor" Type="System.String" DbType="VarChar(50)" />
+    <ElementType Name="ufn_GetOutletReviewInforByIDResult">
+      <Column Name="STT" Type="System.String" DbType="NVarChar(10) NOT NULL" CanBeNull="false" />
+      <Column Name="MaCuaHang" Type="System.String" DbType="VarChar(30)" CanBeNull="true" />
+      <Column Name="TenCuaHang" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="MaNhaPhanPhoi" Type="System.String" DbType="NVarChar(40)" CanBeNull="true" />
+      <Column Name="TenNhaPhanPhoi" Type="System.String" DbType="NVarChar(80)" CanBeNull="true" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.usp_GetEvaluationInfoByType_Assessment" Method="usp_GetEvaluationInfoByType_Assessment">
+    <Parameter Name="EvaluationType" Parameter="evaluationType" Type="System.String" DbType="VarChar(5)" />
+    <Parameter Name="DisplayID" Parameter="displayID" Type="System.String" DbType="NVarChar(50)" />
+    <ElementType Name="usp_GetEvaluationInfoByType_AssessmentResult">
+      <Column Name="STT" Type="System.String" DbType="VarChar(10)" CanBeNull="true" />
+      <Column Name="MaDanhGia" Type="System.String" DbType="NVarChar(30) NOT NULL" CanBeNull="false" />
+      <Column Name="ThoiGianTrungBay" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="TrangThai" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="CreatedDateTime" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="RN" Type="System.Int64" DbType="BigInt" CanBeNull="true" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.usp_GetGeoologyInforTree_New" Method="usp_GetGeoologyInforTree_New">
+    <Parameter Name="ProgramID" Parameter="programID" Type="System.String" DbType="NVarChar(30)" />
+    <Parameter Name="DateFrom" Parameter="dateFrom" Type="System.DateTime" DbType="Date" />
+    <Parameter Name="DateTo" Parameter="dateTo" Type="System.DateTime" DbType="Date" />
+    <ElementType Name="usp_GetGeoologyInforTree_NewResult">
+      <Column Name="MaKhuVuc" Type="System.String" DbType="NVarChar(10)" CanBeNull="true" />
+      <Column Name="LoaiKhuVuc" Type="System.String" DbType="VarChar(8) NOT NULL" CanBeNull="false" />
+      <Column Name="KhuVucDiaLy" Type="System.String" DbType="NVarChar(60)" CanBeNull="true" />
+      <Column Name="Cap" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="KhuVucDiaLyID" Type="System.String" DbType="VarChar(30)" CanBeNull="true" />
+      <Column Name="KhuVucDiaLyChaID" Type="System.String" DbType="VarChar(30)" CanBeNull="true" />
+      <Column Name="HanhDong" Type="System.String" DbType="VarChar(9) NOT NULL" CanBeNull="false" />
+      <Column Name="SoLuongCuaHang" Type="System.Int32" DbType="Int" CanBeNull="true" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.usp_GetOutletsImageEvaluationByFilter_Param" Method="usp_GetOutletsImageEvaluationByFilter_Param">
+    <Parameter Name="inputEvaluationID" Type="System.String" DbType="NVarChar(30)" />
+    <Parameter Name="inputReferenceCD" Type="System.String" DbType="NVarChar(50)" />
+    <Parameter Name="inputDisplay" Type="System.String" DbType="NVarChar(50)" />
+    <Parameter Name="inputDescription" Type="System.String" DbType="NVarChar(100)" />
+    <Parameter Name="inputContent" Type="System.String" DbType="NVarChar(100)" />
+    <Parameter Name="inputDisplayDateFrom" Type="System.DateTime" DbType="DateTime" />
+    <Parameter Name="inputDisplayDateTo" Type="System.DateTime" DbType="DateTime" />
+    <Parameter Name="inputEvalDateFrom" Type="System.DateTime" DbType="DateTime" />
+    <Parameter Name="inputEvalDateTo" Type="System.DateTime" DbType="DateTime" />
+    <Parameter Name="inputScreenID" Type="System.String" DbType="NVarChar(10)" />
+    <Parameter Name="inputUserID" Type="System.String" DbType="NVarChar(30)" />
+    <Parameter Name="inputStatus" Type="System.Int32" DbType="Int" />
+    <Parameter Name="FinishedStatus" Parameter="finishedStatus" Type="System.String" DbType="VarChar(1)" />
+    <Parameter Name="OngoingStatus" Parameter="ongoingStatus" Type="System.String" DbType="VarChar(1)" />
+    <Parameter Name="ApproveStatus" Parameter="approveStatus" Type="System.String" DbType="VarChar(1)" />
+    <Parameter Name="RejectStatus" Parameter="rejectStatus" Type="System.String" DbType="VarChar(1)" />
+    <ElementType Name="usp_GetOutletsImageEvaluationByFilter_ParamResult">
+      <Column Name="MaDanhGia" Type="System.String" DbType="NChar(30) NOT NULL" CanBeNull="false" />
+      <Column Name="MaCuaHang" Type="System.String" DbType="NVarChar(10) NOT NULL" CanBeNull="false" />
+      <Column Name="TenCuaHang" Type="System.String" DbType="NVarChar(60)" CanBeNull="true" />
+      <Column Name="MaAuditor" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="TrangThai" Type="System.Char" DbType="NChar(1)" CanBeNull="true" />
+      <Column Name="stringTrangThai" Type="System.String" DbType="VarChar(30)" CanBeNull="true" />
+      <Column Name="NguoiCham" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="NgayCham" Type="System.String" DbType="VarChar(30)" CanBeNull="true" />
+      <Column Name="NguoiReview" Type="System.String" DbType="VarChar(20)" CanBeNull="true" />
+      <Column Name="NgayReview" Type="System.String" DbType="VarChar(30)" CanBeNull="true" />
+      <Column Name="SumImage" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="SumImageisFinished" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="SumImageApprove" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="SumImageReject" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="MauSac" Type="System.String" DbType="VarChar(20)" CanBeNull="true" />
+      <Column Name="STT" Type="System.String" DbType="NVarChar(20)" CanBeNull="true" />
+      <Column Name="Num" Type="System.Int64" DbType="BigInt" CanBeNull="true" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.usp_SaveReviewImageResult" Method="usp_SaveReviewImageResult">
+    <Parameter Name="EvalID" Parameter="evalID" Type="System.String" DbType="VarChar(30)" />
+    <Parameter Name="AuditorID" Parameter="auditorID" Type="System.String" DbType="VarChar(20)" />
+    <Parameter Name="OutletID" Parameter="outletID" Type="System.String" DbType="VarChar(30)" />
+    <Parameter Name="ListOfImageID" Parameter="listOfImageID" Type="System.String" DbType="VarChar(255)" />
+    <Parameter Name="ListOfReviewResult" Parameter="listOfReviewResult" Type="System.String" DbType="VarChar(255)" />
+    <Parameter Name="ListOfReviewReason" Parameter="listOfReviewReason" Type="System.String" DbType="VarChar(255)" />
+    <Parameter Name="ListOfDaChamDiem" Parameter="listOfDaChamDiem" Type="System.String" DbType="VarChar(255)" />
+    <Parameter Name="UserLogin" Parameter="userLogin" Type="System.String" DbType="VarChar(30)" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.usp_UpdateReviewImageResult" Method="usp_UpdateReviewImageResult">
+    <Parameter Name="EvalID" Parameter="evalID" Type="System.String" DbType="VarChar(30)" />
+    <Parameter Name="AuditorID" Parameter="auditorID" Type="System.String" DbType="VarChar(20)" />
+    <Parameter Name="OutletID" Parameter="outletID" Type="System.String" DbType="VarChar(30)" />
+    <Parameter Name="UserLogin" Parameter="userLogin" Type="System.String" DbType="VarChar(30)" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.usp_GetItemInforByID" Method="usp_GetItemInforByID">
+    <Parameter Name="EvaluationID" Parameter="evaluationID" Type="System.String" DbType="VarChar(20)" />
+    <Parameter Name="CustomerImageID" Parameter="customerImageID" Type="System.String" DbType="VarChar(20)" />
+    <ElementType Name="usp_GetItemInforByIDResult">
+      <Column Name="STT" Type="System.String" DbType="VarChar(10)" CanBeNull="true" />
+      <Column Name="ITEMID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="TENSANPHAM" Type="System.String" DbType="NVarChar(255) NOT NULL" CanBeNull="false" />
+      <Column Name="NHASANXUAT" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="HIENDIEN" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.usp_UpdateAutoEvalOutletImageByID" Method="usp_UpdateAutoEvalOutletImageByID">
+    <Parameter Name="EvaluationID" Parameter="evaluationID" Type="System.String" DbType="VarChar(20)" />
+    <Parameter Name="OutletID" Parameter="outletID" Type="System.String" DbType="VarChar(20)" />
+    <Parameter Name="OutletImageID" Parameter="outletImageID" Type="System.Int32" DbType="Int" />
+    <Parameter Name="isCaptured" Type="System.Int32" DbType="Int" />
+    <Parameter Name="isAccepted" Type="System.Int32" DbType="Int" />
+    <Parameter Name="isPassed" Type="System.Int32" DbType="Int" />
+    <Parameter Name="ListNumbericExist" Parameter="listNumbericExist" Type="System.String" DbType="VarChar(MAX)" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.usp_GetInfoMarkingByID" Method="usp_GetInfoMarkingByID">
+    <Parameter Name="EvaluationID" Parameter="evaluationID" Type="System.String" DbType="VarChar(20)" />
+    <ElementType Name="usp_GetInfoMarkingByIDResult">
+      <Column Name="ProgramID" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="ProgramName" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="EvaluationID" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="CustomerID" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="CustomerName" Type="System.String" DbType="NVarChar(60)" CanBeNull="true" />
+      <Column Name="Address" Type="System.String" DbType="NVarChar(200)" CanBeNull="true" />
+      <Column Name="Phone" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="EvalDateFrom" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="EvalDateTo" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="ProvinceName" Type="System.String" DbType="NVarChar(60)" CanBeNull="true" />
+      <Column Name="UserID" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="TotalImg" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="ImgReal" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="ImgFakes" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="ImgStandard" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="ImgNotStandard" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="ImgPass" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="ImgNotPass" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="ImgHasNumberic" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="ImgNotNumberic" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="ImgMarking" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="ImgNotYetMarking" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Status" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.usp_CheckImageEvaluation" Method="usp_CheckImageEvaluation">
+    <Parameter Name="ProgramID" Parameter="programID" Type="System.String" DbType="NVarChar(10)" />
+    <Parameter Name="ProgramFromDate" Parameter="programFromDate" Type="System.DateTime" DbType="DateTime" />
+    <Parameter Name="ProgramToDate" Parameter="programToDate" Type="System.DateTime" DbType="DateTime" />
+    <Parameter Name="TypeGeo" Parameter="typeGeo" Type="System.String" DbType="NVarChar(1)" />
+    <Parameter Name="ListGeo" Parameter="listGeo" Type="System.String" DbType="NVarChar(MAX)" />
+    <Parameter Name="RecordCount" Parameter="recordCount" Type="System.Int32" DbType="Int" Direction="InOut" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.usp_GetInfoMarkingByEvalID" Method="usp_GetInfoMarkingByEvalID">
+    <Parameter Name="EvaluationID" Parameter="evaluationID" Type="System.String" DbType="VarChar(20)" />
+    <Parameter Name="UserName" Parameter="userName" Type="System.String" DbType="VarChar(30)" />
+    <ElementType Name="usp_GetInfoMarkingByEvalIDResult">
+      <Column Name="ProgramID" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="ProgramName" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="EvaluationID" Type="System.String" DbType="NVarChar(30)" CanBeNull="true" />
+      <Column Name="EvalDateFrom" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="EvalDateTo" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="TotalImg" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="ImgReal" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="ImgFakes" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="ImgStandard" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="ImgNotStandard" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="ImgPass" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="ImgNotPass" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="ImgHasNumberic" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="ImgNotNumberic" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="ImgMarking" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="ImgNotYetMarking" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Status" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.usp_GetListInventoryItems" Method="usp_GetListInventoryItems">
+    <Parameter Name="Evaluation" Parameter="evaluation" Type="System.String" DbType="VarChar(50)" />
+    <ElementType Name="usp_GetListInventoryItemsResult">
+      <Column Name="InventoryID" Type="System.String" DbType="VarChar(12)" CanBeNull="true" />
+      <Column Name="Description" Type="System.String" DbType="NVarChar(255) NOT NULL" CanBeNull="false" />
+      <Column Name="VendorName" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="Type" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Selected" Type="System.String" DbType="VarChar(1) NOT NULL" CanBeNull="false" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.ufn_GetItemInforByRefNum" Method="ufn_GetItemInforByRefNum" IsComposable="true">
+    <Parameter Name="Evaluation" Parameter="evaluation" Type="System.String" DbType="VarChar(50)" />
+    <ElementType Name="ufn_GetItemInforByRefNumResult">
+      <Column Name="STT" Type="System.String" DbType="NVarChar(10) NOT NULL" CanBeNull="false" />
+      <Column Name="MaSanPham" Type="System.String" DbType="NVarChar(10)" CanBeNull="true" />
+      <Column Name="TenSanPham" Type="System.String" DbType="NVarChar(70)" CanBeNull="true" />
+      <Column Name="NhaSanXuat" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="Type" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="HanhDong" Type="System.String" DbType="NVarChar(10)" CanBeNull="true" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.usp_SaveListReviewImageResult" Method="usp_SaveListReviewImageResult">
+    <Parameter Name="EvalID" Parameter="evalID" Type="System.String" DbType="VarChar(30)" />
+    <Parameter Name="AuditorID" Parameter="auditorID" Type="System.String" DbType="VarChar(30)" />
+    <Parameter Name="ListOfImageID" Parameter="listOfImageID" Type="System.String" DbType="VarChar(MAX)" />
+    <Parameter Name="ListOfReviewResult" Parameter="listOfReviewResult" Type="System.String" DbType="VarChar(MAX)" />
+    <Parameter Name="ListOfReviewReason" Parameter="listOfReviewReason" Type="System.String" DbType="VarChar(MAX)" />
+    <Parameter Name="UserLogin" Parameter="userLogin" Type="System.String" DbType="VarChar(30)" />
+    <Parameter Name="Ouput" Parameter="ouput" Type="System.Int32" DbType="Int" Direction="InOut" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.usp_GetReportEvalBy" Method="usp_GetReportEvalBy">
+    <Parameter Name="FromDate" Parameter="fromDate" Type="System.DateTime" DbType="DateTime" />
+    <Parameter Name="ToDate" Parameter="toDate" Type="System.DateTime" DbType="DateTime" />
+    <Parameter Name="RegionID" Parameter="regionID" Type="System.String" DbType="NVarChar(50)" />
+    <Parameter Name="AreaID" Parameter="areaID" Type="System.String" DbType="NVarChar(50)" />
+    <Parameter Name="SaleSupID" Parameter="saleSupID" Type="System.String" DbType="NVarChar(50)" />
+    <Parameter Name="RouteID" Parameter="routeID" Type="System.String" DbType="NVarChar(50)" />
+    <Parameter Name="SalesmanID" Parameter="salesmanID" Type="System.String" DbType="NVarChar(50)" />
+    <Parameter Name="ProgramID" Parameter="programID" Type="System.String" DbType="NVarChar(10)" />
+    <Parameter Name="EvaluationID" Parameter="evaluationID" Type="System.String" DbType="NVarChar(50)" />
+    <Parameter Name="Auditor" Parameter="auditor" Type="System.String" DbType="NVarChar(20)" />
+    <ElementType Name="usp_GetReportEvalByResult">
+      <Column Name="RegionID" Type="System.String" DbType="NVarChar(5)" CanBeNull="true" />
+      <Column Name="RegionName" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="AreaID" Type="System.String" DbType="NVarChar(10)" CanBeNull="true" />
+      <Column Name="AreaName" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="SaleSupID" Type="System.String" DbType="NVarChar(20)" CanBeNull="true" />
+      <Column Name="SaleSupName" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="DistributorID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="DistributorName" Type="System.String" DbType="NVarChar(60)" CanBeNull="true" />
+      <Column Name="RouteID" Type="System.String" DbType="NVarChar(20)" CanBeNull="true" />
+      <Column Name="RouteName" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Column Name="SalesmanID" Type="System.String" DbType="NVarChar(15)" CanBeNull="true" />
+      <Column Name="SalesmanName" Type="System.String" DbType="NVarChar(60)" CanBeNull="true" />
+      <Column Name="ProgramID" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="ProgramName" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="EvaluationID" Type="System.String" DbType="NVarChar(30)" CanBeNull="true" />
+      <Column Name="EvalState" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="MarkingAssign" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="TotalOulet" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="OuletHasMarking" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="TotalImg" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="ImagMarking" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="ImgFake" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="NotCaptured" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="ImgPassProgram" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="ImgApproved" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="ImgRejected" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="ImgReMarking" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="ImgReReview" Type="System.Int32" DbType="Int" CanBeNull="true" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.usp_GetReportBySS" Method="usp_GetReportBySS">
+    <Parameter Name="FromDate" Parameter="fromDate" Type="System.DateTime" DbType="DateTime" />
+    <Parameter Name="ToDate" Parameter="toDate" Type="System.DateTime" DbType="DateTime" />
+    <Parameter Name="SaleSupID" Parameter="saleSupID" Type="System.String" DbType="NVarChar(50)" />
+    <Parameter Name="RouteID" Parameter="routeID" Type="System.String" DbType="NVarChar(50)" />
+    <Parameter Name="SalesmanID" Parameter="salesmanID" Type="System.String" DbType="NVarChar(50)" />
+    <Parameter Name="ProgramID" Parameter="programID" Type="System.String" DbType="NVarChar(10)" />
+    <ElementType Name="usp_GetReportBySSResult">
+      <Column Name="RouteID" Type="System.String" DbType="NVarChar(20)" CanBeNull="true" />
+      <Column Name="RouteName" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Column Name="SalesmanID" Type="System.String" DbType="NVarChar(15)" CanBeNull="true" />
+      <Column Name="SalesmanName" Type="System.String" DbType="NVarChar(60)" CanBeNull="true" />
+      <Column Name="ProgramID" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="ProgramName" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="CustomerID" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="OutletName" Type="System.String" DbType="NVarChar(60)" CanBeNull="true" />
+      <Column Name="Address" Type="System.String" DbType="NVarChar(200)" CanBeNull="true" />
+      <Column Name="Phone" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="TotalImg" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="ImagMarking" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="ImgFake" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="NotCaptured" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="ImgPassProgram" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="ImgApproved" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="ImgRejected" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="ImgReMarking" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="ImgReReview" Type="System.Int32" DbType="Int" CanBeNull="true" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.usp_GetReportEvalReview" Method="usp_GetReportEvalReview">
+    <Parameter Name="FromDate" Parameter="fromDate" Type="System.DateTime" DbType="DateTime" />
+    <Parameter Name="ToDate" Parameter="toDate" Type="System.DateTime" DbType="DateTime" />
+    <Parameter Name="ProgramID" Parameter="programID" Type="System.String" DbType="NVarChar(10)" />
+    <Parameter Name="EvaluationID" Parameter="evaluationID" Type="System.String" DbType="NVarChar(50)" />
+    <Parameter Name="Leader" Parameter="leader" Type="System.String" DbType="NVarChar(50)" />
+    <ElementType Name="usp_GetReportEvalReviewResult">
+      <Column Name="ProgramID" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="ProgramName" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="EvaluationID" Type="System.String" DbType="NVarChar(30)" CanBeNull="true" />
+      <Column Name="EvalState" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="EvalReviewRate" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="TotalAuditor" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="TotalImg" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="ImgHasReview" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="ImgNotPassProgram" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="ImgApproved" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="ImgRejected" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="ImgReMarking" Type="System.Int32" DbType="Int" CanBeNull="true" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.usp_GetComparedImageDataByOutletID" Method="usp_GetComparedImageDataByOutletID">
+    <Parameter Name="EvaluationID" Parameter="evaluationID" Type="System.String" DbType="NVarChar(30)" />
+    <Parameter Name="CustomerID" Parameter="customerID" Type="System.String" DbType="NVarChar(20)" />
+    <ElementType Name="usp_GetComparedImageDataByOutletIDResult">
+      <Column Name="EvaluationID" Type="System.String" DbType="VarChar(30) NOT NULL" CanBeNull="false" />
+      <Column Name="CustomerID" Type="System.String" DbType="VarChar(30) NOT NULL" CanBeNull="false" />
+      <Column Name="ImageID" Type="System.String" DbType="NVarChar(10)" CanBeNull="true" />
+      <Column Name="AnhSoSanh" Type="System.String" DbType="NVarChar(4000)" CanBeNull="true" />
+      <Column Name="NgayAnhSoSanh" Type="System.String" DbType="VarChar(30) NOT NULL" CanBeNull="false" />
+      <Column Name="NumberWeek" Type="System.Int32" DbType="Int" CanBeNull="true" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.usp_GetListVendor" Method="usp_GetListVendor">
+    <Parameter Name="VendorID" Parameter="vendorID" Type="System.String" DbType="NVarChar(50)" />
+    <ElementType Name="usp_GetListVendorResult">
+      <Column Name="VendorID" Type="System.String" DbType="NVarChar(20)" CanBeNull="true" />
+      <Column Name="VendorName" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.usp_GetListCategory" Method="usp_GetListCategory">
+    <Parameter Name="CategoryID" Parameter="categoryID" Type="System.Int32" DbType="Int" />
+    <ElementType Name="usp_GetListCategoryResult">
+      <Column Name="CategoryID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="CategoryName" Type="System.String" DbType="NVarChar(500)" CanBeNull="true" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.usp_GenerateNewEvaluationID" Method="usp_GenerateNewEvaluationID">
+    <Parameter Name="MaThamChieu" Parameter="maThamChieu" Type="System.String" DbType="NVarChar(50)" />
+    <Parameter Name="MaCTTB" Parameter="maCTTB" Type="System.String" DbType="NVarChar(10)" />
+    <Parameter Name="NoiDungCTTB" Parameter="noiDungCTTB" Type="System.String" DbType="NVarChar(100)" />
+    <Parameter Name="ThoiGianCTTBTu" Parameter="thoiGianCTTBTu" Type="System.String" DbType="NVarChar(30)" />
+    <Parameter Name="ThoiGianCTTBDen" Parameter="thoiGianCTTBDen" Type="System.String" DbType="NVarChar(30)" />
+    <Parameter Name="KieuTGDanhGia" Parameter="kieuTGDanhGia" Type="System.String" DbType="NVarChar(1)" />
+    <Parameter Name="ThoiGianDanhGiaTu" Parameter="thoiGianDanhGiaTu" Type="System.String" DbType="NVarChar(30)" />
+    <Parameter Name="ThoiGianDanhGiaDen" Parameter="thoiGianDanhGiaDen" Type="System.String" DbType="NVarChar(30)" />
+    <Parameter Name="TyLeReview" Parameter="tyLeReview" Type="System.Int32" DbType="Int" />
+    <Parameter Name="LoaiHinhDanhGia" Parameter="loaiHinhDanhGia" Type="System.String" DbType="NVarChar(1)" />
+    <Parameter Name="DanhGiaNumeric" Parameter="danhGiaNumeric" Type="System.String" DbType="NVarChar(1)" />
+    <Parameter Name="DanhSachItemID" Parameter="danhSachItemID" Type="System.String" DbType="NVarChar(MAX)" />
+    <Parameter Name="DanhSachChonItem" Parameter="danhSachChonItem" Type="System.String" DbType="NVarChar(MAX)" />
+    <Parameter Name="DanhSachUserID" Parameter="danhSachUserID" Type="System.String" DbType="NVarChar(MAX)" />
+    <Parameter Name="DanhSachUserRole" Parameter="danhSachUserRole" Type="System.String" DbType="NVarChar(MAX)" />
+    <Parameter Name="DanhSachLeaderUser" Parameter="danhSachLeaderUser" Type="System.String" DbType="NVarChar(MAX)" />
+    <Parameter Name="LoaiKhuVuc" Parameter="loaiKhuVuc" Type="System.String" DbType="NVarChar(1)" />
+    <Parameter Name="DanhSachKhuVuc" Parameter="danhSachKhuVuc" Type="System.String" DbType="NVarChar(MAX)" />
+    <Parameter Name="UserID" Parameter="userID" Type="System.String" DbType="NVarChar(30)" />
+    <Parameter Name="ScreenID" Parameter="screenID" Type="System.String" DbType="NVarChar(10)" />
+    <Parameter Name="Eval" Parameter="eval" Type="System.String" DbType="NVarChar(20)" Direction="InOut" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.usp_GetOutletsImageReviewWithUserDetail" Method="usp_GetOutletsImageReviewWithUserDetail">
+    <Parameter Name="inputUserID" Type="System.String" DbType="NVarChar(30)" />
+    <ElementType Name="usp_GetOutletsImageReviewWithUserDetailResult">
+      <Column Name="STT" Type="System.Int64" DbType="BigInt" CanBeNull="true" />
+      <Column Name="MaDanhGia" Type="System.String" DbType="NVarChar(30) NOT NULL" CanBeNull="false" />
+      <Column Name="TenDanhGia" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
+      <Column Name="MaCTTB" Type="System.String" DbType="NVarChar(30)" CanBeNull="true" />
+      <Column Name="TenCTTB" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="MaAuditor" Type="System.String" DbType="NVarChar(56)" CanBeNull="true" />
+      <Column Name="stringTrangThai" Type="System.String" DbType="VarChar(18)" CanBeNull="true" />
+      <Column Name="TenAuditor" Type="System.String" DbType="NVarChar(60) NOT NULL" CanBeNull="false" />
+      <Column Name="TongCuaHang" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="TongAnhCanXet" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="TongAnhDaCham" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="TongAnhDaXet" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="TongAnhDat" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="TongAnhKhongDat" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="TongAnhTuChoi" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="MauSac" Type="System.String" DbType="VarChar(15)" CanBeNull="true" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.usp_GetUserInformationByID" Method="usp_GetUserInformationByID">
+    <Parameter Name="EvaluationID" Parameter="evaluationID" Type="System.String" DbType="VarChar(20)" />
+    <Parameter Name="EvalRoleID" Parameter="evalRoleID" Type="System.String" DbType="VarChar(1)" />
+    <ElementType Name="usp_GetUserInformationByIDResult">
+      <Column Name="STT" Type="System.String" DbType="VarChar(10)" CanBeNull="true" />
+      <Column Name="EvalUserID" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="TenNhanVien" Type="System.String" DbType="NVarChar(60) NOT NULL" CanBeNull="false" />
+      <Column Name="SoDienThoai" Type="System.String" DbType="NVarChar(12) NOT NULL" CanBeNull="false" />
+      <Column Name="VaiTro" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="EvalLeaderID" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="SoOutletChamDiem" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.usp_GetEvaluationDetailWithUser" Method="usp_GetEvaluationDetailWithUser">
+    <Parameter Name="inputUserID" Type="System.String" DbType="NVarChar(30)" />
+    <ElementType Name="usp_GetEvaluationDetailWithUserResult">
+      <Column Name="OrderNum" Type="System.String" DbType="NVarChar(20)" CanBeNull="true" />
+      <Column Name="Num" Type="System.Int64" DbType="BigInt" CanBeNull="true" />
+      <Column Name="MaDanhGia" Type="System.String" DbType="NVarChar(30) NOT NULL" CanBeNull="false" />
+      <Column Name="TenDanhGia" Type="System.String" DbType="NVarChar(100) NOT NULL" CanBeNull="false" />
+      <Column Name="MaThamChieu" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="ChuongTrinhTrungBay" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="ThoiGianTrungBay" Type="System.String" DbType="NVarChar(43)" CanBeNull="true" />
+      <Column Name="ThoiGianDanhGia" Type="System.String" DbType="NVarChar(43)" CanBeNull="true" />
+      <Column Name="TrangThai" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="MauTrangThai" Type="System.String" DbType="VarChar(14)" CanBeNull="true" />
+      <Column Name="MoTaCTTB" Type="System.String" DbType="NVarChar(100) NOT NULL" CanBeNull="false" />
+      <Column Name="NoiDungCTTB" Type="System.String" DbType="NVarChar(100) NOT NULL" CanBeNull="false" />
+      <Column Name="LoaiDanhGia" Type="System.String" DbType="NVarChar(1) NOT NULL" CanBeNull="false" />
+      <Column Name="SumImage" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="SumOutlet" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="SumImageApprove" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="SumImageisFinished" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="SumImageReject" Type="System.Int32" DbType="Int" CanBeNull="true" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.usp_GetOutletsImageReviewWithUserHeader" Method="usp_GetOutletsImageReviewWithUserHeader">
+    <Parameter Name="inputUserID" Type="System.String" DbType="NVarChar(30)" />
+    <ElementType Name="usp_GetOutletsImageReviewWithUserHeaderResult">
+      <Column Name="STT" Type="System.Int64" DbType="BigInt" CanBeNull="true" />
+      <Column Name="TenCTTB" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="MaDanhGia" Type="System.String" DbType="NVarChar(30) NOT NULL" CanBeNull="false" />
+      <Column Name="TenDanhGia" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
+      <Column Name="TrangThai" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="MauTrangThai" Type="System.String" DbType="VarChar(14)" CanBeNull="true" />
+      <Column Name="TotalAuditor" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="TongCuaHang" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="TongAnhCanXet" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="TongAnhDaCham" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="TongAnhDaXet" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="TongAnhDat" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="TongAnhDat1" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="TongAnhTuChoi" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="TongAnhDat2" Type="System.Int32" DbType="Int" CanBeNull="true" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.usp_UpdateEvaluationID" Method="usp_UpdateEvaluationID">
+    <Parameter Name="EvaluationID" Parameter="evaluationID" Type="System.String" DbType="NVarChar(20)" />
+    <Parameter Name="NoiDungCTTB" Parameter="noiDungCTTB" Type="System.String" DbType="NVarChar(100)" />
+    <Parameter Name="ThoiGianCTTBTu" Parameter="thoiGianCTTBTu" Type="System.String" DbType="NVarChar(30)" />
+    <Parameter Name="ThoiGianCTTBDen" Parameter="thoiGianCTTBDen" Type="System.String" DbType="NVarChar(30)" />
+    <Parameter Name="KieuTGDanhGia" Parameter="kieuTGDanhGia" Type="System.String" DbType="NVarChar(1)" />
+    <Parameter Name="ThoiGianDanhGiaTu" Parameter="thoiGianDanhGiaTu" Type="System.String" DbType="NVarChar(30)" />
+    <Parameter Name="ThoiGianDanhGiaDen" Parameter="thoiGianDanhGiaDen" Type="System.String" DbType="NVarChar(30)" />
+    <Parameter Name="TyLeReview" Parameter="tyLeReview" Type="System.Int32" DbType="Int" />
+    <Parameter Name="LoaiHinhDanhGia" Parameter="loaiHinhDanhGia" Type="System.String" DbType="NVarChar(1)" />
+    <Parameter Name="DanhGiaNumeric" Parameter="danhGiaNumeric" Type="System.String" DbType="NVarChar(1)" />
+    <Parameter Name="DanhSachItemID" Parameter="danhSachItemID" Type="System.String" DbType="NVarChar(MAX)" />
+    <Parameter Name="DanhSachUserID" Parameter="danhSachUserID" Type="System.String" DbType="NVarChar(MAX)" />
+    <Parameter Name="DanhSachUserRole" Parameter="danhSachUserRole" Type="System.String" DbType="NVarChar(MAX)" />
+    <Parameter Name="DanhSachLeaderUser" Parameter="danhSachLeaderUser" Type="System.String" DbType="NVarChar(MAX)" />
+    <Parameter Name="LoaiKhuVuc" Parameter="loaiKhuVuc" Type="System.String" DbType="NVarChar(1)" />
+    <Parameter Name="DanhSachKhuVuc" Parameter="danhSachKhuVuc" Type="System.String" DbType="NVarChar(MAX)" />
+    <Parameter Name="UserID" Parameter="userID" Type="System.String" DbType="NVarChar(30)" />
+    <Parameter Name="ScreenID" Parameter="screenID" Type="System.String" DbType="NVarChar(10)" />
+    <Parameter Name="Result" Parameter="result" Type="System.Int32" DbType="Int" Direction="InOut" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.usp_GetEvaluationInfoByType" Method="usp_GetEvaluationInfoByType">
+    <Parameter Name="DisplayID" Parameter="displayID" Type="System.String" DbType="NVarChar(50)" />
+    <Parameter Name="EvalType" Parameter="evalType" Type="System.String" DbType="NVarChar(5)" />
+    <Parameter Name="Role" Parameter="role" Type="System.String" DbType="NVarChar(20)" />
+    <Parameter Name="UserName" Parameter="userName" Type="System.String" DbType="NVarChar(50)" />
+    <ElementType Name="usp_GetEvaluationInfoByTypeResult">
+      <Column Name="EvaluationID" Type="System.String" DbType="NVarChar(30) NOT NULL" CanBeNull="false" />
+      <Column Name="ProgramID" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="ProgramName" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="ReferenceCD" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="ProgramContent" Type="System.String" DbType="NVarChar(100) NOT NULL" CanBeNull="false" />
+      <Column Name="ProgramDateFrom" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="ProgramDateTo" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="EvalDateFrom" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="EvalDateTo" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="EvalType" Type="System.String" DbType="NVarChar(1) NOT NULL" CanBeNull="false" />
+      <Column Name="EvalState" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="ColorStatus" Type="System.String" DbType="VarChar(15)" CanBeNull="true" />
+      <Column Name="YourStatus" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="ColorYourStatus" Type="System.String" DbType="VarChar(15)" CanBeNull="true" />
+      <Column Name="ReviewRate" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.usp_GetEvaluationUserBy" Method="usp_GetEvaluationUserBy">
+    <Parameter Name="EvaluationID" Parameter="evaluationID" Type="System.String" DbType="NVarChar(30)" />
+    <Parameter Name="LeaderUser" Parameter="leaderUser" Type="System.String" DbType="NVarChar(30)" />
+    <ElementType Name="usp_GetEvaluationUserByResult">
+      <Column Name="STT" Type="System.Int64" DbType="BigInt" CanBeNull="true" />
+      <Column Name="MaDanhGia" Type="System.String" DbType="NVarChar(30) NOT NULL" CanBeNull="false" />
+      <Column Name="TenDanhGia" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
+      <Column Name="MaCTTB" Type="System.String" DbType="NVarChar(30)" CanBeNull="true" />
+      <Column Name="TenCTTB" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="ProgramDateFrom" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="ProgramDateTo" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="ReviewRate" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="MaAuditor" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="TenAuditor" Type="System.String" DbType="NVarChar(60) NOT NULL" CanBeNull="false" />
+      <Column Name="EvalStatus" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="TongCuaHang" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="TongAnhCanXet" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="TongAnhDaCham" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="TongAnhDaXet" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="TongAnhDat" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="TongAnhKhongDat" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="TongAnhTuChoi" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="MauSac" Type="System.String" DbType="VarChar(14)" CanBeNull="true" />
+      <Column Name="YourStatus" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="ColorYourStatus" Type="System.String" DbType="VarChar(15)" CanBeNull="true" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.usp_GetListImageGallery" Method="usp_GetListImageGallery">
+    <Parameter Name="cTTB" Type="System.String" DbType="NVarChar(50)" />
+    <Parameter Name="route" Type="System.String" DbType="NVarChar(50)" />
+    <Parameter Name="date" Type="System.DateTime" DbType="DateTime" />
+    <ElementType Name="usp_GetListImageGalleryResult">
+      <Column Name="CustomerImageID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="CustomerID" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="CustomerName" Type="System.String" DbType="NVarChar(60)" CanBeNull="true" />
+      <Column Name="ProvinceName" Type="System.String" DbType="NVarChar(60)" CanBeNull="true" />
+      <Column Name="SalesmanID" Type="System.String" DbType="NVarChar(15)" CanBeNull="true" />
+      <Column Name="SalesmanName" Type="System.String" DbType="NVarChar(60)" CanBeNull="true" />
+      <Column Name="Phone" Type="System.String" DbType="NVarChar(12)" CanBeNull="true" />
+      <Column Name="RouteID" Type="System.String" DbType="NVarChar(30)" CanBeNull="true" />
+      <Column Name="RouteName" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Column Name="DistributorID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="DistributorName" Type="System.String" DbType="NVarChar(60)" CanBeNull="true" />
+      <Column Name="EvaluationID" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="ProgramCD" Type="System.String" DbType="NVarChar(30)" CanBeNull="true" />
+      <Column Name="ProgramName" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="FolderLocation" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="ImageCompareID" Type="System.String" DbType="NVarChar(10)" CanBeNull="true" />
+      <Column Name="ImageFileName" Type="System.String" DbType="NVarChar(71)" CanBeNull="true" />
+      <Column Name="ImageFileCompare" Type="System.String" DbType="NVarChar(271)" CanBeNull="true" />
+      <Column Name="ImageFileAvata" Type="System.String" DbType="NVarChar(271)" CanBeNull="true" />
+      <Column Name="Distance" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="SyncDate" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="ImageType" Type="System.String" DbType="NVarChar(30)" CanBeNull="true" />
+      <Column Name="Marked" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="CapturedDate" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="isCaptured" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="isAccepted" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="isPassed" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="isMatchedWithBefore" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="isFinished" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="MarkingAssign" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="EvalStatus" Type="System.String" DbType="NVarChar(30)" CanBeNull="true" />
+      <Column Name="FinishDate" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="ReFinishDate" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="Reason1" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="Reason2" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="Reason3" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="isApproved" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="ReviewDate" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="ReviewReason" Type="System.String" DbType="NChar(50)" CanBeNull="true" />
+      <Column Name="UserReview" Type="System.String" DbType="NVarChar(20)" CanBeNull="true" />
+      <Column Name="CreatedByID" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="CreatedDateTime" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.usp_GetListImageGalleryHeader" Method="usp_GetListImageGalleryHeader">
+    <Parameter Name="route" Type="System.String" DbType="NVarChar(50)" />
+    <Parameter Name="date" Type="System.DateTime" DbType="DateTime" />
+    <ElementType Name="usp_GetListImageGalleryHeaderResult">
+      <Column Name="CapturedDate" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="SalesmanID" Type="System.String" DbType="NVarChar(15)" CanBeNull="true" />
+      <Column Name="SalesmanName" Type="System.String" DbType="NVarChar(60)" CanBeNull="true" />
+      <Column Name="Phone" Type="System.String" DbType="NVarChar(12)" CanBeNull="true" />
+      <Column Name="SaleSupID" Type="System.String" DbType="NVarChar(20) NOT NULL" CanBeNull="false" />
+      <Column Name="SaleSupName" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="ASMID" Type="System.String" DbType="NVarChar(20)" CanBeNull="true" />
+      <Column Name="ASM" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="RouteID" Type="System.String" DbType="NVarChar(20) NOT NULL" CanBeNull="false" />
+      <Column Name="RouteName" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Column Name="DistributorID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="DistributorName" Type="System.String" DbType="NVarChar(60)" CanBeNull="true" />
+      <Column Name="TotalOutlet" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="TotalOutletVisited" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="TotalOutletOrder" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="TotalOutletOutofRange" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="TotalOrder" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="TotalAmt" Type="System.Decimal" DbType="Decimal(38,4) NOT NULL" CanBeNull="false" />
+      <Column Name="TotalQty" Type="System.Decimal" DbType="Decimal(38,4) NOT NULL" CanBeNull="false" />
+      <Column Name="TotalSKU" Type="System.Decimal" DbType="Decimal(38,4) NOT NULL" CanBeNull="false" />
+      <Column Name="LPPC" Type="System.Decimal" DbType="Decimal(38,6)" CanBeNull="true" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.usp_GetReportEvalImageBy" Method="usp_GetReportEvalImageBy">
+    <Parameter Name="FromDate" Parameter="fromDate" Type="System.DateTime" DbType="Date" />
+    <Parameter Name="ToDate" Parameter="toDate" Type="System.DateTime" DbType="Date" />
+    <Parameter Name="ProgramID" Parameter="programID" Type="System.String" DbType="NVarChar(20)" />
+    <Parameter Name="EvaluationID" Parameter="evaluationID" Type="System.String" DbType="NVarChar(20)" />
+    <Parameter Name="RegionID" Parameter="regionID" Type="System.String" DbType="NVarChar(20)" />
+    <Parameter Name="AreaID" Parameter="areaID" Type="System.String" DbType="NVarChar(20)" />
+    <Parameter Name="DistributorID" Parameter="distributorID" Type="System.Int32" DbType="Int" />
+    <Parameter Name="RouteID" Parameter="routeID" Type="System.String" DbType="NVarChar(20)" />
+    <Parameter Name="OutletID" Parameter="outletID" Type="System.String" DbType="NVarChar(20)" />
+    <Parameter Name="SaleSupID" Parameter="saleSupID" Type="System.String" DbType="NVarChar(20)" />
+    <Parameter Name="SalesmanID" Parameter="salesmanID" Type="System.String" DbType="NVarChar(20)" />
+    <ElementType Name="usp_GetReportEvalImageByResult">
+      <Column Name="RegionID" Type="System.String" DbType="NVarChar(5)" CanBeNull="true" />
+      <Column Name="RegionName" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="AreaID" Type="System.String" DbType="NVarChar(10)" CanBeNull="true" />
+      <Column Name="AreaName" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="SaleSupID" Type="System.String" DbType="NVarChar(20)" CanBeNull="true" />
+      <Column Name="SaleSupName" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="DistributorID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="DistributorName" Type="System.String" DbType="NVarChar(60)" CanBeNull="true" />
+      <Column Name="RouteID" Type="System.String" DbType="NVarChar(20)" CanBeNull="true" />
+      <Column Name="RouteName" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Column Name="SalesmanID" Type="System.String" DbType="NVarChar(15)" CanBeNull="true" />
+      <Column Name="SalesmanName" Type="System.String" DbType="NVarChar(60)" CanBeNull="true" />
+      <Column Name="ProgramID" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="ProgramName" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="EvaluationID" Type="System.String" DbType="NVarChar(30)" CanBeNull="true" />
+      <Column Name="ProgramContent" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
+      <Column Name="CustomerID" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="OutletName" Type="System.String" DbType="NVarChar(60)" CanBeNull="true" />
+      <Column Name="Address" Type="System.String" DbType="NVarChar(200)" CanBeNull="true" />
+      <Column Name="Phone" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="DateImage" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="TotalImg" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="ImgMarked" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="ImgPass" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="ImgFake" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="ImgNotCaptured" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="ImgReMark" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="ImgRejected" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="ImgReview" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="RateImgPass" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="RateImgMark" Type="System.Int32" DbType="Int" CanBeNull="true" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.usp_UpdateStatusImageSync" Method="usp_UpdateStatusImageSync">
+    <Parameter Name="evaluationID" Type="System.String" DbType="NVarChar(50)" />
+    <Parameter Name="auditor" Type="System.String" DbType="NVarChar(50)" />
+    <Parameter Name="type" Type="System.Int32" DbType="Int" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.usp_GetDisplayReason" Method="usp_GetDisplayReason">
+    <Parameter Name="DisplayID" Parameter="displayID" Type="System.Int32" DbType="Int" />
+    <Parameter Name="Type" Parameter="type" Type="System.Int32" DbType="Int" />
+    <ElementType Name="usp_GetDisplayReasonResult">
+      <Column Name="DisplayID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="ProgramName" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
+      <Column Name="ReasonCode" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="ShortDescription" Type="System.String" DbType="NVarChar(128)" CanBeNull="true" />
+      <Column Name="LongDescription" Type="System.String" DbType="NVarChar(250)" CanBeNull="true" />
+      <Column Name="TypeOfReason" Type="System.Char" DbType="Char(1) NOT NULL" CanBeNull="false" />
+      <Column Name="LastModifiedByID" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
+      <Column Name="LastModifiedDateTime" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="Active" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.usp_GetOutletsOfEvalBy" Method="usp_GetOutletsOfEvalBy">
+    <Parameter Name="EvaluationID" Parameter="evaluationID" Type="System.String" DbType="NVarChar(30)" />
+    <Parameter Name="UserID" Parameter="userID" Type="System.String" DbType="NVarChar(30)" />
+    <Parameter Name="OutletStatus" Parameter="outletStatus" Type="System.Int32" DbType="Int" />
+    <ElementType Name="usp_GetOutletsOfEvalByResult">
+      <Column Name="DistributorID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="DistributorName" Type="System.String" DbType="NVarChar(250)" CanBeNull="true" />
+      <Column Name="MaDanhGia" Type="System.String" DbType="NVarChar(150) NOT NULL" CanBeNull="false" />
+      <Column Name="MaCuaHang" Type="System.String" DbType="NVarChar(30) NOT NULL" CanBeNull="false" />
+      <Column Name="TenCuaHang" Type="System.String" DbType="NVarChar(60) NOT NULL" CanBeNull="false" />
+      <Column Name="MaAuditor" Type="System.String" DbType="NVarChar(150) NOT NULL" CanBeNull="false" />
+      <Column Name="TrangThai" Type="System.Char" DbType="NChar(1)" CanBeNull="true" />
+      <Column Name="stringTrangThai" Type="System.String" DbType="VarChar(30)" CanBeNull="true" />
+      <Column Name="MauSac" Type="System.String" DbType="VarChar(20)" CanBeNull="true" />
+      <Column Name="NguoiCham" Type="System.String" DbType="NVarChar(150) NOT NULL" CanBeNull="false" />
+      <Column Name="NgayCham" Type="System.String" DbType="VarChar(30)" CanBeNull="true" />
+      <Column Name="NguoiReview" Type="System.String" DbType="VarChar(20)" CanBeNull="true" />
+      <Column Name="NgayReview" Type="System.String" DbType="VarChar(30)" CanBeNull="true" />
+      <Column Name="SumImage" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="SumImageisFinished" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="SumImgMatchedWithBefore" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="SumImgAccepted" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="SumImgCaptured" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="SumImgPassed" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="SumImgRest" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="SumImgReview" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="SumImageApprove" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="SumImageReject" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="SumImageisNotYetApprove" Type="System.Int32" DbType="Int" CanBeNull="true" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.usp_GetListImageBy" Method="usp_GetListImageBy">
+    <Parameter Name="evaluationID" Type="System.String" DbType="NVarChar(50)" />
+    <Parameter Name="customerID" Type="System.String" DbType="NVarChar(50)" />
+    <Parameter Name="auditor" Type="System.String" DbType="NVarChar(50)" />
+    <Parameter Name="isCaptured" Type="System.Int32" DbType="Int" />
+    <Parameter Name="isAccepted" Type="System.Int32" DbType="Int" />
+    <Parameter Name="isPassed" Type="System.Int32" DbType="Int" />
+    <Parameter Name="type" Type="System.Int32" DbType="Int" />
+    <ElementType Name="usp_GetListImageByResult">
+      <Column Name="DistributorID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="CustomerImageID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="CustomerID" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="CustomerName" Type="System.String" DbType="NVarChar(60)" CanBeNull="true" />
+      <Column Name="ProvinceName" Type="System.String" DbType="NVarChar(60)" CanBeNull="true" />
+      <Column Name="SalesmanID" Type="System.String" DbType="NVarChar(15)" CanBeNull="true" />
+      <Column Name="SalesmanName" Type="System.String" DbType="NVarChar(60)" CanBeNull="true" />
+      <Column Name="EvaluationID" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="FolderLocation" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="ImageCompareID" Type="System.String" DbType="NVarChar(10) NOT NULL" CanBeNull="false" />
+      <Column Name="ImageFileName" Type="System.String" DbType="NVarChar(171)" CanBeNull="true" />
+      <Column Name="ImageFileNameDesc" Type="System.String" DbType="VarChar(1) NOT NULL" CanBeNull="false" />
+      <Column Name="ImageFileCompare" Type="System.String" DbType="NVarChar(281) NOT NULL" CanBeNull="false" />
+      <Column Name="ImageFileCompareDesc" Type="System.String" DbType="NVarChar(500)" CanBeNull="true" />
+      <Column Name="ImageFileAvata" Type="System.String" DbType="NVarChar(100) NOT NULL" CanBeNull="false" />
+      <Column Name="Distance" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="SyncDate" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="ImageType" Type="System.String" DbType="NVarChar(30)" CanBeNull="true" />
+      <Column Name="Marked" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="CapturedDate" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="isCaptured" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="isAccepted" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="isPassed" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="isMatchedWithBefore" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="isFinished" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="MarkingAssign" Type="System.String" DbType="NVarChar(150)" CanBeNull="true" />
+      <Column Name="ImgStatus" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="ImgColorStatus" Type="System.String" DbType="VarChar(15) NOT NULL" CanBeNull="false" />
+      <Column Name="FinishDate" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="ReFinishDate" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="Reason1" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="Reason2" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="Reason3" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="isApproved" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="ReviewDate" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="ReReviewDate" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="ReviewReason" Type="System.String" DbType="NChar(50)" CanBeNull="true" />
+      <Column Name="UserReview" Type="System.String" DbType="NVarChar(20)" CanBeNull="true" />
+      <Column Name="CreatedByID" Type="System.String" DbType="NVarChar(150)" CanBeNull="true" />
+      <Column Name="CreatedDateTime" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.usp_GetEvaluationDetailInfoByFilter_Param" Method="usp_GetEvaluationDetailInfoByFilter_Param">
+    <Parameter Name="inputEvaluationID" Type="System.String" DbType="NVarChar(30)" />
+    <Parameter Name="inputReferenceCD" Type="System.String" DbType="NVarChar(50)" />
+    <Parameter Name="inputDisplay" Type="System.String" DbType="NVarChar(50)" />
+    <Parameter Name="inputDescription" Type="System.String" DbType="NVarChar(100)" />
+    <Parameter Name="inputContent" Type="System.String" DbType="NVarChar(100)" />
+    <Parameter Name="inputDisplayDateFrom" Type="System.DateTime" DbType="DateTime" />
+    <Parameter Name="inputDisplayDateTo" Type="System.DateTime" DbType="DateTime" />
+    <Parameter Name="inputEvalDateFrom" Type="System.DateTime" DbType="DateTime" />
+    <Parameter Name="inputEvalDateTo" Type="System.DateTime" DbType="DateTime" />
+    <Parameter Name="inputScreenID" Type="System.String" DbType="NVarChar(10)" />
+    <Parameter Name="inputUserID" Type="System.String" DbType="NVarChar(30)" />
+    <Parameter Name="inputStatus" Type="System.Int32" DbType="Int" />
+    <Parameter Name="EvalType" Parameter="evalType" Type="System.String" DbType="NVarChar(1)" />
+    <ElementType Name="usp_GetEvaluationDetailInfoByFilter_ParamResult">
+      <Column Name="OrderNum" Type="System.String" DbType="NVarChar(20)" CanBeNull="true" />
+      <Column Name="Num" Type="System.Int64" DbType="BigInt" CanBeNull="true" />
+      <Column Name="MaDanhGia" Type="System.String" DbType="NVarChar(30) NOT NULL" CanBeNull="false" />
+      <Column Name="MaThamChieu" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="ChuongTrinhTrungBay" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="ThoiGianTrungBay" Type="System.String" DbType="NVarChar(43)" CanBeNull="true" />
+      <Column Name="ThoiGianDanhGia" Type="System.String" DbType="NVarChar(43)" CanBeNull="true" />
+      <Column Name="TrangThai" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="MauTrangThai" Type="System.String" DbType="VarChar(14)" CanBeNull="true" />
+      <Column Name="MoTaCTTB" Type="System.String" DbType="NVarChar(100) NOT NULL" CanBeNull="false" />
+      <Column Name="NoiDungCTTB" Type="System.String" DbType="NVarChar(100) NOT NULL" CanBeNull="false" />
+      <Column Name="LoaiDanhGia" Type="System.String" DbType="NVarChar(1) NOT NULL" CanBeNull="false" />
+    </ElementType>
+  </Function>
+</Database>

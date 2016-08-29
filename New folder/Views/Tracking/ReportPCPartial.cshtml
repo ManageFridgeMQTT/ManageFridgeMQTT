@@ -1,0 +1,15 @@
+﻿@{
+    var model = SessionHelper.GetSession<ReportPCVM>("ReportPC");
+    if (model.report == "ReportPC_SM")
+    {
+        @Html.DevExpress().PivotGrid(eRoute.Controllers.TrackingController.ReportPCSettings()).Bind(SessionHelper.GetSession<ReportPCVM>("ReportPC").listItemSM).GetHtml()
+    }
+    else if (model.report == "ReportPC_SM_Daily")
+    {
+        @Html.DevExpress().PivotGrid(eRoute.Controllers.TrackingController.ReportPCSettings()).Bind(SessionHelper.GetSession<ReportPCVM>("ReportPC").listItemSM_Daily).GetHtml()
+    }
+    else if (model.report == "ReportPC_MTD")
+    {
+        @Html.DevExpress().PivotGrid(eRoute.Controllers.TrackingController.ReportPCSettings()).Bind(SessionHelper.GetSession<ReportPCVM>("ReportPC").listItemMTD).GetHtml()
+    }
+}

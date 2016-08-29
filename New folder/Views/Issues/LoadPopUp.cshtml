@@ -1,0 +1,103 @@
+﻿
+@Html.DevExpress().PopupControl(
+    settings =>
+    {
+        settings.Name = "popUp";
+        settings.Width = 400;
+        settings.Height = 300;
+        settings.ShowShadow = true;
+        settings.AllowDragging = true;
+        settings.CloseAction = CloseAction.CloseButton;
+        //settings.ShowCloseButton = false;    
+        settings.CallbackRouteValues = new { Controller = "Issues", Action = "LoadPopUp" }; 
+        settings.PopupAnimationType = AnimationType.None;
+        settings.HeaderText = Utility.Phrase("Resolve");
+        settings.Modal = true;
+        settings.PopupHorizontalAlign = PopupHorizontalAlign.WindowCenter;
+        settings.PopupVerticalAlign = PopupVerticalAlign.WindowCenter;
+        settings.SetContent(() =>
+        {
+            //using (Html.BeginForm("AddDes", "Issues", FormMethod.Post, new { id = "popupForm", @class = "edit_form", @style = "width: 260px" }))
+            //{
+            ViewContext.Writer.Write("<div class=\"line\">");
+            Html.DevExpress().Label(textBoxSettings =>
+            {
+                textBoxSettings.Name = "LabelIssuesID";
+                textBoxSettings.Text = Utility.Phrase("IssueID");
+                textBoxSettings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+            }).GetHtml();
+            Html.DevExpress().TextBox(textBoxSettings =>
+            {
+                textBoxSettings.Name = "IssuesID";
+                textBoxSettings.ClientEnabled = false;
+                textBoxSettings.ShowModelErrors = true;
+                textBoxSettings.Properties.ClientInstanceName = "txtIssuesID";
+                textBoxSettings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+            }).GetHtml();
+            Html.DevExpress().Label(textBoxSettings =>
+            {
+                textBoxSettings.Name = "LabelContent";
+                textBoxSettings.Text = Utility.Phrase("Content");
+                textBoxSettings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+            }).GetHtml();
+            Html.DevExpress().Memo(textBoxSettings =>
+            {
+                textBoxSettings.Name = "Content";
+                textBoxSettings.Properties.ClientInstanceName = "txtContent";
+                textBoxSettings.Properties.Rows = 10;
+                textBoxSettings.ShowModelErrors = true;
+                textBoxSettings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+                textBoxSettings.EncodeHtml = true;
+            }).GetHtml();
+            Html.DevExpress().Label(textBoxSettings =>
+            {
+                textBoxSettings.Name = "LabelDes";
+                textBoxSettings.Text = Utility.Phrase("Resolve");
+                textBoxSettings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+            }).GetHtml();
+            Html.DevExpress().Memo(textBoxSettings =>
+                {
+                    textBoxSettings.Name = "Des";
+                    textBoxSettings.Properties.ClientInstanceName = "txtDes";
+                    textBoxSettings.Properties.Rows = 10;
+                    textBoxSettings.ShowModelErrors = true;
+                    textBoxSettings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+                    textBoxSettings.EncodeHtml = true;
+                }).GetHtml();
+
+
+            ViewContext.Writer.Write("<table> <tr> <td> ");
+            Html.DevExpress().Button(
+                buttonSettings =>
+                {
+                    buttonSettings.Name = "btnUpdate";
+                   // buttonSettings.ControlStyle.CssClass = "button";
+                    buttonSettings.Width = 80;                  
+                   // buttonSettings.Text = "OK";
+                    buttonSettings.ControlStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
+                    buttonSettings.Text = Utility.Phrase("BtnOK");
+                    buttonSettings.ClientSideEvents.Click = "Des_Click";
+                }
+            )
+            .Render();
+
+            ViewContext.Writer.Write("</td>");
+            ViewContext.Writer.Write("<td>");
+            Html.DevExpress().Button(
+                buttonSettings =>
+                {
+                    buttonSettings.Name = "btnCancel";
+                    //buttonSettings.ControlStyle.CssClass = "button";
+                    buttonSettings.ControlStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
+                    buttonSettings.Width = 80;
+                    buttonSettings.Text = Utility.Phrase("BtnCancel");
+                    buttonSettings.ClientSideEvents.Click = "function(s, e){ popUp.Hide(); }";
+                }
+            )
+            .Render();
+            ViewContext.Writer.Write("</td></tr>");
+            ViewContext.Writer.Write("</table>");
+            ViewContext.Writer.Write("</div><b class=\"Clear\"></b>");
+            //}
+        });
+    }).GetHtml()

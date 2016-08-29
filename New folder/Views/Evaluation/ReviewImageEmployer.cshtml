@@ -1,0 +1,249 @@
+﻿@model ReviewModel
+@{
+    Layout = "~/Views/Shared/_NewLayout.cshtml";
+    ViewBag.Title = Utility.Phrase("Report_ReportSyschronous");
+    
+}
+<div id="shCenter" style="z-index: 9999">
+    <label id="mSNoData" style="align-content: center; color: green"></label>
+</div>
+<div class="insider">
+    <div id="loading" class="loading"></div>
+    @Html.Hidden("listImageSelect")
+    @*<div class="row display-table w-100pr mb-10 content-header">
+        <div class="report-content-header">
+            <div class="col-sm-8">
+                <h1>@Model.NameSceen</h1>
+            </div>
+        </div>
+    </div>*@
+    <div class="row">
+        <div class="col-md-9 list-image-box">
+            <div class="row">
+                <span>
+                    @Utility.Phrase("ImgReviewed/TotalImg") : @Model.ImgReviewed.ToString() / @Model.TotalImg.ToString()
+                </span>
+                <div class="toolbox">
+                    <a href="@Url.Action("ReviewImageEmployer", "Evaluation", new { sEvalID = Model.sEvalID, auditor = Model.Auditor, page = ((Model.curent >= 2) ? (Model.curent - 1) : 1) })" title="prev">
+                        <img src="@Url.Content("~/Content/NewEtool/img/per.png")" class="prev"/></a>
+                    <a href="@Url.Action("ReviewImageEmployer", "Evaluation", new { sEvalID = Model.sEvalID, auditor = Model.Auditor, page = Model.curent })">
+                        <button style="background-color: green" type="button">@Model.curent</button></a>
+                    <a href="@Url.Action("ReviewImageEmployer", "Evaluation", new { sEvalID = Model.sEvalID, auditor = Model.Auditor, page = ((Model.curent + 1 >= Model.totalPage) ? Model.totalPage : (Model.curent + 1)) })" title="next">
+                        <img src="@Url.Content("~/Content/NewEtool/img/next.png")" class="next"/></a>
+                </div>
+            </div>
+            @if (Model.ListImageBy != null)
+            {
+                int numberRow = Model.ListImageBy.Count / 4;
+                for (int i = 0; i < (numberRow + 1); i++)
+                {
+                    int index = i * 4;
+                    int count = 4;
+                    if ((Model.ListImageBy.Count - index) < 4)
+                    {
+                        count = Model.ListImageBy.Count - index;
+                    }
+                        
+                <div class="row">
+                    @foreach (var image in Model.ListImageBy.GetRange(index, count))
+                    {
+                        <div class="col-sm-3">
+                            <div class="item-image-box">
+                                <h3>@image.CustomerName</h3>
+                                <div class="square-bsox">
+                                    <img src="@(Constant.SalesOrdersImageFolder + image.ImageFileName)" />
+                                    <input type="checkbox" value="@image.CustomerImageID" onclick="SelectImage(this)" />
+                                </div>
+                                <div class="assumer bold">
+                                    @if(image.isApproved != null)
+                                    {
+                                        if(image.isApproved.Value)
+                                        {
+                                            <span class="txt-yellowGreen bold">@Utility.Phrase("Eval_Approved")</span>
+                                        }
+                                        else
+                                        {
+                                            <span class="bold">@Utility.Phrase("Eval_Rejected1")</span>
+                                        }
+                                    }
+                                    else
+                                    {
+                                        <span class="txt-red bold">@Utility.Phrase("Eval_NotReview")</span>
+                                    }
+                                </div>
+                                <div class="item-detail-img">
+                                    <p><span>@Utility.Phrase("Salesman"): </span>@image.SalesmanName</p>
+                                    <p><span>@Utility.Phrase("DateTake"): </span>@image.CapturedDate.ToShortDateString()</p>
+                                    <p>@( image.isCaptured.Value ? Utility.Phrase("Eval_Real") : (Utility.Phrase("Img_isFakes") + " : " + image.Reason1)) </p>
+                                    <p>@( image.isAccepted.Value ? Utility.Phrase("Img_isAccepted") : (Utility.Phrase("Img_notAccepted") + " : " + image.Reason2))</p>
+                                    <p>@( image.isPassed.Value ? Utility.Phrase("Img_isPass") : Utility.Phrase("Img_notPass") + " : " + image.Reason3)</p>
+                                    <p><a href="@Url.Action("DetailOutletImageReview", "Evaluation", new { @selectedEvaluationID = Model.sEvalID, @selectedAuditorID = Model.Auditor, @selectedOutletID = image.CustomerID, @selectedOutletName = image.CustomerName })">@Utility.Phrase("Detail")</a></p>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+                }
+
+            }
+        </div>
+        <div class="col-md-3">
+            <div class="table-box">
+                <table>
+                    <thead class="block-theme">
+                        <tr>
+                            <th>@Model.NameSceen</th>
+                        </tr>
+                    </thead>
+                </table>
+                <div class="row">
+                    <div class="w-100pr">
+                        @using (Html.BeginForm("ReviewImageEmployer", "Evaluation", null, FormMethod.Post))
+                        {
+                            @Html.Hidden("sEvalID", Model.sEvalID)
+                            @Html.Hidden("Auditor", Model.Auditor)
+                            <div class="item fl">
+                                <label id="labelSalemans">@Utility.Phrase("Salemans")</label>
+                                <div class="input-group">
+                                    @Html.DropDownList("Salesman", Model.ListSalesman)
+                                </div>
+                            </div>
+                            <div class="item fl">
+                                <label id="labelStatusImage">@Utility.Phrase("StatusImage")</label>
+                                <div class="input-group">
+                                    @Html.DropDownList("StatusImage", Model.ListStatus)
+                                </div>
+                            </div>
+                            <div class="item fl">
+                                <label id="labelImageDate">@Utility.Phrase("ImageDate")</label>
+                                <div class="input-group">
+                                    @Html.TextBox("strImageDate", (Model.ImageDate != null) ? Model.ImageDate.Value.ToString(Utility.info.DateTimeFormat.ShortDatePattern) : "", new { @class = "datepicker" })
+                                </div>
+                            </div>
+                            <div class="item fl">
+                                <button class="btn-search" id="btnsearch" title="@Utility.Phrase("Search")"><i class="icon-search"></i>@Utility.Phrase("Search")</button>
+                            </div>
+                        }
+                    </div>
+                </div>
+                <table>
+                    <thead class="block-theme">
+                        <tr>
+                            <th colspan="2">@Utility.Phrase("ReviewImage")</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @*@if (string.IsNullOrEmpty(Model.pathImageCompare))
+                        {
+                            <tr>
+                                <td colspan="2" style="text-align:center">
+                                    <img style="max-width:200px" src="@(Constant.SalesOrdersImageFolder + Model.pathImageCompare)">
+                                </td>
+                            </tr>
+                        }*@
+                        <tr>
+                            <td style="min-width:115px">
+                                <label><input value="1" name="ReviewResult" type="radio" />@Utility.Phrase("Approve")</label>
+                            </td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td style="min-width:115px">
+                                <label><input value="0" name="ReviewResult" type="radio" />@Utility.Phrase("Reject")</label>
+                            </td>
+                            <td class="min-width-reason">
+                                @Html.DropDownList("ReviewReason", Model.ListReason)
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="button-box align-center">
+                    @if (Model.IsCompleted)
+                    {
+                        <button onclick="CompleteReview()"><i class="icon-submit"></i>@Utility.Phrase("Completed")</button>
+                    }
+                    <button onclick="SaveReviewMutilImage()"><i class="icon-submit"></i>@Utility.Phrase("Review")</button>
+                    <a href="@Url.Action("OutletImageReview", "Evaluation")">
+                        <button type="button" title="@Utility.Phrase("Back")"><i class="icon-back"></i>@Utility.Phrase("Back")</button>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type='text/javascript'>
+    var Evaluation_ValiCheck_Reason_Review = '@Html.Raw(Utility.Phrase("Evaluation_ValiCheck_Reason_Review"))';
+    var mess = '@TempData["Messages"]';
+    $(document).ready(function () {
+        if (mess != undefined && mess != '') {
+            ShowMessageNoData(result);
+        }
+
+        $('input:radio[name="ReviewResult"]').change(function () {
+            if ($(this).val() == '1') {
+                $("#ReviewReason").val("");
+                $('#ReviewReason').hide();
+            } else {
+                $('#ReviewReason').show();
+            }
+        });
+
+    });
+
+    function SelectImage(item) {
+        if ($(item).is(':checked')) {
+            ListImageSelect.push($(item).val());
+        } else {
+            ListImageSelect = jQuery.grep(ListImageSelect, function (a) {
+                return a !== $(item).val();
+            });
+        }
+        $('#listImageSelect').val(ListImageSelect.join(';'));
+    }
+    function SaveReviewMutilImage() {
+        var error = "";
+        var resultReview = $("input[name='ReviewResult']:checked").val();
+        var reviewReason = $('#ReviewReason').val();
+        var sEvalID = $('#sEvalID').val();
+        var Auditor = $('#Auditor').val();
+        var listImageSelect = $('#listImageSelect').val();
+        if (resultReview != undefined) {
+            if (resultReview == '0') {
+                if (reviewReason == "") {
+                    error = Evaluation_ValiCheck_Reason_Review
+                }
+            }
+        }
+        if (error == "") {
+            $.ajax({
+                type: 'POST',
+                url: 'UpdateDataReviewMutilImage',
+                dataType: "json",
+                data: { 'sEvalID': sEvalID, 'auditorID': Auditor, 'listImageSelect': listImageSelect, 'resultReview': resultReview, 'reviewReason': reviewReason },
+                success: function (result) {
+                    ShowMessageNoData(result);
+                    window.location = window.location.pathname + '?sEvalID=' + sEvalID + '&auditor=' + Auditor;
+                }
+            }).done(function () {
+            });
+        } else {
+            alert(error);
+        }
+    };
+    
+    function CompleteReview() {
+        var sEvalID = $('#sEvalID').val();
+        $.ajax({
+            type: 'POST',
+            url: 'CompletedReview',
+            dataType: "json",
+            data: { 'sEvalID': sEvalID },
+            success: function (result) {
+                ShowMessageNoData(result);
+            }
+        }).done(function () {
+        });
+    }
+
+</script>

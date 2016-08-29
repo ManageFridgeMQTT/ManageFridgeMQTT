@@ -1,0 +1,150 @@
+﻿@model eRoute.Models.EvaluationDataModel
+
+@{
+    ViewBag.Title = Utility.Phrase("DistributeOutletToAuditor");
+    Layout = "~/Views/Shared/_NewLayout.cshtml";
+}
+
+@{
+
+    IEnumerable<eRoute.Models.uvw_GetItemInformation> ItemData = ViewData["ItemInformation"] as IEnumerable<eRoute.Models.uvw_GetItemInformation>;
+
+}
+<script type="text/javascript">
+    Evaluation_ValidateDisPlayNull = "@Utility.Phrase("Evaluation_MesValidateDisplayNull")";
+    Evaluation_ConfirmYesNo = "@Utility.Phrase("Evaluation_ConfirmYesNo")";
+    Evaluation_ValidateListRegionNull = "@Utility.Phrase("Evaluation_MesValidateListRegioNull")";
+    Evaluation_ValidateTimeInformationEmpty = "@Utility.Phrase("Evaluation_MesValidateTimeInformationEmptyNull")";
+    Evaluation_ValidateTypeEvaluationNull = "@Utility.Phrase("Evaluation_MesValidateListEmployeeNotNull")";
+    Evaluation_SaveOki = "@Utility.Phrase("Evaluation_SaveOK")";
+    Evaluation_ValidateSumOutletCurentMustSumOutletFill = "@Utility.Phrase("Evaluation_ValidateSumOutletCurentMustSumOutletFill")";
+    Evaluation_Validate_EvalID_Evaluting = "@Utility.Phrase("Evaluation_Validate_EvalID_Evaluting")";
+
+</script>
+
+<div class="insider">
+    <div id="loading" class="loading"></div>
+    <input type="hidden" id="selectedDisplayID">
+    <input type="hidden" id="PageID" value="@ViewBag.PageInformation" />
+    <input type="hidden" id="ScreenID" value="@ViewBag.ScreenID" />
+
+
+
+    @*@Html.Partial("HeaderEvaluationLayout")*@
+    <div class="row display-table w-100pr mb-10 content-header">
+        <div class="report-content-header">
+            <div class="col-sm-8">
+                <h1>@Utility.Phrase("DistributeOutletToAuditor")</h1>
+            </div>
+        </div>
+        @using (Html.BeginForm("DistributeOutletToAuditor", "Evaluation", FormMethod.Post))
+        {
+            @Html.Partial("EvaluationListFilterPartial", Model.FilterModel)
+        }
+    </div>
+
+
+    <div class="button-box p-0">
+        <div class="toolbox">
+            <div id="ErMesgBox" class="p-10 fl">
+                <span style="color: red" class="error"></span>
+            </div>
+            <div id="OkiMesgBox" class="p-10 fl">
+                <span style="color: green" class="error"></span>
+            </div>
+            <div class="toolbox fr w-auto">
+                <ul class="fr m-0">
+                    <li>
+                        <button onclick="ConfirmationOfDistribution()"><i class="icon-confirm"></i>@Utility.Phrase("Save")</button>
+                        <button onclick="AutoDistributeOutletToAuditor()"><i class="icon-submit"></i>@Utility.Phrase("Eval_AutoFill")</button>
+                        <button class="btn-refresh" title="@Utility.Phrase("Refresh")"><i class="icon-update"></i>@Utility.Phrase("Refresh")</button>
+                    </li>
+                </ul>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="content-body row">
+        <div class="col-sm-4">
+            <table>
+                <thead class="block-theme">
+                    <tr>
+                        <th colspan="2">@Utility.Phrase("Information")</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <th>@Utility.Phrase("NumberOutlet")</th>
+                        <td>@Model.sSoOutlet</td>
+                    </tr>
+                    <tr>
+                        <th>@Utility.Phrase("NumberEmployee")</th>
+                        <td>@Model.sSoAuditor</td>
+                    </tr>
+                    <tr>
+                        <th>@Utility.Phrase("AutoCollocation/Employee")</th>
+                        <td>@Model.sSoPhanBo</td>
+                    </tr>
+                    <tr>
+                        <th>@Utility.Phrase("ChooseImageTimeDisplay") </th>
+                        <td>@Model.FilterModel.DisplayFromDate.ToShortDatePattern() - @Model.FilterModel.DisplayToDate.ToShortPattern()</td>
+                    </tr>
+                    <tr>
+                        <th> @Utility.Phrase("TimeEvaluation")</th>
+                        <td>@Model.FilterModel.EvalFromDate.ToShortDatePattern() - @Model.FilterModel.EvalToDate.ToShortDatePattern()</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="col-sm-8">
+            <div class="table-container">
+                <div class="table-box wrapper">
+                    <table>
+                        <thead class="block-theme">
+                            <tr>
+                                <th>@Utility.Phrase("No")</th>
+                                <th>@Utility.Phrase("EmployeeName")</th>
+                                <th>@Utility.Phrase("Phone")</th>
+                                <th>@Utility.Phrase("Eval_NumberOutletEvaluation")</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model.UserList)
+                            {
+
+                                <tr>
+                                    <td>@Html.DisplayFor(modelItem => item.STT)</td>
+                                    <td>@Html.DisplayFor(modelItem => item.TenNhanVien)</td>
+                                    <td>@Html.DisplayFor(modelItem => item.SoDienThoai)</td>
+                                    <td><input type="text" class="outlet-distribute" onchange="CalculateSum()" value="@Html.DisplayFor(modelItem => item.SoOutletChamDiem)" /></td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+                <table class="table-fixed pos-relative table-footer">
+                    <tfoot>
+                        <tr>
+                            <th class="align-right"><label for class="w- nowrap">@Utility.Phrase("Eval_SumOutletCurent")</label></th>
+                            <th><input type="text" class="outlet-num" value=@Model.sSoOutlet readonly disabled /></th>
+                            <th class="align-right"><label for class="w- nowrap">@Utility.Phrase("Eval_SumOutletFill")</label></th>
+                            <th><input type="text" id="outlet-sum" value=@ViewBag.SumOutlet readonly disabled /></th>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+
+            <input type="hidden" id="IDOfSoPhanBo" name="NameofSoPhanBo" value="@Model.sSoPhanBo">
+            <input type="hidden" id="IDOfSoOutlet" name="NameofSoOutlet" value="@Model.sSoOutlet">
+
+        </div>
+    </div>
+
+</div>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#EvalState').prop('disabled', true);
+        $('#box-filter-Type').hide();
+    });
+</script>

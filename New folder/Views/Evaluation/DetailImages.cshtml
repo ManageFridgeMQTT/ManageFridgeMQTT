@@ -1,0 +1,252 @@
+﻿@model EvalAutoMarkMV
+@{
+    ViewBag.Title = Utility.Phrase("DetailOutletImageReview");
+    Layout = "~/Views/Shared/_NewLayout.cshtml";
+
+    string customerID = ViewData["customerID"] as string;
+    int imageID = Int32.Parse(ViewData["imageID"].ToString());
+    usp_GetListImageByResult curentImg = Model.ListImageBy.FirstOrDefault(x => x.CustomerImageID == imageID);
+    string viewStyle = ViewData["viewStyle"] as string;
+    
+}
+<div id="loading" class="loading"></div>
+<div class="insider">
+    <div class="content-body row">
+        <div class="img-content">
+            <div class="img-box">
+                <div class="img-all-box">
+                    <div class="img-big-box img-current-template">
+                        <div class="img-big-insider">
+                            <div class="title">
+                                <h3>@Utility.Phrase("ImageSimple")</h3>
+                                <div class="button-mini-box">
+                                    <button class="clockwise"><i class="icon-rotate-clockwise m-0"></i></button>
+                                    <button class="counter-clockwise"><i class="icon-rotate-counter-clockwise m-0"></i></button>
+                                </div>
+                            </div>
+                            @*<img src="@(Constant.SalesOrdersImageFolder + curentImg.ImageFileName)" />*@
+                            <img src="@(Constant.SalesOrdersImageFolder + curentImg.ImageFileCompare)" />
+                        </div>
+                    </div>
+                    <div class="img-big-box img-current-assume">
+                        <div class="img-big-insider">
+                            <div class="title">
+                                <h3>@Utility.Phrase("ImageEval") @curentImg.CapturedDate.ToShortDateString()</h3>
+                                <div class="button-mini-box">
+                                    <button class="clockwise"><i class="icon-rotate-clockwise m-0"></i></button>
+                                    <button class="counter-clockwise"><i class="icon-rotate-counter-clockwise m-0 "></i></button>
+                                </div>
+                            </div>
+                            <img src="@(Constant.SalesOrdersImageFolder + curentImg.ImageFileName)" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="img-assume">
+                <div class="img-assume-content">
+                    @if (viewStyle == "outlet")
+                    {
+                        <div class="align-center mb-10">
+                            <label class="fl" for="code">@Utility.Phrase("Outlet")</label>
+                            <div class="input-group">
+                                <input type="text" id="selectedOutletName" class="form-control" aria-label="..." placeholder="Chọn cửa hàng" value="">
+                                <div class="input-group-btn">
+                                    <strong>
+                                        <button class="btn btn-default dropdown-toggle" title="@Utility.Phrase("Search")" onclick="$('.popup-search').fadeToggle();">
+                                            <i class="icon-search"></i>
+                                        </button>
+                                    </strong>
+                                    <div class="popup-search" style="display: block; position: absolute; top: 37px; right: 6px; box-shadow: rgba(0, 0, 0, 0.2) 0px 3px 5px; width: 209px; background: rgb(238, 238, 238);">
+                                        <fieldset>
+                                            <legend>@Utility.Phrase("Search")</legend>
+                                            <table class="border-none no-selected">
+                                                <tr>
+                                                    <td>
+                                                        <label>@Utility.Phrase("Outlet")</label>
+                                                    </td>
+                                                    <td>
+                                                        <select style="" id="sl_outlet" onchange='SelectChange(this);'>
+                                                        </select>
+
+                                                    </td>
+                                                </tr>
+                                            </table>
+
+                                            <button onclick="OutletBrowser('BySelection');" class="icon-search"></button>
+
+                                        </fieldset>
+                                    </div>
+                                </div>
+                            </div>
+                            <button class="btn-refresh fr" title="@Utility.Phrase("Refresh")"><i class="icon-update"></i></button>
+                        </div>   
+                    }
+                    @*<div class="align-center mb-10">
+
+                        <button onclick="OutletBrowser('first')"><i class="icon-go-first"></i></button>
+                        <button onclick="OutletBrowser('back')"><i class="icon-go-back"></i></button>
+                        <button onclick="OutletBrowser('next')"><i class="icon-go-next"></i></button>
+                        <button onclick="OutletBrowser('last')"><i class="icon-go-final"></i></button>
+                    </div>*@
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>@Utility.Phrase("Avata")</th>
+                                <th>@Utility.Phrase("ImageMark")</th>
+                                <th>@Utility.Phrase("Info")</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+@*                                <td>
+                                    <div class="square-box m-0">
+                                        <img id="selectedAvatarImage" src="" />
+                                    </div>
+                                </td>*@
+                                <td>
+                                    <div class="square-box  m-0">
+                                        <img id="selectedEvalSmallImage" src="@(Constant.SalesOrdersImageFolder + curentImg.ImageFileName)" />
+                                    </div>
+                                </td>
+                                <td>
+                                    <p class="p-0 m-0">
+                                        @Utility.Phrase("Outlet"): @curentImg.CustomerName - @curentImg.ProvinceName<br />
+                                        @Utility.Phrase("Saleman"): @curentImg.SalesmanName<br />
+                                        @Utility.Phrase("DateTake"): @curentImg.CapturedDate.ToShortDateString()<br />
+                                        @Utility.Phrase("EvalEmployee"): @curentImg.CreatedByID<br />
+                                        @Utility.Phrase("EvalDate"): @curentImg.FinishDate.Value.ToShortDateString()
+                                    </p>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="3" class="p-0">
+                                    <div class="img-scroll-box">
+                                        <div class="img-scroll-insider">
+                                            <ul>
+                                                @foreach (var elm in Model.ListImageBy)
+                                                {
+                                                    <li onclick="SelectedRevImage($(this));" data-image-link="">
+                                                        <div class="img-mini-box">
+                                                            <h3>@elm.CustomerName</h3>
+                                                            <div class="square-box">
+                                                                <a href="@Url.Action("DetailImages", "Evaluation", new { @sEvalID = elm.EvaluationID, @customerID = elm.CustomerID, @imageID = elm.CustomerImageID })">
+                                                                    <img src="@(Constant.SalesOrdersImageFolder + elm.ImageFileName)" />
+                                                                </a>
+                                                            </div>
+                                                            <div class="assumer bold"></div>
+                                                        </div>
+                                                    </li>
+                                                }
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>@Utility.Phrase("EvalResult") </th>
+                                <th>@Utility.Phrase("EvalReason")</th>
+                            </tr>
+                        </thead>
+                        <tbody class="remove-padding">
+                            <tr>
+                                <td colspan="2">
+                                    <label id="Img_Status">@Utility.Phrase("Img_Status"): @( curentImg.isFinished.Value ? Utility.Phrase("Img_HasMarking") : Utility.Phrase("Img_NotYetMarking"))</label>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <label id="Img_Result">@Utility.Phrase("Img_Result"): @( curentImg.isPassed.Value ? Utility.Phrase("Img_Pass") : Utility.Phrase("Img_NotPass"))</label>
+                                </td>
+                                <td id="Img_Result_Reason">
+                                    @curentImg.Reason3
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <label id="Img_isTrue">@( curentImg.isCaptured.Value ? Utility.Phrase("Img_isTrue") : Utility.Phrase("Img_isFakes"))</label>
+                                </td>
+                                <td id="Img_isTrue_Reason">
+                                    @curentImg.Reason1
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <label id="Img_Accepted">@( curentImg.isAccepted.Value ? Utility.Phrase("Img_isAccepted") : Utility.Phrase("Img_notAccepted"))</label>
+                                </td>
+                                <td id="Img_Accepted_Reason">
+                                    @curentImg.Reason2
+                                </td>
+                            </tr>
+                            @*<tr>
+                                <td>
+                                    <label id="Img_Numberic">@( curentImg.isAccepted.Value ? Utility.Phrase("Img_isAccepted") : Utility.Phrase("Img_notAccepted"))</label>
+                                </td>
+                                <td id="Img_Numberic_Reason">
+                                    @curentImg.Reason2
+                                </td>
+                            </tr>*@
+                            <tr>
+                                <td colspan="2">
+                                    <label id="DateMarking">@Utility.Phrase("DateMarking"): @curentImg.FinishDate.Value.ToShortDateString()</label>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <span class="errorMarking"></span>
+                <div class="button-box align-center">
+                    <button onclick="ReMarkingBy('@curentImg.EvaluationID','@curentImg.CustomerID','@curentImg.CustomerImageID')"><i class="icon-submit"></i>@Utility.Phrase("ReMarking")</button>
+                    <span class="button">
+                        <a><i class="icon-back"></i>@Html.ActionLink(Utility.Phrase("Back"), "OutletImageReview", "Evaluation")</a>
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    var Img_Status = '@Utility.Phrase("Img_Status")';
+    var Img_Result = '@Utility.Phrase("Img_Result")';
+    var Img_HasMarking = '@Utility.Phrase("Img_HasMarking")';
+    var Img_NotYetMarking = '@Utility.Phrase("Img_NotYetMarking")';
+    var Img_Pass = '@Utility.Phrase("Img_Pass")';
+    var Img_NotPass = '@Utility.Phrase("Img_NotPass")';
+    var Img_isTrue = '@Utility.Phrase("Img_isTrue")';
+    var Img_isFakes = '@Utility.Phrase("Img_isFakes")';
+    var Img_isAccepted = '@Utility.Phrase("Img_isAccepted")';
+    var Img_notAccepted = '@Utility.Phrase("Img_notAccepted")';
+    var DateMarking = '@Utility.Phrase("DateMarking")';
+    var Message = '@Utility.Phrase("MessageSuccessfully")';
+
+    function ReMarkingBy(sEvalID, customerID, imageID) {
+        $.ajax({
+            type: 'POST',
+            url: 'MarkingAutoOneImage',
+            dataType: "json",
+            data: { 'sEvalID': sEvalID, 'customerID': customerID, 'imageID': imageID },
+            success: function (result) {
+                alert(Message);
+                if (result.errorMarking == '') {
+                    var data = result.data;
+                    $('#Img_Status').html(Img_Status + ': ' + (data.Marking ? Img_HasMarking : Img_NotYetMarking));
+                    $('#Img_Result').html(Img_Result + ': ' + (data.PassOrNotResult == 1 ? Img_Pass : Img_NotPass));
+                    $('#Img_Result_Reason').html();
+                    $('#Img_isTrue').html(data.RealOrFakeResult == 1 ? Img_isTrue : Img_isFakes);
+                    $('#Img_isTrue_Reason').html();
+                    $('#Img_Accepted').html(data.StandardOrNotResult == 1 ? Img_isAccepted : Img_notAccepted);
+                    $('#Img_Accepted_Reason').html();
+                    var today = new Date();
+                    $('#DateMarking').html(today.format('MM/DD/YYYY'));
+                }
+                else {
+                    $('.errorMarking').html(result.errorMarking);
+                }
+            }
+        }).done(function () {
+        });
+    };
+</script>

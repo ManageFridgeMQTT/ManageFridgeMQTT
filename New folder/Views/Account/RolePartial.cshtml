@@ -1,0 +1,134 @@
+﻿@model List<RoleVM>
+@using DevExpress.Web.Mvc.UI;
+@using DevExpress.Web.Mvc;
+@using System.Web.UI.WebControls;
+@using eRoute.Models;
+@{
+    var grid = Html.DevExpress().GridView(
+    settings =>
+    {
+        settings.Name = "dxGridView";
+        settings.Width = Unit.Percentage(100);
+        settings.KeyFieldName = "ID";
+        settings.CallbackRouteValues = new { Controller = "Account", Action = "RolePartial" };
+        settings.Styles.Header.Font.Bold = true;
+        settings.Styles.Header.HorizontalAlign = HorizontalAlign.Center;
+        settings.Styles.Footer.ForeColor = System.Drawing.Color.Red;
+        settings.Styles.Footer.Font.Size = 11;
+        settings.Settings.ShowHeaderFilterButton = true;
+        settings.SettingsPopup.HeaderFilter.Height = 200;
+        settings.SettingsEditing.AddNewRowRouteValues = new { Controller = "Account", Action = "AddNewRole" };
+        settings.SettingsEditing.UpdateRowRouteValues = new { Controller = "Account", Action = "UpdateRole" };
+
+        settings.SettingsEditing.Mode = GridViewEditingMode.EditFormAndDisplayRow;
+        settings.SettingsPopup.EditForm.Width = 600;
+        settings.SettingsBehavior.ConfirmDelete = true;
+        settings.SettingsText.EmptyDataRow = Utility.Phrase("EmptyDataRow");
+        settings.SettingsPager.Summary.Text = Utility.Phrase("Page") + " {0} - {1} ({2} " + Utility.Phrase("Row") + " )";
+        settings.SettingsPager.PageSizeItemSettings.Caption = Utility.Phrase("RowInPage");
+        settings.Settings.ShowFilterBar = GridViewStatusBarMode.Visible;
+        settings.SettingsBehavior.AllowFocusedRow = true;       
+
+        //settings.CommandColumn.FixedStyle = GridViewColumnFixedStyle.None;
+
+        settings.SettingsCommandButton.UpdateButton.ButtonType = GridViewCommandButtonType.Button;
+        settings.SettingsCommandButton.UpdateButton.Text = Utility.Phrase("Update");
+        settings.SettingsCommandButton.CancelButton.ButtonType = GridViewCommandButtonType.Button;
+        settings.SettingsCommandButton.CancelButton.Text = Utility.Phrase("Cancel");
+        settings.CommandColumn.VisibleIndex = -1;
+        settings.ClientSideEvents.FocusedRowChanged = "function(s, e) {LoginID = s.GetRowKey(s.GetFocusedRowIndex()); }";
+        
+        settings.SetFooterRowTemplateContent(c =>
+        {
+            Html.ViewContext.Writer.Write(ViewData["StatusMessage"]);
+        });
+
+        settings.Columns.Add(column =>
+        {
+            column.Caption = "#";
+            column.SetDataItemTemplateContent(c =>
+            {
+                Html.DevExpress().HyperLink(hl =>
+                {
+                    hl.NavigateUrl = "javascript:ButtonClick('btnUpdate');";
+                    hl.Properties.ImageUrl = "~/Content/Images/Edit.png";
+                }).Render();
+                ViewContext.Writer.Write(" ");
+            });
+            column.SetHeaderTemplateContent(c =>
+            {
+                Html.DevExpress().HyperLink(hl =>
+                {
+                    hl.Name = "hlNew";
+                    hl.NavigateUrl = "";
+                    hl.Properties.ImageUrl = "~/Content/Images/addNew.png";
+                    hl.Properties.ClientSideEvents.Click = "function(s, e) { ButtonClick('btnAddNew'); }";
+                    hl.ToolTip = Utility.Phrase("AddNew"); 
+                }).Render();
+            });
+            column.Width = Unit.Pixel(30);
+        });
+        
+        settings.Columns.Add(field =>
+        {
+            field.FieldName = "RoleName";
+            field.Caption =  Utility.Phrase("Role"); 
+            field.CellStyle.HorizontalAlign = HorizontalAlign.Left;
+        });
+        settings.Columns.Add(field =>
+        {
+            field.FieldName = "Description";
+            field.Caption = Utility.Phrase("Description"); 
+            field.CellStyle.HorizontalAlign = HorizontalAlign.Left;
+
+            field.EditFormSettings.Visible = DefaultBoolean.True;
+        });
+        //settings.Columns.Add(field =>
+        //{
+        //    field.FieldName = "ParentID";
+        //    field.Caption = Utility.Phrase("ParentID");             
+        //    field.CellStyle.HorizontalAlign = HorizontalAlign.Left;
+        //});
+        settings.Columns.Add(col =>
+        {
+            col.FieldName = "ApplicationCD";
+            col.ColumnType = MVCxGridViewColumnType.ComboBox;
+            col.Caption = Utility.Phrase("AccountType");
+            //col.Width = System.Web.UI.WebControls.Unit.Percentage(5);
+            var cb = col.PropertiesEdit as ComboBoxProperties;
+            cb.EnableCallbackMode = true;
+
+            cb.Items.Add(new ListEditItem()
+            {
+                Index = 0,
+                Text = "DMS",
+                Value = "DMS"
+            });
+            cb.Items.Add(new ListEditItem()
+            {
+                Index = 1,
+                Text = "ETOOLS",
+                Value = "ETOOLS"
+            });
+            cb.Items.Add(new ListEditItem()
+            {
+                Index = 2,
+                Text = "ORTHER",
+                Value = "ORTHER"
+            });    
+        });
+        
+        settings.SettingsPager.Position = PagerPosition.Bottom;
+        settings.SettingsPager.FirstPageButton.Visible = true;
+        settings.SettingsPager.LastPageButton.Visible = true;
+        settings.SettingsPager.PageSizeItemSettings.Visible = true;
+        settings.SettingsPager.PageSizeItemSettings.Items = new string[] { "10", "20", "50" };
+        settings.SettingsPager.PageSize = 10;
+    });
+
+    if (ViewData["EditError"] != null)
+    {
+        grid.SetEditErrorText((string)ViewData["EditError"]);
+    }
+}
+@grid.Bind(Model).GetHtml()

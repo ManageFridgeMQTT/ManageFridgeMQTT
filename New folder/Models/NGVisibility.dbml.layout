@@ -1,0 +1,114 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ordesignerObjectsDiagram dslVersion="1.0.0.0" absoluteBounds="0, 0, 11, 21.25" name="NGVisibility">
+  <DataContextMoniker Name="/NGVisibilityDataContext" />
+  <nestedChildShapes>
+    <classShape Id="661defd7-58f7-4983-831b-dd5fb04991bc" absoluteBounds="0.5, 4.125, 2, 2.7324039713541666">
+      <DataClassMoniker Name="/NGVisibilityDataContext/uvw_GetEvaluationDetailInfo" />
+      <nestedChildShapes>
+        <elementListCompartment Id="379391c9-a451-4140-a8ea-aea9fe7028ef" absoluteBounds="0.515, 4.585, 1.9700000000000002, 2.1724039713541665" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="77a71bab-ff33-4e83-a45d-dd55dd639ecd" absoluteBounds="4.125, 3.5, 2, 1.5785953776041666">
+      <DataClassMoniker Name="/NGVisibilityDataContext/uvw_GetItemInformation" />
+      <nestedChildShapes>
+        <elementListCompartment Id="7548ca83-7a90-41ab-a97f-4b7a0199002e" absoluteBounds="4.1400000000000006, 3.96, 1.9700000000000002, 1.0185953776041665" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="4d85f7f7-4ea0-4e11-9d1f-3b3cf2952636" absoluteBounds="6.75, 0.75, 2, 1.3862939453125003">
+      <DataClassMoniker Name="/NGVisibilityDataContext/uvw_GetNumberOfSaleOrg" />
+      <nestedChildShapes>
+        <elementListCompartment Id="c355ee2b-ac56-4edc-9209-457bedf7dabf" absoluteBounds="6.765, 1.21, 1.9700000000000002, 0.8262939453125" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="4f72d3e4-4ced-4f4a-8d8f-f3a7ef020582" absoluteBounds="6.75, 3.75, 2, 1.7708968098958327">
+      <DataClassMoniker Name="/NGVisibilityDataContext/uvw_GetReasonInformation" />
+      <nestedChildShapes>
+        <elementListCompartment Id="d2362798-b207-43b3-8db8-057be50e83d2" absoluteBounds="6.765, 4.21, 1.9700000000000002, 1.2108968098958333" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="a535c51f-4179-4eb8-99fa-951b275b0aa0" absoluteBounds="3, 5.5, 2, 1.1939925130208333">
+      <DataClassMoniker Name="/NGVisibilityDataContext/DMSEvalDefinedRole" />
+      <nestedChildShapes>
+        <elementListCompartment Id="2a1938c1-dfed-47a6-9dc7-ae2b2e89f68f" absoluteBounds="3.0149999999999997, 5.96, 1.9700000000000002, 0.63399251302083326" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="bdb53e19-c2e2-4c71-adea-a49f84cbe9fc" absoluteBounds="0.5, 3, 2, 1.1939925130208333">
+      <DataClassMoniker Name="/NGVisibilityDataContext/uvw_GetRolesInformation" />
+      <nestedChildShapes>
+        <elementListCompartment Id="53a8706b-7bcd-4a46-a1ba-b0076aad7964" absoluteBounds="0.51500000000000012, 3.46, 1.9700000000000002, 0.63399251302083326" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="12472797-e816-40ed-a730-4c0f00a5d9bf" absoluteBounds="7.875, 2.875, 2, 5.4246240234375">
+      <DataClassMoniker Name="/NGVisibilityDataContext/DMSEvaluation" />
+      <nestedChildShapes>
+        <elementListCompartment Id="2fe648ea-203a-43a6-beca-d7d65b62d5ac" absoluteBounds="7.8900000000000006, 3.335, 1.9700000000000002, 4.8646240234375" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="5ce5d444-011c-4c0c-86bb-6f42a8887fa5" absoluteBounds="0.5, 7.375, 2, 3.3093082682291666">
+      <DataClassMoniker Name="/NGVisibilityDataContext/DMSEvalWithTerritory" />
+      <nestedChildShapes>
+        <elementListCompartment Id="3cd767d5-9302-435e-ad01-74f023fff970" absoluteBounds="0.51499999999999968, 7.835, 1.9700000000000002, 2.7493082682291665" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="f1fd1e06-f9ee-4273-9cee-dfd1f88bbe72" absoluteBounds="4.75, 6.25, 2, 10.232159830729165">
+      <DataClassMoniker Name="/NGVisibilityDataContext/BLEvalSM" />
+      <nestedChildShapes>
+        <elementListCompartment Id="f8d2043c-f70f-4c2a-9359-09e4f83ab06e" absoluteBounds="4.7650000000000006, 6.71, 1.9700000000000002, 9.6721598307291661" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="a32d83ec-01ff-4ff7-81b0-4a54f15313ba" absoluteBounds="0.5, 4.5, 2, 3.1170068359375">
+      <DataClassMoniker Name="/NGVisibilityDataContext/DMSEvalWithInventoryItem" />
+      <nestedChildShapes>
+        <elementListCompartment Id="5105d7b5-ae6d-413a-909b-5320c5a4128e" absoluteBounds="0.51499999999999968, 4.96, 1.9700000000000002, 2.5570068359375" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="f2a288be-a211-408e-af1b-36e591aa6a50" absoluteBounds="0.5, 11.125, 2, 3.8862125651041666">
+      <DataClassMoniker Name="/NGVisibilityDataContext/DMSEvalInventoryItem" />
+      <nestedChildShapes>
+        <elementListCompartment Id="410bf910-f392-47c0-91f0-c168bb6b944b" absoluteBounds="0.51500000000000012, 11.585, 1.9700000000000002, 3.3262125651041665" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="c593456a-e3d6-40ad-b76c-4287a93570f5" absoluteBounds="3, 0.5, 2, 2.3478011067708335">
+      <DataClassMoniker Name="/NGVisibilityDataContext/uvw_GetUserInformation" />
+      <nestedChildShapes>
+        <elementListCompartment Id="18b80327-07a1-4d9d-b20f-8d0511fd29b8" absoluteBounds="3.0149999999999997, 0.96, 1.9700000000000002, 1.7878011067708335" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="ac4c9a49-81fa-4902-b34d-03703e838c25" absoluteBounds="0.5, 0.5, 2, 2.3478011067708335">
+      <DataClassMoniker Name="/NGVisibilityDataContext/uvw_GetDisplayInformation" />
+      <nestedChildShapes>
+        <elementListCompartment Id="ef61dd11-5409-4a05-8ed2-f2cd27d41cb2" absoluteBounds="0.51500000000000012, 0.96, 1.9700000000000002, 1.7878011067708335" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="e71df97c-fe10-44d0-8ee3-9348787f673a" absoluteBounds="5.375, 0.5, 2, 2.3478011067708335">
+      <DataClassMoniker Name="/NGVisibilityDataContext/DMSAcuDisplayEval" />
+      <nestedChildShapes>
+        <elementListCompartment Id="4fa198e5-0841-4e86-91fe-ccd854bc10b0" absoluteBounds="5.39, 0.96, 1.9700000000000002, 1.7878011067708335" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="15a03598-7bd7-4c84-b33f-47d668889181" absoluteBounds="0.5, 13.875, 2, 3.8862125651041666">
+      <DataClassMoniker Name="/NGVisibilityDataContext/DMSEvalProgram" />
+      <nestedChildShapes>
+        <elementListCompartment Id="d05d1fd3-0205-408c-9132-1e1ca78d0cb4" absoluteBounds="0.51500000000000012, 14.335, 1.9700000000000002, 3.3262125651041665" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="714a38d1-8e6a-49b9-bfcc-4430401dd4ec" absoluteBounds="2.75, 8.5, 2, 4.8477197265625">
+      <DataClassMoniker Name="/NGVisibilityDataContext/DMSEvalWithUserRole" />
+      <nestedChildShapes>
+        <elementListCompartment Id="d8e94dd3-d828-4445-9fca-5552d467a958" absoluteBounds="2.765, 8.96, 1.9700000000000002, 4.2877197265625" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="3a9c7f98-d35f-47ea-8b6b-658c8ae53302" absoluteBounds="0.5, 18.125, 2, 2.9247054036458331">
+      <DataClassMoniker Name="/NGVisibilityDataContext/DisplayReason" />
+      <nestedChildShapes>
+        <elementListCompartment Id="d99dad06-4562-4604-bcd5-a450ce6546eb" absoluteBounds="0.51500000000000012, 18.585, 1.9700000000000002, 2.364705403645833" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="b73e1b1e-8cba-49f5-bd98-61c05e59dcf5" absoluteBounds="2.875, 18.125, 2, 2.1554996744791666">
+      <DataClassMoniker Name="/NGVisibilityDataContext/InventoryPath" />
+      <nestedChildShapes>
+        <elementListCompartment Id="8c974000-ad66-4fa7-b4db-7ed83c7ab69e" absoluteBounds="2.8900000000000006, 18.585, 1.9700000000000002, 1.5954996744791665" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+  </nestedChildShapes>
+</ordesignerObjectsDiagram>

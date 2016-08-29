@@ -1,0 +1,45 @@
+﻿@model Hammer.Models.NoAssessmentModel
+<table class="border-none no-selected">
+<tr>
+        <td colspan = "2" >
+            @Html.DevExpress().LabelFor(m => m.Header.UniqueID, label => 
+            {
+                label.Text = Utility.Phrase("SubmitAssessment.Messages.UniqueID"); 
+            }).GetHtml()          
+            @Html.DevExpress().ComboBoxFor(m => m.Header.UniqueID, date =>
+       {
+           date.ReadOnly = true;
+       }).GetHtml()
+        </td>       
+    </tr>  
+    <tr>
+        <td>
+            @Html.DevExpress().LabelFor(m => m.Header.Works, label =>
+       {
+           label.Text = Utility.Phrase("SubmitAssessment.Messages.Works");
+       }).GetHtml()
+
+            @Html.DevExpress().MemoFor(m => m.Header.Works, cb =>
+       {
+           //cb.Width = 300;
+           cb.Properties.Rows = 7;
+           cb.ClientEnabled = !Model.Header.Released;
+           cb.ReadOnly = true;
+       }).GetHtml()
+        </td>
+        <td>
+            @Html.DevExpress().LabelFor(m => m.Header.Results, label =>
+       {
+           label.Text = Utility.Phrase("SubmitAssessment.Messages.Results");
+       }).GetHtml()
+
+            @Html.DevExpress().MemoFor(m => m.Header.Results, cb =>
+       {
+           //cb.Width = 300;
+           cb.Properties.Rows = 7;
+           cb.ClientEnabled = !Model.Header.Released;
+           cb.ReadOnly = true;
+       }).GetHtml()
+        </td>
+    </tr>
+</table>

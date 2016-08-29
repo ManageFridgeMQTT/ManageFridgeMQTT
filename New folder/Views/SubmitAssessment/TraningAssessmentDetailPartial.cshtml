@@ -1,0 +1,835 @@
+﻿@model Hammer.Models.AssessmentModel
+@Html.DevExpress().RoundPanel(settings =>
+{
+    settings.Name = "tabTrainingProcess";
+    settings.HeaderText = Utility.Phrase("eCalendar_tabTrainingProcess");  //"Quy trình ABCD";
+    settings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+    settings.Styles.Header.CssClass = "block-theme";
+    settings.SetContent(() =>
+    {
+        ViewContext.Writer.Write("<table class='border-none no-selected'>");
+
+        for (int i = 0; i < Model.TrainingProcess.Count; i++)
+        {
+
+            ViewContext.Writer.Write("<tr>");
+            ViewContext.Writer.Write("<td style=\"width:300px;\">");
+            ViewContext.Writer.Write
+            (
+                Html.DevExpress().LabelFor(m => m.TrainingProcess[i].CriteriaID, label =>
+                {
+                    label.Text =
+                        eRoute.Models.eCalendar.HammerDataProvider.GetTrainingCriteriaDescription(Model.TrainingProcess[i].CriteriaID);
+                    label.Style.Add("font-weight", "bold");
+                }).GetHtml().ToHtmlString()
+
+            );
+            if (Model.TrainingProcess[i].CriteriaID == 1)
+            {
+                ViewContext.Writer.Write("</br>");
+                ViewContext.Writer.Write
+                (
+                    Html.DevExpress().Label(label =>
+                    {
+                        label.Text =  Utility.Phrase("eCalendar_tabTrainingProcess_Node1");  //"Đánh giá nhu cầu huấn luyện của NVBH và chuẩn bị:";
+                        label.Style.Add("font-weight", "bold");
+                        label.Style.Add("font-style", "italic");
+
+                    }).GetHtml().ToHtmlString()
+                );
+                ViewContext.Writer.Write("</br>");
+                ViewContext.Writer.Write
+                (
+                    Html.DevExpress().Label(label =>
+                    {
+                        label.Text =  "- " + Utility.Phrase("eCalendar_tabTrainingProcess_Node11");//"- Lịch huấn luyện";
+                        label.Style.Add("font-style", "italic");
+
+
+                    }).GetHtml().ToHtmlString()
+                );
+                ViewContext.Writer.Write("</br>");
+                ViewContext.Writer.Write
+                (
+                    Html.DevExpress().Label(label =>
+                    {
+                        label.Text = "- " + Utility.Phrase("eCalendar_tabTrainingProcess_Node12");//"- Nhật ký huấn luyện";
+                        label.Style.Add("font-style", "italic");
+
+                    }).GetHtml().ToHtmlString()
+                );
+                ViewContext.Writer.Write("</br>");
+                ViewContext.Writer.Write
+                (
+
+                    Html.DevExpress().Label(label =>
+                    {
+                        label.Text = "- " + Utility.Phrase("eCalendar_tabTrainingProcess_Node13");//"- Mục tiêu huấn luyện";
+                        label.Style.Add("font-style", "italic");
+
+                    }).GetHtml().ToHtmlString()
+                );
+            }
+            else if (Model.TrainingProcess[i].CriteriaID == 2)
+            {
+                ViewContext.Writer.Write("</br>");
+                ViewContext.Writer.Write
+                (
+                    Html.DevExpress().Label(label =>
+                    {
+                        label.Text = Utility.Phrase("eCalendar_tabTrainingProcess_Node2"); // "Thảo luận kỹ lưỡng về:";
+                        label.Style.Add("font-weight", "bold");
+                        label.Style.Add("font-style", "italic");
+
+                    }).GetHtml().ToHtmlString()
+                );
+                ViewContext.Writer.Write("</br>");
+                ViewContext.Writer.Write
+                (
+                    Html.DevExpress().Label(label =>
+                    {
+                        label.Text = "- "+ Utility.Phrase("eCalendar_tabTrainingProcess_Node21"); // "- Chỉ tiêu kinh doanh";
+                        label.Style.Add("font-style", "italic");
+
+
+                    }).GetHtml().ToHtmlString()
+                );
+                ViewContext.Writer.Write("</br>");
+                ViewContext.Writer.Write
+                (
+                    Html.DevExpress().Label(label =>
+                    {
+                        label.Text = "- " + Utility.Phrase("eCalendar_tabTrainingProcess_Node22"); // "- Mục tiêu huấn luyện thực địa";
+                        label.Style.Add("font-style", "italic");
+
+                    }).GetHtml().ToHtmlString()
+                );
+                ViewContext.Writer.Write("</br>");
+                ViewContext.Writer.Write
+                (
+
+                    Html.DevExpress().Label(label =>
+                    {
+                        label.Text = "- " + Utility.Phrase("eCalendar_tabTrainingProcess_Node23"); //"- Xem lại sự chuẩn bị của NVBH cho ngày và 04 công cụ hỗ trợ bán hàng";
+                        label.Style.Add("font-style", "italic");
+                    }).GetHtml().ToHtmlString()
+                );
+            }
+            else if (Model.TrainingProcess[i].CriteriaID == 3)
+            {
+                ViewContext.Writer.Write("</br>");
+                ViewContext.Writer.Write
+                (
+                    Html.DevExpress().Label(label =>
+                    {
+                        label.Text = "- " + Utility.Phrase("eCalendar_tabTrainingProcess_Node3"); //"- Giải thích:";
+                        label.Style.Add("font-style", "italic");
+
+                    }).GetHtml().ToHtmlString()
+                );
+                ViewContext.Writer.Write("</br>");
+                ViewContext.Writer.Write
+                (
+                    Html.DevExpress().Label(label =>
+                    {
+                        label.Text = "- " + Utility.Phrase("eCalendar_tabTrainingProcess_Node4"); //"- Làm mẫu";
+                        label.Style.Add("font-style", "italic");
+
+
+                    }).GetHtml().ToHtmlString()
+                );
+                ViewContext.Writer.Write("</br>");
+                ViewContext.Writer.Write
+                (
+                    Html.DevExpress().Label(label =>
+                    {
+                        label.Text = "- " + Utility.Phrase("eCalendar_tabTrainingProcess_Node5"); //"- Áp dụng";
+                        label.Style.Add("font-style", "italic");
+
+                    }).GetHtml().ToHtmlString()
+                );
+                ViewContext.Writer.Write("</br>");
+                ViewContext.Writer.Write
+                (
+
+                    Html.DevExpress().Label(label =>
+                    {
+                        label.Text = "- " + Utility.Phrase("eCalendar_tabTrainingProcess_Node6"); //"- Đánh giá";
+                        label.Style.Add("font-style", "italic");
+                    }).GetHtml().ToHtmlString()
+                );
+            }
+            else if (Model.TrainingProcess[i].CriteriaID == 4)
+            {
+                ViewContext.Writer.Write("</br>");
+                ViewContext.Writer.Write
+                (
+                    Html.DevExpress().Label(label =>
+                    {
+                        label.Text = "- " + Utility.Phrase("eCalendar_tabTrainingProcess_Node7"); //"- Hoàn tất bảng đánh giá nhân viên:";
+                        label.Style.Add("font-style", "italic");
+
+                    }).GetHtml().ToHtmlString()
+                );
+                ViewContext.Writer.Write("</br>");
+                ViewContext.Writer.Write
+                (
+                    Html.DevExpress().Label(label =>
+                    {
+                        label.Text = "- " + Utility.Phrase("eCalendar_tabTrainingProcess_Node8"); //"- Đưa ra ý kiến đóng góp";
+                        label.Style.Add("font-style", "italic");
+
+
+                    }).GetHtml().ToHtmlString()
+                );
+                ViewContext.Writer.Write("</br>");
+                ViewContext.Writer.Write
+                (
+                    Html.DevExpress().Label(label =>
+                    {
+                        label.Text = "- " + Utility.Phrase("eCalendar_tabTrainingProcess_Node9"); //"- Đề ra kế hoạch thực hiện";
+                        label.Style.Add("font-style", "italic");
+
+                    }).GetHtml().ToHtmlString()
+                );
+            }
+            ViewContext.Writer.Write(Html.HiddenFor(m => m.TrainingProcess[i].AssessmentDate).ToHtmlString());
+            ViewContext.Writer.Write(Html.HiddenFor(m => m.TrainingProcess[i].CriteriaID).ToHtmlString());
+            ViewContext.Writer.Write(Html.HiddenFor(m => m.TrainingProcess[i].AssessmentFor).ToHtmlString());
+            ViewContext.Writer.Write(Html.HiddenFor(m => m.TrainingProcess[i].UserID).ToHtmlString());
+            ViewContext.Writer.Write("</td>");
+            ViewContext.Writer.Write("<td style=\"width:100px;\">");
+            ViewContext.Writer.Write
+            (
+                Html.DevExpress().LabelFor(m => m.TrainingProcess[i].CriteriaScore, label =>
+                {
+                    label.Text = Utility.Phrase("SubmitAssessment.Messages.Score");
+                }).GetHtml().ToHtmlString()
+            );
+            ViewContext.Writer.Write
+            (
+
+                Html.DevExpress().SpinEditFor(m => m.TrainingProcess[i].CriteriaScore, spin =>
+                {
+                    spin.Properties.MinValue = 1;
+                    spin.Properties.MaxValue = 5;
+                    spin.Width = 50;
+                    if (Model.Header.AssessmentFor == null || Model.Header.AssessmentFor == String.Empty)
+                    {
+                        spin.Enabled = false;
+                        spin.Properties.MinValue = 0;
+                        spin.Properties.MaxValue = 5;
+                    }
+                    else
+                    {
+                        spin.Enabled = true;
+                    }
+                    //spin.ShowModelErrors = true;
+                    //spin.ClientEnabled = !Model.Header.Released;
+                }).GetHtml().ToHtmlString()
+            );
+            ViewContext.Writer.Write("</td>");
+            ViewContext.Writer.Write("<td valigh=\"top\">");
+            ViewContext.Writer.Write
+            (
+                Html.DevExpress().LabelFor(m => m.TrainingProcess[i].Pros, label =>
+                {
+                    label.Text = Utility.Phrase("SubmitAssessment.Messages.Pros");
+
+                }).GetHtml().ToHtmlString()
+            );
+            ViewContext.Writer.Write
+            (
+                Html.DevExpress().MemoFor(m => m.TrainingProcess[i].Pros, memo =>
+                {
+                    memo.ShowModelErrors = true;
+                    if (Model.Header.AssessmentFor == null || Model.Header.AssessmentFor == String.Empty)
+                    {
+                        memo.Enabled = false;
+                    }
+                    else
+                    {
+                        memo.Enabled = true;
+                    }
+                    memo.ClientEnabled = !Model.Header.Released;
+                  //memo.Width = 200;
+                    memo.Properties.Rows = 5;
+                }).GetHtml().ToHtmlString()
+            );
+            ViewContext.Writer.Write("</td>");
+
+            ViewContext.Writer.Write("<td valigh=\"top\">");
+            ViewContext.Writer.Write
+            (
+                Html.DevExpress().LabelFor(m => m.TrainingProcess[i].Cons, label =>
+                {
+                    label.Text = Utility.Phrase("SubmitAssessment.Messages.Cons");
+                }).GetHtml().ToHtmlString()
+            );
+            ViewContext.Writer.Write
+            (
+                Html.DevExpress().MemoFor(m => m.TrainingProcess[i].Cons, memo =>
+                {
+                    memo.ShowModelErrors = true;
+                    if (Model.Header.AssessmentFor == null || Model.Header.AssessmentFor == String.Empty)
+                    {
+                        memo.Enabled = false;
+                    }
+                    else
+                    {
+                        memo.Enabled = true;
+                    }
+                    memo.ClientEnabled = !Model.Header.Released;
+                  //memo.Width = 200;
+                    memo.Properties.Rows = 5;
+                }).GetHtml().ToHtmlString()
+            );
+            ViewContext.Writer.Write("</td>");
+            ViewContext.Writer.Write("<td valign=\"top\">");
+            ViewContext.Writer.Write
+            (
+                Html.DevExpress().LabelFor(m => m.TrainingProcess[i].Note, label =>
+                {
+                    label.Text = Utility.Phrase("SubmitAssessment.Messages.Direction");
+                }).GetHtml().ToHtmlString()
+            );
+            ViewContext.Writer.Write
+            (
+                Html.DevExpress().MemoFor(m => m.TrainingProcess[i].Note, memo =>
+                {
+                    memo.ShowModelErrors = true;
+                    if (Model.Header.AssessmentFor == null || Model.Header.AssessmentFor == String.Empty)
+                    {
+                        memo.Enabled = false;
+                    }
+                    else
+                    {
+                        memo.Enabled = true;
+                    }
+                    memo.ClientEnabled = !Model.Header.Released;
+                  //memo.Width = 200;
+                    memo.Properties.Rows = 5;
+                }).GetHtml().ToHtmlString()
+            );
+            ViewContext.Writer.Write("</td>");
+            ViewContext.Writer.Write("</tr>");
+
+        }
+        ViewContext.Writer.Write("<tr>");
+        ViewContext.Writer.Write("<td colspan='3'>");
+        ViewContext.Writer.Write
+           (
+                   @Html.DevExpress().LabelFor(m => m.Header.ABCDComment, label =>
+              {
+                  label.Text = Utility.Phrase("SubmitAssessment.Messages.ABCDComment");
+              }).GetHtml()
+        );
+        ViewContext.Writer.Write
+          (
+          @Html.DevExpress().MemoFor(m => m.Header.ABCDComment, memo =>
+     {
+         memo.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+         memo.Properties.Rows = 4;
+         memo.ShowModelErrors = true;
+         if (Model.Header.AssessmentFor == null || Model.Header.AssessmentFor == String.Empty)
+         {
+             memo.Enabled = false;
+         }
+         else
+         {
+             memo.Enabled = true;
+         }
+         memo.ClientEnabled = !Model.Header.Released;
+     }).GetHtml()
+     );
+        ViewContext.Writer.Write("</td>");
+        ViewContext.Writer.Write("<td  colspan='2'>");
+        ViewContext.Writer.Write
+           (
+           @Html.DevExpress().LabelFor(m => m.Header.ABCDNextTrainingObjective, label =>
+      {
+          label.Text = Utility.Phrase("SubmitAssessment.Messages.ABCDNextTrainingObjective");
+      }).GetHtml()
+      );
+        ViewContext.Writer.Write
+           (
+           @Html.DevExpress().MemoFor(m => m.Header.ABCDNextTrainingObjective, memo =>
+      {
+          memo.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+          memo.Properties.Rows = 4;
+          memo.ShowModelErrors = true;
+          if (Model.Header.AssessmentFor == null || Model.Header.AssessmentFor == String.Empty)
+          {
+              memo.Enabled = false;
+          }
+          else
+          {
+              memo.Enabled = true;
+          }
+          memo.ClientEnabled = !Model.Header.Released;
+      }).GetHtml()
+      );
+        ViewContext.Writer.Write("</td>");
+        ViewContext.Writer.Write("</tr>");
+        ViewContext.Writer.Write("</table>");
+    });
+
+}).GetHtml()
+<span style="color: inherit; text-align: right; width: 100%; font-size: small"><b>@Utility.Phrase("eCalendar_AssesmentSaleMan")
+    @*Đánh    giá NVBH*@
+
+                                                                               </b></span>
+@Html.DevExpress().RoundPanel(settings =>
+{
+    settings.Name = "tabDailyWork";
+    settings.HeaderText = Utility.Phrase("eCalendar_tabDailyWork");  //"Công việc hằng ngày";
+    
+    settings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+    settings.Styles.Header.CssClass = "block-theme";
+    settings.SetContent(() =>
+    {
+        ViewContext.Writer.Write("<table class='border-none no-selected'>");
+
+        for (int i = 0; i < Model.DailyWorks.Count; i++)
+        {
+            ViewContext.Writer.Write("<tr>");
+            ViewContext.Writer.Write("<td style=\"width:300px;\">");
+            ViewContext.Writer.Write
+            (
+                Html.DevExpress().LabelFor(m => m.DailyWorks[i].CriteriaID, label =>
+                {
+                    label.Text =
+                        eRoute.Models.eCalendar.HammerDataProvider.GetSSCriteriaDescription(Model.DailyWorks[i].CriteriaID);
+                }).GetHtml().ToHtmlString()
+            );
+            ViewContext.Writer.Write(Html.HiddenFor(m => m.DailyWorks[i].AssessmentDate).ToHtmlString());
+            ViewContext.Writer.Write(Html.HiddenFor(m => m.DailyWorks[i].CriteriaID).ToHtmlString());
+            ViewContext.Writer.Write(Html.HiddenFor(m => m.DailyWorks[i].AssessmentFor).ToHtmlString());
+            ViewContext.Writer.Write(Html.HiddenFor(m => m.DailyWorks[i].UserID).ToHtmlString());
+            ViewContext.Writer.Write(Html.HiddenFor(m => m.DailyWorks[i].UniqueID).ToHtmlString());
+            ViewContext.Writer.Write("</td>");
+            ViewContext.Writer.Write("<td style=\"width:100px;\">");
+            ViewContext.Writer.Write
+            (
+                Html.DevExpress().LabelFor(m => m.DailyWorks[i].CriteriaScore, label =>
+                {
+                    label.Text = Utility.Phrase("SubmitAssessment.Messages.Score");
+                }).GetHtml().ToHtmlString()
+            );
+            ViewContext.Writer.Write
+            (
+
+                Html.DevExpress().SpinEditFor(m => m.DailyWorks[i].CriteriaScore, spin =>
+                {
+                    spin.Properties.MinValue = 1;
+                    spin.Properties.MaxValue = 5;
+                    //spin.ShowModelErrors = true;
+                    spin.ClientEnabled = !Model.Header.Released;
+                    spin.Width = 50;
+                }).GetHtml().ToHtmlString()
+            );
+            ViewContext.Writer.Write("</td>");
+
+
+
+            ViewContext.Writer.Write("<td>");
+            ViewContext.Writer.Write
+            (
+                Html.DevExpress().LabelFor(m => m.DailyWorks[i].Pros, label =>
+                {
+                    label.Text = Utility.Phrase("SubmitAssessment.Messages.Pros");
+                }).GetHtml().ToHtmlString()
+            );
+            ViewContext.Writer.Write
+            (
+                Html.DevExpress().MemoFor(m => m.DailyWorks[i].Pros, memo =>
+                {
+                    memo.ShowModelErrors = true;
+                    memo.ClientEnabled = !Model.Header.Released;
+                  //memo.Width = 200;
+                    memo.Properties.Rows = 5;
+                }).GetHtml().ToHtmlString()
+            );
+            ViewContext.Writer.Write("</td>");
+
+            ViewContext.Writer.Write("<td valigh=\"top\">");
+            ViewContext.Writer.Write
+            (
+                Html.DevExpress().LabelFor(m => m.DailyWorks[i].Cons, label =>
+                {
+                    label.Text = Utility.Phrase("SubmitAssessment.Messages.Cons");
+
+                }).GetHtml().ToHtmlString()
+            );
+            ViewContext.Writer.Write
+            (
+                Html.DevExpress().MemoFor(m => m.DailyWorks[i].Cons, memo =>
+                {
+                    memo.ShowModelErrors = true;
+                    memo.ClientEnabled = !Model.Header.Released;
+                  //memo.Width = 200;
+                    memo.Properties.Rows = 5;
+                }).GetHtml().ToHtmlString()
+            );
+            ViewContext.Writer.Write("</td>");
+            ViewContext.Writer.Write("<td>");
+            ViewContext.Writer.Write
+            (
+                Html.DevExpress().LabelFor(m => m.DailyWorks[i].Note, label =>
+                {
+                    label.Text = Utility.Phrase("SubmitAssessment.Messages.Plan");
+                }).GetHtml().ToHtmlString()
+            );
+            ViewContext.Writer.Write
+            (
+                Html.DevExpress().MemoFor(m => m.DailyWorks[i].Note, memo =>
+                {
+                    memo.ShowModelErrors = true;
+                    memo.ClientEnabled = !Model.Header.Released;
+                  //memo.Width = 200;
+                    memo.Properties.Rows = 5;
+                }).GetHtml().ToHtmlString()
+            );
+            ViewContext.Writer.Write("</td>");
+            ViewContext.Writer.Write("</tr>");
+        }
+
+        ViewContext.Writer.Write("</table>");
+    });
+}).GetHtml()
+@Html.DevExpress().RoundPanel(settings =>
+{
+    settings.Name = "tabTools";
+    settings.HeaderText = Utility.Phrase("eCalendar_tabTools");  //"4 công cụ";
+    settings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+    settings.Styles.Header.CssClass = "block-theme";
+    settings.SetContent(() =>
+    {
+        ViewContext.Writer.Write("<table class='border-none no-selected'>");
+
+        for (int i = 0; i < Model.ToolsSM.Count; i++)
+        {
+
+            ViewContext.Writer.Write("<tr>");
+            ViewContext.Writer.Write("<td style=\"width:300px;\">");
+            ViewContext.Writer.Write
+            (
+                Html.DevExpress().LabelFor(m => m.ToolsSM[i].CriteriaID, label =>
+                {
+                    label.Text =
+                        eRoute.Models.eCalendar.HammerDataProvider.GetSSCriteriaDescription(Model.ToolsSM[i].CriteriaID);
+                }).GetHtml().ToHtmlString()
+            );
+            ViewContext.Writer.Write(Html.HiddenFor(m => m.ToolsSM[i].AssessmentDate).ToHtmlString());
+            ViewContext.Writer.Write(Html.HiddenFor(m => m.ToolsSM[i].CriteriaID).ToHtmlString());
+            ViewContext.Writer.Write(Html.HiddenFor(m => m.ToolsSM[i].AssessmentFor).ToHtmlString());
+            ViewContext.Writer.Write(Html.HiddenFor(m => m.ToolsSM[i].UserID).ToHtmlString());
+            ViewContext.Writer.Write(Html.HiddenFor(m => m.ToolsSM[i].UniqueID).ToHtmlString());
+            ViewContext.Writer.Write("</td>");
+            ViewContext.Writer.Write("<td style=\"width:100px;\">");
+            ViewContext.Writer.Write
+            (
+                Html.DevExpress().LabelFor(m => m.ToolsSM[i].CriteriaScore, label =>
+                {
+                    label.Text = Utility.Phrase("SubmitAssessment.Messages.Score");
+                }).GetHtml().ToHtmlString()
+            );
+            ViewContext.Writer.Write
+            (
+
+                Html.DevExpress().SpinEditFor(m => m.ToolsSM[i].CriteriaScore, spin =>
+                {
+                    spin.Properties.MinValue = 1;
+                    spin.Properties.MaxValue = 5;
+                    spin.ClientEnabled = !Model.Header.Released;
+                    spin.Width = 50;
+                }).GetHtml().ToHtmlString()
+            );
+            ViewContext.Writer.Write("</td>");
+
+
+
+            ViewContext.Writer.Write("<td valigh=\"top\">");
+            ViewContext.Writer.Write
+            (
+                Html.DevExpress().LabelFor(m => m.ToolsSM[i].Pros, label =>
+                {
+                    label.Text = Utility.Phrase("SubmitAssessment.Messages.Pros");
+                }).GetHtml().ToHtmlString()
+            );
+            ViewContext.Writer.Write
+            (
+                Html.DevExpress().MemoFor(m => m.ToolsSM[i].Pros, memo =>
+                {
+                    memo.ShowModelErrors = true;
+                    memo.ClientEnabled = !Model.Header.Released;
+                  //memo.Width = 200;
+                    memo.Properties.Rows = 5;
+                }).GetHtml().ToHtmlString()
+            );
+            ViewContext.Writer.Write("</td>");
+
+            ViewContext.Writer.Write("<td valigh=\"top\">");
+            ViewContext.Writer.Write
+            (
+                Html.DevExpress().LabelFor(m => m.ToolsSM[i].Cons, label =>
+                {
+                    label.Text = Utility.Phrase("SubmitAssessment.Messages.Cons");
+                }).GetHtml().ToHtmlString()
+            );
+            ViewContext.Writer.Write
+            (
+                Html.DevExpress().MemoFor(m => m.ToolsSM[i].Cons, memo =>
+                {
+                    memo.ShowModelErrors = true;
+                    memo.ClientEnabled = !Model.Header.Released;
+                  //memo.Width = 200;
+                    memo.Properties.Rows = 5;
+                }).GetHtml().ToHtmlString()
+            );
+            ViewContext.Writer.Write("</td>");
+            ViewContext.Writer.Write("<td valigh=\"top\">");
+            ViewContext.Writer.Write
+            (
+                Html.DevExpress().LabelFor(m => m.ToolsSM[i].Note, label =>
+                {
+                    label.Text = Utility.Phrase("SubmitAssessment.Messages.Plan");
+                }).GetHtml().ToHtmlString()
+            );
+            ViewContext.Writer.Write
+            (
+                Html.DevExpress().MemoFor(m => m.ToolsSM[i].Note, memo =>
+                {
+                    memo.ShowModelErrors = true;
+                    memo.ClientEnabled = !Model.Header.Released;
+                  //memo.Width = 200;
+                    memo.Properties.Rows = 5;
+                }).GetHtml().ToHtmlString()
+            );
+            ViewContext.Writer.Write("</td>");
+            ViewContext.Writer.Write("</tr>");
+        }
+
+        ViewContext.Writer.Write("</table>");
+    });
+
+}).GetHtml()
+@Html.DevExpress().RoundPanel(settings =>
+{
+    settings.Name = "tabSteps";
+    settings.HeaderText = Utility.Phrase("eCalendar_tabSteps");  //"9 bước bán hàng";
+    
+    settings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+    settings.Styles.Header.CssClass = "block-theme";
+    settings.SetContent(() =>
+    {
+        ViewContext.Writer.Write("<table class='border-none no-selected'>");
+
+        for (int i = 0; i < Model.Steps.Count; i++)
+        {
+            ViewContext.Writer.Write("<tr>");
+            ViewContext.Writer.Write("<td style=\"width:300px;\">");
+            ViewContext.Writer.Write
+            (
+                Html.DevExpress().LabelFor(m => m.Steps[i].CriteriaID, label =>
+                {
+                    label.Text =
+                        eRoute.Models.eCalendar.HammerDataProvider.GetSSCriteriaDescription(Model.Steps[i].CriteriaID);
+                }).GetHtml().ToHtmlString()
+            );
+            ViewContext.Writer.Write(Html.HiddenFor(m => m.Steps[i].AssessmentDate).ToHtmlString());
+            ViewContext.Writer.Write(Html.HiddenFor(m => m.Steps[i].CriteriaID).ToHtmlString());
+            ViewContext.Writer.Write(Html.HiddenFor(m => m.Steps[i].AssessmentFor).ToHtmlString());
+            ViewContext.Writer.Write(Html.HiddenFor(m => m.Steps[i].UserID).ToHtmlString());
+            ViewContext.Writer.Write(Html.HiddenFor(m => m.Steps[i].UniqueID).ToHtmlString());
+            ViewContext.Writer.Write("</td>");
+            ViewContext.Writer.Write("<td style=\"width:100px;\">");
+            ViewContext.Writer.Write
+            (
+                Html.DevExpress().LabelFor(m => m.Steps[i].CriteriaScore, label =>
+                {
+                    label.Text = Utility.Phrase("SubmitAssessment.Messages.Score");
+                }).GetHtml().ToHtmlString()
+            );
+            ViewContext.Writer.Write
+            (
+
+                Html.DevExpress().SpinEditFor(m => m.Steps[i].CriteriaScore, spin =>
+                {
+                    spin.Properties.MinValue = 1;
+                    spin.Properties.MaxValue = 5;
+                    spin.ClientEnabled = !Model.Header.Released;
+                    spin.Width = 50;
+                }).GetHtml().ToHtmlString()
+            );
+            ViewContext.Writer.Write("</td>");
+
+
+
+            ViewContext.Writer.Write("<td valigh=\"top\">");
+            ViewContext.Writer.Write
+            (
+                Html.DevExpress().LabelFor(m => m.Steps[i].Pros, label =>
+                {
+                    label.Text = Utility.Phrase("SubmitAssessment.Messages.Pros");
+
+                }).GetHtml().ToHtmlString()
+            );
+            ViewContext.Writer.Write
+            (
+                Html.DevExpress().MemoFor(m => m.Steps[i].Pros, memo =>
+                {
+                    memo.ShowModelErrors = true;
+                    memo.ClientEnabled = !Model.Header.Released;
+                  //memo.Width = 200;
+                    memo.Properties.Rows = 5;
+                }).GetHtml().ToHtmlString()
+            );
+            ViewContext.Writer.Write("</td>");
+
+            ViewContext.Writer.Write("<td valigh=\"top\">");
+            ViewContext.Writer.Write
+            (
+                Html.DevExpress().LabelFor(m => m.Steps[i].Cons, label =>
+                {
+                    label.Text = Utility.Phrase("SubmitAssessment.Messages.Cons");
+                }).GetHtml().ToHtmlString()
+            );
+            ViewContext.Writer.Write
+            (
+                Html.DevExpress().MemoFor(m => m.Steps[i].Cons, memo =>
+                {
+                    memo.ShowModelErrors = true;
+                    memo.ClientEnabled = !Model.Header.Released;
+                  //memo.Width = 200;
+                    memo.Properties.Rows = 5;
+                }).GetHtml().ToHtmlString()
+            );
+            ViewContext.Writer.Write("</td>");
+            ViewContext.Writer.Write("<td valigh=\"top\">");
+            ViewContext.Writer.Write
+            (
+                Html.DevExpress().LabelFor(m => m.Steps[i].Note, label =>
+                {
+                    label.Text = Utility.Phrase("SubmitAssessment.Messages.Plan");
+                }).GetHtml().ToHtmlString()
+            );
+            ViewContext.Writer.Write
+            (
+                Html.DevExpress().MemoFor(m => m.Steps[i].Note, memo =>
+                {
+                    memo.ShowModelErrors = true;
+                    memo.ClientEnabled = !Model.Header.Released;
+                  //memo.Width = 200;
+                    memo.Properties.Rows = 5;
+                }).GetHtml().ToHtmlString()
+            );
+            ViewContext.Writer.Write("</td>");
+            ViewContext.Writer.Write("</tr>");
+        }
+        ViewContext.Writer.Write("</table>");
+    });
+}).GetHtml()
+@Html.DevExpress().RoundPanel(settings =>
+{
+    settings.Name = "tabUpdateArchive";
+    settings.HeaderText = Utility.Phrase("eCalendar_tabUpdateArchive");  //"Việc cập nhật và lưu trữ tài liệu về huấn luyện thực địa của Sales Sup";
+    settings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+    settings.Styles.Header.CssClass = "block-theme";
+    settings.SetContent(() =>
+    {
+        ViewContext.Writer.Write("<table class='border-none no-selected'>");
+
+        for (int i = 0; i < Model.UpdateAndArchive.Count; i++)
+        {
+            ViewContext.Writer.Write("<tr>");
+            ViewContext.Writer.Write("<td style=\"width:300px;\">");
+            ViewContext.Writer.Write
+            (
+                Html.DevExpress().LabelFor(m => m.UpdateAndArchive[i].CriteriaID, label =>
+                {
+                    label.Text =
+                        eRoute.Models.eCalendar.HammerDataProvider.GetTrainingCriteriaDescription(Model.UpdateAndArchive[i].CriteriaID);
+                }).GetHtml().ToHtmlString()
+            );
+            ViewContext.Writer.Write(Html.HiddenFor(m => m.UpdateAndArchive[i].AssessmentDate).ToHtmlString());
+            ViewContext.Writer.Write(Html.HiddenFor(m => m.UpdateAndArchive[i].CriteriaID).ToHtmlString());
+            ViewContext.Writer.Write(Html.HiddenFor(m => m.UpdateAndArchive[i].AssessmentFor).ToHtmlString());
+            ViewContext.Writer.Write(Html.HiddenFor(m => m.UpdateAndArchive[i].UserID).ToHtmlString());
+            ViewContext.Writer.Write("</td>");
+            ViewContext.Writer.Write("<td style=\"width:100px;\">");
+            ViewContext.Writer.Write
+            (
+
+                Html.DevExpress().ComboBoxFor(m => m.UpdateAndArchive[i].CriteriaScore, cb =>
+                {
+                    cb.ClientEnabled = !Model.Header.Released;
+                    cb.Properties.Items.Add(Utility.Phrase("Value_Yes"), true);
+                    cb.Properties.Items.Add(Utility.Phrase("Value_No"), false);
+                }).GetHtml().ToHtmlString()
+            );
+            ViewContext.Writer.Write("</td>");
+            ViewContext.Writer.Write("<td valigh=\"top\">");
+            ViewContext.Writer.Write
+            (
+                Html.DevExpress().LabelFor(m => m.UpdateAndArchive[i].Pros, label =>
+                {
+                    label.Text = Utility.Phrase("SubmitAssessment.Messages.Pros");
+
+                }).GetHtml().ToHtmlString()
+            );
+            ViewContext.Writer.Write
+            (
+                Html.DevExpress().MemoFor(m => m.UpdateAndArchive[i].Pros, memo =>
+                {
+                    memo.ShowModelErrors = true;
+                    memo.ClientEnabled = !Model.Header.Released;
+                  //memo.Width = 200;
+                    memo.Properties.Rows = 5;
+                }).GetHtml().ToHtmlString()
+            );
+            ViewContext.Writer.Write("</td>");
+
+            ViewContext.Writer.Write("<td valigh=\"top\">");
+            ViewContext.Writer.Write
+            (
+                Html.DevExpress().LabelFor(m => m.UpdateAndArchive[i].Cons, label =>
+                {
+                    label.Text = Utility.Phrase("SubmitAssessment.Messages.Cons");
+                }).GetHtml().ToHtmlString()
+            );
+            ViewContext.Writer.Write
+            (
+                Html.DevExpress().MemoFor(m => m.UpdateAndArchive[i].Cons, memo =>
+                {
+                    memo.ShowModelErrors = true;
+                    memo.ClientEnabled = !Model.Header.Released;
+                  //memo.Width = 200;
+                    memo.Properties.Rows = 5;
+                }).GetHtml().ToHtmlString()
+            );
+            ViewContext.Writer.Write("</td>");
+            ViewContext.Writer.Write("<td valigh=\"top\">");
+            ViewContext.Writer.Write
+            (
+                Html.DevExpress().LabelFor(m => m.UpdateAndArchive[i].Note, label =>
+                {
+                    label.Text = Utility.Phrase("SubmitAssessment.Messages.Plan");
+                }).GetHtml().ToHtmlString()
+            );
+            ViewContext.Writer.Write
+            (
+                Html.DevExpress().MemoFor(m => m.UpdateAndArchive[i].Note, memo =>
+                {
+                    memo.ShowModelErrors = true;
+                    memo.ClientEnabled = !Model.Header.Released;
+                  //memo.Width = 200;
+                    memo.Properties.Rows = 5;
+                }).GetHtml().ToHtmlString()
+            );
+            ViewContext.Writer.Write("</td>");
+            ViewContext.Writer.Write("</tr>");
+        }
+        ViewContext.Writer.Write("</table>");
+    });
+}).GetHtml()

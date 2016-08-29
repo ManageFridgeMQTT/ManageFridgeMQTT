@@ -1,0 +1,42 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<items>
+	<item Text="Quản trị hệ thống" NavigateUrl="javascript:;" ImageUrl="https://demos.devexpress.com/MVCxNavigationAndLayoutDemos/Content/Menu/BO_Organizations_Large.png">
+		<item Text="Quản lý account từ Acumatica" NavigateUrl="javascript:;">
+			<!--<item Text="Đồng bộ account từ Acu Parent Company sang" NavigateUrl="#" />
+      <item Text="Account tự động kích hoạt và sử dụng cùng pass với Acu" NavigateUrl="#" />
+      <item Text="Khi đổi pass bên Acumatica thì bên đây phải đổi theo" NavigateUrl="#" />-->
+		</item>
+		<item Text="Quản lý account trên eRoute" NavigateUrl="javascript:;" />
+		<item Text="Quản lý danh sách người dùng" NavigateUrl="javascript:;" />
+		<item Text="Phân quyền chức năng" NavigateUrl="javascript:;">
+			<item Text="Phân quyền thông tin người dùng" NavigateUrl="#" />
+			<item Text="Phân quyền cụ thể account" NavigateUrl="#" />
+		</item>
+		<item Text="Cấu hình danh mục" NavigateUrl="javascript:;" />
+	</item>
+	<item Text="Giám Sát bán hàng" NavigateUrl="javascript:;" ImageUrl="https://demos.devexpress.com/MVCxNavigationAndLayoutDemos/Content/Menu/ButtonHome.png" />
+	<item Text="Báo cáo quản lý" NavigateUrl="javascript:;"  ImageUrl="https://demos.devexpress.com/MVCxNavigationAndLayoutDemos/Content/Menu/BO_Reports_Large.png">
+		<item Text="Báo cáo đánh giá viếng thăm" NavigateUrl="#" />
+		<item Text="Báo cáo đánh giá kết quả bán hàng ngày" NavigateUrl="#" />
+		<item Text="Báo cáo đánh giá chỉ số bán hàng" NavigateUrl="javascript:;">
+			<item Text="Daily" NavigateUrl="#" />
+			<item Text="MTD" NavigateUrl="#" />
+		</item>
+		<item Text="Danh sách outlet chưa có tọa độ" NavigateUrl="#" ImageUrl="https://demos.devexpress.com/MVCxNavigationAndLayoutDemos/Content/Menu/BO_Reports_Large.png" />
+		<item Text="Báo cáo đánh giá PC" NavigateUrl="#" ImageUrl="https://demos.devexpress.com/MVCxNavigationAndLayoutDemos/Content/Menu/BO_Reports_Large.png" />
+		<item Text="Báo cáo hình chụp" NavigateUrl="#" ImageUrl="https://demos.devexpress.com/MVCxNavigationAndLayoutDemos/Content/Menu/BO_Reports_Large.png" />
+		<item Text="Báo cáo trưng bày đạt" NavigateUrl="#" ImageUrl="https://demos.devexpress.com/MVCxNavigationAndLayoutDemos/Content/Menu/BO_Reports_Large.png" />
+	</item>
+	<item Text="Báo cáo phân tích" NavigateUrl="javascript:;" ImageUrl="https://demos.devexpress.com/MVCxNavigationAndLayoutDemos/Content/Menu/BO_Reports_Large.png">
+		<item Text="Sales Territory" NavigateUrl="#" />
+		<item Text="Geographical" NavigateUrl="#" />
+	</item>
+	<item Text="Đánh giá tuân thủ" NavigateUrl="javascript:;" ImageUrl="https://demos.devexpress.com/MVCxNavigationAndLayoutDemos/Content/Menu/BO_Reports_Large.png">
+		<item Text="Đánh giá chụp ảnh trưng bày" NavigateUrl="#" />
+		<item Text="Duyệt kết quả đánh giá của Auditor" NavigateUrl="#" />
+		<item Text="@Utility.Phrase("View")/Xác nhận kết quả đánh giá" NavigateUrl="#" />
+		<item Text="Đóng/Mở đánh giá chụp ảnh trưng bày" NavigateUrl="#" />
+	</item>
+	<item Text="Chấm điểm trưng bày" NavigateUrl="javascript:;" ImageUrl="https://demos.devexpress.com/MVCxNavigationAndLayoutDemos/Content/Menu/BO_Reports_Large.png"  />
+	<item Text="Cập nhật MCP" NavigateUrl="javascript:;" ImageUrl="https://demos.devexpress.com/MVCxNavigationAndLayoutDemos/Content/Menu/BO_Reports_Large.png"  />
+</items>

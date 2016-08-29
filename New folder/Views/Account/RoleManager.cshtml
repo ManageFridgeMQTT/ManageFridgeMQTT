@@ -1,0 +1,47 @@
+﻿@model List<RoleVM>
+@{
+    ViewBag.Title = Utility.Phrase("RoleManagement"); //"Quản Trị Người Dùng";
+    Layout = "~/Views/Shared/_NewLayout.cshtml";
+}
+@using DevExpress.Web.Mvc.UI;
+@using DevExpress.Web.Mvc;
+@using System.Web.UI.WebControls;
+
+<script type="text/javascript">
+    var LoginID = '';
+    var RowIndex = 0;
+    function ButtonClick(button) {
+        if (button == "btnAddNew") {
+            AddNew();
+        }
+
+        else if (button == "btnUpdate") {
+            UpdateRow();
+        }
+    }
+
+    function AddNew() {
+        dxGridView.AddNewRow();
+    }
+
+    function UpdateRow() {
+        dxGridView.StartEditRow(dxGridView.GetFocusedRowIndex());
+    }
+</script>
+<div class="insider">
+    <div class="row content-header">
+        <h1 class="sales-report-h1">@ViewBag.Title</h1>
+    </div>
+    <div class="row content-body">
+        <div style="margin: 0cm 4px 0cm 4px">
+            <table class="border-none no-selected">
+                <tr>
+                    <td>
+                        @Html.Partial("RolePartial", Model)
+                    </td>
+                </tr>
+
+            </table>
+        </div>
+    </div>
+</div>

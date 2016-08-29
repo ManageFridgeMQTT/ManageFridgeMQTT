@@ -1,0 +1,64 @@
+﻿@model MV_ChartDashBoard
+<div class="block padding0">
+    <div class="tab-header">
+        <ul class="nav nav-tabs">
+            <li class="active"><a data-toggle="tab" href="#tabChartRevenue">@Utility.Phrase("Tab_Revenue")</a></li>
+            <li><a data-toggle="tab" href="#tabChartVisit">@Utility.Phrase("Tab_Visit")</a></li>
+            <li><a data-toggle="tab" href="#tabChartOther">@Utility.Phrase("Tab_Other")</a></li>
+        </ul>
+    </div>
+    <div class="tab-content">
+        <div id="tabChartRevenue" class="chart-box tab-pane fade in active "></div>
+        <div id="tabChartVisit" class="chart-box tab-pane"></div>
+        <div id="tabChartOther" class="chart-box tab-pane"></div>
+    </div>
+    <div class="toggle-box disable">
+        <button class="toggle-button mini btn-transparent">
+            <i class="icon-up icon-black"></i>
+        </button>
+        <div class="toggle-content">
+            <div class="table-responsive">
+                @if (Model.Tables != null)
+                {
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                @{
+                    List<string> columnNames = Model.Tables.Columns.Cast<System.Data.DataColumn>().Select(x => x.ColumnName).ToList();
+                    foreach (string elm in columnNames)
+                    {
+                                    <th>@elm</th>
+                    }
+                                }
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @{
+                    foreach (System.Data.DataRow row in Model.Tables.Rows)
+                    {
+                                <tr>
+                                    @for (int i = 0; i < Model.Tables.Columns.Count; i++)
+                                    {
+                                        <td class="align-right">@String.Format("{0:0.##}", row[i])</td>
+                                    }
+                                </tr>
+                    }
+                            }
+                        </tbody>
+                    </table>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+<script type='text/javascript'>
+    var chartType = 'column';
+    var groupby = 'Region';
+    var width= $(".chart-box").width();
+    var dataRevenue = @Html.Raw(Json.Encode(@Model.ChartDataRevenue))
+    var dataVisit = @Html.Raw(Json.Encode(@Model.ChartDataVisit))
+    var dataOther = @Html.Raw(Json.Encode(@Model.ChartDataOther))
+    RenderChartTarget('tabChartRevenue', dataRevenue, chartType, width);
+    RenderChart('tabChartVisit', dataVisit, chartType, width);
+    RenderChart('tabChartOther', dataOther, 'line', width)
+</script>

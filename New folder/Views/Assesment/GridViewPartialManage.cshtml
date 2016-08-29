@@ -1,0 +1,100 @@
+﻿@model eRoute.Models.ViewModel.AssesmentVM
+@{
+    AjaxOptions ajaxOptions = new AjaxOptions
+    {
+        UpdateTargetId = "searchResults",
+    };
+}
+<input type="hidden" id="ErrorComplete" value="@Localization.ErrorComplete" />
+<input type="hidden" id="OnFailureAss" value="@Localization.OnFailureAss" />
+<script type="text/javascript">
+    function OnSuccess() {
+        alert(document.getElementById('ErrorComplete').value);
+        window.location.href = "/Assesment/ManageList";
+    }
+    function OnFailure() {
+        alert(document.getElementById('OnFailureAss').value);
+    }
+</script>
+@using (Ajax.BeginForm("ManageFis", ajaxOptions))
+{
+    <div class="dxgvGroupPanel_Aqua" style="border: 1px solid #A3C0E8; color: #E65905;
+        font-weight: bold">
+        <table width="100%" cellpadding="0" cellspacing="0">
+            <tr>
+                <td align="left">
+                    @if (@Model.CheckItem)
+                    {
+                        <div style="float: left;">
+                            @Html.DevExpress().Button(settings =>
+                               {
+                                   settings.Name = "btnFis";
+                                   settings.Height = 15;
+                                   settings.Width = 60;
+                                   settings.Text = Localization.BtnComplete;
+                                   settings.UseSubmitBehavior = true;
+                               }).GetHtml()</div>
+                    }
+                </td>
+            </tr>
+        </table>
+    </div>
+    @Html.DevExpress().GridView(settings =>
+{
+    settings.Name = "dvData";
+    settings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+    settings.KeyFieldName = "LoginID";
+    settings.Settings.ShowFilterRow = false;
+    settings.SettingsBehavior.AllowSort = false;
+    settings.SettingsPager.Mode = GridViewPagerMode.ShowAllRecords;
+    settings.SettingsBehavior.AllowSelectByRowClick = true;
+    settings.Columns.Add(column =>
+    {
+        column.Caption = Localization.Leader;
+        column.FieldName = "FullName";
+    });
+    settings.Columns.Add(column =>
+    {
+        column.Caption = Localization.Status;
+        column.FieldName = "Status";
+        column.Width = 100;
+    });
+    settings.Columns.Add(column =>
+    {
+        column.Caption = Localization.StatusOpenColse;
+        column.FieldName = "StatusOpenColse";
+        column.Width = 100;
+    });
+    settings.Columns.Add(column =>
+    {
+        column.Caption = Localization.View;
+        column.Width = 50;
+        column.SetDataItemTemplateContent(c =>
+        {
+            ViewContext.Writer.Write(
+                Html.ActionLink("[replacetext]", "LeaderList", new { id = Url.Content(System.Web.UI.DataBinder.Eval(c.DataItem, "LoginID").ToString()) }).ToHtmlString().Replace("[replacetext]", "<center><img src='/Content/Images/View.png'></img></center>")
+            );
+        });
+    });
+    settings.DataBound = (source, e) =>
+    {
+        ASPxGridView dv = (ASPxGridView)source;
+        GridViewDataTextColumn colNo = new GridViewDataTextColumn();
+        colNo.Caption = Localization.No;
+        colNo.FieldName = "No";
+        colNo.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
+        colNo.Width = 30;
+        colNo.VisibleIndex = 0;
+        colNo.UnboundType = DevExpress.Data.UnboundColumnType.Integer;
+        dv.Columns.Add(colNo);
+    };
+    settings.CustomUnboundColumnData = (source, e) =>
+    {
+        if (e.Column.FieldName == "No")
+        {
+            e.Value = e.ListSourceRowIndex + 1;
+        }
+    };
+}
+    ).Bind(Model.sp_List_Manage_View).GetHtml()
+}

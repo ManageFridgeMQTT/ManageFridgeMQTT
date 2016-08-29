@@ -1,0 +1,200 @@
+﻿@{
+    List<Language> Languages = CacheDataHelper.CacheLanguages();  
+}
+<div class="insider">
+    <div class="logo-box">
+        <a href="~/DashBoard/Home">
+            <img class="logo" alt="DMSpro Etool" src="@Url.Content("~/Content/NewEtool/img/logo-etool.png")" /></a>
+    </div>
+    <div class="menu-box">
+        <a class="btn-navigation" href="javascript:void(0)"></a>
+        <div class="log-box">
+            <ul>
+                <li class="language">
+                    <a href="javascript:void(0)">
+                        <i class="icon-etool-global icon-etool-black"></i>
+                    </a>
+                    <div>
+                        <ul>
+                            @foreach (var elm in Languages)
+                            {
+                                <li class="">
+                                    <a href="~/Phrase/SetLanguage?lang=@elm.Code">
+                                        <img src="@elm.Image" alt="@elm.LangName" />
+                                    </a>
+
+                                </li>
+                            }
+                        </ul>
+                    </div>
+                </li>
+                <li>@DMSERoute.Helpers.Utility.Phrase("Welcome")
+                    @if (!string.IsNullOrEmpty(SessionHelper.GetSession<string>("UserName")))//Request.IsAuthenticated)
+                    {
+                        <a title="@DMSERoute.Helpers.Utility.Phrase("ChangePassword")" href="javascript:pcModalMode.Show();">@User.Identity.Name</a>
+                    }
+                    else
+                    { 
+                        <a title="@DMSERoute.Helpers.Utility.Phrase("ChangePassword")" href="">@User.Identity.Name</a>
+                    }
+                    <a href="~/Account/LogOff">
+                        <button class="btn btn-default"><i class="icon-logout icon-black"></i><span class="txt-indent"></span></button>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+@if (!string.IsNullOrEmpty(SessionHelper.GetSession<string>("UserName")))//Request.IsAuthenticated)
+{
+    eRoute.ACModels.ChangePasswordModel m = new eRoute.ACModels.ChangePasswordModel();
+    if (SessionHelper.GetSession<eRoute.ACModels.ChangePasswordModel>("ChangePasswordModel") != null)
+    {
+        m = SessionHelper.GetSession<eRoute.ACModels.ChangePasswordModel>("ChangePasswordModel");
+    }
+    else
+    {
+        System.Web.HttpContext.Current.Response.Redirect("../Account/Login");
+    }
+    <script type="text/javascript">
+        function UpdateUser(s, e) {
+            $.ajax({
+                url: '../Account/UpdateUser',
+                data: 'UserName=' + pcModalMode_txtUserName.GetText() + '&FullName=' + pcModalMode_txtFullName.GetText() + '&Email=' + pcModalMode_txtEmail.GetText() + '&Phone=' + pcModalMode_txtPhone.GetText() + '&PasswordOld=' + pcModalMode_txtPasswordOld.GetText() + '&NewPassword=' + pcModalMode_txtNewPassword.GetText(),
+                type: 'POST',
+                cache: false,
+                dataType: 'json',
+                error: function (xhr, status, errorThrown) {
+                    alert(errorThrown);
+                },
+                success: function (data) {
+                    if (data.Val == 'No') {
+                        alert($('#ErrorUpdateUser').val());
+                    }
+                    else {
+                        pcModalMode.Hide();
+                        alert($('#SucceedUpdateUser').val());
+                        window.location.href = "../Account/LogOff";
+                    }
+                }
+            });
+        }
+    </script>
+
+    <input type="hidden" value = "@Utility.Phrase("ErrorUpdateUser")" id="ErrorUpdateUser" />
+    <input type="hidden" value = "@Utility.Phrase("SucceedUpdateUser")" id="SucceedUpdateUser" />
+    @Html.DevExpress().PopupControl(
+    settings =>
+    {
+        settings.Name = "pcModalMode";
+        settings.Width = 800;
+        settings.AllowDragging = true;
+        settings.CloseAction = CloseAction.CloseButton;
+        settings.PopupAnimationType = AnimationType.Fade;
+        settings.HeaderText = DMSERoute.Helpers.Utility.Phrase("ChangePassword");
+        settings.Modal = true;
+        settings.PopupHorizontalAlign = PopupHorizontalAlign.WindowCenter;
+        settings.PopupVerticalAlign = PopupVerticalAlign.WindowCenter;
+        bool check = false;
+        settings.SetContent(() =>
+        {
+            ViewContext.Writer.Write("<table class='border-none no-selected'  cellpadding='5' cellspacing='2' width='100%'><tr><td>" +
+                DMSERoute.Helpers.Utility.Phrase("UserName") + "</td><td>");
+            Html.DevExpress().TextBox(
+                textBoxSettings =>
+                {
+                    textBoxSettings.Name = "pcModalMode_txtUserName";
+                    textBoxSettings.Text = m.UserName;
+                    textBoxSettings.ClientEnabled = false;
+                    textBoxSettings.Width = 170;
+                }
+            )
+            .GetHtml();
+            ViewContext.Writer.Write("</td><td> " + DMSERoute.Helpers.Utility.Phrase("FullName") + "</td><td>");
+            Html.DevExpress().TextBox(
+               textBoxSettings =>
+               {
+                   textBoxSettings.Name = "pcModalMode_txtFullName";
+                   textBoxSettings.Width = 170;
+                   textBoxSettings.ClientEnabled = false;
+                   textBoxSettings.Text = m.FullName;
+               }
+           )
+           .GetHtml();
+            ViewContext.Writer.Write("</td></tr><tr><td>" + DMSERoute.Helpers.Utility.Phrase("Email") + "</td><td>");
+            Html.DevExpress().TextBox(
+               textBoxSettings =>
+               {
+                   textBoxSettings.Name = "pcModalMode_txtEmail";
+                   textBoxSettings.Width = 170;
+                   textBoxSettings.ClientEnabled = false;
+                   textBoxSettings.Text = m.Email;
+               }
+           )
+           .GetHtml();
+            ViewContext.Writer.Write("</td><td>" + DMSERoute.Helpers.Utility.Phrase("Phone") + "</td><td>");
+            Html.DevExpress().TextBox(
+               textBoxSettings =>
+               {
+                   textBoxSettings.Name = "pcModalMode_txtPhone";
+                   textBoxSettings.Width = 170;
+                   textBoxSettings.ClientEnabled = false;
+                   textBoxSettings.Text = m.Phone;
+               }
+           )
+           .GetHtml();
+            ViewContext.Writer.Write("</td></tr><tr><td>" + DMSERoute.Helpers.Utility.Phrase("PasswordOld") + "</td><td>");
+            Html.DevExpress().TextBox(
+              textBoxSettings =>
+              {
+                  textBoxSettings.Properties.Password = true;
+                  textBoxSettings.Name = "pcModalMode_txtPasswordOld";
+                  textBoxSettings.Width = 180;
+              }
+          )
+          .GetHtml();
+            ViewContext.Writer.Write("</td><td>" + DMSERoute.Helpers.Utility.Phrase("NewPassword") + "</td><td>");
+            Html.DevExpress().TextBox(
+              textBoxSettings =>
+              {
+                  textBoxSettings.Properties.Password = true;
+                  textBoxSettings.Name = "pcModalMode_txtNewPassword";
+                  textBoxSettings.Width = 180;
+              }
+          )
+          .GetHtml();
+            ViewContext.Writer.Write("</td></tr><tr><td align='center' colspan='4'><table><tr><td>");
+
+            Html.DevExpress().Button(
+                   buttonSettings =>
+                   {
+                       buttonSettings.Name = "pcModalMode_btnUpdate";
+                       buttonSettings.ControlStyle.CssClass = "button";
+                       buttonSettings.Width = 80;
+                       buttonSettings.ControlStyle.CssClass = "DMSButtonDevpress";
+                       buttonSettings.Text = DMSERoute.Helpers.Utility.Phrase("Update");
+                       buttonSettings.ClientSideEvents.Click = "function(s, e){ UpdateUser(s, e) }";
+                   }
+               )
+               .GetHtml();
+            ViewContext.Writer.Write("</td><td>");
+            Html.DevExpress().Button(
+                    buttonSettings =>
+                    {
+                        buttonSettings.Name = "pcModalMode_btnCancel";
+                        buttonSettings.ControlStyle.CssClass = "button";
+                        if (check)
+                        {
+                            buttonSettings.ClientEnabled = false;
+                        }
+                        buttonSettings.Width = 80;
+                        buttonSettings.ControlStyle.CssClass = "DMSButtonDevpress";
+                        buttonSettings.Text = DMSERoute.Helpers.Utility.Phrase("Cancel");
+                        buttonSettings.ClientSideEvents.Click = "function(s, e){ pcModalMode.Hide(); }";
+                    }
+                )
+                .GetHtml();
+            ViewContext.Writer.Write("</td></tr></table></td></tr></table>");
+        });
+    }).GetHtml()
+}

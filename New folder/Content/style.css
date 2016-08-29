@@ -1,0 +1,18 @@
+﻿#map
+{
+    min-height: 800px;
+    min-width: 1400px;
+    margin: 0;
+    padding: 0;
+}
+.leaflet-google-layer {
+    z-index: 0;
+}
+
+.leaflet-map-pane {
+    z-index: 100;
+}
+.dxm-image {
+    height: 18px;
+}
+

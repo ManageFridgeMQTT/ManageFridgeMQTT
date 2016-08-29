@@ -1,0 +1,277 @@
+﻿@model ReportBasicMV
+@{
+    ViewBag.Title = Utility.Phrase("Report_KPISale");
+    Layout = "~/Views/Shared/_NewLayout.cshtml";
+}
+<div class="insider">
+    <div id="loading" class="loading"></div>
+    @using (Html.BeginForm("RunReport", "Report", FormMethod.Post))
+    {
+        @Html.Hidden("ReportID", Model.ReportID)
+        @Html.Hidden("TypeDate")
+        <div class="row display-table w-100pr mb-10 content-header">
+            <div class="report-content-header">
+                <div class="col-sm-12">
+                    <h1>@Utility.Phrase("Report_KPISale")</h1>
+                </div>
+            </div>
+            <div class="w-100pr">
+                <div class="row">
+                    <div class="item fl required">
+                        <label class="fl">@Utility.Phrase("Distributor")</label>
+                        <div id="DistributorCbox" class="ctr_combobox input-group">
+                            @Html.Partial("~/Views/Shared/Control/ComboboxPartial.cshtml", Model.CbxDistributor, new ViewDataDictionary { { "NameID", "Distributor" } })
+                        </div>
+                    </div>
+                    <div class="item fl required">
+                        <label class="fl">@Utility.Phrase("KPIPeriod")</label>
+                        <div class="ctr_combobox input-group">
+                            <input type="text" class="form-control" aria-label="..." value="" readonly="">
+                            <div class="input-group-btn">
+                                <input id="KPIPeriodNbr" name="KPIPeriodNbr" type="hidden" value="">
+                                <input id="Period" name="Period" type="hidden" value="">
+                                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"><span class="caret"></span></button>
+                                <ul class="dropdown-menu dropdown-menu-left">
+                                    <li>
+                                        <div class="table-box" style="max-height: 350px">
+                                            <table class="table table-striped nowrap m-0" id="tbl-Period">
+                                                <thead class="block-theme">
+                                                    <tr>
+                                                        <th style="display: none"></th>
+                                                        <th>@Utility.Phrase("RefNbr")</th>
+                                                        <th>@Utility.Phrase("Period")</th>
+                                                        <th>@Utility.Phrase("Description")</th>
+                                                        <th>@Utility.Phrase("Channel")</th>
+                                                        <th>@Utility.Phrase("SaleArea")</th>
+                                                        <th>@Utility.Phrase("CodeKPI")</th>
+                                                        <th>@Utility.Phrase("NameKPI")</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    @foreach (var item in Model.ListKPIPeriod)
+                                                    {
+                                                        <tr data-value="@item.Period">
+                                                            <td style="display: none">@item.KPIPeriodNbr</td>
+                                                            <td>@item.KPIPeriodNbr</td>
+                                                            <td>@item.PeriodFull</td>
+                                                            <td>@item.Descr</td>
+                                                            <td>@item.Channel</td>
+                                                            <td>@item.SalesAreaName</td>
+                                                            <td>@item.CategoryCD</td>
+                                                            <td>@item.CategoryName</td>
+                                                        </tr>
+                                                    }
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="item fl">
+                        <div id="day-box" class="item fl required groupTypeDate">
+                            <label class="fl">@Utility.Phrase("KPIPeriodConfig")</label>
+                            <div class="ctr_combobox input-group">
+                                <input type="text" class="form-control preconfig" aria-label="..." value="" readonly="">
+                                <div class="input-group-btn">
+                                    <input id="RefNbr" name="RefNbr" type="hidden" value="">
+                                    @Html.TextBox("FromDate", (Model.ToDate != null ? Model.ToDate.ToShortDateString() : ""), new { @class = "datepicker", @style="display: none" })
+                                    @Html.TextBox("ToDate", (Model.ToDate != null ? Model.ToDate.ToShortDateString() : ""), new { @class = "datepicker", @style = "display: none" })
+                                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"><span class="caret"></span></button>
+                                    <ul class="dropdown-menu dropdown-menu-left">
+                                        <li>
+                                            <div class="table-box" style="max-height: 350px">
+                                                <table class="table table-striped nowrap m-0" id="tbl-Period-config">
+                                                    <thead class="block-theme">
+                                                        <tr>
+                                                            <th style="display: none"></th>
+                                                            <th>@Utility.Phrase("RefNbr")</th>
+                                                            <th>@Utility.Phrase("Description")</th>
+                                                            <th>@Utility.Phrase("FromDate")</th>
+                                                            <th>@Utility.Phrase("ToDate")</th>
+                                                            <th>@Utility.Phrase("CodeListSaleId")</th>
+                                                            <th>@Utility.Phrase("Description")</th>
+                                                            <th>@Utility.Phrase("CodeKPI")</th>
+                                                            <th>@Utility.Phrase("NameKPI")</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        @foreach (var item in Model.ListKPIPeriodConfig)
+                                                        {
+                                                            <tr>
+                                                                <td style="display: none">@item.RefNbr</td>
+                                                                <td>@item.RefNbr</td>
+                                                                <td>@item.ShortDescription</td>
+                                                                <td>@item.FromDate.ToShortPattern()</td>
+                                                                <td>@item.ToDate.ToShortPattern()</td>
+                                                                <td>@item.CodeListSalesID</td>
+                                                                <td>@item.Description</td>
+                                                                <td>@item.CodeKPI</td>
+                                                                <td>@item.NameKPI</td>
+                                                            </tr>
+                                                        }
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="week-box" class="item fl required groupTypeDate" style="display:none">
+                            <label class="fl">@Utility.Phrase("Week")</label>
+                            <div id="WeekCbox" class="ctr_combobox input-group custom-combobox-small">
+                                @Html.Partial("~/Views/Shared/Control/ComboboxPartial.cshtml", Model.CbxWeek, new ViewDataDictionary { { "NameID", "Week" } })
+                            </div>
+                            @Html.DropDownList("Year", Model.ListYear, new { @style = "max-width:98px", @class = "DownYear Week-Year" })
+                        </div>
+                        <div id="month-box" class="item fl required groupTypeDate" style="display:none">
+                            <label class="fl">@Utility.Phrase("Month")</label>
+                            @Html.DropDownList("Month", Model.ListMonth, new { @style = "max-width:98px" })
+                            @Html.DropDownList("Year", Model.ListYear, new { @style = "max-width:98px", @class = "DownYear Month-Year" })
+                        </div>
+                        <div id="quarter-box" class="item fl required groupTypeDate" style="display:none">
+                            <label class="fl">@Utility.Phrase("Quarter")</label>
+                            @Html.DropDownList("Quarter", Model.ListQuarter, new { @style = "max-width:98px" })
+                            @Html.DropDownList("Year", Model.ListYear, new { @style = "max-width:98px", @class = "DownYear Quarter-Year" })
+                        </div>
+                        <div id="year-box" class="item fl required groupTypeDate" style="display:none">
+                            <label class="fl">@Utility.Phrase("Year")</label>
+                            @Html.DropDownList("Year", Model.ListYear, new { @class = "DownYear Year-Year" })
+                        </div>
+                    </div>
+                    <div class="item fl required">
+                        <label class="fl">@Utility.Phrase("Template")</label>
+                        <div id="TemplateCbox" class="ctr_combobox input-group">
+                            @Html.Partial("~/Views/Shared/Control/ComboboxPartial.cshtml", Model.CbxTemplate, new ViewDataDictionary { { "NameID", "Template" } })
+                        </div>
+                    </div>
+                    <div class="item fl">
+                        <button id="Search" type="button"><i class="icon-search"></i>@Utility.Phrase("View")</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="ErMesgBox" class="row"><span style="color: red" class="error"></span></div>
+    }
+    <div class="row content-body">
+        <div id="tableBox" class="tab-content wrapper">
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#week-box #Year").change(function (e) {
+            $("#WeekCbox").load('@(Url.Action("ReloadOptionWeek", "Report"))?year=' + $(this).val());
+        });
+        $("body").on('click', '#tbl-Period tbody tr', function () {
+            $(this).addClass('selected').siblings().removeClass('selected');
+            var keyVal = $(this).find('td:first').html();
+            var codeVal = $(this).find('td:nth-child(2)').html();
+            var nameVal = $(this).find('td:nth-child(4)').html();
+            if (keyVal == 0) { keyVal = ""; }
+            var parentdiv = $(this).parents('div[class^="ctr_combobox"]');
+            parentdiv.find('input[type^="text"]').val(codeVal + ' - ' + nameVal);
+            var value = $(this).data('value');
+            $('#KPIPeriodNbr').val(keyVal);
+            $('#Period, #TypeDate').val(value);
+
+            $('.groupTypeDate').hide();
+            $('.DownYear').prop('disabled', true);
+            if (value == 'D') {
+                $.post('@Url.Action("ReloadOptionKPIPeriodConfig")', { "RefNbr": keyVal }, function (data) {
+                    $("#tbl-Period-config tbody").html(data);
+                    $('.preconfig, #RefNbr').val('');
+                });
+                $('#day-box').show();
+            } else if (value == 'W') {
+                $('#week-box').show();
+                $('.Week-Year').prop('disabled', false);
+            } else if (value == 'M') {
+                $('#month-box').show();
+                $('.Month-Year').prop('disabled', false);
+            } else if (value == 'Q') {
+                $('#quarter-box').show();
+                $('.Quarter-Year').prop('disabled', false);
+            } else if (value == 'Y') {
+                $('#year-box').show();
+                $('.Year-Year').prop('disabled', false);
+            }
+        });
+
+        $("body").on('click', '#tbl-Period-config tbody tr', function () {
+            $(this).addClass('selected').siblings().removeClass('selected');
+            var keyVal = $(this).find('td:first').html();
+            var codeVal = $(this).find('td:nth-child(2)').html();
+            var nameVal = $(this).find('td:nth-child(3)').html();
+            if (keyVal == 0) { keyVal = ""; }
+            var parentdiv = $(this).parents('div[class^="ctr_combobox"]');
+            $('.preconfig').val(codeVal + ' - ' + nameVal);
+            $('#RefNbr').val(keyVal);
+        });
+
+        $("body").on('click', '#TemplateCbox table tbody tr, #DistributorCbox table tbody tr, #WeekCbox table tbody tr', function () {
+            $(this).addClass('selected').siblings().removeClass('selected');
+            var keyVal = $(this).find('td:first').html();
+            var codeVal = $(this).find('td:nth-child(2)').html();
+            var nameVal = $(this).find('td:last').html();
+            if (keyVal == 0) { keyVal = ""; }
+            var parentdiv = $(this).parents('div[class^="ctr_combobox"]');
+            parentdiv.find('input[type^="text"]').val(codeVal + ' - ' + nameVal);
+            parentdiv.find('input[type^="hidden"]').val(keyVal);
+        });
+
+        $('#Search').click(function () {
+            if (Validation()) {
+                var FormData = $('form').serializeFormJSON();
+                console.log(FormData);
+                $.ajax({
+                    url: currentURL + 'Report/RunReport',
+                    method: 'POST',
+                    data: FormData,
+                    dataType: 'json',
+                    success: function (result) {
+                        if (result == null || result == "") {
+                            $('#OkiMesgBox span[class^="error"]').html(result);
+                        } else {
+                            window.open(result);
+                        }
+
+                    }
+                });
+            }
+        });
+        function Validation() {
+            $('#ErMesgBox span[class^="error"]').html("");
+
+            var kpi = $('#KPIPeriodNbr').val();
+            if (kpi == '' || kpi == undefined) {
+                $('#ErMesgBox span[class^="error"]').html('@Utility.Phrase("KPIPeriodNbrIsNotNull")');
+                return false;
+            }
+            else {
+                if ($('#Period').val() == 'D' && ($("#RefNbr").val() == '' || $("#RefNbr").val() == undefined)) {
+                    $('#ErMesgBox span[class^="error"]').html('@Utility.Phrase("KPIPeriodConfigIsNotNull")');
+                    return false;
+                }
+            }
+
+            var template = $('#Template').val();
+            if (template == '' || template == undefined) {
+                $('#ErMesgBox span[class^="error"]').html('@Utility.Phrase("TemplateIsNotNull")');
+                return false;
+            }
+
+            var distibutor = $('#Distributor').val();
+            if (distibutor == 0 || distibutor == undefined) {
+                $('#ErMesgBox span[class^="error"]').html('@Utility.Phrase("DistributorIsNotNull")');
+                return false;
+            }
+            return true;
+        }
+    });
+</script>

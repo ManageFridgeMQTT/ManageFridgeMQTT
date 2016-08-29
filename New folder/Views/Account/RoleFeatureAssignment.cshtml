@@ -1,0 +1,172 @@
+﻿@{
+    ViewBag.Title = Utility.Phrase("Menu_RoleFeatureAssignment");
+    Layout = "~/Views/Shared/_NewLayout.cshtml";
+}
+<link href="@Url.Content("~/Content/styletree.css")" rel="stylesheet" type="text/css" />
+<script type="text/javascript">
+    var item = [];
+    function cbbGroup_SelectedIndexChanged(s, e) {
+        cbpLocation.PerformCallback();
+        $("#boxEditMenu").load('@(Url.Action("ReloadFeatureMenu", "Account"))?Group=' + cbbGroup.GetValue() + '&Check=false');
+    }
+    function OnBeginCallback(s, e) {
+        e.customArgs['Group'] = cbbGroup.GetValue();
+    }
+    function BeginCallbackAccept() {
+        item = [];
+        ListCheckedNodes(tvGroup, false);
+        $.ajax({
+            url: '../Account/InsertGroupFeature',
+            data: 'ID=' + cbbGroup.GetValue() + '&List=' + item,
+            type: 'POST',
+            cache: false,
+            dataType: 'json',
+            error: function (xhr, status, errorThrown) {
+                alert(errorThrown);
+            },
+            success: function (data) {
+                alert(data);
+                $("#boxEditMenu").load('@(Url.Action("ReloadFeatureMenu", "Account"))?Group=' + cbbGroup.GetValue() + '&Check=true');
+            }
+        });
+        item = [];
+    }
+    function OnCheckedChanged(s, e) {
+        item = [];
+        ListCheckedNodes(s, false);
+    }
+    function ListCheckedNodes(parent, val) {
+        for (var i = 0; i < parent.GetNodeCount() ; i++) {
+            if (val == true) {
+                if (parent.GetNode(i).GetChecked() || parent.GetNode(i).GetCheckState() == 'Indeterminate') {
+                    item.push(parent.GetNode(i).name);
+                }
+            }
+            else {
+                if (parent.GetNode(i).GetChecked()) {
+                    item.push(parent.GetNode(i).name);
+                }
+            }
+            if (parent.GetNode(i).GetNodeCount() != 0) {
+                ListCheckedNodes(parent.GetNode(i), val);
+            }
+        }
+    }
+
+    function UpdateMenu() {
+        var valMenu = $('#valJsonMenu').val();
+        $.ajax({
+            url: '../Account/UpdateMenu',
+            data: { "roleID": cbbGroup.GetValue(), "valMenu": valMenu },
+            type: 'POST',
+            cache: false,
+            dataType: 'json',
+            error: function (xhr, status, errorThrown) {
+                alert(errorThrown);
+            },
+            success: function (data) {
+                alert(data);
+                $("#boxEditMenu").load('@(Url.Action("ReloadFeatureMenu", "Account"))?Group=' + cbbGroup.GetValue() + '&Check=false');
+            }
+        });
+    }
+</script>
+<style>
+    .dxFirefox .dxeButtonEditSys td.dxic {
+        padding: 0 !important;
+    }
+</style>
+<div class="insider">
+    <div class="row content-header">
+        <h1>@Utility.Phrase("Menu_RoleFeatureAssignment")</h1>
+    </div>
+
+    <div class="row content-body">
+        <div class="col-md-6">
+            <div>
+                <table class="border-none no-selected">
+                    <thead>
+                        <tr>
+                            <td class="nowrap">
+                                @DMSERoute.Helpers.Utility.Phrase("SelectGroup")
+                            </td>
+                            <td>
+                                @Html.DevExpress().ComboBox(
+                                        settings =>
+                                        {
+                                            settings.Name = "cbbGroup";
+                                            settings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+                                            settings.Properties.IncrementalFilteringMode = IncrementalFilteringMode.Contains;
+                                            settings.Properties.ValueField = "ID";
+                                            settings.Properties.TextField = "RoleName";
+                                            settings.Properties.ValueType = typeof(string);
+                                            settings.Properties.Columns.Add("RoleName", DMSERoute.Helpers.Utility.Phrase("RoleName"), 30);
+                                            settings.Properties.Columns.Add("Description", DMSERoute.Helpers.Utility.Phrase("Description"), 40);
+                                            settings.Properties.ClientSideEvents.SelectedIndexChanged = "cbbGroup_SelectedIndexChanged";
+                                            settings.ControlStyle.CssClass = "DevStyleCustom";
+                                            //settings.co = "SomeStyleClass";
+                                            //settings.Properties.CssPostfix = "SomeStyleClass";
+                                            //settings.ControlStyle.CssClass = "p-0";
+                                            settings.Properties.Style.CssClass = "devCombobox block-theme";
+                                            settings.Height = 10;
+                                        }).BindList(@ViewData["Groups"]).GetHtml()
+                            </td>
+                            @* @if (PermissionHelper.CheckPermissionByFeature("UpdateRoleFeatureAssignment"))
+                        {
+                            *@
+                            <td>
+                                @Html.DevExpress().Button(settings =>
+                                           {
+                                               settings.Name = "btnSaveGroup"; settings.ClientEnabled = true;
+                                               settings.ClientSideEvents.Click = "BeginCallbackAccept";
+                                               settings.Text = DMSERoute.Helpers.Utility.Phrase("Save");
+                                               //settings.Styles.Style.CssClass = "block-theme";
+                                               //settings.ControlStyle.CssClass = "block-theme";
+                                           }).GetHtml()
+                            </td>
+                            @* }*@
+                        </tr>
+
+
+
+                        <tr>
+                            <td colspan="6">
+                                @Html.Partial("TreeViewGroup")
+                            </td>
+                        </tr>
+
+                    </thead>
+                </table>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <table class="border-none no-selected">
+                <thead>
+                    <tr>
+                        <td>
+                            @DMSERoute.Helpers.Utility.Phrase("Edit Menu")
+                        </td>
+                        @*@if (PermissionHelper.CheckPermissionByFeature("UpdateRoleFeatureAssignment"))
+                {
+                    *@<td>
+                        @Html.DevExpress().Button(settings =>
+                            {
+                                settings.Name = "btnUpdateMenu"; settings.ClientEnabled = true;
+                                settings.ClientSideEvents.Click = "UpdateMenu";
+                                settings.Text = DMSERoute.Helpers.Utility.Phrase("Save");
+                            }).GetHtml()
+                    </td>
+                  @*      }*@
+                    </tr>
+
+
+                    <tr>
+                        <td id="boxEditMenu" colspan="6">
+                            @Html.Partial("TreeListPartial")
+                        </td>
+                    </tr>
+                </thead>
+            </table>
+        </div>
+    </div>
+</div>

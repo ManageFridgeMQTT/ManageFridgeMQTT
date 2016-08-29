@@ -1,0 +1,2941 @@
+﻿@Html.DevExpress().GridView(grid =>
+{
+    grid.Name = "gridDetailTraning";
+    grid.KeyFieldName = "EmployeeWW";
+    //grid.Theme = "Aqua";
+    grid.CallbackRouteValues = new { Controller = "PrepareScheduleNew", Action = "DetailViewWW" };
+
+    grid.SettingsEditing.Mode = GridViewEditingMode.Inline;
+    grid.Settings.VerticalScrollBarMode = ScrollBarMode.Visible;
+    grid.Settings.VerticalScrollableHeight = 350;
+    grid.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+    grid.SettingsText.EmptyDataRow = Utility.Phrase("PrepareScheduleNew.Messages.EmptyDataRow");
+    grid.SettingsBehavior.AllowSort = false;
+    grid.SettingsPager.Mode = GridViewPagerMode.ShowAllRecords;
+    grid.HtmlDataCellPrepared = (sender, e) =>
+    {
+        string nv = e.GetValue("EmployeeWW").ToString();
+        string year = e.GetValue("Year").ToString();
+        string week = e.GetValue("Week").ToString();
+        #region ColorResult
+        Hammer.Helpers.SystemRole role = eRoute.Models.eCalendar.HammerDataProvider.EmployeeInRole(nv);
+        //Get MCP if @employeeID is salesman
+        if (role == Hammer.Helpers.SystemRole.SalesForce)
+        {
+            eRoute.Models.eCalendar.PrepareWW app = new eRoute.Models.eCalendar.PrepareWW();
+            #region ToMau
+            switch (e.DataColumn.FieldName)
+            {
+                case "MoAM":
+                    app = eRoute.Models.eCalendar.HammerDataProvider.GetInPreapreWWReleased(year, Convert.ToInt32(week), nv, true, e.DataColumn.FieldName);
+                    if (app != null)
+                    {
+                        if (app.RefResult == 'A')
+                        {
+                            e.Cell.BackColor = System.Drawing.Color.Red;
+                            e.Cell.ForeColor = System.Drawing.Color.White;
+
+                        }
+                        else if (app.RefResult == 'C')
+                        {
+                            e.Cell.BackColor = System.Drawing.Color.Orange;
+                            e.Cell.ForeColor = System.Drawing.Color.White;
+                        }
+                        else if (app.RefResult == 'D')
+                        {
+                            e.Cell.BackColor = System.Drawing.Color.YellowGreen;
+                            e.Cell.ForeColor = System.Drawing.Color.White;
+                        }
+                    }
+                    else// Kiem Tra NO WW
+                    {
+                        eRoute.Models.eCalendar.PrepareNonWW noneww = eRoute.Models.eCalendar.HammerDataProvider.GetInPreapreWWNone(year.ToString(), Convert.ToInt32(week), nv.ToString(), "AM", "MoAM");
+                        if (noneww != null)
+                        {
+                            e.Cell.BackColor = System.Drawing.Color.Silver;
+                            e.Cell.ForeColor = System.Drawing.Color.White;
+                        }
+                    }
+                    break;
+                case "TuAM":
+                    app = eRoute.Models.eCalendar.HammerDataProvider.GetInPreapreWWReleased(year, Convert.ToInt32(week), nv, true, e.DataColumn.FieldName);
+                    if (app != null)
+                    {
+                        if (app.RefResult == 'A')
+                        {
+                            e.Cell.BackColor = System.Drawing.Color.Red;
+                            e.Cell.ForeColor = System.Drawing.Color.White;
+
+                        }
+                        else if (app.RefResult == 'C')
+                        {
+                            e.Cell.BackColor = System.Drawing.Color.Orange;
+                            e.Cell.ForeColor = System.Drawing.Color.White;
+                        }
+                        else if (app.RefResult == 'D')
+                        {
+                            e.Cell.BackColor = System.Drawing.Color.YellowGreen;
+                            e.Cell.ForeColor = System.Drawing.Color.White;
+                        }
+                    }
+                    else// Kiem Tra NO WW
+                    {
+                        eRoute.Models.eCalendar.PrepareNonWW noneww = eRoute.Models.eCalendar.HammerDataProvider.GetInPreapreWWNone(year.ToString(), Convert.ToInt32(week), nv.ToString(), "AM", "TuAM");
+                        if (noneww != null)
+                        {
+                            e.Cell.BackColor = System.Drawing.Color.Silver;
+                            e.Cell.ForeColor = System.Drawing.Color.White;
+                        }
+                    }
+                    break;
+                case "WeAM":
+                    app = eRoute.Models.eCalendar.HammerDataProvider.GetInPreapreWWReleased(year, Convert.ToInt32(week), nv, true, e.DataColumn.FieldName);
+                    if (app != null)
+                    {
+                        if (app.RefResult == 'A')
+                        {
+                            e.Cell.BackColor = System.Drawing.Color.Red;
+                            e.Cell.ForeColor = System.Drawing.Color.White;
+
+                        }
+                        else if (app.RefResult == 'C')
+                        {
+                            e.Cell.BackColor = System.Drawing.Color.Orange;
+                            e.Cell.ForeColor = System.Drawing.Color.White;
+                        }
+                        else if (app.RefResult == 'D')
+                        {
+                            e.Cell.BackColor = System.Drawing.Color.YellowGreen;
+                            e.Cell.ForeColor = System.Drawing.Color.White;
+                        }
+                    }
+                    else// Kiem Tra NO WW
+                    {
+                        eRoute.Models.eCalendar.PrepareNonWW noneww = eRoute.Models.eCalendar.HammerDataProvider.GetInPreapreWWNone(year.ToString(), Convert.ToInt32(week), nv.ToString(), "AM", "WeAM");
+                        if (noneww != null)
+                        {
+                            e.Cell.BackColor = System.Drawing.Color.Silver;
+                            e.Cell.ForeColor = System.Drawing.Color.White;
+                        }
+                    }
+                    break;
+                case "ThAM":
+                    app = eRoute.Models.eCalendar.HammerDataProvider.GetInPreapreWWReleased(year, Convert.ToInt32(week), nv, true, e.DataColumn.FieldName);
+                    if (app != null)
+                    {
+                        if (app.RefResult == 'A')
+                        {
+                            e.Cell.BackColor = System.Drawing.Color.Red;
+                            e.Cell.ForeColor = System.Drawing.Color.White;
+
+                        }
+                        else if (app.RefResult == 'C')
+                        {
+                            e.Cell.BackColor = System.Drawing.Color.Orange;
+                            e.Cell.ForeColor = System.Drawing.Color.White;
+                        }
+                        else if (app.RefResult == 'D')
+                        {
+                            e.Cell.BackColor = System.Drawing.Color.YellowGreen;
+                            e.Cell.ForeColor = System.Drawing.Color.White;
+                        }
+                    }
+                    else// Kiem Tra NO WW
+                    {
+                        eRoute.Models.eCalendar.PrepareNonWW noneww = eRoute.Models.eCalendar.HammerDataProvider.GetInPreapreWWNone(year.ToString(), Convert.ToInt32(week), nv.ToString(), "AM", "ThAM");
+                        if (noneww != null)
+                        {
+                            e.Cell.BackColor = System.Drawing.Color.Silver;
+                            e.Cell.ForeColor = System.Drawing.Color.White;
+                        }
+                    }
+                    break;
+                case "FrAM":
+                    app = eRoute.Models.eCalendar.HammerDataProvider.GetInPreapreWWReleased(year, Convert.ToInt32(week), nv, true, e.DataColumn.FieldName);
+                    if (app != null)
+                    {
+                        if (app.RefResult == 'A')
+                        {
+                            e.Cell.BackColor = System.Drawing.Color.Red;
+                            e.Cell.ForeColor = System.Drawing.Color.White;
+
+                        }
+                        else if (app.RefResult == 'C')
+                        {
+                            e.Cell.BackColor = System.Drawing.Color.Orange;
+                            e.Cell.ForeColor = System.Drawing.Color.White;
+                        }
+                        else if (app.RefResult == 'D')
+                        {
+                            e.Cell.BackColor = System.Drawing.Color.YellowGreen;
+                            e.Cell.ForeColor = System.Drawing.Color.White;
+                        }
+                    }
+                    else// Kiem Tra NO WW
+                    {
+                        eRoute.Models.eCalendar.PrepareNonWW noneww = eRoute.Models.eCalendar.HammerDataProvider.GetInPreapreWWNone(year.ToString(), Convert.ToInt32(week), nv.ToString(), "AM", "FrAM");
+                        if (noneww != null)
+                        {
+                            e.Cell.BackColor = System.Drawing.Color.Silver;
+                            e.Cell.ForeColor = System.Drawing.Color.White;
+                        }
+                    }
+                    break;
+                case "SaAM":
+                    app = eRoute.Models.eCalendar.HammerDataProvider.GetInPreapreWWReleased(year, Convert.ToInt32(week), nv, true, e.DataColumn.FieldName);
+                    if (app != null)
+                    {
+                        if (app.RefResult == 'A')
+                        {
+                            e.Cell.BackColor = System.Drawing.Color.Red;
+                            e.Cell.ForeColor = System.Drawing.Color.White;
+
+                        }
+                        else if (app.RefResult == 'C')
+                        {
+                            e.Cell.BackColor = System.Drawing.Color.Orange;
+                            e.Cell.ForeColor = System.Drawing.Color.White;
+                        }
+                        else if (app.RefResult == 'D')
+                        {
+                            e.Cell.BackColor = System.Drawing.Color.YellowGreen;
+                            e.Cell.ForeColor = System.Drawing.Color.White;
+                        }
+                    }
+                    else// Kiem Tra NO WW
+                    {
+                        eRoute.Models.eCalendar.PrepareNonWW noneww = eRoute.Models.eCalendar.HammerDataProvider.GetInPreapreWWNone(year.ToString(), Convert.ToInt32(week), nv.ToString(), "AM", "SaAM");
+                        if (noneww != null)
+                        {
+                            e.Cell.BackColor = System.Drawing.Color.Silver;
+                            e.Cell.ForeColor = System.Drawing.Color.White;
+                        }
+                    }
+                    break;
+
+                case "MoPM":
+                    app = eRoute.Models.eCalendar.HammerDataProvider.GetInPreapreWWReleased(year, Convert.ToInt32(week), nv, true, e.DataColumn.FieldName);
+                    if (app != null)
+                    {
+                        if (app.RefResult == 'A')
+                        {
+                            e.Cell.BackColor = System.Drawing.Color.Red;
+                            e.Cell.ForeColor = System.Drawing.Color.White;
+
+                        }
+                        else if (app.RefResult == 'C')
+                        {
+                            e.Cell.BackColor = System.Drawing.Color.Orange;
+                            e.Cell.ForeColor = System.Drawing.Color.White;
+                        }
+                        else if (app.RefResult == 'D')
+                        {
+                            e.Cell.BackColor = System.Drawing.Color.YellowGreen;
+                            e.Cell.ForeColor = System.Drawing.Color.White;
+                        }
+                    }
+                    else// Kiem Tra NO WW
+                    {
+                        eRoute.Models.eCalendar.PrepareNonWW noneww = eRoute.Models.eCalendar.HammerDataProvider.GetInPreapreWWNone(year.ToString(), Convert.ToInt32(week), nv.ToString(), "PM", "MoPM");
+                        if (noneww != null)
+                        {
+                            e.Cell.BackColor = System.Drawing.Color.Silver;
+                            e.Cell.ForeColor = System.Drawing.Color.White;
+                        }
+                    }
+                    break;
+                case "TuPM":
+                    app = eRoute.Models.eCalendar.HammerDataProvider.GetInPreapreWWReleased(year, Convert.ToInt32(week), nv, true, e.DataColumn.FieldName);
+                    if (app != null)
+                    {
+                        if (app.RefResult == 'A')
+                        {
+                            e.Cell.BackColor = System.Drawing.Color.Red;
+                            e.Cell.ForeColor = System.Drawing.Color.White;
+
+                        }
+                        else if (app.RefResult == 'C')
+                        {
+                            e.Cell.BackColor = System.Drawing.Color.Orange;
+                            e.Cell.ForeColor = System.Drawing.Color.White;
+                        }
+                        else if (app.RefResult == 'D')
+                        {
+                            e.Cell.BackColor = System.Drawing.Color.YellowGreen;
+                            e.Cell.ForeColor = System.Drawing.Color.White;
+                        }
+                    }
+                    else// Kiem Tra NO WW
+                    {
+                        eRoute.Models.eCalendar.PrepareNonWW noneww = eRoute.Models.eCalendar.HammerDataProvider.GetInPreapreWWNone(year.ToString(), Convert.ToInt32(week), nv.ToString(), "PM", "TuPM");
+                        if (noneww != null)
+                        {
+                            e.Cell.BackColor = System.Drawing.Color.Silver;
+                            e.Cell.ForeColor = System.Drawing.Color.White;
+                        }
+                    }
+                    break;
+                case "WePM":
+                    app = eRoute.Models.eCalendar.HammerDataProvider.GetInPreapreWWReleased(year, Convert.ToInt32(week), nv, true, e.DataColumn.FieldName);
+                    if (app != null)
+                    {
+                        if (app.RefResult == 'A')
+                        {
+                            e.Cell.BackColor = System.Drawing.Color.Red;
+                            e.Cell.ForeColor = System.Drawing.Color.White;
+
+                        }
+                        else if (app.RefResult == 'C')
+                        {
+                            e.Cell.BackColor = System.Drawing.Color.Orange;
+                            e.Cell.ForeColor = System.Drawing.Color.White;
+                        }
+                        else if (app.RefResult == 'D')
+                        {
+                            e.Cell.BackColor = System.Drawing.Color.YellowGreen;
+                            e.Cell.ForeColor = System.Drawing.Color.White;
+                        }
+                    }
+                    else// Kiem Tra NO WW
+                    {
+                        eRoute.Models.eCalendar.PrepareNonWW noneww = eRoute.Models.eCalendar.HammerDataProvider.GetInPreapreWWNone(year.ToString(), Convert.ToInt32(week), nv.ToString(), "PM", "WePM");
+                        if (noneww != null)
+                        {
+                            e.Cell.BackColor = System.Drawing.Color.Silver;
+                            e.Cell.ForeColor = System.Drawing.Color.White;
+                        }
+                    }
+                    break;
+                case "ThPM":
+                    app = eRoute.Models.eCalendar.HammerDataProvider.GetInPreapreWWReleased(year, Convert.ToInt32(week), nv, true, e.DataColumn.FieldName);
+                    if (app != null)
+                    {
+                        if (app.RefResult == 'A')
+                        {
+                            e.Cell.BackColor = System.Drawing.Color.Red;
+                            e.Cell.ForeColor = System.Drawing.Color.White;
+
+                        }
+                        else if (app.RefResult == 'C')
+                        {
+                            e.Cell.BackColor = System.Drawing.Color.Orange;
+                            e.Cell.ForeColor = System.Drawing.Color.White;
+                        }
+                        else if (app.RefResult == 'D')
+                        {
+                            e.Cell.BackColor = System.Drawing.Color.YellowGreen;
+                            e.Cell.ForeColor = System.Drawing.Color.White;
+                        }
+                    }
+                    else// Kiem Tra NO WW
+                    {
+                        eRoute.Models.eCalendar.PrepareNonWW noneww = eRoute.Models.eCalendar.HammerDataProvider.GetInPreapreWWNone(year.ToString(), Convert.ToInt32(week), nv.ToString(), "PM", "ThPM");
+                        if (noneww != null)
+                        {
+                            e.Cell.BackColor = System.Drawing.Color.Silver;
+                            e.Cell.ForeColor = System.Drawing.Color.White;
+                        }
+                    }
+                    break;
+                case "FrPM":
+                    app = eRoute.Models.eCalendar.HammerDataProvider.GetInPreapreWWReleased(year, Convert.ToInt32(week), nv, true, e.DataColumn.FieldName);
+                    if (app != null)
+                    {
+                        if (app.RefResult == 'A')
+                        {
+                            e.Cell.BackColor = System.Drawing.Color.Red;
+                            e.Cell.ForeColor = System.Drawing.Color.White;
+
+                        }
+                        else if (app.RefResult == 'C')
+                        {
+                            e.Cell.BackColor = System.Drawing.Color.Orange;
+                            e.Cell.ForeColor = System.Drawing.Color.White;
+                        }
+                        else if (app.RefResult == 'D')
+                        {
+                            e.Cell.BackColor = System.Drawing.Color.YellowGreen;
+                            e.Cell.ForeColor = System.Drawing.Color.White;
+                        }
+                    }
+                    else// Kiem Tra NO WW
+                    {
+                        eRoute.Models.eCalendar.PrepareNonWW noneww = eRoute.Models.eCalendar.HammerDataProvider.GetInPreapreWWNone(year.ToString(), Convert.ToInt32(week), nv.ToString(), "PM", "FrPM");
+                        if (noneww != null)
+                        {
+                            e.Cell.BackColor = System.Drawing.Color.Silver;
+                            e.Cell.ForeColor = System.Drawing.Color.White;
+                        }
+                    }
+                    break;
+                case "SaPM":
+                    app = eRoute.Models.eCalendar.HammerDataProvider.GetInPreapreWWReleased(year, Convert.ToInt32(week), nv, true, e.DataColumn.FieldName);
+                    if (app != null)
+                    {
+                        if (app.RefResult == 'A')
+                        {
+                            e.Cell.BackColor = System.Drawing.Color.Red;
+                            e.Cell.ForeColor = System.Drawing.Color.White;
+
+                        }
+                        else if (app.RefResult == 'C')
+                        {
+                            e.Cell.BackColor = System.Drawing.Color.Orange;
+                            e.Cell.ForeColor = System.Drawing.Color.White;
+                        }
+                        else if (app.RefResult == 'D')
+                        {
+                            e.Cell.BackColor = System.Drawing.Color.YellowGreen;
+                            e.Cell.ForeColor = System.Drawing.Color.White;
+                        }
+                    }
+                    else// Kiem Tra NO WW
+                    {
+                        eRoute.Models.eCalendar.PrepareNonWW noneww = eRoute.Models.eCalendar.HammerDataProvider.GetInPreapreWWNone(year.ToString(), Convert.ToInt32(week), nv.ToString(), "PM", "SaPM");
+                        if (noneww != null)
+                        {
+                            e.Cell.BackColor = System.Drawing.Color.Silver;
+                            e.Cell.ForeColor = System.Drawing.Color.White;
+                        }
+                    }
+                    break;
+            }
+            #endregion
+        }
+        if (e.DataColumn.Caption == Utility.Phrase("RefResult"))
+        {
+
+            if ((char)e.GetValue("RefResult") == 'A')
+            {
+                e.Cell.BackColor = System.Drawing.Color.Red;
+                e.Cell.ForeColor = System.Drawing.Color.White;
+
+            }
+            else if ((char)e.GetValue("RefResult") == 'C')
+            {
+                e.Cell.BackColor = System.Drawing.Color.Orange;
+                e.Cell.ForeColor = System.Drawing.Color.White;
+            }
+            else if ((char)e.GetValue("RefResult") == 'D')
+            {
+                e.Cell.BackColor = System.Drawing.Color.YellowGreen;
+                e.Cell.ForeColor = System.Drawing.Color.White;
+            }
+            else
+            {
+                //e.Cell.BackColor = System.Drawing.Color.YellowGreen;
+                // e.Cell.ForeColor = System.Drawing.Color.;
+            }
+        }
+
+        if (Session["GirdNoWW"] != null)
+        {
+            bool isPaint =
+   new[] { "MoAM", "TuAM", "WeAM", "ThAM", "FrAM", "SaAM", "MoPM", "TuPM", "WePM", "ThPM", "FrPM", "SaPM" }.Contains(e.DataColumn.FieldName);
+            if (isPaint == true)
+            {
+                List<Hammer.Models.PrepareNoWWwModel> list = Session["GirdNoWW"] as List<Hammer.Models.PrepareNoWWwModel>;
+
+                if (e.DataColumn.FieldName == "MoAM")
+                {
+                    var find = list.Find(item => item.Day == "Mo" && item.Shift == "AM");
+                    if (find != null)
+                        if (!string.IsNullOrEmpty(find.Des))
+                            e.Cell.BackColor = System.Drawing.Color.Silver;
+                }
+                if (e.DataColumn.FieldName == "MoPM")
+                {
+                    var find = list.Find(item => item.Day == "Mo" && item.Shift == "PM");
+                    if (find != null)
+                        if (!string.IsNullOrEmpty(find.Des))
+                            e.Cell.BackColor = System.Drawing.Color.Silver;
+                }
+                if (e.DataColumn.FieldName == "TuAM")
+                {
+                    var find = list.Find(item => item.Day == "Tu" && item.Shift == "AM");
+                    if (find != null)
+                        if (!string.IsNullOrEmpty(find.Des))
+                            e.Cell.BackColor = System.Drawing.Color.Silver;
+                }
+                if (e.DataColumn.FieldName == "TuPM")
+                {
+                    var find = list.Find(item => item.Day == "Tu" && item.Shift == "PM");
+                    if (find != null)
+                        if (!string.IsNullOrEmpty(find.Des))
+                            e.Cell.BackColor = System.Drawing.Color.Silver;
+                }
+                if (e.DataColumn.FieldName == "WeAM")
+                {
+                    var find = list.Find(item => item.Day == "We" && item.Shift == "AM");
+                    if (find != null)
+                        if (!string.IsNullOrEmpty(find.Des))
+                            e.Cell.BackColor = System.Drawing.Color.Silver;
+                }
+                if (e.DataColumn.FieldName == "WePM")
+                {
+                    var find = list.Find(item => item.Day == "We" && item.Shift == "PM");
+                    if (find != null)
+                        if (!string.IsNullOrEmpty(find.Des))
+                            e.Cell.BackColor = System.Drawing.Color.Silver;
+                }
+                if (e.DataColumn.FieldName == "ThAM")
+                {
+                    var find = list.Find(item => item.Day == "Th" && item.Shift == "AM");
+                    if (find != null)
+                        if (!string.IsNullOrEmpty(find.Des))
+                            e.Cell.BackColor = System.Drawing.Color.Silver;
+                }
+                if (e.DataColumn.FieldName == "ThPM")
+                {
+                    var find = list.Find(item => item.Day == "Th" && item.Shift == "PM");
+                    if (find != null)
+                        if (!string.IsNullOrEmpty(find.Des))
+                            e.Cell.BackColor = System.Drawing.Color.Silver;
+                }
+                if (e.DataColumn.FieldName == "FrAM")
+                {
+                    var find = list.Find(item => item.Day == "Fr" && item.Shift == "AM");
+                    if (find != null)
+                        if (!string.IsNullOrEmpty(find.Des))
+                            e.Cell.BackColor = System.Drawing.Color.Silver;
+                }
+                if (e.DataColumn.FieldName == "FrPM")
+                {
+                    var find = list.Find(item => item.Day == "Fr" && item.Shift == "PM");
+                    if (find != null)
+                        if (!string.IsNullOrEmpty(find.Des))
+                            e.Cell.BackColor = System.Drawing.Color.Silver;
+                }
+                if (e.DataColumn.FieldName == "SaAM")
+                {
+                    var find = list.Find(item => item.Day == "Sa" && item.Shift == "AM");
+                    if (find != null)
+                        if (!string.IsNullOrEmpty(find.Des))
+                            e.Cell.BackColor = System.Drawing.Color.Silver;
+                }
+                if (e.DataColumn.FieldName == "SaPM")
+                {
+                    var find = list.Find(item => item.Day == "Sa" && item.Shift == "PM");
+                    if (find != null)
+                        if (!string.IsNullOrEmpty(find.Des))
+                            e.Cell.BackColor = System.Drawing.Color.Silver;
+                }
+            }
+        }
+
+        #endregion
+    };
+    grid.Styles.Header.CssClass = "block-theme";
+    //grid.Styles.Row.CssClass = "block-theme";
+    //grid.Styles.HeaderFilterItem.CssClass = "block-theme";
+    
+    grid.Columns.Add(col =>
+    {
+        col.FieldName = "EmployeeWW";
+        col.ColumnType = MVCxGridViewColumnType.TextBox;
+        col.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
+        col.Caption = Utility.Phrase("EmployeeID");
+        col.Width = System.Web.UI.WebControls.Unit.Percentage(12);     
+       // col.CellStyle.CssClass = "tablesorter-header-inner";
+        //col.HeaderStyle.CssClass = "block-theme";
+       // col.HeaderStyle.CssClass = "tbl-transparent";
+
+    });
+    grid.Columns.Add(col =>
+    {
+        col.FieldName = "EmployeeWWName";
+        col.ColumnType = MVCxGridViewColumnType.TextBox;
+        col.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
+        col.Caption = Utility.Phrase("Employee");
+        col.Width = System.Web.UI.WebControls.Unit.Percentage(15);
+    });       
+    grid.Columns.Add(col =>
+    {
+        
+        col.FieldName = "RouteID";
+        col.ColumnType = MVCxGridViewColumnType.TextBox;
+        col.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
+        col.Caption = Utility.Phrase("Route");
+        col.Visible = (ViewBag.Status == null) ? false : ViewBag.Status;
+        col.Width = System.Web.UI.WebControls.Unit.Percentage(15);
+    });
+    grid.Columns.Add(col =>
+    {
+        col.FieldName = "RegionName";
+        col.ColumnType = MVCxGridViewColumnType.TextBox;
+        col.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
+        col.Caption = Utility.Phrase("Region");
+        col.Visible = eRoute.Models.eCalendar.HammerDataProvider.getConfigSystem("GridRegion").Status.Value;
+        col.Width = System.Web.UI.WebControls.Unit.Percentage(10);
+    });
+    grid.Columns.Add(col =>
+    {
+        col.FieldName = "AreaName";
+        col.ColumnType = MVCxGridViewColumnType.TextBox;
+        col.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
+        col.Caption = Utility.Phrase("Area");
+        col.Visible = eRoute.Models.eCalendar.HammerDataProvider.getConfigSystem("GridArea").Status.Value;
+        col.Width = System.Web.UI.WebControls.Unit.Percentage(8);
+    });
+
+    grid.Columns.Add(col =>
+ {
+     col.FieldName = "ProviceName";
+     col.ColumnType = MVCxGridViewColumnType.TextBox;
+     col.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
+     col.Caption = Utility.Phrase("Provice");
+     col.Visible = eRoute.Models.eCalendar.HammerDataProvider.getConfigSystem("GirdProv").Status.Value;
+     col.Width = System.Web.UI.WebControls.Unit.Percentage(12);
+
+ });
+    grid.Columns.Add(col =>
+    {
+        col.FieldName = "DistributorName";
+        col.ColumnType = MVCxGridViewColumnType.TextBox;
+        col.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
+        col.Caption = Utility.Phrase("Distributor");
+        col.Visible = eRoute.Models.eCalendar.HammerDataProvider.getConfigSystem("GridNPP").Status.Value;
+        col.Width = System.Web.UI.WebControls.Unit.Percentage(20);
+    });
+
+
+    grid.Columns.Add(col =>
+    {
+        col.FieldName = "RefResult";
+        col.ColumnType = MVCxGridViewColumnType.ComboBox;
+        col.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
+        col.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
+        col.CellStyle.Font.Bold = true;
+        col.Width = System.Web.UI.WebControls.Unit.Percentage(12);
+        col.Caption = Utility.Phrase("RefResult");
+
+        col.SetDataItemTemplateContent(c =>
+           {
+
+               var value = DataBinder.Eval(c.DataItem, "RefResult");
+               if (value != null)
+               {
+                   Html.DevExpress().Label(props =>
+                   {
+                       props.Name = "RefResult" + c.KeyValue;
+                       props.Text = eRoute.Models.eCalendar.HammerDataProvider.GetListResultType((char)value).Des;
+                       props.Properties.Style.Font.Bold = true;
+                   }).GetHtml();
+
+               }
+           });
+    });
+
+    grid.Columns.AddBand(band =>
+    {
+
+        band.Caption = Utility.Phrase("Monday");
+        band.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
+        band.Columns.Add(col =>
+        {
+            col.FieldName = "MoAM";
+            col.Caption = Utility.Phrase("AM");
+            col.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
+            col.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
+            col.Width = System.Web.UI.WebControls.Unit.Percentage(5);
+            col.SetDataItemTemplateContent(c =>
+            {
+                var value = DataBinder.Eval(c.DataItem, "EmployeeWW");
+                var status = DataBinder.Eval(c.DataItem, "Status");
+                var year = DataBinder.Eval(c.DataItem, "Year");
+                var week = DataBinder.Eval(c.DataItem, "Week");
+                var MAM = DataBinder.Eval(c.DataItem, "MoAM");
+                var em = DataBinder.Eval(c.DataItem, "EmployeeID");
+                if (value != null)
+                {
+                    Html.DevExpress().RadioButton(props =>
+                    {
+                        props.Name = "MoAM|" + c.KeyValue;
+                        props.GroupName = "MonAMDay";
+                        props.Checked = false;
+                        Hammer.Helpers.SystemRole role = eRoute.Models.eCalendar.HammerDataProvider.EmployeeInRole(value.ToString());
+                        if (role == Hammer.Helpers.SystemRole.SalesForce)
+                        {
+                            eRoute.Models.eCalendar.ScheduleSubmitSetting openASM = eRoute.Models.eCalendar.HammerDataProvider.GetOpenEnableDate(em.ToString(), year.ToString(), Convert.ToInt32(week.ToString()), "MoAM");
+                            if (openASM != null)
+                            {
+                                //30-07 add mo ngay ma no ko ww van cho phep ww la sai
+                                eRoute.Models.eCalendar.PrepareWW ww = eRoute.Models.eCalendar.HammerDataProvider.GetInPreapreWWReleased(year.ToString(), Convert.ToInt32(week), value.ToString(), true, "MoAM");
+                                if (ww != null)
+                                {
+                                    props.ClientEnabled = true;
+                                }
+                                else
+                                {
+                                    props.ClientEnabled = false;
+                                }
+                            }
+                            else
+                            {
+                                eRoute.Models.eCalendar.PrepareWW ww = eRoute.Models.eCalendar.HammerDataProvider.GetInPreapreWWReleased(year.ToString(), Convert.ToInt32(week), value.ToString(), true, "MoAM");
+                                if (ww != null)
+                                {
+                                    if (status != null)
+                                    {
+                                        if (status.ToString() == "R")
+                                        {
+                                            props.ClientEnabled = false;
+                                            props.ReadOnly = true;
+                                        }
+                                        else
+                                        {
+                                            props.ClientEnabled = true;
+                                        }
+                                    }
+                                }
+                                else
+                                {
+                                    props.ClientEnabled = false;
+                                }
+                            }
+                        }
+                        else // SM
+                        {
+                            //Neu SS co mo ngay:
+                            eRoute.Models.eCalendar.ScheduleSubmitSetting openSS = eRoute.Models.eCalendar.HammerDataProvider.GetOpenEnableDate(em.ToString(), year.ToString(), Convert.ToInt32(week.ToString()), "MoAM");
+                            if (openSS == null) //ko co mo ngay
+                            {
+                                if (status != null)
+                                {
+                                    if (status.ToString() == "R")
+                                    {
+                                        props.ClientEnabled = false;
+                                    }
+                                    else
+                                    {
+                                        props.ClientEnabled = true;
+                                    }
+                                }
+                            }
+                            else // co mo ngay 
+                            {
+                                //if (status != null)
+                                //{
+                                //    if (status.ToString() == "R")
+                                //    {
+                                //        props.ClientEnabled = false;
+                                        
+                                //    }
+                                //    else
+                                //    {
+                                //        props.ClientEnabled = true;
+                                //    }
+                                //}
+                                //else
+                                //{
+                                    props.ClientEnabled = true;
+                               // }
+                            }
+                        }
+                        if (MAM != null)
+                        {
+                            if ((bool)MAM == true)
+                            {
+                                props.Checked = true;
+                            }
+                            else
+                            {
+                                props.Checked = false;
+                            }
+
+                        }
+
+                        props.Properties.ClientSideEvents.ValueChanged = "MoAM_CheckChanged";
+                        props.Properties.ClientSideEvents.Init = "MoAM_MyOnInit";
+                    }).GetHtml();
+                }
+            });
+        });
+        band.Columns.Add(col =>
+        {
+            col.FieldName = "MoPM";
+            col.Caption = Utility.Phrase("PM");
+            col.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
+            col.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
+            col.Width = System.Web.UI.WebControls.Unit.Percentage(5);
+            col.SetDataItemTemplateContent(c =>
+            {
+                var value = DataBinder.Eval(c.DataItem, "EmployeeWW");
+                var status = DataBinder.Eval(c.DataItem, "Status");
+                var year = DataBinder.Eval(c.DataItem, "Year");
+                var week = DataBinder.Eval(c.DataItem, "Week");
+                var ob = DataBinder.Eval(c.DataItem, "MoPM");
+                var em = DataBinder.Eval(c.DataItem, "EmployeeID");
+                if (value != null)
+                {
+                    Html.DevExpress().RadioButton(props =>
+                    {
+                        props.Name = "MoPM|" + c.KeyValue;
+                        props.GroupName = "MonPMDay";
+                        Hammer.Helpers.SystemRole role = eRoute.Models.eCalendar.HammerDataProvider.EmployeeInRole(value.ToString());
+                        if (role == Hammer.Helpers.SystemRole.SalesForce)
+                        {
+
+                            eRoute.Models.eCalendar.ScheduleSubmitSetting openASM = eRoute.Models.eCalendar.HammerDataProvider.GetOpenEnableDate(em.ToString(), year.ToString(), Convert.ToInt32(week.ToString()), "MoPM");
+                            if (openASM != null)
+                            {
+                                //30-07 add mo ngay ma no ko ww van cho phep ww la sai
+                                eRoute.Models.eCalendar.PrepareWW ww = eRoute.Models.eCalendar.HammerDataProvider.GetInPreapreWWReleased(year.ToString(), Convert.ToInt32(week), value.ToString(), true, "MoPM");
+                                if (ww != null)
+                                {
+                                    props.ClientEnabled = true;
+                                }
+                                else
+                                {
+                                    props.ClientEnabled = false;
+                                }
+                            }
+                            else
+                            {
+                                eRoute.Models.eCalendar.PrepareWW ww = eRoute.Models.eCalendar.HammerDataProvider.GetInPreapreWWReleased(year.ToString(), Convert.ToInt32(week), value.ToString(), true, "MoPM");
+                                if (ww != null)
+                                {
+                                    if (status != null)
+                                    {
+                                        if (status.ToString() == "R")
+                                        {
+                                            props.ClientEnabled = false;
+                                        }
+                                        else
+                                        {
+                                            props.ClientEnabled = true;
+                                        }
+                                    }
+                                }
+                                else
+                                {
+                                    props.ClientEnabled = false;
+                                }
+                            }
+                        }
+                        else
+                        {
+                            //Neu SS co mo ngay:
+                            eRoute.Models.eCalendar.ScheduleSubmitSetting openSS = eRoute.Models.eCalendar.HammerDataProvider.GetOpenEnableDate(em.ToString(), year.ToString(), Convert.ToInt32(week.ToString()), "MoPM");
+                            if (openSS == null) //ko co mo ngay
+                            {
+                                if (status != null)
+                                {
+                                    if (status.ToString() == "R")
+                                    {
+                                        props.ClientEnabled = false;
+                                    }
+                                    else
+                                    {
+                                        props.ClientEnabled = true;
+                                    }
+                                }
+                            }
+                            else // co mo ngay 
+                            {
+                                //if (status != null)
+                                //{
+                                //    if (status.ToString() == "R")
+                                //    {
+                                //        props.ClientEnabled = false;
+                                //    }
+                                //    else
+                                //    {
+                                //        props.ClientEnabled = true;
+                                //    }
+                                //}
+                                //else
+                                //{
+                                    props.ClientEnabled = true;
+                                //}
+                            }
+                        }
+                        if (ob != null)
+                        {
+                            if ((bool)ob == true)
+                            {
+                                props.Checked = true;
+                            }
+                            else { props.Checked = false; }
+                        }
+                        props.Properties.EnableClientSideAPI = true;
+                        props.Properties.ClientSideEvents.ValueChanged = "MoPM_CheckChanged";
+                        props.Properties.ClientSideEvents.Init = "MoPM_MyOnInit";
+                    }).GetHtml();
+                }
+            });
+        });
+    });
+    grid.Columns.AddBand(band =>
+    {
+        band.Caption = Utility.Phrase("Tuesday");
+        band.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
+        band.Columns.Add(col =>
+        {
+            col.FieldName = "TuAM";
+            col.Caption = Utility.Phrase("AM");
+            col.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
+            col.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
+            col.Width = System.Web.UI.WebControls.Unit.Percentage(5);
+            col.SetDataItemTemplateContent(c =>
+            {
+                var value = DataBinder.Eval(c.DataItem, "EmployeeWW");
+                var status = DataBinder.Eval(c.DataItem, "Status");
+                var year = DataBinder.Eval(c.DataItem, "Year");
+                var week = DataBinder.Eval(c.DataItem, "Week");
+                var ob = DataBinder.Eval(c.DataItem, "TuAM");
+                var em = DataBinder.Eval(c.DataItem, "EmployeeID");
+                //Get MCP if @employeeID is salesman
+                if (value != null)
+                {
+                    Html.DevExpress().RadioButton(props =>
+                    {
+                        props.Name = "TuAM|" + c.KeyValue;
+                        props.GroupName = "TuAMDay";
+                        Hammer.Helpers.SystemRole role = eRoute.Models.eCalendar.HammerDataProvider.EmployeeInRole(value.ToString());
+                        if (role == Hammer.Helpers.SystemRole.SalesForce)
+                        {
+
+                            eRoute.Models.eCalendar.ScheduleSubmitSetting openASM = eRoute.Models.eCalendar.HammerDataProvider.GetOpenEnableDate(em.ToString(), year.ToString(), Convert.ToInt32(week.ToString()), "TuAM");
+                            if (openASM != null)
+                            {
+                                //30-07 add mo ngay ma no ko ww van cho phep ww la sai
+                                eRoute.Models.eCalendar.PrepareWW ww = eRoute.Models.eCalendar.HammerDataProvider.GetInPreapreWWReleased(year.ToString(), Convert.ToInt32(week), value.ToString(), true, "TuAM");
+                                if (ww != null)
+                                {
+                                    props.ClientEnabled = true;
+                                }
+                                else
+                                {
+                                    props.ClientEnabled = false;
+                                }
+                            }
+                            else
+                            {
+                                eRoute.Models.eCalendar.PrepareWW ww = eRoute.Models.eCalendar.HammerDataProvider.GetInPreapreWWReleased(year.ToString(), Convert.ToInt32(week), value.ToString(), true, "TuAM");
+                                if (ww != null)
+                                {
+                                    if (status != null)
+                                    {
+                                        if (status.ToString() == "R")
+                                        {
+                                            props.ClientEnabled = false;
+                                        }
+                                        else
+                                        {
+                                            props.ClientEnabled = true;
+                                        }
+                                    }
+                                }
+                                else
+                                {
+                                    props.ClientEnabled = false;
+                                }
+                            }
+
+                        }
+                        else
+                        {
+                            //Neu SS co mo ngay:
+                            eRoute.Models.eCalendar.ScheduleSubmitSetting openSS = eRoute.Models.eCalendar.HammerDataProvider.GetOpenEnableDate(em.ToString(), year.ToString(), Convert.ToInt32(week.ToString()), "TuAM");
+                            if (openSS == null) //ko co mo ngay
+                            {
+                                if (status != null)
+                                {
+                                    if (status.ToString() == "R")
+                                    {
+                                        props.ClientEnabled = false;
+                                    }
+                                    else
+                                    {
+                                        props.ClientEnabled = true;
+                                    }
+                                }
+                            }
+                            else // co mo ngay 
+                            {
+                                //if (status != null)
+                                //{
+                                //    if (status.ToString() == "R")
+                                //    {
+                                //        props.ClientEnabled = false;
+                                //    }
+                                //    else
+                                //    {
+                                //        props.ClientEnabled = true;
+                                //    }
+                                //}
+                                //else
+                                //{
+                                    props.ClientEnabled = true;
+                                //}
+                            }
+                        }
+
+                        if (ob != null)
+                        {
+                            if ((bool)ob == true)
+                            {
+                                props.Checked = true;
+                            }
+                            else
+                            {
+                                props.Checked = false;
+                            }
+                        }
+                        props.Properties.EnableClientSideAPI = true;
+                        props.Properties.ClientSideEvents.ValueChanged = "TuAM_CheckChanged";
+                        props.Properties.ClientSideEvents.Init = "TuAM_MyOnInit";
+                    }).GetHtml();
+                }
+            });
+        });
+        band.Columns.Add(col =>
+        {
+            col.FieldName = "TuPM";
+            col.Caption = Utility.Phrase("PM");
+            col.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
+            col.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
+            col.Width = System.Web.UI.WebControls.Unit.Percentage(5);
+            col.SetDataItemTemplateContent(c =>
+            {
+                var value = DataBinder.Eval(c.DataItem, "EmployeeWW");
+                var status = DataBinder.Eval(c.DataItem, "Status");
+                var year = DataBinder.Eval(c.DataItem, "Year");
+                var week = DataBinder.Eval(c.DataItem, "Week");
+                var ob = DataBinder.Eval(c.DataItem, "TuPM");
+                var em = DataBinder.Eval(c.DataItem, "EmployeeID");
+                if (value != null)
+                {
+                    Html.DevExpress().RadioButton(props =>
+                    {
+                        props.Name = "TuPM|" + c.KeyValue;
+                        props.GroupName = "TuPMDay";
+
+                        Hammer.Helpers.SystemRole role = eRoute.Models.eCalendar.HammerDataProvider.EmployeeInRole(value.ToString());
+                        if (role == Hammer.Helpers.SystemRole.SalesForce)
+                        {
+                            eRoute.Models.eCalendar.ScheduleSubmitSetting openASM = eRoute.Models.eCalendar.HammerDataProvider.GetOpenEnableDate(em.ToString(), year.ToString(), Convert.ToInt32(week.ToString()), "TuPM");
+                            if (openASM != null)
+                            {
+                                //30-07 add mo ngay ma no ko ww van cho phep ww la sai
+                                eRoute.Models.eCalendar.PrepareWW ww = eRoute.Models.eCalendar.HammerDataProvider.GetInPreapreWWReleased(year.ToString(), Convert.ToInt32(week), value.ToString(), true, "TuPM");
+                                if (ww != null)
+                                {
+                                    props.ClientEnabled = true;
+                                }
+                                else
+                                {
+                                    props.ClientEnabled = false;
+                                }
+                            }
+                            else
+                            {
+                                eRoute.Models.eCalendar.PrepareWW ww = eRoute.Models.eCalendar.HammerDataProvider.GetInPreapreWWReleased(year.ToString(), Convert.ToInt32(week), value.ToString(), true, "TuPM");
+                                if (ww != null)
+                                {
+                                    if (status != null)
+                                    {
+                                        if (status.ToString() == "R")
+                                        {
+                                            props.ClientEnabled = false;
+                                        }
+                                        else
+                                        {
+                                            props.ClientEnabled = true;
+                                        }
+                                    }
+                                }
+                                else
+                                {
+                                    props.ClientEnabled = false;
+                                }
+                            }
+                        }
+                        else
+                        {
+                            //Neu SS co mo ngay:
+                            eRoute.Models.eCalendar.ScheduleSubmitSetting openSS = eRoute.Models.eCalendar.HammerDataProvider.GetOpenEnableDate(em.ToString(), year.ToString(), Convert.ToInt32(week.ToString()), "TuPM");
+                            if (openSS == null) //ko co mo ngay
+                            {
+                                if (status != null)
+                                {
+                                    if (status.ToString() == "R")
+                                    {
+                                        props.ClientEnabled = false;
+                                    }
+                                    else
+                                    {
+                                        props.ClientEnabled = true;
+                                    }
+                                }
+                            }
+                            else // co mo ngay 
+                            {
+                                //if (status != null)
+                                //{
+                                //    if (status.ToString() == "R")
+                                //    {
+                                //        props.ClientEnabled = false;
+                                //    }
+                                //    else
+                                //    {
+                                //        props.ClientEnabled = true;
+                                //    }
+                                //}
+                                //else
+                                //{
+                                    props.ClientEnabled = true;
+                                //}
+                            }
+                        }
+                        if (ob != null)
+                        {
+                            if ((bool)ob == true)
+                            {
+                                props.Checked = true;
+                            }
+                            else
+                            {
+                                props.Checked =
+                                    false;
+                            }
+                        }
+                        props.Properties.EnableClientSideAPI = true;
+                        props.Properties.ClientSideEvents.ValueChanged = "TuPM_CheckChanged";
+                        props.Properties.ClientSideEvents.Init = "TuPM_MyOnInit";
+                    }).GetHtml();
+                }
+
+            });
+        });
+    });
+    grid.Columns.AddBand(band =>
+    {
+        band.Caption = Utility.Phrase("Wednesday");
+        band.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
+        band.Columns.Add(col =>
+        {
+            col.FieldName = "WeAM";
+            col.Caption = Utility.Phrase("AM");
+            col.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
+            col.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
+            col.Width = System.Web.UI.WebControls.Unit.Percentage(5);
+            col.SetDataItemTemplateContent(c =>
+            {
+                var value = DataBinder.Eval(c.DataItem, "EmployeeWW");
+                var status = DataBinder.Eval(c.DataItem, "Status");
+                var year = DataBinder.Eval(c.DataItem, "Year");
+                var week = DataBinder.Eval(c.DataItem, "Week");
+                var ob = DataBinder.Eval(c.DataItem, "WeAM");
+                var em = DataBinder.Eval(c.DataItem, "EmployeeID");
+                if (value != null)
+                {
+                    Html.DevExpress().RadioButton(props =>
+                   {
+                       props.Name = "WeAM|" + c.KeyValue;
+                       props.GroupName = "WeAMDay";
+                       Hammer.Helpers.SystemRole role = eRoute.Models.eCalendar.HammerDataProvider.EmployeeInRole(value.ToString());
+                       if (role == Hammer.Helpers.SystemRole.SalesForce)
+                       {
+                           eRoute.Models.eCalendar.ScheduleSubmitSetting openASM = eRoute.Models.eCalendar.HammerDataProvider.GetOpenEnableDate(em.ToString(), year.ToString(), Convert.ToInt32(week.ToString()), "WeAM");
+                           if (openASM != null)
+                           {
+                               //30-07 add mo ngay ma no ko ww van cho phep ww la sai
+                               eRoute.Models.eCalendar.PrepareWW ww = eRoute.Models.eCalendar.HammerDataProvider.GetInPreapreWWReleased(year.ToString(), Convert.ToInt32(week), value.ToString(), true, "WeAM");
+                               if (ww != null)
+                               {
+                                   props.ClientEnabled = true;
+                               }
+                               else
+                               {
+                                   props.ClientEnabled = false;
+                               }
+                           }
+                           else
+                           {
+                               eRoute.Models.eCalendar.PrepareWW ww = eRoute.Models.eCalendar.HammerDataProvider.GetInPreapreWWReleased(year.ToString(), Convert.ToInt32(week), value.ToString(), true, "WeAM");
+                               if (ww != null)
+                               {
+                                   if (status != null)
+                                   {
+                                       if (status.ToString() == "R")
+                                       {
+                                           props.ClientEnabled = false;
+                                       }
+                                       else
+                                       {
+                                           props.ClientEnabled = true;
+                                       }
+                                   }
+                               }
+                               else
+                               {
+                                   props.ClientEnabled = false;
+                               }
+                           }
+                       }
+                       else
+                       {
+                           //Neu SS co mo ngay:
+                           eRoute.Models.eCalendar.ScheduleSubmitSetting openSS = eRoute.Models.eCalendar.HammerDataProvider.GetOpenEnableDate(em.ToString(), year.ToString(), Convert.ToInt32(week.ToString()), "WeAM");
+                           if (openSS == null) //ko co mo ngay
+                           {
+                               if (status != null)
+                               {
+                                   if (status.ToString() == "R")
+                                   {
+                                       props.ClientEnabled = false;
+                                   }
+                                   else
+                                   {
+                                       props.ClientEnabled = true;
+                                   }
+                               }
+                           }
+                           else // co mo ngay 
+                           {
+                               //if (status != null)
+                               //{
+                               //    if (status.ToString() == "R")
+                               //    {
+                               //        props.ClientEnabled = false;
+                               //    }
+                               //    else
+                               //    {
+                               //        props.ClientEnabled = true;
+                               //    }
+                               //}
+                               //else
+                               //{
+                                   props.ClientEnabled = true;
+                               //}
+                           }
+                       }
+                       if (ob != null)
+                       {
+                           if ((bool)ob == true)
+                           {
+                               props.Checked = true;
+                           }
+                           else
+                           { props.Checked = false; }
+                       }
+                       props.Properties.EnableClientSideAPI = true;
+                       props.Properties.ClientSideEvents.ValueChanged = "WeAM_CheckChanged";
+                       props.Properties.ClientSideEvents.Init = "WeAM_MyOnInit";
+                   }).GetHtml();
+                }
+            });
+        });
+        band.Columns.Add(col =>
+        {
+            col.FieldName = "WePM";
+            col.Caption = Utility.Phrase("PM");
+            col.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
+            col.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
+            col.Width = System.Web.UI.WebControls.Unit.Percentage(5);
+            col.SetDataItemTemplateContent(c =>
+            {
+                var value = DataBinder.Eval(c.DataItem, "EmployeeWW");
+                var status = DataBinder.Eval(c.DataItem, "Status");
+                var year = DataBinder.Eval(c.DataItem, "Year");
+                var week = DataBinder.Eval(c.DataItem, "Week");
+                var ob = DataBinder.Eval(c.DataItem, "WePM");
+                var em = DataBinder.Eval(c.DataItem, "EmployeeID");
+                if (value != null)
+                {
+                    Html.DevExpress().RadioButton(props =>
+                    {
+                        props.Name = "WePM|" + c.KeyValue;
+                        props.GroupName = "WePMDay";
+                        Hammer.Helpers.SystemRole role = eRoute.Models.eCalendar.HammerDataProvider.EmployeeInRole(value.ToString());
+                        if (role == Hammer.Helpers.SystemRole.SalesForce)
+                        {
+
+                            eRoute.Models.eCalendar.ScheduleSubmitSetting openASM = eRoute.Models.eCalendar.HammerDataProvider.GetOpenEnableDate(em.ToString(), year.ToString(), Convert.ToInt32(week.ToString()), "WePM");
+                            if (openASM != null)
+                            {
+                                //30-07 add mo ngay ma no ko ww van cho phep ww la sai
+                                eRoute.Models.eCalendar.PrepareWW ww = eRoute.Models.eCalendar.HammerDataProvider.GetInPreapreWWReleased(year.ToString(), Convert.ToInt32(week), value.ToString(), true, "WePM");
+                                if (ww != null)
+                                {
+                                    props.ClientEnabled = true;
+                                }
+                                else
+                                {
+                                    props.ClientEnabled = false;
+                                }
+                            }
+                            else
+                            {
+                                eRoute.Models.eCalendar.PrepareWW ww = eRoute.Models.eCalendar.HammerDataProvider.GetInPreapreWWReleased(year.ToString(), Convert.ToInt32(week), value.ToString(), true, "WePM");
+                                if (ww != null)
+                                {
+                                    if (status != null)
+                                    {
+                                        if (status.ToString() == "R")
+                                        {
+                                            props.ClientEnabled = false;
+                                        }
+                                        else
+                                        {
+                                            props.ClientEnabled = true;
+                                        }
+                                    }
+                                }
+                                else
+                                {
+                                    props.ClientEnabled = false;
+                                }
+                            }
+                        }
+                        else
+                        {
+                            //Neu SS co mo ngay:
+                            eRoute.Models.eCalendar.ScheduleSubmitSetting openSS = eRoute.Models.eCalendar.HammerDataProvider.GetOpenEnableDate(em.ToString(), year.ToString(), Convert.ToInt32(week.ToString()), "WePM");
+                            if (openSS == null) //ko co mo ngay
+                            {
+                                if (status != null)
+                                {
+                                    if (status.ToString() == "R")
+                                    {
+                                        props.ClientEnabled = false;
+                                    }
+                                    else
+                                    {
+                                        props.ClientEnabled = true;
+                                    }
+                                }
+                            }
+                            else // co mo ngay 
+                            {
+                                //if (status != null)
+                                //{
+                                //    if (status.ToString() == "R")
+                                //    {
+                                //        props.ClientEnabled = false;
+                                //    }
+                                //    else
+                                //    {
+                                //        props.ClientEnabled = true;
+                                //    }
+                                //}
+                                //else
+                                //{
+                                    props.ClientEnabled = true;
+                                //}
+                            }
+                        }
+                        if (ob != null)
+                        {
+                            if ((bool)ob == true)
+                            {
+                                props.Checked = true;
+                            }
+                            else
+                            {
+                                props.Checked = false;
+                            }
+
+                        }
+                        props.Properties.EnableClientSideAPI = true;
+                        props.Properties.ClientSideEvents.ValueChanged = "WePM_CheckChanged";
+                        props.Properties.ClientSideEvents.Init = "WePM_MyOnInit";
+                    }).GetHtml();
+                }
+
+
+            });
+        });
+    });
+    grid.Columns.AddBand(band =>
+    {
+        band.Caption = Utility.Phrase("Thursday");
+        band.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
+        band.Columns.Add(col =>
+        {
+            col.FieldName = "ThAM";
+            col.Caption = Utility.Phrase("AM");
+            col.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
+            col.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
+            col.Width = System.Web.UI.WebControls.Unit.Percentage(5);
+            col.SetDataItemTemplateContent(c =>
+            {
+                var value = DataBinder.Eval(c.DataItem, "EmployeeWW");
+                var status = DataBinder.Eval(c.DataItem, "Status");
+                var year = DataBinder.Eval(c.DataItem, "Year");
+                var week = DataBinder.Eval(c.DataItem, "Week");
+                var ob = DataBinder.Eval(c.DataItem, "ThAM");
+                var em = DataBinder.Eval(c.DataItem, "EmployeeID");
+                if (value != null)
+                {
+                    Html.DevExpress().RadioButton(props =>
+                    {
+                        props.Name = "ThAM|" + c.KeyValue;
+                        props.GroupName = "ThAMDay";
+                        Hammer.Helpers.SystemRole role = eRoute.Models.eCalendar.HammerDataProvider.EmployeeInRole(value.ToString());
+                        if (role == Hammer.Helpers.SystemRole.SalesForce)
+                        {
+                            eRoute.Models.eCalendar.ScheduleSubmitSetting openASM = eRoute.Models.eCalendar.HammerDataProvider.GetOpenEnableDate(em.ToString(), year.ToString(), Convert.ToInt32(week.ToString()), "ThAM");
+                            if (openASM != null)
+                            {
+                                //30-07 add mo ngay ma no ko ww van cho phep ww la sai
+                                eRoute.Models.eCalendar.PrepareWW ww = eRoute.Models.eCalendar.HammerDataProvider.GetInPreapreWWReleased(year.ToString(), Convert.ToInt32(week), value.ToString(), true, "ThAM");
+                                if (ww != null)
+                                {
+                                    props.ClientEnabled = true;
+                                }
+                                else
+                                {
+                                    props.ClientEnabled = false;
+                                }
+                            }
+                            else
+                            {
+                                eRoute.Models.eCalendar.PrepareWW ww = eRoute.Models.eCalendar.HammerDataProvider.GetInPreapreWWReleased(year.ToString(), Convert.ToInt32(week), value.ToString(), true, "ThAM");
+                                if (ww != null)
+                                {
+                                    if (status != null)
+                                    {
+                                        if (status.ToString() == "R")
+                                        {
+                                            props.ClientEnabled = false;
+                                        }
+                                        else
+                                        {
+                                            props.ClientEnabled = true;
+                                        }
+                                    }
+                                }
+                                else
+                                {
+                                    props.ClientEnabled = false;
+                                }
+                            }
+                        }
+                        else
+                        {
+                            //Neu SS co mo ngay:
+                            eRoute.Models.eCalendar.ScheduleSubmitSetting openSS = eRoute.Models.eCalendar.HammerDataProvider.GetOpenEnableDate(em.ToString(), year.ToString(), Convert.ToInt32(week.ToString()), "ThAM");
+                            if (openSS == null) //ko co mo ngay
+                            {
+                                if (status != null)
+                                {
+                                    if (status.ToString() == "R")
+                                    {
+                                        props.ClientEnabled = false;
+                                    }
+                                    else
+                                    {
+                                        props.ClientEnabled = true;
+                                    }
+                                }
+                            }
+                            else // co mo ngay 
+                            {
+                                //if (status != null)
+                                //{
+                                //    if (status.ToString() == "R")
+                                //    {
+                                //        props.ClientEnabled = false;
+                                //    }
+                                //    else
+                                //    {
+                                //        props.ClientEnabled = true;
+                                //    }
+                                //}
+                                //else
+                                //{
+                                    props.ClientEnabled = true;
+                                //}
+                            }
+                        }
+                        if (ob != null)
+                        {
+                            if ((bool)ob == true)
+                            {
+                                props.Checked = true;
+                            }
+                            else { props.Checked = false; }
+                        }
+                        props.Properties.EnableClientSideAPI = true;
+                        props.Properties.ClientSideEvents.ValueChanged = "ThAM_CheckChanged";
+                        props.Properties.ClientSideEvents.Init = "ThAM_MyOnInit";
+                    }).GetHtml();
+                }
+            });
+        });
+        band.Columns.Add(col =>
+        {
+            col.FieldName = "ThPM";
+            col.Caption = Utility.Phrase("PM");
+            col.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
+            col.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
+            col.Width = System.Web.UI.WebControls.Unit.Percentage(5);
+            col.SetDataItemTemplateContent(c =>
+            {
+                var value = DataBinder.Eval(c.DataItem, "EmployeeWW");
+                var status = DataBinder.Eval(c.DataItem, "Status");
+                var year = DataBinder.Eval(c.DataItem, "Year");
+                var week = DataBinder.Eval(c.DataItem, "Week");
+                var ob = DataBinder.Eval(c.DataItem, "ThPM");
+                var em = DataBinder.Eval(c.DataItem, "EmployeeID");
+                if (value != null)
+                {
+                    Html.DevExpress().RadioButton(props =>
+                    {
+                        props.Name = "ThPM|" + c.KeyValue;
+                        props.GroupName = "ThPMDay";
+                        Hammer.Helpers.SystemRole role = eRoute.Models.eCalendar.HammerDataProvider.EmployeeInRole(value.ToString());
+                        if (role == Hammer.Helpers.SystemRole.SalesForce)
+                        {
+                            eRoute.Models.eCalendar.ScheduleSubmitSetting openASM = eRoute.Models.eCalendar.HammerDataProvider.GetOpenEnableDate(em.ToString(), year.ToString(), Convert.ToInt32(week.ToString()), "ThPM");
+                            if (openASM != null)
+                            {
+                                //30-07 add mo ngay ma no ko ww van cho phep ww la sai
+                                eRoute.Models.eCalendar.PrepareWW ww = eRoute.Models.eCalendar.HammerDataProvider.GetInPreapreWWReleased(year.ToString(), Convert.ToInt32(week), value.ToString(), true, "ThPM");
+                                if (ww != null)
+                                {
+                                    props.ClientEnabled = true;
+                                }
+                                else
+                                {
+                                    props.ClientEnabled = false;
+                                }
+                            }
+                            else
+                            {
+                                eRoute.Models.eCalendar.PrepareWW ww = eRoute.Models.eCalendar.HammerDataProvider.GetInPreapreWWReleased(year.ToString(), Convert.ToInt32(week), value.ToString(), true, "ThPM");
+                                if (ww != null)
+                                {
+                                    if (status != null)
+                                    {
+                                        if (status.ToString() == "R")
+                                        {
+                                            props.ClientEnabled = false;
+                                        }
+                                        else
+                                        {
+                                            props.ClientEnabled = true;
+                                        }
+                                    }
+                                }
+                                else
+                                {
+                                    props.ClientEnabled = false;
+                                }
+                            }
+                        }
+                        else
+                        {
+                            //Neu SS co mo ngay:
+                            eRoute.Models.eCalendar.ScheduleSubmitSetting openSS = eRoute.Models.eCalendar.HammerDataProvider.GetOpenEnableDate(em.ToString(), year.ToString(), Convert.ToInt32(week.ToString()), "ThPM");
+                            if (openSS == null) //ko co mo ngay
+                            {
+                                if (status != null)
+                                {
+                                    if (status.ToString() == "R")
+                                    {
+                                        props.ClientEnabled = false;
+                                    }
+                                    else
+                                    {
+                                        props.ClientEnabled = true;
+                                    }
+                                }
+                            }
+                            else // co mo ngay 
+                            {
+                                //if (status != null)
+                                //{
+                                //    if (status.ToString() == "R")
+                                //    {
+                                //        props.ClientEnabled = false;
+                                //    }
+                                //    else
+                                //    {
+                                //        props.ClientEnabled = true;
+                                //    }
+                                //}
+                                //else
+                                //{
+                                    props.ClientEnabled = true;
+                                //}
+                            }
+                        }
+                        if (ob != null)
+                        {
+                            if ((bool)ob == true)
+                            {
+                                props.Checked = true;
+                            }
+                            else
+                            {
+                                props.Checked = false;
+                            }
+                        }
+                        props.Properties.EnableClientSideAPI = true;
+                        props.Properties.ClientSideEvents.ValueChanged = "ThPM_CheckChanged";
+                        props.Properties.ClientSideEvents.Init = "ThPM_MyOnInit";
+                    }).GetHtml();
+                }
+            });
+        });
+    });
+    grid.Columns.AddBand(band =>
+    {
+        band.Caption = Utility.Phrase("Friday");
+        band.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
+        band.Columns.Add(col =>
+        {
+            col.FieldName = "FrAM";
+            col.Caption = Utility.Phrase("AM");
+            col.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
+            col.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
+            col.Width = System.Web.UI.WebControls.Unit.Percentage(5);
+            col.SetDataItemTemplateContent(c =>
+            {
+                var value = DataBinder.Eval(c.DataItem, "EmployeeWW");
+                var status = DataBinder.Eval(c.DataItem, "Status");
+                var year = DataBinder.Eval(c.DataItem, "Year");
+                var week = DataBinder.Eval(c.DataItem, "Week");
+                var ob = DataBinder.Eval(c.DataItem, "FrAM");
+                var em = DataBinder.Eval(c.DataItem, "EmployeeID");
+                if (value != null)
+                {
+                    Html.DevExpress().RadioButton(props =>
+                    {
+                        props.Name = "FrAM|" + c.KeyValue;
+                        props.GroupName = "FrAMDay";
+                        Hammer.Helpers.SystemRole role = eRoute.Models.eCalendar.HammerDataProvider.EmployeeInRole(value.ToString());
+                        if (role == Hammer.Helpers.SystemRole.SalesForce)
+                        {
+
+                            eRoute.Models.eCalendar.ScheduleSubmitSetting openASM = eRoute.Models.eCalendar.HammerDataProvider.GetOpenEnableDate(em.ToString(), year.ToString(), Convert.ToInt32(week.ToString()), "FrAM");
+                            if (openASM != null)
+                            {
+                                //30-07 add mo ngay ma no ko ww van cho phep ww la sai
+                                eRoute.Models.eCalendar.PrepareWW ww = eRoute.Models.eCalendar.HammerDataProvider.GetInPreapreWWReleased(year.ToString(), Convert.ToInt32(week), value.ToString(), true, "FrAM");
+                                if (ww != null)
+                                {
+                                    props.ClientEnabled = true;
+                                }
+                                else
+                                {
+                                    props.ClientEnabled = false;
+                                }
+                            }
+                            else
+                            {
+                                eRoute.Models.eCalendar.PrepareWW ww = eRoute.Models.eCalendar.HammerDataProvider.GetInPreapreWWReleased(year.ToString(), Convert.ToInt32(week), value.ToString(), true, "FrAM");
+                                if (ww != null)
+                                {
+                                    if (status != null)
+                                    {
+                                        if (status.ToString() == "R")
+                                        {
+                                            props.ClientEnabled = false;
+                                        }
+                                        else
+                                        {
+                                            props.ClientEnabled = true;
+                                        }
+                                    }
+                                }
+                                else
+                                {
+                                    props.ClientEnabled = false;
+                                }
+                            }
+
+                        }
+                        else
+                        {
+                            //Neu SS co mo ngay:
+                            eRoute.Models.eCalendar.ScheduleSubmitSetting openSS = eRoute.Models.eCalendar.HammerDataProvider.GetOpenEnableDate(em.ToString(), year.ToString(), Convert.ToInt32(week.ToString()), "FrAM");
+                            if (openSS == null) //ko co mo ngay
+                            {
+                                if (status != null)
+                                {
+                                    if (status.ToString() == "R")
+                                    {
+                                        props.ClientEnabled = false;
+                                    }
+                                    else
+                                    {
+                                        props.ClientEnabled = true;
+                                    }
+                                }
+                            }
+                            else // co mo ngay 
+                            {
+                                //if (status != null)
+                                //{
+                                //    if (status.ToString() == "R")
+                                //    {
+                                //        props.ClientEnabled = false;
+                                //    }
+                                //    else
+                                //    {
+                                //        props.ClientEnabled = true;
+                                //    }
+                                //}
+                                //else
+                                //{
+                                    props.ClientEnabled = true;
+                                //}
+                            }
+                        }
+                        if (ob != null)
+                        {
+                            if ((bool)ob == true)
+                            {
+                                props.Checked = true;
+                            }
+                            else { props.Checked = false; }
+                        }
+                        props.Properties.EnableClientSideAPI = true;
+                        props.Properties.ClientSideEvents.ValueChanged = "FrAM_CheckChanged";
+                        props.Properties.ClientSideEvents.Init = "FrAM_MyOnInit";
+                    }).GetHtml();
+                }
+
+            });
+        });
+        band.Columns.Add(col =>
+        {
+            col.FieldName = "FrPM";
+            col.Caption = Utility.Phrase("PM");
+            col.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
+            col.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
+            col.Width = System.Web.UI.WebControls.Unit.Percentage(5);
+            col.SetDataItemTemplateContent(c =>
+            {
+                var value = DataBinder.Eval(c.DataItem, "EmployeeWW");
+                var status = DataBinder.Eval(c.DataItem, "Status");
+                var year = DataBinder.Eval(c.DataItem, "Year");
+                var week = DataBinder.Eval(c.DataItem, "Week");
+                var ob = DataBinder.Eval(c.DataItem, "FrPM");
+                var em = DataBinder.Eval(c.DataItem, "EmployeeID");
+                if (value != null)
+                {
+                    Html.DevExpress().RadioButton(props =>
+                    {
+                        props.Name = "FrPM|" + c.KeyValue;
+                        props.GroupName = "FrPMDay";
+                        Hammer.Helpers.SystemRole role = eRoute.Models.eCalendar.HammerDataProvider.EmployeeInRole(value.ToString());
+                        if (role == Hammer.Helpers.SystemRole.SalesForce)
+                        {
+                            eRoute.Models.eCalendar.ScheduleSubmitSetting openASM = eRoute.Models.eCalendar.HammerDataProvider.GetOpenEnableDate(em.ToString(), year.ToString(), Convert.ToInt32(week.ToString()), "FrPM");
+                            if (openASM != null)
+                            {
+                                //30-07 add mo ngay ma no ko ww van cho phep ww la sai
+                                eRoute.Models.eCalendar.PrepareWW ww = eRoute.Models.eCalendar.HammerDataProvider.GetInPreapreWWReleased(year.ToString(), Convert.ToInt32(week), value.ToString(), true, "FrPM");
+                                if (ww != null)
+                                {
+                                    props.ClientEnabled = true;
+                                }
+                                else
+                                {
+                                    props.ClientEnabled = false;
+                                }
+                            }
+                            else
+                            {
+                                eRoute.Models.eCalendar.PrepareWW ww = eRoute.Models.eCalendar.HammerDataProvider.GetInPreapreWWReleased(year.ToString(), Convert.ToInt32(week), value.ToString(), true, "FrPM");
+                                if (ww != null)
+                                {
+                                    if (status != null)
+                                    {
+                                        if (status.ToString() == "R")
+                                        {
+                                            props.ClientEnabled = false;
+                                        }
+                                        else
+                                        {
+                                            props.ClientEnabled = true;
+                                        }
+                                    }
+                                }
+                                else
+                                {
+                                    props.ClientEnabled = false;
+                                }
+                            }
+                        }
+                        else
+                        {
+                            //Neu SS co mo ngay:
+                            eRoute.Models.eCalendar.ScheduleSubmitSetting openSS = eRoute.Models.eCalendar.HammerDataProvider.GetOpenEnableDate(em.ToString(), year.ToString(), Convert.ToInt32(week.ToString()), "FrPM");
+                            if (openSS == null) //ko co mo ngay
+                            {
+                                if (status != null)
+                                {
+                                    if (status.ToString() == "R")
+                                    {
+                                        props.ClientEnabled = false;
+                                    }
+                                    else
+                                    {
+                                        props.ClientEnabled = true;
+                                    }
+                                }
+                            }
+                            else // co mo ngay 
+                            {
+                                //if (status != null)
+                                //{
+                                //    if (status.ToString() == "R")
+                                //    {
+                                //        props.ClientEnabled = false;
+                                //    }
+                                //    else
+                                //    {
+                                //        props.ClientEnabled = true;
+                                //    }
+                                //}
+                                //else
+                                //{
+                                    props.ClientEnabled = true;
+                               // }
+                            }
+                        }
+                        if (ob != null)
+                        {
+                            if ((bool)ob == true)
+                            {
+                                props.Checked = true;
+                            }
+                            else
+                            {
+                                props.Checked = false;
+                            }
+                        }
+                        props.Properties.EnableClientSideAPI = true;
+                        props.Properties.ClientSideEvents.ValueChanged = "FrPM_CheckChanged";
+                        props.Properties.ClientSideEvents.Init = "FrPM_MyOnInit";
+                    }).GetHtml();
+                }
+            });
+        });
+    });
+    grid.Columns.AddBand(band =>
+    {
+        band.Caption = Utility.Phrase("Saturday");
+        band.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
+        band.Columns.Add(col =>
+        {
+            col.FieldName = "SaAM";
+            col.Caption = Utility.Phrase("AM");
+            col.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
+            col.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
+            col.Width = System.Web.UI.WebControls.Unit.Percentage(5);
+            col.SetDataItemTemplateContent(c =>
+            {
+                var value = DataBinder.Eval(c.DataItem, "EmployeeWW");
+                var status = DataBinder.Eval(c.DataItem, "Status");
+                var year = DataBinder.Eval(c.DataItem, "Year");
+                var week = DataBinder.Eval(c.DataItem, "Week");
+                var ob = DataBinder.Eval(c.DataItem, "SaAM");
+                var em = DataBinder.Eval(c.DataItem, "EmployeeID");
+                if (value != null)
+                {
+                    //eRoute.Models.eCalendar.ScheduleSubmitSetting open = eRoute.Models.eCalendar.HammerDataProvider.GetOpenEnableDate(em.ToString(), year.ToString(), Convert.ToInt32(week.ToString()), "SaAM");
+
+                    Html.DevExpress().RadioButton(props =>
+                    {
+                        props.Name = "SaAM|" + c.KeyValue;
+                        props.GroupName = "SaAMDay";
+
+                        Hammer.Helpers.SystemRole role = eRoute.Models.eCalendar.HammerDataProvider.EmployeeInRole(value.ToString());
+                        if (role == Hammer.Helpers.SystemRole.SalesForce)
+                        {
+
+                            eRoute.Models.eCalendar.ScheduleSubmitSetting openASM = eRoute.Models.eCalendar.HammerDataProvider.GetOpenEnableDate(em.ToString(), year.ToString(), Convert.ToInt32(week.ToString()), "SaAM");
+                            if (openASM != null)
+                            {
+                                //30-07 add mo ngay ma no ko ww van cho phep ww la sai
+                                eRoute.Models.eCalendar.PrepareWW ww = eRoute.Models.eCalendar.HammerDataProvider.GetInPreapreWWReleased(year.ToString(), Convert.ToInt32(week), value.ToString(), true, "SaAM");
+                                if (ww != null)
+                                {
+                                    props.ClientEnabled = true;
+                                }
+                                else
+                                {
+                                    props.ClientEnabled = false;
+                                }
+                            }
+                            else
+                            {
+                                eRoute.Models.eCalendar.PrepareWW ww = eRoute.Models.eCalendar.HammerDataProvider.GetInPreapreWWReleased(year.ToString(), Convert.ToInt32(week), value.ToString(), true, "SaAM");
+                                if (ww != null)
+                                {
+                                    if (status != null)
+                                    {
+                                        if (status.ToString() == "R")
+                                        {
+                                            props.ClientEnabled = false;
+                                        }
+                                        else
+                                        {
+                                            props.ClientEnabled = true;
+                                        }
+                                    }
+                                }
+                                else
+                                { props.ClientEnabled = false; }
+                            }
+                        }
+                        else
+                        {
+                            //Neu SS co mo ngay:
+                            eRoute.Models.eCalendar.ScheduleSubmitSetting openSS = eRoute.Models.eCalendar.HammerDataProvider.GetOpenEnableDate(em.ToString(), year.ToString(), Convert.ToInt32(week.ToString()), "SaAM");
+                            if (openSS == null) //ko co mo ngay
+                            {
+                                if (status != null)
+                                {
+                                    if (status.ToString() == "R")
+                                    {
+                                        props.ClientEnabled = false;
+                                    }
+                                    else
+                                    {
+                                        props.ClientEnabled = true;
+                                    }
+                                }
+                            }
+                            else // co mo ngay 
+                            {
+                                //if (status != null)
+                                //{
+                                //    if (status.ToString() == "R")
+                                //    {
+                                //        props.ClientEnabled = false;
+                                //    }
+                                //    else
+                                //    {
+                                //        props.ClientEnabled = true;
+                                //    }
+                                //}
+                                //else
+                                //{
+                                    props.ClientEnabled = true;
+                                //}
+                            }
+                        }
+                        if (ob != null)
+                        {
+                            if ((bool)ob == true)
+                            {
+                                props.Checked = true;
+                            }
+                            else
+                            {
+                                props.Checked = false;
+                            }
+
+                        }
+                        props.Properties.EnableClientSideAPI = true;
+                        props.Properties.ClientSideEvents.ValueChanged = "SaAM_CheckChanged";
+                        props.Properties.ClientSideEvents.Init = "SaAM_MyOnInit";
+                    }).GetHtml();
+                }
+            });
+        });
+        band.Columns.Add(col =>
+        {
+            col.FieldName = "SaPM";
+            col.Caption = Utility.Phrase("PM");
+            col.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
+            col.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
+            col.Width = System.Web.UI.WebControls.Unit.Percentage(5);
+            col.SetDataItemTemplateContent(c =>
+            {
+                var value = DataBinder.Eval(c.DataItem, "EmployeeWW");
+                var status = DataBinder.Eval(c.DataItem, "Status");
+                var year = DataBinder.Eval(c.DataItem, "Year");
+                var week = DataBinder.Eval(c.DataItem, "Week");
+                var ob = DataBinder.Eval(c.DataItem, "SaPM");
+                var em = DataBinder.Eval(c.DataItem, "EmployeeID");
+                if (value != null)
+                {
+                    Html.DevExpress().RadioButton(props =>
+                    {
+                        props.Name = "SaPM|" + c.KeyValue;
+                        props.GroupName = "SaPMDay";
+                        Hammer.Helpers.SystemRole role = eRoute.Models.eCalendar.HammerDataProvider.EmployeeInRole(value.ToString());
+                        if (role == Hammer.Helpers.SystemRole.SalesForce)
+                        {
+
+                            eRoute.Models.eCalendar.ScheduleSubmitSetting openASM = eRoute.Models.eCalendar.HammerDataProvider.GetOpenEnableDate(em.ToString(), year.ToString(), Convert.ToInt32(week.ToString()), "SaPM");
+                            if (openASM != null)
+                            {
+                                //30-07 add mo ngay ma no ko ww van cho phep ww la sai
+                                eRoute.Models.eCalendar.PrepareWW ww = eRoute.Models.eCalendar.HammerDataProvider.GetInPreapreWWReleased(year.ToString(), Convert.ToInt32(week), value.ToString(), true, "SaPM");
+                                if (ww != null)
+                                {
+                                    props.ClientEnabled = true;
+                                }
+                                else
+                                {
+                                    props.ClientEnabled = false;
+                                }
+                            }
+                            else
+                            {
+                                eRoute.Models.eCalendar.PrepareWW ww = eRoute.Models.eCalendar.HammerDataProvider.GetInPreapreWWReleased(year.ToString(), Convert.ToInt32(week), value.ToString(), true, "SaPM");
+                                if (ww != null)
+                                {
+                                    if (status != null)
+                                    {
+                                        if (status.ToString() == "R")
+                                        {
+                                            props.ClientEnabled = false;
+                                        }
+                                        else
+                                        {
+                                            props.ClientEnabled = true;
+                                        }
+                                    }
+                                }
+                                else
+                                { props.ClientEnabled = false; }
+                            }
+                        }
+                        else
+                        {
+                            //Neu SS co mo ngay:
+                            eRoute.Models.eCalendar.ScheduleSubmitSetting openSS = eRoute.Models.eCalendar.HammerDataProvider.GetOpenEnableDate(em.ToString(), year.ToString(), Convert.ToInt32(week.ToString()), "SaPM");
+                            if (openSS == null) //ko co mo ngay
+                            {
+                                if (status != null)
+                                {
+                                    if (status.ToString() == "R")
+                                    {
+                                        props.ClientEnabled = false;
+                                    }
+                                    else
+                                    {
+                                        props.ClientEnabled = true;
+                                    }
+                                }
+                            }
+                            else // co mo ngay 
+                            {
+                                //if (status != null)
+                                //{
+                                //    if (status.ToString() == "R")
+                                //    {
+                                //        props.ClientEnabled = false;
+                                //    }
+                                //    else
+                                //    {
+                                //        props.ClientEnabled = true;
+                                //    }
+                                //}
+                                //else
+                                //{
+                                    props.ClientEnabled = true;
+                                //}
+                            }
+                        }
+                        if (ob != null)
+                        {
+                            if ((bool)ob == true)
+                            {
+                                props.Checked = true;
+                            }
+                            else
+                            {
+                                props.Checked = false;
+                            }
+                        }
+                        props.Properties.EnableClientSideAPI = true;
+                        props.Properties.ClientSideEvents.ValueChanged = "SaPM_CheckChanged";
+                        props.Properties.ClientSideEvents.Init = "SaPM_MyOnInit";
+                    }).GetHtml();
+                }
+
+            });
+        });
+    });
+    grid.BeforeGetCallbackResult = (sender, e) =>
+    {
+        MVCxGridView gridView = (MVCxGridView)sender;
+        object value = gridView.GetRowValues(0, "EmployeeID");
+        if (value != null)
+        {
+            eRoute.Models.eCalendar.DMSSFHierarchy query = eRoute.Models.eCalendar.HammerDataProvider.PrepareScheduleGetDMSSFHierarchy(value.ToString());
+            if (query.IsSalesForce == true && query.TerritoryType == 'N')
+            {
+                gridView.Columns["AreaName"].Visible = false;
+                gridView.Columns["DistributorName"].Visible = false;
+                gridView.Columns["ProviceName"].Visible = false;
+            }
+            else if (query.IsSalesForce == true && query.TerritoryType == 'R')
+            {
+                //gridView.Columns["AreaName"].Visible = false;
+                gridView.Columns["DistributorName"].Visible = false;
+                gridView.Columns["ProviceName"].Visible = false;
+            }
+            else
+            {
+                //gridView.Columns["AreaName"].Visible = eRoute.Models.eCalendar.HammerDataProvider.getConfigSystem("GridArea").Status.Value; 
+                gridView.Columns["DistributorName"].Visible = eRoute.Models.eCalendar.HammerDataProvider.getConfigSystem("GridNPP").Status.Value;
+                gridView.Columns["ProviceName"].Visible = eRoute.Models.eCalendar.HammerDataProvider.getConfigSystem("GirdProv").Status.Value;
+            }
+        }
+    };
+
+}).Bind(Session["GirdWW"]).GetHtml()
+@Html.DevExpress().PopupControl(
+    settings =>
+    {
+        settings.Name = "popUpWordWithMoAM";
+        settings.Width = 300;
+        //settings.CallbackRouteValues = new { Controller = "PrepareScheduleNew", Action = "PopUpView" };
+        settings.AllowDragging = true;
+        settings.CloseAction = CloseAction.None;
+        settings.ShowCloseButton = false;
+        //settings.
+        settings.PopupAnimationType = AnimationType.None;
+        settings.HeaderText = Utility.Phrase("Content");
+        settings.Modal = true;
+        settings.PopupHorizontalAlign = PopupHorizontalAlign.WindowCenter;
+        settings.PopupVerticalAlign = PopupVerticalAlign.WindowCenter;
+        settings.SetContent(() =>
+        {
+            using (Html.BeginForm("AddDes", "PrepareScheduleNew", FormMethod.Post, new { id = "popupForm", @class = "edit_form", @style = "width: 260px" }))
+            {
+
+                ViewContext.Writer.Write("<div class=\"line\">");
+
+                Html.DevExpress().Memo(textBoxSettings =>
+                    {
+                        textBoxSettings.Name = "MoAMDes";
+                        textBoxSettings.Properties.Rows = 5;
+                        textBoxSettings.ShowModelErrors = true;
+                        List<eRoute.Models.eCalendar.PrepareWW> ListWW = Session["GirdWW"] as List<eRoute.Models.eCalendar.PrepareWW>;
+                        if (ListWW != null)
+                        {
+                            foreach (eRoute.Models.eCalendar.PrepareWW item in ListWW)
+                            {
+                                if (!string.IsNullOrEmpty(item.MoAMDes))
+                                {
+                                    textBoxSettings.Text = item.MoAMDes;
+                                }
+                            }
+                        }
+                        //textBoxSettings.Properties.ClientInstanceName = "MemoMoAMDes";                  
+                        textBoxSettings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+                    }).GetHtml();
+
+
+                ViewContext.Writer.Write("<table class='border-none no-selected'> <tr> <td> ");
+                Html.DevExpress().Button(
+                    buttonSettings =>
+                    {
+                        buttonSettings.Name = "btnUpdateMoAM";
+                        buttonSettings.ControlStyle.CssClass = "button";
+                        buttonSettings.Width = 80;
+                        buttonSettings.Text = "OK";
+                        //buttonSettings.UseSubmitBehavior = true;
+                        buttonSettings.ClientSideEvents.Click = "Des_Click";
+                    }
+                )
+                .Render();
+
+                ViewContext.Writer.Write("</td>");
+                ViewContext.Writer.Write("<td>");
+                //Html.DevExpress().Button(
+                //    buttonSettings =>
+                //    {
+                //        buttonSettings.Name = "btnCancelMoAM";
+                //        buttonSettings.ControlStyle.CssClass = "button";
+                //        buttonSettings.Width = 80;
+                //        buttonSettings.Text = "Cancel";
+                //        buttonSettings.ClientSideEvents.Click = "function(s, e){ popUpWordWithMoAM.Hide(); }";
+                //    }
+                //)
+                //.Render();
+                ViewContext.Writer.Write("</td></tr>");
+                ViewContext.Writer.Write("</table>");
+                ViewContext.Writer.Write("</div><b class=\"Clear\"></b>");
+            }
+        });
+    }).GetHtml()
+@Html.DevExpress().PopupControl(
+    settings =>
+    {
+        settings.Name = "popUpWordWithMoPM";
+        settings.Width = 300;
+        settings.AllowDragging = true;
+        settings.CloseAction = CloseAction.None;
+        settings.ShowCloseButton = false;
+        //settings.
+        settings.PopupAnimationType = AnimationType.None;
+        settings.HeaderText = Utility.Phrase("Content");
+        settings.Modal = true;
+        settings.PopupHorizontalAlign = PopupHorizontalAlign.WindowCenter;
+        settings.PopupVerticalAlign = PopupVerticalAlign.WindowCenter;
+        settings.SetContent(() =>
+        {
+            using (Html.BeginForm("AddDes", "PrepareScheduleNew", FormMethod.Post, new { id = "popupForm", @class = "edit_form", @style = "width: 860px" }))
+            {
+                ViewContext.Writer.Write("<div class=\"line\">");
+                Html.DevExpress().Memo(textBoxSettings =>
+                    {
+                        textBoxSettings.Name = "MoPMDes";
+                        textBoxSettings.Properties.Rows = 5;
+                        List<eRoute.Models.eCalendar.PrepareWW> ListWW = Session["GirdWW"] as List<eRoute.Models.eCalendar.PrepareWW>;
+                        if (ListWW != null)
+                        {
+                            foreach (eRoute.Models.eCalendar.PrepareWW item in ListWW)
+                            {
+                                if (!string.IsNullOrEmpty(item.MoPMDes))
+                                {
+                                    textBoxSettings.Text = item.MoPMDes;
+                                }
+                            }
+                        }
+                        textBoxSettings.ShowModelErrors = true;
+                        textBoxSettings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+                    }).GetHtml();
+
+
+                ViewContext.Writer.Write("<table class='border-none no-selected'> <tr> <td> ");
+                Html.DevExpress().Button(
+                    buttonSettings =>
+                    {
+                        buttonSettings.Name = "btnUpdateMoPM";
+                        buttonSettings.ControlStyle.CssClass = "button";
+                        buttonSettings.Width = 80;
+                        buttonSettings.Text = "OK";
+                        //buttonSettings.UseSubmitBehavior = true;
+                        buttonSettings.ClientSideEvents.Click = "Des_Click";
+                    }
+                )
+                
+                .Render();
+
+                ViewContext.Writer.Write("</td>");
+                ViewContext.Writer.Write("<td>");
+                //Html.DevExpress().Button(
+                //    buttonSettings =>
+                //    {
+                //        buttonSettings.Name = "btnCancelMoPM";
+                //        buttonSettings.ControlStyle.CssClass = "button";
+                //        buttonSettings.Width = 80;
+                //        buttonSettings.Text = "Cancel";
+                //        buttonSettings.ClientSideEvents.Click = "function(s, e){ popUpWordWithMoPM.Hide(); }";
+                //    }
+                //)
+                //.Render();
+                ViewContext.Writer.Write("</td></tr>");
+                ViewContext.Writer.Write("</table>");
+                ViewContext.Writer.Write("</div><b class=\"Clear\"></b>");
+            }
+        });
+    }).GetHtml()
+@Html.DevExpress().PopupControl(
+    settings =>
+    {
+        settings.Name = "popUpWordWithTuAM";
+        settings.Width = 300;
+        settings.AllowDragging = true;
+        settings.CloseAction = CloseAction.None;
+        settings.ShowCloseButton = false;
+        //settings.
+        settings.PopupAnimationType = AnimationType.None;
+        settings.HeaderText = Utility.Phrase("Content");
+        settings.Modal = true;
+        settings.PopupHorizontalAlign = PopupHorizontalAlign.WindowCenter;
+        settings.PopupVerticalAlign = PopupVerticalAlign.WindowCenter;
+        settings.SetContent(() =>
+        {
+            using (Html.BeginForm("AddDes", "PrepareScheduleNew", FormMethod.Post, new { id = "popupForm", @class = "edit_form", @style = "width: 260px" }))
+            {
+                ViewContext.Writer.Write("<div class=\"line\">");
+                Html.DevExpress().Memo(textBoxSettings =>
+                    {
+                        textBoxSettings.Name = "TuAMDes";
+                        textBoxSettings.Properties.Rows = 5;
+                        List<eRoute.Models.eCalendar.PrepareWW> ListWW = Session["GirdWW"] as List<eRoute.Models.eCalendar.PrepareWW>;
+                        if (ListWW != null)
+                        {
+                            foreach (eRoute.Models.eCalendar.PrepareWW item in ListWW)
+                            {
+                                if (!string.IsNullOrEmpty(item.TuAMDes))
+                                {
+                                    textBoxSettings.Text = item.TuAMDes;
+                                }
+                            }
+                        }
+                        textBoxSettings.ShowModelErrors = true;
+                        textBoxSettings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+                    }).GetHtml();
+
+
+                ViewContext.Writer.Write("<table class='border-none no-selected'> <tr> <td> ");
+                Html.DevExpress().Button(
+                    buttonSettings =>
+                    {
+                        buttonSettings.Name = "btnUpdateTuAM";
+                        buttonSettings.ControlStyle.CssClass = "button";
+                        buttonSettings.Width = 80;
+                        buttonSettings.Text = "OK";
+                        //buttonSettings.UseSubmitBehavior = true;
+                        buttonSettings.ClientSideEvents.Click = "Des_Click";
+                    }
+                )
+                .Render();
+
+                ViewContext.Writer.Write("</td>");
+                ViewContext.Writer.Write("<td>");
+                //Html.DevExpress().Button(
+                //    buttonSettings =>
+                //    {
+                //        buttonSettings.Name = "btnCancelTuAM";
+                //        buttonSettings.ControlStyle.CssClass = "button";
+                //        buttonSettings.Width = 80;
+                //        buttonSettings.Text = "Cancel";
+                //        buttonSettings.ClientSideEvents.Click = "function(s, e){ popUpWordWithTuAM.Hide(); }";
+                //    }
+                //)
+                //.Render();
+                ViewContext.Writer.Write("</td></tr>");
+                ViewContext.Writer.Write("</table>");
+                ViewContext.Writer.Write("</div><b class=\"Clear\"></b>");
+            }
+        });
+    }).GetHtml()
+@Html.DevExpress().PopupControl(
+    settings =>
+    {
+        settings.Name = "popUpWordWithTuPM";
+        settings.Width = 300;
+        settings.AllowDragging = true;
+        settings.CloseAction = CloseAction.None;
+        settings.ShowCloseButton = false;
+        //settings.
+        settings.PopupAnimationType = AnimationType.None;
+        settings.HeaderText = Utility.Phrase("Content");
+        settings.Modal = true;
+        settings.PopupHorizontalAlign = PopupHorizontalAlign.WindowCenter;
+        settings.PopupVerticalAlign = PopupVerticalAlign.WindowCenter;
+        settings.SetContent(() =>
+        {
+            using (Html.BeginForm("AddDes", "PrepareScheduleNew", FormMethod.Post, new { id = "popupForm", @class = "edit_form", @style = "width: 260px" }))
+            {
+                ViewContext.Writer.Write("<div class=\"line\">");
+                Html.DevExpress().Memo(textBoxSettings =>
+                    {
+                        textBoxSettings.Name = "TuPMDes";
+                        textBoxSettings.Properties.Rows = 5;
+                        List<eRoute.Models.eCalendar.PrepareWW> ListWW = Session["GirdWW"] as List<eRoute.Models.eCalendar.PrepareWW>;
+                        if (ListWW != null)
+                        {
+                            foreach (eRoute.Models.eCalendar.PrepareWW item in ListWW)
+                            {
+                                if (!string.IsNullOrEmpty(item.TuPMDes))
+                                {
+                                    textBoxSettings.Text = item.TuPMDes;
+                                }
+                            }
+                        }
+                        textBoxSettings.ShowModelErrors = true;
+                        textBoxSettings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+                    }).GetHtml();
+
+
+                ViewContext.Writer.Write("<table class='border-none no-selected'> <tr> <td> ");
+                Html.DevExpress().Button(
+                    buttonSettings =>
+                    {
+                        buttonSettings.Name = "btnUpdateTuPM";
+                        buttonSettings.ControlStyle.CssClass = "button";
+                        buttonSettings.Width = 80;
+                        buttonSettings.Text = "OK";
+                        //buttonSettings.UseSubmitBehavior = true;
+                        buttonSettings.ClientSideEvents.Click = "Des_Click";
+                    }
+                )
+                .Render();
+
+                ViewContext.Writer.Write("</td>");
+                ViewContext.Writer.Write("<td>");
+                ViewContext.Writer.Write("</td></tr>");
+                ViewContext.Writer.Write("</table>");
+                ViewContext.Writer.Write("</div><b class=\"Clear\"></b>");
+            }
+        });
+    }).GetHtml()
+@Html.DevExpress().PopupControl(
+    settings =>
+    {
+        settings.Name = "popUpWordWithWeAM";
+        settings.Width = 300;
+        settings.AllowDragging = true;
+        settings.CloseAction = CloseAction.None;
+        settings.ShowCloseButton = false;
+        //settings.
+        settings.PopupAnimationType = AnimationType.None;
+        settings.HeaderText = Utility.Phrase("Content");
+        settings.Modal = true;
+        settings.PopupHorizontalAlign = PopupHorizontalAlign.WindowCenter;
+        settings.PopupVerticalAlign = PopupVerticalAlign.WindowCenter;
+        settings.SetContent(() =>
+        {
+            using (Html.BeginForm("AddDes", "PrepareScheduleNew", FormMethod.Post, new { id = "popupForm", @class = "edit_form", @style = "width: 260px" }))
+            {
+                ViewContext.Writer.Write("<div class=\"line\">");
+                Html.DevExpress().Memo(textBoxSettings =>
+                    {
+                        textBoxSettings.Name = "WeAMDes";
+                        textBoxSettings.Properties.Rows = 5;
+                        List<eRoute.Models.eCalendar.PrepareWW> ListWW = Session["GirdWW"] as List<eRoute.Models.eCalendar.PrepareWW>;
+                        if (ListWW != null)
+                        {
+                            foreach (eRoute.Models.eCalendar.PrepareWW item in ListWW)
+                            {
+                                if (!string.IsNullOrEmpty(item.WeAMDes))
+                                {
+                                    textBoxSettings.Text = item.WeAMDes;
+                                }
+                            }
+                        }
+                        textBoxSettings.ShowModelErrors = true;
+                        textBoxSettings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+                    }).GetHtml();
+
+
+                ViewContext.Writer.Write("<table class='border-none no-selected'> <tr> <td> ");
+                Html.DevExpress().Button(
+                    buttonSettings =>
+                    {
+                        buttonSettings.Name = "btnUpdateWeAM";
+                        buttonSettings.ControlStyle.CssClass = "button";
+                        buttonSettings.Width = 80;
+                        buttonSettings.Text = "OK";
+                        buttonSettings.ClientSideEvents.Click = "Des_Click";
+                    }
+                )
+                .Render();
+
+                ViewContext.Writer.Write("</td>");
+                ViewContext.Writer.Write("<td>");
+                //Html.DevExpress().Button(
+                //    buttonSettings =>
+                //    {
+                //        buttonSettings.Name = "btnCancelWeAM";
+                //        buttonSettings.ControlStyle.CssClass = "button";
+                //        buttonSettings.Width = 80;
+                //        buttonSettings.Text = "Cancel";
+                //        buttonSettings.ClientSideEvents.Click = "function(s, e){ popUpWordWithWeAM.Hide(); }";
+                //    }
+                //)
+                //.Render();
+                ViewContext.Writer.Write("</td></tr>");
+                ViewContext.Writer.Write("</table>");
+                ViewContext.Writer.Write("</div><b class=\"Clear\"></b>");
+            }
+        });
+    }).GetHtml()
+@Html.DevExpress().PopupControl(
+    settings =>
+    {
+        settings.Name = "popUpWordWithWePM";
+        settings.Width = 300;
+        settings.AllowDragging = true;
+        settings.ShowCloseButton = false;
+        settings.CloseAction = CloseAction.None;
+        //settings.
+        settings.PopupAnimationType = AnimationType.None;
+        settings.HeaderText = Utility.Phrase("Content");
+        settings.Modal = true;
+        settings.PopupHorizontalAlign = PopupHorizontalAlign.WindowCenter;
+        settings.PopupVerticalAlign = PopupVerticalAlign.WindowCenter;
+        settings.SetContent(() =>
+        {
+            using (Html.BeginForm("AddDes", "PrepareScheduleNew", FormMethod.Post, new { id = "popupForm", @class = "edit_form", @style = "width: 260px" }))
+            {
+                ViewContext.Writer.Write("<div class=\"line\">");
+                Html.DevExpress().Memo(textBoxSettings =>
+                    {
+                        textBoxSettings.Name = "WePMDes";
+                        textBoxSettings.Properties.Rows = 5;
+                        List<eRoute.Models.eCalendar.PrepareWW> ListWW = Session["GirdWW"] as List<eRoute.Models.eCalendar.PrepareWW>;
+                        if (ListWW != null)
+                        {
+                            foreach (eRoute.Models.eCalendar.PrepareWW item in ListWW)
+                            {
+                                if (!string.IsNullOrEmpty(item.WePMDes))
+                                {
+                                    textBoxSettings.Text = item.WePMDes;
+                                }
+                            }
+                        }
+                        textBoxSettings.ShowModelErrors = true;
+                        textBoxSettings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+                    }).GetHtml();
+
+
+                ViewContext.Writer.Write("<table class='border-none no-selected'> <tr> <td> ");
+                Html.DevExpress().Button(
+                    buttonSettings =>
+                    {
+                        buttonSettings.Name = "btnUpdateWePM";
+                        buttonSettings.ControlStyle.CssClass = "button";
+                        buttonSettings.Width = 80;
+                        buttonSettings.Text = "OK";
+                        buttonSettings.ClientSideEvents.Click = "Des_Click";
+                    }
+                )
+                .Render();
+
+                ViewContext.Writer.Write("</td>");
+                ViewContext.Writer.Write("<td>");
+                //Html.DevExpress().Button(
+                //    buttonSettings =>
+                //    {
+                //        buttonSettings.Name = "btnCancelWePM";
+                //        buttonSettings.ControlStyle.CssClass = "button";
+                //        buttonSettings.Width = 80;
+                //        buttonSettings.Text = "Cancel";
+                //        buttonSettings.ClientSideEvents.Click = "function(s, e){ popUpWordWithWePM.Hide(); }";
+                //    }
+                //)
+                //.Render();
+                ViewContext.Writer.Write("</td></tr>");
+                ViewContext.Writer.Write("</table>");
+                ViewContext.Writer.Write("</div><b class=\"Clear\"></b>");
+            }
+        });
+    }).GetHtml()
+@Html.DevExpress().PopupControl(
+    settings =>
+    {
+        settings.Name = "popUpWordWithThAM";
+        settings.Width = 300;
+        settings.AllowDragging = true;
+        settings.CloseAction = CloseAction.None;
+        settings.ShowCloseButton = false;
+        //settings.
+        settings.PopupAnimationType = AnimationType.None;
+        settings.HeaderText = Utility.Phrase("Content");
+        settings.Modal = true;
+        settings.PopupHorizontalAlign = PopupHorizontalAlign.WindowCenter;
+        settings.PopupVerticalAlign = PopupVerticalAlign.WindowCenter;
+        settings.SetContent(() =>
+        {
+            using (Html.BeginForm("AddDes", "PrepareScheduleNew", FormMethod.Post, new { id = "popupForm", @class = "edit_form", @style = "width: 260px" }))
+            {
+                ViewContext.Writer.Write("<div class=\"line\">");
+                Html.DevExpress().Memo(textBoxSettings =>
+                    {
+                        textBoxSettings.Name = "ThAMDes";
+                        textBoxSettings.Properties.Rows = 5;
+                        List<eRoute.Models.eCalendar.PrepareWW> ListWW = Session["GirdWW"] as List<eRoute.Models.eCalendar.PrepareWW>;
+                        if (ListWW != null)
+                        {
+                            foreach (eRoute.Models.eCalendar.PrepareWW item in ListWW)
+                            {
+                                if (!string.IsNullOrEmpty(item.ThAMDes))
+                                {
+                                    textBoxSettings.Text = item.ThAMDes;
+                                }
+                            }
+                        }
+                        textBoxSettings.ShowModelErrors = true;
+                        textBoxSettings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+                    }).GetHtml();
+
+
+                ViewContext.Writer.Write("<table class='border-none no-selected'> <tr> <td> ");
+                Html.DevExpress().Button(
+                    buttonSettings =>
+                    {
+                        buttonSettings.Name = "btnUpdateThAM";
+                        buttonSettings.ControlStyle.CssClass = "button";
+                        buttonSettings.Width = 80;
+                        buttonSettings.Text = "OK";
+                        buttonSettings.ClientSideEvents.Click = "Des_Click";
+                    }
+                )
+                .Render();
+
+                ViewContext.Writer.Write("</td>");
+                ViewContext.Writer.Write("<td>");
+                //Html.DevExpress().Button(
+                //    buttonSettings =>
+                //    {
+                //        buttonSettings.Name = "btnCancelThAM";
+                //        buttonSettings.ControlStyle.CssClass = "button";
+                //        buttonSettings.Width = 80;
+                //        buttonSettings.Text = "Cancel";
+                //        buttonSettings.ClientSideEvents.Click = "function(s, e){ popUpWordWithThAM.Hide(); }";
+                //    }
+                //)
+                //.Render();
+                ViewContext.Writer.Write("</td></tr>");
+                ViewContext.Writer.Write("</table>");
+                ViewContext.Writer.Write("</div><b class=\"Clear\"></b>");
+            }
+        });
+    }).GetHtml()
+@Html.DevExpress().PopupControl(
+    settings =>
+    {
+        settings.Name = "popUpWordWithThPM";
+        settings.Width = 300;
+        settings.AllowDragging = true;
+        settings.CloseAction = CloseAction.None;
+        settings.ShowCloseButton = false;
+        //settings.
+        settings.PopupAnimationType = AnimationType.None;
+        settings.HeaderText = Utility.Phrase("Content");
+        settings.Modal = true;
+        settings.PopupHorizontalAlign = PopupHorizontalAlign.WindowCenter;
+        settings.PopupVerticalAlign = PopupVerticalAlign.WindowCenter;
+        settings.SetContent(() =>
+        {
+            using (Html.BeginForm("AddDes", "PrepareScheduleNew", FormMethod.Post, new { id = "popupForm", @class = "edit_form", @style = "width: 260px" }))
+            {
+                ViewContext.Writer.Write("<div class=\"line\">");
+                Html.DevExpress().Memo(textBoxSettings =>
+                    {
+                        textBoxSettings.Name = "ThPMDes";
+                        textBoxSettings.Properties.Rows = 5;
+                        List<eRoute.Models.eCalendar.PrepareWW> ListWW = Session["GirdWW"] as List<eRoute.Models.eCalendar.PrepareWW>;
+                        if (ListWW != null)
+                        {
+                            foreach (eRoute.Models.eCalendar.PrepareWW item in ListWW)
+                            {
+                                if (!string.IsNullOrEmpty(item.ThPMDes))
+                                {
+                                    textBoxSettings.Text = item.ThPMDes;
+                                }
+                            }
+                        }
+                        textBoxSettings.ShowModelErrors = true;
+                        textBoxSettings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+                    }).GetHtml();
+
+
+                ViewContext.Writer.Write("<table class='border-none no-selected'> <tr> <td> ");
+                Html.DevExpress().Button(
+                    buttonSettings =>
+                    {
+                        buttonSettings.Name = "btnUpdateThPM";
+                        buttonSettings.ControlStyle.CssClass = "button";
+                        buttonSettings.Width = 80;
+                        buttonSettings.Text = "OK";
+                        buttonSettings.ClientSideEvents.Click = "Des_Click";
+                    }
+                )
+                .Render();
+
+                ViewContext.Writer.Write("</td>");
+                ViewContext.Writer.Write("<td>");
+                //Html.DevExpress().Button(
+                //    buttonSettings =>
+                //    {
+                //        buttonSettings.Name = "btnCancelThPM";
+                //        buttonSettings.ControlStyle.CssClass = "button";
+                //        buttonSettings.Width = 80;
+                //        buttonSettings.Text = "Cancel";
+                //        buttonSettings.ClientSideEvents.Click = "function(s, e){ popUpWordWithThPM.Hide(); }";
+                //    }
+                //)
+                //.Render();
+                ViewContext.Writer.Write("</td></tr>");
+                ViewContext.Writer.Write("</table>");
+                ViewContext.Writer.Write("</div><b class=\"Clear\"></b>");
+            }
+        });
+    }).GetHtml()
+@Html.DevExpress().PopupControl(
+    settings =>
+    {
+        settings.Name = "popUpWordWithFrAM";
+        settings.Width = 300;
+        settings.AllowDragging = true;
+        settings.CloseAction = CloseAction.None;
+        settings.ShowCloseButton = false;
+        //settings.
+        settings.PopupAnimationType = AnimationType.None;
+        settings.HeaderText = Utility.Phrase("Content");
+        settings.Modal = true;
+        settings.PopupHorizontalAlign = PopupHorizontalAlign.WindowCenter;
+        settings.PopupVerticalAlign = PopupVerticalAlign.WindowCenter;
+        settings.SetContent(() =>
+        {
+            using (Html.BeginForm("AddDes", "PrepareScheduleNew", FormMethod.Post, new { id = "popupForm", @class = "edit_form", @style = "width: 260px" }))
+            {
+                ViewContext.Writer.Write("<div class=\"line\">");
+                Html.DevExpress().Memo(textBoxSettings =>
+                    {
+                        textBoxSettings.Name = "FrAMDes";
+                        textBoxSettings.Properties.Rows = 5;
+                        List<eRoute.Models.eCalendar.PrepareWW> ListWW = Session["GirdWW"] as List<eRoute.Models.eCalendar.PrepareWW>;
+                        if (ListWW != null)
+                        {
+                            foreach (eRoute.Models.eCalendar.PrepareWW item in ListWW)
+                            {
+                                if (!string.IsNullOrEmpty(item.FrAMDes))
+                                {
+                                    textBoxSettings.Text = item.FrAMDes;
+                                }
+                            }
+                        }
+                        textBoxSettings.ShowModelErrors = true;
+                        textBoxSettings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+                    }).GetHtml();
+
+
+                ViewContext.Writer.Write("<table class='border-none no-selected'> <tr> <td> ");
+                Html.DevExpress().Button(
+                    buttonSettings =>
+                    {
+                        buttonSettings.Name = "btnUpdateFrAM";
+                        buttonSettings.ControlStyle.CssClass = "button";
+                        buttonSettings.Width = 80;
+                        buttonSettings.Text = "OK";
+                        buttonSettings.ClientSideEvents.Click = "Des_Click";
+                    }
+                )
+                .Render();
+
+                ViewContext.Writer.Write("</td>");
+                ViewContext.Writer.Write("<td>");
+                //Html.DevExpress().Button(
+                //    buttonSettings =>
+                //    {
+                //        buttonSettings.Name = "btnCancelFrAM";
+                //        buttonSettings.ControlStyle.CssClass = "button";
+                //        buttonSettings.Width = 80;
+                //        buttonSettings.Text = "Cancel";
+                //        buttonSettings.ClientSideEvents.Click = "function(s, e){ popUpWordWithFrAM.Hide(); }";
+                //    }
+                //)
+                //.Render();
+                ViewContext.Writer.Write("</td></tr>");
+                ViewContext.Writer.Write("</table>");
+                ViewContext.Writer.Write("</div><b class=\"Clear\"></b>");
+            }
+        });
+    }).GetHtml()
+@Html.DevExpress().PopupControl(
+    settings =>
+    {
+        settings.Name = "popUpWordWithFrPM";
+        settings.Width = 300;
+        settings.AllowDragging = true;
+        settings.CloseAction = CloseAction.None;
+        settings.ShowCloseButton = false;
+        //settings.
+        settings.PopupAnimationType = AnimationType.None;
+        settings.HeaderText = Utility.Phrase("Content");
+        settings.Modal = true;
+        settings.PopupHorizontalAlign = PopupHorizontalAlign.WindowCenter;
+        settings.PopupVerticalAlign = PopupVerticalAlign.WindowCenter;
+        settings.SetContent(() =>
+        {
+            using (Html.BeginForm("AddDes", "PrepareScheduleNew", FormMethod.Post, new { id = "popupForm", @class = "edit_form", @style = "width: 260px" }))
+            {
+                ViewContext.Writer.Write("<div class=\"line\">");
+                Html.DevExpress().Memo(textBoxSettings =>
+                    {
+                        textBoxSettings.Name = "FrPMDes";
+                        textBoxSettings.Properties.Rows = 5;
+                        List<eRoute.Models.eCalendar.PrepareWW> ListWW = Session["GirdWW"] as List<eRoute.Models.eCalendar.PrepareWW>;
+                        if (ListWW != null)
+                        {
+                            foreach (eRoute.Models.eCalendar.PrepareWW item in ListWW)
+                            {
+                                if (!string.IsNullOrEmpty(item.FrPMDes))
+                                {
+                                    textBoxSettings.Text = item.FrPMDes;
+                                }
+                            }
+                        }
+                        textBoxSettings.ShowModelErrors = true;
+                        textBoxSettings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+                    }).GetHtml();
+
+
+                ViewContext.Writer.Write("<table class='border-none no-selected'> <tr> <td> ");
+                Html.DevExpress().Button(
+                    buttonSettings =>
+                    {
+                        buttonSettings.Name = "btnUpdateFrPM";
+                        buttonSettings.ControlStyle.CssClass = "button";
+                        buttonSettings.Width = 80;
+                        buttonSettings.Text = "OK";
+                        buttonSettings.ClientSideEvents.Click = "Des_Click";
+                    }
+                )
+                .Render();
+
+                ViewContext.Writer.Write("</td>");
+                ViewContext.Writer.Write("<td>");
+                //Html.DevExpress().Button(
+                //    buttonSettings =>
+                //    {
+                //        buttonSettings.Name = "btnCancelFrPM";
+                //        buttonSettings.ControlStyle.CssClass = "button";
+                //        buttonSettings.Width = 80;
+                //        buttonSettings.Text = "Cancel";
+                //        buttonSettings.ClientSideEvents.Click = "function(s, e){ popUpWordWithFrPM.Hide(); }";
+                //    }
+                //)
+                //.Render();
+                ViewContext.Writer.Write("</td></tr>");
+                ViewContext.Writer.Write("</table>");
+                ViewContext.Writer.Write("</div><b class=\"Clear\"></b>");
+            }
+        });
+    }).GetHtml()
+@Html.DevExpress().PopupControl(
+    settings =>
+    {
+        settings.Name = "popUpWordWithSaAM";
+        settings.Width = 300;
+        settings.AllowDragging = true;
+        settings.CloseAction = CloseAction.CloseButton;
+        settings.ShowCloseButton = false;
+        //settings.
+        settings.CloseAction = CloseAction.None;
+        settings.HeaderText = Utility.Phrase("Content");
+        settings.Modal = true;
+        settings.PopupHorizontalAlign = PopupHorizontalAlign.WindowCenter;
+        settings.PopupVerticalAlign = PopupVerticalAlign.WindowCenter;
+        settings.SetContent(() =>
+        {
+            using (Html.BeginForm("AddDes", "PrepareScheduleNew", FormMethod.Post, new { id = "popupForm", @class = "edit_form", @style = "width: 260px" }))
+            {
+                ViewContext.Writer.Write("<div class=\"line\">");
+                Html.DevExpress().Memo(textBoxSettings =>
+                    {
+                        textBoxSettings.Name = "SaAMDes";
+                        textBoxSettings.Properties.Rows = 5;
+                        List<eRoute.Models.eCalendar.PrepareWW> ListWW = Session["GirdWW"] as List<eRoute.Models.eCalendar.PrepareWW>;
+                        if (ListWW != null)
+                        {
+                            foreach (eRoute.Models.eCalendar.PrepareWW item in ListWW)
+                            {
+                                if (!string.IsNullOrEmpty(item.SaAMDes))
+                                {
+                                    textBoxSettings.Text = item.SaAMDes;
+                                }
+                            }
+                        }
+                        textBoxSettings.ShowModelErrors = true;
+                        textBoxSettings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+                    }).GetHtml();
+
+
+                ViewContext.Writer.Write("<table class='border-none no-selected'> <tr> <td> ");
+                Html.DevExpress().Button(
+                    buttonSettings =>
+                    {
+                        buttonSettings.Name = "btnUpdateSaAM";
+                        buttonSettings.ControlStyle.CssClass = "button";
+                        buttonSettings.Width = 80;
+                        buttonSettings.Text = "OK";
+                        buttonSettings.ClientSideEvents.Click = "Des_Click";
+                    }
+                )
+                .Render();
+
+                ViewContext.Writer.Write("</td>");
+                ViewContext.Writer.Write("<td>");
+                //Html.DevExpress().Button(
+                //    buttonSettings =>
+                //    {
+                //        buttonSettings.Name = "btnCancelSaAM";
+                //        buttonSettings.ControlStyle.CssClass = "button";
+                //        buttonSettings.Width = 80;
+                //        buttonSettings.Text = "Cancel";
+                //        buttonSettings.ClientSideEvents.Click = "function(s, e){ popUpWordWithSaAM.Hide(); }";
+                //    }
+                //)
+                //.Render();
+                ViewContext.Writer.Write("</td></tr>");
+                ViewContext.Writer.Write("</table>");
+                ViewContext.Writer.Write("</div><b class=\"Clear\"></b>");
+            }
+        });
+    }).GetHtml()
+@Html.DevExpress().PopupControl(
+    settings =>
+    {
+        settings.Name = "popUpWordWithSaPM";
+        settings.Width = 300;
+        settings.AllowDragging = true;
+        settings.CloseAction = CloseAction.None;
+        settings.ShowCloseButton = false;
+        //settings.
+        settings.PopupAnimationType = AnimationType.None;
+        settings.HeaderText = Utility.Phrase("Content");
+        settings.Modal = true;
+        settings.PopupHorizontalAlign = PopupHorizontalAlign.WindowCenter;
+        settings.PopupVerticalAlign = PopupVerticalAlign.WindowCenter;
+        settings.SetContent(() =>
+        {
+            using (Html.BeginForm("AddDes", "PrepareScheduleNew", FormMethod.Post, new { id = "popupForm", @class = "edit_form", @style = "width: 260px" }))
+            {
+                ViewContext.Writer.Write("<div class=\"line\">");
+                Html.DevExpress().Memo(textBoxSettings =>
+                    {
+                        textBoxSettings.Name = "SaPMDes";
+                        textBoxSettings.Properties.Rows = 5;
+                        List<eRoute.Models.eCalendar.PrepareWW> ListWW = Session["GirdWW"] as List<eRoute.Models.eCalendar.PrepareWW>;
+                        if (ListWW != null)
+                        {
+                            foreach (eRoute.Models.eCalendar.PrepareWW item in ListWW)
+                            {
+                                if (!string.IsNullOrEmpty(item.SaPMDes))
+                                {
+                                    textBoxSettings.Text = item.SaPMDes;
+                                }
+                            }
+                        }
+                        textBoxSettings.ShowModelErrors = true;
+                        textBoxSettings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+                    }).GetHtml();
+
+
+                ViewContext.Writer.Write("<table class='border-none no-selected'> <tr> <td> ");
+                Html.DevExpress().Button(
+                    buttonSettings =>
+                    {
+                        buttonSettings.Name = "btnUpdateSaPM";
+                        buttonSettings.ControlStyle.CssClass = "button";
+                        buttonSettings.Width = 80;
+                        buttonSettings.Text = "OK";
+                        buttonSettings.ClientSideEvents.Click = "Des_Click";
+                    }
+                )
+                .Render();
+
+                ViewContext.Writer.Write("</td>");
+                ViewContext.Writer.Write("<td>");
+                //Html.DevExpress().Button(
+                //    buttonSettings =>
+                //    {
+                //        buttonSettings.Name = "btnCancelSaPM";
+                //        buttonSettings.ControlStyle.CssClass = "button";
+                //        buttonSettings.Width = 80;
+                //        buttonSettings.Text = "Cancel";
+                //        buttonSettings.ClientSideEvents.Click = "function(s, e){ popUpWordWithSaPM.Hide(); }";
+                //    }
+                //)
+                //.Render();
+                ViewContext.Writer.Write("</td></tr>");
+                ViewContext.Writer.Write("</table>");
+                ViewContext.Writer.Write("</div><b class=\"Clear\"></b>");
+            }
+        });
+    }).GetHtml()

@@ -1,0 +1,2272 @@
+﻿@{
+    //ViewBag.Title = "TerritoryPerformance_RawData";
+}
+
+<script type="text/javascript">
+        function VisitlastSM() {
+            $('#VisitLast').prop('checked',true)
+            $('#SyncDataFirst').prop('checked', false);
+            RenderSMSync();
+        }
+        function SyncFirst() {
+            $('#VisitLast').prop('checked', false)
+            $('#SyncDataFirst').prop('checked', true);
+            RenderSMSync();
+        }
+        function GetLastLocationSalesTeam(r) {
+            strVisitDate = $('input[name="strFromDate"]').val();
+            if (r == 'NSD' || r == 'NSM') {
+                GenerateVisited();
+            }
+            else {
+                isShowNote = true;
+                $("div").remove(".info");
+                document.getElementById('notePanel').style.display = 'none';
+                $.ajax({
+                    type: 'POST',
+                    url: '../Tracking/RenderSalesTeamOnMap',
+                    //data: { itemId: '@ViewBag.UserID' },
+                    dataType: 'json',
+                    success: function (data) {
+                        listSMSelected = data.listSMSelected;
+                        distributorIDSelected = data.distributorIDSelected;
+                        regionIDSelected = data.regionIDSelected;
+                        areaIDSelected = data.areaIDSelected;
+                        salesupIDSelected = data.salesupIDSelected;
+                        routeIDSelected = data.routeIDSelected;
+                        //alert(r);
+                        //alert(salesupIDSelected);
+                        //kyhieu
+                        if (r == 'SalesSup') {
+                            if (salesupIDSelected != '') {
+                                GetSalesmanLastLocation();
+                                GetDistributorLocation();
+                                ReportSalesAssessment('Salesman');
+                            }
+                        }
+                        else if (r == 'RSM') {
+                            if (regionIDSelected != '') {
+                                GetASM();
+                                ReportSalesAssessment('Area');
+                            }
+                            listSMSelected = '';
+                            distributorIDSelected = 0;
+                            regionIDSelected = '';
+                            areaIDSelected = '';
+                            salesupIDSelected = '';
+                            routeIDSelected = '';
+                        }
+                        else if (r == 'ASM') {
+                            if (areaIDSelected != '') {
+                                //GetSaleSup();
+                                //ReportSalesAssessment('Distributor');
+                                GetSalesmanLastLocation();
+                                //GetDistributorLocation();
+                                ReportSalesAssessment('Salesman');
+                            }
+                            listSMSelected = '';
+                            distributorIDSelected = 0;
+                            regionIDSelected = '';
+                            areaIDSelected = '';
+                            salesupIDSelected = '';
+                            routeIDSelected = '';
+                        }
+                         //listSMSelected = '';
+                         //distributorIDSelected = 0;
+                         //regionIDSelected = '';
+                         //areaIDSelected = '';
+                         //salesupIDSelected = '';
+                         //routeIDSelected = '';
+                    }
+                });
+            }
+        }
+        GetLastLocationSalesTeam(role);
+        $(document).ready(function () {
+            $('.datepicker').datepicker({
+                clickInput: true,
+                dateFormat: '@Utility.info.DateTimeFormat.ShortDatePattern.Replace("yyyy", "yy").Replace("MM", "mm")',
+            });
+
+        });
+        //Hieu add Khong can radio buton nua.
+    function ViewRawData() {
+        $("#loading").show();
+            if ($("#rdRawData").is(':checked')) {
+                GetContextMenu(role);
+                //ReportSalesAssessment("")
+                ShowReportSalesAssessment(null);
+                ClearOptionRoutine();
+                ClearMap();
+
+                $('#VisitLast').prop('checked', true)
+                $('#sl-treeView').hide();
+                $('#infoRD').show()
+                $('#InfoLocation').hide();
+                $('#criteria').hide()
+                $("div").remove(".info");
+                $('#chkSM').prop('checked', false);
+                $('#chkASM').prop('checked', false);
+                $('#chkSaleSup').prop('checked', false);
+
+                if (role == 'NSD' || role == 'NSM') {
+                    $('#chkSM').prop('checked', true);
+                    $('#sl-treeView').show();
+                    $('#imShow').show();
+                }
+                else {
+                    if (role == 'RSM') {
+                        $('#chkSM').prop('checked', true);
+                    } else if (role == 'ASM') {
+                        $('#chkSM').prop('checked', true);
+                    }
+                    else if (role == 'SalesSup') {
+                        $('#chkSM').prop('checked', true);
+                    }
+                    GetLastLocationSalesTeam(role);
+                }
+            }
+            if ($("#chkSM").is(':checked')) {
+                GetSalesmanLastLocation();
+            }
+        }
+    function focusonMap() {
+        //$("#loading").show();
+        var LatLongBounds = [];
+        var itemInfo = listob.options[listob.selectedIndex].value.toString().split("-");
+        var latlng = L.latLng(itemInfo[0], itemInfo[1]);
+        LatLongBounds.push(latlng);
+        var boundsMap = L.latLngBounds(LatLongBounds);
+        map.fitBounds(boundsMap);
+    }
+
+    function ClearOptionRoutine() {
+        $('#MarkerOutLetS').prop('checked', false);
+        $('#MarkerDistributor').prop('checked', false);
+        $('#MarkerSL').prop('checked', false);
+        $('#listob').hide();
+        $('#lblListOb').hide();
+        if (markerLocation != null) {
+            for (i = 0; i < markerLocation.length; i++) {
+                map.removeLayer(markerLocation[i]);
+            }
+            markerLocation = [];
+        }
+        if (routing != null) {
+            map.removeControl(routing);
+            routing = null;
+        }
+    }
+    function ClearHeatMapAndRoutineLayer() {
+        if (markerLocation != null) {
+            for (i = 0; i < markerLocation.length; i++) {
+                map.removeLayer(markerLocation[i]);
+            }
+            markerLocation = [];
+        }
+        if (CoverageOutlet != null) {
+            for (i = 0; i < CoverageOutlet.length; i++) {
+                map.removeLayer(CoverageOutlet[i]);
+            }
+            CoverageOutlet = [];
+        }
+        if (markerArray != null) {
+            for (i = 0; i < markerArray.length; i++) {
+                map.removeLayer(markerArray[i]);
+            }
+        }
+        if (arrayWW != null) {
+            for (i = 0; i < arrayWW.length; i++) {
+                map.removeLayer(arrayWW[i]);
+            }
+        }
+        if (routing != null) {
+            map.removeControl(routing);
+            routing = null;
+        }
+        if (multipolygon != null) {
+            for (i = 0; i < multipolygon.length; i++) {
+                map.removeLayer(multipolygon[i]);
+            }
+        }
+        if (multiLabel != null) {
+            for (i = 0; i < multiLabel.length; i++) {
+                map.removeLayer(multiLabel[i]);
+            }
+        }
+        //ClearMap();
+    }
+    //End
+
+    //RawData
+    ////Checkbox
+    $('#MarkerOutlet').click(function (event) {  //on click
+        if (this.checked) { // check select status
+            $('.checkbox1').each(function () { //loop through each checkbox
+                this.checked = true;  //select all checkboxes with class "checkbox1"
+            });
+        } else {
+            $('.checkbox1').each(function () { //loop through each checkbox
+                this.checked = false; //deselect all checkboxes with class "checkbox1"
+            });
+        }
+        UpdateMap();
+    });
+    ////##Checkbox Event
+
+    //$("#sidebar-left").resizable();
+
+    ////MarkerCluster
+    mapData.markers = new L.MarkerClusterGroup({ spiderfyOnMaxZoom: true, showCoverageOnHover: false, zoomToBoundsOnClick: true, disableClusteringAtZoom: 16 });
+    ////##MarkerCluster
+
+    ////Distance
+    var d = new L.Control.Distance(); map.addControl(d);
+    map.addControl(new L.Control.Scale());
+    ////##Distance
+
+    ////MINI MAP
+    //var osm2 = new L.Google('ROADMAP');
+
+    //var rect1 = { color: "#ff1100", weight: 3 };
+    //var rect2 = { color: "#0000AA", weight: 1, opacity: 0, fillOpacity: 0 };
+    //var miniMap = new L.Control.MiniMap(
+    //                    osm2,
+    //                    {
+    //                        toggleDisplay: true
+    //                        , aimingRectOptions: rect1
+    //                        , shadowRectOptions: rect2
+    //                        , width: 250
+    //                        , height: 250
+    //                    }
+    //                    ).addTo(map);
+    ////##MINI MAP
+
+    ////Map Utility
+
+    $("form#frmMap").error(function () {
+        alert("form Error!!!");
+        window.location = window.location;
+    });
+
+    document.onkeypress = checkKey;
+    function checkKey(e) {
+        e = e || window.event;
+        WriteLog(e.keyCode);
+        //alert(e.keyCode);
+        if (e.keyCode == 108) {
+            leftSidebar.show();
+        }
+        else if (e.keyCode == 114) {
+            rightSidebar.show();
+        }
+    }
+
+    var placeMarker_double = L.Icon.Label.extend({
+        options: {
+            iconUrl: '',
+            shadowUrl: null,
+            iconAnchor: new L.Point(0, 0),
+            wrapperAnchor: new L.Point(12, 13),
+            labelClassName: 'placeMarks-label'
+        }
+    });
+    var placeMarker_double_Violate = L.Icon.Label.extend({
+        options: {
+            iconUrl: '',
+            shadowUrl: null,
+            iconAnchor: new L.Point(0, 0),
+            wrapperAnchor: new L.Point(12, 13),
+            labelClassName: 'lableMarkerColor'
+        }
+    });
+    function labelTextAnchor(text) {
+        var n = text.toString().length;
+        if (n == 1) {
+            return 0;
+        }
+        else if (n == 2) {
+            return -3;
+        }
+        else if (n == 3) {
+            return -5;
+        }
+        else {
+            return 0;
+        }
+    }
+
+    function RandomColor() {
+        colors = ['#000000', '#00008B', '#0000FF', '#006400', '#008000', '#008B8B', '#00DED1', '#1E90FF', '#228B22', '#2F4F4F', '#483D8B', '#4B0082', '#556B2F', '#5F9EA0', '#6495ED', '#696969', '#7FFF00', '#8A2BE2', '#8B0000', '#8B008B', '#9400D3', '#9932CC', '#A52A2A', '#B22222', '#BDB76B', '#CD5C5C', '#D2691E', '#DC143C', '#DEB887', '#E9967A', '#FF7F50', '#FF8C00']
+        return colors[Math.floor(Math.random() * colors.length)];
+    }
+
+    function arrayPush(arA, arB) {
+        if (arB != null) {
+            var n = arB.length;
+            for (var i = 0; i < n; i++) {
+                arB.push(arB[i]);
+            }
+        }
+    }
+
+    function WriteLog(log) {
+        $('#log').html($('#log').html() + '<br/>' + log);
+    }
+
+    function Popup(latlng, content) {
+        var popup = new L.Popup();
+        popup.setLatLng(latlng);
+        popup.setContent(content);
+        map.openPopup(popup);
+    }
+
+
+    function MapAutoFit() {
+        if (mapData.LatLongBounds.length > 0) {
+            var bounds = new L.LatLngBounds(mapData.LatLongBounds);
+            map.fitBounds(bounds);
+        }
+    }
+
+    function MapPanToAndZoom(latlng, zoom) {
+        if (mapData.LatLongBounds.length > 0) {
+            var bounds = new L.LatLngBounds(mapData.LatLongBounds);
+            map.fitBounds(bounds);
+        }
+    }
+
+    function MapSetZoom(latlng, zoom) {
+        map.setView(latlng, zoom);
+    }
+
+    function RenderPolyline(latlngs, strLabel, strInfo, color, layer) {
+        if (latlngs == null || latlngs.length < 2) {
+            return 0;
+        }
+
+        //mapData.LatLongBounds.concat
+        mapData.LatLongBounds = mapData.LatLongBounds.concat(latlngs);
+
+        polylineMCP = L.polyline(latlngs, { color: color, weight: 2 });
+        polyLineArrow = L.polylineDecorator(latlngs, {
+            patterns: [
+            { offset: 1, repeat: 100, symbol: L.Symbol.arrowHead({ pixelSize: 10, pathOptions: { color: color, fillOpacity: 0.6, weight: 0 } }) }
+            ]
+        });
+
+        if (strLabel != '') {
+            polylineMCP.bindLabel(strLabel, { noHide: true });
+        }
+        if (strInfo != '') {
+            polylineMCP.bindPopup(strInfo);
+        }
+
+        if (layer != null) {
+            layer.addLayer(polylineMCP);
+            layer.addLayer(polyLineArrow);
+            if (layer == mapData.LayerLineOutletSMSSASM) {
+                map.addLayer(layer);
+            }
+        }
+        return polylineMCP;
+    }
+
+    function RenderMarker(latlng, number, label, popup, icon, layer1, layer2) {
+        if (latlng[0] != 0) {
+            mapData.LatLongBounds.push(latlng);
+        }
+        var marker = L.marker(latlng, {
+            icon: new placeMarker_double({
+                labelText: number
+            , labelAnchor: new L.Point(labelTextAnchor(number), -1)
+            , iconUrl: '../Content/THP/markers/' + icon + '.png'
+            })
+        })
+        //var myIcon2 = new L.icon({
+        //    shadowUrl: null,
+        //    iconAnchor: new L.Point(0, 0),
+        //    wrapperAnchor: new L.Point(12, 13),
+        //    labelClassName: 'placeMarks-label',
+        //    labelText: number,
+        //    labelAnchor: new L.Point(labelTextAnchor(number), -1),
+        //    iconUrl: '../Content/THP/markers/' + icon + '.png'
+        //});
+        //var marker = L.marker(latlng, {
+        //    icon: myIcon2
+        //})
+        if (label != '') {
+            marker.bindLabel(label, { noHide: false })
+        }
+        if (popup != '') {
+            marker.bindPopup(popup, { noHide: false });
+        }
+
+        if (layer1 != null) {
+            layer1.addLayer(marker);
+        }
+        if (layer2 != null) {
+            layer2.addLayer(marker);
+        }
+
+        return marker;
+    }
+
+    function RenderMarker(latlng, number, label, popup, icon, layer1, layer2, labelNoHide) {
+        if (latlng[0] != 0) {
+            mapData.LatLongBounds.push(latlng);
+        }
+        //var iconURL = '../Content/THP/markers/' + icon + '.png';
+        //var myIcon3 = new L.icon({
+        //    shadowUrl: null,
+        //    iconAnchor: new L.Point(0, 0),
+        //    wrapperAnchor: new L.Point(12, 13),
+        //    labelClassName: 'placeMarks-label',
+        //    labelText: number,
+        //    labelAnchor: new L.Point(labelTextAnchor(number), -1),
+        //    iconUrl: iconURL
+        //});
+        //var marker = L.marker(latlng, {
+        //    icon: myIcon3
+        //})
+        var iconURL = '../Content/THP/markers/' + icon + '.png';
+        var marker = L.marker(latlng, {
+            icon: new placeMarker_double({
+                labelText: number
+            , labelAnchor: new L.Point(labelTextAnchor(number), -1)
+            , iconUrl: iconURL
+            })
+        })
+        if (label != '') {
+            marker.bindLabel(label, { noHide: labelNoHide })
+        }
+        if (popup != '') {
+            marker.bindPopup(popup, { noHide: false });
+        }
+        if (layer1 != null) {
+            layer1.addLayer(marker);
+        }
+        if (layer2 != null) {
+            layer2.addLayer(marker);
+        }
+
+        return marker;
+    }
+    function RenderMarkerSMViolate(latlng, type, label, popup, icon, url, layer1, layer2, labelNoHide) {
+        if (latlng[0] != 0) {
+            mapData.LatLongBounds.push(latlng);
+        }
+
+        var marker = L.marker(latlng, {
+            icon: new placeMarker_double_Violate({
+                labelText: type
+                , labelAnchor: new L.Point(labelTextAnchor(''), -1)
+                , iconUrl: url
+            })
+            //, contextmenu: true,
+            //contextmenuWidth: 140,
+            //contextmenuItems: [{
+            //    text: 'Sale Visit Report',
+            //    //icon: 'images/zoom-out.png',
+            //    callback: ShowReport
+            //}]
+        })
+        //marker.setIcon(myIcon1);
+        if (label != '') {
+            marker.bindLabel(label, { noHide: labelNoHide })
+        }
+        if (popup != '') {
+            marker.bindPopup(popup, { noHide: false });
+        }
+        if (layer1 != null) {
+            layer1.addLayer(marker);
+        }
+        if (layer2 != null) {
+            layer2.addLayer(marker);
+
+        }
+        //marker.on('click', function (e) {
+        //    var myIcon1 = new L.icon({
+        //        iconUrl: "../Content/THP/markers/running-blue.png",
+        //        iconSize: [24, 25]
+        //    });
+        //    marker.setIcon(myIcon1);
+        //});
+        return marker;
+    }
+    function RenderMarkerWW(latlng, type, label, popup, icon, url, layer1, layer2, labelNoHide) {
+        if (latlng[0] != 0) {
+            mapData.LatLongBounds.push(latlng);
+        }
+        var markerWW = L.marker(latlng, {
+            icon: new placeMarker_double_Violate({
+                labelText: type
+                , labelAnchor: new L.Point(labelTextAnchor(''), -1)
+                , iconUrl: url
+            })
+        }).addTo(map);
+        arrayWW.push(markerWW);
+        if (label != '') {
+            markerWW.bindLabel(label, { noHide: false })
+        }
+        if (popup != '') {
+            markerWW.bindPopup(popup, { noHide: false });
+        }
+        //return marker;
+    }
+    function UpdateMap() {
+        mapData.MarkerOutletMCP = $("#MarkerOutletMCP").is(':checked');
+        mapData.LineOutlet = $("#LineOutlet").is(':checked');
+        mapData.MarkerSM = $("#MarkerSM").is(':checked');
+        mapData.LineSM = $("#LineSM").is(':checked');
+        mapData.MarkerSS = $("#MarkerSS").is(':checked');
+        mapData.LineSS = $("#LineSS").is(':checked');
+        mapData.MarkerASM = $("#MarkerASM").is(':checked');
+        mapData.LineASM = $("#LineASM").is(':checked');
+        mapData.MarkerOutlet = $("#MarkerOutlet").is(':checked');
+
+        mapData.MarkerOutletT2 = $("#MarkerOutletT2").is(':checked');
+        mapData.MarkerOutletT3 = $("#MarkerOutletT3").is(':checked');
+        mapData.MarkerOutletT4 = $("#MarkerOutletT4").is(':checked');
+        mapData.MarkerOutletT5 = $("#MarkerOutletT5").is(':checked');
+        mapData.MarkerOutletT6 = $("#MarkerOutletT6").is(':checked');
+        mapData.MarkerOutletT7 = $("#MarkerOutletT7").is(':checked');
+        mapData.MarkerOutletCN = $("#MarkerOutletCN").is(':checked');
+
+        MapShowHideLayer(mapData.LayerMarkerOutletMCP, mapData.MarkerOutletMCP, true);
+        MapShowHideLayer(mapData.LayerMarkerOutlet, mapData.MarkerOutlet, true);
+        MapShowHideLayer(mapData.LayerLineOutlet, mapData.LineOutlet, false);
+        MapShowHideLayer(mapData.LayerMarkerSM, mapData.MarkerSM, true);
+        MapShowHideLayer(mapData.LayerLineSM, mapData.LineSM, false);
+        MapShowHideLayer(mapData.LayerMarkerSS, mapData.MarkerSS, true);
+        MapShowHideLayer(mapData.LayerLineSS, mapData.LineSS, false);
+        MapShowHideLayer(mapData.LayerMarkerASM, mapData.MarkerASM, true);
+        MapShowHideLayer(mapData.LayerLineASM, mapData.LineASM, false);
+
+        MapShowHideLayer(mapData.LayerMarkerOutletT2, mapData.MarkerOutletT2, true);
+        MapShowHideLayer(mapData.LayerMarkerOutletT3, mapData.MarkerOutletT3, true);
+        MapShowHideLayer(mapData.LayerMarkerOutletT4, mapData.MarkerOutletT4, true);
+        MapShowHideLayer(mapData.LayerMarkerOutletT5, mapData.MarkerOutletT5, true);
+        MapShowHideLayer(mapData.LayerMarkerOutletT6, mapData.MarkerOutletT6, true);
+        MapShowHideLayer(mapData.LayerMarkerOutletT7, mapData.MarkerOutletT7, true);
+        MapShowHideLayer(mapData.LayerMarkerOutletCN, mapData.MarkerOutletCN, true);
+        ClearHeatMapAndRoutineLayer();
+    }
+
+    function MapShowHideLayer(layer, show, isMarkerLayer) {
+        if (show) {
+            if (map.hasLayer(layer) == false) {
+                map.addLayer(layer);
+                if (isMarkerLayer) {
+                    mapData.markers.addLayer(layer);
+                }
+            }
+        }
+        else {
+            if (map.hasLayer(layer) == true) {
+                map.removeLayer(layer);
+
+                if (isMarkerLayer) {
+                    mapData.markers.removeLayer(layer);
+                }
+            }
+        }
+    }
+
+    function ClearMap() {
+        ClearHeatMapAndRoutineLayer();
+        mapData.listRouteRender = [];
+        mapData.listOutletInfo = [];
+        mapData.listRouteInfo = [];
+        mapData.LayerMarkerOutlet.clearLayers();
+        mapData.LayerMarkerOutletMCP.clearLayers();
+        mapData.LayerLineOutlet.clearLayers();
+
+        mapData.LayerLineOutletSMSSASM.clearLayers();
+        mapData.LayerMarkerOutletSMSSASM.clearLayers();
+
+        mapData.LayerMarkerSM.clearLayers();
+        mapData.LayerLineSM.clearLayers();
+        mapData.listSMInfo = [];
+
+        mapData.LayerMarkerSS.clearLayers();
+        mapData.LayerLineSS.clearLayers();
+        mapData.listSSInfo = [];
+
+        mapData.LayerMarkerASM.clearLayers();
+        mapData.LayerLineASM.clearLayers();
+        mapData.listASMInfo = [];
+
+        mapData.LayerMarkerSMLastLocation.clearLayers();
+        mapData.listSMLastLocationInfo = [];
+
+        mapData.LayerMarkerSSLastLocation.clearLayers();
+        mapData.listSSLastLocationInfo = [];
+
+        mapData.LayerMarkerASMLastLocation.clearLayers();
+        mapData.listASMLastLocationInfo = [];
+
+        mapData.LayerMarkerDistributor.clearLayers();
+        mapData.listDistributorInfo = [];
+
+        mapData.LatLongBounds = [];
+
+        if (mapData.markers != undefined && mapData.markers != null)
+        mapData.markers.clearLayers();
+
+        mapData.LayerMarkerOutletT2.clearLayers();
+        mapData.LayerMarkerOutletT3.clearLayers();
+        mapData.LayerMarkerOutletT4.clearLayers();
+        mapData.LayerMarkerOutletT5.clearLayers();
+        mapData.LayerMarkerOutletT6.clearLayers();
+        mapData.LayerMarkerOutletT7.clearLayers();
+        mapData.LayerMarkerOutletCN.clearLayers();
+
+        map.removeLayer(mapData.LayerMarkerOutletMCP);
+        map.removeLayer(mapData.LayerLineOutlet);
+        map.removeLayer(mapData.LayerLineOutletSMSSASM);
+        map.removeLayer(mapData.LayerMarkerOutletSMSSASM);
+        map.removeLayer(mapData.LayerLineSM);
+        map.removeLayer(mapData.LayerMarkerSS);
+        map.removeLayer(mapData.LayerLineSS);
+        map.removeLayer(mapData.LayerMarkerASM);
+        map.removeLayer(mapData.LayerLineASM);
+        map.removeLayer(mapData.LayerMarkerSMLastLocation);
+        map.removeLayer(mapData.LayerMarkerSSLastLocation);
+        map.removeLayer(mapData.LayerMarkerASMLastLocation);
+        map.removeLayer(mapData.LayerMarkerDistributor);
+
+        map.removeLayer(mapData.LayerMarkerOutletT2);
+        map.removeLayer(mapData.LayerMarkerOutletT3);
+        map.removeLayer(mapData.LayerMarkerOutletT4);
+        map.removeLayer(mapData.LayerMarkerOutletT5);
+        map.removeLayer(mapData.LayerMarkerOutletT6);
+        map.removeLayer(mapData.LayerMarkerOutletT7);
+        map.removeLayer(mapData.LayerMarkerOutletCN);
+        //2015-05-25
+        map.removeLayer(LayerMarkerVisited);
+        map.removeLayer(LayerMarkerOrder);
+        map.removeLayer(LayerMarkerRevenue);
+        map.removeLayer(LayerMarkerCoverageOutlet);
+        map.removeLayer(LayerMarkerVisited1);
+        map.removeLayer(LayerMarkerOrder1);
+        map.removeLayer(LayerMarkerRevenue1);
+        map.removeLayer(LayerMarkerCoverageOutlet1);
+
+
+        if (GeoListMarkerOrder != null) {
+            LayerMarkerOrder.clearLayers();
+            map.removeControl(GeoListMarkerOrder);
+            GeoListMarkerOrder = null;
+        }
+        if (GeoListMarkerVisited != null) {
+            LayerMarkerVisited.clearLayers();
+            map.removeControl(GeoListMarkerVisited);
+            GeoListMarkerVisited = null;
+        }
+        if (GeoListMarkerRevenue != null) {
+            LayerMarkerRevenue.clearLayers();
+            map.removeControl(GeoListMarkerRevenue);
+            GeoListMarkerRevenue = null;
+        }
+        if (GeoListMarkerCoverageOutlet != null) {
+            LayerMarkerCoverageOutlet.clearLayers();
+            map.removeControl(GeoListMarkerCoverageOutlet);
+            GeoListMarkerCoverageOutlet = null;
+        }
+        //end
+        RemoveMovingMarker(myMovingMarker1);
+        RemoveMovingMarker(myMovingMarker2);
+    }
+    ////##Map Utility
+
+    //-----------------Outlet Render-----------------//
+    function RenderOutletByRoute(routeCD,lat,long, salesmanID, salesmanName, distributorID) {
+        ClearMap();
+        mapData.LatLongBounds = [];
+        $.ajax({ //Process the form using $.ajax()
+            type: 'POST', //Method type
+            url: '../Tracking/GetOutletInRoute', //Your form processing file url
+            data: { routeCD: routeCD, salesmanID: salesmanID, distributorID: distributorID, strVisitDate: strVisitDate }, //Forms name
+            dataType: 'json',
+            success: function (data) {
+                //insert vào list outlet để sử dụng cho Popup Info
+                mapData.listOutletInfo = mapData.listOutletInfo.concat(data.html);
+                mapData.listSMInfo = mapData.listSMInfo.concat(data.listSMVisit);
+                mapData.listSSInfo = mapData.listSSInfo.concat(data.listSSVisit);
+                mapData.listASMInfo = mapData.listASMInfo.concat(data.listASMVisit);
+
+                if (mapData.listRouteInfo == null) {
+                    mapData.listRouteInfo = [];
+
+                }
+
+                mapData.listRouteInfo.push(data.route);
+
+                //Render Outlet Marker and Line
+                RenderOutletMarker(data.html, data.route);
+
+                //Render Salesman Marker and Line
+                //RenderSalesmanMarker(data.listSMVisit, data.route);
+                RenderSalesmanMarker(data.listSMVisitTracking, data.route);
+
+                //Render SaleSup Marker and Line
+                RenderSaleSupMarker(data.listSSVisit, data.route);
+
+                //Render ASM Marker and Line
+                RenderASMMarker(data.listASMVisit, data.route);
+                listSMSelected = salesmanID;
+                ReportSalesAssessment('Salesman');
+                //GetSalesmanLastLocation();
+                RenderMarkerSMViolate([lat, long], '', salesmanID + ' - ' + salesmanName, '', 'SM', '../Content/THP/markers/SaleMan_None.png', mapData.LayerMarkerSMLastLocation, null, true);
+                MapShowHideLayer(mapData.LayerMarkerSMLastLocation, true, true);
+                UpdateMap();
+                //if (listSMSelected != '') {
+                $('#InfoLocation').show();
+                $('#pOption').show();
+                //}
+            }
+        });
+    }
+
+    function RenderOutletMarker(data, routeInfo) {
+        if (data == null)
+            return false;
+        var n = data.length;
+        if (n == 0)
+            return false;
+        var markerList = [];
+        var latlngs = [];
+
+        var lat = 0.0;
+        var lng = 0.0;
+        var add = '';
+        var text = '';
+        var mlabel = '';
+
+        for (var i = 0; i < n; i++) {
+            if (data[i].ISMCP == 1) {
+                if (data[i].RenderOrder != 0) {
+                    mlabel = data[i].VisitOrder;
+                    text = data[i].VisitOrder + '<br/><p class="real-order" style="display:inline;color:blue;z-index: 9999999999;position: absolute;background-color:#7cc1f0;">' + data[i].RenderOrder + '</p>'; //background-color:#7cc1f0;
+                }
+                else {
+                    mlabel = data[i].VisitOrder;
+                    text = data[i].VisitOrder;
+                }
+            }
+            else {
+                mlabel = data[i].strVisitInWeek;
+                text = data[i].strVisitInWeek; // VisitOrder;
+            }
+            //var myIcon1 = new L.icon({
+            //    shadowUrl: null,
+            //    iconAnchor: new L.Point(0, 0),
+            //    wrapperAnchor: new L.Point(12, 13),
+            //    labelClassName: 'placeMarks-label',
+            //    labelText: text,
+            //    labelAnchor: new L.Point(labelTextAnchor(mlabel), -1),
+            //    //labelAnchor: [labelTextAnchor(mlabel), -1],
+            //    iconUrl: '../Content/THP/markers/' + data[i].MarkerColor + '.png'
+            //});
+            //var marker = L.marker([data[i].Latitude, data[i].Longtitude], {
+            //    icon: myIcon1
+            //})
+            var marker = L.marker([data[i].Latitude, data[i].Longtitude], {
+                icon: new placeMarker_double({
+                    labelText: text//data[i].VisitOrder//
+                    , labelAnchor: new L.Point(labelTextAnchor(mlabel), -1)
+                    , iconUrl: '../Content/THP/markers/' + data[i].MarkerColor + '.png'
+                })
+            })
+            .bindLabel(data[i].VisitOrder + ' - ' + data[i].OutletName, { noHide: false })//data[i].VisitOrder + ' :' + data[i].OutletID + ' - ' +
+            .on('click', OutletClick);
+
+            markerList.push(marker);
+
+            if (data[i].ISMCP == 1) {
+                if (data[i].Latitude != 0 && data[i].RenderOrder != 0) {// && data[i].RenderOrder != 0
+                    latlngs.push([data[i].Latitude, data[i].Longtitude]);
+                    mapData.LatLongBounds.push([data[i].Latitude, data[i].Longtitude]);
+                }
+                mapData.LayerMarkerOutletMCP.addLayer(marker);
+            }
+            else {
+                if (data[i].T2 == 1) {
+                    mapData.LayerMarkerOutletT2.addLayer(marker);
+                }
+                if (data[i].T3 == 1) {
+                    mapData.LayerMarkerOutletT3.addLayer(marker);
+                }
+                if (data[i].T4 == 1) {
+                    mapData.LayerMarkerOutletT4.addLayer(marker);
+                }
+                if (data[i].T5 == 1) {
+                    mapData.LayerMarkerOutletT5.addLayer(marker);
+                }
+                if (data[i].T6 == 1) {
+                    mapData.LayerMarkerOutletT6.addLayer(marker);
+                }
+                if (data[i].T7 == 1) {
+                    mapData.LayerMarkerOutletT7.addLayer(marker);
+                }
+                if (data[i].CN == 1) {
+                    mapData.LayerMarkerOutletCN.addLayer(marker);
+                }
+            }
+            if (data[i].Latitude != 0) {
+                lat = data[i].Latitude;
+                lng = data[i].Longtitude;
+                //mapData.LatLongBounds.push([data[i].Latitude, data[i].Longtitude]);
+            }
+        }
+
+        MapPanToAndZoom([lat, lng], 16);
+        templatArray1 = latlngs;
+        //Render Route
+        RenderPolyline(latlngs, routeInfo.RouteID + ' - ' + routeInfo.RouteName, StrRouteInfoPopup(routeInfo), 'blue', mapData.LayerLineOutlet); //RandomColor()
+    }
+    function SimulateRoutingOutlet() {
+        var myIcon1 = new L.icon({
+            iconUrl: "../Content/THP/markers/running-blue.png",
+            iconSize: [24, 25]
+        });
+
+        if ($('#SimulateROutlet').is(':checked')) {
+            var animatedMarker = L.animatedMarker(templatArray1, {
+                icon: myIcon1,
+                distance: 0,
+                interval: 500,
+                onEnd: function () {
+                    $('#SimulateROutlet').prop('checked', false);
+                    RemoveMovingMarker(myMovingMarker1);
+                }
+            });
+            map.addLayer(animatedMarker);
+            myMovingMarker1.push(animatedMarker);
+        }
+        else {
+            RemoveMovingMarker(myMovingMarker1);
+        }
+    }
+
+    function SimulateRoutingSM() {
+        var myIcon1 = new L.icon({
+            iconUrl: "../Content/THP/markers/running.png",
+            iconSize: [24, 25]
+        });
+        if ($('#SimulateRSalesMan').is(':checked')) {
+            var animatedMarker = L.animatedMarker(templatArray2, {
+                icon: myIcon1,
+                distance: 0,
+                interval: 500,
+                onEnd: function () {
+                    $('#SimulateRSalesMan').prop('checked', false);
+                    RemoveMovingMarker(myMovingMarker2);
+                }
+            });
+            map.addLayer(animatedMarker);
+            myMovingMarker2.push(animatedMarker);
+        }
+        else {
+            RemoveMovingMarker(myMovingMarker2);
+        }
+    }
+    function RemoveMovingMarker(lstMovingMarker) {
+        if (lstMovingMarker != null) {
+            for (i = 0; i < lstMovingMarker.length; i++) {
+                map.removeLayer(lstMovingMarker[i]);
+            }
+        }
+    }
+    function OutletClick(e) {
+        PopupOutlet(e.latlng);
+    }
+    function PopupOutlet(curPos) {
+        var n = mapData.listOutletInfo.length;
+        for (var i = 0; i < n; i++) {
+            if (mapData.listOutletInfo[i].Latitude == curPos.lat && mapData.listOutletInfo[i].Longtitude == curPos.lng) {
+                Popup([mapData.listOutletInfo[i].Latitude, mapData.listOutletInfo[i].Longtitude], RenderOutletInfoPopup(mapData.listOutletInfo[i]));
+                //Jquery tab for outlet popup info
+                $('.header_tab').hover(function () {
+                    //alert('click tab' + $(this).attr('rel'));
+                    $('.content_tab').hide();
+                    $('.' + $(this).attr('rel')).show();
+                });
+                $('.leaflet-popup-content').css("width", "auto");
+                $('.content_tab').hide();
+                $('.content1').show();
+                //$('.content1').css("width", "auto");
+                HoverZoom();
+
+                map.addLayer(mapData.LayerMarkerOutletSMSSASM);
+                map.addLayer(mapData.LayerLineOutletSMSSASM);
+                break;
+            }
+        }
+    }
+
+    function DecodeHTML(encodedHTML) {
+        return $("<div/>").html(encodedHTML).text();
+    }
+
+    function RenderOutletInfoPopup(data) {
+        map.removeLayer(mapData.LayerLineOutletSMSSASM);
+        map.removeLayer(mapData.LayerMarkerOutletSMSSASM);
+        mapData.LayerLineOutletSMSSASM.clearLayers();
+        mapData.LayerMarkerOutletSMSSASM.clearLayers();
+
+        var imagesCustomerUrl = '';
+        //data.ImageFile = '/SFA/Outlet/images/' + data.ImageFile;//'http://eroute.thp.com.vn/SFA/SalesOrder/images/2014_05_08/1002330_SM00003512_0000520630_1399517845925.jpg';
+        if (data.ImageFile != null && data.ImageFile != '') {
+            imagesCustomerUrl = '<img src="' + OutletImageFolder + data.ImageFile + '" width="100px" class="hoverzoom" />';
+        }
+        infoHtml =
+        '<div style="" >' +
+        '<h3>' + data.OutletID + ' - ' + data.OutletName + '</h3>' +
+        '<p><span class="alignleft">' + imagesCustomerUrl + '</span><span class="alignright" style="width: 64%;">' +
+        '<strong>@Utility.Phrase("Contact")</strong>: ' + data.OutletName +
+       '<br/><strong>@Utility.Phrase("Address")</strong>: ' + data.Address +
+       '<br/><strong>@Utility.Phrase("Phone")</strong>: ' + data.Phone +
+       @*'<br/><strong>@Utility.Phrase("Latitude")</strong>: ' + data.Latitude +
+       '<br/><strong>@Utility.Phrase("Longtitude")</strong>: ' + data.Longtitude +*@
+       '<br/><strong>@Utility.Phrase("Distributor")</strong>: ' + data.DistributorCode + ' - ' + data.DistributorName +
+       '<br/><strong>@Utility.Phrase("Route")</strong>: ' + data.RouteID + ' - ' + data.RouteName +
+       '<br/><strong>@Utility.Phrase("Salesman")</strong>: ' + data.SalesmanID + ' - ' + data.SalesmanName +
+       '</span></p>' +
+        '<br clear="all"/>';
+
+        ////RENDER SALESMAN VISIT
+        if (data.HasVisit == 1) {
+            infoHtml += '<h3 style="color:red;font-weight:bold;">@Utility.Phrase("OrderInfo")</h3>' +
+            //'<strong>@Utility.Phrase("SalesmanID")</strong>: ' + data.SalesmanID +
+            //'<br/><strong>@Utility.Phrase("SalesmanName")</strong>: ' + data.SalesmanName +
+                          '<br/><br/><strong>@Utility.Phrase("Date")</strong>: ' + data.VisitDate + '';
+            var length = data.ListSMVisit.length;
+            element = null;
+            var imagesCustomerUrl = '';
+            for (var i = 0; i < length; i++) {
+                element = data.ListSMVisit[i];
+                // Do something with element i.
+                infoHtml += '<br/>------------------------<p>';
+                if (element.HasOrder == 1) {
+                    if (element.ImageFile != null && element.ImageFile != '') {
+                        imagesCustomerUrl = DecodeHTML(element.ImageFile);//'<img src="' + SalesOrdersImageFolder + element.ImageFile + '" width="100px" class="hoverzoom" />';
+                        infoHtml += '<span class="alignleft">' + imagesCustomerUrl + '</span>';
+                        infoHtml += '<span class="alignright" style="width: 64%;">';
+                    }
+                    else {
+                        infoHtml += '<span class="alignleft"';
+                    }
+                    infoHtml += '<br/>&nbsp;&nbsp;<strong>@Utility.Phrase("OrderCode")</strong>: ' + element.Code +
+                                '<br/>&nbsp;&nbsp;<strong>@Utility.Phrase("DropSize")</strong>: ' + element.DropSize +
+                                '<br/>&nbsp;&nbsp;<strong>@Utility.Phrase("TotalAmt")</strong>: ' + element.TotalAmt +
+                                '<br/>&nbsp;&nbsp;<strong>@Utility.Phrase("TotalSKU")</strong>: ' + element.TotalSKU +
+                                '<br/>&nbsp;&nbsp;<strong>@Utility.Phrase("TimeStart")</strong>: ' + element.SMTimeStart +
+                                '<br/>&nbsp;&nbsp;<strong>@Utility.Phrase("TimeEnd")</strong>: ' + element.SMTimeEnd +
+                                '<br/>&nbsp;&nbsp;<strong>@Utility.Phrase("DistanceToOutlet")</strong>: ' + element.SMDistance + ' (m)' +
+                                '</span></p><br clear="all"/>';
+                }
+                else if (element.HasOrder == 0) {
+                    if (element.ImageFile != null && element.ImageFile != '') {
+                        imagesCustomerUrl = DecodeHTML(element.ImageFile);//'<img src="' + SalesOrdersImageFolder + element.ImageFile + '" width="100px" class="hoverzoom" />';
+                        infoHtml += '<span class="alignleft">' + imagesCustomerUrl + '</span>';
+                        infoHtml += '<span class="alignright" style="width: 64%;">';
+                    }
+                    else {
+                        infoHtml += '<span class="alignleft"';
+                    }
+                    infoHtml += '<br/>&nbsp;&nbsp;<strong>@Utility.Phrase("OrderCode")</strong>: @Utility.Phrase("NoOrder")' +
+                                '<br/>&nbsp;&nbsp;<strong>@Utility.Phrase("Reason")</strong>: ' + element.Reason +
+                                '<br/>&nbsp;&nbsp;<strong>@Utility.Phrase("TimeStart")</strong>: ' + element.SMTimeStart +
+                                '<br/>&nbsp;&nbsp;<strong>@Utility.Phrase("TimeEnd")</strong>: ' + element.SMTimeEnd +
+                                '<br/>&nbsp;&nbsp;<strong>@Utility.Phrase("DistanceToOutlet")</strong>: ' + element.SMDistance + ' (m)' +
+                                '</span></p><br clear="all"/>';
+                }
+
+                //PolyLineProcess
+                var latlngs = [];
+                latlngs.push([data.Latitude, data.Longtitude]);
+                latlngs.push([element.SMLatitude, element.SMLongitude]);
+                RenderPolyline(latlngs, element.SMDistance + ' (m)', data.SalesmanName, 'black', mapData.LayerLineOutletSMSSASM);
+
+                RenderMarker([element.SMLatitude, element.SMLongitude], '', data.SalesmanID + ' - ' + data.SalesmanName, '', 'SM', mapData.LayerMarkerOutletSMSSASM, null);
+            }
+        }
+        ////##RENDER SALESMAN VISIT
+
+        infoHtmlSSASM = '';
+        ////RENDER SALESUP VISIT
+        var SSVisit = data.ListSSVisit.length;
+        if (SSVisit > 0) {
+            infoHtmlSSASM += '<p>' +
+                         '<h3 style="color:red;font-weight:bold;">@Utility.Phrase("SaleSupVisitInfo")</h3>' +
+                              '<strong>@Utility.Phrase("SaleSup")</strong>: ' + data.SaleSupID + ' - ' + data.SaleSupName;
+            element = null;
+            for (var i = 0; i < SSVisit; i++) {
+                element = data.ListSSVisit[i];
+                // Do something with element i.
+                infoHtmlSSASM += '<br/>&nbsp;&nbsp;<strong>@Utility.Phrase("TimeStart")</strong>: ' + element.SUPTimeStart +
+                                '<br/>&nbsp;&nbsp;<strong>@Utility.Phrase("TimeEnd")</strong>: ' + element.SUPTimeEnd +
+                                '<br/>&nbsp;&nbsp;<strong>@Utility.Phrase("DistanceToOutlet")</strong>: ' + element.SUPDistance + ' (m)';
+                                @*+
+                                '<br/>&nbsp;&nbsp;<strong>@Utility.Phrase("Latitude")</strong>: ' + element.SUPLatitudeStart +
+                                '<br/>&nbsp;&nbsp;<strong>@Utility.Phrase("Longitude")</strong>: ' + element.SUPLongtitudeStart;*@
+
+                //PolyLineProcess
+                var latlngs = [];
+                latlngs.push([data.Latitude, data.Longtitude]);
+                latlngs.push([element.SUPLatitudeStart, element.SUPLongtitudeStart]);
+                RenderPolyline(latlngs, element.SUPDistance + ' (m)', data.SaleSupName, 'green', mapData.LayerLineOutletSMSSASM);
+
+                RenderMarker([element.SUPLatitudeStart, element.SUPLongtitudeStart], '', data.SaleSupID + ' - ' + data.SaleSupName, '', 'SS', mapData.LayerMarkerOutletSMSSASM, null);
+            }
+            infoHtmlSSASM += '</p>';
+        }
+        ////##RENDER SALESUP VISIT
+
+        ////RENDER ASM VISIT
+        var ASMVisit = data.ListASMVisit.length;
+        if (ASMVisit > 0) {
+            infoHtmlSSASM += '<p>' +
+                         '<h3 style="color:red;font-weight:bold;">@Utility.Phrase("ASMVisitInfo")</h3>' +
+                              '<strong>@Utility.Phrase("ASM")</strong>: ' + data.ASMID + ' - ' + data.ASMName;
+            element = null;
+            for (var i = 0; i < ASMVisit; i++) {
+                element = data.ListASMVisit[i];
+                // Do something with element i.
+                infoHtmlSSASM += '<br/>&nbsp;&nbsp;<strong>@Utility.Phrase("TimeStart")</strong>: ' + element.ASMTimeStart +
+                            '<br/>&nbsp;&nbsp;<strong>@Utility.Phrase("TimeEnd")</strong>: ' + element.ASMTimeEnd +
+                            '<br/>&nbsp;&nbsp;<strong>@Utility.Phrase("Distance")</strong>: ' + element.ASMDistance ;
+                            @*+
+                            '<br/>&nbsp;&nbsp;<strong>@Utility.Phrase("Latitude")</strong>: ' + element.ASMLatitudeStart + ' (m)' +
+                            '<br/>&nbsp;&nbsp;<strong>@Utility.Phrase("Longitude")</strong>: ' + element.ASMLongtitudeStart;*@
+
+                //PolyLineProcess
+                var latlngs = [];
+                latlngs.push([data.Latitude, data.Longtitude]);
+                latlngs.push([element.ASMLatitudeStart, element.ASMLongtitudeStart]);
+
+                RenderPolyline(latlngs, element.ASMDistance + ' (m)', data.ASMName, 'yellow', mapData.LayerLineOutletSMSSASM);
+                RenderMarker([element.ASMLatitudeStart, element.ASMLongtitudeStart], '', data.ASMID + ' - ' + data.ASMName, '', 'ASM', mapData.LayerMarkerOutletSMSSASM, null);
+            }
+            infoHtmlSSASM += '</p>';
+        }
+
+        //Show tab popup info ASMSS
+        if (ASMVisit > 0 || SSVisit > 0) {
+            $('.header_tab2').show();
+        }
+        else {
+            $('.header_tab2').hide();
+        }
+
+        ////##RENDER ASM VISIT
+        infoHtml += '<input type="button" id="btnViewOutlet" style="font-size: 13px;border-radius: 4px;background-color: #77A8A0" value="@Utility.Phrase("ViewRoutine")" onclick="FindRoutine(\'' + data.Latitude + '\',\'' + data.Longtitude + '\');" />';
+        infoHtml += '</div>';
+
+        ////RENDER VISITIMAGE
+        var infoHtmlVisitImage = '';
+        var ImageVisit = data.ListVisitImage.length;
+        if (ImageVisit > 0) {
+            infoHtmlVisitImage += '';
+            element = null;
+            for (var i = 0; i < ImageVisit; i++) {
+                element = data.ListVisitImage[i];
+                infoHtmlVisitImage +=
+                    '<div style="float: left; width: 100px; margin-right: 5px; border: .5px solid #bbb;" >' +
+                        '<span style="float: left; width: 100%; text-align: center; color: blue;">' + element.strVisitDate + '</span>' +
+                        '<img src="' + element.ImageFile + '" width="100%;" class="hoverzoom" />' +
+                    '</div>';
+            }
+        }
+        ////####RENDER VISITIMAGE
+        $('.content1').html(infoHtml);
+        $('.content2').html(infoHtmlSSASM);
+        $('.content3').html(infoHtmlVisitImage);
+
+        return $("#data_popup").html();
+    }
+    //-----------------END Outlet Render-----------------//
+
+    //-----------------Route Render-----------------//
+    function StrRouteInfoPopup(routeInfo) {
+        infoHtml = '<h3>' + routeInfo.RouteID + ' - ' + routeInfo.RouteName + '</h3>' +
+               '<strong>@Utility.Phrase("Salesman")</strong>: ' + routeInfo.SalesmanID + ' - ' + routeInfo.SalesmanName +
+               '<br/><strong>@Utility.Phrase("Distributor")</strong>: ' + routeInfo.DistributorCode + ' - ' + routeInfo.DistributorName +
+               @*'<br/><strong>@Utility.Phrase("SaleSup")</strong>: ' + routeInfo.SaleSupID + ' - ' + routeInfo.SaleSupName +*@
+               '<br/><strong>@Utility.Phrase("ASM")</strong>: ' + routeInfo.ASMID + ' - ' + routeInfo.ASMName +
+               '<br/><strong>@Utility.Phrase("OutletInRoute")</strong>: ' + routeInfo.OutletInRoute +
+               '<br/><strong>@Utility.Phrase("OutletInSubRoute")</strong>: ' + routeInfo.OutletInSubRoute +
+               '<br/>';
+        return infoHtml;
+    }
+
+    function GetRoute(routeCD, distributorID, regionID, areaID) {
+        $.ajax({ //Process the form using $.ajax()
+            type: 'POST', //Method type
+            url: '../Tracking/GetRouteByUser', //Your form processing file url
+            data: { routeCD: routeCD, distributorID: distributorID, regionID: regionID, areaID: areaID }, //Forms name
+            dataType: 'json',
+            success: function (data) {
+                if (data != null) {
+                    //ClearMap();
+                    mapData.listRouteRender = mapData.listRouteRender.concat(data.html);
+                    RenderRouteSelectedByUser();
+                }
+            }
+        });
+    }
+
+    function RenderRouteSelectedByUser() {
+        if (mapData.listRouteRender != null) {
+            var n = mapData.listRouteRender.length;
+            for (var i = 0; i < n; i++) {
+                RenderOutletByRoute(mapData.listRouteRender[i].RouteID, '', mapData.listRouteRender[i].DistributorID);
+            }
+            UpdateMap();
+        }
+    }
+    //-----------------END Route Render-----------------//
+
+    //-----------------Salesman Render-----------------//
+    function RenderSalesmanMarker(data, routeInfo) {
+        if (data == null)
+            return false;
+        var n = data.length;
+        if (n == 0)
+            return false;
+        var latlngs = [];
+
+        for (var i = 0; i < n; i++) {
+            RenderMarker([data[i].Latitude, data[i].Longtitude], data[i].VisitOrder.toString(), data[i].StartTime + ' - ' + data[i].EndTime, routeInfo.SalesmanID + ' - ' + routeInfo.SalesmanName, 'SM', mapData.LayerMarkerSM, null);
+
+            if (data[i].Latitude != 0) {
+                latlngs.push([data[i].Latitude, data[i].Longtitude]);
+            }
+        }
+
+        //Render Route
+        MapPanToAndZoom([data[n - 1].SMLatitude, data[n - 1].SMLongitude], 16);
+
+        templatArray2 = latlngs;
+        //Set View
+        RenderPolyline(latlngs, '', '', 'black', mapData.LayerLineSM);
+    }
+
+    //function RenderSalesmanMarker(data, routeInfo) {
+    //    if (data == null)
+    //        return false;
+    //    var n = data.length;
+    //    if (n == 0)
+    //        return false;
+    //    var latlngs = [];
+
+    //    for (var i = 0; i < n; i++) {
+    //        RenderMarker([data[i].SMLatitude, data[i].SMLongitude], (i + 1).toString(), data[i].SMTimeStart + ' - ' + data[i].SMTimeEnd, routeInfo.SalesmanID + ' - ' + routeInfo.SalesmanName, 'SM', mapData.LayerMarkerSM, null);
+
+    //        if (data[i].SMLatitude != 0) {
+    //            latlngs.push([data[i].SMLatitude, data[i].SMLongitude]);
+    //        }
+    //    }
+
+    //    //Render Route
+    //    RenderPolyline(latlngs, '', '', 'black', mapData.LayerLineSM);
+    //    templatArray2 = latlngs;
+    //    //Set View
+    //    MapPanToAndZoom([data[n - 1].SMLatitude, data[n - 1].SMLongitude], 16);
+    //}
+    //-----------------END Salesman Render-----------------//
+
+    //-----------------SaleSup Render-----------------//
+    function RenderSaleSupMarker(data, routeInfo) {
+        if (data == null)
+            return false;
+        var n = data.length;
+        if (n == 0)
+            return false;
+        var latlngs = [];
+
+        for (var i = 0; i < n; i++) {
+            RenderMarker([data[i].SUPLatitudeStart, data[i].SUPLongtitudeStart], (i + 1).toString(), data[i].SUPTimeStart + ' - ' + data[i].SUPTimeEnd, routeInfo.SaleSupID + ' - ' + routeInfo.SaleSupName, 'SS', mapData.LayerMarkerSS, null);
+
+            if (data[i].SUPLatitudeStart != 0) {
+                latlngs.push([data[i].SUPLatitudeStart, data[i].SUPLongtitudeStart]);
+            }
+        }
+
+        //Render Route
+        RenderPolyline(latlngs, '', '', 'green', mapData.LayerLineSS);
+    }
+    //-----------------END SaleSup Render-----------------//
+
+    //-----------------ASM Render-----------------//
+    function RenderASMMarker(data, routeInfo) {
+        if (data == null)
+            return false;
+        var n = data.length;
+        if (n == 0)
+            return false;
+        var latlngs = [];
+
+        for (var i = 0; i < n; i++) {
+            RenderMarker([data[i].ASMLatitudeStart, data[i].ASMLongtitudeStart], (i + 1).toString(), data[i].ASMTimeStart + ' - ' + data[i].ASMTimeEnd, routeInfo.ASMID + ' - ' + routeInfo.ASMName, 'ASM', mapData.LayerMarkerASM, null);
+
+            if (data[i].ASMLatitudeStart != 0) {
+                latlngs.push([data[i].ASMLatitudeStart, data[i].ASMLongtitudeStart]);
+            }
+        }
+
+        //Render Route
+        RenderPolyline(latlngs, '', '', 'yellow', mapData.LayerLineASM);
+    }
+    //-----------------END ASM Render-----------------//
+
+    function LoadSalesman() {
+        //alert("abv");
+        $("#loading").show();
+        window.location = '@Url.Action("TerritoryPerformance", "Tracking")' + '?strVisitDate=' + $('input[name="strFromDate"]').val();
+    };
+
+    function ToggleListSM() {
+        if (typeof listSM === "undefined")
+            return false;
+
+        if (checkAll.GetChecked()) {
+            listSM.SelectAll();
+        }
+        else {
+            listSM.UnselectAll();
+        }
+    };
+
+    //-----------------SalesmanLastLocation Render-----------------//
+    function GetSalesmanLastLocation() {
+        //alert(regionIDSelected);
+        //alert(salesupIDSelected);
+        //GetParam();
+        $.ajax({ //Process the form using $.ajax()
+            type: 'POST', //Method type
+            url: '../Tracking/RenderListSMLastLocation', //Your form processing file url
+            data: { strSMSelected: listSMSelected, regionID: regionIDSelected, areaID: areaIDSelected, distributorID: distributorIDSelected, salesSupID: salesupIDSelected, strVisitDate: strVisitDate }, //Forms name
+            dataType: 'json',
+            success: function (data) {
+                //Clear data and layer
+                //alert(data.html);
+                mapData.listSMLastLocationInfo = [];
+                mapData.LayerMarkerSMLastLocation.clearLayers();
+                MapShowHideLayer(mapData.LayerMarkerSMLastLocation, false, true);
+                $('#SimulateROutlet').prop('checked', false);
+                $('#SimulateRSalesMan').prop('checked', false);
+                mapData.listSMLastLocationInfo = mapData.listSMLastLocationInfo.concat(data.html);
+                RenderSalesmanLastLocation(data.html, data.infoViolate);
+                listSMSelected = '';
+                if (data.html.length == 0)
+                {
+                    ShowMessageNoData('@Html.Raw(Utility.Phrase("NoData"))');
+                }
+                $("#loading").hide();
+            }
+        });
+    }
+    function RenderSalesmanLastLocation(data, dataViolate) {
+        if (data == null)
+            return false;
+        var n = data.length;
+        if (n == 0)
+            return false;
+
+        var SMlat = 0.0;
+        var SMlng = 0.0;
+
+        var lat = 0.0;
+        var lng = 0.0;
+
+        if ($('#chkSM').is(':checked')) {
+           // $('#InfoLocation').hide();
+        } else {
+            map.removeLayer(mapData.LayerMarkerOutletMCP);
+            map.removeLayer(mapData.LayerLineOutlet);
+            map.removeLayer(mapData.LayerLineOutletSMSSASM);
+            map.removeLayer(mapData.LayerMarkerOutletSMSSASM);
+            map.removeLayer(mapData.LayerLineSM);
+            map.removeLayer(mapData.LayerMarkerSMLastLocation);
+            map.removeLayer(mapData.LayerMarkerSM);
+            map.removeLayer(mapData.LayerMarkerOutletCN);
+            map.removeLayer(mapData.LayerMarkerOutletT7);
+            map.removeLayer(mapData.LayerMarkerOutletT6);
+            map.removeLayer(mapData.LayerMarkerOutletT5);
+            map.removeLayer(mapData.LayerMarkerOutletT4);
+            map.removeLayer(mapData.LayerMarkerOutletT3);
+            map.removeLayer(mapData.LayerMarkerOutletT2);
+            mapData.LayerMarkerOutletMCP.clearLayers();
+            mapData.LayerLineOutlet.clearLayers();
+            mapData.LayerLineOutletSMSSASM.clearLayers();
+            mapData.LayerMarkerOutletSMSSASM.clearLayers();
+            mapData.LayerLineSM.clearLayers();
+            mapData.LayerMarkerSMLastLocation.clearLayers();
+            mapData.LayerMarkerSM.clearLayers();
+            mapData.LayerMarkerOutletCN.clearLayers();
+            mapData.LayerMarkerOutletT7.clearLayers();
+            mapData.LayerMarkerOutletT6.clearLayers();
+            mapData.LayerMarkerOutletT5.clearLayers();
+            mapData.LayerMarkerOutletT4.clearLayers();
+            mapData.LayerMarkerOutletT3.clearLayers();
+            mapData.LayerMarkerOutletT2.clearLayers();
+            $('#InfoLocation').hide();
+            if (routing != null) {
+                map.removeControl(routing);
+                routing = null;
+            }
+            if (markerLocation != null) {
+                for (i = 0; i < markerLocation.length; i++) {
+                    map.removeLayer(markerLocation[i]);
+                }
+                markerLocation = [];
+            }
+            RemoveMovingMarker(myMovingMarker1);
+            RemoveMovingMarker(myMovingMarker2);
+        }
+        if (n < 500) {
+            for (var i = 0; i < n; i++) {
+                SMlat = 0.0;
+                SMlng = 0.0;
+                var label = data[i].SalesmanID + ' - ' + data[i].SalesmanName;
+                var iconNonCompliance = '../Content/THP/markers/SaleMan_Violate.png';
+                var iconCompliance = '../Content/THP/markers/SaleMan_None.png';
+                if (data[i].ASMWW == 1 || data[i].SUPWW == 1) {
+                    label += ' (WW)';
+                }
+                if ($('#rdWW').is(':checked')) {
+                    if ($('#chkLastVisit').is(':checked')) {
+                        if (data[i].VisitTime != null) {
+                            SMlat = data[i].Latitude;
+                            SMlng = data[i].Longtitude;
+                            var m = RenderMarkerSMViolate([SMlat, SMlng], '', data[i].SalesmanID + ' - ' + data[i].SalesmanName, StrSalesmanLastLocationPopup(data[i]), 'SM', iconCompliance, mapData.LayerMarkerSMLastLocation, null, true);
+                            //var latlng = L.latLng(data.html[i].Lat, data.html[i].Lng);
+                            mapData.LatLongBounds.push([SMlat, SMlng]);
+                        }
+                        var m = RenderMarkerSMViolate([SMlat, SMlng], '', data[i].SalesmanID + ' - ' + data[i].SalesmanName, StrSalesmanLastLocationPopup(data[i]), 'SM', iconCompliance, mapData.LayerMarkerSMLastLocation, null, true);
+                    }
+                }
+                   if ($('#VisitLast').is(':checked') && $('#chkSM').is(':checked')) {
+                    //if ($('#VisitLast').is(':checked')) {
+                        if (data[i].VisitTime != null) {
+                            SMlat = data[i].Latitude;
+                            SMlng = data[i].Longtitude;
+                            mapData.LatLongBounds.push([SMlat, SMlng]);
+                        }
+                        var m = RenderMarkerSMViolate([SMlat, SMlng], '', data[i].SalesmanID + ' - ' + data[i].SalesmanName, StrSalesmanLastLocationPopup(data[i]), 'SM', iconCompliance, mapData.LayerMarkerSMLastLocation, null, true);
+                    }
+                    else if ($('#SyncDataFirst').is(':checked') && $('#chkSM').is(':checked')) {
+                        if (data[i].FirstSyncTime != null) {
+                            SMlat = data[i].FirstLatitudeSync;
+                            SMlng = data[i].FirstLongtitudeSync;
+                            mapData.LatLongBounds.push([SMlat, SMlng]);
+                        }
+                        if (dataViolate.indexOf(data[i].SalesmanID) > -1) {
+                            var m = RenderMarkerSMViolate([SMlat, SMlng], '', data[i].SalesmanID + ' - ' + data[i].SalesmanName, StrSalesmanLastLocationPopup(data[i]), 'SM', iconNonCompliance, mapData.LayerMarkerSMLastLocation, null, true);
+                        }
+                        else {
+                            var m = RenderMarkerSMViolate([SMlat, SMlng], '', data[i].SalesmanID + ' - ' + data[i].SalesmanName, StrSalesmanLastLocationPopup(data[i]), 'SM', iconCompliance, mapData.LayerMarkerSMLastLocation, null, true);
+                        }
+                    }
+                    else if ($('#SyncDataLast').is(':checked') && $('#chkSM').is(':checked')) {
+                        if (data[i].LastSyncTime != null) {
+                            SMlat = data[i].LastLatitudeSync;
+                            SMlng = data[i].LastLongtitudeSync;
+                            mapData.LatLongBounds.push([SMlat, SMlng]);
+                        }
+                        var m = RenderMarkerSMViolate([SMlat, SMlng], '', data[i].SalesmanID + ' - ' + data[i].SalesmanName, StrSalesmanLastLocationPopup(data[i]), 'SM', iconCompliance, mapData.LayerMarkerSMLastLocation, null, true);
+                    }
+                    //else {
+                    //    if (data[i].VisitTime != null) {
+                    //        SMlat = data[i].Latitude;
+                    //        SMlng = data[i].Longtitude;
+                    //        mapData.LatLongBounds.push([SMlat, SMlng]);
+                    //    }
+                    //    var m = RenderMarkerSMViolate([SMlat, SMlng], '', data[i].SalesmanID + ' - ' + data[i].SalesmanName, StrSalesmanLastLocationPopup(data[i]), 'SM', iconCompliance, mapData.LayerMarkerSMLastLocation, null, true);
+                    //}
+                }
+                if (SMlat != 0) {
+                    lat = SMlat;
+                    lng = SMlng;
+                }
+        }
+        else {
+            ShowMessageNoData('@Html.Raw(Utility.Phrase("DataOverLoad"))');
+        }
+        MapShowHideLayer(mapData.LayerMarkerSMLastLocation, true, true);
+        MapAutoFit();
+       //MapPanToAndZoom([lat, lng], 25);
+    }
+    function StrSalesmanLastLocationPopup(data) {
+        infoHtml = '<h3>@Utility.Phrase("Salesman"): ' + data.SalesmanID + ' - ' + data.SalesmanName + '</h3>';
+        infoHtml += '<br/><strong>@Utility.Phrase("Route")</strong>: ' + data.RouteID + ' - ' + data.RouteID;
+        infoHtml += '<br/><strong>@Utility.Phrase("Distributor")</strong>: ' + data.DistributorCode + ' - ' + data.DistributorName;
+        @*if (data.SUPWW == 1) {
+            infoHtml += '<br/><strong>@Utility.Phrase("SaleSup")</strong>: ' + data.SaleSupID + ' - ' + data.SaleSupName + ' (WW)';
+        }
+        else {
+            infoHtml += '<br/><strong>@Utility.Phrase("SaleSup")</strong>: ' + data.SaleSupID + ' - ' + data.SaleSupName;
+        }*@
+        if (data.ASMWW == 1) {
+            infoHtml += '<br/><strong>@Utility.Phrase("ASM")</strong>: ' + data.ASMID + ' - ' + data.ASMName + ' (WW)';
+        }
+        else {
+            infoHtml += '<br/><strong>@Utility.Phrase("ASM")</strong>: ' + data.ASMID + ' - ' + data.ASMName;
+        }
+
+        if (data.FirstSyncTime != null) {
+            infoHtml += '<br/><strong>-------------@Utility.Phrase("SMFirstSyncTimeInfo")-----------</strong>';
+            @*infoHtml += '<br/><strong>@Utility.Phrase("FirstSyncTime")</strong>: ' + data.strFirstSyncTime;*@
+            infoHtml += '<br/><strong>@Utility.Phrase("FirstSyncTime"):</strong><span style="color:red;font-weight: bold"> ' + data.strFirstSyncTime + '</span>';
+            infoHtml += '<br/><strong>@Utility.Phrase("Distance")</strong>: ' + ((parseInt(data.FirstDistance) >= 1000) ? (formatNumber(parseInt(data.FirstDistance / 1000))) + ' (km)' : formatNumber(parseInt(data.FirstDistance)) + ' (m)');
+            @*infoHtml += '<br/><strong>@Utility.Phrase("Latitude")</strong>: ' + data.FirstLatitudeSync;
+            infoHtml += '<br/><strong>@Utility.Phrase("Longtitude")</strong>: ' + data.FirstLongtitudeSync;*@
+        }
+        if (data.LastSyncTime != null) {
+            infoHtml += '<br/><strong>-------------@Utility.Phrase("SMLastSyncTimeInfo")-----------</strong>';
+            infoHtml += '<br/><strong>@Utility.Phrase("LastSyncTime")</strong>: ' + data.strLastSyncTime;
+            infoHtml += '<br/><strong>@Utility.Phrase("Distance")</strong>: ' + ((parseInt(data.LastDistance) >= 1000) ? formatNumber(parseInt(data.LastDistance / 1000)) + ' (km)' : formatNumber(parseInt(data.LastDistance)) + ' (m)');
+            @*infoHtml += '<br/><strong>@Utility.Phrase("Latitude")</strong>: ' + data.LastLatitudeSync;
+            infoHtml += '<br/><strong>@Utility.Phrase("Longtitude")</strong>: ' + data.LastLongtitudeSync;*@
+        }
+        infoHtml += '<br/><strong>-------------@Utility.Phrase("SMLastVisitInfo")-----------</strong>';
+        infoHtml += '<br/><strong>@Utility.Phrase("OutletLastVisit")</strong>: ' + data.OutletID + ' - ' + data.OutletName;
+        infoHtml += '<br/><strong>@Utility.Phrase("VisitTime")</strong>: ' + data.VisitTime;
+        infoHtml += '<br/><strong>@Utility.Phrase("Distance")</strong>: ' + ((parseInt(data.Distance) >= 1000) ? formatNumber(parseInt(data.Distance / 1000)) + ' (km)' : formatNumber(parseInt(data.Distance)) + ' (m)');
+        @*infoHtml += '<br/><strong>@Utility.Phrase("Latitude")</strong>: ' + data.Latitude;
+        infoHtml += '<br/><strong>@Utility.Phrase("Longtitude")</strong>: ' + data.Longtitude;*@
+        infoHtml += '<br/><strong>-----------------------</strong>';
+        infoHtml += '<br/><strong>@Utility.Phrase("TotalDistance")</strong>: ' + ((parseInt(data.TotalDistance) >= 1000) ? formatNumber(parseInt(data.TotalDistance / 1000)) + ' (km)' : formatNumber(parseInt(data.TotalDistance)) + ' (m)');
+        infoHtml += '<br/><strong>@Utility.Phrase("TimeVisit")</strong>: ' + data.TimeVisit;
+
+        infoHtml += '<br/><strong>@Utility.Phrase("TimeMove")</strong>: ' + data.TimeMove ;
+        infoHtml += '<br/><strong>@Utility.Phrase("IdleTime")</strong>: ' + data.IdleTime ;
+        infoHtml += '<br/><br/><input type="button" id="btnViewSM" style="font-size: 13px;border-radius: 4px;background-color: #77A8A0" value="@Utility.Phrase("ViewLocation")" onclick="RenderOutletByRoute(\'' + data.RouteID + '\',\'' + data.Latitude + '\',\'' + data.Longtitude + '\',\'' + data.SalesmanID + '\',\'' + data.SalesmanName + '\',\'' + data.DistributorID + '\');" />';
+        infoHtml += '<input type="button" id="btnViewSM" style="font-size: 13px;border-radius: 4px;background-color: #77A8A0" value="@Utility.Phrase("ViewRoutine")" onclick="FindRoutine(\'' + data.Latitude + '\',\'' + data.Longtitude + '\');" />';
+        infoHtml += '<br/>';
+
+        //listSMSelected = data.SalesmanID;
+        //infoHtml += '<br/>' + $('#chart').html();
+        return infoHtml;
+    }
+    //-----------------END SalesmanLastLocation Render-----------------//
+
+    //-----------------SaleSupLastLocation Render-----------------//
+    function GetSaleSupLastLocation() {
+        $.ajax({ //Process the form using $.ajax()
+            type: 'POST', //Method type
+            url: '../Tracking/RenderListSSLastLocation', //Your form processing file url
+            data: { regionID: regionIDSelected, areaID: areaIDSelected, salesupID: salesupIDSelected, distributorID: distributorIDSelected, strVisitDate: strVisitDate }, //Forms name
+            dataType: 'json',
+            success: function (data) {
+                //Clear data and layer
+                mapData.listSSLastLocationInfo = [];
+                mapData.LayerMarkerSSLastLocation.clearLayers();
+
+                MapShowHideLayer(mapData.LayerMarkerSSLastLocation, false, true);
+                $('#SimulateROutlet').prop('checked', false);
+                mapData.listSSLastLocationInfo = mapData.listSSLastLocationInfo.concat(data.html);
+                RenderSaleSupLastLocation(data.html);
+            }
+        });
+    }
+
+    function RenderSaleSupLastLocation(data) {
+        if (data == null) {
+            ShowMessageNoData('@Utility.Phrase("NoData")');
+            return false;
+        }
+        var n = data.length;
+        if (n == 0) {
+            ShowMessageNoData('@Utility.Phrase("NoData")');
+            return false;
+        }
+        var lat = 0;
+        var lng = 0;
+
+        for (var i = 0; i < n; i++) {
+            var label = data[i].SaleSupID + ' - ' + data[i].SaleSupName;
+            if (data[i].WW == 1) {
+                label += ' (WW)';
+            }
+            if ($('#rdRawData').is(':checked') || ($('#rdWW').is(':checked') && $('#chkLastVisit').is(':checked'))) {
+                var m = RenderMarker([data[i].SUPLatitudeStart, data[i].SUPLongtitudeStart], '', label, StrSaleSupLastLocationPopup(data[i]), 'SS', mapData.LayerMarkerSSLastLocation, null, true);
+            }
+            if (data[i].SUPLatitudeStart != 0) {
+                lat = data[i].SUPLatitudeStart;
+                lng = data[i].SUPLongtitudeStart;
+            }
+        }
+        MapShowHideLayer(mapData.LayerMarkerSSLastLocation, true, true);
+        MapPanToAndZoom([lat, lng], 16);
+    }
+
+    function StrSaleSupLastLocationPopup(data) {
+        infoHtml = '<h3>@Utility.Phrase("SaleSup"): ' + data.SaleSupID + ' - ' + data.SaleSupName + '</h3>' +
+               '<strong>@Utility.Phrase("Area")</strong>: ' + data.AreaID + ' - ' + data.AreaName +
+               '<br/><strong>@Utility.Phrase("ASM")</strong>: ' + data.ASMID + ' - ' + data.ASMName;
+        if (data.WW == 1) {
+            infoHtml += '<br/><strong>@Utility.Phrase("WWInfo"): </strong>';
+            infoHtml += '<br/><strong>@Utility.Phrase("Distributor")</strong>: ' + data.DistributorCode + ' - ' + data.DistributorName;
+            infoHtml += '<br/><strong>@Utility.Phrase("Route")</strong>: ' + data.RouteID + ' - ' + data.RouteName;
+            infoHtml += '<br/><strong>@Utility.Phrase("Salesman")</strong>: ' + data.SalesmanID + ' - ' + data.SalesmanName;
+            infoHtml += '<br/><strong>@Utility.Phrase("Time")</strong>: ' + data.SUPTimeStart;
+            infoHtml += '<br/><strong>@Utility.Phrase("Distance")</strong>: ' + formatNumber(parseInt(data.SUPDistance)) + ' (m)';
+            @*infoHtml += '<br/><strong>@Utility.Phrase("Latitude")</strong>: ' + data.SUPLatitudeStart;
+            infoHtml += '<br/><strong>@Utility.Phrase("Longtitude")</strong>: ' + data.SUPLongtitudeStart;*@
+            infoHtml += '<br/><br/><input type="button" value="@Utility.Phrase("ViewLocation")" onclick="$(\'#MarkerSS\').attr(\'checked\', \'checked\'); $(\'#LineSS\').attr(\'checked\', \'checked\'); RenderOutletByRoute(\'' + data.RouteID + '\',\'\',\'' + data.DistributorID + '\');" /><input type="button" value="@Utility.Phrase("ViewSalesman")" onclick="SSPopupClick(\'' + data.SaleSupID + '\');" />';
+            infoHtml += ''
+        }
+
+        infoHtml += '<br/>';
+        return infoHtml;
+    }
+    //-----------------END SaleSupLastLocation Render-----------------//
+    //-----------------ASMLastLocation Render-----------------//
+    function GetASMLastLocation() {
+        $.ajax({ //ProceASM the form using $.ajax()
+            type: 'POST', //Method type
+            url: '../Tracking/RenderListASMLastLocation', //Your form proceASMing file url
+            data: { regionID: regionIDSelected, areaID: areaIDSelected, strVisitDate: strVisitDate }, //Forms name
+            dataType: 'json',
+            success: function (data) {
+                //Clear data and layer
+                mapData.listASMLastLocationInfo = [];
+                mapData.LayerMarkerASMLastLocation.clearLayers();
+                MapShowHideLayer(mapData.LayerMarkerASMLastLocation, false, true);
+                mapData.listASMLastLocationInfo = mapData.listASMLastLocationInfo.concat(data.html);
+                RenderASMLastLocation(data.html, data.infoViolate);
+            }
+        });
+    }
+    function RenderASMLastLocation(data, dataViolate) {
+        if (data == null) {
+            ShowMessageNoData('@Utility.Phrase("NoData")');
+            return false;
+        }
+        var n = data.length;
+        if (n == 0) {
+            ShowMessageNoData('@Utility.Phrase("NoData")');
+            return false;
+        }
+        var lat = 0;
+        var lng = 0;
+        for (var i = 0; i < n; i++) {
+            var label = data[i].ASMID + ' - ' + data[i].ASMName;
+            if (data[i].WW == 1) {
+                label += ' (WW)';
+            }
+            if ($('#rdRawData').is(':checked') && $('#rdViolate').is(':checked')) {
+                if (dataViolate.indexOf(data[i].AreaID) > -1) {
+                    var m = RenderMarkerSMViolate([data[i].ASMLatitudeStart, data[i].ASMLongtitudeStart], '', label, StrASMLastLocationPopup(data[i]), 'ASM', '../Content/THP/markers/Distributor_Violate.png', mapData.LayerMarkerASMLastLocation, null, true);
+                }
+                else {
+                    var m = RenderMarkerSMViolate([data[i].ASMLatitudeStart, data[i].ASMLongtitudeStart], '', label, StrASMLastLocationPopup(data[i]), 'ASM', '../Content/THP/markers/Distributor_None.png', mapData.LayerMarkerASMLastLocation, null, true);
+                }
+            }
+            else if ($('#rdRawData').is(':checked') || ($('#rdWW').is(':checked') && $('#chkLastVisit').is(':checked'))) {
+                var m = RenderMarker([data[i].ASMLatitudeStart, data[i].ASMLongtitudeStart], '', label, StrASMLastLocationPopup(data[i]), 'ASM', mapData.LayerMarkerASMLastLocation, null, true);
+                //mapData.markers.addLayer(m);
+            }
+            if (data[i].ASMLatitudeStart != 0) {
+                lat = data[i].ASMLatitudeStart;
+                lng = data[i].ASMLongtitudeStart;
+            }
+        }
+        MapShowHideLayer(mapData.LayerMarkerASMLastLocation, true, true);
+
+        MapPanToAndZoom([lat, lng], 16);
+    }
+    function StrASMLastLocationPopup(data) {
+        infoHtml = '<h3>@Utility.Phrase("ASM"): ' + data.ASMID + ' - ' + data.ASMName + '</h3>' +
+               '<strong>@Utility.Phrase("Area")</strong>: ' + data.AreaID + ' - ' + data.AreaName;
+
+        if (data.WW == 1) {
+            infoHtml += '<br/><strong>@Utility.Phrase("WWInfo"): </strong>';
+            infoHtml += '<br/><strong>@Utility.Phrase("SaleSup")</strong>: ' + data.SalesSupID + ' - ' + data.SalesSupName;
+            infoHtml += '<br/><strong>@Utility.Phrase("Distributor")</strong>: ' + data.DistributorCode + ' - ' + data.DistributorName;
+            infoHtml += '<br/><strong>@Utility.Phrase("Route")</strong>: ' + data.RouteID + ' - ' + data.RouteName;
+            infoHtml += '<br/><strong>@Utility.Phrase("Salesman")</strong>: ' + data.SalesmanID + ' - ' + data.SalesmanName;
+            infoHtml += '<br/><strong>@Utility.Phrase("Time")</strong>: ' + data.ASMTimeStart;
+            infoHtml += '<br/><strong>@Utility.Phrase("Distance")</strong>: ' + formatNumber(parseInt(data.ASMDistance)) + ' (m)';
+            @*infoHtml += '<br/><strong>@Utility.Phrase("Latitude")</strong>: ' + data.ASMLatitudeStart;
+            infoHtml += '<br/><strong>@Utility.Phrase("Longtitude")</strong>: ' + data.ASMLongtitudeStart;*@
+            infoHtml += '<br/><br/><input type="button" value="@Utility.Phrase("ViewLocation")" onclick="$(\'#MarkerASM\').attr(\'checked\', \'checked\'); $(\'#LineASM\').attr(\'checked\', \'checked\'); RenderOutletByRoute(\'' + data.RouteID + '\',\'\',\'' + data.DistributorID + '\');" /><input type="button" value="@Utility.Phrase("ViewSaleSup")" onclick="ASMPopupClick(\'' + data.AreaID + '\');" />';
+        }
+        infoHtml += '<br/>';
+        return infoHtml;
+    }
+    function GetASM() {
+        $.ajax({ //ProceASM the form using $.ajax()
+            type: 'POST', //Method type
+            url: '../Tracking/GetSalesTeamLocation', //Your form proceASMing file url
+            data: { regionID: regionIDSelected, areaID: areaIDSelected, asmID: asmID, strVisitDate: strVisitDate }, //Forms name
+            dataType: 'json',
+            success: function (data) {
+                //Clear data and layer
+                mapData.listASMLastLocationInfo = [];
+                mapData.LayerMarkerASMLastLocation.clearLayers();
+                MapShowHideLayer(mapData.LayerMarkerASMLastLocation, false, true);
+                $('#SimulateROutlet').prop('checked', false);
+                $('#SimulateRSalesMan').prop('checked', false);
+                mapData.listASMLastLocationInfo = mapData.listASMLastLocationInfo.concat(data.html);
+                // ClearMap();
+                RenderASMLatLog(data.html, data.infoViolate, data.lstSalesManViolate);
+            }
+        });
+    }
+    function RenderASMLatLog(data, dataViolate, lstSalesManViolate) {
+        if ($('#chkASM').is(':checked')) {
+            if (data == null) {
+
+                ShowMessageNoData('@Html.Raw(Utility.Phrase("NoData"))');
+                return false;
+            }
+            var n = data.length;
+            if (n == 0) {
+
+                ShowMessageNoData('@Html.Raw(Utility.Phrase("NoData"))');
+                return false;
+            }
+            var lat = 0;
+            var lng = 0;
+            var imgName = '';
+            for (var i = 0; i < n; i++) {
+                var label = data[i].ASMID + ' - ' + data[i].ASMName;
+                if (data[i].ASMLatitudeStart != 0 && data[i].ASMLongtitudeStart != 0) {
+                    lat = data[i].ASMLatitudeStart;
+                    lng = data[i].ASMLongtitudeStart;
+                    mapData.LatLongBounds.push(lat, lng);
+                    imgName = 'asm_Compliance.png';
+                }
+                else {
+                    if (role == 'NSM' || role == 'NSD') {
+                       // if ($('#chkASM').is(':checked')) {
+                            return;
+                        //}
+                    }
+                    lat = data[i].LatitudeBase;
+                    lng = data[i].LongtitudeBase;
+                    imgName = 'asm_NoneCompliance.png';
+                }
+                if ($('#SyncDataFirst').is(':checked')) {
+                    if (dataViolate.indexOf(data[i].AreaID) > -1) {
+                        //var m = RenderMarkerSMViolate([lat, lng], '', label, StrASMPopup(data[i], lstSalesManViolate), 'ASM', '../Content/THP/markers/asm_NoneCompliance.png', mapData.LayerMarkerASMLastLocation, null, true);
+                        var m = RenderMarkerSMViolate([lat, lng], '', label, StrASMPopup(data[i], lstSalesManViolate), 'ASM', '../Content/THP/markers/'+imgName, mapData.LayerMarkerASMLastLocation, null, true);
+                    }
+                    else {
+                        var m = RenderMarkerSMViolate([lat, lng], '', label, StrASMPopup(data[i], lstSalesManViolate), 'ASM', '../Content/THP/markers/'+imgName, mapData.LayerMarkerASMLastLocation, null, true);
+                    }
+                }
+                else {
+                    var m = RenderMarkerSMViolate([lat, lng], '', label, StrASMPopup(data[i], lstSalesManViolate), 'ASM', '../Content/THP/markers/'+imgName, mapData.LayerMarkerASMLastLocation, null, true);
+                }
+            }
+            MapAutoFit();
+            MapShowHideLayer(mapData.LayerMarkerASMLastLocation, true, true);
+            MapPanToAndZoom([lat, lng], 16);
+        }
+        else {
+            if (routing != null) {
+                map.removeControl(routing);
+                routing = null;
+
+            }
+            if (markerLocation != null) {
+                for (i = 0; i < markerLocation.length; i++) {
+                    map.removeLayer(markerLocation[i]);
+                }
+                markerLocation = [];
+            }
+        }
+    }
+    function StrASMPopup(data, lstSalesManViolate) {
+            SMNoneCompliance = 0;
+            for (var item in lstSalesManViolate) {
+                if (lstSalesManViolate[item].AreaID == data.AreaID) {
+                    SMNoneCompliance += lstSalesManViolate[item].NumberSMViolate;
+                }
+            }
+            infoHtml = '<h3>@Utility.Phrase("ASM"): ' + data.ASMID + ' - ' + data.ASMName + '</h3>' +
+                   '<br/><strong>@Utility.Phrase("Region")</strong>: ' + data.RegionID + ' - ' + data.RegionName;
+            @*infoHtml += '<br/><strong>@Utility.Phrase("Info"): </strong>';*@
+            infoHtml += '<br/><strong>@Utility.Phrase("RSM")</strong>: ' + data.RSMID + ' - ' + data.RSMName;
+            if ((data.ASMLatitudeStart == 0 || data.ASMLongtitudeStart == 0) && data.ASMTimeStart == '') {
+                infoHtml += '<br/><strong><span style="color:red;font-weight: bold">@Utility.Phrase("CurrentLocationBaseOnDistibutor")</span></strong>';
+                if ($('#rdRawData').is(':checked') && $('#SyncDataFirst').is(':checked')) {
+                    infoHtml += '<br/><strong>@Utility.Phrase("NumberSMViolate")</strong><span style="color:red;font-weight: bold"> ' + SMNoneCompliance + '</span>';
+                }
+               // infoHtml += '<br/><br/><input type="button" id="btnViewOutlet" style="font-size: 13px;border-radius: 4px;background-color: #77A8A0" value="@Utility.Phrase("ViewRoutine")" onclick="FindRoutine(\'' + data.LatitudeBase + '\',\'' + data.LongtitudeBase + '\');" />';
+            }
+            else{
+                infoHtml += '<br/><strong>@Utility.Phrase("Time")</strong>: ' + data.ASMTimeStart;
+            if (data.ASMDistance != 0)
+                infoHtml += '<br/><strong>@Utility.Phrase("Distance")</strong>: ' + formatNumber(parseInt(data.ASMDistance)) + ' (m)';
+            else
+                infoHtml += '<br/><strong>@Utility.Phrase("Distance")</strong>: ';
+
+            @*infoHtml += '<br/><strong>@Utility.Phrase("Latitude")</strong>: ' + data.ASMLatitudeStart;
+                infoHtml += '<br/><strong>@Utility.Phrase("Longtitude")</strong>: ' + data.ASMLongtitudeStart;*@
+                if ($('#rdRawData').is(':checked') && $('#SyncDataFirst').is(':checked')) {
+                    infoHtml += '<br/><strong>@Utility.Phrase("NumberSMViolate")</strong><span style="color:red;font-weight: bold"> ' + SMNoneCompliance + '</span>';
+                }
+                infoHtml += '<br/><input type="button" id="btnViewOutlet" style="font-size: 13px;border-radius: 4px;background-color: #77A8A0" value="@Utility.Phrase("ViewRoutine")" onclick="FindRoutine(\'' + data.ASMLatitudeStart + '\',\'' + data.ASMLongtitudeStart + '\');" />';
+            }
+            infoHtml += '<input type="button" style="font-size: 13px;border-radius: 4px;background-color: #77A8A0" value="@Utility.Phrase("ViewSaleSup")" onclick="ASMClick(\'' + data.ASMID + '\',\'' + data.ASMName + '\',\'' + data.ASMLatitudeStart + '\',\'' + data.ASMLongtitudeStart + '\',\'' + data.AreaID + '\');" />';
+            infoHtml += '<br/>';
+            return infoHtml;
+    }
+    function GetSaleSup() {
+        $.ajax({
+            type: 'POST',
+            url: '../Tracking/GetSalesTeamLocation',
+            data: { regionID: regionIDSelected, areaID: areaIDSelected, asmID: asmID, strVisitDate: strVisitDate, type:'SS' }, //Forms name
+            dataType: 'json',
+            success: function (data) {
+                //Clear data and layer
+                mapData.listSSLastLocationInfo = [];
+                mapData.LayerMarkerSSLastLocation.clearLayers();
+                MapShowHideLayer(mapData.LayerMarkerSSLastLocation, false, true);
+                $('#SimulateROutlet').prop('checked', false);
+                $('#SimulateRSalesMan').prop('checked', false);
+                mapData.listSSLastLocationInfo = mapData.listSSLastLocationInfo.concat(data.html);
+                //ClearMap();
+                RenderSaleSup(data.html, data.infoViolate, data.lstSalesManViolate);
+            }
+        });
+    }
+    function RenderSaleSup(data, dataViolate, lstSalesManViolate) {
+        if ($('#chkSaleSup').is(':checked')) {
+            if (data == null) {
+                ShowMessageNoData('@Html.Raw(Utility.Phrase("NoData"))');
+                return false;
+            }
+            var n = data.length;
+            if (n == 0) {
+                ShowMessageNoData('@Html.Raw(Utility.Phrase("NoData"))');
+                return false;
+            }
+            var lat = 0;
+            var lng = 0;
+            var imgName = '';
+            for (var i = 0; i < n; i++) {
+                if (data[i].SUPLatitudeStart != 0 && data[i].SUPLongtitudeStart != 0) {
+                    lat = data[i].SUPLatitudeStart;
+                    lng = data[i].SUPLongtitudeStart;
+                    imgName = 'SaleSup_Compliance.png';
+                }
+                else {
+                    if (role == 'NSM' || role == 'NSD') {
+                      //  if ($('#chkSaleSup').is(':checked')) {
+                            return;
+                        //}
+                    }
+                    lat = data[i].LatitudeBase;
+                    lng = data[i].LongtitudeBase;
+                    imgName = 'SaleSup_NoneCompliance.png';
+                }
+                var label = data[i].SaleSupID + ' - ' + data[i].SaleSupName;
+                if ($('#SyncDataFirst').is(':checked')) {
+                    if (dataViolate.indexOf(data[i].SaleSupID) > -1) {
+                        var m = RenderMarkerSMViolate([lat, lng], '', label, StrSaleSupPopup(data[i], lstSalesManViolate), 'SS', '../Content/THP/markers/'+imgName, mapData.LayerMarkerSSLastLocation, null, true);
+                    }
+                    else {
+                        var m = RenderMarkerSMViolate([lat, lng], '', label, StrSaleSupPopup(data[i], lstSalesManViolate), 'SS', '../Content/THP/markers/'+imgName, mapData.LayerMarkerSSLastLocation, null, true);
+                    }
+                }
+                else {
+                    var m = RenderMarkerSMViolate([lat, lng], '', label, StrSaleSupPopup(data[i], lstSalesManViolate), 'SS', '../Content/THP/markers/'+imgName, mapData.LayerMarkerSSLastLocation, null, true);
+                }
+            }
+            MapShowHideLayer(mapData.LayerMarkerSSLastLocation, true, true);
+            MapPanToAndZoom([lat, lng], 16);
+        }
+        else {
+            if (routing != null) {
+                map.removeControl(routing);
+                routing = null;
+            }
+            if (markerLocation != null) {
+                for (i = 0; i < markerLocation.length; i++) {
+                    map.removeLayer(markerLocation[i]);
+                }
+                markerLocation = [];
+            }
+        }
+    }
+
+    function StrSaleSupPopup(data, lstSalesManViolate) {
+            SMNoneCompliance = 0;
+            for (var item in lstSalesManViolate) {
+                if (lstSalesManViolate[item].SaleSupID == data.SaleSupID && lstSalesManViolate[item].DistributorID == data.DistributorID) {
+                    SMNoneCompliance += lstSalesManViolate[item].NumberSMViolate;
+                }
+            }
+            infoHtml = '<h3>@Utility.Phrase("SaleSup"): ' + data.SaleSupID + ' - ' + data.SaleSupName + '</h3>' +
+                   '<br/><strong>@Utility.Phrase("Area")</strong>: ' + data.AreaID + ' - ' + data.AreaName +
+                   '<br/><strong>@Utility.Phrase("ASM")</strong>: ' + data.ASMID + ' - ' + data.ASMName;
+        infoHtml += '<br/><strong>@Utility.Phrase("Distributor")</strong>: ' + data.DistributorName;
+        infoHtml += '<br/><strong>@Utility.Phrase("NumberSM")</strong>: ' + data.NumberSM;
+        if ((data.SUPLatitudeStart == 0 || data.SUPLongtitudeStart == 0) && data.SUPTimeStart == '') {
+            infoHtml += '<br/><strong><span style="color:red;font-weight: bold">@Utility.Phrase("CurrentLocationBaseOnDistibutor")</span></strong>';
+            if ($('#rdRawData').is(':checked') && $('#SyncDataFirst').is(':checked')) {
+                infoHtml += '<br/><strong>@Utility.Phrase("NumberSMViolate")</strong><span style="color:red;font-weight: bold"> ' + SMNoneCompliance + '</span>';
+            }
+            //infoHtml += '<br/><br/><input type="button" id="btnViewOutlet" style="font-size: 13px;border-radius: 4px;background-color: #77A8A0" value="@Utility.Phrase("ViewRoutine")" onclick="FindRoutine(\'' + data.LatitudeBase + '\',\'' + data.LongtitudeBase + '\');" />';
+        } else {
+            infoHtml += '<br/><strong>@Utility.Phrase("Time")</strong>: ' + data.SUPTimeStart;
+            if (data.SUPDistance != 0)
+                infoHtml += '<br/><strong>@Utility.Phrase("Distance")</strong>: ' + formatNumber(parseInt(data.SUPDistance)) + ' (m)';
+            else
+                infoHtml += '<br/><strong>@Utility.Phrase("Distance")</strong>: ';
+
+            @*infoHtml += '<br/><strong>@Utility.Phrase("Latitude")</strong>: ' + data.SUPLatitudeStart;
+                infoHtml += '<br/><strong>@Utility.Phrase("Longtitude")</strong>: ' + data.SUPLongtitudeStart;*@
+            if ($('#rdRawData').is(':checked') && $('#SyncDataFirst').is(':checked')) {
+                infoHtml += '<br/><strong>@Utility.Phrase("NumberSMViolate")</strong><span style="color:red;font-weight: bold"> ' + SMNoneCompliance + '</span>';
+            }
+            infoHtml += '<br/><input type="button" id="btnViewOutlet" style="font-size: 13px;border-radius: 4px;background-color: #77A8A0" value="@Utility.Phrase("ViewRoutine")" onclick="FindRoutine(\'' + data.SUPLatitudeStart + '\',\'' + data.SUPLongtitudeStart + '\');" />';
+        }
+        infoHtml += '<input type="button" style="font-size: 13px;border-radius: 4px;background-color: #77A8A0"  value="@Utility.Phrase("ViewSalesman")" onclick="SSClick(\'' + data.SaleSupID + '\',\'' + data.SaleSupName + '\',\'' + data.SUPLatitudeStart + '\',\'' + data.SUPLongtitudeStart + '\',\'' + data.DistributorID + '\');" />';
+            infoHtml += '<br/>';
+        return infoHtml;
+    }
+    //-----------------END ASMLastLocation Render-----------------//
+
+    //-----------------DistributorLocation Render-----------------//
+    function GetDistributorLocation() {
+        //alert(1);
+        //GetParam();
+        $.ajax({ //Process the form using $.ajax()
+            type: 'POST', //Method type
+            url: '../Tracking/RenderListDistributorLocation', //Your form processing file url
+            data: { regionID: regionIDSelected, areaID: areaIDSelected, salesupID: salesupIDSelected, distributorID: distributorIDSelected, strVisitDate: strVisitDate }, //Forms name
+            dataType: 'json',
+            success: function (data) {
+                //alert(2);
+                //Clear data and layer
+                mapData.listDistributorInfo = [];
+                mapData.LayerMarkerDistributor.clearLayers();
+
+                MapShowHideLayer(mapData.LayerMarkerDistributor, false, true);
+
+                mapData.listDistributorInfo = mapData.listDistributorInfo.concat(data.html);
+                RenderDistributorLocation(data.html, data.infoViolate, data.lstSalesManViolate);
+            }
+        });
+    }
+
+    function RenderDistributorLocation(data, dataViolate, lstSalesManViolate) {
+        if (data == null)
+            return false;
+        var n = data.length;
+        if (n == 0)
+            return false;
+        var lat = 0;
+        var lng = 0;
+        for (var i = 0; i < n; i++) {
+            if ($('#rdRawData').is(':checked')) {
+                if ($('#SyncDataFirst').is(':checked')) {
+                    if (dataViolate.indexOf(data[i].DistributorID) > -1) {
+                        var m = RenderMarkerSMViolate([data[i].LatitudeBase, data[i].LongtitudeBase], '', data[i].DistributorName, StrDistributorLocationPopup(data[i], lstSalesManViolate), 'Distributor', '../Content/THP/markers/Distributor_Violate.png', mapData.LayerMarkerDistributor, null, true);
+                    }
+                    else {
+                        var m = RenderMarkerSMViolate([data[i].LatitudeBase, data[i].LongtitudeBase], '', data[i].DistributorName, StrDistributorLocationPopup(data[i], lstSalesManViolate), 'Distributor', '../Content/THP/markers/Distributor_None.png', mapData.LayerMarkerDistributor, null, true);
+                    }
+                }
+                else {
+                    if (data[i].LatitudeBase != 0) {
+                        var m = RenderMarkerSMViolate([data[i].LatitudeBase, data[i].LongtitudeBase], '', data[i].DistributorName, StrDistributorLocationPopup(data[i], lstSalesManViolate), 'Distributor', '../Content/THP/markers/Distributor_None.png', mapData.LayerMarkerDistributor, null, true);
+                    }
+                }
+            }
+            if (data[i].LatitudeBase != 0) {
+                lat = data[i].LatitudeBase;
+                lng = data[i].LongtitudeBase;
+            }
+        }
+        MapShowHideLayer(mapData.LayerMarkerDistributor, true, true);
+        MapPanToAndZoom([lat, lng], 16);
+    }
+
+    function StrDistributorLocationPopup(data, lstSalesManViolate) {
+        if ($('#rdRawData').is(':checked') && $('#SyncDataFirst').is(':checked')) {
+            SMNoneCompliance = 0;
+            for (var item in lstSalesManViolate) {
+                if (lstSalesManViolate[item].DistributorID == data.DistributorID) {
+                    SMNoneCompliance += lstSalesManViolate[item].NumberSMViolate;
+                    //break;
+                }
+            }
+            infoHtml = '<h3>@Utility.Phrase("Distributor"): ' + data.DistributorCode + ' - ' + data.DistributorName + '</h3>' +
+                   '<br/><strong>@Utility.Phrase("Area")</strong>: ' + data.AreaID + ' - ' + data.AreaName +
+                   '<br/><strong>@Utility.Phrase("ASM")</strong>: ' + data.ASMID + ' - ' + data.ASMName;
+            infoHtml += '<br/><strong>@Utility.Phrase("Address")</strong>: ' + data.Address;
+            infoHtml += '<br/><strong>@Utility.Phrase("Phone")</strong>: ' + data.Phone1;
+            infoHtml += '<br/><strong>@Utility.Phrase("Email")</strong>: ' + data.Email;
+            @*infoHtml += '<br/><strong>@Utility.Phrase("Latitude")</strong>: ' + data.LatitudeBase;
+            infoHtml += '<br/><strong>@Utility.Phrase("Longtitude")</strong>: ' + data.LongtitudeBase;*@
+            infoHtml += '<br/><strong>@Utility.Phrase("NumberSMViolate")</strong><span style="color:red;font-weight: bold"> ' + SMNoneCompliance + '</span>';
+            infoHtml += '<br/><br/><input type="button" style="font-size: 13px;border-radius: 4px;background-color: #77A8A0" value="@Utility.Phrase("ViewSalesman")" onclick="DistributorPopupClick(\'' + data.DistributorID + '\');" />';
+            infoHtml += '<input type="button" id="btnViewOutlet" style="font-size: 13px;border-radius: 4px;background-color: #77A8A0" value="@Utility.Phrase("ViewRoutine")" onclick="FindRoutine(\'' + data.LatitudeBase + '\',\'' + data.LongtitudeBase + '\');" />';
+            infoHtml += '<br/>';
+        }
+        else {
+            infoHtml = '<h3>@Utility.Phrase("Distributor"): ' + data.DistributorCode + ' - ' + data.DistributorName + '</h3>' +
+                   '<br/><strong>@Utility.Phrase("Area")</strong>: ' + data.AreaID + ' - ' + data.AreaName +
+                   '<br/><strong>@Utility.Phrase("ASM")</strong>: ' + data.ASMID + ' - ' + data.ASMName;
+            infoHtml += '<br/><strong>@Utility.Phrase("Address")</strong>: ' + data.Address;
+            infoHtml += '<br/><strong>@Utility.Phrase("Phone")</strong>: ' + data.Phone1;
+            infoHtml += '<br/><strong>@Utility.Phrase("Email")</strong>: ' + data.Email;
+            @*infoHtml += '<br/><strong>@Utility.Phrase("Latitude")</strong>: ' + data.LatitudeBase;
+            infoHtml += '<br/><strong>@Utility.Phrase("Longtitude")</strong>: ' + data.LongtitudeBase;*@
+            infoHtml += '<br/><br/><input type="button" style="font-size: 13px;border-radius: 4px;background-color: #77A8A0" value="@Utility.Phrase("ViewSalesman")" onclick="DistributorPopupClick(\'' + data.DistributorID + '\');" />';
+            infoHtml += '<input type="button" id="btnViewOutlet" style="font-size: 13px;border-radius: 4px;background-color: #77A8A0" value="@Utility.Phrase("ViewRoutine")" onclick="FindRoutine(\'' + data.LatitudeBase + '\',\'' + data.LongtitudeBase + '\');" />';
+            infoHtml += '<br/>';
+        }
+        return infoHtml;
+    }
+    //-----------------END DistributorLocation Render-----------------//
+
+    function ASMPopupClick(areaID) {
+        mapData.LatLongBounds = [];
+        areaIDSelected = areaID;
+        GetSaleSupLastLocation();
+        ReportSalesAssessment('Distributor');
+    }
+    function SSPopupClick(ssID) {
+
+        mapData.LatLongBounds = [];
+        salesupIDSelected = ssID;
+        ClearMap();
+        $('#chkSM').prop('checked', true);
+        GetSalesmanLastLocation();
+        $('#chkSaleSup').prop('checked', false);
+        ReportSalesAssessment('Salesman');
+    }
+    function ASMClick(asm, asmName, lat, lng, areaID) {
+
+        mapData.LatLongBounds = [];
+        areaIDSelected = areaID;
+        asmID = asm;
+        var dd = data;
+        ClearMap();
+        $('#chkSaleSup').prop('checked', true);
+        GetSaleSup();
+        $('#chkASM').prop('checked', false);
+        $('#chkSM').prop('checked', false);
+        $('#InfoLocation').hide();
+        RenderMarkerSMViolate([lat, lng], '', asm + ' - ' + asmName, '', 'ASM', '../Content/THP/markers/asm_NoneCompliance.png', mapData.LayerMarkerASMLastLocation, null, true);
+        MapShowHideLayer(mapData.LayerMarkerASMLastLocation, true, true);
+        ReportSalesAssessment('Distributor');
+    }
+    function SSClick(ssID,ssName, lat, lng, disID) {
+
+        mapData.LatLongBounds = [];
+        salesupIDSelected = ssID;
+        distributorIDSelected = disID;
+        ClearMap();
+        $('#chkSM').prop('checked', true);
+        GetSalesmanLastLocation();
+        $('#chkSaleSup').prop('checked', false);
+        $('#chkASM').prop('checked', false);
+        $('#InfoLocation').hide();
+        RenderMarkerSMViolate([lat, lng], '', ssID +' - ' + ssName, '', 'SS', '../Content/THP/markers/SaleSup_Compliance.png', mapData.LayerMarkerSSLastLocation, null, true);
+        MapShowHideLayer(mapData.LayerMarkerSSLastLocation, true, true);
+        ReportSalesAssessment('Salesman');
+    }
+    function DistributorPopupClick(ID) {
+        mapData.LatLongBounds = [];
+        distributorIDSelected = ID;
+        $('#chkSM').prop('checked', true);
+        GetSalesmanLastLocation();
+        ReportSalesAssessment('Salesman');
+    }
+    function RenderSMSync() {
+        mapData.LatLongBounds = [];
+        if (role == 'NSM' || role == 'NSD') {
+            GetDistributorLocation();
+            GetSalesmanLastLocation();
+        }
+        if (listSMSelected != '') {
+            if ($('#VisitLast').is(':checked')) {
+                RenderOutletByRoute('',0,0, listSMSelected, '', distributorIDSelected);
+            }
+            else {
+                GetSalesmanLastLocation();
+            }
+        }
+        else if (distributorIDSelected != 0) {
+            GetSaleSupLastLocation();
+            GetDistributorLocation();
+            GetSalesmanLastLocation();
+        }
+        else if (salesupIDSelected != '') {
+            GetSaleSupLastLocation();
+            GetDistributorLocation();
+            GetSalesmanLastLocation();
+        }
+        //Remove Routing and marker (currentLocation)
+        ClearOptionRoutine();
+    }
+
+    function RenderSMViolate() {
+        // ClearMap();
+        //mapData.LatLongBounds = [];
+        //if (listSMSelected != '') {
+        //    GetSalesmanLastLocation();
+        //}
+        //else if (distributorIDSelected != 0) {
+        //    GetSaleSupLastLocation();
+        //    GetDistributorLocation();
+        //    GetSalesmanLastLocation();
+        //}
+        //else if (salesupIDSelected != '') {
+        //    GetSaleSupLastLocation();
+        //    GetDistributorLocation();
+        //    GetSalesmanLastLocation();
+        //}
+    }
+    function GetParam() {
+        $('.toggle-box').addClass('disable');
+        strVisitDate = $('input[name="strFromDate"]').val();
+        $.ajax({ //Process the form using $.ajax()
+            type: 'POST', //Method type
+            url: '../Tracking/TerritoryTreeViewSelected', //Your form processing file url
+            data: { itemId: itemId }, //Forms name
+            dataType: 'json',
+            success: function (data) {
+                listSMSelected = data.listSMSelected;
+                distributorIDSelected = data.distributorIDSelected;
+                regionIDSelected = data.regionIDSelected;
+                areaIDSelected = data.areaIDSelected;
+                salesupIDSelected = data.salesupIDSelected;
+                routeIDSelected = data.routeIDSelected;
+                isShowNote = true;
+                $("div").remove(".info");
+                document.getElementById('notePanel').style.display = 'none';
+                $('#InfoLocation').hide();
+                if (listSMSelected != '') {
+                    if ($('#VisitLast').is(':checked') && $('#rdRawData').is(':checked')) {
+                        $('#chkSM').prop('checked', true);
+                        GetSalesmanLastLocation();
+                        RenderOutletByRoute('', 0, 0, listSMSelected, '', distributorIDSelected);
+                    }
+                    else {
+                        GetSalesmanLastLocation();
+                    }
+                }
+                else if (distributorIDSelected != 0) {
+                    GetSaleSupLastLocation();
+                    GetDistributorLocation();
+                    GetSalesmanLastLocation();
+                    if ($('#rdRawData').is(':checked')) {
+                        ReportSalesAssessment('Salesman');
+                    }
+                    if ($('#rdWW').is(':checked')) {
+                        GetStatusInfoWW();
+                    }
+                }
+                else if (salesupIDSelected != '') {
+                    GetSaleSupLastLocation();
+                    GetDistributorLocation();
+                    GetSalesmanLastLocation();
+                    if ($('#rdRawData').is(':checked')) {
+                        ReportSalesAssessment('Salesman');
+                    }
+                    if ($('#rdWW').is(':checked')) {
+                        GetStatusInfoWW();
+                    }
+                }
+                else if (areaIDSelected != '') {
+                    GetSaleSupLastLocation();
+                    GetDistributorLocation();
+                    GetASMLastLocation();
+                    GetSalesmanLastLocation();
+                    if ($('#rdRawData').is(':checked')) {
+                        ReportSalesAssessment('Distributor');
+                    }
+                    if ($('#rdWW').is(':checked')) {
+                        GetStatusInfoWW();
+                    }
+                }
+                else if (regionIDSelected != '') {
+                    GetDistributorLocation();
+                    GetASMLastLocation();
+                    GetSalesmanLastLocation();
+                    if ($('#rdRawData').is(':checked')) {
+                        ReportSalesAssessment('Area');
+                    }
+                    if ($('#rdWW').is(':checked')) {
+                        GetStatusInfoWW();
+                    }
+                }
+                //$('#chkSM').prop('checked', true);
+                //$('#chkSaleSup').prop('checked', true);
+                //$('#chkASM').prop('checked', true);
+                $('#SimulateROutlet').prop('checked', false);
+                $('#SimulateRSalesMan').prop('checked', false);
+            }
+        });
+    }
+    // Find directory
+    function onClick(e) {
+        if (routing != null) {
+            map.removeControl(routing);
+            routing = null;
+        }
+        routing = L.Routing.control({
+            plan: L.Routing.plan([
+            L.latLng(lat, long),
+            L.latLng(e.latlng.lat, e.latlng.lng)
+            ]
+            , {
+                waypointIcon: function (i) {
+                    return new L.Icon.Label.Default({
+                        labelText: "Destination"
+                    });
+                }
+            }
+            )
+        }).addTo(map);
+    }
+    map.locate({ setView: false, maxZoom: 17 });
+    function onLocationFound(e) {
+        lat = e.latlng.lat;
+        long = e.latlng.lng;
+        //alert(lat);
+        //alert(long);
+    }
+    map.on('locationfound', onLocationFound);
+    function onLocationFound(e) {
+        lat = e.latlng.lat;
+        long = e.latlng.lng;
+        //alert(lat);
+        //alert(long);
+    }
+    //var add = '';
+    function FindRoutine(latOS, longOS) {
+        //ViewCurrent();
+      if (latOS != '0' && longOS != '0') {
+          if (markerLocation.length <= 0) {
+              //alert(1);
+
+              if (lat == null)
+                  lat = 10.8150592;
+              if (long == null)
+                  long = 106.6670538;
+              //alert(lat);
+              //alert(long);
+            //  Render Current location;
+            var myIcon = L.icon({
+                iconUrl: '../Content/THP/img/flag_red.png',
+                iconSize: [30, 38]
+            });
+
+            var geocoder = new google.maps.Geocoder;
+            var latlng = { lat: lat, lng: long };
+            geocoder.geocode({'location': latlng}, function(results, status) {
+                if (status === google.maps.GeocoderStatus.OK) {
+                    if (results[1]) {
+                        add = results[1].formatted_address;
+                        //alert(add);
+                    } else {
+                        window.alert('No results found');
+                    }
+                } else {
+                    window.alert('Geocoder failed due to: ' + status);
+                }
+            });
+            //alert(add);
+            console.log(add);
+            var marker1 = L.marker([lat, long], { icon: myIcon }).addTo(map).bindPopup("<b> @Utility.Phrase("LocationCurrent"): </b> " + add + " <br> @Utility.Phrase("Latitude"): " + lat + "<br> @Utility.Phrase("Longitude"): " + long).openPopup();
+            //marker.bounce();
+            markerLocation.push(marker1);
+        }
+
+        if (routing != null) {
+            map.removeControl(routing);
+            routing = null;
+        }
+            //Routing
+            routing = L.Routing.control({
+                plan: L.Routing.plan([
+                L.latLng(lat, long),
+                L.latLng(latOS, longOS)
+                ]
+                , {
+                    waypointIcon: function (i) {
+                        return new L.Icon.Label.Default({
+                            labelText: "Destination"
+                        });
+                    }
+                }
+                )
+            }).addTo(map);
+            routing.on('routeselected', function (e) {
+                var r = e.route;
+                var line = L.Routing.line(r);
+                var bounds = line.getBounds();
+                map.fitBounds(bounds);
+            });
+        }
+      else {
+          ShowMessageNoData('@Html.Raw(Utility.Phrase("LocationInvalid"))');
+        }
+    }
+    function ViewInfoSelected() {
+        ClearMap();
+        GetParam();
+    }
+    function Back() {
+        window.location = '@Url.Action("Index", "Home")';
+    }
+    function HoverZoom() {
+    }
+    $('.number').css("text-align", "right");
+
+    $(document).ajaxStart(function () {
+        $("#loading").show();
+    });
+    $(document).ajaxStop(function () {
+        $("#loading").hide();
+    });
+    $(document).ajaxError(function () {
+        //alert("ajax có vấn đề");
+    });
+
+    //End
+    function LoadSalesman() {
+        $("#loading").show();
+        window.location = '@Url.Action("TerritoryPerformance", "Tracking")' + '?strVisitDate=' + $('input[name="strFromDate"]').val();
+    };
+    function SearchOnTreeView() {
+        $("#loading").show();
+        window.location = '@Url.Action("TerritoryPerformance", "Tracking")' + '?strVisitDate=' + $('input[name="strFromDate"]').val() + '&strSearch=' + $('#txtSearch').val();
+    }
+    // Expand TreeView
+    var strSearch = window.location.href;
+    if (strSearch.indexOf("strSearch=") != -1) {
+        treeView.ExpandAll();
+    }
+    //End
+
+    //Show all outlet
+    //function GetAllOutlet()
+    //{
+    //    $.ajax({
+    //        type: "POST",
+    //        data: 1,
+    //        url: "../Tracking/GetAllOutlet",
+    //        dataType: 'json',
+    //        success: function(data)
+    //        {
+                
+    //        }
+    //    });
+    //}
+
+</script>

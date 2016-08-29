@@ -1,0 +1,15 @@
+﻿@charset "utf-8";
+/* CSS Document */
+
+/* Roll bar */
+::-webkit-scrollbar {
+	width: 8px;
+	height: 8px;
+}
+::-webkit-scrollbar-track {
+	background-color: #eaeaea;
+	border-left: 1px solid #ccc;
+}
+::-webkit-scrollbar-thumb {
+	background-color: #00a2c5;
+}

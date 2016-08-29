@@ -1,0 +1,264 @@
+﻿@model List<ReportItem>
+@using DevExpress.Web.Mvc.UI;
+@using DevExpress.Web.Mvc;
+@using System.Web.UI.WebControls;
+@Html.DevExpress().GridView(
+    settings =>
+    {
+        settings.Name = "dxGridView";
+        settings.KeyFieldName = "VisitOrder";
+        settings.CallbackRouteValues = new { Controller = "Tracking", Action = "PartialReport" };
+        settings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+        settings.Styles.Header.Font.Bold = true;
+        settings.Styles.Header.Font.Size = 11;
+        settings.Styles.Cell.Font.Size = 11;
+        settings.Columns.Add(field =>
+        {
+            field.FieldName = "VisitOrderReal";
+            field.Caption = Utility.Phrase("VisitOrderReal");
+
+            field.CellStyle.HorizontalAlign = HorizontalAlign.Right;
+            //field.Width = Unit.Pixel(35);
+        });
+
+        settings.Columns.Add(field =>
+        {
+            field.FieldName = "VisitOrder";
+            field.Caption = Utility.Phrase("VisitOrder");
+
+            field.HeaderStyle.Wrap = DefaultBoolean.True;
+            field.CellStyle.HorizontalAlign = HorizontalAlign.Right;
+            //field.Width = Unit.Pixel(50);
+        });
+        settings.Columns.Add(field =>
+        {
+            field.FieldName = "OutletID";
+            field.Caption = Utility.Phrase("OutletID");
+
+            field.HeaderStyle.Wrap = DefaultBoolean.True;
+            field.CellStyle.HorizontalAlign = HorizontalAlign.Right;
+            field.CellStyle.Paddings.PaddingLeft = Unit.Pixel(5);
+            field.CellStyle.Paddings.PaddingRight = Unit.Pixel(10);
+            field.CellStyle.Wrap = DefaultBoolean.False;
+            //field.Width = Unit.Pixel(110);
+        });
+        settings.Columns.Add(field =>
+        {
+            field.FieldName = "OutletName";
+            field.Caption = Utility.Phrase("OutletName");
+
+            field.HeaderStyle.Wrap = DefaultBoolean.True;
+            field.CellStyle.HorizontalAlign = HorizontalAlign.Left;
+            field.CellStyle.Paddings.PaddingLeft = Unit.Pixel(5);
+            field.CellStyle.Paddings.PaddingRight = Unit.Pixel(10);
+            field.CellStyle.Wrap = DefaultBoolean.False;
+            //field.Width = Unit.Pixel(150);
+        });
+        settings.Columns.Add(field =>
+        {
+            field.FieldName = "Address";
+            field.Caption = Utility.Phrase("Address");
+
+            field.HeaderStyle.Wrap = DefaultBoolean.True;
+            field.CellStyle.HorizontalAlign = HorizontalAlign.Left;
+            field.CellStyle.Paddings.PaddingLeft = Unit.Pixel(5);
+            field.CellStyle.Paddings.PaddingRight = Unit.Pixel(10);
+            field.CellStyle.Wrap = DefaultBoolean.False;
+            //field.Width = Unit.Pixel(150);
+        });
+        settings.Columns.Add(field =>
+        {
+            field.FieldName = "Mobile";
+            field.Caption = Utility.Phrase("Mobile");
+
+            field.HeaderStyle.Wrap = DefaultBoolean.True;
+            field.CellStyle.HorizontalAlign = HorizontalAlign.Left;
+            field.CellStyle.Wrap = DefaultBoolean.False;
+            //field.Width = Unit.Pixel(125);
+        });
+        settings.Columns.Add(field =>
+        {
+            field.FieldName = "StartTime";
+            field.Caption = Utility.Phrase("StartTime");
+
+            field.HeaderStyle.Wrap = DefaultBoolean.True;
+            field.CellStyle.HorizontalAlign = HorizontalAlign.Right;
+            //field.Width = Unit.Pixel(80);
+        });
+        settings.Columns.Add(field =>
+        {
+            field.FieldName = "EndTime";
+            field.Caption = Utility.Phrase("EndTime");
+
+            field.HeaderStyle.Wrap = DefaultBoolean.True;
+            field.CellStyle.HorizontalAlign = HorizontalAlign.Right;
+            //field.Width = Unit.Pixel(80);
+        });
+        settings.Columns.Add(field =>
+        {
+            field.FieldName = "TimeVisit";
+            field.Caption = Utility.Phrase("TimeVisit");
+
+            field.HeaderStyle.Wrap = DefaultBoolean.True;
+            field.CellStyle.HorizontalAlign = HorizontalAlign.Right;
+            //field.Width = Unit.Pixel(80);
+        });
+        settings.Columns.Add(field =>
+        {
+            field.FieldName = "TimeMove";
+            field.Caption = Utility.Phrase("TimeMove");
+
+            field.HeaderStyle.Wrap = DefaultBoolean.True;
+            field.CellStyle.HorizontalAlign = HorizontalAlign.Right;
+            //field.Width = Unit.Pixel(80);
+        });
+
+        settings.Columns.Add(field =>
+        {
+            field.FieldName = "Distance";
+            field.Caption = Utility.Phrase("Distance");
+
+            field.HeaderStyle.Wrap = DefaultBoolean.True;
+            field.CellStyle.HorizontalAlign = HorizontalAlign.Right;
+            //field.Width = Unit.Pixel(80);
+        });
+        settings.Columns.Add(field =>
+        {
+            field.FieldName = "Lat";
+            field.Caption = Utility.Phrase("Lat");
+
+            field.HeaderStyle.Wrap = DefaultBoolean.True;
+            field.CellStyle.HorizontalAlign = HorizontalAlign.Right;
+            //field.Width = Unit.Pixel(80);
+        });
+        settings.Columns.Add(field =>
+        {
+            field.FieldName = "Long";
+            field.Caption = Utility.Phrase("Long");
+
+            field.HeaderStyle.Wrap = DefaultBoolean.True;
+            field.CellStyle.HorizontalAlign = HorizontalAlign.Right;
+            //field.Width = Unit.Pixel(80);
+        });
+        settings.Columns.Add(field =>
+        {
+            field.FieldName = "SMLat";
+            field.Caption = Utility.Phrase("SMLat");
+
+            field.HeaderStyle.Wrap = DefaultBoolean.True;
+            field.CellStyle.HorizontalAlign = HorizontalAlign.Right;
+            //field.Width = Unit.Pixel(80);
+        });
+        settings.Columns.Add(field =>
+        {
+            field.FieldName = "SMLong";
+            field.Caption = Utility.Phrase("SMLong");
+
+            field.HeaderStyle.Wrap = DefaultBoolean.True;
+            field.CellStyle.HorizontalAlign = HorizontalAlign.Right;
+            //field.Width = Unit.Pixel(80);
+        });
+        settings.Columns.Add(field =>
+        {
+            field.FieldName = "GPSType";
+            field.Caption = Utility.Phrase("GPSType");
+
+            field.CellStyle.Wrap = DefaultBoolean.False;
+            field.CellStyle.HorizontalAlign = HorizontalAlign.Left;
+            //field.Width = Unit.Pixel(80);
+        });
+        settings.Columns.Add(field =>
+        {
+            field.FieldName = "IsEnableAirPlaneMode";
+            field.Caption = Utility.Phrase("IsEnableAirPlaneMode");
+
+            field.CellStyle.Wrap = DefaultBoolean.False;
+            field.CellStyle.HorizontalAlign = HorizontalAlign.Left;
+            //field.Width = Unit.Pixel(80);
+        });
+        settings.Columns.Add(field =>
+        {
+            field.FieldName = "IsEnableGPSMode";
+            field.Caption = Utility.Phrase("IsEnableGPSMode");
+
+            field.CellStyle.Wrap = DefaultBoolean.False;
+            field.CellStyle.HorizontalAlign = HorizontalAlign.Left;
+            //field.Width = Unit.Pixel(80);
+        });
+        settings.Columns.Add(field =>
+        {
+            field.FieldName = "IsEnableNetworkMode";
+            field.Caption = Utility.Phrase("IsEnableNetworkMode");
+
+            field.CellStyle.Wrap = DefaultBoolean.False;
+            field.CellStyle.HorizontalAlign = HorizontalAlign.Left;
+            //field.Width = Unit.Pixel(80);
+        });
+        settings.Columns.Add(field =>
+        {
+            field.FieldName = "OutOfRange";
+            field.Caption = Utility.Phrase("OutOfRange");
+
+            field.HeaderStyle.Wrap = DefaultBoolean.True;
+            field.CellStyle.HorizontalAlign = HorizontalAlign.Right;
+            //field.Width = Unit.Pixel(80);
+        });
+        settings.Columns.Add(field =>
+        {
+            field.FieldName = "HasOrder";
+            field.Caption = Utility.Phrase("HasOrder");
+
+            field.HeaderStyle.Wrap = DefaultBoolean.True;
+            field.CellStyle.HorizontalAlign = HorizontalAlign.Right;
+            //field.Width = Unit.Pixel(80);
+        });
+        settings.Columns.Add(field =>
+        {
+            field.FieldName = "TotalSKU";
+            field.Caption = Utility.Phrase("TotalSKU");
+
+            field.HeaderStyle.Wrap = DefaultBoolean.True;
+            field.CellStyle.HorizontalAlign = HorizontalAlign.Right;
+            //field.Width = Unit.Pixel(80);
+        });
+        settings.Columns.Add(field =>
+        {
+            field.FieldName = "DropSize";
+            field.Caption = Utility.Phrase("DropSize");
+
+            field.HeaderStyle.Wrap = DefaultBoolean.True;
+            field.CellStyle.HorizontalAlign = HorizontalAlign.Right;
+            //field.Width = Unit.Pixel(80);
+        });
+        settings.Columns.Add(field =>
+        {
+            field.FieldName = "TotalAmount";
+            field.Caption = Utility.Phrase("TotalAmount");
+
+            field.HeaderStyle.Wrap = DefaultBoolean.True;
+            field.CellStyle.HorizontalAlign = HorizontalAlign.Right;
+            //field.Width = Unit.Pixel(80);
+        });
+        settings.Columns.Add(field =>
+        {
+            field.FieldName = "Reason";
+            field.Caption = Utility.Phrase("Reason");
+
+            field.HeaderStyle.Wrap = DefaultBoolean.True;
+            field.CellStyle.HorizontalAlign = HorizontalAlign.Left;
+            //field.Width = Unit.Pixel(120);
+        });
+
+
+
+        settings.SettingsPager.Position = PagerPosition.Bottom;
+        settings.SettingsPager.FirstPageButton.Visible = true;
+        settings.SettingsPager.LastPageButton.Visible = true;
+        settings.SettingsPager.PageSizeItemSettings.Visible = true;
+        settings.SettingsPager.PageSizeItemSettings.Items = new string[] { "10", "20", "50" };
+        settings.SettingsPager.PageSize = 50;
+        settings.SettingsBehavior.AllowFocusedRow = true;
+        settings.SettingsBehavior.AllowDragDrop = true;
+        settings.SettingsBehavior.AllowSort = true;
+        //settings.SettingsBehavior.ColumnResizeMode = ColumnResizeMode.Control;
+    }).Bind(Model).GetHtml()

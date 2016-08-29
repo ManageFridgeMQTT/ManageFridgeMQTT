@@ -1,0 +1,94 @@
+﻿@model ReportDistributorVM
+@{
+    Layout = "~/Views/Shared/_ReportLayout.cshtml";
+}
+<form id="search_form" action="@Url.Action("ReportDistributor", "Tracking")" method="POST" style="overflow:auto" >
+<div class='table-salses-report' width='98%'>
+    <p>
+        <span class="alignleft">@Utility.Phrase("Distributor"):
+            <select group="branch" name="branch" class="ui-widget-content" onchange="$('#search_form').submit();">
+                @foreach (Distributor item in Model.ListD)
+                {
+                    if (item.DistributorID == Model.branch)
+                    {
+                    <option value="@item.DistributorID" selected="selected" >(<strong>@item.DistributorCode</strong>)
+                        @item.DistributorName</option>
+                    }
+                    else
+                    {
+                    <option value="@item.DistributorID" >(<strong>@item.DistributorCode</strong>) @item.DistributorName</option>
+                    }
+                }
+            </select>
+        </span><span class="alignright">
+            <button type="button" class="btn btn-success" id="btnExport">
+                Xuất EXCEL</button>
+        </span>
+    </p>
+    <input type="hidden" name="branch" value="@Model.branch" />
+    <input type="hidden" name="txt_date" value="@Model.txt_date" />
+</div>
+<h1 class="sales-report-h1">
+    BÁO CÁO BÁN HÀNG</h1>
+<table class='head-report' width='98%' cellpadding="10px">
+    <tr style="font-size: 14px;">
+        <td width='320px' style="vertical-align: top">
+            <p>
+                <span class="alignleft">Ngày dữ liệu: @Model.txt_date</span></p>
+            <br clear="all" />
+            <p>
+                <span class="alignleft">Nhà phân phối: <strong>@Model.distributor.DistributorCode</strong>
+                    - @Model.distributor.DistributorName</span></p>
+            <br clear="all" />
+            <p>
+                <span class="alignleft">Ngày báo cáo: @DateTime.Today.ToString(eRoute.Models.Constant.ShortDatePattern)</span></p>
+            <br clear="all" />
+            <p>
+                <span class="alignleft">Tổng SKU: </span><span class="alignright">@Model.totalSKU</span>
+            </p>
+            <br clear="all" />
+            <p>
+                <span class="alignleft">LPPC: </span><span class="alignright">@Model.totalLPPC</span>
+            </p>
+        </td>
+        <td width="30px">
+        </td>
+        <td width='320px' style="vertical-align: top">
+            <p>
+                <span class="alignleft">Tổng số khách hàng: </span><span class="alignright">@Model.totalOutlet</span>
+            </p>
+            <br clear="all" />
+            <p>
+                <span class="alignleft">Tổng số khách hàng đã ghé thăm: </span><span class="alignright">@Model.totalOutletVisit</span>
+            </p>
+            <br clear="all" />
+            <p>
+                <span class="alignleft">Tỉ lệ viếng thăm / MCP (%): </span><span class="alignright">@Model.totalVisitMCP</span>
+            </p>
+            <br clear="all" />
+            <p>
+                <span class="alignleft">Tổng số đơn hàng: </span><span class="alignright">@Model.totalOrder</span>
+            </p>
+            <br clear="all" />
+            <p>
+                <span class="alignleft">Tỉ lệ đơn hàng / MCP (%): </span><span class="alignright">@Model.totalSOMCP</span>
+            </p>
+            <br clear="all" />
+            <p>
+                <span class="alignleft">Tổng sản lượng (Thùng/Két): </span><span class="alignright">@Model.totalQuantity</span>
+            </p>
+        </td>
+    </tr>
+</table>
+<br />
+<div style="width: 100%; overflow: auto">
+    @Html.Partial("PartialReportDistributor", Model.listItem)
+</div>
+<script type='text/javascript'>
+    $(document).ready(function () {
+        $('#btnExport').click(function () {
+            window.open('@Url.Action("ReportDistributorExcel", "Tracking")');
+        });
+    });
+</script>
+</form>

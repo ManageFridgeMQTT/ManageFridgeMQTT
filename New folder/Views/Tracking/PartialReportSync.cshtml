@@ -1,0 +1,134 @@
+﻿@model List<ReportSyncItem>
+@using DevExpress.Web.Mvc.UI;
+@using DevExpress.Web.Mvc;
+@using System.Web.UI.WebControls;
+
+@Html.DevExpress().GridView(
+    settings =>
+    {
+        settings.Name = "dxGridView";
+        settings.KeyFieldName = "SalesmanID";
+        settings.CallbackRouteValues = new { Controller = "Tracking", Action = "PartialReportSync" };
+        settings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+        settings.Styles.Header.Font.Bold = true;
+        settings.Styles.Header.Font.Size = 11;
+        settings.Styles.Cell.Font.Size = 11;
+        var c = settings.Columns.Add("#");
+        c.UnboundType = DevExpress.Data.UnboundColumnType.Integer;
+        settings.CustomColumnDisplayText = (sender, e) =>
+        {
+            if (e.Column.FieldName == "#")
+            if (e.Column.Caption == "#")
+            {
+                e.DisplayText = (e.VisibleRowIndex + 1).ToString();
+                e.Column.Width = Unit.Pixel(35);
+            }
+        };
+        
+        settings.Columns.Add(field =>
+        {
+            field.FieldName = "RouteID";
+            field.Caption = Utility.Phrase("RouteID");
+
+            field.CellStyle.HorizontalAlign = HorizontalAlign.Right;
+            field.CellStyle.Wrap = DefaultBoolean.False;
+            field.Width = Unit.Pixel(110);
+        });
+        settings.Columns.Add(field =>
+        {
+            field.FieldName = "SalesmanID";
+            field.Caption = Utility.Phrase("SalesmanID");
+
+            field.CellStyle.HorizontalAlign = HorizontalAlign.Right;
+            field.CellStyle.Paddings.PaddingLeft = Unit.Pixel(5);
+            field.CellStyle.Paddings.PaddingRight = Unit.Pixel(10);
+            field.CellStyle.Wrap = DefaultBoolean.False;
+            field.Width = Unit.Pixel(110);
+        });
+        settings.Columns.Add(field =>
+        {
+            field.FieldName = "SalesmanName";
+            field.Caption = Utility.Phrase("SalesmanName");
+
+            field.CellStyle.HorizontalAlign = HorizontalAlign.Left;
+            field.CellStyle.Paddings.PaddingLeft = Unit.Pixel(5);
+            field.CellStyle.Paddings.PaddingRight = Unit.Pixel(10);
+            field.CellStyle.Wrap = DefaultBoolean.False;
+            field.Width = Unit.Pixel(150);
+        });
+        settings.Columns.Add(field =>
+        {
+            field.FieldName = "Phone";
+            field.Caption = Utility.Phrase("Phone");
+
+            field.HeaderStyle.Wrap = DefaultBoolean.True;
+            field.CellStyle.HorizontalAlign = HorizontalAlign.Left;
+            field.CellStyle.Wrap = DefaultBoolean.False;
+            field.Width = Unit.Pixel(110);
+        });
+        settings.Columns.Add(field =>
+        {
+            field.FieldName = "syncTime";
+            field.Caption = Utility.Phrase("syncTime");
+
+            field.HeaderStyle.Wrap = DefaultBoolean.True;
+            field.CellStyle.HorizontalAlign = HorizontalAlign.Right;
+            field.Width = Unit.Pixel(80);
+        });
+        settings.Columns.Add(field =>
+        {
+            field.FieldName = "FirstOutlet";
+            field.Caption = Utility.Phrase("FirstOutlet");
+
+            field.HeaderStyle.Wrap = DefaultBoolean.True;
+            field.CellStyle.HorizontalAlign = HorizontalAlign.Left;
+            field.Width = Unit.Pixel(200);
+        });
+        settings.Columns.Add(field =>
+        {
+            field.FieldName = "firstTimeVisit";
+            field.Caption = Utility.Phrase("firstTimeVisit");
+
+            field.HeaderStyle.Wrap = DefaultBoolean.True;
+            field.CellStyle.HorizontalAlign = HorizontalAlign.Right;
+            field.Width = Unit.Pixel(80);
+        });
+        settings.Columns.Add(field =>
+        {
+            field.FieldName = "LastOutlet";
+            field.Caption = Utility.Phrase("LastOutlet");
+
+            field.HeaderStyle.Wrap = DefaultBoolean.True;
+            field.CellStyle.HorizontalAlign = HorizontalAlign.Left;
+            field.Width = Unit.Pixel(200);
+        });
+        settings.Columns.Add(field =>
+        {
+            field.FieldName = "lastTimeVisit";
+            field.Caption = Utility.Phrase("lastTimeVisit");
+
+            field.HeaderStyle.Wrap = DefaultBoolean.True;
+            field.CellStyle.HorizontalAlign = HorizontalAlign.Right;
+            field.Width = Unit.Pixel(80);
+        });
+        settings.Columns.Add(field =>
+        {
+            field.FieldName = "strUsePDATime";
+            field.Caption = Utility.Phrase("strUsePDATime");
+
+            field.HeaderStyle.Wrap = DefaultBoolean.True;
+            field.CellStyle.HorizontalAlign = HorizontalAlign.Right;
+            field.Width = Unit.Pixel(80);
+        });
+        
+        settings.SettingsPager.Position = PagerPosition.Bottom;
+        settings.SettingsPager.FirstPageButton.Visible = true;
+        settings.SettingsPager.LastPageButton.Visible = true;
+        settings.SettingsPager.PageSizeItemSettings.Visible = true;
+        settings.SettingsPager.PageSizeItemSettings.Items = new string[] { "10", "20", "50" };
+        settings.SettingsPager.PageSize = 50;
+        settings.SettingsBehavior.AllowFocusedRow = true;
+        settings.SettingsBehavior.AllowDragDrop = true;
+        settings.SettingsBehavior.AllowSort = true;
+        //settings.SettingsBehavior.ColumnResizeMode = ColumnResizeMode.Control;
+    }).Bind(Model).GetHtml()

@@ -1,0 +1,68 @@
+﻿@model List<pp_GetOrderIndexLevelResult>
+@using DevExpress.Web.Mvc.UI;
+@using DevExpress.Web.Mvc;
+@using System.Web.UI.WebControls;
+@{
+    Html.EnableClientValidation();
+    Html.EnableUnobtrusiveJavaScript();
+
+    var grid = Html.DevExpress().GridView(
+        settings =>
+        {
+            settings.Name = "gvEditing";
+            settings.KeyFieldName = "SettingName";
+            settings.CallbackRouteValues = new { Controller = "Tracking", Action = "EditOrderIndexPartial" };
+            settings.SettingsEditing.UpdateRowRouteValues = new { Controller = "Tracking", Action = "UpdateOrderIndexPartial" };
+            settings.SettingsEditing.Mode = GridViewEditingMode.EditForm;
+            settings.SettingsPopup.EditForm.Width = 600;
+            settings.Width = System.Web.UI.WebControls.Unit.Pixel(600);
+
+            if (PermissionHelper.CheckPermissionByFeature("Tracking_UpdateOrderIndexPartial"))
+            {
+                settings.CommandColumn.Visible = true;
+                settings.CommandColumn.EditButton.Visible = true;
+            }
+            settings.Columns.Add("SettingName", Utility.Phrase("SettingName"));
+            settings.Columns.Add(column => {
+                column.FieldName = "MinValue";
+                column.Caption = Utility.Phrase("MinValue");
+                
+                column.ColumnType = MVCxGridViewColumnType.SpinEdit;
+                var spinEditProperties = column.PropertiesEdit as SpinEditProperties;
+                spinEditProperties.NumberType = SpinEditNumberType.Float;
+                spinEditProperties.MinValue = 0;
+                spinEditProperties.MaxValue = 100;
+
+                spinEditProperties.Style.HorizontalAlign = HorizontalAlign.Right;
+                column.CellStyle.HorizontalAlign = HorizontalAlign.Right;
+            });
+            settings.Columns.Add(column =>
+            {
+                column.FieldName = "MaxValue";
+                column.Caption = Utility.Phrase("MaxValue");
+
+                column.ColumnType = MVCxGridViewColumnType.SpinEdit;
+                var spinEditProperties = column.PropertiesEdit as SpinEditProperties;
+                spinEditProperties.NumberType = SpinEditNumberType.Float;
+                spinEditProperties.MinValue = 0;
+                spinEditProperties.MaxValue = 100;
+
+                spinEditProperties.Style.HorizontalAlign = HorizontalAlign.Right;
+                column.CellStyle.HorizontalAlign = HorizontalAlign.Right;
+            });
+
+            //settings.PreRender = (sender, e) => {
+            //    ((MVCxGridView)sender).StartEdit(1);
+            //};
+            settings.CellEditorInitialize = (s, e) => {
+                ASPxEdit editor = (ASPxEdit)e.Editor;
+                editor.ValidationSettings.Display = Display.Dynamic;
+            };
+        });
+
+    if (ViewData["EditError"] != null){
+        grid.SetEditErrorText((string)ViewData["EditError"]);
+    }
+}
+
+@grid.Bind(Model).GetHtml()

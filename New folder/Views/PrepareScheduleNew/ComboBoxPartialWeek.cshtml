@@ -1,0 +1,17 @@
+﻿@Html.DevExpress().ComboBox(
+    settings =>
+    {
+        settings.Name = "Week";
+        settings.CallbackRouteValues = new { Controller = "PrepareScheduleNew", Action = "ComboBoxPartialWeek" };
+        settings.Properties.CallbackPageSize = 50;
+        settings.Properties.DropDownRows = 15;
+        settings.Properties.AllowMouseWheel = true;
+        settings.Properties.TextFormatString = "{0}";
+        settings.Properties.ValueField = "WeekID";
+        settings.Properties.ValueType = typeof(string);
+        settings.Properties.DropDownStyle = DropDownStyle.DropDownList;
+        settings.Properties.IncrementalFilteringMode = IncrementalFilteringMode.Contains;       
+        settings.Properties.Columns.Add("WeekID", "Tuần", 110);
+        settings.Properties.ClientSideEvents.BeginCallback = "function(s, e) { e.customArgs['Year'] = Year.GetValue();e.customArgs['EmployeeID'] = EmployeeID.GetValue(); }";
+        settings.Properties.ClientSideEvents.EndCallback = "function(s, e) { LoadingPanel.Hide(); s.SetValue(null);}";
+    }).BindList(Model).GetHtml()

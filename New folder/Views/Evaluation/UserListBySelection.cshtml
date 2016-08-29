@@ -1,0 +1,57 @@
+﻿@{
+    IEnumerable<eRoute.Models.uvw_GetUserInformation> SelectedUserData = ViewData["SelectedUserInformation"] as IEnumerable<eRoute.Models.uvw_GetUserInformation>;
+    IEnumerable<eRoute.Models.uvw_GetRolesInformation> RolesData = ViewData["RolesInformation"] as IEnumerable<eRoute.Models.uvw_GetRolesInformation>;
+}
+
+<div class="tab-content wrapper">
+    @*<div class="table-box wrapper">*@
+        <table class="tablesorter">
+            <thead class="block-theme">
+                <tr>
+                    <th></th>
+                    <th>@Utility.Phrase("No")</th>
+                    <th>@Utility.Phrase("EmployeeName")</th>
+                    <th>@Utility.Phrase("Phone")</th>
+                    <th>@Utility.Phrase("Choose")</th>
+                </tr>
+            </thead>
+            <tbody id="my_table_Member">
+                @if (SelectedUserData != null)
+                {
+                    int counter= 0;
+                    foreach (var item in SelectedUserData)
+                    {
+                        item.STT = counter.ToString();
+                        <tr>
+                            <td style="text-align:center"><i class="icon-delete icon-black" onclick="$(this).closest('tr').remove()"></i></td>
+                            <td>@Html.DisplayFor(modelItem => item.STT)</td>
+                            <td style="display:none;">@Html.DisplayFor(modelItem => item.MaNhanVien)</td>
+                            <td>@Html.DisplayFor(modelItem => item.TenNhanVien)</td>
+                            <td>@Html.DisplayFor(modelItem => item.SoDienThoai)</td>
+                            <td style="display:none;">@Html.DisplayFor(modelItem => item.VaiTro)</td>
+                            <td>
+                                <select name="participant" id="participantL-@counter" onchange="ChooseRole(this)" >
+                                    <option value="0">@Utility.Phrase("Choose")</option>
+                                    @foreach (var line in RolesData)
+                                    {
+                                        <option value="@line.EvalRoleID" @((item.VaiTro == line.EvalRoleID) ? "selected" : "")>@line.RoleDescription</option>
+                                    }
+                                </select>
+                                <span style="@(item.VaiTro == 3 ? "" : "display:none")"> Quản lý  </span>
+                                <select name="leader-user" style="@(item.VaiTro == 3 ? "" : "display:none")">
+                                    @if(item.VaiTro == 3)
+                                    {
+                                        foreach (var elm in SelectedUserData.Where(x=>x.VaiTro == 2).ToList())
+                                        {
+                                            <option value="@elm.MaNhanVien" @((item.LeaderAuditor == elm.MaNhanVien) ? "selected" : "")>@elm.TenNhanVien</option>
+                                        }
+                                    }
+                                </select>
+                            </td>
+                        </tr>
+                        counter = counter + 1;
+                    }   
+                }
+            </tbody>
+        </table>
+    </div>

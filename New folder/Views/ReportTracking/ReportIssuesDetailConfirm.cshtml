@@ -1,0 +1,307 @@
+﻿@model MV_ReportIssues 
+@{
+    ViewBag.Title = Utility.Phrase("Report_ReportIssues");
+    Layout = "~/Views/Shared/_NewLayout.cshtml";
+}
+<style type="text/css">
+    .text-area-box{
+        width: 245px;
+        height:60px
+    }
+    .readonly{
+        background-color:#e5e5e5;
+    }
+</style>
+
+<div id="shCenter" style="z-index:99999">
+    <label id="mSNoData" style="align-content:center;color:green"></label>
+</div>
+<div class="insider">
+    <input type="hidden" id="selectedDisplayID">
+    <input type="hidden" id="PageID" value="@ViewBag.PageInformation" />
+    <input type="hidden" id="ScreenID" value="@ViewBag.ScreenID" />
+    <div id="loading" class="loading"></div>
+    <div class="row display-table w-100pr mb-10 content-header">
+        <div class="report-content-header">
+            <div class="col-sm-8">
+                <h1>@Utility.Phrase("ReportIssuesDetailConfirm")</h1>
+            </div>
+        </div>
+    </div>
+
+    <div class="row content-body">
+        <div class="tab-header">
+            <div class="toolbox">
+                <ul class="fr m-0">
+                    <li>
+                        <a href="@Url.Action("ReportIssues", "ReportTracking")">
+                            <button type="button" title="@Utility.Phrase("Back")"><i class="icon-back"></i>@Utility.Phrase("Back")</button>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="row">
+             @using (Html.BeginForm("ReportIssuesDetailConfirm", "ReportTracking", FormMethod.Post))
+             {
+                <div class="col-sm-4">
+                    <div class="table-box">
+                        <table>
+                            <thead class="block-theme">
+                                <tr>
+                                    <th colspan="2">@Utility.Phrase("IssuesCustomer")</th>
+                                </tr>
+                            </thead>
+                        </table>
+                        <div class="row">
+                            <div class="col-xs-4">
+                                <label>@Utility.Phrase("IssuesID")</label>
+                            </div>
+                            <div class="col-xs-8">
+                                @Html.TextBoxFor(m => m.ReportIssuesDetailResult.FirstOrDefault().IssueID, new { ReadOnly = "ReadOnly", @class = "readonly" })
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-4">
+                                <label>@Utility.Phrase("VistDate")</label>
+                            </div>
+                            <div class="col-xs-8">
+                                @Html.TextBoxFor(m => m.ReportIssuesDetailResult.FirstOrDefault().Date, new { ReadOnly = "ReadOnly", @class = "readonly" })
+                            </div>
+                        </div>
+                        <div class="row" style="display:none;">
+                            <div class="col-xs-4">
+                                <label>@Utility.Phrase("Report_Outlet")</label>
+                            </div>
+                            <div class="col-xs-8">
+                                @Html.TextBoxFor(m => m.ReportIssuesDetailResult.FirstOrDefault().OutletID, new { ReadOnly = "ReadOnly", @class = "readonly" })
+                            </div>
+                        </div>
+                        <div class="row" style="display:none;">
+                            <div class="col-xs-4">
+                                <label>@Utility.Phrase("Report_Outlet")</label>
+                            </div>
+                            <div class="col-xs-8">
+                                @Html.TextBoxFor(m => m.ReportIssuesDetailResult.FirstOrDefault().DistributorCode, new { ReadOnly = "ReadOnly", @class = "readonly" })
+                            </div>
+                        </div>
+                        <div class="row" style="display:none;">
+                            <div class="col-xs-4">
+                                <label>@Utility.Phrase("Report_Outlet")</label>
+                            </div>
+                            <div class="col-xs-8">
+                                @Html.TextBoxFor(m => m.ReportIssuesDetailResult.FirstOrDefault().SalesmanCode, new { ReadOnly = "ReadOnly", @class = "readonly" })
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-4">
+                                <label>@Utility.Phrase("Report_Region")</label>
+                            </div>
+                            <div class="col-xs-8">
+                                @Html.TextBoxFor(m => m.ReportIssuesDetailResult.FirstOrDefault().RegionName, new { ReadOnly = "ReadOnly", @class = "readonly" })
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-4">
+                                <label>@Utility.Phrase("Report_Area")</label>
+                            </div>
+                            <div class="col-xs-8">
+                                @Html.TextBoxFor(m => m.ReportIssuesDetailResult.FirstOrDefault().AreaName, new { ReadOnly = "ReadOnly", @class = "readonly" })
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-4">
+                                <label>@Utility.Phrase("Report_Distributor")</label>
+                            </div>
+                            <div class="col-xs-8">
+                                @Html.TextBoxFor(m => m.ReportIssuesDetailResult.FirstOrDefault().DistributorName, new { ReadOnly = "ReadOnly", @class = "readonly" })
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-4">
+                                <label>@Utility.Phrase("TB_NVBH")</label>
+                            </div>
+                            <div class="col-xs-8">
+                                @Html.TextBoxFor(m => m.ReportIssuesDetailResult.FirstOrDefault().SalesmanName, new { ReadOnly = "ReadOnly", @class = "readonly" })
+                            </div>
+                        </div>
+                        <div class="row" style="display:none;">
+                            <div class="col-xs-4">
+                                <label>@Utility.Phrase("Status")</label>
+                            </div>
+                            <div class="col-xs-8">
+                                
+                                @Html.TextBoxFor(m => m.ReportIssuesDetailResult.FirstOrDefault().Status, new { ReadOnly = "ReadOnly", @class = "readonly" })
+                            </div>
+                        </div>
+                        <div class="row" style="margin-top:5px;">
+                            <div class="col-xs-4">
+                                <label>@Utility.Phrase("StatusConfirm")</label>
+                            </div>
+                            <div class="col-xs-8">
+                                @{ 
+                                            string Note = "";
+                                            int ia = 0;
+
+                                            foreach (var isd in Model.ReportIssuesDetailResult.Select(x=> new { x.VisitDate, x.Note,  }).Distinct().OrderBy(x=>x.VisitDate).ToList())
+                                            {
+                                                if(ia > 0)
+                                                {
+                                                    Note = Note + "&#10;" + isd.VisitDate.ToShortDatePattern() + ":" + isd.Note;
+                                                }
+                                                else
+                                                {
+                                                    Note = isd.VisitDate.ToShortDatePattern() + ":" + isd.Note;
+                                                    ia++;
+                                                }
+                                            }
+                                        }
+                                <textarea class="readonly text-area-box" readonly>@Html.Raw(Note)</textarea>
+                                @*@Html.TextAreaFor(m => Note, new { ReadOnly = "ReadOnly", @class = "readonly text-area-box" })*@
+                            </div>
+                        </div>
+                        @if (Model.ReportIssuesDetailResult.FirstOrDefault().Status == 111 || Model.ReportIssuesDetailResult.FirstOrDefault().Status == 112 || Model.ReportIssuesDetailResult.FirstOrDefault().Status == 113)
+                        {
+                            <div class="row">
+                                <div class="col-xs-4">
+                                    <label>@Utility.Phrase("Resolve")</label>
+                                </div>
+                                <div class="col-xs-8">
+                                    @{ 
+                                        string a = Model.ReportIssuesDetailResult.FirstOrDefault().Resolve.Replace(@"\n", "&#10;");
+                                    }
+                                    <textarea class="readonly text-area-box" readonly>@Html.Raw(a)</textarea>
+                                    
+                                </div>
+                            </div>
+                        }
+                        @if (Model.ReportIssuesDetailResult != null || Model.ReportIssuesDetailResult.FirstOrDefault().Status != null)
+                        {
+                            if (Model.ReportIssuesDetailResult.FirstOrDefault().Status == 110 || Model.ReportIssuesDetailResult.FirstOrDefault().Status == 111)
+                            {
+                                <div class="row">
+                                    <div class="col-xs-4">
+                                        <label>@Utility.Phrase("Resolve")</label>
+                                    </div>
+                                    <div class="col-xs-8">
+                                        @Html.TextAreaFor(m => Model.NewResolve, new { @class = "text-area-box" })
+                                        <button id="btnResolve" type="button" style="text-align:right;" class="btn-success">@Utility.Phrase("Resolve")</button>
+                                    </div>
+                                </div>
+                            }
+                        } 
+                    </div>
+                </div>
+                <div class="col-sm-8">
+                    <div class="tab-content">
+                        <table>
+                            <thead class="block-theme">
+                                <tr>
+                                    <th colspan="2">@Utility.Phrase("IssuesCustomerImage")</th>
+                                </tr>
+                            </thead>
+                        </table>
+                        @if (Model.ReportIssuesDetailResult != null)
+                        {
+                            for (int i = 0; i < Model.ReportIssuesDetailResult.Count; i++)
+                            {
+                                    @Html.HiddenFor(m => m.ReportIssuesDetailResult[i].Status)
+                                    @Html.HiddenFor(m => m.ReportIssuesDetailResult[i].IssueID)
+                                    @Html.HiddenFor(m => m.ReportIssuesDetailResult[i].OutletID)
+                                    @Html.HiddenFor(m => m.ReportIssuesDetailResult[i].SalesmanCode)
+                                    @Html.HiddenFor(m => m.ReportIssuesDetailResult[i].DistributorCode)
+                                @Html.HiddenFor(m => m.ReportIssuesDetailResult[i].VisitDate)
+                                if (Model.ReportIssuesDetailResult[i].ImageNameIssues != null)
+                                {
+                                <div class="row">
+                                    <div class="col-xs-5">
+                                        @{
+                                        
+                                            string srcImg = String.IsNullOrEmpty(Model.ReportIssuesDetailResult[i].ImageNameLink) ? "" : Model.ReportIssuesDetailResult[i].ImageNameLink;
+                                        }
+                                        <a href="@srcImg">
+                                            <img src="@srcImg" style="width:100%; padding-bottom: 10px;" alt="" rel="zoom" class="smoothZoom" />
+                                        </a>
+                                    </div>
+                                    <div class="col-xs-7">
+                                        @if (Model.ReportIssuesDetailResult[i].Sign == 1)
+                                        {
+                                            <table>
+                                                <tr>
+                                                    <td><b>@Utility.Phrase("SignConfirm")</b></td>
+                                                </tr>
+                                                <tr>
+                                                    <td><b>@Utility.Phrase("SignCustomerImageDate")</b></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        @Html.TextBoxFor(m => m.ReportIssuesDetailResult[i].ImageDate, new { ReadOnly = "ReadOnly", @class = "readonly" })
+                                                    </td>
+                                                </tr>
+                                           </table>
+                                        }
+                                        else
+                                        {
+                                            <table>
+                                                <tr>
+                                                    <td><b>@Utility.Phrase("IssuesCustomerImageDate")</b></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        @Html.TextBoxFor(m => m.ReportIssuesDetailResult[i].ImageDate, new { ReadOnly = "ReadOnly", @class = "readonly" })
+                                                    </td>
+                                                </tr>
+                                                
+                                                <tr>
+                                                    <td><b>@Utility.Phrase("IssuesCustomerImageCommnet")</b></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        @if (Model.ReportIssuesDetailResult[i].Status != null)
+                                                        {
+                                                            if (Model.ReportIssuesDetailResult[i].Status == 110)
+                                                            {
+                                                                @Html.HiddenFor(m => m.ReportIssuesDetailResult[i].ImageNameIssues)
+                                                                @Html.TextAreaFor(m => m.ReportIssuesDetailResult[i].ImageComment)
+                                                            }
+                                                            else if (Model.ReportIssuesDetailResult[i].Status == 111 && Model.ReportIssuesDetailResult[i].NewStatus == 122)
+                                                            {
+                                                                @Html.HiddenFor(m => m.ReportIssuesDetailResult[i].ImageNameIssues)
+                                                                @Html.TextAreaFor(m => m.ReportIssuesDetailResult[i].ImageComment)
+                                                            }
+                                                            else
+                                                            {
+                                                                @Html.TextAreaFor(m => m.ReportIssuesDetailResult[i].ImageComment, new { ReadOnly = "ReadOnly", @class = "readonly" })
+                                                            }
+                                                        }
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        }
+                                    
+                                    </div>
+                                </div>
+                                }
+                            }
+                        }
+                    </div>
+                </div>
+             }
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#btnResolve').click(function () {
+            if ($("#Resolve").val() != null || $("#Resolve").val() != "") {
+                $('form').attr('action', '@Utility.FooMethod("/ReportTracking/ReportIssuesDetailConfirm")');
+                $('form').submit();
+            }
+            else
+            {
+                alert("@Utility.Phrase("MissInformation")");
+            }
+        });
+    });
+</script>
+

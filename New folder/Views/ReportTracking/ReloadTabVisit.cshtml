@@ -1,0 +1,54 @@
+﻿@model System.Data.DataTable
+<div id="report-visited" class="tab-pane fade in active">
+    <table class="tablesorter">
+        <thead>
+            <tr>
+                <th>Vùng</th>
+                <th>Khu vực</th>
+                <th>Nhà phân phối</th>
+                <th>Tuyến</th>
+                <th>NVBH</th>
+                <th>Khách hàng</th>
+                <th>Thứ tự MCP</th>
+                <th>Thứ tự thực tế</th>
+                <th>Ngày</th>
+                <th>Buổi</th>
+                <th>Thời điểm viếng thăm</th>
+                <th>Thời gian viếng thăm</th>
+                <th>Thời gian di chuyển</th>
+                <th>Khoảng cách</th>
+                <th>Lý do không bán hàng</th>
+                <th>GSP Type</th>
+                <th>AirPlane Mode</th>
+                <th>GPS Mode</th>
+                <th>Network Mode</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (System.Data.DataRow elm in Model.Rows)
+            {
+                <tr>
+                    <td>@elm["RegionName"]</td>
+                    <td>@elm["AreaName"]</td>
+                    <td>@elm["DistributorName"]</td>
+                    <td>@elm["RouteName"]</td>
+                    <td>@elm["SalesmanName"]</td>
+                    <td>@elm["OutletName"]</td>
+                    <td>@elm["VisitOrder"]</td>
+                    <td>@elm["VisitOrderReal"]</td>
+                    <td>@elm["VisitDate"]</td>
+                    <td>@elm["StartTime"]</td>
+                    <td>@elm["StartTime"]</td>
+                    <td>@elm["strTimeSpanVisit"]</td>
+                    <td>@elm["strTimeSpanMove"]</td>
+                    <td>@elm["Distance"]</td>
+                    <td>@elm["Reason"]</td>
+                    <td>@elm["GPSType"]</td>
+                    <td>@elm["IsEnableAirPlaneMode"]</td>
+                    <td>@elm["IsEnableGPSMode"]</td>
+                    <td>@elm["IsEnableNetworkMode"]</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

@@ -1,0 +1,28 @@
+﻿@model List<DMSSalesForce>
+@using DevExpress.Web.Mvc.UI;
+@using DevExpress.Web.Mvc;
+@using System.Web.UI.WebControls;
+@using eRoute.Models;
+@Html.DevExpress().ComboBox(
+    settings =>
+    {
+        settings.Name = "cmbASM";
+        settings.Width = Unit.Pixel(250);
+        settings.CallbackRouteValues = new { Controller = "Tracking", Action = "ComboBoxPartialMMASM" };
+        settings.Properties.CallbackPageSize = 50;
+        settings.Properties.DropDownRows = 15;
+        settings.Properties.AllowMouseWheel = true;
+        settings.Properties.TextFormatString = "{1}-{0}";
+        settings.Properties.ValueField = "EmployeeID";
+        settings.Properties.ValueType = typeof(string);
+        settings.Properties.DropDownStyle = DropDownStyle.DropDownList;
+        settings.Properties.IncrementalFilteringMode = IncrementalFilteringMode.Contains;
+        settings.Properties.Columns.Add("EmployeeID", "Mã ASM", 110);
+        settings.Properties.Columns.Add("EmployeeName", "Tên ASM", 200);
+        settings.Properties.Height = Unit.Pixel(20);
+
+        settings.Properties.EnableCallbackMode = true;
+        settings.Properties.ClientSideEvents.SelectedIndexChanged = "function(s, e) { cmbSS.PerformCallback(); cmbDistributorID.PerformCallback(); }";
+        settings.Properties.ClientSideEvents.BeginCallback = "function(s, e) { e.customArgs['ASM'] = cmbASM.GetValue(); }";
+    }
+).BindList(Model).GetHtml()

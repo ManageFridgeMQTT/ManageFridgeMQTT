@@ -1,0 +1,97 @@
+﻿@model  MV_ReportSummarySales
+<div id="report-SummaryHeader" class="tab-pane fade in active box-table-ressult">
+    <table id="table-result" class="tablesorter">
+        <thead>
+            <tr>
+                <th>@Utility.Phrase("Report_Region")</th>
+                <th>@Utility.Phrase("Report_Area")</th>
+                <th>@Utility.Phrase("TB_GSBH")</th>
+                <th>@Utility.Phrase("Report_Distributor")</th>
+                <th>@Utility.Phrase("TB_RouteName")</th>
+                <th>@Utility.Phrase("TB_NVBH")</th>
+                <th>@Utility.Phrase("TB_Outlet")</th>
+                <th>@Utility.Phrase("TB_DateWork")</th>
+                <th>@Utility.Phrase("TB_OrderNbr")</th>
+                <th>@Utility.Phrase("TB_TotalQuantity")</th>
+                <th>@Utility.Phrase("TB_Amount")</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model != null)
+            {
+                foreach (var elm in Model.ReportSummarySalesResult)
+                {
+                    <tr>
+                        <td>@elm.RegionName</td>
+                        <td>@elm.AreaName</td>
+                        <td>@elm.SaleSupName</td>
+                        <td>@elm.DistributorName</td>
+                        <td>@elm.RouteName</td>
+                        <td>@elm.SalesmanName</td>
+                        <td>@elm.OutletName</td>
+                        <td>@elm.OrderDate.ToShortDateString()</td>
+                        <td>@elm.OrderNbr</td>
+                        <td class="align-right">@String.Format("{0:n0}", elm.TotalQty)</td>
+                        <td class="align-right">@String.Format("{0:n0}", elm.TotalAmt)</td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+</div>
+<div id="report-SummaryDetail" class="tab-pane fade in box-table-ressult">
+    <table id="table-result" class="tablesorter">
+        <thead>
+            <tr>
+                <th>@Utility.Phrase("TB_NVBH")</th>
+                <th>@Utility.Phrase("TB_Outlet")</th>
+                <th>@Utility.Phrase("TB_DateWork")</th>
+                <th>@Utility.Phrase("TB_OrderNbr")</th>
+                <th>@Utility.Phrase("InventoryName")</th>
+                <th>@Utility.Phrase("TB_TotalQuantity")</th>
+                <th>@Utility.Phrase("TB_SalesUnit")</th>
+                <th>@Utility.Phrase("TB_UnitPrice")</th>
+                <th>@Utility.Phrase("TB_Amount")</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model != null)
+            {
+                foreach (var elm in Model.ReportSummarySalesDetailResult)
+                {
+                    <tr>
+                        <td>@elm.SalesmanName</td>
+                        <td>@elm.OutletName</td>
+                        <td>@elm.OrderDate.ToShortDateString()</td>
+                        <td>@elm.OrderNbr</td>
+                        <td>@elm.InventoryName</td>
+                        <td class="align-right">@String.Format("{0:n0}", elm.OrderQty)</td>
+                        <td>@elm.SaleUnit</td>
+                        <td class="align-right">@String.Format("{0:n0}", elm.UnitPrice)</td>
+                        <td class="align-right">@String.Format("{0:n0}", elm.Amount)</td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#report-SummaryHeader .tablesorter').tablesorter({
+            headerTemplate: '{content} {icon}', // Add icon for various themes
+            widgets: ['uitheme', 'zebra', 'stickyHeaders', 'stickyFooters'], //, 'filter'
+            widgetOptions: {
+                stickyHeaders_attachTo: '.wrapper', // or $('.wrapper')
+            }
+        }).tablesorterPager({
+            container: $(".ts-pager-info"),
+            cssGoto: ".pagenum-info",
+            prev: '.prev',
+            next: '.next',
+            size: 10,
+            removeRows: false,
+            output: ' {startRow} to {endRow} of {totalRows}' //'Showing {startRow} to {endRow} of {totalRows} entries' //'{startRow} - {endRow} / {filteredRows} ({totalRows})'  //'/ {totalPages}'
+        });
+    });
+</script>

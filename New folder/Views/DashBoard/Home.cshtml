@@ -1,0 +1,1120 @@
+﻿@model MV_DashBoard
+@using System.Web.UI.WebControls;
+@{
+    ViewBag.Title = Utility.Phrase("DashBoard");
+    Layout = "~/Views/Shared/_NewLayout.cshtml";
+}
+
+
+<div id="loading" class="loading"></div>
+<div class="insider">
+    @if (Model.isDashboard)
+    {
+        <div class="row">
+            <div class="col-md-12 p-0">
+                <div class="col-md-2">
+                    <div class="hover-box">
+                        <a class="hover-button" href="javascript:void(0)">
+                            <div class="block block-mini block-purple">
+                                <span class="box-icon">
+                                    <i class="icon-etool-saleman-route"></i>
+                                </span>
+                                <h3>@Utility.Phrase("TotalSalesman")</h3>
+                                <h2>@Model.TotalSM.ToString()</h2>
+                            </div>
+                        </a>
+                        @*<div class="hover-content-box">
+                            <div class="hover-arrow arrow-up"></div>
+                            <div class="hover-content wrapper">
+                                
+                            </div>
+                        </div>*@
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="hover-box">
+                        <a class="hover-button" href="javascript:void(0)">
+                            <div class="block block-mini block-purple">
+                                <span class="box-icon">
+                                    <i class="icon-etool-saleman-route"></i>
+                                </span>
+                                <h3>@Utility.Phrase("TotalSMSync")</h3>
+                                <h2>@Model.TotalSMHasSync.ToString()</h2>
+                            </div>
+                        </a>
+                        @*<div class="hover-content-box">
+                            <div class="hover-arrow arrow-up"></div>
+                            <div class="hover-content wrapper">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th>@Utility.Phrase("AreaName")</th>
+                                            <th>@Utility.Phrase("Salesman")</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @if (Model.ListSMHasSync != null)
+                                        {
+                                            foreach (var elm in Model.ListSMHasSync)
+                                            {
+                                                <tr>
+                                                    <td>@elm.AreaName</td>
+                                                    <td>@elm.SalesmanName</td>
+                                                </tr>
+                                            }
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>*@
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="hover-box">
+                        <a class="hover-button" href="javascript:void(0)">
+                            <div class="block block-mini block-purple">
+                                <span class="box-icon" id="btnTotalSMNotSync">
+                                    <i class="icon-etool-saleman-route"></i>
+                                </span>
+                                <h3>@Utility.Phrase("TotalSMNotSync")</h3>
+                                <h2>@((Model.TotalSM - Model.TotalSMHasSync).ToString())</h2>
+                            </div>
+                        </a>
+                        <div class="hover-content-box">
+                            <div class="hover-arrow arrow-up"></div>
+                            <div class="hover-content wrapper">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th>@Utility.Phrase("Salesman")</th>
+                                            <th>@Utility.Phrase("Phone")</th>
+                                            <th>@Utility.Phrase("Province_City")</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @if(Model.ListSMNotSync != null){
+                                            foreach(var elm in Model.ListSMNotSync)
+                                            {
+                                                <tr>
+                                                    <td>@elm.SalesmanName</td>
+                                                    <td>@elm.SalesmanPhone</td>
+                                                    <td>@elm.ProvinceName</td>
+                                                </tr>
+                                            }
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="hover-box">
+                        <a class="hover-button" href="javascript:void(0)">
+                            <div class="block block-mini block-magenta">
+                                <span class="box-icon">
+                                    <i class="icon-etool-image"></i>
+                                </span>
+                                <h3>@Utility.Phrase("SMHasVisit")</h3>
+                                <h2>@Model.TotalSMHasVisit.ToString()</h2>
+                            </div>
+                        </a>
+                        @*<div class="hover-content-box">
+                            <div class="hover-arrow arrow-up"></div>
+                            <div class="hover-content wrapper">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th>@Utility.Phrase("AreaName")</th>
+                                            <th>@Utility.Phrase("Salesman")</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @if (Model.ListSMHasVisited != null)
+                                        {
+                                            foreach (var elm in Model.ListSMHasVisited)
+                                            {
+                                                <tr>
+                                                    <td>@elm.AreaName</td>
+                                                    <td>@elm.SalesmanName</td>
+                                                </tr>
+                                            }
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>*@
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="hover-box">
+                        <a class="hover-button" href="javascript:void(0)">
+                            <div class="block block-mini block-magenta">
+                                <span class="box-icon">
+                                    <i class="icon-etool-image"></i>
+                                </span>
+                                <h3>@Utility.Phrase("SMHasNotVisit")</h3>
+                                <h2>@((Model.TotalSMHasSync - Model.TotalSMHasVisit).ToString())</h2>
+                            </div>
+                        </a>
+                        <div class="hover-content-box">
+                            <div class="hover-arrow arrow-up"></div>
+                            <div class="hover-content wrapper">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th>@Utility.Phrase("Salesman")</th>
+                                            <th>@Utility.Phrase("Phone")</th>
+                                            <th>@Utility.Phrase("Province_City")</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @if (Model.ListSMNotVisit != null)
+                                        {
+                                            foreach (var elm in Model.ListSMNotVisit)
+                                            {
+                                                <tr>
+                                                    <td>@elm.SalesmanName</td>
+                                                    <td>@elm.SalesmanPhone</td>
+                                                    <td>@elm.ProvinceName</td>
+                                                </tr>
+                                            }
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="hover-box">
+                        <a class="hover-button" href="javascript:void(0)">
+                            <div class="block block-mini block-green">
+                                <span class="box-icon">
+                                    <i class="icon-etool-image-confirm"></i>
+                                </span>
+                                <h3>@Utility.Phrase("SMHasOrder")</h3>
+                                <h2>@Model.TotalSMHasOrder.ToString()</h2>
+                            </div>
+                        </a>
+                        @*<div class="hover-content-box">
+                            <div class="hover-arrow arrow-up"></div>
+                            <div class="hover-content wrapper">
+                                
+                            </div>
+                        </div>*@
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div id="ChartBox" class="col-sm-9">
+            </div>
+            <div class="col-sm-3">
+                <div class="block block-red block-theme">
+                    <div class="align-center">
+                        <h2>@Model.VisitDate.ToString(Utility.info.DateTimeFormat.ShortDatePattern)</h2>
+                        <i class="icon-etool-big-datetime"></i>
+                    </div>
+                    <table class="tbl-transparent">
+                        <tbody>
+                            <tr>
+                                <td>@Utility.Phrase("MTDTotalAmount")</td>
+                                <td class="ta-right align-right">@Utility.StringParseWithRoundingDecimalDegit(Model.MTDTotalAmount) VND</td>
+                            </tr>
+                            <tr>
+                                <td>@Utility.Phrase("TodayTotalAmount")</td>
+                                <td class="ta-right align-right">@Utility.StringParseWithRoundingDecimalDegit(Model.TotalAmount) VND</td>
+                            </tr>
+                            <tr>
+                                <td>@Utility.Phrase("PlanVisit")</td>
+                                <td class="ta-right align-right">@Utility.StringParseWithRoundingDecimalDegit(Model.TotalVisitPlan)</td>
+                            </tr>
+                            <tr>
+                                <td>@Utility.Phrase("Visited")</td>
+                                <td class="ta-right align-right">@Utility.StringParseWithRoundingDecimalDegit(Model.TotalOutletHasVisit)</td>
+                            </tr>
+                            <tr>
+                                <td>@Utility.Phrase("NotYetVisit")</td>
+                                <td class="ta-right align-right">@Utility.StringParseWithRoundingDecimalDegit(Model.TotalRestVisit)</td>
+                            </tr>
+                            <tr>
+                                <td>@Utility.Phrase("OrderCount")</td>
+                                <td class="ta-right align-right">@Utility.StringParseWithRoundingDecimalDegit(Model.TotalOrder)</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div id="PieVisit" class="col-md-6">
+                @*@Html.Partial("~/Views/Shared/Control/PieTablePartial.cshtml", Model.StatisticVisit, new ViewDataDictionary { { "NameID", "StatisVisit" } })*@
+            </div>
+            <div id="PieOrder" class="col-md-6">
+                @*@Html.Partial("~/Views/Shared/Control/PieTablePartial.cshtml", Model.StatisticOrder, new ViewDataDictionary { { "NameID", "StatisOrder" } })*@
+            </div>
+        </div>
+    }
+    else
+    {
+        if (PermissionHelper.CheckPermissionByFeature(Utility.RoleName.Leader.ToString()))
+        {
+        <div class="row display-table w-100pr mb-10 content-header">
+            <div class="tab-content wrapper">
+                <table class="tablesorter">
+                    <thead class="block-theme">
+                        <tr>
+                            <th>@Utility.Phrase("No")</th>
+                            <th>@Utility.Phrase("DisplayName")</th>
+                            <th>@Utility.Phrase("EvaluationCode")</th>
+                            <th>@Utility.Phrase("EvaluationName")</th>
+                            <th>@Utility.Phrase("Eval_Status")</th>
+
+                            <th>@Utility.Phrase("Eval_SumAuditor")</th>
+                            <th>@Utility.Phrase("Eval_SumOutlet")</th>
+                            <th>@Utility.Phrase("Eval_SumImage")</th>
+
+                            <th>@Utility.Phrase("Eval_SumImageNotReviewd")</th>
+                            <th>@Utility.Phrase("Eval_SumImageReviewed")</th>
+                            <th>@Utility.Phrase("Eval_SumImagePass")</th>
+                            <th>@Utility.Phrase("Eval_SumImageReject")</th>
+                        </tr>
+                    </thead>
+                    <tbody id="my_table_HeaderReview">
+                        @if (Model.ReviewListHeader != null)
+                        {
+                            foreach (var item in Model.ReviewListHeader)
+                            {
+                            <tr>
+                                <td>@Html.DisplayFor(modelItem => item.STT)</td>
+                                <td>@Html.DisplayFor(modelItem => item.TenCTTB)</td>
+                                <td>@Html.DisplayFor(modelItem => item.MaDanhGia)</td>
+                                <td>@Html.DisplayFor(modelItem => item.TenDanhGia)</td>
+                                <td><span class="@item.MauTrangThai bold">@Utility.Phrase("EvalState_" + item.TrangThai)</span></td>
+                                <td>@Html.DisplayFor(modelItem => item.TotalAuditor)</td>
+                                <td>@Html.DisplayFor(modelItem => item.TongCuaHang)</td>
+                                <td>@Html.DisplayFor(modelItem => item.TongAnhCanXet)</td>
+
+                                <td>@(item.TongAnhDaCham - item.TongAnhDaXet)</td>
+                                <td>@Html.DisplayFor(modelItem => item.TongAnhDaXet)</td>
+
+                                <td>@Html.DisplayFor(modelItem => item.TongAnhDat)</td>
+                                <td>@Html.DisplayFor(modelItem => item.TongAnhTuChoi)</td>
+
+                            </tr>
+                            }
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="tab-header">
+            <div class="toolbox">
+                <ul class="fr m-0">
+                    <li class="ts-pager">
+                        <button type="button" title="@Utility.Phrase("GoBack")" class="prev"><i class="icon-go-back"></i></button>
+                        <span class="pagedisplay"></span>
+                        <button type="button" title="@Utility.Phrase("GoNext")" class="next"><i class="icon-go-next"></i></button>
+                        <span>@Utility.Phrase("GotoPage")
+                            <select class="pagenum input-mini" title="Select page number"></select>
+                        </span>
+                        <span>@Utility.Phrase("Pages")</span>
+                        <select class="pagesize input-mini m-0" title="Select page size">
+                            <option selected="selected" value="10">10</option>
+                            <option value="20">20</option>
+                            <option value="30">30</option>
+                            <option value="40">40</option>
+                            <option value="50">50</option>
+                        </select>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="tab-content wrapper">
+            <table class="tablesorter">
+                <thead class="block-theme">
+                    <tr>
+                        <th>@Utility.Phrase("No")</th>
+                        <th>@Utility.Phrase("DisplayName")</th>
+                        <th>@Utility.Phrase("EvaluationCode")</th>
+                        <th>@Utility.Phrase("DateTimeEval")</th>
+                        <th>@Utility.Phrase("EmployeeName")</th>
+                        <th>@Utility.Phrase("Eval_Status")</th>
+                        <th>@Utility.Phrase("Eval_SumOutlet")</th>
+                        <th>@Utility.Phrase("Eval_SumImage")</th>
+
+                        <th>@Utility.Phrase("Eval_SumImageNotReviewd")</th>
+                        <th>@Utility.Phrase("Eval_SumImageReviewed")</th>
+                        <th>@Utility.Phrase("Eval_SumImagePass")</th>
+                        <th>@Utility.Phrase("Eval_SumImageReject")</th>
+                    </tr>
+                </thead>
+                <tbody id="my_table_DetailReview">
+                    @if (Model.ReviewListDetail != null)
+                    {
+                        foreach (var item in Model.ReviewListDetail)
+                        {
+                        <tr>
+                            <td>@Html.DisplayFor(modelItem => item.STT)</td>
+                            <td>@Html.DisplayFor(modelItem => item.TenCTTB)</td>
+                            <td>@Html.DisplayFor(modelItem => item.MaDanhGia)</td>
+                            <td>@item.ProgramDateFrom.ToShortDatePattern() - @item.ProgramDateTo.ToShortDatePattern()</td>
+
+                            <td>@Html.DisplayFor(modelItem => item.TenAuditor)</td>
+                            <td><span class="@item.MauSac bold">@Utility.Phrase("EvalEmployeeStatus_" + item.EvalStatus)</span></td>
+                            <td>@Html.DisplayFor(modelItem => item.TongCuaHang)</td>
+                            <td>@Html.DisplayFor(modelItem => item.TongAnhCanXet)</td>
+
+                            <td>@(item.TongAnhDaCham - item.TongAnhDaXet)</td>
+                            <td>@(item.ReviewRate > 0 ? item.TongAnhDaXet.ToString() : Utility.Phrase("NotReview"))</td>
+                            <td>@(item.ReviewRate > 0 ? item.TongAnhDat.ToString() : Utility.Phrase("NotReview"))</td>
+                            <td>@(item.ReviewRate > 0 ? item.TongAnhKhongDat.ToString() : Utility.Phrase("NotReview"))</td>
+                        </tr>
+                        }
+                    }
+                </tbody>
+            </table>
+
+        </div>
+        }
+        else
+        {
+            //Load danh sach CTTB theo nhan vien dang nhap:
+        @*<div class="row display-table w-100pr mb-10 content-header">
+            <div class="report-content-header">
+                <div class="col-sm-8">
+                    <h1>@Utility.Phrase("Eval_ListEvaluation")</h1>
+                </div>
+            </div>
+        </div>*@
+            if (ViewData["ImgRejected"] != null)
+            {
+                <div class="alert alert-warning">
+                    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                    <strong>Warning!</strong> @Utility.Phrase("MessImageRejected"): @ViewData["ImgRejected"] @Utility.Phrase("Image")
+                </div>
+            }
+        <div class="tab-header">
+            <div class="toolbox">
+                <ul class="fr m-0">
+                    <li class="ts-pager">
+                        <button type="button" title="@Utility.Phrase("GoBack")" class="prev"><i class="icon-go-back"></i></button>
+                        <span class="pagedisplay"></span>
+                        <button type="button" title="@Utility.Phrase("GoNext")" class="next"><i class="icon-go-next"></i></button>
+                        <span>@Utility.Phrase("GotoPage")
+                            <select class="pagenum input-mini" title="Select page number"></select>
+                        </span>
+                        <span>@Utility.Phrase("Pages")</span>
+                        <select class="pagesize input-mini m-0" title="Select page size">
+                            <option selected="selected" value="10">10</option>
+                            <option value="20">20</option>
+                            <option value="30">30</option>
+                            <option value="40">40</option>
+                            <option value="50">50</option>
+                        </select>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="tab-content wrapper">
+            <table class="tablesorter">
+                <thead class="block-theme">
+                    <tr>
+                        @*  <th>@Utility.Phrase("Action")</th>*@
+                        <th>@Utility.Phrase("No")</th>
+                        <th>@Utility.Phrase("DisplayName")</th>
+                        <th>@Utility.Phrase("EvaluationCode")</th>
+                        <th>@Utility.Phrase("EvaluationName")</th>
+                        <th>@Utility.Phrase("EvaluationStatus")</th>
+                        <th>@Utility.Phrase("Eval_SumOutlet")</th>
+                        <th>@Utility.Phrase("Eval_SumImage")</th>
+                        <th>@Utility.Phrase("Eval_SumImageEvaluated")</th>
+                        <th>@Utility.Phrase("Eval_SumImagePass")</th>
+                        <th>@Utility.Phrase("Eval_SumImageRemarking")</th>
+
+                    </tr>
+                </thead>
+                <tbody id="my_table_DetailEvaluation">
+                    @if (Model.EvalDefinitionResult != null)
+                    {
+                        //   int stt = 1;
+                        foreach (var item in Model.EvalDefinitionResult)
+                        {
+                        <tr>
+                            <td>@item.OrderNum.ToString()</td>
+                            <td>@item.ChuongTrinhTrungBay</td>
+                            <td>@item.MaDanhGia</td>
+                            <td>@item.TenDanhGia</td>
+                            <td><span class="@item.MauTrangThai bold">@Utility.Phrase("EvalState_" + item.TrangThai)</span></td>
+                            <td>@Html.DisplayFor(modelItem => item.SumOutlet)</td>
+                            <td>@Html.DisplayFor(modelItem => item.SumImage)</td>
+                            <td>@Html.DisplayFor(modelItem => item.SumImageisFinished)</td>
+                            <td>@Html.DisplayFor(modelItem => item.SumImageApprove)</td>
+                            <td>@Html.DisplayFor(modelItem => item.SumImageReject)</td>
+                        </tr>
+                        }
+                    }
+                </tbody>
+            </table>
+        </div>     
+        }  
+@*<img src="@Url.Content("~/Content/Logo")/@ViewBag.image"  class="imgLogo" style="max-width:100%;max-height:100%" >*@
+    }
+</div>
+<!-- The Modal -->
+<div id="myModal" class="modal">
+
+    <!-- Modal content -->
+    <div class="modal-content">
+        <span class="close">×</span>
+        <p>
+            <table id="tabletesthover" class="table-sorter valuation" hidden>
+                <thead>
+                    <tr>
+                        <th>@Utility.Phrase("RegionName")</th>
+                        <th>@Utility.Phrase("AreaName")</th>
+                        <th>@Utility.Phrase("DistributorName")</th>
+                        <th>@Utility.Phrase("RouteName")</th>
+                        <th>@Utility.Phrase("Salesman")</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </p>
+    </div>
+
+</div>
+
+<script src="@Url.Content("~/MapTest/HighCharts/highcharts.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/MapTest/HighCharts/modules/data.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/MapTest/HighCharts/modules/exporting.js")" type="text/javascript"></script>
+<script type='text/javascript'>
+    //$('#btnTotalSMNotSync').hover(function (ev) {
+    //    // Get the modal
+    //    var modal = document.getElementById('myModal');
+    //    // Get the button that opens the modal
+    //    var btn = document.getElementById("myBtn");
+    //    // Get the <span> element that closes the modal
+    //    var span = document.getElementsByClassName("close")[0];
+    //    modal.style.display = "block";
+    //    if (event.target == modal) {
+    //        modal.style.display = "none";
+    //    }
+    //    span.onclick = function () {
+    //        modal.style.display = "none";
+    //    }
+    //});
+    
+
+    var textDoanhSoNgay = '@Html.Raw(Utility.Phrase("AmountOfDay"))';
+
+    Highcharts.getOptions().plotOptions.pie.colors = (function () {
+        var colors = [];
+        var base = Highcharts.getOptions().colors[0];
+        var i;
+        colors.push('#0213EA');
+        colors.push('#0FF608');
+        colors.push('#FFFD01');
+        colors.push('#FEB101');
+        colors.push('#FF1200');
+        return colors;
+    }());
+    function RenderPie(chartID, data) {
+        $('#' + chartID).highcharts({
+            chart: {
+                plotBackgroundColor: null,
+                plotBorderWidth: null,
+                plotShadow: false,
+                type: 'pie'
+            },
+            credits: {
+                enabled: false
+            },
+            title: {
+                text: data.chartName,
+                align: 'left',
+                style: {
+                    color: '#4e576a',
+                    "fontSize": "20px",
+                    "font-family": "inherit",
+                    "font-weight": "500"
+                },
+            },
+            tooltip: {
+                formatter: function() {
+                    return '<b>' + Math.round(this.y) + '</b> ' + this.series.name + ' ' + this.point.name;
+                }
+            },
+            plotOptions: {
+                pie: {
+                    allowPointSelect: true,
+                    cursor: 'pointer',
+                    dataLabels: {
+                        color: 'white',
+                        distance: -18,
+                        formatter: function () {
+                            if (this.y != 0) return Math.round(this.y);
+                        }
+                    },
+                    showInLegend: true,
+                }
+            },
+            series: [{
+                name: 'Brands',
+                colorByPoint: true,
+                name: data.tooltips,
+                data: data.listSeries
+            }]
+        });
+    }
+
+    function RenderChart(chartID, data, chartType, width) {
+        $('#' + chartID).highcharts({
+            chart: {
+                type: chartType,
+                height: 250,
+                width: width
+            },
+            credits: {
+                enabled: false
+            },
+            title: {
+                text: data.chartName,
+                align: 'left',
+                style: {
+                    color: '#4e576a',
+                    "fontSize": "20px",
+                    "font-family": "inherit",
+                    "font-weight": "500"
+                },
+            },
+            xAxis: {
+                categories: data.listColumns
+            },
+            yAxis: {
+                title: {
+                    text: data.YName
+                }
+            },
+            series: data.listSeries
+        });
+    }
+
+    function RenderLine(chartID, data, chartType) {
+        $('#' + chartID).highcharts({
+            credits: {
+                enabled: false
+            },
+            title: {
+                text: data.chartName,
+                align: 'left',
+                style: {
+                    color: '#4e576a',
+                    "fontSize": "20px",
+                    "font-family": "inherit",
+                    "font-weight": "500"
+                },
+            },
+            xAxis: {
+                categories: data.listColumns
+            },
+            yAxis: {
+                title: {
+                    text: data.YName
+                }
+            },
+            series: data.listSeries
+        });
+    }
+
+    function RenderChartTarget(chartID, data, chartType, width) {
+        $('#' + chartID).highcharts({
+            chart: {
+                height: 250,
+                width: width
+            },
+            credits: {
+                enabled: false
+            },
+            title: {
+                text: data.chartName,
+                align: 'left',
+                style: {
+                    color: '#4e576a',
+                    "fontSize": "20px",
+                    "font-family": "inherit",
+                    "font-weight": "500"
+                },
+            },
+            xAxis: {
+                categories: data.listColumns
+            },
+            yAxis: {
+                title: {
+                    text: data.YName
+                }
+            },
+            series: [{
+                type: 'area', //spline
+                name: data.targetName,
+                data: data.listTarget,
+                marker: {
+                }
+            },
+            {
+                type: chartType,
+                name: data.listSeries[0].name,
+                data: data.listSeries[0].data
+            }]
+        });
+    }
+
+    function RenderChartWithTarget(chartID, data, chartType, dataTarget, nameTarget, width) {
+        $('#' + chartID).highcharts({
+            chart: {
+                type: chartType,
+                height: 250,
+                width: width
+            },
+            credits: {
+                enabled: false
+            },
+            title: {
+                text: data.chartName,
+                align: 'left',
+                style: {
+                    color: '#4e576a',
+                    "fontSize": "20px",
+                    "font-family": "inherit",
+                    "font-weight": "500"
+                },
+            },
+            xAxis: {
+                categories: data.listColumns
+            },
+            yAxis: {
+                title: {
+                    text: data.YName
+                },
+                plotLines: [{
+                    value: dataTarget,
+                    color: '#ff0000',
+                    width: 2,
+                    zIndex: 4,
+                    label: { text: nameTarget }
+                }]
+            },
+            series: data.listSeries
+        });
+    }
+
+    //function RenderChartVisitInDay(chartID, data) {
+    //    $('#' + chartID).highcharts({
+    //        chart: {
+    //            type: 'column',
+    //            height: 250,
+    //            width: width,
+    //            //spacingBottom: 4
+    //        },
+    //        credits: {
+    //            enabled: false
+    //        },
+    //        title: {
+    //            text: data.chartName,
+    //            align: 'left',
+    //            style: {
+    //                color: '#4e576a',
+    //                "fontSize": "20px",
+    //                "font-family": "inherit",
+    //                "font-weight": "500"
+    //            },
+    //        },
+    //        xAxis: {
+    //            categories: data.listColumns
+    //        },
+    //        yAxis: {
+    //            min: 0,
+    //            title: {
+    //                text: 'Tổng số nhà NT lịch bán hàng'
+    //            },
+    //            stackLabels: {
+    //                enabled: true,
+    //                style: {
+    //                    fontWeight: 'bold',
+    //                    color: (Highcharts.theme && Highcharts.theme.textColor) || 'gray'
+    //                }
+    //            }
+    //        },
+    //        legend: {
+    //            align: 'center',
+    //            x: -30,
+    //            verticalAlign: 'bottom',
+    //            y: 25,
+    //            floating: true,
+    //            backgroundColor: (Highcharts.theme && Highcharts.theme.background2) || 'white',
+    //            borderColor: '#CCC',
+    //            borderWidth: 1,
+    //            shadow: false
+    //        },
+                            
+    //        plotOptions: {
+    //            column: {
+    //                stacking: 'normal',
+    //                dataLabels: {
+    //                    enabled: true,
+    //                    color: (Highcharts.theme && Highcharts.theme.dataLabelsColor) || 'white',
+    //                    formatter: function () {
+    //                        var pcnt = this.y;
+    //                        return pcnt;
+    //                    }
+    //                }
+    //            }
+    //        },
+    //        tooltip: {
+    //            formatter: function () {
+    //                return '<b>' + this.key + '</b><br/> ' + this.series.name + ': ' + this.point.y;
+    //            }
+    //        },
+    //        series: data.listSeries
+    //    });
+    //}
+
+    function RenderChartVisitInDay(chartID, data)
+    {
+        $('#' + chartID).highcharts({
+            chart: {
+                type: 'column',
+                height: 250,
+                width: width,
+        
+            },
+            credits: {
+                enabled: false
+            },
+            title: {
+                text: data.chartName,
+                align: 'left',
+                style: {
+                    color: '#4e576a',
+                    "fontSize": "20px",
+                    "font-family": "inherit",
+                    "font-weight": "500"
+                },
+            },
+            xAxis: {
+                categories: data.listColumns
+            },
+            yAxis: {
+                min: 0,
+                title: {
+                    text: 'Tổng'
+                },
+                stackLabels: {
+                    enabled: true,
+                    formatter: function () {
+                        return Highcharts.numberFormat((this.total - this.axis.series[2].yData[this.x]),0)
+                    }
+                }
+            },
+            legend: {
+                enabled: false
+            },
+            plotOptions: {
+                column: {
+                    stacking: 'normal',
+                    dataLabels: {
+                        enabled: true,
+                        color: (Highcharts.theme && Highcharts.theme.dataLabelsColor) || 'white',
+                        formatter: function () {
+                            var pcnt = Highcharts.numberFormat(this.y,0);
+                            return pcnt;
+                        }
+                    }
+                }
+            },
+            tooltip: {
+                shared: true
+            },
+            series: data.listSeries
+        });
+    }
+
+    function RenderCumulativeRevenue(chartID, data, width) {
+        $('#' + chartID).highcharts({
+            chart: {
+                height: 250,
+                width: width
+            },
+            credits: {
+                enabled: false,
+            },
+            title: {
+                text: data.chartName,
+                align: 'left',
+                style: {
+                    color: '#4e576a',
+                    "fontSize": "20px",
+                    "font-family": "inherit",
+                    "font-weight": "500"
+                },
+            },
+            xAxis: {
+                categories: data.listColumns
+            },
+            tooltip: {
+                formatter: function () {
+                    return '<b>' + this.series.name + '</b><br/> ' + textDoanhSoNgay + ' ' + this.key + ': ' + Highcharts.numberFormat(this.point.y, 0) + 'VND';
+                }
+            },
+            yAxis: {
+                min: 0,
+                title: {
+                    text: data.YName
+                }
+            },
+            series: data.listSeries
+        });
+    }
+
+    function RenderChartSync(chartID, data, chartType, width) {
+        $('#' + chartID).highcharts({
+            chart: {
+                type: chartType,
+                spacingBottom: 2,
+                height: 250,
+                width: width
+            },
+            credits: {
+                enabled: false
+            },
+            title: {
+                text: data.chartName,
+                align: 'left',
+                style: {
+                    color: '#4e576a',
+                    "fontSize": "20px",
+                    "font-family": "inherit",
+                    "font-weight": "500"
+                },
+            },
+            xAxis: {
+                categories: data.listColumns
+            },
+            yAxis: {
+                min: 0,
+                tickInterval: 1,
+                title: {
+                    text: data.YName
+                }
+            },
+            plotOptions: {
+                column: {
+                    dataLabels: {
+                        enabled: true,
+                        //color: (Highcharts.theme && Highcharts.theme.dataLabelsColor) || 'white',
+                        formatter: function () {
+                            return Highcharts.numberFormat(this.y, 0);
+                        }
+                    }
+                }
+            },
+            tooltip: {
+                formatter: function () {
+                    return '<b>' + this.key + '</b><br/> Số SM ' + this.series.name + ' là: ' + Highcharts.numberFormat(this.point.y, 0) + ' SM';
+                }
+            },
+            series: data.listSeries
+        });
+    }
+
+    function RenderChartRevenueInDay(chartID, data) {
+        $('#' + chartID).highcharts({
+            chart: {
+                type: 'column',
+                height: 250,
+                spacingBottom: -5
+            },
+            credits: {
+                enabled: false
+            },
+            title: {
+                text: data.chartName,
+                align: 'left',
+                style: {
+                    color: '#4e576a',
+                    "fontSize": "20px",
+                    "font-family": "inherit",
+                    "font-weight": "500"
+                },
+            },
+            xAxis: {
+                categories: data.listColumns
+            },
+            yAxis: {
+                min: 0,
+                max: 100,
+                text: data.YName
+            },
+            legend: {
+                align: 'right',
+                verticalAlign: 'middle',
+                width: 120,
+                itemWidth: 120
+            },
+            plotOptions: {
+                series: {
+                    stacking: 'percent',
+                    dataLabels: {
+                        enabled: true,
+                        color: (Highcharts.theme && Highcharts.theme.dataLabelsColor) || 'white',
+                        formatter: function () {
+                            var pcnt = this.y;
+                            return Highcharts.numberFormat(pcnt) + '%';
+                        }
+                    }
+                }
+            },
+            tooltip: {
+                formatter: function () {
+                    return '<b>' + this.key + '</b><br/> ' + this.series.name + ': ' + Highcharts.numberFormat(this.point.y, 2) + ' %';
+                }
+            },
+            series: data.listSeries
+        });
+    }
+    function RenderChartRevenueInDayColumn(chartID, data) {
+        $('#' + chartID).highcharts({
+            chart: {
+                type: 'column',
+                height: 250,
+                width: width,
+
+            },
+            credits: {
+                enabled: false
+            },
+            title: {
+                text: data.chartName,
+                align: 'left',
+                style: {
+                    color: '#4e576a',
+                    "fontSize": "20px",
+                    "font-family": "inherit",
+                    "font-weight": "500"
+                },
+            },
+            xAxis: {
+                categories: data.listColumns
+
+            },
+            yAxis: {
+                min: 0,
+                title: {
+                    text: 'Doang số đạt được'
+                },
+                stackLabels: {
+                    enabled: true,
+                    formatter: function () {
+                        return Highcharts.numberFormat(this.total,0)
+                    }
+                }
+            },
+            legend: {
+                enabled: false
+            },
+            plotOptions: {
+                column: {
+                    stacking: 'normal',
+                }
+            },
+            tooltip: {
+                shared: true
+            },
+            series: data.listSeries
+        });
+    }
+
+    function RenderChartColum(chartID, data, width) {
+        $('#' + chartID).highcharts({
+            chart: {
+                type: 'column',
+                height: 250,
+                width: width
+            },
+            credits: {
+                enabled: false
+            },
+            title: {
+                text: data.chartName,
+                align: 'left',
+                style: {
+                    color: '#4e576a',
+                    "fontSize": "20px",
+                    "font-family": "inherit",
+                    "font-weight": "500"
+                },
+            },
+            plotOptions: {
+                column: {
+                    stacking: 'normal',
+                    dataLabels: {
+                        enabled: true,
+                        formatter: function () {
+                            return Highcharts.numberFormat(this.y, 0);
+                        }
+                    }
+                }
+            },
+            xAxis: {
+                categories: data.listColumns
+            },
+            yAxis: {
+                title: {
+                    text: data.YName
+                }
+            },
+            series: data.listSeries
+        });
+    }
+
+    //var WithInsider = $('.insider').width();
+    //var WithNavi = $('.navigation').width();
+    //var WithImage = WithInsider - WithNavi - 20;
+    //$('.imgLogo').width = WithImage;
+    var chartType = 'column';
+    var groupby = 'Region';
+    $(document).ready(function () {
+        $("html").removeClass("nav-mini");
+        var role = '@Model.isDashboard';
+        if (role) {
+            $.ajax({
+                type: 'POST', //Method type
+                async: true,
+                url: '@Url.Action("LoadChartBox", "DashBoard")',
+                dataType: 'html',
+                success: function (data) {
+                    $('#ChartBox').html(data);
+                }
+            });
+            $.ajax({
+                type: 'POST', //Method type
+                async: true,
+                url: '@Url.Action("LoadPieVisit", "DashBoard")',
+                dataType: 'html',
+                success: function (data) {
+                    $('#PieVisit').html(data);
+                }
+            });
+            $.ajax({
+                type: 'POST', //Method type
+                async: true,
+                url: '@Url.Action("LoadPieOrder", "DashBoard")',
+                dataType: 'html',
+                success: function (data) {
+                    $('#PieOrder').html(data);
+                }
+            });
+        }
+    });
+</script>

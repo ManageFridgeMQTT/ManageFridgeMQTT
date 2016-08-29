@@ -1,0 +1,65 @@
+.leaflet-contextmenu
+{
+    background: #F0F0F0 url(/Content/img/menu_bg.gif) left repeat-y;
+    border: 1px solid #718BB7;
+    padding: 2px 0;
+    position: absolute;
+    z-index: 99997;
+    left: 0px;
+    top: 0px;
+    cursor: pointer;
+    font: Arial,sans-serif;
+    font-size: 11px;
+    background-color: #FFFFFF;
+    border-radius: 4px;
+    box-shadow: 0 1px 7px rgba(0, 0, 0, 0.4);
+    padding: 4px 0;
+    display:none;
+}
+
+.leaflet-contextmenu a.leaflet-contextmenu-item
+{
+    display: block;
+    color: #222;
+    font-size: 12px;
+    line-height: 20px;
+    text-decoration: none;
+    padding: 0 12px;
+    border-top: 1px solid transparent;
+    border-bottom: 1px solid transparent;
+    cursor: default;
+}
+
+.leaflet-contextmenu a.leaflet-contextmenu-item-disabled
+{
+    opacity: 0.5;
+}
+
+.leaflet-contextmenu a.leaflet-contextmenu-item:hover
+{
+    background-color: #f4f4f4;
+    border-top: 1px solid #f0f0f0;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.leaflet-contextmenu a.leaflet-contextmenu-item-disabled:hover
+{
+    background-color: inherit;
+    border-top: 1px solid transparent;
+    border-bottom: 1px solid transparent;
+}
+
+.leaflet-contextmenu-icon
+{
+    margin: 2px 8px 0 -7px;
+    width: 16px;
+    height: 16px;
+    float: left;
+    border: 0;
+}
+
+.leaflet-contextmenu-separator
+{
+    border-bottom: 1px solid #ccc;
+    margin: 5px 0;
+}

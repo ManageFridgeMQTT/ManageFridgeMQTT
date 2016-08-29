@@ -1,0 +1,60 @@
+﻿@Html.DevExpress().GridView(detailGrid =>
+   {
+       detailGrid.Name = "detailGrid";
+       detailGrid.CallbackRouteValues = new {Controller = "MyScheduler", Action = "DetailAppointmentPartial",
+                                             date = (DateTime)Session["Home_Detail_Date"],
+                                             employeeID = (string)Session["Home_Detail_EmployeeID"]
+       };
+       detailGrid.SettingsText.EmptyDataRow = Utility.Phrase("PrepareScheduleNew.Messages.EmptyDataRow");
+       detailGrid.Width = System.Web.UI.WebControls.Unit.Percentage(100);    
+       //detailGrid.Height = System.Web.UI.WebControls.Unit.Percentage(100);
+       //detailGrid.SettingsEditing.Mode = GridViewEditingMode.Inline;
+       //detailGrid.SettingsPager.Position = System.Web.UI.WebControls.PagerPosition.Bottom;
+           //detailGrid.Settings.ShowHeaderFilterButton = true;
+           //detailGrid.SettingsPopup.HeaderFilter.Height = 100;
+       //detailGrid.SettingsPager.FirstPageButton.Visible = true;
+       //detailGrid.SettingsPager.LastPageButton.Visible = true;
+       //detailGrid.SettingsPager.PageSizeItemSettings.Visible = true;
+       //detailGrid.SettingsPager.PageSizeItemSettings.Items = new string[] { "2", "4", "6" };
+       //detailGrid.CommandColumn.Visible = false;
+       detailGrid.Settings.VerticalScrollBarMode = ScrollBarMode.Visible;
+       detailGrid.Settings.VerticalScrollableHeight = 100;  
+       detailGrid.Columns.Add(col =>
+       {
+           col.FieldName = "StartDate";
+           col.Caption = Utility.Phrase("StartTime");
+           col.ColumnType = MVCxGridViewColumnType.TimeEdit;
+       });
+
+       detailGrid.Columns.Add(col =>
+       {
+           col.FieldName = "EndDate";
+           col.Caption = Utility.Phrase("EndTime");
+           col.ColumnType = MVCxGridViewColumnType.TimeEdit;
+       });
+
+       detailGrid.Columns.Add(col =>
+       {
+           col.FieldName = "Subject";
+           col.Caption = Utility.Phrase("Subject");
+       });
+       detailGrid.Columns.Add(col =>
+       {
+           col.FieldName = "Description";
+           col.Caption = Utility.Phrase("Description");
+       });
+       detailGrid.Columns.Add(col =>
+       {
+           col.FieldName = "Location";
+           col.Caption = Utility.Phrase("Location");
+       });
+       detailGrid.Columns.Add(col =>
+       {
+           col.FieldName = "Phone";
+           col.Caption = Utility.Phrase("Phone");
+       });
+
+       //detailGrid.SettingsPager.PageSize = 5;
+
+
+   }).Bind(Model).GetHtml()

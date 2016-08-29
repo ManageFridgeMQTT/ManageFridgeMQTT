@@ -1,0 +1,418 @@
+﻿@*@{ Layout = "~/Views/Shared/_lightLayout.cshtml"; }*@
+
+@{
+    ViewBag.Title = Utility.Phrase("ScheduleSubmitSetting");
+    Layout = "~/Views/Shared/_NewLayout.cshtml";
+}
+
+@model Hammer.Models.SendScheduleAgainMode
+<script type="text/javascript">
+    this.onload = function () {
+        $('prepareScheduleContent').height($(window).height() * 0.72);
+    };
+    var ListOutlet = [];
+    function SelectionChanged(s, e) {
+        s.GetSelectedFieldValues("No", GetSelectedFieldValuesCallback);
+    }
+    function GetSelectedFieldValuesCallback(values) {
+        ListOutlet = [];
+        for (var i = 0; i < values.length; i++) {
+            ListOutlet.push(values[i]);
+        }
+    }
+    function btnView_Click(s, e) {
+        //LoadingPanel.Show();
+        $.ajax({
+            url: 'ViewDetail',
+            data: 'scheduleType=' + ScheduleType.GetValue() + '&regionID=' + RegionID.GetValue() + '&areaID=' + AreaID.GetValue() + '&employees=' + EmployeeID.GetValue() + '&start=' + (FromDate.GetValue().getMonth() + 1) + '/'
+             + FromDate.GetValue().getDate() + '/' + FromDate.GetValue().getFullYear() + '&end=' + (EndDate.GetValue().getMonth() + 1) + '/'
+             + EndDate.GetValue().getDate() + '/' + EndDate.GetValue().getFullYear(),
+            type: 'POST',
+            success: function (response) {
+                //LoadingPanel.Hide();
+                gridSetting.PerformCallback();
+            },
+            error: function (err) {
+                //alert(err);
+            }
+        });
+    }
+
+    function btnClose_Click(s, e) {
+       // LoadingPanel.Show();
+        $.ajax({
+            url: 'Close',
+            data: 'listItem=' + ListOutlet + '&sendEmail=' + sendEmail.GetValue(),
+            type: 'POST',
+            success: function (response) {
+                //  LoadingPanel.Hide();
+                alert("@Utility.Phrase("CloseOkiNumber: ")" + gridSetting.GetSelectedRowCount());
+                gridSetting.UnselectRows();
+            },
+            error: function (err) {
+                //alert(err);
+            }
+        });
+    }
+    function btnExcel_Click(s, e) {      
+        // LoadingPanel.Show();
+        window.location.href = '@Url.Action("ExportExcel", "ScheduleSubmitSetting")';
+        //$.ajax({
+        //    url: 'ExportExcel',
+        //    data: '',
+        //    type: 'POST',
+        //    success: function (response) {
+        //        //  LoadingPanel.Hide();
+        //        //gridSetting.UnselectRows();
+        //    },
+        //    error: function (err) {
+        //        //alert(err);
+        //    }
+        //});
+    }
+    function btnSave_Click(s, e) {
+        //LoadingPanel.Show();
+      
+        $.ajax({
+            url: 'Save',
+            data: 'listItem=' + ListOutlet + '&sendEmail=' + sendEmail.GetValue(),
+            type: 'POST',
+            success: function (response) {
+                //LoadingPanel.Hide();
+                //gridSetting.PerformCallback();
+                alert("@Utility.Phrase("SaveOkiNumber") :" + gridSetting.GetSelectedRowCount());
+                gridSetting.UnselectRows();
+            },
+            error: function (err) {
+                //alert(err);
+            }
+        });
+    }
+    function btnAdd_Click(form) {
+        var data = $(form).serialize();
+       // LoadingPanel.Show();
+        $.ajax({
+            url: "ScheduleSubmitSetting/Add",
+            type: "POST",
+            data: data,
+            success: function (response) {
+            //    LoadingPanel.Hide();
+                if (response.length > 0) {
+                    alert(response);
+                }
+                gridSetting.PerformCallback();
+            },
+            error: function (err) {
+            }
+        });
+        return false;
+    }
+    function FromDate_ValueChanged(s, e) {
+        var fromDate = FromDate.GetDate();
+        var endDate = EndDate.GetDate();
+
+        if (fromDate > endDate) {
+            EndDate.SetDate(fromDate);
+        }
+    }
+
+    function EndDate_ValueChanged(s, e) {
+        var fromDate = FromDate.GetDate();
+        var endDate = EndDate.GetDate();
+
+        if (endDate < fromDate) {
+            EndDate.SetDate(fromDate);
+        }
+    }
+
+</script>
+<div class="insider">
+    <div id="loading" class="loading"></div>
+    <div class="row display-table w-100pr mb-10 content-header">
+        <div class="report-content-header">
+            <div class="col-sm-8">
+                <h1>@Utility.Phrase("ScheduleSubmitSetting")</h1>
+            </div>
+        </div>
+       @* @using (Ajax.BeginForm("Add", "ScheduleSubmitSetting",
+            new AjaxOptions
+            {
+                HttpMethod = "POST",
+            }, new { id = "frmProcessSchedule", onsubmit = "return btnAdd_Click(this);" }
+                ))
+        {     
+                          
+                   
+            *@
+         @using (Html.BeginForm("Index", "ScheduleSubmitSetting", FormMethod.Post))
+            {  
+        <div class="item fl required">
+                <label for="display" class="fl"> @Utility.Phrase("Shift")</label>
+                <div class="input-group">
+                    <div>
+                        @Html.DevExpress().ComboBox(
+                        settings =>
+                        {
+                            settings.Name = "ScheduleType";
+                            settings.CallbackRouteValues = new { Controller = "ScheduleSubmitSetting", Action = "ComboBoxPartialScheduleType" };
+                            // settings.Width = System.Web.UI.WebControls.Unit.Percentage(105);
+                            settings.Properties.DropDownRows = 15;
+                            settings.Properties.AllowMouseWheel = true;
+                            settings.Properties.TextFormatString = "{1}";
+                            settings.Properties.ValueField = "ID";
+                            settings.Properties.ValueType = typeof(string);
+                            settings.Properties.DropDownStyle = DropDownStyle.DropDownList;
+                            settings.Properties.IncrementalFilteringMode = IncrementalFilteringMode.Contains;
+                            settings.Properties.Columns.Add("ID", Utility.Phrase("ShiftID"), 110);
+                            settings.Properties.Columns.Add("Name", Utility.Phrase("ShiftName"), 200);
+                            settings.Properties.EnableCallbackMode = true;
+                        }
+).BindList(Model.ListType).Bind(Model.ScheduleType).GetHtml()
+
+
+                    </div>
+                </div>
+            </div>
+            <div class="item fl required">
+                <label for="display" class="fl "> @Utility.Phrase("Region")</label>
+                <div class="input-group">
+                    <div class="input-group-btn">
+                        @Html.DevExpress().ComboBox(
+                        settings =>
+                        {
+                            settings.Name = "RegionID";
+                            settings.CallbackRouteValues = new { Controller = "ScheduleSubmitSetting", Action = "ComboBoxPartialRegion" };
+                            //settings.Width = System.Web.UI.WebControls.Unit.Percentage(105);                         
+                            settings.Properties.AllowMouseWheel = true;
+                            settings.Properties.TextFormatString = "{1}";
+                            settings.Properties.ValueField = "RegionID";
+                            settings.Properties.TextField = "RegionName";
+                            //settings.Properties.te
+                            settings.Properties.ValueType = typeof(string);
+                            settings.ShowModelErrors = true;
+                            settings.Properties.DropDownStyle = DropDownStyle.DropDownList;
+                            settings.Properties.IncrementalFilteringMode = IncrementalFilteringMode.Contains;
+                            settings.Properties.Columns.Add("RegionID", Utility.Phrase("RegionID"), 110);
+                            settings.Properties.Columns.Add("RegionName", Utility.Phrase("RegionName"), 200);
+                            settings.Properties.ClientSideEvents.SelectedIndexChanged = "function(s, e) { AreaID.PerformCallback(); EmployeeID.PerformCallback()}";
+                            settings.PreRender = (sender, e) =>
+                            {
+                                MVCxComboBox cmb = sender as MVCxComboBox;
+                                if (string.IsNullOrEmpty(Model.regionID))
+                                {
+                                    cmb.Value = Model.regionID;
+                                }
+                            };
+                        }
+                             ).BindList(Model.ListRegion).Bind(Model.regionID).GetHtml()
+
+                    </div>
+                </div>
+            </div>
+                    
+            <div class="item fl required">
+                <label for="display" class="fl ">@Utility.Phrase("Area")</label>
+                <div class="input-group">
+                    <div class="input-group-btn">
+                        @Html.DevExpress().ComboBox(
+                        settings =>
+                        {
+                            settings.Name = "AreaID";
+                            settings.CallbackRouteValues = new { Controller = "ScheduleSubmitSetting", Action = "ComboBoxPartialArea" };
+                            settings.Properties.CallbackPageSize = 50;
+                            //settings.Width = System.Web.UI.WebControls.Unit.Percentage(105);
+                            settings.Properties.DropDownRows = 15;
+                            settings.Properties.AllowMouseWheel = true;
+                            settings.Properties.TextFormatString = "{1}";
+                            settings.Properties.ValueField = "AreaID";
+                            settings.Properties.ValueType = typeof(string);
+                            settings.Properties.DropDownStyle = DropDownStyle.DropDownList;
+                            settings.Properties.IncrementalFilteringMode = IncrementalFilteringMode.Contains;
+                            settings.Properties.Columns.Add("AreaID", Utility.Phrase("AreaID"), 110);
+                            settings.Properties.Columns.Add("Name", Utility.Phrase("AreaName"), 200);
+
+                            settings.PreRender = (sender, e) =>
+                            {
+                                MVCxComboBox cmb = sender as MVCxComboBox;
+                                if (string.IsNullOrEmpty(Model.areaID))
+                                {
+                                    cmb.Value = Model.areaID;
+                                }
+                            };
+                            settings.Properties.EnableCallbackMode = true;
+                            settings.Properties.ClientSideEvents.SelectedIndexChanged = "function(s, e) { EmployeeID.PerformCallback(); }";
+                            settings.Properties.ClientSideEvents.BeginCallback = "function(s, e) { e.customArgs['RegionID'] = RegionID.GetValue(); }";
+                        }
+                            ).BindList(Model.ListArea).Bind(Model.areaID).GetHtml()
+
+                    </div>
+                </div>
+            </div>
+            <div class="item fl required">
+                <label for="display" class="fl "> @Utility.Phrase("Employee")</label>
+                <div class="input-group">
+                    <div class="input-group-btn">
+                        @Html.DevExpress().ComboBoxFor(m => m.EmployeeID, cb =>
+                       {
+                           cb.CallbackRouteValues = new { Controller = "ScheduleSubmitSetting", Action = "ComboBoxPartialEm" };
+                           cb.ShowModelErrors = true;
+                           cb.Properties.AnimationType = AnimationType.Fade;
+                           cb.ReadOnly = false;
+                           cb.Properties.ValueField = "EmployeeID";
+                           cb.Properties.TextField = "EmployeeName";
+                           cb.Properties.TextFormatString = "{1}";
+                           cb.Properties.ValueType = typeof(string);                        
+                           cb.Properties.Columns.Add("EmployeeID").Caption = Utility.Phrase("EmployeeID");
+                           cb.Properties.Columns.Add("EmployeeName").Caption = Utility.Phrase("EmployeeName");
+                           cb.Properties.Columns.Add("Level").Caption = Utility.Phrase("Level");
+                           cb.Properties.CssPostfix = "block-theme";
+                                            //settings.ControlStyle.CssClass = "p-0";
+                           cb.PreRender = (sender, e) =>
+                           {
+                               MVCxComboBox cmb = sender as MVCxComboBox;
+                               if (string.IsNullOrEmpty(Model.EmployeeID))
+                               {
+                                   cmb.Value = Model.EmployeeID;
+                               }
+                           };
+                           cb.Properties.IncrementalFilteringMode = IncrementalFilteringMode.StartsWith;
+                           //cb.Properties.Columns.Add("Level");
+                           //cb.Width = System.Web.UI.WebControls.Unit.Percentage(105);
+                           cb.Properties.ClientSideEvents.BeginCallback = "function(s, e) { e.customArgs['RegionID'] = RegionID.GetValue();e.customArgs['AreaID'] = AreaID.GetValue(); }";
+                           cb.Properties.ClientSideEvents.EndCallback = "function(s, e) {  s.SetValue(null);}";
+                           // cb.Properties.ClientSideEvents.SelectedIndexChanged = "cbEmployeeID_SelectedIndexChanged";
+                       }).BindList(eRoute.Models.eCalendar.HammerDataProvider.GetAddEmployees(Model.regionID, Model.areaID)).Bind(Model.EmployeeID).GetHtml()
+                    </div>
+                </div>
+            </div>
+            <div class="item fl required">
+                <label for="display" class="fl "> @Utility.Phrase("StartDate")</label>
+                <div class="input-group">
+                    <div class="input-group-btn">
+                        @Html.DevExpress().DateEditFor(model => model.FromDate, dateEdit =>
+                                  {
+                                      dateEdit.Properties.AllowUserInput = false;
+                                      //dateEdit.Properties.MaxDate = DateTime.Now.Date;
+                                      dateEdit.Properties.ClientSideEvents.ValueChanged = "FromDate_ValueChanged";
+                                  }).GetHtml()
+                    </div>
+                </div>
+            </div>
+            <div class="item fl required">
+                <label for="display" class="fl "> @Utility.Phrase("EndDate")</label>
+                <div class="input-group">
+                    <div class="input-group-btn">
+                        @Html.DevExpress().DateEditFor(model => model.EndDate, dateEdit =>
+                              {
+                                  dateEdit.Properties.AllowUserInput = false;
+                                  //dateEdit.Properties.MaxDate = DateTime.Now.Date;
+                                  dateEdit.Properties.ClientSideEvents.ValueChanged = "EndDate_ValueChanged";
+
+                                  // dateEdit.Date = DateTime.Now;
+                              }).GetHtml()
+
+                    </div>
+                </div>
+            </div>
+            <div class="item fl required">
+                <label for="display" class="fl "> @Utility.Phrase("ScheduleSubmitSetting.Messages.CloseTime")</label>
+                <div class="input-group">
+                    <div class="input-group-btn">
+                        @Html.DevExpress().TextBox(
+                                settings =>
+                                {
+                                    settings.Name = "CloseTime";
+
+                                    //settings.Enabled = false;
+                                    settings.ShowModelErrors = true;
+                                    settings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+                                }).Bind(Model.CloseTime).GetHtml()
+                    </div>
+                </div>
+            </div>
+             <div class="item fl required">
+                <label for="display" class="fl " > @Utility.Phrase("Description")</label>
+                <div class="input-group">
+                    <div class="input-group-btn">
+                        @Html.DevExpress().TextBoxFor(model => model.Note,
+                    settings =>
+                    {
+
+                        //settings.Properties.Rows = 1;                        
+                        settings.ShowModelErrors = true;
+                        settings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+                    }).GetHtml()
+                    </div>
+                </div>
+            </div>
+            <div class="item fl">
+                <button class="btn-Add" id="btnAdd" title="@Utility.Phrase("Load")"><i class="icon-progress"></i>@Utility.Phrase("Load")</button>
+               
+                @*@Html.DevExpress().Button(button =>
+                                           {
+                                               button.Name = "btnAdd";
+                                               button.Text = @Utility.Phrase("PrepareScheduleNew.Messages.btnLoad");
+                                               button.UseSubmitBehavior = true;
+                                           }).GetHtml()*@
+            </div>     
+                        
+                
+            }
+
+    </div>
+
+
+
+   
+
+     <!-- Button Header -->
+<div class="button-box p-0">
+     @*<div id="ErMesgBox" class="p-10 fl">
+            <span style="color: red" class="error">@ViewBag.Error</span>
+        </div>*@
+	<div class="toolbox fr w-auto">
+		<ul class="fr m-0">
+			<li>				
+			
+                      @Html.DevExpress().CheckBoxFor(model => model.sendEmail,
+                                settings =>
+                                {
+                                    settings.Name = "sendEmail";
+                                    settings.Text = Utility.Phrase("Email");
+                                    //settings.Properties.ClientSideEvents.CheckedChanged = "SendEmail_SelectedIndexChanged";
+                                    settings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+                                }).Bind(Model.sendEmail).GetHtml()		
+                    
+                             
+                   
+
+                 
+                		
+			</li>
+            <li class="ts-pager">
+			               <button onclick ="btnSave_Click()"><i class="icon-confirm"></i>@Utility.Phrase("Save")</button>
+                     <button onclick ="btnView_Click()"><i class="icon-search"></i>@Utility.Phrase("View")</button>
+                     <button onclick ="btnClose_Click()"><i class="icon-confirm"></i>@Utility.Phrase("Close")</button>	
+                     <button onclick ="btnExcel_Click()"><i class="icon-excel"></i>@Utility.Phrase("Excel")</button>	 
+			 </li>
+		</ul>
+	</div>
+</div>
+     <div class="content-body row">
+       @* <div class="tab-content wrapper">*@
+            @if (ViewData["ErrNegativeDays"] != null)
+            {
+                <h6 style="color: Red; text-align: center;">@ViewData["ErrNegativeDays"].ToString()</h6>
+            }
+            else
+            {
+                @Html.Partial("GridPartialView", Session["ListDetailOpen"])
+            }
+
+       @* </div>*@
+    </div>
+</div>
+
+
+
+

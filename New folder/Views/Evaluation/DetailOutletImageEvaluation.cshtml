@@ -1,0 +1,525 @@
+﻿@{
+    ViewBag.Title = "DetailOutletImageEvaluation";
+    Layout = "~/Views/Shared/_NewLayout.cshtml";
+}
+
+@{
+    DetailOutletImageClass data = ViewData["Data"] as DetailOutletImageClass;
+    IEnumerable<eRoute.Models.ufn_GetOutletInforByIDResult> OutletData = ViewData["OutletInformation"] as IEnumerable<eRoute.Models.ufn_GetOutletInforByIDResult>;
+    IEnumerable<eRoute.Models.usp_GetItemInforByIDResult> ItemByIDData = ViewData["ItemInformationByID"] as IEnumerable<eRoute.Models.usp_GetItemInforByIDResult>;
+    IEnumerable<eRoute.Models.usp_GetDisplayReasonResult> ReasonData = ViewData["ReasonInformation"] as IEnumerable<eRoute.Models.usp_GetDisplayReasonResult>;
+}
+
+<script type="text/javascript ">
+
+    Evaluation_ValiCheck_KPI_Radio4Image = "@Utility.Phrase("Evaluation_ValiCheck_KPI_Radio4Image")";
+    Evaluation_ValiCheck_KPI_FakeImage = "@Utility.Phrase("Evaluation_ValiCheck_KPI_FakeImage")";
+    Evaluation_ValiCheck_KPI_StandardImage = "@Utility.Phrase("Evaluation_ValiCheck_KPI_StandardImage")";
+    Evaluation_ValiCheck_KPI_PassImage = "@Utility.Phrase("Evaluation_ValiCheck_KPI_PassImage")";
+    Evaluation_ValiCheck_KPI_NumbericImage = "@Utility.Phrase("Evaluation_ValiCheck_KPI_NumbericImage")";
+    Evaluation_ValiCheck_Reason_PassImage = "@Utility.Phrase("Evaluation_ValiCheck_Reason_PassImage")";
+    Evaluation_ValiCheck_Reason_Standard = "@Utility.Phrase("Evaluation_ValiCheck_Reason_Standard")";
+    Evaluation_ValiCheck_Reason_Fake = "@Utility.Phrase("Evaluation_ValiCheck_Reason_Fake")";
+</script>
+<div style="float: left;">
+    <h1>@ViewBag.PageInformation</h1>
+</div>
+<input type="hidden" id ="ScreenID" value ="@ViewBag.ScreenID"/>
+
+
+<div class="insider">
+     <div id="loading" class="loading"></div>
+    <input type="hidden" id ="PageID" value ="@ViewBag.PageInformation"/>
+    <input type="hidden" id ="selectedOutletID" name ="NameofselectedOutletID" value = "@data.currentOutletID" >
+    <input type="hidden" id ="ImageIndex" name ="NameofImageIndex" value = "@data.selectedImageIdx" >
+    <input type="hidden" id ="DSKQChamDiem" name ="NameOfDSKQChamDiem" value = "@data.DSKQChamDiem" >
+    <input type="hidden" id ="DSLyDoChamDiem" name ="NameOfDSLyDoChamDiem" value = "@data.DSLyDoChamDiem" >
+    <input type="hidden" id ="DSNumericChamDiem" value = "@data.DSNumericChamDiem" >
+    <input type="hidden" id ="nextOutletID" name ="NameofnextOutletID" value = "@data.nextOutletID" >
+    <input type="hidden" id ="nextOutletName" name ="NameofnextOutletName" value = "@data.nextOutletName" >
+    <input type="hidden" id ="ChkFinished" name ="NameofChkFinished" value = "@data.isFinished" >
+
+    <div class="content-body row">
+        <div class="img-content">
+            <div class="img-box">
+                <div class="img-all-box">
+                    <div class="img-big-box img-current-template">
+                        <div class="img-big-insider">
+                            <div class="title">
+                                <h3>@Utility.Phrase("ImageSimple")</h3>
+                                <div class="button-mini-box">
+                                    <button class="clockwise"><i class="icon-rotate-clockwise m-0"></i></button>
+                                    <button class="counter-clockwise"><i class="icon-rotate-counter-clockwise m-0"></i></button>
+                                </div>
+                            </div>
+                            <a href="@data.ComparedImageIDName">
+                                <img id="selectedComparedImage" src="@data.ComparedImageIDName" />
+                            </a>
+                        </div>
+                    </div>
+                    <div class="img-big-box img-current-assume">
+                        <div class="img-big-insider">
+                            <div class="title">
+                                <h3>@Utility.Phrase("ImageEval") @data.ImageIDDate</h3>
+                                <div class="button-mini-box">
+                                    <button class="clockwise"><i class="icon-rotate-clockwise m-0"></i></button>
+                                    <button class="counter-clockwise"><i class="icon-rotate-counter-clockwise m-0 "></i></button>
+                                </div>
+                            </div>
+                            <a href="@data.ImageIDName">
+                                <img id ="selectedEvalLargeImage" src="@data.ImageIDName" />
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="img-scroll-box img-assumed">
+                        <div class="img-scroll-insider mt-10">
+                            @for (var i = 0; i < @data.ListLatestComparedImages.Count; i++)
+                            {
+                                <div class="img-mini-box">
+                                    <h3>@data.ListLatestComparedImages[i].NgayAnhSoSanh</h3>
+                                    <div class="square-box">
+                                        <a href="@data.ListLatestComparedImages[i].AnhSoSanh">
+                                            <img src="@data.ListLatestComparedImages[i].AnhSoSanh" />
+                                        </a>
+                                        <div class="assumer bold">@Utility.Phrase("Eval_ImageBefore")</div>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="img-assume">
+                <div class="img-assume-content">
+                    <div class="align-center mb-10">
+                        <label class="fl" for="code">@Utility.Phrase("Outlet")</label>
+                        <div class="input-group">
+                            <input type="text" id="selectedOutletName" class="form-control" value ="@data.currentOutletID - @data.currentOutletName" readonly ="true">
+                            <div class="input-group-btn">
+
+
+                                <strong>
+                                    <button class="btn btn-default dropdown-toggle" title="@Utility.Phrase("Search")" onclick="$('.popup-search').fadeToggle();">
+                                        <i class="icon-search"></i>
+
+                                    </button>
+
+                                </strong>
+                                <div class="popup-search" style="display: block; position: absolute; top: 37px; right: 6px; box-shadow: rgba(0, 0, 0, 0.2) 0px 3px 5px; width: 209px; background: rgb(238, 238, 238);">
+                                    <fieldset>
+                                        <legend>@Utility.Phrase("Search")</legend>
+                                        <table class="border-none no-selected">
+                                            <tr>
+                                                <td>
+                                                    <label>@Utility.Phrase("Outlet")</label>
+                                                </td>
+                                                <td>
+                                                    <select style="" id="sl_outlet" onchange='SelectChange(this);'>
+                                                    </select>
+
+                                                </td>
+                                            </tr>
+                                        </table>
+
+                                        <button onclick="OutletBrowser('BySelection');" class="icon-search"></button>
+
+                                    </fieldset>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                    <button class="btn-refresh fr" title="@Utility.Phrase("Refresh")"><i class="icon-update"></i></button>
+                </div>
+                <div class="align-center mb-10">
+                    <button onclick="OutletBrowser('first')"><i class="icon-go-first"></i></button>
+                    <button onclick="OutletBrowser('back')"><i class="icon-go-back"></i></button>
+                    <button onclick="OutletBrowser('next')"><i class="icon-go-next"></i></button>
+                    <button onclick="OutletBrowser('last')"><i class="icon-go-final"></i></button>
+                </div>
+                <table>
+                    <thead>
+                        <tr>
+                            <th style="min-width:95px">@Utility.Phrase("Avata")</th>
+                            <th>@Utility.Phrase("ImageMark")</th>
+                            <th>@Utility.Phrase("Info")</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <div class="square-box m-0">
+                                    <a href="@data.AvatarImageIDName">
+                                        <img id="selectedAvatarImage" src="@data.AvatarImageIDName" /></a>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="square-box  m-0">
+                                    <a href="@data.ImageIDName">
+                                        <img id ="selectedEvalSmallImage" src="@data.ImageIDName" /></a>
+                                </div>
+                            </td>
+                            <td>
+                                <p class="p-0 m-0">
+                                    @Utility.Phrase("Saleman") :@data.SalemanName<br />
+                                    @Utility.Phrase("DateTake") :@data.ImageIDDate<br />
+                                    @Utility.Phrase("CaptureDistance") :@data.CaptureDistance<br />
+                                    @Utility.Phrase("EvalEmployee"):@data.ImageIDEvalUserName<br />
+                                    @Utility.Phrase("EvalDate")   @data.ImageIDEvalDate<br />
+                                </p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="3" class="p-0">
+                                <div class="img-scroll-box">
+                                    <div class="img-scroll-insider">
+                                        <ul>
+                                            @for (var i = 0; i < @data.EvalImagesList.Count; i++)
+                                            {
+                                                <li onclick="GetSelectedEvalImage($(this));" data-image-link ="@data.AvatarImageIDName" id="@i">
+                                                    <div class="img-mini-box">
+                                                        <h3>@data.EvalImagesList[i].ImageIDDate</h3>
+                                                        <div class="square-box">
+                                                            <a id="image-@i" href="javascript:void(0)">
+                                                                <img src="@data.EvalImagesList[i].ImageIDName" />
+                                                            </a>
+                                                        </div>
+
+                                                        @{
+                                                switch (data.EvalImagesList[i].ImageIDEvalStatus)
+                                                {
+                                                    case "1":
+                                                            <div class="assumer bold">
+                                                                @Utility.Phrase("Eval_NotEvaluated")
+                                                            </div>                                                                                
+                                                        break;
+                                                    case "2":
+                                                            <div class="assumer bold">
+                                                              <span class="txt-yellowGreen bold"> @Utility.Phrase("Eval_Evaluated")</span>
+                                                            </div> 
+                                                        break;
+                                                    case "3":
+                                                            <div class="assumer bold">
+                                                                <span class="txt-blue bold">  @Utility.Phrase("Eval_Approved")</span>
+                                                            </div> 
+                                                        break;
+                                                    case "4":
+                                                            <div class="assumer bold">
+                                                               <span class="txt-red bold">@Utility.Phrase("Eval_Rejected1")</span>
+                                                            </div> 
+                                                        break;
+                                                    case "5":
+                                                            <div class="assumer bold">
+                                                                  <span class="txt-yellowGreen bold">@Utility.Phrase("Eval_Evaluated2")</span>
+                                                            </div> 
+                                                        break;
+                                                    case "6":
+                                                            <div class="assumer bold">
+                                                                <span class="txt-red bold">  @Utility.Phrase("Eval_Rejected2")</span>
+                                                            </div> 
+                                                        break;
+                                                    case "7":
+                                                            <div class="assumer bold">
+                                                                <span class="txt-blue bold">  @Utility.Phrase("Eval_Approved2")</span>
+                                                            </div> 
+                                                        break;
+                                                    default:              
+                                                            <div class="assumer bold">
+                                                            </div> 
+                                                        break;
+
+                                                }
+                                
+                                                        }
+
+
+                                                    </div>
+                                                </li>
+                                            }
+                                        </ul>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>@Utility.Phrase("EvalResult") </th>
+                            <th>@Utility.Phrase("EvalReason")</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>@Utility.Phrase("EvalSame4Image")</td>
+                            <td>
+                                <label>
+                                    <input @((data.isMatchedWithBefore == "1") ? "checked" : "")  value="1"  name="matched" type="radio"/>@Utility.Phrase("Eval_Yes")</label>
+                                <label>
+                                    <input @((data.isMatchedWithBefore == "0") ? "checked" : "") value ="0" name="matched" type="radio" />@Utility.Phrase("Eval_No")</label>
+                            </td>
+                        </tr>
+                        <tr id="row-captured">
+                            <td>
+                                <label>
+                                    <input @((data.isCaptured == "1") ? "checked" : "") value="1" name="captured" type="radio"/>@Utility.Phrase("Eval_Real")</label>
+                                <label>
+                                    <input @((data.isCaptured == "0") ? "checked" : "") value="0" name="captured" type="radio" />@Utility.Phrase("Eval_Fake")</label>
+                            </td>
+                            <td>
+                                <select id="reason-captured" @((data.isCaptured == "1") ? "disabled" : "") >
+                                    <option id="R1-Op_0" value="">@Utility.Phrase("ChooseReason")</option>
+                                    @foreach (var item in ReasonData)
+                                    {
+                                        string id = data.EvalImagesList[data.selectedImageIdx].ImageIDEvalReason[0];
+                                        <option  value="@item.MaLyDo" @(item.MaLyDo == id ? "selected" : "") >@Html.DisplayFor(modelItem => item.LyDo)</option>
+                                    }
+                                </select>
+                            </td>
+                        </tr>
+                        <tr id="row-standard" style="@((data.isCaptured == "1") ? "" : "display:none")">
+                            <td>
+                                <label>
+                                    <input @((data.isAccepted == "1") ? "checked" : "") value="1" name="standard" type="radio"/>@Utility.Phrase("Standard")</label>
+                                <label>
+                                    <input @((data.isAccepted == "0") ? "checked" : "") value="0" name="standard" type="radio" />@Utility.Phrase("NoneStandard")</label>
+                            </td>
+                            <td>
+                                <select id="reason-standard" @((data.isAccepted == "1") ? "disabled" : "")>
+                                    <option id="R2-Op_0" value="">@Utility.Phrase("ChooseReason")</option>
+                                    @foreach (var item in ReasonData)
+                                    {
+                                        string id = data.EvalImagesList[data.selectedImageIdx].ImageIDEvalReason[1];
+                                        <option  value="@item.MaLyDo" @(item.MaLyDo == id ? "selected" : "") >@Html.DisplayFor(modelItem => item.LyDo)</option>
+                                    }
+                                </select>
+                            </td>
+                        </tr>
+                        <tr id="row-passed" style="@((data.isAccepted == "1") ? "" : "display:none")">
+                            <td>
+                                <label>
+                                    @* <input id="isPassed" onclick ="CheckEvaluation()" data-value ="@data.isPassed" name="good" type="radio"/>@Utility.Phrase("Pass")</label>*@
+                                    <input @((data.isPassed == "1") ? "checked" : "") value="1"   name="passed" type="radio"/>@Utility.Phrase("Pass")</label>
+                                <label>
+                                    <input @((data.isPassed == "0") ? "checked" : "") value="0"   name="passed" type="radio" />@Utility.Phrase("NonePass")</label>
+                            </td>
+                            <td>
+                                <select id="reason-passed" @((data.isPassed == "1") ? "disabled" : "")>
+                                    <option value="">@Utility.Phrase("ChooseReason")</option>
+                                    @foreach (var item in ReasonData)
+                                    {
+                                        string id = data.EvalImagesList[data.selectedImageIdx].ImageIDEvalReason[2];
+                                        <option  value="@item.MaLyDo" @(item.MaLyDo == id ? "selected" : "") >@Html.DisplayFor(modelItem => item.LyDo)</option>
+                                    }
+                                </select>
+                            </td>
+                        </tr>
+
+                    </tbody>
+                </table>
+                <div class="button-box align-center">
+                    <button id="btnNumeric" data-toggle="modal" data-target="#product-list" @((data.isAccepted == "1") ? "" : "disabled") ><i class="icon-submit"></i>@Utility.Phrase("MarkNumeric")</button>
+                    <button onclick="SaveEvaluationImageDataToDatabase()" @((data.EvalImagesList[data.selectedImageIdx].ImageIDRevStatus == Constant.Eval_Stauts_2.ToString() || data.EvalImagesList[data.selectedImageIdx].ImageIDRevStatus == Constant.Eval_Stauts_3.ToString() || data.EvalImagesList[data.selectedImageIdx].ImageIDRevStatus == Constant.Eval_Stauts_7.ToString() ) ? "disabled": "")><i class="icon-submit"></i>@Utility.Phrase("Complete")</button>
+                    <span class="button">
+                        <a><i class="icon-back"></i>@Html.ActionLink(Utility.Phrase("Back"), "OutletImageEvaluation", "Evaluation")</a>
+                    </span>
+
+                </div>
+                <div id="OkiMesgBox" class="p-10 fl">
+                    <span style="color: green" class="error"></span>
+                </div>
+            </div>
+            <div id="product-list" class="modal fade" role="dialog">
+                <div class="modal-dialog w-90pr mw-1000 bottom">
+                    <!-- Modal content-->
+                    <div class="modal-content">
+                        <div class="modal-header block-theme">
+                            <button type="button" class="close" data-dismiss="modal"><i class="icon-delete icon-white"></i></button>
+                            <h4 class="modal-title">@Utility.Phrase("Eval_ListProductPresent")</h4>
+                        </div>
+                        <div class="modal-body p-0">
+                            <div class="table-box wrapper">
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th>@Utility.Phrase("No")</th>
+                                            <th>@Utility.Phrase("Product")</th>
+                                            <th>@Utility.Phrase("Producer")</th>
+                                            <th>@Utility.Phrase("Present")</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="my_table_numericitem">
+                                        @foreach (var item in ItemByIDData)
+                                        {
+                                            <tr>
+                                                <td>@Html.DisplayFor(modelItem => item.STT)</td>
+                                                <td style="display: none;">@Html.DisplayFor(modelItem => item.ITEMID)</td>
+                                                <td>@Html.DisplayFor(modelItem => item.TENSANPHAM)</td>
+                                                <td>@Html.DisplayFor(modelItem => item.NHASANXUAT)</td>
+                                                <td>
+                                                    <input onclick ="StoreNumericEvaluation()" id="numitem-@item.ITEMID" @(item.HIENDIEN == 1 ? "checked" : "") type="checkbox" >
+                                                </td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('input:radio[name="captured"]').change(function () {
+            if ($(this).val() == '1') {
+                $('#reason-captured').prop('disabled', true);
+                $("#reason-captured").val("");
+                $("#row-standard").show();
+            } else {
+                $('#reason-captured').prop('disabled', false);
+                $("#row-standard").hide();
+                $("#row-passed").hide();
+                $("#btnNumeric").prop('disabled', true);
+            }
+        });
+
+        $('input:radio[name="standard"]').change(function () {
+            if ($(this).val() == '1') {
+                $('#reason-standard').prop('disabled', true);
+                $("#reason-standard").val("");
+                $("#row-passed").show();
+                $("#btnNumeric").prop('disabled', false);
+            } else {
+                $('#reason-standard').prop('disabled', false);
+                $("#row-passed").hide();
+                $("#btnNumeric").prop('disabled', true);
+            }
+        });
+        $('input:radio[name="passed"]').change(function () {
+            if ($(this).val() == '1') {
+                $('#reason-passed').prop('disabled', true);
+                $("#reason-passed").val("");
+            } else {
+                $('#reason-passed').prop('disabled', false);
+            }
+        });
+        $('.popup-search').hide();
+        getoutlet();
+    });
+    function SelectChange() {
+        $.ajax({
+            url: '@Url.Action("GetOutlet", "Evaluation")',
+            dataType: 'json',
+            data: {},
+            success: function (json) {
+                $.each(json, function (i, v) {
+                    $("#sl_outlet").append("<option value='" + v.MaCuaHang + "'>" + v.TenCuaHang + "</option>");
+                });
+            }
+        });
+    }
+
+    function getoutlet() {
+        $.ajax({
+            url: '@Url.Action("GetOutlet", "Evaluation")',
+            dataType: 'json',
+            data: {},
+            success: function (json) {
+                $.each(json, function (i, v) {
+                    $("#sl_outlet").append("<option value='" + v.MaCuaHang + "'>" + v.TenCuaHang + "</option>");
+                });
+            }
+        });
+    }
+
+    function SaveEvaluationImageDataToDatabase() {
+        var isMatchedWithBefore = $('input[name="matched"]:checked').val();
+        var isCaptured = '0';
+        var isAccepted = '0';
+        var isPassed = '0';
+        var error = "";
+        var reasonCaptured = $('#reason-captured').val();
+        var reasonStandard = $('#reason-standard').val();
+        var reasonPassed = $('#reason-passed').val();
+
+        if (isMatchedWithBefore == undefined) {
+            error = Evaluation_ValiCheck_KPI_Radio4Image;
+        }
+        isCaptured = $('input[name="captured"]:checked').val();
+        if (isCaptured != undefined) {
+            if (isCaptured == '1') {
+                isAccepted = $('input[name="standard"]:checked').val();
+                if (isAccepted != undefined) {
+                    if (isAccepted == '1') {
+                        isPassed = $('input[name="passed"]:checked').val();
+                        if (isPassed != undefined) {
+                            if (isPassed == '0') {
+                                if (reasonPassed == "") {
+                                    error = Evaluation_ValiCheck_Reason_PassImage
+                                }
+                            }
+                        }
+                        else {
+                            error = Evaluation_ValiCheck_KPI_PassImage
+                        }
+                    }
+                    else {
+                        if (reasonStandard == "") {
+                            error = Evaluation_ValiCheck_Reason_Standard
+                        }
+                    }
+                }
+                else {
+                    error = Evaluation_ValiCheck_KPI_StandardImage
+                }
+            }
+            else {
+                if (reasonCaptured == "") {
+                    error = Evaluation_ValiCheck_Reason_Fake
+                }
+            }
+        }
+        else {
+            error = Evaluation_ValiCheck_KPI_FakeImage
+        }
+        
+        var ReviewReason = $('#ReviewReason').find(":selected").index().toString();
+        var sOutletID = $('#selectedOutletID').val();
+        var sImageIndex = $('#ImageIndex').val();
+        var ListNumericChamDiem = $('#DSNumericChamDiem').val();
+        if (error == "") {
+            $.ajax({
+                type: 'GET',
+                url: 'SaveEvaluationResultIntoCurrentImageID',
+                data: {
+                    'sOutletID': sOutletID, 'sImageIndex': sImageIndex, 'ListNumericChamDiem': ListNumericChamDiem,
+                    'Reason1': reasonCaptured, 'Reason2': reasonStandard, 'Reason3': reasonPassed, 'ReviewReason': ReviewReason,
+                    'isMatchedWithBefore': isMatchedWithBefore, 'isCaptured': isCaptured, 'isAccepted': isAccepted, 'isPassed': isPassed
+                },
+                success: function (result) { }
+            }).done(function () {
+                //Luu Thong Tin Toan Bo Xuong Database      
+                $.ajax({
+                    type: 'GET',
+                    url: 'SaveEvaluationImageDataToDatabase',
+                    data: {},
+                    success: function (result) {
+                        document.location.reload();
+                    }
+                }).done(function () {
+                });
+            });
+        } else {
+            alert(error);
+        }
+
+    }
+
+
+</script>

@@ -1,0 +1,21 @@
+﻿
+@Html.DevExpress().ComboBox(
+    settings =>
+    {
+        settings.Name = "RegionID";      
+        settings.CallbackRouteValues = new { Controller = "ScheduleSubmitSetting", Action = "ComboBoxPartialRegion" };
+        settings.Properties.CallbackPageSize = 50;
+        settings.Properties.DropDownRows = 15;
+        settings.Properties.AllowMouseWheel = true;
+        settings.Properties.TextFormatString = "{1}";
+        settings.Properties.ValueField = "RegionID";
+        settings.Properties.TextField = "RegionName";
+        settings.Properties.ValueType = typeof(string);
+        settings.Properties.DropDownStyle = DropDownStyle.DropDownList;
+        settings.Properties.IncrementalFilteringMode = IncrementalFilteringMode.Contains;
+        settings.Properties.Columns.Add("RegionID", Utility.Phrase("RegionID"), 110);
+        settings.Properties.Columns.Add("RegionName", Utility.Phrase("RegionName"), 200);
+        settings.Properties.ClientSideEvents.SelectedIndexChanged = "function(s, e) { AreaID.PerformCallback(); EmployeeID.PerformCallback()}";
+        //settings.Properties.ClientSideEvents.EndCallback = "function(s, e) { s.SetValue(null); }"; 
+    }
+).BindList(Model).GetHtml()

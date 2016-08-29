@@ -1,0 +1,239 @@
+﻿@model ReportEvalVM
+@{
+    ViewBag.Title = Utility.Phrase(Model.Screen);
+    Layout = "~/Views/Shared/_NewLayout.cshtml";
+}
+<div class="insider">
+    <div id="loading" class="loading"></div>
+    @using (Html.BeginForm("ReportEvalInventory", "ReportTracking", FormMethod.Post))
+    {
+        <div class="row display-table w-100pr mb-10 content-header">
+            <div class="report-content-header">
+                <div class="col-sm-8">
+                    <h1>@Utility.Phrase("ReportEvalInventory")</h1>
+                </div>
+                <div class="col-sm-4">
+                    <div class="p-0 fr">
+                        @if (PermissionHelper.CheckPermissionByFeature("Report_EvalInventory"))
+                        {
+                            <button type="button" id="btnExportExcel" class="btn p-0 m-0 ml-10 block-theme" title="Excel"><i class="icon-etool-excel"></i></button>   
+                        }
+                        @if (PermissionHelper.CheckPermissionByFeature("Report_EvalInventory"))
+                        {
+                            <button type="button" id="btnExportPDF" class="btn p-0 m-0 ml-10 block-theme" title="PDF"><i class="icon-etool-pdf"></i></button>   
+                        }
+                    </div>
+                </div>
+            </div>
+            <div class="w-100pr">
+                <div class="item fl">
+                    <label for class="fl">@Utility.Phrase("Date")</label>
+                    @Html.TextBox("strFromDate", (Model.FromDate != null ? Model.FromDate.Value.ToShortDateString() : ""), new { @class = "datepicker" })
+                    @Html.TextBox("strToDate", (Model.ToDate != null ? Model.ToDate.Value.ToShortDateString() : ""), new { @class = "datepicker" })
+                </div>
+                <div class="item fl">
+                    <label for class="fl">@Utility.Phrase("Program")</label>
+                    <div id="ProgramCbox" class="ctr_combobox input-group">
+                        @Html.Partial("~/Views/Shared/Control/ComboboxPartial.cshtml", Model.listComboboxProgram, new ViewDataDictionary { { "NameID", "Program" } })
+                    </div>
+                </div>
+                @if (Model.RoleView == Utility.RoleName.Leader)
+                {
+                    <div class="item fl">
+                        <label for class="fl">@Utility.Phrase("Evaluation")</label>
+                        <div id="EvaluationCbox" class="ctr_combobox input-group">
+                            @Html.Partial("~/Views/Shared/Control/ComboboxPartial.cshtml", Model.listComboboxEvaluation, new ViewDataDictionary { { "NameID", "Evaluation" } })
+                        </div>
+                    </div>
+                }
+                else
+                {
+                    if (Model.RoleView == Utility.RoleName.Admin || Model.RoleView == Utility.RoleName.SuperAdmin)
+                    {
+                    <div class="item fl">
+                        <label for class="fl">@Utility.Phrase("Report_Region")</label>
+                        <div id="RegionCbox" class="ctr_combobox input-group">
+                            @Html.Partial("~/Views/Shared/Control/ComboboxPartial.cshtml", Model.listComboboxRegion, new ViewDataDictionary { { "NameID", "Region" } })
+                        </div>
+                    </div>
+                    }
+                    if (Model.RoleView == Utility.RoleName.Admin || Model.RoleView == Utility.RoleName.SuperAdmin || Model.RoleView == Utility.RoleName.RSM)
+                    {
+                    <div class="item fl">
+                        <label for class="fl">@Utility.Phrase("Report_Area")</label>
+                        <div id="AreaCbox" class="ctr_combobox input-group">
+                            @Html.Partial("~/Views/Shared/Control/ComboboxPartial.cshtml", Model.listComboboxArea, new ViewDataDictionary { { "NameID", "Area" } })
+                        </div>
+                    </div>
+                    }
+                    if (Model.RoleView == Utility.RoleName.Admin || Model.RoleView == Utility.RoleName.SuperAdmin || Model.RoleView == Utility.RoleName.RSM || Model.RoleView == Utility.RoleName.ASM)
+                    {
+                    <div class="item fl">
+                        <label for class="fl">@Utility.Phrase("Report_Distributor")</label>
+                        <div id="DistributorCbox" class="ctr_combobox input-group">
+                            @Html.Partial("~/Views/Shared/Control/ComboboxPartial.cshtml", Model.listComboboxDistributor, new ViewDataDictionary { { "NameID", "Distributor" } })
+                        </div>
+                    </div>
+                    }
+                    
+                    <div class="item fl">
+                        <label for class="fl">@Utility.Phrase("Report_Route")</label>
+                        <div id="RouteCbox" class="ctr_combobox input-group">
+                            @Html.Partial("~/Views/Shared/Control/ComboboxPartial.cshtml", Model.listComboboxRoute, new ViewDataDictionary { { "NameID", "Route" } })
+                        </div>
+                    </div>
+                    @*<div class="item fl">
+                        <label for class="fl">@Utility.Phrase("Report_Saleman")</label>
+                        <div id="SalemanCbox" class="ctr_combobox input-group">
+                            @Html.Partial("~/Views/Shared/Control/ComboboxPartial.cshtml", Model.listComboboxSaleman, new ViewDataDictionary { { "NameID", "Saleman" } })
+                        </div>
+                    </div>*@   
+                    <div class="item fl">
+                        <label>@Utility.Phrase("GroupSaleteam")</label>
+                        <div class="input-group">
+                            @Html.DropDownList("GroupSaleteam", Model.ListGroupSaleteam)
+                        </div>
+                    </div>
+                }
+                <div class="item fl">
+                    <label>@Utility.Phrase("GroupInventory")</label>
+                    <div class="input-group">
+                        @Html.DropDownList("GroupInventory", Model.ListGroupInventory)
+                    </div>
+                </div>
+                <div class="item fl">
+                    <button id="Search" type="button"><i class="icon-submit"></i>@Utility.Phrase("Report_View")</button>
+                </div>
+            </div>
+        </div>
+        <div id="ErMesgBox" class="row"><span style="color: red" class="error"></span></div>
+    }
+    <div class="row content-body">
+        <div class="tab-header">
+            <div class="toolbox">
+                <ul class="fr m-0">
+                    <li class="ts-pager">
+                        <a href="#" title="prev">
+                            <img src="@Url.Content("~/Content/NewEtool/img/per.png")" class="prev"/></a>
+                        <span class="pagedisplay"></span>
+                        <a href="#" title="next">
+                            <img src="@Url.Content("~/Content/NewEtool/img/next.png")" class="next"/></a>
+                        <span>@Utility.Phrase("GotoPage")
+                            <select class="pagenum input-mini" title="Select page number"></select>
+                        </span>
+                        <span>@Utility.Phrase("Pages")</span>
+                        <select class="pagesize input-mini m-0" title="Select page size">
+                            <option selected="selected" value="10">10</option>
+                            <option value="20">20</option>
+                            <option value="30">30</option>
+                            <option value="40">40</option>
+                            <option value="50">50</option>
+                        </select>
+                    </li>
+                </ul>
+            </div>
+            <ul class="nav nav-tabs display-none">
+                <li class="active"><a data-toggle="tab" href="#report-outlet">@Utility.Phrase("Report_Report")</a></li>
+            </ul>
+        </div>
+        <div class="tab-content wrapper">
+            <div id="report-sync" class="tab-pane fade in active box-table-ressult">
+                @if (Model.TableResult != null)
+                {
+                    if (Model.TableResult.Rows.Count != 0)
+                    {
+                    <table id="table-result" class="tablesorter">
+                        <thead>
+                            <tr>
+                                @foreach (System.Data.DataColumn column in Model.TableResult.Columns)
+                                {
+                                    <th>@Utility.Phrase(column.ToString())</th>
+                                }
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (System.Data.DataRow row in Model.TableResult.Rows)
+                            {
+                                <tr>
+                                    @foreach (System.Data.DataColumn column in Model.TableResult.Columns)
+                                    {
+                                        <td>@row[column].ToString()</td>
+                                    }
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                    }
+                }
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<script type='text/javascript'>
+    $(document).ready(function () {
+        $("body").on('click', '.input-group-btn table tbody tr', function () {
+            $(this).addClass('selected').siblings().removeClass('selected');
+            var keyVal = $(this).find('td:first').html();
+            var codeVal = $(this).find('td:nth-child(2)').html();
+            var nameVal = $(this).find('td:last').html();
+            if (keyVal == 0) { keyVal = ""; }
+            var parentdiv = $(this).parents('div[class^="ctr_combobox"]');
+            parentdiv.find('input[type^="text"]').val(codeVal + ' - ' + nameVal);
+            parentdiv.find('input[type^="hidden"]').val(keyVal);
+
+            var RegionVal = '';
+            if ($('#Region').val() != undefined) {
+                RegionVal = $('#Region').val();
+            }
+            var AreaVal = '';
+            if ($('#Area').val() != undefined) {
+                AreaVal = $('#Area').val();
+            }
+            var DistributorVal = 0;
+            if ($('#Distributor').val() != undefined) {
+                DistributorVal = $('#Distributor').val();
+            }
+
+            if (parentdiv.find('input[id^="Region"]').val() != undefined) {
+                $("#AreaCbox").load('@(Url.Action("ReloadOptionArea", "ReportTracking"))?regionID=' + RegionVal);
+                $("#DistributorCbox").load('@(Url.Action("ReloadOptionDistributor", "ReportTracking"))?regionID=' + RegionVal + '&areaID=' + AreaVal);
+            }
+            if (parentdiv.find('input[id^="Area"]').val() != undefined) {
+                $("#DistributorCbox").load('@(Url.Action("ReloadOptionDistributor", "ReportTracking"))?regionID=' + RegionVal + '&areaID=' + AreaVal);
+            }
+
+
+            var RouteVal = '';
+            if ($('#Route').val() != undefined) {
+                RouteVal = $('#Route').val();
+            }
+            var SalemanVal = '';
+            if ($('#Saleman').val() != undefined) {
+                SalemanVal = $('#Saleman').val();
+            }
+
+            var Program = '';
+            if ($('#Program').val() != undefined) {
+                Program = $('#Program').val();
+            }
+            if (parentdiv.find('input[id^="Program"]').val() != undefined) {
+                $("#EvaluationCbox").load('@(Url.Action("ReloadOptionProgram", "ReportTracking"))?ProgramID=' + Program);
+            }
+        });
+        $('#btnExportExcel').click(function () {
+            $('form').attr('action', '@Utility.FooMethod("/ReportTracking/ReportEvalInventoryExportExcel")');
+            $('form').submit();
+        });
+        $('#btnExportPDF').click(function () {
+            $('form').attr('action', '@Utility.FooMethod("/ReportTracking/ReportEvalInventoryExportPDF")');
+            $('form').submit();
+        });
+        $('#Search').click(function () {
+            $('form').attr('action', '@Utility.FooMethod("/ReportTracking/ReportEvalInventory")');
+            $('form').submit();
+            $(".loading").show();
+        });
+    });
+</script>

@@ -1,0 +1,61 @@
+﻿@model SlideVM
+@{
+    Layout = "~/Views/Shared/_THPLayout.cshtml";
+}
+<h1 class="sales-report-h1">
+    Ảnh hiện diện tại cửa hàng</h1>
+<div class="slide-outlet-div">
+    <p>
+        Cửa hàng:@Model.outlet.OutletID -- @Model.outlet.OutletName</p>
+</div>
+<div class="container" style="text-align: center;">
+    <div id="iview">
+        @foreach (string item in Model.listM)
+        { 
+@*<div data-iview:thumbnail="@item" data-iview:image="@item">
+            </div>*@
+            <img src="@item" alt="" />
+            <br />
+        }
+    </div>
+</div>
+@*<br>
+<br>
+<center>
+    <b>API :</b> <a href="#" onclick="$('#iview').trigger('iView:pause'); return false;">
+        Pause</a> - <a href="#" onclick="$('#iview').trigger('iView:play'); return false;">Play</a>
+    - <a href="#" onclick="$('#iview').trigger('iView:goSlide', [2]); return false;">Go
+        to Slide 3</a> - <a href="#" onclick="$('#iview').trigger('iView:previous'); return false;">
+            Previous</a> - <a href="#" onclick="$('#iview').trigger('iView:next'); return false;">
+                Next</a></center>
+<br>*@
+<br>
+<script type='text/javascript'>
+    $(document).ready(function () {
+        $('body').css("overflow", "auto");
+
+        $('.slide-outlet-div').css("font-weight", "bold");
+        $('.slide-outlet-div').css("font-weight", "bold");
+        $('.slide-outlet-div > p').css("text-align", "center");
+
+        //        $('#iview').iView({
+        //            pauseTime: 7000,
+        //            pauseOnHover: true,
+        //            directionNav: false,
+        //            directionNavHide: false,
+        //            controlNav: true,
+        //            controlNavNextPrev: false,
+        //            controlNavThumbs: true,
+        //            timer: "Bar",
+        //            timerDiameter: 120,
+        //            timerPadding: 3,
+        //            timerStroke: 4,
+        //            timerBarStroke: 0,
+        //            timerColor: "#0F0",
+        //            timerPosition: "bottom-right",
+        //            timerX: 15,
+        //            timerY: 60
+        //        });
+    });
+
+</script>

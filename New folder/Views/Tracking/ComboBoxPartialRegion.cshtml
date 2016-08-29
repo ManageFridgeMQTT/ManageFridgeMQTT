@@ -1,0 +1,27 @@
+﻿@model List<DMSRegion>
+@using DevExpress.Web.Mvc.UI;
+@using DevExpress.Web.Mvc;
+@using System.Web.UI.WebControls;
+@using eRoute.Models;
+@Html.DevExpress().ComboBox(
+    settings =>
+    {
+        settings.Name = "RegionID";
+        settings.Width = Unit.Pixel(330);
+        settings.CallbackRouteValues = new { Controller = "Tracking", Action = "ComboBoxPartialRegion" };
+        settings.Properties.CallbackPageSize = 50;
+        settings.Properties.DropDownRows = 15;
+        settings.Properties.AllowMouseWheel = true;
+        settings.Properties.TextFormatString = "{0}-{1}";
+        settings.Properties.ValueField = "RegionID";
+        settings.Properties.ValueType = typeof(string);
+        settings.Properties.DropDownStyle = DropDownStyle.DropDownList;
+        settings.Properties.IncrementalFilteringMode = IncrementalFilteringMode.Contains;
+        settings.Properties.Columns.Add("RegionID", Utility.Phrase("RegionID"), 110);
+        settings.Properties.Columns.Add("Name", Utility.Phrase("RegionName"), 200);
+        settings.Properties.Height = Unit.Pixel(20);
+
+
+        settings.Properties.ClientSideEvents.SelectedIndexChanged = "function(s, e) { AreaID.PerformCallback(); }";
+    }
+).BindList(Model).GetHtml()

@@ -1,0 +1,177 @@
+﻿@model List<CustomColorSetting>
+@using DevExpress.Web.Mvc.UI;
+@using DevExpress.Web.Mvc;
+@using System.Web.UI.WebControls;
+@using eRoute.Models;
+@{
+    var grid = Html.DevExpress().GridView(
+    settings =>
+    {
+        settings.Name = "dxGridView";
+        settings.Width = Unit.Percentage(100);
+        settings.KeyFieldName = "ID";
+        settings.CallbackRouteValues = new { Controller = "Home", Action = "CustomSettingPartialView" };
+        settings.CustomActionRouteValues = new { Cotroller = "Home", Action = "ActionUserTable" };
+        settings.Styles.Header.Font.Bold = true;
+        settings.Styles.Header.HorizontalAlign = HorizontalAlign.Center;
+        settings.Styles.Footer.ForeColor = System.Drawing.Color.Red;
+        settings.Styles.Footer.Font.Size = 12;
+        settings.Settings.ShowHeaderFilterButton = true;
+        settings.SettingsPopup.HeaderFilter.Height = 200;
+        settings.SettingsText.EmptyDataRow = Utility.Phrase("EmptyDataRow");
+        settings.SettingsPager.Summary.Text = Utility.Phrase("Page") + " {0} - {1} ({2} " + Utility.Phrase("Row") + " )";
+        settings.SettingsPager.PageSizeItemSettings.Caption = Utility.Phrase("RowInPage");
+        settings.Settings.ShowFilterBar = GridViewStatusBarMode.Visible;
+        settings.SettingsEditing.AddNewRowRouteValues = new { Controller = "Home", Action = "AddNewSetting" };
+        settings.SettingsEditing.UpdateRowRouteValues = new { Controller = "Home", Action = "UpdateSetting" };
+
+        settings.SettingsEditing.Mode = GridViewEditingMode.EditFormAndDisplayRow;
+        settings.SettingsPopup.EditForm.Width = 600;
+        settings.SettingsBehavior.ConfirmDelete = true;
+
+        settings.SettingsBehavior.AllowFocusedRow = true;
+        //settings.Settings.ShowFilterBar = true;
+        settings.Settings.ShowFilterRowMenu = true;
+        settings.Settings.ShowFooter = false;
+
+        settings.SettingsCommandButton.UpdateButton.ButtonType = GridViewCommandButtonType.Button;
+        settings.SettingsCommandButton.UpdateButton.Text = Utility.Phrase("Update");
+        settings.SettingsCommandButton.CancelButton.ButtonType = GridViewCommandButtonType.Button;
+        settings.SettingsCommandButton.CancelButton.Text = Utility.Phrase("Cancel");
+
+        //settings.CommandColumn.FixedStyle = GridViewColumnFixedStyle.None;
+        settings.CommandColumn.VisibleIndex = -1;
+        settings.ClientSideEvents.FocusedRowChanged = "function(s, e) {LevelID = s.GetRowKey(s.GetFocusedRowIndex()); }";
+
+        settings.SetFooterRowTemplateContent(c =>
+        {
+            Html.ViewContext.Writer.Write(ViewData["StatusMessage"]);
+        });
+
+        settings.Columns.Add(column =>
+        {
+            column.Caption = "#";
+            column.SetDataItemTemplateContent(c =>
+            {
+                Html.DevExpress().HyperLink(hl =>
+                {
+                    hl.NavigateUrl = "javascript:ButtonClick('btnUpdate');";
+                    hl.Properties.ImageUrl = "~/Content/Images/Edit.png";
+                    c.Column.CellStyle.HorizontalAlign = HorizontalAlign.Center;
+                    hl.ControlStyle.HorizontalAlign = HorizontalAlign.Center;
+                    hl.ToolTip = Utility.Phrase("Edit");
+                }).Render();
+                ViewContext.Writer.Write(" ");
+                Html.DevExpress().HyperLink(hl =>
+                {
+                    hl.NavigateUrl = "javascript:ButtonClick('btnDelete');";
+                    hl.Properties.ImageUrl = "~/Content/Images/Inactive.png";
+                    c.Column.CellStyle.HorizontalAlign = HorizontalAlign.Center;
+                    hl.ControlStyle.HorizontalAlign = HorizontalAlign.Center;
+                    hl.ToolTip = Utility.Phrase("Delete");
+                }).Render();
+                ViewContext.Writer.Write(" ");
+            });
+            column.Width = Unit.Pixel(50);
+            column.SetHeaderTemplateContent(c =>
+            {
+                Html.DevExpress().HyperLink(hl =>
+                {
+                    hl.Name = "hlNew";
+                    hl.NavigateUrl = "";
+                    hl.Properties.ImageUrl = "~/Content/Images/addNew.png";
+                    hl.Properties.ClientSideEvents.Click = "function(s, e) { ButtonClick('btnAddNew'); }";
+                    hl.ToolTip = Utility.Phrase("AddNew");
+                }).Render();
+            });
+            column.Width = Unit.Pixel(80);
+
+        });
+
+        settings.Columns.Add(field =>
+        {
+            field.FieldName = "SettingName";
+            field.Caption = Utility.Phrase("SettingName") ;
+            field.CellStyle.HorizontalAlign = HorizontalAlign.Center;
+            field.EditFormSettings.Visible = DefaultBoolean.True;
+            field.ReadOnly = false;
+        });
+
+        settings.Columns.Add(field =>
+        {
+            field.FieldName = "ValueFrom";
+            field.Caption = Utility.Phrase("ValueFrom");
+            field.CellStyle.HorizontalAlign = HorizontalAlign.Right;
+            field.EditCellStyle.HorizontalAlign = HorizontalAlign.Right;
+        });
+        settings.Columns.Add(field =>
+        {
+            field.FieldName = "ValueTo";
+            field.Caption = Utility.Phrase("ValueTo");
+            field.CellStyle.HorizontalAlign = HorizontalAlign.Right;
+            field.EditCellStyle.HorizontalAlign = HorizontalAlign.Right;
+        });
+        settings.Columns.Add(field =>
+        {
+            field.FieldName = "Type";
+            field.Caption = Utility.Phrase("Type");
+            field.CellStyle.HorizontalAlign = HorizontalAlign.Center;
+            field.EditCellStyle.HorizontalAlign = HorizontalAlign.Left;
+            field.EditFormSettings.Visible = DefaultBoolean.True;
+            field.ReadOnly = false;
+        });
+        settings.Columns.Add(col =>
+        {
+            col.FieldName = "Color";
+            col.ColumnType = MVCxGridViewColumnType.ComboBox;
+            col.Caption = Utility.Phrase("Color");
+            col.CellStyle.HorizontalAlign = HorizontalAlign.Center;
+            //col.Width = System.Web.UI.WebControls.Unit.Percentage(5);
+            var cb = col.PropertiesEdit as ComboBoxProperties;
+            cb.EnableCallbackMode = true;
+
+            cb.Items.Add(new ListEditItem()
+            {
+                Index = 0,
+                Text = "Đỏ",
+                Value = "FF1200"
+            });
+            cb.Items.Add(new ListEditItem()
+            {
+                Index = 1,
+                Text = "Cam",
+                Value = "FEB101"
+            });
+            cb.Items.Add(new ListEditItem()
+            {
+                Index = 2,
+                Text = "Vàng",
+                Value = "FFFD01"
+            });
+            cb.Items.Add(new ListEditItem()
+            {
+                Index = 3,
+                Text = "Xanh lá cây",
+                Value = "0FF608"
+            });
+            cb.Items.Add(new ListEditItem()
+            {
+                Index = 4,
+                Text = "Xanh Da trời",
+                Value = "0213EA"
+            });
+        });
+        settings.SettingsPager.Position = PagerPosition.Bottom;
+        settings.SettingsPager.FirstPageButton.Visible = true;
+        settings.SettingsPager.LastPageButton.Visible = true;
+        settings.SettingsPager.PageSizeItemSettings.Visible = true;
+        settings.SettingsPager.PageSizeItemSettings.Items = new string[] { "5", "10", "20" };
+        settings.SettingsPager.PageSize = 5;
+    });
+
+    if (ViewData["Error"] != null)
+    {
+        grid.SetEditErrorText((string)ViewData["Error"]);
+    }
+}
+@grid.Bind(Model).GetHtml()

@@ -1,0 +1,209 @@
+﻿@{
+    //ViewBag.Title = "TerritoryPerformance_WorkWith";
+}
+
+<script type="text/javascript">
+    function ViewWorkWith() {
+        if ($("#rdWW").is(':checked')) {
+            ClearOptionRoutine();
+            ClearMap();
+            $('#sl-treeView').show();
+            @*$.ajax({ //Process the form using $.ajax()
+                type: 'POST', //Method type
+                url: '../Tracking/RenderSalesManOnMap', //Your form processing file url
+                //data: { itemId: '@ViewBag.UserID' },
+                dataType: 'json',
+                success: function (data) {
+                    listSMSelected = data.listSMSelected;
+                    distributorIDSelected = data.distributorIDSelected;
+                    regionIDSelected = data.regionIDSelected;
+                    areaIDSelected = data.areaIDSelected;
+                    salesupIDSelected = data.salesupIDSelected;
+                    routeIDSelected = data.routeIDSelected;
+                    GetStatusInfoWW();
+                }
+            });*@
+            }
+    }
+    //$('#chkWWValid').click(function () {
+    //    if ($(this).is(':checked')) {
+    //        $('#chkLastVisit').prop('checked', false); // Unchecks it
+    //        $('#chkWWInValid').prop('checked', false);
+    //        $('#chkWWNone').prop('checked', false);
+    //        $('#chkVisitValid').prop('checked', false);
+    //        $('#chkVisitInValid').prop('checked', false);
+    //        $('#chkVisitNone').prop('checked', false);
+    //    }
+    //});
+    //$('#chkWWInValid').click(function () {
+    //    if ($(this).is(':checked')) {
+    //        $('#chkLastVisit').prop('checked', false);
+    //        $('#chkWWValid').prop('checked', false);
+    //        $('#chkWWNone').prop('checked', false);
+    //        $('#chkVisitValid').prop('checked', false);
+    //        $('#chkVisitInValid').prop('checked', false);
+    //        $('#chkVisitNone').prop('checked', false);
+    //    }
+    //});
+    //$('#chkWWNone').click(function () {
+    //    if ($(this).is(':checked')) {
+    //        $('#chkLastVisit').prop('checked', false);
+    //        $('#chkWWInValid').prop('checked', false);
+    //        $('#chkWWValid').prop('checked', false);
+    //        $('#chkVisitValid').prop('checked', false);
+    //        $('#chkVisitInValid').prop('checked', false);
+    //        $('#chkVisitNone').prop('checked', false);
+    //    }
+    //});
+    //$('#chkVisitValid').click(function () {
+    //    if ($(this).is(':checked')) {
+    //        $('#chkLastVisit').prop('checked', false);
+    //        $('#chkWWInValid').prop('checked', false);
+    //        $('#chkWWValid').prop('checked', false);
+    //        $('#chkWWNone').prop('checked', false);
+    //        $('#chkVisitInValid').prop('checked', false);
+    //        $('#chkVisitNone').prop('checked', false);
+    //    }
+    //});
+    //$('#chkVisitInValid').click(function () {
+    //    if ($(this).is(':checked')) {
+    //        $('#chkLastVisit').prop('checked', false);
+    //        $('#chkWWInValid').prop('checked', false);
+    //        $('#chkWWValid').prop('checked', false);
+    //        $('#chkVisitValid').prop('checked', false);
+    //        $('#chkWWNone').prop('checked', false);
+    //        $('#chkVisitNone').prop('checked', false);
+    //    }
+    //});
+    //$('#chkVisitNone').click(function () {
+    //    if ($(this).is(':checked')) {
+    //        $('#chkLastVisit').prop('checked', false);
+    //        $('#chkWWInValid').prop('checked', false);
+    //        $('#chkWWValid').prop('checked', false);
+    //        $('#chkVisitValid').prop('checked', false);
+    //        $('#chkWWNone').prop('checked', false);
+    //        $('#chkVisitInValid').prop('checked', false);
+    //    }
+    //});
+    function RenderInfoDetailWW() {
+        $('#chkLastVisit').prop('checked', false);
+    }
+    function GetStatusInfoWW() {
+        $.ajax({
+            type: 'POST',
+            url: '../Tracking/RenderInfoWorkWith',
+            data: { regionID: regionIDSelected, areaID: areaIDSelected, distributorID: distributorIDSelected, salesSupID: salesupIDSelected, routeID: routeIDSelected, strVisitDate: strVisitDate }, //Forms name
+            dataType: 'json',
+            success: function (data) {
+                RenderInfoWW(data.html);
+            }
+        });
+    }
+    function RenderInfoWW(dataInfo) {
+        if (dataInfo == null)
+            return false;
+        var n = dataInfo.length;
+        if (n == 0)
+            return false;
+        var lat = 0;
+        var lng = 0;
+        if (arrayWW != null) {
+            for (i = 0; i < arrayWW.length; i++) {
+                map.removeLayer(arrayWW[i]);
+            }
+        }
+        //Render Info WorkWith
+        for (var i = 0; i < n; i++) {
+            var url = '';
+            var urlSM = '';
+            var incre = 0;
+            // Giam sat WW
+            //if ($('#chkWWValid').is(':checked')) {
+            if ((dataInfo[i].SUPLatitudeStart != null && dataInfo[i].SUPLongtitudeStart != null)
+              || (dataInfo[i].ASMLatitudeStart != null && dataInfo[i].ASMLongtitudeStart != null)) {
+                if (dataInfo[i].SaleSupID == dataInfo[i].SupCode || dataInfo[i].ASMID == dataInfo[i].AsmCode) {
+                    if (dataInfo[i].SupWW == 'Y' || dataInfo[i].AsmWW == 'Y') {
+                        url = '../Content/THP/markers/139.png';
+                        //url = '../Content/THP/markers/SaleSup_None.png';
+                        //urlSM = '../Content/THP/markers/SaleMan_None.png';
+                    }
+                }
+            }
+            // }
+            //if ($('#chkWWInValid').is(':checked')) {
+            if ((dataInfo[i].SUPLatitudeStart != null && dataInfo[i].SUPLongtitudeStart != null)
+               || (dataInfo[i].ASMLatitudeStart != null && dataInfo[i].ASMLongtitudeStart != null)) {
+                if (dataInfo[i].SaleSupID != dataInfo[i].SupCode && dataInfo[i].ASMID != dataInfo[i].AsmCode) {
+                    if (dataInfo[i].SupWW == 'Y' || dataInfo[i].AsmWW == 'Y') {
+                        url = '../Content/THP/markers/038.png';
+                        //url = '../Content/THP/markers/SaleSup_Violate.png';
+                        //urlSM = '../Content/THP/markers/SaleMan_Violate.png';
+                    }
+                }
+            }
+            //}
+            //  if ($('#chkWWNone').is(':checked')) {
+            if ((dataInfo[i].SUPLatitudeStart == null && dataInfo[i].SUPLongtitudeStart == null)
+              && (dataInfo[i].ASMLatitudeStart == null && dataInfo[i].ASMLongtitudeStart == null)) {
+                if (dataInfo[i].SupWW == 'Y' || dataInfo[i].AsmWW == 'Y') {
+                    url = '../Content/THP/markers/205.png';
+                    //urlSM = '/Content/THP/markers/207.png';
+                }
+            }
+            // }
+            //Cua Hang
+            // if ($('#chkVisitValid').is(':checked')) {
+            if ((dataInfo[i].SUPLatitudeStart != null && dataInfo[i].SUPLongtitudeStart != null)
+                || (dataInfo[i].ASMLatitudeStart != null && dataInfo[i].ASMLongtitudeStart != null)) {
+                if (dataInfo[i].SaleSupID == dataInfo[i].SupCode || dataInfo[i].ASMID == dataInfo[i].AsmCode) {
+                    if (dataInfo[i].SupWW == 'Y' || dataInfo[i].AsmWW == 'Y') {
+                        if (dataInfo[i].ConfirmTimeSS == "Y") {
+                            url = '../Content/THP/markers/139.png';
+                            //url = '../Content/THP/markers/SaleSup_None.png';
+                            //urlSM = '../Content/THP/markers/SaleMan_None.png';
+                        }
+                    }
+                }
+            }
+            //  }
+            // if ($('#chkVisitInValid').is(':checked')) {
+            if ((dataInfo[i].SUPLatitudeStart != null && dataInfo[i].SUPLongtitudeStart != null)
+            || (dataInfo[i].ASMLatitudeStart != null && dataInfo[i].ASMLongtitudeStart != null)) {
+                if (dataInfo[i].SaleSupID == dataInfo[i].SupCode || dataInfo[i].ASMID == dataInfo[i].AsmCode) {
+                    if (dataInfo[i].SupWW == 'Y' || dataInfo[i].AsmWW == 'Y') {
+                        if (dataInfo[i].ConfirmTimeSS == "N") {
+                            url = '../Content/THP/markers/038.png';
+                            //url = '../Content/THP/markers/SaleSup_Violate.png';
+                            //urlSM = '../Content/THP/markers/SaleMan_Violate.png';
+                        }
+                    }
+                }
+            }
+            // }
+            if ($('#chkVisitNone').is(':checked')) {
+                // url = '/Content/THP/markers/207.png';
+            }
+            if (url != '') {
+                incre++;
+                //ASM
+                if (dataInfo[i].AsmWW == 'Y') {
+                    if (dataInfo[i].ASMLatitudeStart != null && dataInfo[i].ASMLongtitudeStart != null) {
+                        var m = RenderMarkerWW([dataInfo[i].ASMLatitudeStart, dataInfo[i].ASMLongtitudeStart], incre, dataInfo[i].ASMID + ' - ' + dataInfo[i].ASMName, StrASMLastLocationPopup(dataInfo[i]), 'SS', url, mapData.LayerMarkerASMLastLocation, null, true);
+                    }
+                }
+                //SaleSup
+                if (dataInfo[i].SupWW == 'Y') {
+                    if (dataInfo[i].SUPLatitudeStart != null && dataInfo[i].SUPLongtitudeStart != null) {
+                        var m = RenderMarkerWW([dataInfo[i].SUPLatitudeStart, dataInfo[i].SUPLongtitudeStart], incre, dataInfo[i].SaleSupID + ' - ' + dataInfo[i].SaleSupName, StrSaleSupLastLocationPopup(dataInfo[i]), 'SS', url, mapData.LayerMarkerSSLastLocation, null, true);
+                    }
+                }
+                //SaleMan
+                if (dataInfo[i].Latitude != null && dataInfo[i].Longtitude != null) {
+                    var s = RenderMarkerWW([dataInfo[i].Latitude, dataInfo[i].Longtitude], incre, dataInfo[i].SalesmanID + ' - ' + dataInfo[i].SalesmanName, StrSalesmanLastLocationPopup(dataInfo[i]), 'SM', url, mapData.LayerMarkerSMLastLocation, null, true);
+                }
+            }
+        }
+        MapPanToAndZoom([lat, lng], 16);
+    }
+</script>
+

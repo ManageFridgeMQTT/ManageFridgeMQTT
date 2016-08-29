@@ -1,0 +1,229 @@
+﻿@model ReportEvalVM
+@{
+    ViewBag.Title = Utility.Phrase(Model.Screen);
+    Layout = "~/Views/Shared/_NewLayout.cshtml";
+}
+<div class="insider">
+    <div id="loading" class="loading"></div>
+    @using (Html.BeginForm("ReportEvalReview", "ReportTracking", FormMethod.Post))
+    {
+        <div class="row display-table w-100pr mb-10 content-header">
+            <div class="report-content-header">
+                <div class="col-sm-8">
+                    <h1>@Model.Screen</h1>
+                </div>
+                <div class="col-sm-4">
+                    <div class="p-0 fr">
+                        @if (PermissionHelper.CheckPermissionByFeature("Tracking_ReportSyncExportExecl"))
+                        {
+                            <button type="button" id="btnExportExcel" class="btn p-0 m-0 ml-10 block-theme" title="Excel"><i class="icon-etool-excel"></i></button>   
+                        }
+                        @if (PermissionHelper.CheckPermissionByFeature("Tracking_ReportSyncExportPDF"))
+                        {
+                            <button type="button" id="btnExportPDF" class="btn p-0 m-0 ml-10 block-theme" title="PDF"><i class="icon-etool-pdf"></i></button>   
+                        }
+                    </div>
+                </div>
+            </div>
+            <div class="w-100pr">
+                <div class="item fl">
+                    <label for class="fl">@Utility.Phrase("Date")</label>
+                    @Html.TextBox("strFromDate", (Model.FromDate != null ? Model.FromDate.Value.ToShortDateString() : ""), new { @class = "datepicker" })
+                    @Html.TextBox("strToDate", (Model.ToDate != null ? Model.ToDate.Value.ToShortDateString() : ""), new { @class = "datepicker" })
+                </div>
+                <div class="item fl">
+                    <label for class="fl">@Utility.Phrase("Program")</label>
+                    <div id="ProgramCbox" class="ctr_combobox input-group">
+                        @Html.Partial("~/Views/Shared/Control/ComboboxPartial.cshtml", Model.listComboboxProgram, new ViewDataDictionary { { "NameID", "Program" } })
+                    </div>
+                </div>
+                <div class="item fl">
+                    <label for class="fl">@Utility.Phrase("Evaluation")</label>
+                    <div id="EvaluationCbox" class="ctr_combobox input-group">
+                        @Html.Partial("~/Views/Shared/Control/ComboboxPartial.cshtml", Model.listComboboxEvaluation, new ViewDataDictionary { { "NameID", "Evaluation" } })
+                    </div>
+                </div>
+                <div class="item fl">
+                    <button id="Search" type="button"><i class="icon-submit"></i>@Utility.Phrase("Report_View")</button>
+                </div>
+            </div>
+        </div>
+        <div id="ErMesgBox" class="row"><span style="color: red" class="error"></span></div>
+    }
+    <div class="row content-body">
+        <div class="tab-header">
+            <div class="toolbox">
+                <ul class="fr m-0">
+                    <li class="ts-pager">
+                        <a href="#" title="prev">
+                            <img src="@Url.Content("~/Content/NewEtool/img/per.png")" class="prev"/></a>
+                        <span class="pagedisplay"></span>
+                        <a href="#" title="next">
+                            <img src="@Url.Content("~/Content/NewEtool/img/next.png")" class="next"/></a>
+                        <span>@Utility.Phrase("GotoPage")
+                            <select class="pagenum input-mini" title="Select page number"></select>
+                        </span>
+                        <span>@Utility.Phrase("Pages")</span>
+                        <select class="pagesize input-mini m-0" title="Select page size">
+                            <option selected="selected" value="10">10</option>
+                            <option value="20">20</option>
+                            <option value="30">30</option>
+                            <option value="40">40</option>
+                            <option value="50">50</option>
+                        </select>
+                    </li>
+                </ul>
+            </div>
+            <ul class="nav nav-tabs display-none">
+                <li class="active"><a data-toggle="tab" href="#report-outlet">@Utility.Phrase("Report_Report")</a></li>
+            </ul>
+        </div>
+        <div class="tab-content wrapper">
+            <div id="report-sync" class="tab-pane fade in active box-table-ressult">
+                <table id="table-result" class="tablesorter">
+                    <thead>
+                        <tr>
+                            <th>@Utility.Phrase("TB_Program")</th>
+                            <th>@Utility.Phrase("TB_Evaluation")</th>
+                            <th>@Utility.Phrase("TB_Status")</th>
+                            <th>@Utility.Phrase("TB_TotalAuditor")</th>
+                            <th>@Utility.Phrase("TB_ImgReview")</th>
+                            <th>@Utility.Phrase("TB_ImgHasReview")</th>
+                            <th>@Utility.Phrase("TB_EvalRate")</th>
+                            <th>@Utility.Phrase("TB_ReviewRate")</th>
+                            <th>@Utility.Phrase("TB_ImgApprove")</th>
+                            <th>@Utility.Phrase("TB_ImgReject")</th>
+                            <th>@Utility.Phrase("TB_ImgReMarking")</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (Model.listResult != null)
+                        {
+                            foreach (var elm in Model.listResult)
+                            {
+                            <tr>
+                                <td>@elm.ProgramName</td>
+                                <td>@elm.EvaluationID</td>
+                                <td>@elm.EvalState</td>
+                                <td class="align-right">@elm.TotalAuditor</td>
+                                <td class="align-right">@elm.TotalImg</td>
+                                <td class="align-right">@elm.ImgHasReview</td>
+                                <td class="align-right">@String.Format("{0:n0}%", elm.EvalReviewRate)</td>
+                                <td class="align-right">@String.Format("{0:n0}%", (elm.ImgHasReview > 0) ? (elm.ImgHasReview * 100 / elm.TotalImg) : 0)</td>
+                                <td class="align-right">@elm.ImgApproved</td>
+                                <td class="align-right">@elm.ImgRejected</td>
+                                <td class="align-right">@elm.ImgReMarking</td>
+                            </tr>
+                            }
+                        }
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<script type='text/javascript'>
+    $(document).ready(function () {
+        //hideColumnFilter();
+        $("body").on('click', '.input-group-btn table tbody tr', function () {
+            $(this).addClass('selected').siblings().removeClass('selected');
+            var keyVal = $(this).find('td:first').html();
+            var codeVal = $(this).find('td:nth-child(2)').html();
+            var nameVal = $(this).find('td:last').html();
+            if (keyVal == 0) { keyVal = ""; }
+            var parentdiv = $(this).parents('div[class^="ctr_combobox"]');
+            parentdiv.find('input[type^="text"]').val(codeVal + ' - ' + nameVal);
+            parentdiv.find('input[type^="hidden"]').val(keyVal);
+
+            var RegionVal = '';
+            if ($('#Region').val() != undefined) {
+                RegionVal = $('#Region').val();
+            }
+            var AreaVal = '';
+            if ($('#Area').val() != undefined) {
+                AreaVal = $('#Area').val();
+            }
+            var DistributorVal = 0;
+            if ($('#Distributor').val() != undefined) {
+                DistributorVal = $('#Distributor').val();
+            }
+
+            var Program = '';
+            if ($('#Program').val() != undefined) {
+                Program = $('#Program').val();
+            }
+            if (parentdiv.find('input[id^="Region"]').val() != undefined) {
+                $("#AreaCbox").load('@(Url.Action("ReloadOptionArea", "ReportTracking"))?regionID=' + RegionVal);
+                $("#DistributorCbox").load('@(Url.Action("ReloadOptionDistributor", "ReportTracking"))?regionID=' + RegionVal + '&areaID=' + AreaVal);
+
+                $('.box-table-ressult table td:nth-child(2),.box-table-ressult table th:nth-child(2)').show();
+                $('.box-table-ressult table td:nth-child(3),.box-table-ressult table th:nth-child(3)').show();
+                if (RegionVal == "") {
+                    $('.box-table-ressult table td:nth-child(1),.box-table-ressult table th:nth-child(1)').show();
+                }
+                else {
+                    $('.box-table-ressult table td:nth-child(1),.box-table-ressult table th:nth-child(1)').hide();
+                }
+            }
+            if (parentdiv.find('input[id^="Area"]').val() != undefined) {
+                $("#DistributorCbox").load('@(Url.Action("ReloadOptionDistributor", "ReportTracking"))?regionID=' + RegionVal + '&areaID=' + AreaVal);
+
+                if (RegionVal == "") {
+                    $('.box-table-ressult table td:nth-child(1),.box-table-ressult table th:nth-child(1)').show();
+                }
+                $('.box-table-ressult table td:nth-child(3),.box-table-ressult table th:nth-child(3)').show();
+                if (AreaVal == "") {
+                    $('.box-table-ressult table td:nth-child(2),.box-table-ressult table th:nth-child(2)').show();
+                }
+                else {
+                    $('.box-table-ressult table td:nth-child(1),.box-table-ressult table th:nth-child(1)').hide();
+                    $('.box-table-ressult table td:nth-child(2),.box-table-ressult table th:nth-child(2)').hide();
+                }
+            }
+
+            if (parentdiv.find('input[id^="Distributor"]').val() != undefined) {
+                if (RegionVal == "") {
+                    $('.box-table-ressult table td:nth-child(1),.box-table-ressult table th:nth-child(1)').show();
+                }
+                if (AreaVal == "") {
+                    $('.box-table-ressult table td:nth-child(2),.box-table-ressult table th:nth-child(2)').show();
+                }
+                if (DistributorVal == "0" | DistributorVal == '') {
+                    $('.box-table-ressult table td:nth-child(3),.box-table-ressult table th:nth-child(3)').show();
+                }
+                else {
+                    $('.box-table-ressult table td:nth-child(1),.box-table-ressult table th:nth-child(1)').hide();
+                    $('.box-table-ressult table td:nth-child(2),.box-table-ressult table th:nth-child(2)').hide();
+                    $('.box-table-ressult table td:nth-child(3),.box-table-ressult table th:nth-child(3)').hide();
+                }
+            }
+
+            if (parentdiv.find('input[id^="Program"]').val() != undefined) {
+                $("#EvaluationCbox").load('@(Url.Action("ReloadOptionProgram", "ReportTracking"))?ProgramID=' + Program);
+            }
+
+        });
+
+        $('#btnExportExcel').click(function () {
+            $('form').attr('action', '@Utility.FooMethod("/ReportTracking/ReportSyncExportExecl")');
+            $('form').submit();
+        });
+        $('#btnExportPDF').click(function () {
+            $('form').attr('action', '@Utility.FooMethod("/ReportTracking/ReportSyncExportPDF")');
+            $('form').submit();
+        });
+        $('#Search').click(function () {
+            $('form').attr('action', '@Utility.FooMethod("/ReportTracking/ReportEvalReview")');
+            $('form').submit();
+            $(".loading").show();
+        });
+
+        function hideColumnFilter() {
+            $('.box-table-ressult table td:nth-child(1),.box-table-ressult table th:nth-child(1)').hide();
+            $('.box-table-ressult table td:nth-child(2),.box-table-ressult table th:nth-child(2)').hide();
+            $('.box-table-ressult table td:nth-child(3),.box-table-ressult table th:nth-child(3)').hide();
+        }
+    });
+</script>

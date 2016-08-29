@@ -1,0 +1,149 @@
+﻿ @Html.DevExpress().GridView(
+    settings =>
+    {
+        
+        settings.Name = "gridSetting";
+        settings.KeyFieldName = "No";
+        settings.CallbackRouteValues = new { Controller = "ScheduleSubmitSetting", Action = "GridPartialView" };
+        settings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+        settings.CommandColumn.Visible = true;
+        settings.CommandColumn.ShowSelectCheckbox = true;
+          
+        settings.Settings.VerticalScrollableHeight = 355;
+        settings.SettingsText.EmptyDataRow = Utility.Phrase("PrepareScheduleNew.Messages.EmptyDataRow");
+        settings.Settings.ShowHeaderFilterButton = true;
+        settings.SettingsPopup.HeaderFilter.Height = 200;
+        settings.Settings.ShowFilterBar = GridViewStatusBarMode.Visible;
+        settings.Styles.Header.CssClass = "block-theme";
+        settings.Columns.Add("No").Caption = Utility.Phrase("ID");
+        settings.Columns.Add(col =>
+    {
+        col.FieldName = "Date";
+       // col.SortIndex = 1;
+        col.ColumnType = MVCxGridViewColumnType.DateEdit;
+        col.Caption = Utility.Phrase("Date");
+        col.Width = System.Web.UI.WebControls.Unit.Percentage(20);
+        col.ReadOnly = true;
+      
+        
+    });
+        settings.Columns.Add(column =>
+        {
+            column.FieldName = "Type";
+            column.Caption = Utility.Phrase("PrepareSchedule.Messages.Shift");
+            column.ColumnType = MVCxGridViewColumnType.TextBox;
+            var textBoxProperties = column.PropertiesEdit as TextBoxProperties;
+            textBoxProperties.MaxLength = 20;
+            column.SetDataItemTemplateContent(c =>
+            {
+                var value = DataBinder.Eval(c.DataItem, "Type");
+                if (value != null)
+                {
+                    Html.DevExpress().Label(props =>
+                    {
+                        props.Name = "lbStatus" + c.KeyValue;
+                        if (value.ToString() == "AM")
+                        {
+                            props.Text = "Sáng";
+                        }
+                        else
+                        {
+                            props.Text = "Chiều";
+                        }
+
+
+                    }).GetHtml();
+                }
+            });
+        });        
+        settings.Columns.Add(col =>
+    {
+        col.FieldName = "EmployeeID";       
+        col.Caption = Utility.Phrase("EmployeeID");
+        col.Width = System.Web.UI.WebControls.Unit.Percentage(20);
+        col.ReadOnly = true;
+    });
+    settings.Columns.Add(col =>
+    {
+        col.FieldName = "EmployeeName";       
+        col.Caption = Utility.Phrase("Employee");
+        col.Width = System.Web.UI.WebControls.Unit.Percentage(20);
+        col.ReadOnly = true;
+    });
+    settings.Columns.Add(col =>
+    {
+        col.FieldName = "Note";        
+        col.Caption = Utility.Phrase("Note");
+        col.Width = System.Web.UI.WebControls.Unit.Percentage(35);
+        col.ReadOnly = true;
+    });
+    settings.Columns.Add(col =>
+    {
+        col.FieldName = "CloseTime";
+        col.Caption = Utility.Phrase("ScheduleSubmitSetting.Messages.CloseTime");
+        col.Width = System.Web.UI.WebControls.Unit.Percentage(18);
+        col.ReadOnly = true;
+    });
+    settings.Columns.Add(col =>
+    {
+        col.FieldName = "CreatedDate";
+        col.Caption = Utility.Phrase("CreatedDate");
+        col.Width = System.Web.UI.WebControls.Unit.Percentage(18);
+        col.ReadOnly = true;
+    });
+    settings.Columns.Add(col =>
+    {
+        col.FieldName = "Status";
+        col.ColumnType = MVCxGridViewColumnType.CheckBox;
+        col.Caption = Utility.Phrase("IsClosed");
+        col.Width = System.Web.UI.WebControls.Unit.Percentage(12);
+        col.ReadOnly = true;
+    });
+    settings.Columns.Add(col =>
+    {
+        col.FieldName = "IsDatabase";
+        col.ColumnType = MVCxGridViewColumnType.CheckBox;
+        col.Caption = Utility.Phrase("IsDatabase");
+        col.Width = System.Web.UI.WebControls.Unit.Percentage(12);
+        col.ReadOnly = true;
+    });
+    settings.CommandButtonInitialize = (sender, e) =>
+    {
+        ASPxGridViewCommandButtonEventArgs gvCommandButton = (ASPxGridViewCommandButtonEventArgs)e;
+        
+        //if (e.ButtonType == ColumnCommandButtonType.SelectCheckbox)
+        //{
+        //    object fieldValue = (sender as MVCxGridView).GetRowValues(e.VisibleIndex, "IsDatabase");           
+        //    if ((bool)fieldValue)
+        //    {
+        //        gvCommandButton.Enabled = false;
+        //        Session["IsDatabase"] = true;
+        //    }
+        //    else
+        //    {
+        //        Session["IsDatabase"] = false;
+        //    }
+        //}        
+    };
+        settings.CommandColumn.SetHeaderTemplateContent(c =>
+        {           
+           
+            Html.DevExpress().CheckBox(settingsCheckBox =>
+            {
+                settingsCheckBox.Name = "cbSelectAll";
+                //if ((bool)Session["IsDatabase"] == true)
+                //{
+                //    settingsCheckBox.Enabled = false;
+                //}
+                //else
+                //{
+                //    settingsCheckBox.Enabled = true;
+                //}
+                settingsCheckBox.Properties.ClientSideEvents.CheckedChanged = string.Format("function(s, e) {{ if(s.GetChecked()) {0}.SelectRows(); else {0}.UnselectRows(); }}", settings.Name);
+                settingsCheckBox.Checked = c.Grid.VisibleRowCount == c.Grid.Selection.Count;
+            }).Render();
+        });
+        //settings.SettingsBehavior.AllowSelectByRowClick = true;
+        settings.ClientSideEvents.SelectionChanged = "SelectionChanged";
+        //settings.ClientSideEvents.SelectionChanged = "OnGridViewSelectionChanged";
+    }).Bind(Model).GetHtml()

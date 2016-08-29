@@ -1,0 +1,476 @@
+﻿@model MV_ReportVisit
+<div id="report-summary" class="tab-pane fade in active box-table-ressult">
+    <table id="table-result" class="table-sorter valuation">
+        <thead>
+            <tr>
+                <th>@Utility.Phrase("RegionName")</th>
+                <th>@Utility.Phrase("AreaName")</th>
+                <th>@Utility.Phrase("TB_GSBH")</th>
+                <th>@Utility.Phrase("DistributorName")</th>
+                <th>@Utility.Phrase("Salesman")</th>
+                <th style="display:none">@Utility.Phrase("TB_AddressSM")</th>
+                <th style="display:none">@Utility.Phrase("TB_PhoneSM")</th>
+                <th>@Utility.Phrase("TB_FistSyncTime")</th>
+                <th>@Utility.Phrase("OutletVisited/OutletMustVisit")</th>
+                <th>@Utility.Phrase("TB_OrderCount")</th>
+                <th>@Utility.Phrase("TB_TotalAmount")</th>
+                <th>@Utility.Phrase("TB_MinTimeVisit")</th>
+                <th>@Utility.Phrase("TB_MaxTimeVisit")</th>
+                <th>@Utility.Phrase("TimeVisit")</th>
+                <th>@Utility.Phrase("AvgTimeVisit")</th>
+                @*<th class="align-right">@Utility.Phrase("TB_TotalQuantity")</th>
+                    <th class="align-right">@Utility.Phrase("TB_TotalSKU")</th>*@
+
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model.ReportVisitSummary != null)
+            {
+                foreach (var elm in Model.ReportVisitSummary)
+                {
+                    <tr>
+                        <td>@elm.RegionName</td>
+                        <td>@elm.AreaName</td>
+                        <td>@elm.SaleSupName</td>
+                        <td>@elm.DistributorName</td>
+                        
+                        <td>@elm.SalesmanName</td>
+                        <td style="display:none">@elm.AddressSM</td>
+                        <td style="display:none">@elm.PhoneSM</td>
+                        <td>@(elm.FirstSyncTime != null ? elm.FirstSyncTime.Value.ToShortTimeString() : "")</td>
+                        <td class="align-right">@elm.OutletVisited / @elm.OutletMustVisit</td>
+                        <td class="align-right">@elm.OrderCount</td>
+                        <td class="align-right">@String.Format("{0:n0}", elm.TotalAmount)</td>
+                        <td class="align-right">@elm.MinTimeVisit @Utility.Phrase("Second")</td>
+                        <td class="align-right">@elm.MaxTimeVisit @Utility.Phrase("Minute")</td>
+                        <td class="align-right">@(elm.TotalTimeVisit != null ? elm.TotalTimeVisit.Value : 0) @Utility.Phrase("Minute")</td>
+                        <td class="align-right">@((elm.TotalTimeVisit != null && elm.OutletVisited != 0) ? elm.TotalTimeVisit.Value / elm.OutletVisited : 0) @Utility.Phrase("Minute")</td>
+                        @*<td class="align-right">@String.Format("{0:n0}", elm.TotalQuantity)</td>
+                            <td class="align-right">@String.Format("{0:n0}", elm.TotalSKU)</td>*@
+
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+</div>
+<div id="report-visited" class="tab-pane fade in box-table-ressult">
+    <table id="table-result" class="tablesorter valuation">
+        <thead>
+            <tr>
+                <th>@Utility.Phrase("RegionName")</th>
+                <th>@Utility.Phrase("AreaName")</th>
+                <th>@Utility.Phrase("TB_GSBH")</th>
+                <th>@Utility.Phrase("DistributorName")</th>
+                
+                <th>@Utility.Phrase("Salesman")</th>
+                <th>@Utility.Phrase("Outlet")</th>
+                <th>@Utility.Phrase("TimeStart")</th>
+                <th>@Utility.Phrase("TimeEnd") </th>
+                <th>@Utility.Phrase("strTimeSpanVisit") </th>
+                <th>@Utility.Phrase("strTimeSpanMove") </th>
+                <th>@Utility.Phrase("Distance")</th>
+                <th style="min-width:85px">@Utility.Phrase("StatusOrder")</th>
+                <th>@Utility.Phrase("Amount(VND)")</th>
+                <th>@Utility.Phrase("ReasonNotSale")</th>
+                <th style="min-width:75px">@Utility.Phrase("VisitOrder")</th>
+                <th style="min-width:75px">@Utility.Phrase("VisitOrderReal") </th>
+                @*<th>@Utility.Phrase("SKU")</th>
+                    <th>@Utility.Phrase("Qty")</th>*@
+                <th>@Utility.Phrase("GPSType")</th>
+                <th style="min-width:75px">@Utility.Phrase("IsEnableAirPlaneMode")</th>
+                <th>@Utility.Phrase("IsEnableGPSMode")</th>
+                <th>@Utility.Phrase("IsEnableNetworkMode")</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model.ReportVisitResult != null)
+            {
+                if (Model.ReportVisitResult.Rows.Count != 0)
+                {
+                    foreach (System.Data.DataRow elm in Model.ReportVisitResult.Rows)
+                    {
+                        <tr>
+                            <td>@elm["RegionName"]</td>
+                            <td>@elm["AreaName"]</td>
+                            <td>@elm["SaleSupName"]</td>
+                            <td>@elm["DistributorName"]</td>
+                            
+                            <td>@elm["SalesmanName"]</td>@*SFInfo*@
+
+                            <td class="align-left">@elm["OutletName"]</td>
+                            @{
+                                DateTime visitDate = DateTime.Parse(elm["VisitDate"].ToString());
+                                DateTime startTime = DateTime.Parse(elm["StartTime"].ToString());
+                                DateTime endTime = DateTime.Parse(elm["EndTime"].ToString());
+                            }
+                            <td>@startTime.ToShortTimeString()</td>
+                            <td>@endTime.ToShortTimeString()</td>
+                            <td>@elm["strTimeSpanVisit"]</td>
+                            <td>@elm["strTimeSpanMove"]</td>
+                            @*<td class="align-right">@Utility.StringParseWithAutoDecimalDegit(elm["Distance"])</td>*@
+                            <td class="align-right">@String.Format("{0:n2}", elm["Distance"]) m</td>
+                            <td class="align-right">
+                                @if (elm["HasOrder"].ToString() == "1")
+                                {
+                                    @Utility.Phrase("Yes_HasOrder");
+                                }
+                                else
+                                {
+                                    @Utility.Phrase("No_HasOrder");
+                                }
+                            </td>
+                            <td class="align-right">@String.Format("{0:n0}", elm["TotalAmount"])</td>
+                            <td>@elm["Reason"]</td>
+                            <td class="align-right">@elm["VisitOrder"]</td>
+                            <td class="align-right">@elm["VisitOrderReal"]</td>
+                            @*<td class="align-right">@String.Format("{0:n0}", elm["TotalSKU"])</td>
+                                <td class="align-right">@String.Format("{0:n0}", elm["DropSize"]) </td>*@
+                            <td>@elm["GPSType"]</td>
+                            <td class="align-right">
+                                @if (elm["IsEnableAirPlaneMode"].ToString() == "1")
+                                {
+                                    @Utility.Phrase("ON");
+                                }
+                                else
+                                {
+                                    @Utility.Phrase("OFF");
+                                }
+                            </td>
+                            <td class="align-right">
+                                @if (elm["IsEnableGPSMode"].ToString() == "1")
+                                {
+                                    @Utility.Phrase("ON");
+                                }
+                                else
+                                {
+                                    @Utility.Phrase("OFF");
+                                }
+
+                            </td>
+                            <td class="align-right">
+                                @if (elm["IsEnableNetworkMode"].ToString() == "1")
+                                {
+                                    @Utility.Phrase("ON");
+                                }
+                                else
+                                {
+                                    @Utility.Phrase("OFF");
+                                }
+
+                            </td>
+                        </tr>
+                                        }
+                                    }
+                                }
+        </tbody>
+    </table>
+</div>
+<div id="report-image" class="tab-pane fade in box-table-ressult">
+    <table class="tablesorter valuation">
+        <thead>
+            <tr>
+                <th>@Utility.Phrase("RegionName")</th>
+                <th>@Utility.Phrase("AreaName")</th>
+                <th>@Utility.Phrase("TB_GSBH")</th>
+                <th>@Utility.Phrase("DistributorName")</th>
+                <th>@Utility.Phrase("Salesman")</th>
+                <th>@Utility.Phrase("Outlet")</th>
+                <th style="min-width:70px">@Utility.Phrase("ImageAvatar")</th>
+                <th style="min-width:85px">@Utility.Phrase("ImageVisit")</th>
+                <th>@Utility.Phrase("Display") </th>
+                <th>@Utility.Phrase("Evaluation") </th>
+                <th style="min-width:85px">@Utility.Phrase("ImageResult")</th>
+                <th style="min-width:115px">@Utility.Phrase("ReasonNotInvalid")</th>
+                <th style="min-width:85px">@Utility.Phrase("DisplayResult")</th>
+                <th style="min-width:115px">@Utility.Phrase("ReasonNoPass")</th>
+                <th style="min-width:85px">@Utility.Phrase("VISTimeSync")</th>
+                <th>@Utility.Phrase("VISMarker")</th>
+                <th>@Utility.Phrase("VISDateMarking")</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model.ReportImageProgram != null)
+            {
+                foreach (var elm in Model.ReportImageProgram)
+                {
+                    <tr>
+                        <td>@elm.RegionName</td>
+                        <td>@elm.AreaName</td>
+                        <td>@elm.SaleSupName</td>
+                        <td>@elm.DistributorName</td>
+                        
+                        <td>@elm.SalesmanName</td>
+                        <td class="align-left">@elm.OutletName</td>
+                        @{
+                            string srcImgAvata = String.IsNullOrEmpty(elm.AvataFile) ? Url.Content("~/Content/Images/avalible-image.png") : Url.Content(Constant.OutletImageFolder + elm.AvataFile);
+                            string srcImageFile = String.IsNullOrEmpty(elm.ImageFile) ? "" : Url.Content(Constant.SalesOrdersImageFolder + elm.ImageFile);
+                        }
+                        <td>
+                            <a href="@srcImgAvata">
+                                <img src="@srcImgAvata" style="max-width:50px; padding-right: 5px; padding-top: 5px" alt="" rel="zoom" class="smoothZoom" />
+                            </a>
+                        </td>
+                        <td>
+                            @if (!string.IsNullOrEmpty(srcImageFile))
+                            {
+                                <a href="@srcImageFile" class="iviewer_click" >
+                                    <img rel="gallery" src="@srcImageFile" style="max-width:50px; padding-right: 5px; padding-top: 5px" alt="" rel="zoom" class="smoothZoom" />
+                                </a>
+                            }
+                        </td>
+                        <td>@elm.ProgramName</td>
+                        <td>@elm.EvaluationID</td>
+                        <td class="align-right">
+                            @(elm.ResultImage.HasValue ? Utility.Phrase("ResultImageStatus_" + elm.ResultImage) : "")
+                        </td>
+                        <td class="align-right">@elm.ReasonImage</td>
+                        <td class="align-right">
+                            @(elm.ResultProgram.HasValue ? Utility.Phrase("ResultProgramStatus_" + elm.ResultProgram) : "")
+                        </td>
+                        <td class="align-right">@elm.ReasonProgram</td>
+                        <td class="align-right">@(elm.SyncDate.HasValue ? elm.SyncDate.Value.ToTimePattern() : "")</td>
+                        <td>@elm.AuditorMarking</td>
+                        <td>@(elm.FinishDate.HasValue ? elm.FinishDate.Value.ToShortPattern() : "")</td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+</div>
+@*<div id="report-image" class="tab-pane fade in box-table-ressult">
+    <table class="tablesorter valuation">
+        <thead>
+            <tr>
+                <th>@Utility.Phrase("RegionName")</th>
+                <th>@Utility.Phrase("AreaName")</th>
+                <th>@Utility.Phrase("DistributorName")</th>
+                <th>@Utility.Phrase("TB_GSBH")</th>
+                <th>@Utility.Phrase("Salesman")</th>
+                <th>@Utility.Phrase("Outlet")</th>
+                <th>@Utility.Phrase("ImageAvatar")</th>
+                <th>@Utility.Phrase("ImageVisit")</th>
+                <th>@Utility.Phrase("ImageResult")</th>
+                <th>@Utility.Phrase("ReasonNotInvalid")</th>
+                <th>@Utility.Phrase("DisplayResult")</th>
+                <th>@Utility.Phrase("ReasonNoPass")</th>
+                <th>@Utility.Phrase("Display") </th>
+                <th>@Utility.Phrase("VISTimeSync")</th>
+                <th>@Utility.Phrase("VISMarker")</th>
+                <th>@Utility.Phrase("VISDateMarking")</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model.ReportVisitResult != null)
+            {
+                if (Model.ReportVisitResult.Rows.Count != 0)
+                {
+                    foreach (System.Data.DataRow elm in Model.ReportVisitResult.Rows)
+                    {
+                        <tr>
+                            <td>@elm["RegionName"]</td>
+                            <td>@elm["AreaName"]</td>
+                            <td>@elm["DistributorName"]</td>
+                            <td>@elm["SaleSupName"]</td>
+                            <td>@elm["SalesmanName"]</td>
+                            <td class="align-left">@elm["OutletName"]</td>
+                            @{
+                                string srcImgAvata = Url.Content(Constant.OutletImageFolder + elm["ImgAvata"]);
+                                string srcImgVisit = Url.Content(Constant.SalesOrdersImageFolder + elm["ImgVisit"]);
+
+                            }
+                            <td>
+                                @if (elm["ImgAvata"] == string.Empty)
+                                {
+                                    <a href="@Url.Content("~/Content/Images/avalible-image.png")">
+                                        <img src="@Url.Content("~/Content/Images/avalible-image.png")" style="max-width:50px; padding-right: 5px; padding-top: 5px" alt="" rel="zoom" class="smoothZoom" />
+                                    </a>
+                                }
+                                else
+                                {
+                                    <a href="@srcImgAvata">
+                                        <img src="@srcImgAvata" style="max-width:50px; padding-right: 5px; padding-top: 5px" alt="" rel="zoom" class="smoothZoom" />
+                                    </a>
+                                }
+                            </td>
+
+                            <td>
+                                @Html.Raw(HttpUtility.HtmlDecode(elm["ImgVisit"].ToString()))
+                            </td>
+                            <td class="align-right">
+                                @if (elm["ImgResult"].ToString() == "1")
+                                {
+                                    @Utility.Phrase("Pass");
+                                }
+                                else
+                                {
+                                    @Utility.Phrase("NotPass");
+                                }
+                            </td>
+                            <td class="align-right">@elm["ImgReason"]</td>
+                            <td class="align-right">@elm["VISResult"]</td>
+                            <td class="align-right">
+                                @if (elm["VISReason"].ToString() == "1")
+                                {
+                                    @Utility.Phrase("Pass");
+                                }
+                                else
+                                {
+                                    @Utility.Phrase("NotPass");
+                                }
+                            </td>
+
+                            <td>@elm["VISDisplayName"]</td>
+                            <td>@elm["VISTimeSync"]</td>
+                            <td>@elm["VISMarker"]</td>
+                            <td>@elm["VISDateMarking"]</td>
+                        </tr>
+                                        }
+                                    }
+                                }
+        </tbody>
+    </table>
+</div>*@
+@*<div id="report-sale" class="tab-pane fade in box-table-ressult">
+        <table class="tablesorter valuation">
+            <thead>
+                <tr>
+                    <th>@Utility.Phrase("Salesman")</th>
+                    <th>@Utility.Phrase("Outlet")</th>
+                    <th>@Utility.Phrase("HasSaleSup")</th>
+                    <th>@Utility.Phrase("ASMHasSaleSup")</th>
+                    <th>@Utility.Phrase("TimeSalemanVisit")</th>
+                    <th>@Utility.Phrase("TimeSaleSupVisit")</th>
+                    <th>@Utility.Phrase("ASMTimeSalemanVisit")</th>
+                    <th>@Utility.Phrase("DistanceTime")</th>
+                    <th>@Utility.Phrase("ASMDistanceTime")</th>
+                    <th>@Utility.Phrase("DistanceSale")</th>
+                    <th>@Utility.Phrase("ASMDistanceSale")</th>
+                    <th>@Utility.Phrase("CallAvalible")</th>
+                    <th>@Utility.Phrase("ASMCallAvalible")</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model != null)
+                {
+                    if (Model.Rows.Count != 0)
+                    {
+                        foreach (System.Data.DataRow elm in Model.Rows)
+                        {
+                        <tr>
+                            <td>@elm["SalesmanName</td>
+                            <td class="align-left">@elm["OutletName</td>
+                            @{
+                                DateTime ASMTimeStart = DateTime.Parse(elm["ASMTimeStart.ToString());
+                                DateTime SUPTimeStart = DateTime.Parse(elm["SUPTimeStart.ToString());
+                                DateTime SMTimeStart = DateTime.Parse(elm["SMTimeStart.ToString());
+                            }
+                            <td>@elm["SupWW</td>
+                            <td>@elm["AsmWW</td>
+                            <td class="align-right">@SMTimeStart.ToShortTimeString()</td>
+                            <td class="align-right">@SUPTimeStart.ToShortTimeString()</td>
+                            <td class="align-right">@ASMTimeStart.ToShortTimeString()</td>
+                            <td class="align-right">@elm["SupTimeDistance</td>
+                            <td class="align-right">@elm["AsmTimeDistance</td>
+                            <td class="align-right">@elm["SupDistance</td>
+                            <td class="align-right">@elm["AsmDistance</td>
+                            <td class="align-right">@Utility.Phrase(elm["SUPCallAvalible.ToString())</td>
+                            <td class="align-right">@Utility.Phrase(elm["ASMCallAvalible.ToString())</td>
+                        </tr>
+                        }
+                    }
+                }
+            </tbody>
+        </table>
+    </div>*@
+<div id="report-info" class="tab-pane fade in box-table-ressult">
+    <table class="tablesorter valuation">
+        <thead>
+            <tr>
+                <th>@Utility.Phrase("RegionName")</th>
+                <th>@Utility.Phrase("AreaName")</th>
+                <th>@Utility.Phrase("TB_GSBH")</th>
+                <th>@Utility.Phrase("DistributorName")</th>
+                
+                <th>@Utility.Phrase("Salesman")</th>
+                <th>@Utility.Phrase("Outlet")</th>
+                <th>@Utility.Phrase("Address")</th>
+                <th>@Utility.Phrase("Phone")</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model.ReportVisitResult != null)
+            {
+                if (Model.ReportVisitResult.Rows.Count != 0)
+                {
+                    foreach (System.Data.DataRow elm in Model.ReportVisitResult.Rows)
+                    {
+                        <tr>
+                            <td>@elm["RegionName"]</td>
+                            <td>@elm["AreaName"]</td>
+                            <td>@elm["SaleSupName"]</td>
+                            <td>@elm["DistributorName"]</td>
+                            
+                            <td>@elm["SalesmanName"]</td>
+                            <td class="align-left">@elm["OutletName"]</td>
+                            <td>@elm["Address"]</td>
+                            <td>@elm["Mobile"]</td>
+                        </tr>
+                    }
+                }
+            }
+        </tbody>
+    </table>
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#report-summary .table-sorter').tablesorter({
+            headerTemplate: '{content} {icon}', // Add icon for various themes
+            widgets: ['uitheme', 'zebra', 'stickyHeaders', 'stickyFooters'], //, 'filter'
+            widgetOptions: {
+                stickyHeaders_attachTo: '.wrapper', // or $('.wrapper')
+            }
+        }).tablesorterPager({
+            container: $(".ts-pager-summary"),
+            cssGoto: ".pagenum-summary",
+            prev: '.prev',
+            next: '.next',
+            size: 10,
+            removeRows: false,
+            output: ' {startRow} to {endRow} of {totalRows}' //'Showing {startRow} to {endRow} of {totalRows} entries' //'{startRow} - {endRow} / {filteredRows} ({totalRows})'  //'/ {totalPages}'
+        });
+
+        $('#report-image .tablesorter').tablesorter({
+            headerTemplate: '{content} {icon}', // Add icon for various themes
+            widgets: ['uitheme', 'zebra', 'stickyHeaders', 'stickyFooters'], //, 'filter'
+            widgetOptions: {
+                stickyHeaders_attachTo: '.wrapper', // or $('.wrapper')
+            }
+        }).tablesorterPager({
+            container: $(".ts-pager-image"),
+            cssGoto: ".pagenum-image",
+            prev: '.prev',
+            next: '.next',
+            size: 10,
+            removeRows: false,
+            output: ' {startRow} to {endRow} of {totalRows}' //'Showing {startRow} to {endRow} of {totalRows} entries' //'{startRow} - {endRow} / {filteredRows} ({totalRows})'  //'/ {totalPages}'
+        });
+
+        $('#report-info .tablesorter').tablesorter({
+            headerTemplate: '{content} {icon}', // Add icon for various themes
+            widgets: ['uitheme', 'zebra', 'stickyHeaders', 'stickyFooters'], //, 'filter'
+            widgetOptions: {
+                stickyHeaders_attachTo: '.wrapper', // or $('.wrapper')
+            }
+        }).tablesorterPager({
+            container: $(".ts-pager-info"),
+            cssGoto: ".pagenum-info",
+            prev: '.prev',
+            next: '.next',
+            size: 10,
+            removeRows: false,
+            output: ' {startRow} to {endRow} of {totalRows}' //'Showing {startRow} to {endRow} of {totalRows} entries' //'{startRow} - {endRow} / {filteredRows} ({totalRows})'  //'/ {totalPages}'
+        });
+    });
+</script>

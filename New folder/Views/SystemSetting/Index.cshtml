@@ -1,0 +1,90 @@
+﻿
+
+@{
+    ViewBag.Title = Utility.Phrase("SystemSetting");
+    Layout = "~/Views/Shared/_NewLayout.cshtml";
+}
+@model eRoute.Models.eCalendar.SystemSetting
+@using DevExpress.Web.Mvc.UI;
+@using DevExpress.Web.Mvc;
+@using System.Web.UI.WebControls;
+@* <script src="@Url.Content("~/Scripts/jquery-1.6.2.min.js")" type="text/javascript"></script>
+ <script src="@Url.Content("~/Scripts/jquery.validate.min.js")" type="text/javascript"></script>*@
+<script type="text/javascript">
+    function gridDetailSchedule_CustomButton_Click(s, e) {
+        //alert("123");
+        if (e.buttonID == 'btnEdit') {
+            //alert("vo ham" + e.visibleIndex);
+            if (gridDetailSchedule.IsEditing()) {
+                if (confirm('@Html.Raw(Utility.Phrase("PrepareSchedule.Messages.ConfirmLeaveEditing"))')) {
+                    gridDetailSchedule.StartEditRow(e.visibleIndex);
+                    //alert(e.visibleIndex);
+                }
+            } else {
+                gridDetailSchedule.StartEditRow(e.visibleIndex);
+            }
+        }
+    }
+    //var LoginID = '';
+    //var RowIndex = 0;
+   
+
+    var LoginID = '';
+    var RowIndex = 0;
+    function ButtonClick(button) {
+        if (button == "btnResetPass") {
+            if (confirm("@Utility.Phrase("ConfirmResetPass")")) {
+                dxGridView.PerformCallback({ 'username': LoginID, 'action': "ResetPass" });
+                alert("@Utility.Phrase("Mess_ResetPassOK_SentEmail")");
+            }
+        }
+
+        else if (button == "btnActive") {
+            if (confirm("@Utility.Phrase("ConfirmActive")")) {
+                dxGridView.PerformCallback({ 'username': LoginID, 'action': "Active" });
+                alert("@Utility.Phrase("Mess_ActiveUser")");
+            }
+        }
+
+        else if (button == "btnInactive") {
+            if (confirm("@Utility.Phrase("ConfirmInactive")")) {
+                dxGridView.PerformCallback({ 'username': LoginID, 'action': "Inactive" });
+                alert("@Utility.Phrase("Mess_InactiveUser")");
+            }
+        }
+        else if (button == "btnDelete") {
+            if (confirm("@Utility.Phrase("ConfirmDelete")")) {
+                dxGridView.PerformCallback({ 'username': LoginID, 'action': "Delete" });
+            }
+        } 
+        else if (button == "btnUpdate") {
+            UpdateRow();
+        }
+    }
+    function UpdateRow() {
+        alert(gridDetailSchedule.GetFocusedRowIndex());
+        gridDetailSchedule.StartEditRow(gridDetailSchedule.GetFocusedRowIndex());
+    }
+</script> 
+
+<div class="insider">
+     @*<div id="loading" class="loading"></div>*@
+
+
+    <div class="row display-table w-100pr mb-10 content-header">
+            <div class="report-content-header">
+                <div class="col-sm-8">
+                    <h1>@Utility.Phrase("SystemSetting")</h1>
+                </div>
+            </div>    
+     </div>      
+
+  <div class="content-body row">
+	@*<div class="tab-content wrapper">*@
+        @*  @Html.Partial("DetailPrepareSchedulePartialView", eRoute.Models.eCalendar.HammerDataProvider.GetListSystem())*@
+      @Html.Partial("DetailPrepareSchedulePartialView", Session["SystemSetting"])
+      @*</div>*@
+	</div>
+   
+
+ </div>

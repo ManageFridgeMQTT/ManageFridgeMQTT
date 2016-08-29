@@ -1,0 +1,325 @@
+﻿@*@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_lightLayout.cshtml";
+}*@
+
+@{
+    ViewBag.Title = Utility.Phrase("SubmitAssessment");
+    Layout = "~/Views/Shared/_NewLayout.cshtml";
+}
+
+<script type="text/javascript">
+    this.onload = function() {
+        //AssessmentDate.SetText('');
+    }
+    var UniqueID = '';
+    function UploadSMAssessment_Click(s,e) {
+        var formdata = new FormData(); //FormData object
+        var fileInput = document.getElementById('uploadFile');
+        //Iterating through each files selected in fileInput
+        for (i = 0; i < fileInput.files.length; i++) {
+            //Appending each file to FormData object
+            formdata.append(fileInput.files[i].name, fileInput.files[i]);
+        }
+        ////LoadingPanel.Show();  
+        var xhr = new XMLHttpRequest();
+        xhr.open('POST', 'UploadSMAssessmentFile');
+        xhr.send(formdata);
+        xhr.onreadystatechange = function () {
+            //LoadingPanel.Hide(); 
+            if (xhr.readyState == 4 && xhr.status == 200) {
+                var ct = xhr.getResponseHeader("content-type") || "";
+                if (ct.indexOf('json') > -1) {
+                    alert(xhr.responseText);
+                } else {
+                    $('#divAssessmentHeader').html(xhr.responseText);
+                }
+            }
+        }
+
+        return false;
+    }
+
+    function UploadAssessment_Click(s, e) {
+        var formdata = new FormData(); //FormData object
+        var fileInput = document.getElementById('uploadFile');
+        //Iterating through each files selected in fileInput
+        for (i = 0; i < fileInput.files.length; i++) {
+            //Appending each file to FormData object
+            formdata.append(fileInput.files[i].name, fileInput.files[i]);
+        }
+        //LoadingPanel.Show();  
+        var xhr = new XMLHttpRequest();
+        xhr.open('POST', 'UploadAssessmentFile');
+        xhr.send(formdata);
+        xhr.onreadystatechange = function () {
+            //LoadingPanel.Hide(); 
+            if (xhr.readyState == 4 && xhr.status == 200) {
+                var ct = xhr.getResponseHeader("content-type") || "";
+                if (ct.indexOf('json') > -1) {
+                    alert(xhr.responseText);
+                } else {
+                    $('#divAssessmentHeader').html(xhr.responseText);
+                }
+            }
+        }
+
+        return false;
+    }
+    function AssessmentDate_ValueChanged(s, e) {
+        // //LoadingPanel.Show();  
+        //alert(s.GetValue());
+        UniqueID = s.GetValue();
+        $.ajax({
+            url: "LoadSMAssessment",
+            data: "assessmentDate=" + s.GetValue(),
+            type: "POST",
+            success: function (response, status, xhr) {
+               // //LoadingPanel.Hide(); 
+                var ct = xhr.getResponseHeader("content-type") || "";
+                if (ct.indexOf('json') > -1) {
+                    alert(response);
+                } else {
+                    //alert(response);
+                    $('#divAssessmentHeader').html(response);
+                }
+            },
+            error: function (err) {
+            }
+        });
+    }
+    ////
+   
+    ///////////////
+    function btnSave_Click(s, e) {
+        ////LoadingPanel.Show();  
+       // alert($('#frmAssessment').serialize());
+        $.ajax({
+            url: "SaveSMAssessment",
+            data: $('#frmAssessment').serialize(),
+            type: "POST",
+            async: false,
+            success: function (response, status, xhr) {
+               // //LoadingPanel.Hide(); 
+                var ct = xhr.getResponseHeader("content-type") || "";
+                if (ct.indexOf('json') > -1) {
+                    if (response.indexOf('@Utility.Phrase("SaveOki")') > -1) {
+                        //$("#divValidation").css('display', 'none');
+                    } else {
+                        //$("#divValidation").css('display', '');
+                    }
+                    alert(response);
+                } else {
+                    $('#divAssessmentHeader').html(response);
+                }
+            },
+            error: function (err) {
+            }
+        });
+    }
+
+    function btnSubmit_Click(s, e) {
+        ////LoadingPanel.Show();  
+        $.ajax({
+            url: "SubmitSMAssessment",
+            data: $('#frmAssessment').serialize(),
+            type: "POST",
+            async: false,
+            success: function (response, status, xhr) {
+                ////LoadingPanel.Hide(); 
+                var ct = xhr.getResponseHeader("content-type") || "";
+                if (ct.indexOf('json') > -1) {
+                    if (response.indexOf('Lưu thành công') > -1) {
+                        $("#divValidation").css('display', 'none');
+                    } else {
+                        $("#divValidation").css('display', '');
+                    }
+                    alert(response);
+                } else {
+                    $('#divAssessmentHeader').html(response);
+                }
+            },
+            error: function (err) {
+            }
+        });
+    }
+
+    function btnSaveAssessment_Click() {
+        ////LoadingPanel.Show();  
+        $.ajax({
+            url: "SaveAssessment",
+            data: $('#frmAssessment').serialize(),
+            type: "POST",
+            async: false,
+            success: function (response, status, xhr) {
+                ////LoadingPanel.Hide(); 
+                var ct = xhr.getResponseHeader("content-type") || "";
+                if (ct.indexOf('json') > -1) {
+                    if (response.indexOf('Lưu thành công') > -1) {
+                        $("#divValidation").css('display', 'none');
+                    } else {
+                        $("#divValidation").css('display', '');
+                    }
+                    alert(response);
+                } else {
+                    $('#divAssessmentHeader').html(response);
+                }
+            },
+            error: function (err) {
+            }
+        });
+    }
+
+    function btnSubmitAssessment_Click() {
+        ////LoadingPanel.Show();  
+        $.ajax({
+            url: "SubmitAssessment",
+            data: $('#frmAssessment').serialize(),
+            type: "POST",
+            async: false,
+            success: function (response, status, xhr) {
+                ////LoadingPanel.Hide(); 
+                var ct = xhr.getResponseHeader("content-type") || "";
+                if (ct.indexOf('json') > -1) {
+                    if (response.indexOf('Lưu thành công') > -1) {
+                        $("#divValidation").css('display', 'none');
+                    } else {
+                        $("#divValidation").css('display', '');
+                    }
+                    alert(response);
+                } else {
+                    $('#divAssessmentHeader').html(response);
+                }
+            },
+            error: function (err) {
+            }
+        });
+    }
+
+    function btnSaveNoTraining_Click(s, e) {
+        //alert("12313");
+        ///alert($('#frmAssessment').serialize());
+        //$.ajax({
+        //    url: "SaveNoTraining",
+        //    data: $('#frmAssessment').serialize(),
+        //    type: "POST",
+        //    async: false,
+        //    success: function (response, status, xhr) {
+        //        var ct = xhr.getResponseHeader("content-type") || "";
+        //        //alert(ct.indexOf('json'));
+        //        if (ct.indexOf('json') > -1) {
+        //            alert(response);
+        //        } else {
+        //            $('#divAssessmentHeader').html(response);
+        //        }
+        //    },
+        //    error: function (err) {
+        //    }
+        //});
+
+        //var Works = Works.GetValue();
+        //var Results = Results.GetValue();
+        //alert(Results.GetValue());
+        $.ajax({
+            url: 'SaveNoTraining',
+            data: 'UniqueID=' + UniqueID + '&Works=' + Works.GetValue() + '&Results=' + Results.GetValue(),
+            type: 'POST',
+            success: function (response, status, xhr) {
+                var ct = xhr.getResponseHeader("content-type") || "";
+                //alert(ct.indexOf('json'));
+                        if (ct.indexOf('json') > -1) {
+                            alert(response);
+                        } else {
+                            $('#divAssessmentHeader').html(response);                           
+                        }
+                    },
+                    error: function (err) {
+            }
+        });
+
+    }
+
+    function btnSubmitNoTraining_Click(s, e) {
+        //$.ajax({
+        //    url: "SubmitNoTraining",
+        //    data: $('#frmAssessment').serialize(),
+        //    type: "POST",
+        //    async: false,
+        //    success: function (response, status, xhr) {
+        //        var ct = xhr.getResponseHeader("content-type") || "";
+        //        if (ct.indexOf('json') > -1) {
+        //            alert(response);
+        //        } else {
+        //            $('#divAssessmentHeader').html(response);
+        //        }
+        //    },
+        //    error: function (err) {
+        //    }
+        //});
+        $.ajax({
+            url: 'SubmitNoTraining',
+            data: 'UniqueID=' + UniqueID + '&Works=' + Works.GetValue() + '&Results=' + Results.GetValue(),
+            type: 'POST',
+            success: function (response, status, xhr) {
+                var ct = xhr.getResponseHeader("content-type") || "";
+                if (ct.indexOf('json') > -1) {
+                    alert(response);
+                } else {
+                    $('#divAssessmentHeader').html(response);
+                }
+            },
+            error: function (err) {
+            }
+        });
+    }
+
+//    function HasTraning_ValueChanged(s, e) {
+//        //LoadingPanel.Show();  
+//        if (s.GetValue() == true) {
+//            $("#divupload").css('display', '');
+//        }
+//        else {
+//            $("#divupload").css('display', 'none');
+//        }
+
+//        $.ajax({
+//            url: "SubmitAssessment/HasTrainingValueChanged",
+//            data: "hasTraining=" + s.GetValue() + "&assessmentDate=" + AssessmentDate.GetValue(),
+//            type: "POST",
+//            async: false,
+//            success: function (response, status, xhr) {
+//                //LoadingPanel.Hide();   
+//                $('#divAssessmentHeader').html(response);
+//            },
+//            error: function (err) {
+//            }
+//        });
+//    }
+</script>
+<div class="insider">
+     <div id="loading" class="loading"></div>
+    <div class="row display-table w-100pr mb-10 content-header">
+            <div class="report-content-header">
+                <div class="col-sm-8">
+                    <h1>@Utility.Phrase("SubmitAssessment")</h1>
+                </div>
+            </div>          
+        </div>
+    @*@Html.DevExpress().LoadingPanel(
+                    settings => {
+                        settings.Name = "LoadingPanel";
+                        settings.Modal = true;
+                        settings.ContainerElementID = true ? "Panel" : "";
+                    }
+                ).GetHtml()  *@
+@using (Html.BeginForm("Index", "SubmitAssessment", FormMethod.Post, new {id = "frmAssessment" }))
+{
+    <div id="divAssessmentHeader" >
+          @Html.Partial("SMTrainingAssessmentHeaderPartial", new Hammer.Models.SMAssessmentModel().GetSMAssessmentModel())
+      </div>
+      
+   
+}
+
+
+    </div>

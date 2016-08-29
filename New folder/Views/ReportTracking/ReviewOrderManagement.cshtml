@@ -1,0 +1,247 @@
+﻿@model MV_ReviewOrder
+@{
+    ViewBag.Title = @Utility.Phrase("ReviewOrderManagement");
+    Layout = "~/Views/Shared/_NewLayout.cshtml";
+}
+
+<style>
+    .dropdown ul li{
+        float: initial;
+        height: auto;
+        padding: inherit;
+    }
+</style>
+
+<div id="shCenter" style="z-index: 9999">
+    <label id="mSNoData" style="align-content: center; color: green"></label>
+</div>
+<div id="loading" class="loading"></div>
+<div class="insider">
+    <div class="row display-table w-100pr mb-10 content-header">
+        <div class="report-content-header">
+            <div class="col-sm-8">
+                <h1 id="TitleHeader">@Utility.Phrase("ReviewOrderManagement")</h1>
+            </div>
+        </div>
+        @using (Html.BeginForm("ReviewOrderManagement", "ReportTracking", FormMethod.Get))
+        {
+            <div id="FilterBox" class="w-100pr">
+                <div class="item fl">
+                    <label class="fl">@Utility.Phrase("Time")</label>
+                    <div class="nowrap fl">
+                        @Html.TextBoxFor(t => t.StartDate, new { @class = "datepicker" })
+                        @Html.TextBoxFor(t => t.EndDate, new { @class = "datepicker" })
+                    </div>
+                </div>
+                <div class="item fl">
+                    <label class="fl">@Utility.Phrase("OrderStatus")</label>
+                    <div class="ctr_combobox input-group">
+                        @Html.DropDownListFor(t => t.Status, Model.ListStatus)
+                    </div>
+                </div>
+                <div class="item fl">
+                    <label class="fl">@Utility.Phrase("Employee")</label>
+                    <div class="ctr_combobox input-group">
+                        @Html.Partial("~/Views/Shared/Control/ComboboxPartial.cshtml", Model.ListComboboxSaleMan, new ViewDataDictionary { { "NameID", "SalesmanID" } })
+                    </div>
+                </div>
+                <div class="item fl">
+                    <button class="btn-search" id="btnsearch" title="@Utility.Phrase("Search")"><i class="icon-search"></i>@Utility.Phrase("Search")</button>
+                </div>
+            </div>
+        }
+    </div>
+    <div class="row content-body">
+        @using (Html.BeginForm("EvaluationDefinition", "Evaluation", null, FormMethod.Post, new { @id = "myFormID", @name = "myFormName" }))
+        {
+            <div class="tab-header">
+                <div class="toolbox">
+                    <ul class="fr m-0">
+                        <li>
+                            <div class="dropdown">
+                                <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    @Utility.Phrase("Function")
+                                    <span class="caret"></span>
+                                </button>
+                                <ul class="dropdown-menu" aria-labelledby="dropdownMenu2">
+                                    <li><a href="#" onclick="FunctionOrder(1)" class="delivery">@Utility.Phrase("Delivery")</a></li>
+                                    <li><a href="#" onclick="FunctionOrder(2)" class="not-delivery">@Utility.Phrase("NotDelivery")</a></li>
+                                    <li><a href="#" onclick="FunctionOrder(3)" class="send-mail">@Utility.Phrase("SendMail")</a></li>
+                                    <li><a href="#" onclick="FunctionOrder(4)" class="reopen">@Utility.Phrase("ReopenDelirevy")</a></li>
+                                </ul>
+                            </div>
+                        </li>
+                        <li class="ts-pager">
+                            <button type="button" title="@Utility.Phrase("GoBack")" class="prev"><i class="icon-go-back"></i></button>
+                            <span class="pagedisplay"></span>
+                            <button type="button" title="@Utility.Phrase("GoNext")" class="next"><i class="icon-go-next"></i></button>
+                            <span>
+                                @Utility.Phrase("GotoPage")
+                                <select class="pagenum input-mini" title="Select page number"></select>
+                            </span>
+                            <span>@Utility.Phrase("Pages")</span>
+                            <select class="pagesize input-mini m-0" title="Select page size">
+                                <option selected="selected" value="10">10</option>
+                                <option value="20">20</option>
+                                <option value="30">30</option>
+                                <option value="40">40</option>
+                                <option value="50">50</option>
+                            </select>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="tab-content wrapper">
+                <table class="tablesorter">
+                    <thead>
+                        <tr>
+                            <th><input type="checkbox" id="check-all"/></th>
+                            <th>@Utility.Phrase("OrderCode")</th>
+                            <th>@Utility.Phrase("OrderDate")</th>
+                            <th>@Utility.Phrase("SalesmanName")</th>
+                            <th>@Utility.Phrase("OrderQty")</th>
+                            <th>@Utility.Phrase("Cash")</th>
+                            <th>@Utility.Phrase("Customer")</th>
+                            <th>@Utility.Phrase("Address")</th>
+                            <th>@Utility.Phrase("NoteDelivery")</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (Model.ReportGetListReviewOrder != null && Model.ReportGetListReviewOrder.Count > 0)
+                        {
+                            foreach (var item in Model.ReportGetListReviewOrder)
+                            {
+                                <tr>
+                                    <td class="text-center">
+                                        <input type="checkbox" class="check-item" data-distributorid="@item.DistributorID" data-code="@item.OrderCode"
+                                               data-outletid="@item.OutletID" data-salemanid="@item.SalesmanID" data-visitdate="@item.OrderDate.ToShortPattern()"/>
+                                    </td>
+                                    <td><a href="@Url.Action("ReviewOrderDetail", new { OrderID = item.OrderCode })">@item.OrderCode</a></td>
+                                    <td>@item.OrderDate.ToShortPattern()</td>
+                                    <td>@item.SalesmanName</td>
+                                    <td class="text-right">@Utility.StringParseWithDecimalDegit(item.OrderQty)</td>
+                                    <td class="text-right">@Utility.StringNParseWithRoundingDecimalDegit(item.Cash)</td>
+                                    <td>@item.CustomerName</td>
+                                    <td>@item.Address</td>
+                                    <td>@item.Note</td>
+                                </tr>
+                            }
+                        }
+                    </tbody>
+                </table>
+            </div>
+        }
+    </div>
+</div>
+<script>
+    $(document).ready(function () {
+        setTimeout(function () {
+            $("#DXScript, #DXCss").remove();
+        }, 500);
+
+        if ($("#Status").val() == 0)
+        {
+            $(".send-mail, .reopen").parent().remove();
+        }
+        else if ($("#Status").val() == 1) {
+            $(".delivery, .not-delivery, .reopen").parent().remove();
+        }
+        else {
+            $(".delivery, .not-delivery, .send-mail").parent().remove();
+        }
+
+        $("#check-all").click(function () {
+            if (this.checked) {
+                $('.check-item').each(function () {
+                    this.checked = true;
+                });
+            }
+            else {
+                $('.check-item').each(function () {
+                    this.checked = false;
+                });
+            }
+        });
+
+        $("body").on('click', '.input-group-btn table tbody tr', function () {
+            $(this).addClass('selected').siblings().removeClass('selected');
+            var keyVal = $(this).find('td:first').html();
+            var codeVal = $(this).find('td:nth-child(2)').html();
+            var nameVal = $(this).find('td:last').html();
+            if (keyVal == 0) { keyVal = ""; }
+            var parentdiv = $(this).parents('div[class^="ctr_combobox"]');
+            parentdiv.find('input[type^="text"]').val(codeVal + ' - ' + nameVal);
+            parentdiv.find('input[type^="hidden"]').val(keyVal);
+
+            var salesmanIDVal = '';
+            if ($('#SalesmanID').val() != undefined) {
+                salesmanIDVal = $('#Keyword').val();
+            }
+        });
+
+        for (var i = 0; i < $(".dropdown-menu tbody tr").length; i++) {
+            var item = $(".dropdown-menu tbody tr")[i];
+            if ($(item).find('td:nth-child(2)').html() == '@Model.SalesmanID') {
+                $(item).addClass('selected').siblings().removeClass('selected');
+                var nameVal = $(item).find('td:last').html();
+                var parentdiv = $(item).parents('div[class^="ctr_combobox"]');
+                parentdiv.find('input[type^="text"]').val('@Model.SalesmanID' + ' - ' + nameVal);
+                parentdiv.find('input[type^="hidden"]').val('@Model.SalesmanID');
+                break;
+            }
+        }
+    });
+
+
+    function FunctionOrder(numFunc) {
+        if ($('.check-item:checked').length == 0)
+        {
+            ShowMessageNoData('@Utility.Phrase("NoItemSelected")');
+            return;
+        }
+        var lstArrItem = "";
+        for (var i = 0; i < $('.check-item:checked').length; i++) {
+            var item = $('.check-item:checked').eq(i);
+            var arrItem = new Array();
+            arrItem.Distributorid = item.data('distributorid');
+            arrItem.Code = item.data('code');
+            arrItem.Outletid = item.data('outletid');
+            arrItem.Salemanid = item.data('salemanid');
+            arrItem.Visitdate = item.data('visitdate');
+            lstArrItem += "," + JSON.stringify(arrItem)
+        }
+        lstArrItem = (lstArrItem.substr(0, 1) == ',') ? lstArrItem.substr(1) : lstArrItem;
+        lstArrItem = '[' + lstArrItem + ']';
+        if (numFunc == 1 || numFunc == 2) {
+            $('.check-item:checked').parents('tr').remove();
+        }
+
+        //func = 1: Duyet giao hang, 2: Duyet khong giao, 3: Gui mail, 4: Mo lai don hang duyet giao hang
+        $.post('@Url.Action("FunctionOrder")', { func: numFunc, dataJson: lstArrItem }, function (data) {
+            ShowMessageNoData(data.Message);
+        });
+    }
+
+    (function () {
+        // Convert array to object
+        var convArrToObj = function (array) {
+            var thisEleObj = new Object();
+            if (typeof array == "object") {
+                for (var i in array) {
+                    var thisEle = convArrToObj(array[i]);
+                    thisEleObj[i] = thisEle;
+                }
+            } else {
+                thisEleObj = array;
+            }
+            return thisEleObj;
+        };
+        var oldJSONStringify = JSON.stringify;
+        JSON.stringify = function (input) {
+            if (oldJSONStringify(input) == '[]')
+                return oldJSONStringify(convArrToObj(input));
+            else
+                return oldJSONStringify(input);
+        };
+    })();
+</script>

@@ -1,0 +1,638 @@
+﻿@*@model List<pp_ReportIssuesResult>*@
+@using DevExpress.Web.Mvc.UI;
+@using DevExpress.Web.Mvc;
+@using System.Web.UI.WebControls;
+@Html.DevExpress().GridView(
+    settings =>
+    {
+        settings.Name = "dxGridView";
+        settings.KeyFieldName = "IssueID";
+        settings.CallbackRouteValues = new { Controller = "Issues", Action = "ReportIssuesPartial" };
+        settings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+        settings.Columns.Add("RegionName").Caption = Utility.Phrase("RegionName");
+        settings.Columns.Add("AreaName").Caption = Utility.Phrase("AreaName");
+        settings.Columns.Add("DistributorCD").Caption = Utility.Phrase("DistributorCode");
+        settings.Columns.Add("DistributorName").Caption = Utility.Phrase("DistributorName");
+        settings.Columns.Add("RouteID").Caption = Utility.Phrase("RouteID");
+        settings.Columns.Add("RouteName").Caption = Utility.Phrase("RouteName");
+        settings.Columns.Add("SalesmanCode").Caption = Utility.Phrase("SalesmanID");
+        settings.Columns.Add("SalemanName").Caption = Utility.Phrase("SalesmanName");
+
+        settings.Columns.Add("VisitDate").Caption = Utility.Phrase("VisitDate");
+
+        settings.Columns.Add("VisitID").Caption = Utility.Phrase("VisitID");
+        settings.Columns.Add("OutletID").Caption = Utility.Phrase("OutletID");
+        settings.Columns.Add("OutletName").Caption = Utility.Phrase("OutletName");
+
+        //settings.Columns.Add("IssueID").Caption = Utility.Phrase("IssueID");
+        settings.Columns.Add(column =>
+        {
+            column.FieldName = "IssueID";
+            column.Caption = Utility.Phrase("IssueID");
+            column.SetDataItemTemplateContent(c =>
+            {
+                var value = DataBinder.Eval(c.DataItem, "IssueID");
+                var status = DataBinder.Eval(c.DataItem, "Status");
+                if (value != null && status != null)
+                {
+                    //       ViewContext.Writer.Write(@Html.ActionLink(value.ToString(), "ChangeCulture", "Account",
+                    //new { lang = "vi"}, null));
+                    //if ((int)status == 0 || (int)status == 1)
+                    {
+                        Html.DevExpress().HyperLink(props =>
+                        {
+                            props.Name = "IssueID" + c.KeyValue;
+                            props.Properties.Text = value.ToString();
+                            props.Properties.ClientSideEvents.Click = "Issues_Click";
+                            //props.Width = 200;
+                        }).GetHtml();
+                    }
+                    //else
+                    //{
+                    //    Html.DevExpress().Label(props =>
+                    //    {
+                    //        props.Name = "IssueID" + c.KeyValue;
+                    //        props.Text = value.ToString();
+                    //        //props.Width = 200;
+                    //    }).GetHtml();
+                    //}
+                }
+
+            });
+
+
+        });
+
+        settings.Columns.Add("IssueDate").Caption = Utility.Phrase("IssueDate");
+        //settings.Columns.Add("Status").Caption = Utility.Phrase("Status");
+        settings.Columns.Add(col =>
+        {
+            col.FieldName = "Status";
+            col.ColumnType = MVCxGridViewColumnType.ComboBox;
+            col.Caption = Utility.Phrase("Status");
+            //col.Width = System.Web.UI.WebControls.Unit.Percentage(5);
+            var cb = col.PropertiesEdit as ComboBoxProperties;
+
+            cb.Items.Add(new ListEditItem()
+            {
+                Index = 0,
+                Text = Utility.Phrase("Open"),
+                Value = 0
+            });
+            cb.Items.Add(new ListEditItem()
+            {
+                Index = 1,
+                Text = Utility.Phrase("ReOpen"),
+                Value = 1
+            });
+            cb.Items.Add(new ListEditItem()
+            {
+                Index = 2,
+                Text = Utility.Phrase("Released"),
+                Value = 2
+            });
+            cb.Items.Add(new ListEditItem()
+            {
+                Index = 3,
+                Text = Utility.Phrase("Close"),
+                Value = 3
+            });
+
+        });
+        //settings.Columns.Add("Content").Caption = Utility.Phrase("Content");
+        settings.Columns.Add(column =>
+        {
+            column.FieldName = "Content";
+            column.Caption = Utility.Phrase("Content");
+            column.ColumnType = MVCxGridViewColumnType.TextBox;
+
+            column.SetDataItemTemplateContent(c =>
+            {
+                var value = DataBinder.Eval(c.DataItem, "Content");
+                if (value != null)
+                {
+
+                    Html.DevExpress().Label(props =>
+                    {
+                        props.Name = "Content" + c.KeyValue;
+                        props.Text = HttpUtility.HtmlDecode(value.ToString());
+                        props.EncodeHtml = false;
+                        props.Width = 200;
+                    }).GetHtml();
+                }
+            });
+
+        });
+        settings.Columns.Add(column =>
+        {
+            column.FieldName = "Resolve";
+            column.Caption = Utility.Phrase("Resolve");
+            column.ColumnType = MVCxGridViewColumnType.TextBox;
+
+            column.SetDataItemTemplateContent(c =>
+            {
+                var value = DataBinder.Eval(c.DataItem, "Resolve");
+                if (value != null)
+                {
+
+                    Html.DevExpress().Label(props =>
+                    {
+                        props.Name = "Resolve" + c.KeyValue;
+                        props.Text = HttpUtility.HtmlDecode(value.ToString());
+                        props.EncodeHtml = false;
+                        props.Width = 200;
+                    }).GetHtml();
+                }
+            });
+
+        });
+        settings.Columns.Add("Pic").Caption = Utility.Phrase("UpdateBy");
+        //settings.Columns.Add("Image").Caption = Utility.Phrase("Image");
+        settings.Columns.Add(column =>
+        {
+            column.FieldName = "Image";
+            column.Caption = Utility.Phrase("Image");
+            column.ColumnType = MVCxGridViewColumnType.Image;
+
+            column.SetDataItemTemplateContent(c =>
+            {
+                var value = DataBinder.Eval(c.DataItem, "Image");
+                if (value != null)
+                {
+                    string[] words = value.ToString().Split(',');
+                    foreach (var word in words)
+                    {
+                        string src = Url.Content(Constant.SalesOrdersImageFolder + word);
+                        // neu co nhieu anh thi cot for cot gia tri value boi dau dac biet moi vong lap cho them cai anh vao xong.
+                        //
+                        string a = "<a href=\"" + src + "\"><img src=\"" + src + "\" style=\"max-width: 50px; padding-right: 5px; padding-top: 5px;\" alt=\"\"  rel=\"zoom\" class=\"smoothZoom\" /></a>";
+                        Html.DevExpress().Label(props =>
+                        {
+                            props.Name = "Image" + c.KeyValue;
+                            props.Text = HttpUtility.HtmlDecode(a);
+                            props.EncodeHtml = false;
+                            props.Width = 200;
+                        }).GetHtml();
+                    }
+                }
+            
+            });
+
+        });
+      
+        //settings.SettingsBehavior.AllowSelectByRowClick = true;
+        //settings.ClientSideEvents.SelectionChanged = "SelectionChanged";
+        //settings.ClientSideEvents.SelectionChanged = "OnGridViewSelectionChanged";
+    }).Bind(Model).GetHtml()
+<style type="text/css">
+    td.thickBorder {
+        border: #808080 ridge 1px;
+    }
+</style>
+@Html.DevExpress().PopupControl(
+    settings =>
+    {
+        settings.Name = "popUp";
+        settings.Width = 500;
+        settings.Height = 500;
+        settings.ShowShadow = true;
+        settings.AllowDragging = true;
+        settings.CloseAction = CloseAction.CloseButton;
+        //settings.ShowCloseButton = false;
+        settings.PopupAnimationType = AnimationType.None;
+        settings.HeaderText = Utility.Phrase("ConfirmResolve");
+        settings.Modal = true;
+        settings.ScrollBars = ScrollBars.Auto;
+        settings.PopupHorizontalAlign = PopupHorizontalAlign.WindowCenter;
+        settings.PopupVerticalAlign = PopupVerticalAlign.WindowCenter;
+        settings.SetContent(() =>
+        {
+            //using (Html.BeginForm("AddDes", "Issues", FormMethod.Post, new { id = "popupForm", @class = "edit_form", @style = "width: 260px" }))
+            //{
+            ViewContext.Writer.Write("<div style='overflow: auto;'> ");
+            ViewContext.Writer.Write("<table>");
+            //row 1
+            ViewContext.Writer.Write("<tr>");
+            ViewContext.Writer.Write("<td>");
+            Html.DevExpress().Label(textBoxSettings =>
+            {
+                textBoxSettings.Name = "LabelRegionName";
+                textBoxSettings.Text = Utility.Phrase("RegionName") + ":";
+                textBoxSettings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+            }).GetHtml();
+            ViewContext.Writer.Write("</td>");
+            ViewContext.Writer.Write("<td> ");
+            Html.DevExpress().Label(textBoxSettings =>
+            {
+                textBoxSettings.Name = "LRegionName";
+                textBoxSettings.Properties.ClientInstanceName = "txtRegionName";
+                textBoxSettings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+            }).GetHtml();
+            ViewContext.Writer.Write("</td>");
+            ViewContext.Writer.Write("<td> ");
+            Html.DevExpress().Label(textBoxSettings =>
+            {
+                textBoxSettings.Name = "LabelDistributorCode";
+                textBoxSettings.Text = Utility.Phrase("DistributorCode") + ":";
+                textBoxSettings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+            }).GetHtml();
+            ViewContext.Writer.Write("</td>");
+            ViewContext.Writer.Write("<td> ");
+            Html.DevExpress().Label(textBoxSettings =>
+            {
+                textBoxSettings.Name = "LDistributorCode";
+                textBoxSettings.Properties.ClientInstanceName = "txtDistributorCode";
+                textBoxSettings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+            }).GetHtml();
+            ViewContext.Writer.Write("</td>");
+
+            ViewContext.Writer.Write("</tr>");
+            //row 2
+            ViewContext.Writer.Write("<tr>");
+            ViewContext.Writer.Write("<td> ");
+            Html.DevExpress().Label(textBoxSettings =>
+            {
+                textBoxSettings.Name = "LabelAreaNamee";
+                textBoxSettings.Text = Utility.Phrase("AreaName") + ":";
+                textBoxSettings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+            }).GetHtml();
+            ViewContext.Writer.Write("</td>");
+            ViewContext.Writer.Write("<td>");
+            Html.DevExpress().Label(textBoxSettings =>
+            {
+                textBoxSettings.Name = "LAreaName";
+                textBoxSettings.Properties.ClientInstanceName = "txtAreaName";
+                textBoxSettings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+            }).GetHtml();
+            ViewContext.Writer.Write("</td>");
+            ViewContext.Writer.Write("<td> ");
+            Html.DevExpress().Label(textBoxSettings =>
+            {
+                textBoxSettings.Name = "LabelDistributorName";
+                textBoxSettings.Text = Utility.Phrase("DistributorName") + ":";
+                textBoxSettings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+            }).GetHtml();
+            ViewContext.Writer.Write("</td>");
+            ViewContext.Writer.Write("<td> ");
+            Html.DevExpress().Label(textBoxSettings =>
+            {
+                textBoxSettings.Name = "LDistributorName";
+                textBoxSettings.Properties.ClientInstanceName = "txtDistributorName";
+                textBoxSettings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+            }).GetHtml();
+            ViewContext.Writer.Write("</td>");
+            ViewContext.Writer.Write("</tr>");
+
+            //row 3
+            ViewContext.Writer.Write("<tr>");
+            ViewContext.Writer.Write("<td> ");
+            Html.DevExpress().Label(textBoxSettings =>
+            {
+                textBoxSettings.Name = "LabelRouteID";
+                textBoxSettings.Text = Utility.Phrase("RouteID") + ":";
+                textBoxSettings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+            }).GetHtml();
+            ViewContext.Writer.Write("</td>");
+
+            ViewContext.Writer.Write("<td>");
+            Html.DevExpress().Label(textBoxSettings =>
+            {
+                textBoxSettings.Name = "LRouteID";
+                textBoxSettings.Properties.ClientInstanceName = "txtRouteID";
+                textBoxSettings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+            }).GetHtml();
+            ViewContext.Writer.Write("</td>");
+
+            ViewContext.Writer.Write("<td> ");
+            Html.DevExpress().Label(textBoxSettings =>
+            {
+                textBoxSettings.Name = "LabelRouteName";
+                textBoxSettings.Text = Utility.Phrase("RouteName") + ":";
+                textBoxSettings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+            }).GetHtml();
+            ViewContext.Writer.Write("</td>");
+
+            ViewContext.Writer.Write("<td> ");
+            Html.DevExpress().Label(textBoxSettings =>
+            {
+                textBoxSettings.Name = "LRouteName";
+                textBoxSettings.Properties.ClientInstanceName = "txtRouteName";
+                textBoxSettings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+            }).GetHtml();
+            ViewContext.Writer.Write("</td>");
+
+            ViewContext.Writer.Write("</tr>");
+            //end
+            //row 4
+            ViewContext.Writer.Write("<tr>");
+
+            ViewContext.Writer.Write("<td> ");
+            Html.DevExpress().Label(textBoxSettings =>
+            {
+                textBoxSettings.Name = "LabelSalesmanID";
+                textBoxSettings.Text = Utility.Phrase("SalesmanID") + ":";
+                textBoxSettings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+            }).GetHtml();
+            ViewContext.Writer.Write("</td>");
+
+            ViewContext.Writer.Write("<td> ");
+            Html.DevExpress().Label(textBoxSettings =>
+            {
+                textBoxSettings.Name = "LSalesmanID";
+                textBoxSettings.Properties.ClientInstanceName = "txtSalesmanID";
+                textBoxSettings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+            }).GetHtml();
+            ViewContext.Writer.Write("</td>");
+
+            ViewContext.Writer.Write("<td> ");
+            Html.DevExpress().Label(textBoxSettings =>
+            {
+                textBoxSettings.Name = "LabelSalesmanName";
+                textBoxSettings.Text = Utility.Phrase("SalesmanName") + ":";
+                textBoxSettings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+            }).GetHtml();
+            ViewContext.Writer.Write("</td>");
+
+            ViewContext.Writer.Write("<td> ");
+            Html.DevExpress().Label(textBoxSettings =>
+            {
+                textBoxSettings.Name = "LSalesmanName";
+                textBoxSettings.Properties.ClientInstanceName = "txtSalesmanName";
+                textBoxSettings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+            }).GetHtml();
+            ViewContext.Writer.Write("</td>");
+
+            ViewContext.Writer.Write("</tr>");
+            //end
+            //row 5
+            ViewContext.Writer.Write("<tr>");
+
+            ViewContext.Writer.Write("<td><b>");
+            Html.DevExpress().Label(textBoxSettings =>
+            {
+                textBoxSettings.Name = "LabelVisitDate";
+                textBoxSettings.Text = Utility.Phrase("VisitDate") + ":";
+                textBoxSettings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+            }).GetHtml();
+            ViewContext.Writer.Write("</b></td>");
+
+            ViewContext.Writer.Write("<td> ");
+            Html.DevExpress().Label(textBoxSettings =>
+            {
+                textBoxSettings.Name = "LVisitDate";
+                textBoxSettings.Properties.ClientInstanceName = "txtVisitDate";
+                textBoxSettings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+            }).GetHtml();
+            ViewContext.Writer.Write("</td>");
+
+            ViewContext.Writer.Write("<td> ");
+            Html.DevExpress().Label(textBoxSettings =>
+            {
+                textBoxSettings.Name = "LabelVisitID";
+                textBoxSettings.Text = Utility.Phrase("VisitID") + ":";
+                textBoxSettings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+            }).GetHtml();
+            ViewContext.Writer.Write("</td>");
+
+            ViewContext.Writer.Write("<td> ");
+            Html.DevExpress().Label(textBoxSettings =>
+            {
+                textBoxSettings.Name = "LVisitID";
+                textBoxSettings.Properties.ClientInstanceName = "txtVisitID";
+                textBoxSettings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+            }).GetHtml();
+            ViewContext.Writer.Write("</td>");
+
+            ViewContext.Writer.Write("</tr>");
+            //end
+            //row 5
+            ViewContext.Writer.Write("<tr>");
+
+            ViewContext.Writer.Write("<td> ");
+            Html.DevExpress().Label(textBoxSettings =>
+            {
+                textBoxSettings.Name = "LabelOutletID";
+                textBoxSettings.Text = Utility.Phrase("OutletID") + ":";
+                textBoxSettings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+            }).GetHtml();
+            ViewContext.Writer.Write("</td>");
+
+            ViewContext.Writer.Write("<td> ");
+            Html.DevExpress().Label(textBoxSettings =>
+            {
+                textBoxSettings.Name = "LOutletID";
+                textBoxSettings.Properties.ClientInstanceName = "txtOutletID";
+                textBoxSettings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+            }).GetHtml();
+            ViewContext.Writer.Write("</td>");
+
+            ViewContext.Writer.Write("<td> ");
+            Html.DevExpress().Label(textBoxSettings =>
+            {
+                textBoxSettings.Name = "LabelOutletName";
+                textBoxSettings.Text = Utility.Phrase("OutletName") + ":";
+                textBoxSettings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+            }).GetHtml();
+            ViewContext.Writer.Write("</td>");
+
+            ViewContext.Writer.Write("<td> ");
+            Html.DevExpress().Label(textBoxSettings =>
+            {
+                textBoxSettings.Name = "LOutletName";
+                textBoxSettings.Properties.ClientInstanceName = "txtOutletName";
+                textBoxSettings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+            }).GetHtml();
+            ViewContext.Writer.Write("</td>");
+
+            ViewContext.Writer.Write("</tr>");
+            //end
+            //row 5
+            ViewContext.Writer.Write("<tr>");
+
+            ViewContext.Writer.Write("<td> ");
+            Html.DevExpress().Label(textBoxSettings =>
+            {
+                textBoxSettings.Name = "LabelIssuesID";
+                textBoxSettings.Text = Utility.Phrase("IssueID") + ":";
+                textBoxSettings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+            }).GetHtml();
+            ViewContext.Writer.Write("</td>");
+
+            ViewContext.Writer.Write("<td> ");
+            Html.DevExpress().Label(textBoxSettings =>
+            {
+                textBoxSettings.Name = "IssuesID";
+                textBoxSettings.Properties.ClientInstanceName = "txtIssuesID";
+                textBoxSettings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+            }).GetHtml();
+            ViewContext.Writer.Write("</td>");
+
+            ViewContext.Writer.Write("<td> ");
+            Html.DevExpress().Label(textBoxSettings =>
+            {
+                textBoxSettings.Name = "IssueDate";
+                textBoxSettings.Text = Utility.Phrase("IssueDate") + ":";
+                textBoxSettings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+            }).GetHtml();
+            ViewContext.Writer.Write("</td>");
+
+            ViewContext.Writer.Write("<td> ");
+            Html.DevExpress().Label(textBoxSettings =>
+            {
+                textBoxSettings.Name = "LIssueDate";
+                textBoxSettings.Properties.ClientInstanceName = "txtIssueDate";
+                textBoxSettings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+            }).GetHtml();
+            ViewContext.Writer.Write("</td>");
+
+            ViewContext.Writer.Write("</tr>");
+            //end
+            // row 7
+            ViewContext.Writer.Write("<tr>");
+            ViewContext.Writer.Write(" <td>");
+            Html.DevExpress().Label(textBoxSettings =>
+            {
+                textBoxSettings.Name = "LabelStatus";
+                textBoxSettings.Text = Utility.Phrase("Status") + ":";
+                textBoxSettings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+            }).GetHtml();
+            ViewContext.Writer.Write("</td> ");
+            ViewContext.Writer.Write(" <td colspan='3'> ");
+            Html.DevExpress().Label(textBoxSettings =>
+            {
+                textBoxSettings.Name = "LStatus";
+                textBoxSettings.Properties.ClientInstanceName = "txtStatus";
+                textBoxSettings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+            }).GetHtml();
+            ViewContext.Writer.Write("</td> ");
+            ViewContext.Writer.Write("</tr>");
+            //end
+            //row 8
+            ViewContext.Writer.Write("<tr>");
+            ViewContext.Writer.Write(" <td colspan='4'> ");
+            Html.DevExpress().Label(textBoxSettings =>
+            {
+                textBoxSettings.Name = "LabelContent";
+                textBoxSettings.Text = Utility.Phrase("Content") + ":";
+                textBoxSettings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+            }).GetHtml();
+            ViewContext.Writer.Write("</td> ");
+            ViewContext.Writer.Write("</tr>");
+            //end
+            // row 7
+            ViewContext.Writer.Write("<tr>");
+            ViewContext.Writer.Write(" <td colspan='4' class='thickBorder' > ");
+            Html.DevExpress().Label(textBoxSettings =>
+            {
+                textBoxSettings.Name = "Content";
+                textBoxSettings.Properties.ClientInstanceName = "txtContent";
+                textBoxSettings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+            }).GetHtml();
+            ViewContext.Writer.Write("</td> ");
+            ViewContext.Writer.Write("</tr>");
+            //end
+            //row 8
+            ViewContext.Writer.Write("<tr>");
+            ViewContext.Writer.Write(" <td colspan='4' > ");
+            Html.DevExpress().Label(textBoxSettings =>
+            {
+                textBoxSettings.Name = "LabelResolve";
+                textBoxSettings.Text = Utility.Phrase("Resolve") + ":";
+                textBoxSettings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+            }).GetHtml();
+            ViewContext.Writer.Write("</td> ");
+            ViewContext.Writer.Write("</tr>");
+            //end
+            // row 7
+            ViewContext.Writer.Write("<tr>");
+            ViewContext.Writer.Write(" <td colspan='4'  class='thickBorder'> ");
+            Html.DevExpress().Label(textBoxSettings =>
+            {
+                textBoxSettings.Name = "txtResolve";
+                textBoxSettings.Properties.ClientInstanceName = "txtResolve";
+                textBoxSettings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+            }).GetHtml();
+            ViewContext.Writer.Write("</td> ");
+            ViewContext.Writer.Write("</tr>");
+            //end
+            //row 8
+            ViewContext.Writer.Write("<tr>");
+            ViewContext.Writer.Write("<td colspan='4' > ");
+            Html.DevExpress().Label(textBoxSettings =>
+            {
+                textBoxSettings.Name = "LabelDes";
+                textBoxSettings.Text = Utility.Phrase("ResolveNew") + ":";
+                textBoxSettings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+            }).GetHtml();
+            ViewContext.Writer.Write("</td> ");
+            ViewContext.Writer.Write("</tr>");
+            //end
+            //row 9
+            ViewContext.Writer.Write("<tr>");
+            ViewContext.Writer.Write(" <td colspan='4' class='thickBorder' > ");
+            Html.DevExpress().Memo(textBoxSettings =>
+                {
+                    textBoxSettings.Name = "Des";
+                    textBoxSettings.Properties.ClientInstanceName = "txtDes";
+                    textBoxSettings.Properties.Rows = 4;
+                    //textBoxSettings.ShowModelErrors = true;
+                    textBoxSettings.Properties.Style.Border.BorderStyle = BorderStyle.None;
+                    textBoxSettings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+                    textBoxSettings.EncodeHtml = true;
+                }).GetHtml();
+
+            ViewContext.Writer.Write("</td> ");
+            ViewContext.Writer.Write("</tr>");
+            //end
+            //row 10
+            ViewContext.Writer.Write("</table>");
+            ViewContext.Writer.Write("<table> <tr> <td> ");
+            Html.DevExpress().Button(
+                buttonSettings =>
+                {
+                    buttonSettings.Name = "btnUpdate";
+                    // buttonSettings.ControlStyle.CssClass = "button";
+                    buttonSettings.Width = 80;
+                    // buttonSettings.Text = "OK";
+                    buttonSettings.ControlStyle.HorizontalAlign = HorizontalAlign.Center;
+                    buttonSettings.Text = Utility.Phrase("BtnOK");
+                    buttonSettings.ClientSideEvents.Click = "Des_Click";
+                }
+            )
+            .Render();
+
+            ViewContext.Writer.Write("</td>");
+            ViewContext.Writer.Write("<td>");
+            Html.DevExpress().Button(
+                buttonSettings =>
+                {
+                    buttonSettings.Name = "btnCancel";
+                    //buttonSettings.ControlStyle.CssClass = "button";
+                    buttonSettings.ControlStyle.HorizontalAlign = HorizontalAlign.Center;
+                    buttonSettings.Width = 80;
+                    buttonSettings.Text = Utility.Phrase("BtnCancel");
+                    buttonSettings.ClientSideEvents.Click = "function(s, e){ popUp.Hide(); }";
+                }
+            )
+            .Render();
+            ViewContext.Writer.Write("</td></tr>");
+            ViewContext.Writer.Write("</table>");
+            
+            
+            ViewContext.Writer.Write("<table> <tr> <td> ");
+           Html.DevExpress().Label(props =>
+                    {
+                        props.Name = "ShowListImage";
+                        props.Properties.ClientInstanceName = "txtShowListImage";                     
+                        props.EncodeHtml = false;
+                        props.Width = 200;
+                    })
+            .Render();
+
+            ViewContext.Writer.Write("</td>");          
+            ViewContext.Writer.Write("</tr>");
+            ViewContext.Writer.Write("</table>");
+            ViewContext.Writer.Write("</div><b class=\"Clear\"></b>");
+            //}
+        });
+    }).GetHtml()

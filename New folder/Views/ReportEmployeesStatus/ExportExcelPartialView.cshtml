@@ -1,0 +1,12 @@
+﻿
+         @Html.DevExpress().Button(button =>
+    {
+        button.Name = "btnExportExcel";
+        button.Text = @Utility.Phrase("ReportEmployeesStatus.Messages.btnExportExcel");
+        //button.UseSubmitBehavior = true;
+        button.RouteValues = new { Controller = "ReportEmployeesStatus", Action = "ExportExcel" };
+    }).GetHtml()
+    
+    
+     
+

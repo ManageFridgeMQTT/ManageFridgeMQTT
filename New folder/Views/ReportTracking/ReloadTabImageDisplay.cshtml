@@ -1,0 +1,93 @@
+﻿@model System.Data.DataTable
+<div id="report-display" class="tab-pane fade in active">
+    <table class="tablesorter">
+        <thead>
+            <tr>
+                <th>Vùng</th>
+                <th>Khu vực</th>
+                <th>Nhà phân phối</th>
+                <th>Tuyến</th>
+                <th>NVBH</th>
+                <th>Khách hàng</th>
+                <th>Ảnh avatar</th>
+                <th>Ảnh mẫu</th>
+                <th>Ảnh viếng thăm tuần n-2</th>
+                <th>Ảnh viếng thăm tuần n-1</th>
+                <th>Ảnh viếng thăm</th>
+                <th>Kết quả hình chụp</th>
+                <th>Lý do hình chụp không hợp lệ</th>
+                <th>Kết quả trưng bày</th>
+                <th>Lý do trưng bày không đạt</th>
+                <th>Chương trình trưng bày</th>
+                <th>Thời gian hình về máy chủ</th>
+                <th>Người chấm</th>
+                <th>Ngày chấm</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (System.Data.DataRow elm in Model.Rows)
+            {
+                <tr>
+                    <td class="fixed">@elm["RegionName"]</td>
+                    <td class="fixed">@elm["AreaName"]</td>
+                    <td class="fixed">@elm["DistributorName"]</td>
+                    <td>@elm["RouteName"]</td>
+                    <td>@elm["SalesmanName"]</td>
+                    <td>@elm["OutletName"]</td>
+                    @{
+                string srcImgAvata = Url.Content(Constant.SalesOrdersImageFolder + elm["ImgAvata"]);
+                string srcImgSample = Url.Content(Constant.SalesOrdersImageFolder + elm["ImgSample"]);
+                string srcImgVisitW2 = Url.Content(Constant.SalesOrdersImageFolder + elm["ImgVisitW2"]);
+                string srcImgVisitW1 = Url.Content(Constant.SalesOrdersImageFolder + elm["ImgVisitW1"]);
+                string srcImgVisit = Url.Content(Constant.SalesOrdersImageFolder + elm["ImgVisit"]);
+                    }
+                    <td style="display: none">
+                        <a href="@srcImgAvata">
+                            <img src="@srcImgAvata" style="max-width:50px; padding-right: 5px; padding-top: 5px" alt ="" rel="zoom" class="smoothZoom" /></a>
+                    </td>
+                    <td style="display: none">
+                        <a href="@srcImgSample">
+                            <img src="@srcImgSample" style="max-width:50px; padding-right: 5px; padding-top: 5px" alt ="" rel="zoom" class="smoothZoom" /></a>
+                    </td>
+                    <td style="display: none">
+                        <a href="@srcImgVisitW2">
+                            <img src="@srcImgVisitW2" style="max-width:50px; padding-right: 5px; padding-top: 5px" alt ="" rel="zoom" class="smoothZoom" /></a>
+                    </td>
+                    <td style="display: none">
+                        <a href="@srcImgVisitW1">
+                            <img src="@srcImgVisitW1" style="max-width:50px; padding-right: 5px; padding-top: 5px" alt ="" rel="zoom" class="smoothZoom" /></a>
+                    </td>
+                    <td style="display: none">
+                        <a href="@srcImgVisit">
+                            <img src="@srcImgVisit" style="max-width:50px; padding-right: 5px; padding-top: 5px" alt ="" rel="zoom" class="smoothZoom" /></a>
+                    </td>
+                    <td style="display: none">@elm["ImgResult"]</td>
+                    <td style="display: none">@elm["ImgReason"]</td>
+                    <td style="display: none">@elm["VISResult"]</td>
+                    <td style="display: none">@elm["VISReason"]</td>
+                    <td style="display: none">@elm["VISDisplayName"]</td>
+                    <td style="display: none">@elm["VISTimeSync"]</td>
+                    <td style="display: none">@elm["VISMarker"]</td>
+                    <td style="display: none">@elm["VISDateMarking"]</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+<script type="text/javascript">
+    $('.tab-content .tablesorter').tablesorter({
+        headerTemplate: '{content} {icon}', // Add icon for various themes
+        widgets: ['uitheme', 'zebra', 'stickyHeaders', 'stickyFooters', 'filter'],
+        widgetOptions: {
+            stickyHeaders_attachTo: '.wrapper', // or $('.wrapper')
+        }
+    })
+				.tablesorterPager({
+				    container: $(".ts-pager"),
+				    cssGoto: ".pagenum",
+				    size: 10,
+				    removeRows: false,
+				    output: '/ {totalPages}'
+				});
+</script>

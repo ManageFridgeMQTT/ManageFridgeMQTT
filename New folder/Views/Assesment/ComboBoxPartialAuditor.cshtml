@@ -1,0 +1,12 @@
+﻿@Html.DevExpress().ComboBox(settings =>
+                       {
+                           settings.Name = "cbbAuditor";
+                           settings.Width = 274;
+                           settings.Properties.IncrementalFilteringMode = IncrementalFilteringMode.StartsWith;
+                           settings.CallbackRouteValues = new { Controller = "Assesment", Action = "ComboBoxPartialAuditor" };
+                           settings.Properties.DropDownStyle = DropDownStyle.DropDownList;
+                           settings.Properties.TextField = "FullName";
+                           settings.Properties.ValueField = "UserId";
+                           settings.Properties.ClientSideEvents.BeginCallback = "function(s, e) { e.customArgs['cbbLeader'] = cbbLeader.GetValue(); }";
+                           settings.SelectedIndex = 0;
+                       }).BindList(@ViewData["cbbAuditor"]).GetHtml()

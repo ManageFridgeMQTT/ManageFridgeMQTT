@@ -1,0 +1,216 @@
+﻿@model ReportReviewWorkWithVM
+@using DevExpress.Web.Mvc.UI;
+@using DevExpress.Web.Mvc;
+@using System.Web.UI.WebControls;
+@{
+    Layout = "~/Views/Shared/_ReportLayout.cshtml";
+}
+@using (Html.BeginForm("ReportReviewWorkWith", "Tracking", FormMethod.Post, new { id = "ReportReviewWorkWith" }))
+{
+    @Html.Hidden("act")
+    <style type="text/css">
+        .dxpgCell_Aqua.dxpgGrandTotalCell_Aqua
+        {
+            background-color: White;
+        }
+        #tbFilter td
+        {
+            padding-bottom: 5px;
+        }
+    </style>
+    <h1 class="sales-report-h1">
+        BÁO CÁO ĐÁNH GIÁ WORK WEEK</h1>
+    <br />
+    <table class='head-report' width='100%' cellpadding="3px" style="border-collapse: collapse;
+        display: block;">
+        <tbody style="width: 100%; font-size: 14px;">
+            <tr>
+                <td>
+                    <span class="alignleft">@Utility.Phrase("Date") :</span>
+                </td>
+                <td>
+                    <span class="alignright">
+                        <input type="text" name="strFromDate" id="strFromDate" class="dateInput" value="@Model.strFromDate" style="width: 100px" />
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td style="vertical-align: top">
+                    <span class="alignleft">@Utility.Phrase("Region") :</span>
+                </td>
+                <td>
+                    <span class="alignright">
+                        <label for="sales">
+                            @Html.DevExpress().ComboBox(
+                        settings =>
+                        {
+                            settings.Name = "RegionID";
+                            settings.Width = Unit.Pixel(330);
+                            settings.CallbackRouteValues = new { Controller = "Tracking", Action = "ComboBoxPartialRegion" };
+                            settings.Properties.CallbackPageSize = 50;
+                            settings.Properties.DropDownRows = 15;
+                            settings.Properties.AllowMouseWheel = true;
+                            settings.Properties.TextFormatString = "{0}-{1}";
+                            settings.Properties.ValueField = "RegionID";
+                            settings.Properties.ValueType = typeof(string);
+                            settings.Properties.DropDownStyle = DropDownStyle.DropDownList;
+                            settings.Properties.IncrementalFilteringMode = IncrementalFilteringMode.Contains;
+                            settings.Properties.Columns.Add("RegionID", Utility.Phrase("RegionID"), 110);
+                            settings.Properties.Columns.Add("Name", Utility.Phrase("RegionName"), 200);
+                            settings.Properties.Height = Unit.Pixel(20);
+
+
+                            settings.Properties.ClientSideEvents.SelectedIndexChanged = "function(s, e) { AreaID.PerformCallback(); }";
+                            settings.PreRender = (sender, e) =>
+                            {
+                                MVCxComboBox cmb = sender as MVCxComboBox;
+                                if (string.IsNullOrEmpty(Model.regionID))
+                                {
+                                    cmb.Value = Model.regionID;
+                                }
+                            };
+                        }
+                             ).BindList(Model.ListRegion).Bind(Model.regionID).GetHtml()</label>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span class="alignleft">@Utility.Phrase("Area") :</span>
+                </td>
+                <td>
+                    <span class="alignright">
+                        @Html.DevExpress().ComboBox(
+                        settings =>
+                        {
+                            settings.Name = "AreaID";
+                            settings.Width = Unit.Pixel(330);
+                            settings.CallbackRouteValues = new { Controller = "Tracking", Action = "ComboBoxPartialArea" };
+                            settings.Properties.CallbackPageSize = 50;
+                            settings.Properties.DropDownRows = 15;
+                            settings.Properties.AllowMouseWheel = true;
+                            settings.Properties.TextFormatString = "{0}-{1}";
+                            settings.Properties.ValueField = "AreaID";
+                            settings.Properties.ValueType = typeof(string);
+                            settings.Properties.DropDownStyle = DropDownStyle.DropDownList;
+                            settings.Properties.IncrementalFilteringMode = IncrementalFilteringMode.Contains;
+                            settings.Properties.Columns.Add("AreaID", Utility.Phrase("AreaID"), 110);
+                            settings.Properties.Columns.Add("Name", Utility.Phrase("AreaName"), 200);
+                            settings.Properties.Height = Unit.Pixel(20);
+
+                            settings.PreRender = (sender, e) =>
+                            {
+                                MVCxComboBox cmb = sender as MVCxComboBox;
+                                if (string.IsNullOrEmpty(Model.areaID))
+                                {
+                                    cmb.Value = Model.areaID;
+                                }
+                            };
+
+                            settings.Properties.ClientSideEvents.SelectedIndexChanged = "function(s, e) { }";
+                            settings.Properties.EnableCallbackMode = true;
+                            settings.Properties.ClientSideEvents.BeginCallback = "function(s, e) { e.customArgs['RegionID'] = RegionID.GetValue(); }";
+                        }
+     ).BindList(Model.ListArea).Bind(Model.areaID).GetHtml()</span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    @*<span class="alignleft">Tỉ lệ dưới (%) :</span>*@
+                    <span class="alignleft">Số call dưới :</span>
+                </td>
+                <td>
+                    <span class="alignright">
+                        <input type="text" name="smallerThan" id="smallerThan" class="number" value="@Model.smallerThan" style="width: 100px" />
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span class="alignleft">Thời gian tính đến (24h) :</span>
+                </td>
+                <td>
+                    <span class="alignright">
+                        <input type="text" name="sMHourValid" id="sMHourValid" class="number" value="@Model.sMHourValid" style="width: 100px" />
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span class="alignleft">Thời gian chênh lệch hợp lệ của SS/ASM so với NVBH (phút) :</span>
+                </td>
+                <td>
+                    <span class="alignright">
+                        <input type="text" name="aSMSSSMMinuteValid" id="aSMSSSMMinuteValid" class="number" readonly="readonly" value="@Model.aSMSSSMMinuteValid" style="width: 100px" />
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span class="alignleft">Khoảng cách hợp lệ của SS/ASM đến cửa hàng (m) :</span>
+                </td>
+                <td>
+                    <span class="alignright">
+                        <input type="text" name="aSMSSDistanceValid" id="aSMSSDistanceValid" class="number" value="@Model.aSMSSDistanceValid" style="width: 100px" />
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2" >
+                    <span class="alignleft">
+                        <input type="button" name="export" id="btnExport" style="display:none;" class="btn btn-success" value="@Utility.Phrase("ExportToExcel")" />
+                        <input type="button" name="export" id="btnExportExcel" style="display:none;" class="btn btn-success" style="width: 150px" value="@Utility.Phrase("ExportToExcelDirectly")" />
+                        <input type="button" name="export" id="btnExportExcelRawData" class="btn btn-success" style="width: 180px" value="@Utility.Phrase("ExportToExcelRawData")" />
+                        <input type="button" name="search" id="btnSearch" class="btn btn-success" value="@Utility.Phrase("View")" />
+                    </span>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <div style="width: 100%;">
+        @Html.Partial("ReportReviewWorkWithPartial", Model.listItem)
+    </div>
+    <script type='text/javascript'>
+    $(document).ready(function () {
+        $('#btnExport').click(function () {
+            $('form').attr('action','/Home/ReportReviewWorkWithExport');
+            $('form').submit();
+        });
+
+        $('#btnExportExcel').click(function () {
+            $('#act').val("ExportExcel");
+            $('form').attr('action','/Home/ReportReviewWorkWith');
+            $('form').submit();
+        });
+
+        $('#btnExportExcelRawData').click(function () {
+            $('#act').val("ExportExcelRawData");
+            $('form').attr('action','/Home/ReportReviewWorkWith');
+            $('form').submit();
+        });
+
+        $('#btnSearch').click(function () {
+            $('#act').val("");
+            $('form').attr('action','/Home/ReportReviewWorkWith');
+            $('form').submit();
+        });
+
+        $("body").css("overflow", "auto");
+        $("body").css("background-color", "#FFFFFF");
+        $("body").css("background", "none");
+
+        $(".dateInput").datepicker({
+            dateFormat: 'dd-mm-yy'
+        }).change(function () {
+        });
+
+        $('.number').priceFormat({
+            prefix: '',
+            centsSeparator: '.',
+            thousandsSeparator: ',',
+            centsLimit: 0,
+        });
+        $('.number').css("text-align", "right"); 
+    });
+    </script>
+}

@@ -1,0 +1,88 @@
+﻿@using eRoute;
+
+<script type="text/javascript">
+    DXCommon.CurrentLanguageCookieKey = "@Utils.CurrentLanguageCookieKey";
+
+    function ChangeLanguage(lang){
+        $.ajax({
+            url: '@Url.Action("SetLanguage", "Phrase")',
+            type: "post",
+            data: { lang: lang }, //Forms name
+            success: function (data) {
+                DXCommon.SetCurrentLanguage(lang);
+                window.location = window.location;
+            },
+            error: function () {
+            }
+        });
+    }
+
+</script>
+
+<a id="LanguageSelectorButton" onclick="DXCommon.ShowLanguageSelector()" href="javascript:;" >@Localization.Languages</a>
+
+@Html.DevExpress().PopupControl(
+    settings => {
+        settings.Name = "LanguageSelectorPopup";
+        settings.EnableTheming = false;
+        settings.ControlStyle.CssClass = "LanguageSelectorPopup";
+        //settings.Styles.EnableDefaultAppearance = false;
+        settings.PopupElementID = "LanguageSelectorButton";
+        settings.PopupAction = PopupAction.LeftMouseClick;
+        settings.PopupHorizontalAlign = PopupHorizontalAlign.Center;
+        settings.ShowShadow = false;
+        //settings.EnableAnimation = false;
+        settings.PopupVerticalAlign = PopupVerticalAlign.Above;
+        settings.PopupVerticalOffset = 1;
+        settings.ShowHeader = false;
+        
+        settings.SetContent(() =>
+        {
+            ViewContext.Writer.Write("<div id='LanguageContainer'>");
+
+            Html.DevExpress().Menu(menuSettings =>
+            {
+                menuSettings.Name = "LanguageGroupMenu";
+                menuSettings.EnableTheming = false;
+                menuSettings.ControlStyle.CssClass = "LanguageGroupMenu";
+                //menuSettings.Styles.EnableDefaultAppearance = false;
+                menuSettings.ItemImagePosition = ImagePosition.Top;
+
+                foreach( LanguageModel lang in LanguagesModel.Current.Languages )
+                {
+                    DevExpress.Web.MenuItem menuItem = menuSettings.Items.Add(lang.Title, lang.Name);
+                    menuItem.Image.SpriteProperties.CssClass = "Languages " + lang.SpriteCssClass;
+                    menuItem.Selected = (lang.Name == Utils.CurrentLanguage);
+                }
+
+                menuSettings.ClientSideEvents.ItemClick = "function(s,e){ ChangeLanguage(e.item.name); }";
+            }).Render();
+
+            ViewContext.Writer.Write("</div>");
+        });
+
+        settings.ClientSideEvents.PopUp = "DXCommon.LanguageSelectorPopupPopUp";
+        settings.ClientSideEvents.CloseUp = "DXCommon.LanguageSelectorPopupCloseUp";
+    }).GetHtml()
+
+@*
+@Html.DevExpress().ComboBox(
+settings =>
+{
+    settings.Name = "cbLanguageSelector";
+    settings.SelectedIndex = 0;
+    //settings.Properties.ValueType = typeof(CommonLanguages);
+    settings.Properties.ShowImageInEditBox = true;
+    settings.Properties.DropDownStyle = DropDownStyle.DropDownList;
+
+    foreach (CommonLanguages lang in Enum.GetValues(typeof(CommonLanguages)))
+        settings.Properties.Items.Add(lang.ToString(), lang, "~/Content/Images/" + lang.ToString() + ".png");
+
+    settings.Properties.EnableClientSideAPI = true;
+    settings.Properties.ClientSideEvents.SelectedIndexChanged = "function (s,e) {ASPxClientUtils.SetCookie('language', s.GetValue()); location.reload(false); }";//
+    settings.Width = System.Web.UI.WebControls.Unit.Pixel(65);
+}).Bind(Utils.CurrentLanguage).GetHtml()
+*@
+
+
+

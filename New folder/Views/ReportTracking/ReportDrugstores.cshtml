@@ -1,0 +1,206 @@
+﻿@model  MV_ReportDrugstores
+@using System.Web.UI.WebControls;
+@using System.Linq;
+@using System.Data;
+@{
+    ViewBag.Title = Utility.Phrase("Report_ReportDrugstores");
+    Layout = "~/Views/Shared/_NewLayout.cshtml";
+}
+<div class="insider">
+    <div id="loading" class="loading"></div>
+    @using (Html.BeginForm("ReportDrugstores", "ReportTracking", FormMethod.Post))
+    {
+        <div class="row display-table w-100pr mb-10 content-header">
+            <div class="report-content-header">
+                <div class="col-sm-6">
+                    <h1>@Utility.Phrase("Report_ReportDrugstores")</h1>
+                </div>
+                <div class="col-sm-6">
+                    <div class="p-0 fr">
+                        @if (PermissionHelper.CheckPermissionByFeature("Tracking_ReportDrugstoresExportExecl"))
+                        {
+                            <button type="button" id="btnExportExcel" class="btn p-0 m-0 ml-10 block-theme" title="Excel"><i class="icon-etool-excel"></i></button>
+                        }
+                        @if (PermissionHelper.CheckPermissionByFeature("Tracking_ReportDrugstoresExportPDF"))
+                        {
+                            <button type="button" id="btnExportPDF" class="btn p-0 m-0 ml-10 block-theme" title="PDF"><i class="icon-etool-pdf"></i></button>
+                        }
+                    </div>
+                </div>
+            </div>
+            <div class="w-100pr">
+                <div class="item fl">
+                    <label for class="fl">@Utility.Phrase("Report_Region")</label>
+                    <div id="RegionCbox" class="ctr_combobox input-group">
+                        @Html.Partial("~/Views/Shared/Control/ComboboxPartial.cshtml", Model.listComboboxRegion, new ViewDataDictionary { { "NameID", "Region" } })
+                    </div>
+                </div>
+                <div class="item fl">
+                    <label for class="fl">@Utility.Phrase("Report_Area")</label>
+                    <div id="AreaCbox" class="ctr_combobox input-group">
+                        @Html.Partial("~/Views/Shared/Control/ComboboxPartial.cshtml", Model.listComboboxArea, new ViewDataDictionary { { "NameID", "Area" } })
+                    </div>
+                </div>
+                <div class="item fl">
+                    <label for class="fl">@Utility.Phrase("Report_Distributor")</label>
+                    <div id="DistributorCbox" class="ctr_combobox input-group">
+                        @Html.Partial("~/Views/Shared/Control/ComboboxPartial.cshtml", Model.listComboboxDistributor, new ViewDataDictionary { { "NameID", "Distributor" } })
+                    </div>
+                </div>
+                <div class="item fl">
+                    <label for class="fl">@Utility.Phrase("Report_Route")</label>
+                    <div id="RouteCbox" class="ctr_combobox input-group">
+                        @Html.Partial("~/Views/Shared/Control/ComboboxPartial.cshtml", Model.listComboboxRoute, new ViewDataDictionary { { "NameID", "Route" } })
+                    </div>
+                </div>
+                <div class="item fl">
+                    <button type="button" id="Search"><i class="icon-submit"></i>@Utility.Phrase("Report_View")</button>
+                </div>
+            </div>
+        </div>
+        <div id="ErMesgBox" class="row"><span style="color: red" class="error"></span></div>
+    }
+    <div class="row content-body">
+        <div class="tab-header">
+            <div class="toolbox">
+                <ul class="fr m-0">
+                    <li class="ts-pager">
+                        <button type="button" title="@Utility.Phrase("GoBack")" class="prev"><i class="icon-go-back"></i></button>
+                        <span class="pagedisplay"></span>
+                        <button type="button" title="@Utility.Phrase("GoNext")" class="next"><i class="icon-go-next"></i></button>
+                        <span>
+                            @Utility.Phrase("GotoPage")
+                        <select class="pagenum input-mini" title="Select page number"></select>
+                    </span>
+                    <span>@Utility.Phrase("Pages")</span>
+                    <select class="pagesize input-mini m-0" title="Select page size">
+                        <option selected="selected" value="10">10</option>
+                        <option value="20">20</option>
+                        <option value="30">30</option>
+                        <option value="40">40</option>
+                        <option value="50">50</option>
+                    </select>
+                </li>
+            </ul>
+        </div>
+        <ul class="nav nav-tabs display-none">
+            <li class="active"><a data-toggle="tab" href="#report-outlet">@Utility.Phrase("Report_Report")</a></li>
+        </ul>
+    </div>
+        <div id="tableBox" class="tab-content wrapper">
+            @Html.Partial("DrugstoresPartial", Model)
+        </div>
+    </div>
+</div>
+<script src="@Url.Content("~/MapTest/HighCharts/highcharts.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/MapTest/HighCharts/modules/data.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/MapTest/HighCharts/modules/exporting.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/Content/NewEtool/js/style-setting-chart.js")" type="text/javascript"></script>
+<script type='text/javascript'>
+    $(document).ready(function () {
+        hideColumnFilter();
+
+
+        $("body").on('click', '.input-group-btn table tbody tr', function () {
+            $(this).addClass('selected').siblings().removeClass('selected');
+            var keyVal = $(this).find('td:first').html();
+            var codeVal = $(this).find('td:nth-child(2)').html();
+            var nameVal = $(this).find('td:last').html();
+            if (keyVal == 0) { keyVal = ""; }
+            var parentdiv = $(this).parents('div[class^="ctr_combobox"]');
+            parentdiv.find('input[type^="text"]').val(codeVal + ' - ' + nameVal);
+            parentdiv.find('input[type^="hidden"]').val(keyVal);
+
+            var RegionVal = '';
+            if ($('#Region').val() != undefined) {
+                RegionVal = $('#Region').val();
+            }
+            var AreaVal = '';
+            if ($('#Area').val() != undefined) {
+                AreaVal = $('#Area').val();
+            }
+            var DistributorVal = 0;
+            if ($('#Distributor').val() != undefined) {
+                if ($('#Distributor').val() == "") {
+                    DistributorVal = 0;
+                } else {
+                    DistributorVal = $('#Distributor').val();
+                }
+            }
+
+            if (parentdiv.find('input[id^="Region"]').val() != undefined) {
+                $("#AreaCbox").load('@(Url.Action("ReloadOptionArea", "ReportTracking"))?regionID=' + RegionVal);
+                $("#DistributorCbox").load('@(Url.Action("ReloadOptionDistributor", "ReportTracking"))?regionID=' + RegionVal + '&areaID=' + AreaVal);
+                $("#RouteCbox").load('@(Url.Action("ReloadOptionRoute", "ReportTracking"))?regionID=' + RegionVal + '&areaID=' + AreaVal + '&distributorID=' + DistributorVal);
+            }
+            if (parentdiv.find('input[id^="Area"]').val() != undefined) {
+                $("#DistributorCbox").load('@(Url.Action("ReloadOptionDistributor", "ReportTracking"))?regionID=' + RegionVal + '&areaID=' + AreaVal);
+                $("#RouteCbox").load('@(Url.Action("ReloadOptionRoute", "ReportTracking"))?regionID=' + RegionVal + '&areaID=' + AreaVal + '&distributorID=' + DistributorVal);
+            }
+            if (parentdiv.find('input[id^="Distributor"]').val() != undefined) {
+                $("#RouteCbox").load('@(Url.Action("ReloadOptionRoute", "ReportTracking"))?regionID=' + RegionVal + '&areaID=' + AreaVal + '&distributorID=' + DistributorVal);
+            }
+
+            if ($('#Distributor').val() == "0" | $('#Distributor').val() == "") {
+                $('#report-SummaryHeader table td:nth-child(3),#report-SummaryHeader table th:nth-child(3)').show();
+                if ($('#Area').val() != "") {
+                    $('#report-SummaryHeader table td:nth-child(2),#report-SummaryHeader table th:nth-child(2)').hide();
+                    $('#report-SummaryHeader table td:nth-child(1),#report-SummaryHeader table th:nth-child(1)').hide();
+                } else {
+                    $('#report-SummaryHeader table td:nth-child(2),#report-SummaryHeader table th:nth-child(2)').show();
+                    if ($('#Region').val() != "") {
+                        $('#report-SummaryHeader table td:nth-child(1),#report-SummaryHeader table th:nth-child(1)').hide();
+                    } else {
+                        $('#report-SummaryHeader table td:nth-child(1),#report-SummaryHeader table th:nth-child(1)').show();
+                    }
+                }
+            } else {
+                $('#report-SummaryHeader table td:nth-child(1),#report-SummaryHeader table th:nth-child(1)').hide();
+                $('#report-SummaryHeader table td:nth-child(2),#report-SummaryHeader table th:nth-child(2)').hide();
+                $('#report-SummaryHeader table td:nth-child(3),#report-SummaryHeader table th:nth-child(3)').hide();
+            }
+        });
+
+        $('#btnExportExcel').click(function () {
+            $('form').attr('action', '@Utility.FooMethod("/ReportTracking/ReportDrugstoresExportExecl")');
+            $('form').submit();
+
+        });
+
+        $('#btnExportPDF').click(function () {
+            $('form').attr('action', '@Utility.FooMethod("/ReportTracking/ReportDrugstoresExportPDF")');
+            $('form').submit();
+        });
+        $('#Search').click(function () {
+            $('form').attr('action', '@Utility.FooMethod("/ReportTracking/ReportDrugstores")');
+            $('form').submit();
+            $(".loading").show();
+        });
+    });
+    function hideColumnFilter() {
+
+        if ($('#Region').val() != undefined) {
+            if ($('#Region').val() != "") {
+                $('#report-SummaryHeader table td:nth-child(1),#report-SummaryHeader table th:nth-child(1)').hide();
+            }
+        }
+
+        if ($('#Area').val() != undefined) {
+            if ($('#Area').val() != "") {
+                $('#report-SummaryHeader table td:nth-child(1),#report-SummaryHeader table th:nth-child(1)').hide();
+                $('#report-SummaryHeader table td:nth-child(2),#report-SummaryHeader table th:nth-child(2)').hide();
+            }
+        }
+
+        if ($('#Distributor').val() != undefined) {
+            if ($('#Distributor').val() == "" | $('#Distributor').val() == "0") {
+                $('#report-SummaryHeader table td:nth-child(3),#report-SummaryHeader table th:nth-child(3)').show();
+            } else {
+                $('#report-SummaryHeader table td:nth-child(1),#report-SummaryHeader table th:nth-child(1)').hide();
+                $('#report-SummaryHeader table td:nth-child(2),#report-SummaryHeader table th:nth-child(2)').hide();
+                $('#report-SummaryHeader table td:nth-child(3),#report-SummaryHeader table th:nth-child(3)').hide();
+            }
+        }
+    }
+
+</script>

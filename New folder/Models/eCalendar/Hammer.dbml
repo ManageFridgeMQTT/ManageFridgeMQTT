@@ -1,0 +1,683 @@
+﻿<?xml version="1.0" encoding="utf-8"?><Database Name="NGETOOLS" Class="HammerDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
+  <Connection Mode="WebSettings" ConnectionString="Data Source=DMSPRO-SYVN;Initial Catalog=NGETOOLS;Persist Security Info=True;User ID=sa;Connect Timeout=300" SettingsObjectName="System.Configuration.ConfigurationManager.ConnectionStrings" SettingsPropertyName="DefaultConnection" Provider="System.Data.SqlClient" />
+  <Table Name="dbo.DMSVisitPlanHistory" Member="DMSVisitPlanHistories">
+    <Type Name="DMSVisitPlanHistory">
+      <Column Name="CompanyID" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="VisitDate" Type="System.DateTime" DbType="SmallDateTime NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="RouteID" Type="System.String" DbType="NVarChar(30) NOT NULL" CanBeNull="false" />
+      <Column Name="SlsperID" Type="System.String" DbType="NVarChar(30) NOT NULL" CanBeNull="false" />
+      <Column Name="AcctID" Type="System.String" DbType="NVarChar(30) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="VisitOrder" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="CreatedByID" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" CanBeNull="false" />
+      <Column Name="CreatedByScreenID" Type="System.String" DbType="Char(8) NOT NULL" CanBeNull="false" />
+      <Column Name="CreatedDateTime" Type="System.DateTime" DbType="SmallDateTime NOT NULL" CanBeNull="false" />
+      <Column Name="LastModifiedByID" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" CanBeNull="false" />
+      <Column Name="LastModifiedByScreenID" Type="System.String" DbType="Char(8) NOT NULL" CanBeNull="false" />
+      <Column Name="LastModifiedDateTime" Type="System.DateTime" DbType="SmallDateTime NOT NULL" CanBeNull="false" />
+      <Column Name="TStamp" Type="System.Data.Linq.Binary" DbType="rowversion" CanBeNull="true" IsVersion="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Resources" Member="Resources">
+    <Type Name="Resource">
+      <Column Name="UniqueID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="ResourceID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="ResourceName" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="Color" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Image" Type="System.Data.Linq.Binary" DbType="Image" CanBeNull="true" UpdateCheck="Never" />
+      <Column Name="CustomField1" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Areas" Member="Areas">
+    <Type Name="Area">
+      <Column Name="RegionID" Type="System.String" DbType="NVarChar(10) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="AreaID" Type="System.String" DbType="NVarChar(10) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="AreaName" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Regions" Member="Regions">
+    <Type Name="Region">
+      <Column Name="RegionID" Type="System.String" DbType="NVarChar(10) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="RegionName" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Distributors" Member="Distributors">
+    <Type Name="Distributor">
+      <Column Name="CompanyID" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="CompanyCD" Type="System.String" DbType="NVarChar(20) NOT NULL" CanBeNull="false" />
+      <Column Name="CompanyName" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="CompanyType" Type="System.Char" DbType="Char(1) NOT NULL" CanBeNull="false" />
+      <Column Name="Active" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="RegionID" Type="System.String" DbType="NVarChar(10) NOT NULL" CanBeNull="false" />
+      <Column Name="AreaID" Type="System.String" DbType="NVarChar(10) NOT NULL" CanBeNull="false" />
+      <Column Name="ProvinceID" Type="System.String" DbType="NVarChar(20) NOT NULL" CanBeNull="false" />
+    </Type>
+  </Table>
+  <Table Name="dbo.webpages_Roles" Member="webpages_Roles">
+    <Type Name="webpages_Role">
+      <Column Name="RoleId" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="RoleName" Type="System.String" DbType="NVarChar(256) NOT NULL" CanBeNull="false" />
+      <Association Name="webpages_Role_webpages_UsersInRole" Member="webpages_UsersInRoles" ThisKey="RoleId" OtherKey="RoleId" Type="webpages_UsersInRole" />
+    </Type>
+  </Table>
+  <Table Name="dbo.webpages_UsersInRoles" Member="webpages_UsersInRoles">
+    <Type Name="webpages_UsersInRole">
+      <Column Name="UserId" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="RoleId" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Association Name="webpages_Role_webpages_UsersInRole" Member="webpages_Role" ThisKey="RoleId" OtherKey="RoleId" Type="webpages_Role" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Outlets" Member="Outlets">
+    <Type Name="Outlet">
+      <Column Name="CompanyID" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="BAccountID" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="BaccountCD" Type="System.String" DbType="NVarChar(30) NOT NULL" CanBeNull="false" />
+      <Column Name="AcctName" Type="System.String" DbType="NVarChar(60) NOT NULL" CanBeNull="false" />
+      <Column Name="Status" Type="System.Char" DbType="Char(1) NOT NULL" CanBeNull="false" />
+    </Type>
+  </Table>
+  <Table Name="dbo.CriteriaType" Member="CriteriaTypes">
+    <Type Name="CriteriaType">
+      <Column Name="TypeID" Type="System.Char" DbType="Char(1) NOT NULL" CanBeNull="false" />
+      <Column Name="Description" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="DescriptionVN" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.DMSReportsTracking" Member="DMSReportsTrackings">
+    <Type Name="DMSReportsTracking" Id="ID1">
+      <Column Name="EmployeeID" Type="System.String" DbType="NVarChar(20) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="EmployeeName" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="SFLevel" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="AssignmentLevel" Type="System.Char" DbType="Char(1)" CanBeNull="true" />
+      <Column Name="[Level]" Member="Level" Type="System.String" DbType="Char(3)" CanBeNull="true" />
+      <Column Name="DateApp" Type="System.DateTime" DbType="DateTime NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="TinhTrang" Type="System.String" DbType="Char(5)" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.DMSSalesForces" Member="DMSSalesForces">
+    <Type Name="DMSSalesForce">
+      <Column Name="EmployeeID" Type="System.String" DbType="NVarChar(20) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="LoginID" Type="System.String" DbType="NVarChar(20) NOT NULL" CanBeNull="false" />
+      <Column Name="EmployeeName" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="SFLevel" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="ReportTo" Type="System.String" DbType="NVarChar(20)" CanBeNull="true" />
+      <Column Name="Phone1" Type="System.String" DbType="NVarChar(12)" CanBeNull="true" />
+      <Column Name="Phone2" Type="System.String" DbType="NVarChar(12)" CanBeNull="true" />
+      <Column Name="Email" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="Active" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="RegionID" Type="System.String" DbType="NVarChar(5)" CanBeNull="true" />
+      <Column Name="AreaID" Type="System.String" DbType="NVarChar(5)" CanBeNull="true" />
+      <Column Name="IDCard" Type="System.String" DbType="NVarChar(12) NOT NULL" CanBeNull="false" />
+      <Column Name="Address" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="AssignmentLevel" Type="System.Char" DbType="Char(1) NOT NULL" CanBeNull="false" />
+      <Column Name="CreatedByID" Type="System.Guid" DbType="UniqueIdentifier" CanBeNull="true" />
+      <Column Name="CreatedByScreenID" Type="System.String" DbType="Char(8)" CanBeNull="true" />
+      <Column Name="CreatedDateTime" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="LastModifiedByID" Type="System.Guid" DbType="UniqueIdentifier" CanBeNull="true" />
+      <Column Name="LastModifiedByScreenID" Type="System.String" DbType="Char(8)" CanBeNull="true" />
+      <Column Name="LastModifiedDateTime" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="tstamp" Type="System.Data.Linq.Binary" DbType="rowversion" CanBeNull="true" IsVersion="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.DMSSFHierarchy" Member="DMSSFHierarchies">
+    <Type Name="DMSSFHierarchy">
+      <Column Name="LevelID" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="LevelName" Type="System.String" DbType="NVarChar(20) NOT NULL" CanBeNull="false" />
+      <Column Name="Description" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="Parent" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Active" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="CreatedByID" Type="System.Guid" DbType="UniqueIdentifier" CanBeNull="true" />
+      <Column Name="CreatedByScreenID" Type="System.String" DbType="Char(8)" CanBeNull="true" />
+      <Column Name="CreatedDateTime" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="LastModifiedByID" Type="System.Guid" DbType="UniqueIdentifier" CanBeNull="true" />
+      <Column Name="LastModifiedByScreenID" Type="System.String" DbType="Char(8)" CanBeNull="true" />
+      <Column Name="LastModifiedDateTime" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="tstamp" Type="System.Data.Linq.Binary" DbType="rowversion" CanBeNull="true" IsVersion="true" />
+      <Column Name="TerritoryType" Type="System.Char" DbType="Char(1)" CanBeNull="true" />
+      <Column Name="IsSalesForce" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="IsMultiAssignment" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.DMSSFAssignment" Member="DMSSFAssignments">
+    <Type Name="DMSSFAssignment">
+      <Column Name="EmployeeID" Type="System.String" DbType="NVarChar(20) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="AssignmentID" Type="System.String" DbType="NVarChar(10) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="StartDate" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="EndDate" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="IsActive" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="ApplyTo" Type="System.Char" DbType="Char(1) NOT NULL" CanBeNull="false" />
+      <Column Name="RegionID" Type="System.String" DbType="NVarChar(20) NOT NULL" CanBeNull="false" />
+      <Column Name="SupRegionID" Type="System.String" DbType="NVarChar(20)" CanBeNull="true" />
+      <Column Name="AreaID" Type="System.String" DbType="NVarChar(20)" CanBeNull="true" />
+      <Column Name="SupAreaID" Type="System.String" DbType="NVarChar(20)" CanBeNull="true" />
+      <Column Name="DistributorID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="CreatedByID" Type="System.Guid" DbType="UniqueIdentifier" CanBeNull="true" />
+      <Column Name="CreatedByScreenID" Type="System.String" DbType="Char(8)" CanBeNull="true" />
+      <Column Name="CreatedDateTime" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="LastModifiedByID" Type="System.Guid" DbType="UniqueIdentifier" CanBeNull="true" />
+      <Column Name="LastModifiedByScreenID" Type="System.String" DbType="Char(8)" CanBeNull="true" />
+      <Column Name="LastModifiedDateTime" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="tstamp" Type="System.Data.Linq.Binary" DbType="rowversion" CanBeNull="true" IsVersion="true" />
+      <Column Name="IsBaseAssignment" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.HammerDMSViewGetSFPermission" Member="HammerDMSViewGetSFPermissions">
+    <Type Name="HammerDMSViewGetSFPermission">
+      <Column Name="EmployeeID" Type="System.String" DbType="NVarChar(20)" CanBeNull="true" />
+      <Column Name="LoginID" Type="System.String" DbType="NVarChar(20)" CanBeNull="true" />
+      <Column Name="TerritoryType" Type="System.Char" DbType="Char(1)" CanBeNull="true" />
+      <Column Name="RegionID" Type="System.String" DbType="NVarChar(10)" CanBeNull="true" />
+      <Column Name="AreaID" Type="System.String" DbType="NVarChar(10)" CanBeNull="true" />
+      <Column Name="DistributorID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="RouteID" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.UserActionLog" Member="UserActionLogs">
+    <Type Name="UserActionLog">
+      <Column Name="ID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="UserID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="ReferUrl" Type="System.String" DbType="NVarChar(1000)" CanBeNull="true" />
+      <Column Name="Page" Type="System.String" DbType="NVarChar(250) NOT NULL" CanBeNull="false" />
+      <Column Name="Action" Type="System.String" DbType="NVarChar(250)" CanBeNull="true" />
+      <Column Name="Param" Type="System.String" DbType="NVarChar(1000)" CanBeNull="true" />
+      <Column Name="Date" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="ActionDate" Type="System.DateTime" DbType="Date" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.PeriodSetting" Member="PeriodSettings">
+    <Type Name="PeriodSetting">
+      <Column Name="PeriodID" Type="System.String" DbType="NVarChar(10) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="UserCreated" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="CreatedDate" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="DesVN" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="DesEn" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Criteria" Member="Criterias">
+    <Type Name="Criteria">
+      <Column Name="CriteriaID" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Description" Type="System.String" DbType="NVarChar(MAX) NOT NULL" CanBeNull="false" />
+      <Column Name="DescriptionVN" Type="System.String" DbType="NVarChar(MAX) NOT NULL" CanBeNull="false" />
+      <Column Name="CriteriaType" Type="System.Char" DbType="Char(1) NOT NULL" CanBeNull="false" />
+      <Column Name="Active" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.SMCriteria" Member="SMCriterias">
+    <Type Name="SMCriteria">
+      <Column Name="CriteriaID" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Description" Type="System.String" DbType="NVarChar(MAX) NOT NULL" CanBeNull="false" />
+      <Column Name="DescriptionVN" Type="System.String" DbType="NVarChar(MAX) NOT NULL" CanBeNull="false" />
+      <Column Name="CriteriaType" Type="System.Char" DbType="Char(1) NOT NULL" CanBeNull="false" />
+      <Column Name="Active" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.AssessmentCapacity" Member="AssessmentCapacities">
+    <Type Name="AssessmentCapacity">
+      <Column Name="PeriodID" Type="System.String" DbType="NVarChar(10) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="EmployeeID" Type="System.String" DbType="NVarChar(20) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="EmployeeName" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="SFLevel" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="PassionateSuccess" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Mark1" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="BreakthroughImprovement" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Mark2" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="InitiativeSpeed" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Mark3" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="CustomerOrientation" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Mark4" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="CommitmentCooperation" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Mark5" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="Integrity" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Mark6" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="MentoringDeveloping" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Mark7" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="AffectOthers" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Mark8" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="TeamLeader" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Mark9" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="StrategicThinking" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Mark10" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="CreatedDate" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="CreatedUser" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="UpdateDate" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="UpdateUser" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+    </Type>
+  </Table>
+  <Table Name="dbo.ShiftSetting" Member="ShiftSettings">
+    <Type Name="ShiftSetting">
+      <Column Name="ShiftID" Type="System.String" DbType="NVarChar(10) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="StartTime" Type="System.String" DbType="NVarChar(8) NOT NULL" CanBeNull="false" />
+      <Column Name="EndTime" Type="System.String" DbType="NVarChar(8) NOT NULL" CanBeNull="false" />
+      <Column Name="UserLogin" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="CreatedDate" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="DesVN" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="DesEn" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="Active" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.SystemSetting" Member="SystemSettings">
+    <Type Name="SystemSetting">
+      <Column Name="ID" Type="System.String" DbType="NVarChar(10) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Number" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="UserLogin" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="CreatedDate" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="Desr" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.ScheduleSubmitSetting" Member="ScheduleSubmitSettings">
+    <Type Name="ScheduleSubmitSetting">
+      <Column Name="ID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="EmployeeID" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="Date" Type="System.DateTime" DbType="Date NOT NULL" CanBeNull="false" />
+      <Column Name="Type" Type="System.String" DbType="VarChar(10) NOT NULL" CanBeNull="false" />
+      <Column Name="Note" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="Status" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="UserLogin" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="CloseTime" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="CreatedDate" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="IsDatabase" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.DMSHamResultType" Member="DMSHamResultTypes">
+    <Type Name="DMSHamResultType">
+      <Column Name="RefResult" Type="System.Char" DbType="Char(1) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Des" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.NoneWWType" Member="NoneWWTypes">
+    <Type Name="NoneWWType">
+      <Column Name="RefWWType" Type="System.String" DbType="Char(4) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Des" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.PrepareNonWW" Member="PrepareNonWWs">
+    <Type Name="PrepareNonWW">
+      <Column Name="Year" Type="System.String" DbType="NVarChar(4) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Week" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="EmployeeID" Type="System.String" DbType="NVarChar(20) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Day" Type="System.String" DbType="NVarChar(2) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Shift" Type="System.String" DbType="Char(2) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="RefWWType" Type="System.String" DbType="Char(10) NOT NULL" CanBeNull="false" />
+      <Column Name="Des" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="UserLogin" Type="System.String" DbType="NVarChar(20)" CanBeNull="true" />
+      <Column Name="CreatedDateTime" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="Status" Type="System.Char" DbType="Char(1)" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.SMTrainingAssessmentHeader" Member="SMTrainingAssessmentHeaders">
+    <Type Name="SMTrainingAssessmentHeader">
+      <Column Name="AssessmentDate" Type="System.DateTime" DbType="SmallDateTime NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="UserID" Type="System.String" DbType="NVarChar(20) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="AssessmentFor" Type="System.String" DbType="NVarChar(30)" CanBeNull="true" />
+      <Column Name="HasTraning" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="AreaID" Type="System.String" DbType="NVarChar(10)" CanBeNull="true" />
+      <Column Name="DistributorID" Type="System.String" DbType="NVarChar(20)" CanBeNull="true" />
+      <Column Name="SalesObjective" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="TraningObjective" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="Comment" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="NextTrainingObjective" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="Released" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="TotalScore" Type="System.Decimal" DbType="Decimal(18,3)" CanBeNull="true" />
+      <Column Name="UniqueID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="IsDelete" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.TrainingAssessmentHeader" Member="TrainingAssessmentHeaders">
+    <Type Name="TrainingAssessmentHeader">
+      <Column Name="AssessmentDate" Type="System.DateTime" DbType="SmallDateTime NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="UserID" Type="System.String" DbType="NVarChar(20) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="AssessmentFor" Type="System.String" DbType="NVarChar(30)" CanBeNull="true" />
+      <Column Name="HasTraning" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="AreaID" Type="System.String" DbType="NVarChar(10)" CanBeNull="true" />
+      <Column Name="DistributorID" Type="System.String" DbType="NVarChar(20)" CanBeNull="true" />
+      <Column Name="SRUnderstood" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="OutletUnderstood" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="Training" Type="System.String" DbType="NVarChar(10)" CanBeNull="true" />
+      <Column Name="PC" Type="System.String" DbType="NVarChar(10)" CanBeNull="true" />
+      <Column Name="LPPC" Type="System.String" DbType="NVarChar(10)" CanBeNull="true" />
+      <Column Name="Released" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="TotalScore" Type="System.Decimal" DbType="Decimal(18,3)" CanBeNull="true" />
+      <Column Name="UniqueID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="SM" Type="System.String" DbType="NVarChar(30)" CanBeNull="true" />
+      <Column Name="Mark" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="Comment" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="NextTrainingObjective" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="ABCDComment" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="ABCDNextTrainingObjective" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="IsDelete" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.TrainingAssessmentsDetail" Member="TrainingAssessmentsDetails">
+    <Type Name="TrainingAssessmentsDetail">
+      <Column Name="AssessmentDate" Type="System.DateTime" DbType="SmallDateTime NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="UserID" Type="System.String" DbType="NVarChar(20) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="AssessmentFor" Type="System.String" DbType="NVarChar(30) NOT NULL" CanBeNull="false" />
+      <Column Name="CriteriaID" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="CriteriaScore" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Note" Type="System.String" DbType="NVarChar(MAX) NOT NULL" CanBeNull="false" />
+      <Column Name="UniqueID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="SM" Type="System.String" DbType="NVarChar(30)" CanBeNull="true" />
+      <Column Name="Pros" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="Cons" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="IsDelete" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.NoTrainingAssessments" Member="NoTrainingAssessments">
+    <Type Name="NoTrainingAssessment">
+      <Column Name="AssessmentDate" Type="System.DateTime" DbType="SmallDateTime NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="UserID" Type="System.String" DbType="NVarChar(20) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Works" Type="System.String" DbType="NVarChar(MAX) NOT NULL" CanBeNull="false" />
+      <Column Name="Results" Type="System.String" DbType="NVarChar(MAX) NOT NULL" CanBeNull="false" />
+      <Column Name="Released" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="UniqueID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="IsDelete" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.SMTrainingAssessmentsDetail" Member="SMTrainingAssessmentsDetails">
+    <Type Name="SMTrainingAssessmentsDetail">
+      <Column Name="AssessmentDate" Type="System.DateTime" DbType="SmallDateTime NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="UserID" Type="System.String" DbType="NVarChar(20) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="AssessmentFor" Type="System.String" DbType="NVarChar(30) NOT NULL" CanBeNull="false" />
+      <Column Name="CriteriaID" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="CriteriaScore" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Note" Type="System.String" DbType="NVarChar(MAX) NOT NULL" CanBeNull="false" />
+      <Column Name="Pros" Type="System.String" DbType="NVarChar(MAX) NOT NULL" CanBeNull="false" />
+      <Column Name="Cons" Type="System.String" DbType="NVarChar(MAX) NOT NULL" CanBeNull="false" />
+      <Column Name="UniqueID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="IsDelete" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.ConfigSystems" Member="ConfigSystems">
+    <Type Name="ConfigSystem">
+      <Column Name="ID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="GroupCode" Type="System.String" DbType="NVarChar(10)" CanBeNull="true" />
+      <Column Name="CodeCD" Type="System.String" DbType="NVarChar(10)" CanBeNull="true" />
+      <Column Name="Name" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Column Name="Status" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.DMSProvince" Member="DMSProvinces">
+    <Type Name="DMSProvince">
+      <Column Name="ProvinceID" Type="System.String" DbType="NVarChar(10) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Province" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="AreaID" Type="System.String" DbType="NVarChar(10)" CanBeNull="true" />
+      <Column Name="RegionID" Type="System.String" DbType="NVarChar(5) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="CreatedByID" Type="System.Guid" DbType="UniqueIdentifier" CanBeNull="true" />
+      <Column Name="CreatedByScreenID" Type="System.String" DbType="Char(8)" CanBeNull="true" />
+      <Column Name="CreatedDateTime" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="LastModifiedByID" Type="System.Guid" DbType="UniqueIdentifier" CanBeNull="true" />
+      <Column Name="LastModifiedByScreenID" Type="System.String" DbType="Char(8)" CanBeNull="true" />
+      <Column Name="LastModifiedDateTime" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="tstamp" Type="System.Data.Linq.Binary" DbType="rowversion" CanBeNull="true" IsVersion="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Appointments" Member="Appointments">
+    <Type Name="Appointment">
+      <Column Name="UniqueID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Type" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="StartDate" Type="System.DateTime" DbType="SmallDateTime" CanBeNull="true" />
+      <Column Name="EndDate" Type="System.DateTime" DbType="SmallDateTime" CanBeNull="true" />
+      <Column Name="AllDay" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="Subject" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="Location" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
+      <Column Name="Description" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="Status" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Label" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="ResourceID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="ResourceIDs" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="ReminderInfo" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="RecurrenceInfo" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="Phone" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="Employees" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="UserLogin" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="RejectReason" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="ScheduleType" Type="System.String" DbType="Char(10) NOT NULL" CanBeNull="false" />
+      <Column Name="CreatedDateTime" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="RouteID" Type="System.String" DbType="NVarChar(20)" CanBeNull="true" />
+      <Column Name="OutletID" Type="System.String" DbType="NVarChar(30)" CanBeNull="true" />
+      <Column Name="UserAppro" Type="System.String" DbType="NVarChar(20)" CanBeNull="true" />
+      <Column Name="IsMeeting" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="ShiftID" Type="System.String" DbType="NChar(2)" CanBeNull="true" />
+      <Column Name="IsDelete" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="Week" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Year" Type="System.String" DbType="NVarChar(4)" CanBeNull="true" />
+      <Column Name="IsWW" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="IsSM" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.ListDateAssessmentAgain" Member="ListDateAssessmentAgains">
+    <Type Name="ListDateAssessmentAgain">
+      <Column Name="AssessmentDate" Type="System.DateTime" DbType="DateTime NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Active" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.DMSHamResults" Member="DMSHamResults">
+    <Type Name="DMSHamResult">
+      <Column Name="RefNbr" Type="System.String" DbType="NChar(10) NOT NULL" CanBeNull="false" />
+      <Column Name="Year" Type="System.String" DbType="NChar(5) NOT NULL" CanBeNull="false" />
+      <Column Name="Week" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="RefResult" Type="System.Char" DbType="Char(1) NOT NULL" CanBeNull="false" />
+      <Column Name="RouteID" Type="System.String" DbType="NVarChar(20) NOT NULL" CanBeNull="false" />
+      <Column Name="SS" Type="System.String" DbType="NVarChar(20)" CanBeNull="true" />
+      <Column Name="AvgPC" Type="System.Decimal" DbType="Decimal(18,3)" CanBeNull="true" />
+      <Column Name="AvgPercentPhoto" Type="System.Decimal" DbType="Decimal(18,3)" CanBeNull="true" />
+      <Column Name="AvgPercentDisplay" Type="System.Decimal" DbType="Decimal(18,3)" CanBeNull="true" />
+      <Column Name="StartDate" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="EndDate" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="CreatedByID" Type="System.Guid" DbType="UniqueIdentifier" CanBeNull="true" />
+      <Column Name="CreatedByScreenID" Type="System.String" DbType="Char(8)" CanBeNull="true" />
+      <Column Name="CreatedDateTime" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="LastModifiedByID" Type="System.Guid" DbType="UniqueIdentifier" CanBeNull="true" />
+      <Column Name="LastModifiedByScreenID" Type="System.String" DbType="Char(8)" CanBeNull="true" />
+      <Column Name="LastModifiedDateTime" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="TStamp" Type="System.Data.Linq.Binary" DbType="rowversion" CanBeNull="true" IsVersion="true" />
+      <Column Name="NumHLMin" Type="System.Decimal" DbType="Decimal(18,0)" CanBeNull="true" />
+      <Column Name="NumHLMax" Type="System.Decimal" DbType="Decimal(18,0)" CanBeNull="true" />
+      <Column Name="PercentSSMin" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="PercentASMMin" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="PercentRSMMin" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="IsNew" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="IsWWNext" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="IsValidate" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="SortID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.DMSHamResultsSS" Member="DMSHamResultsSSes">
+    <Type Name="DMSHamResultsSS">
+      <Column Name="RefNbr" Type="System.String" DbType="NChar(10) NOT NULL" CanBeNull="false" />
+      <Column Name="Year" Type="System.String" DbType="NChar(4) NOT NULL" CanBeNull="false" />
+      <Column Name="Week" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="SS" Type="System.String" DbType="NVarChar(20) NOT NULL" CanBeNull="false" />
+      <Column Name="RefResult" Type="System.Char" DbType="Char(1) NOT NULL" CanBeNull="false" />
+      <Column Name="ASM" Type="System.String" DbType="NVarChar(20) NOT NULL" CanBeNull="false" />
+      <Column Name="SumRoute" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="SMKem" Type="System.Decimal" DbType="Decimal(18,3)" CanBeNull="true" />
+      <Column Name="AvgSMKem" Type="System.Decimal" DbType="Decimal(18,3)" CanBeNull="true" />
+      <Column Name="SMTB" Type="System.Decimal" DbType="Decimal(18,3)" CanBeNull="true" />
+      <Column Name="AvgSMTB" Type="System.Decimal" DbType="Decimal(18,3)" CanBeNull="true" />
+      <Column Name="SMTot" Type="System.Decimal" DbType="Decimal(18,3)" CanBeNull="true" />
+      <Column Name="AvgSMTot" Type="System.Decimal" DbType="Decimal(18,3)" CanBeNull="true" />
+      <Column Name="NumHLMin" Type="System.Decimal" DbType="Decimal(18,0)" CanBeNull="true" />
+      <Column Name="NumHLMax" Type="System.Decimal" DbType="Decimal(18,0)" CanBeNull="true" />
+      <Column Name="IsNew" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="IsWWNext" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="IsValidate" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="SortID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="PercentSSMin" Type="System.Int32" DbType="Int" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.DMSHamResultsASM" Member="DMSHamResultsASMs">
+    <Type Name="DMSHamResultsASM">
+      <Column Name="RefNbr" Type="System.String" DbType="NChar(10) NOT NULL" CanBeNull="false" />
+      <Column Name="Year" Type="System.String" DbType="NChar(4) NOT NULL" CanBeNull="false" />
+      <Column Name="Week" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="ASM" Type="System.String" DbType="NVarChar(20) NOT NULL" CanBeNull="false" />
+      <Column Name="RefResult" Type="System.Char" DbType="Char(1) NOT NULL" CanBeNull="false" />
+      <Column Name="RSM" Type="System.String" DbType="NVarChar(20)" CanBeNull="true" />
+      <Column Name="SumSS" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="SSKem" Type="System.Decimal" DbType="Decimal(18,3)" CanBeNull="true" />
+      <Column Name="AvgSSKem" Type="System.Decimal" DbType="Decimal(18,3)" CanBeNull="true" />
+      <Column Name="SSTB" Type="System.Decimal" DbType="Decimal(18,3)" CanBeNull="true" />
+      <Column Name="AvgSSTB" Type="System.Decimal" DbType="Decimal(18,3)" CanBeNull="true" />
+      <Column Name="SSTot" Type="System.Decimal" DbType="Decimal(18,3)" CanBeNull="true" />
+      <Column Name="AvgSSTot" Type="System.Decimal" DbType="Decimal(18,3)" CanBeNull="true" />
+      <Column Name="NumHLMin" Type="System.Decimal" DbType="Decimal(18,0)" CanBeNull="true" />
+      <Column Name="NumHLMax" Type="System.Decimal" DbType="Decimal(18,0)" CanBeNull="true" />
+      <Column Name="IsWWNext" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="IsValidate" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="SortID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="NumberSSMin" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="PercentASMMin" Type="System.Int32" DbType="Int" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.PrepareWW" Member="PrepareWWs">
+    <Type Name="PrepareWW">
+      <Column Name="Year" Type="System.String" DbType="NVarChar(4) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Week" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="EmployeeWW" Type="System.String" DbType="NVarChar(20) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="RouteID" Type="System.String" DbType="NVarChar(20) NOT NULL" CanBeNull="false" />
+      <Column Name="RefResult" Type="System.Char" DbType="Char(1) NOT NULL" CanBeNull="false" />
+      <Column Name="EmployeeID" Type="System.String" DbType="NVarChar(20) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="EmployeeWWName" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="MoAM" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="MoPM" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="MoAMDes" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="MoPMDes" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="TuAM" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="TuPM" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="TuAMDes" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="TuPMDes" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="WeAM" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="WePM" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="WeAMDes" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="WePMDes" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="ThAM" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="ThPM" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="ThAMDes" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="ThPMDes" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="FrAM" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="FrPM" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="FrAMDes" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="FrPMDes" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="SaAM" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="SaPM" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="SaAMDes" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="SaPMDes" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="UserLogin" Type="System.String" DbType="NVarChar(20)" CanBeNull="true" />
+      <Column Name="CreatedDateTime" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="Status" Type="System.Char" DbType="Char(1)" CanBeNull="true" />
+      <Column Name="RegionID" Type="System.String" DbType="NVarChar(10)" CanBeNull="true" />
+      <Column Name="RegionName" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Column Name="AreaID" Type="System.String" DbType="NVarChar(10)" CanBeNull="true" />
+      <Column Name="AreaName" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Column Name="DistributorCD" Type="System.String" DbType="NVarChar(20)" CanBeNull="true" />
+      <Column Name="DistributorName" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Column Name="ProviceID" Type="System.String" DbType="NVarChar(20)" CanBeNull="true" />
+      <Column Name="ProviceName" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Column Name="SortID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Salesperson" Member="Salespersons">
+    <Type Name="Salesperson">
+      <Column Name="CompanyID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="SalespersonID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="SalespersonCD" Type="System.String" DbType="NVarChar(15) NOT NULL" CanBeNull="false" />
+      <Column Name="CommnPct" Type="System.Decimal" DbType="Decimal(9,6) NOT NULL" CanBeNull="false" />
+      <Column Name="SalesSubID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="NoteID" Type="System.Int64" DbType="BigInt" CanBeNull="true" />
+      <Column Name="tstamp" Type="System.Data.Linq.Binary" DbType="rowversion" CanBeNull="true" IsVersion="true" />
+      <Column Name="CreatedByID" Type="System.Guid" DbType="UniqueIdentifier" CanBeNull="true" />
+      <Column Name="CreatedByScreenID" Type="System.String" DbType="Char(8)" CanBeNull="true" />
+      <Column Name="CreatedDateTime" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="LastModifiedByID" Type="System.Guid" DbType="UniqueIdentifier" CanBeNull="true" />
+      <Column Name="LastModifiedByScreenID" Type="System.String" DbType="Char(8)" CanBeNull="true" />
+      <Column Name="LastModifiedDateTime" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="Descr" Type="System.String" DbType="NVarChar(60)" CanBeNull="true" />
+      <Column Name="IsActive" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="UsrAddress1" Type="System.String" DbType="NVarChar(120)" CanBeNull="true" />
+      <Column Name="UsrAddress2" Type="System.String" DbType="NVarChar(120)" CanBeNull="true" />
+      <Column Name="UsrLoginID" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="UsrPhone" Type="System.String" DbType="NVarChar(12)" CanBeNull="true" />
+      <Column Name="UsrEmail" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="UsrBirthday" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="UsrHireDate" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="UsrStartDate" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="UsrEndDate" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="UsrIsDTSalesman" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="UsrDistributorID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="UsrLastDistributor" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="UsrManualOrder" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="UsrManualSales" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="UsrReleased" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="UsrIsExported" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="UsrIDCard" Type="System.String" DbType="NVarChar(15)" CanBeNull="true" />
+      <Column Name="UsrOldID" Type="System.String" DbType="NVarChar(30)" CanBeNull="true" />
+      <Column Name="UsrGPSLock" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="UsrDistance" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="UsrByPass" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="UsrInitDate" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="UsrSalesSup" Type="System.String" DbType="NVarChar(20)" CanBeNull="true" />
+      <Column Name="UsrRelease" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.DMSDistributorRouteAssignment" Member="DMSDistributorRouteAssignments">
+    <Type Name="DMSDistributorRouteAssignment">
+      <Column Name="CompanyID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="RouteCD" Type="System.String" DbType="NVarChar(30) NOT NULL" CanBeNull="false" />
+      <Column Name="RouteName" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Column Name="SiteID" Type="System.String" DbType="VarChar(1) NOT NULL" CanBeNull="false" />
+      <Column Name="LocationID" Type="System.String" DbType="VarChar(1) NOT NULL" CanBeNull="false" />
+      <Column Name="SalesPersonID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="SalesSupID" Type="System.String" DbType="NVarChar(20) NOT NULL" CanBeNull="false" />
+      <Column Name="EffDate" Type="System.String" DbType="VarChar(1) NOT NULL" CanBeNull="false" />
+      <Column Name="CreatedByID" Type="System.String" DbType="VarChar(1) NOT NULL" CanBeNull="false" />
+      <Column Name="CreatedByScreenID" Type="System.String" DbType="VarChar(1) NOT NULL" CanBeNull="false" />
+      <Column Name="CreatedDateTime" Type="System.String" DbType="VarChar(1) NOT NULL" CanBeNull="false" />
+      <Column Name="LastModifiedByID" Type="System.String" DbType="VarChar(1) NOT NULL" CanBeNull="false" />
+      <Column Name="LastModifiedByScreenID" Type="System.String" DbType="VarChar(1) NOT NULL" CanBeNull="false" />
+      <Column Name="LastModifiedDateTime" Type="System.String" DbType="VarChar(1) NOT NULL" CanBeNull="false" />
+      <Column Name="TStamp" Type="System.String" DbType="VarChar(1) NOT NULL" CanBeNull="false" />
+    </Type>
+  </Table>
+  <Function Name="dbo.DMS_pp_ReportTracking" Method="DMS_pp_ReportTracking">
+    <Parameter Name="StartDate" Parameter="startDate" Type="System.DateTime" DbType="DateTime" />
+    <Parameter Name="EndDate" Parameter="endDate" Type="System.DateTime" DbType="DateTime" />
+    <ElementType IdRef="ID1" />
+  </Function>
+  <Function Name="dbo.DMS_pp_ReportResultTraining" Method="DMS_pp_ReportResultTraining">
+    <Parameter Name="StartDate" Parameter="startDate" Type="System.DateTime" DbType="DateTime" />
+    <Parameter Name="EndDate" Parameter="endDate" Type="System.DateTime" DbType="DateTime" />
+    <Parameter Name="User" Parameter="user" Type="System.String" DbType="VarChar(20)" />
+    <Parameter Name="RegionID" Parameter="regionID" Type="System.String" DbType="VarChar(10)" />
+    <ElementType Name="DMS_pp_ReportResultTrainingResult">
+      <Column Name="EmployeeID" Type="System.String" DbType="NVarChar(20) NOT NULL" CanBeNull="false" />
+      <Column Name="EmployeeName" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="RegionID" Type="System.String" DbType="NVarChar(20) NOT NULL" CanBeNull="false" />
+      <Column Name="AreaID" Type="System.String" DbType="NVarChar(20)" CanBeNull="true" />
+      <Column Name="KehoachSS" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="ThucHienSS" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="SoSRPhuTrach" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="SoSRDuocCoach" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="SMDat3" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="KehoachASM" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="ThuchienASM" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="SoSSPhuTrach" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="SoSSDuocCoach" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="SSDat3trolen" Type="System.Int32" DbType="Int" CanBeNull="true" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.sp_UserTerritory" Method="sp_UserTerritory">
+    <Parameter Name="LoginID" Parameter="loginID" Type="System.String" DbType="NVarChar(30)" />
+    <ElementType Name="sp_UserTerritoryResult">
+      <Column Name="RegionID" Type="System.String" DbType="NVarChar(10)" CanBeNull="true" />
+      <Column Name="RegionName" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="AreaID" Type="System.String" DbType="NVarChar(10) NOT NULL" CanBeNull="false" />
+      <Column Name="AreaName" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="CompanyID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="CompanyName" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="EmployeeID" Type="System.String" DbType="NVarChar(20) NOT NULL" CanBeNull="false" />
+      <Column Name="EmployeeName" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="TerritoryType" Type="System.Char" DbType="Char(1)" CanBeNull="true" />
+      <Column Name="IsSalesForce" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+    </ElementType>
+  </Function>
+</Database>

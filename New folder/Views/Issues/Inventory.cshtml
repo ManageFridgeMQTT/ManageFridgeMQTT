@@ -1,0 +1,58 @@
+﻿@model List<DMSEvalInventoryItem>
+@{
+    ViewBag.Title = Utility.Phrase("InventoryManagement");
+    Layout = "~/Views/Shared/_NewLayout.cshtml";
+}
+@using DevExpress.Web.Mvc.UI;
+@using DevExpress.Web.Mvc;
+@using System.Web.UI.WebControls;
+<div id="shCenter" style="z-index:9999">
+    <label id="mSNoData" style="align-content:center;color:green" ></label>
+</div>
+<div class="insider">
+    <div id="loading" class="loading"></div>
+    <div class="row display-table w-100pr mb-10 content-header">
+        <div class="report-content-header">
+            <div class="col-sm-12">
+                    <h1>@ViewBag.Title</h1>
+            </div>
+        </div>
+    </div>
+    <div class="row content-body">
+        <div class="tab-content">
+            @Html.Partial("InventoryPartial", Model)
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    var InventoryID = '';
+    function ButtonClick(inventoryID, button) {
+        if (button == "btnActive") {
+            if (confirm("@Html.Raw(Utility.Phrase("ConfirmActive"))")) {
+                dxGridView.PerformCallback({ 'inventoryID': inventoryID, 'action': "Active" });
+            }
+        }
+
+        else if (button == "btnInactive") {
+            if (confirm("@Html.Raw(Utility.Phrase("ConfirmInactive"))")) {
+                dxGridView.PerformCallback({ 'inventoryID': inventoryID, 'action': "Inactive" });
+            }
+        }
+
+        else if (button == "btnAddNew") {
+            AddNew();
+        }
+
+        else if (button == "btnUpdate") {
+            UpdateRow();
+        }
+}
+
+function AddNew() {
+    dxGridView.AddNewRow();
+}
+
+function UpdateRow() {
+    dxGridView.StartEditRow(dxGridView.GetFocusedRowIndex());
+}
+</script>

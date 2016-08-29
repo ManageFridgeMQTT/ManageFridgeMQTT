@@ -1,0 +1,200 @@
+﻿@{
+    ViewBag.Title = "EvaluationBaselineView";
+    Layout = "~/Views/Shared/_NewLayout.cshtml";
+    <link rel="stylesheet" href="~/Content/MyCSS/jquery-ui-monthpicker.css">
+}
+
+@{
+    IEnumerable<eRoute.Models.ufn_GetBaselinedInfoByIDResult> BaselinedInfoData = ViewData["BaselinedInfo"] as IEnumerable<eRoute.Models.ufn_GetBaselinedInfoByIDResult>;
+    IEnumerable<eRoute.Models.usp_ReportGeneralEvaluationResult> ReportGeneralEvaluationData = ViewData["ReportGeneralEvaluationList"] as IEnumerable<eRoute.Models.usp_ReportGeneralEvaluationResult>;
+    IEnumerable<eRoute.Models.usp_ReportDetailEvaluationResult> ReportDetailEvaluationData = ViewData["ReportDetailEvaluationList"] as IEnumerable<eRoute.Models.usp_ReportDetailEvaluationResult>;
+    IEnumerable<eRoute.Models.usp_ReportNumericEvaluationResult> ReportNumericEvaluationData = ViewData["ReportNumericEvaluationList"] as IEnumerable<eRoute.Models.usp_ReportNumericEvaluationResult>;
+}
+
+<div class="insider">
+
+@Html.Partial("HeaderEvaluationLayout")
+
+<div class="button-box p-0">
+	<div class="toolbox fr w-auto">
+		<ul class="fr m-0">
+			<li>
+				<span class="button">
+					<a href="#">
+						<i class="icon-back"></i>@Html.ActionLink("Quay Lại", "EvaluationBaseline", "Evaluation",new {onclick = "BackToTheMainPage()"})
+					</a>
+				</span>
+				<button class="btn-refresh" title="Làm mới"><i class="icon-update"></i>Làm mới</button>
+			</li>
+			<li>
+				<button title="Về đầu"><i class="icon-go-first"></i></button>
+				<button title="Trở lại"><i class="icon-go-back"></i></button>
+				<button title="Tới trước"><i class="icon-go-next"></i></button>
+				<button title="Tới cuối"><i class="icon-go-final"></i></button>
+			</li>
+			<li>
+				<span class="mr-10">
+					Trang 
+					<select id="NumPageId">
+						<option value="0" @(ViewBag.NumPage == 0 ? "selected":"")>1</option>
+						<option value="1" @(ViewBag.NumPage == 1 ? "selected":"")>2</option>
+						<option value="2" @(ViewBag.NumPage == 2 ? "selected":"")>3</option>
+                        <option value="3" @(ViewBag.NumPage == 3 ? "selected":"")>4</option>
+                        <option value="4" @(ViewBag.NumPage == 4 ? "selected":"")>5</option>
+                        <option value="5" @(ViewBag.NumPage == 5 ? "selected":"")>6</option>
+                        <option value="6" @(ViewBag.NumPage == 6 ? "selected":"")>7</option>
+                        <option value="7" @(ViewBag.NumPage == 7 ? "selected":"")>8</option>
+                        <option value="8" @(ViewBag.NumPage == 8 ? "selected":"")>9</option>
+                        <option value="9" @(ViewBag.NumPage == 9 ? "selected":"")>10</option>
+					</select>/10
+				</span>
+				<span>Phân trang</span>
+				<select class="m-0" id="NumPagingId">
+					<option value="0" @(ViewBag.NumPaging == 0 ? "selected":"")>10</option>
+				    <option value="1" @(ViewBag.NumPaging == 1 ? "selected":"")>20</option>
+				    <option value="2" @(ViewBag.NumPaging == 2 ? "selected":"")>30</option>
+				    <option value="3" @(ViewBag.NumPaging == 3 ? "selected":"")>40</option>
+                    <option value="4" @(ViewBag.NumPaging == 4 ? "selected":"")>50</option>
+                    <option value="5" @(ViewBag.NumPaging == 5 ? "selected":"")>60</option>
+                    <option value="6" @(ViewBag.NumPaging == 6 ? "selected":"")>70</option>
+                    <option value="7" @(ViewBag.NumPaging == 7 ? "selected":"")>80</option>
+                    <option value="8" @(ViewBag.NumPaging == 8 ? "selected":"")>90</option>
+                    <option value="9" @(ViewBag.NumPaging == 9 ? "selected":"")>100</option>
+				</select>
+			</li>
+		</ul>
+	</div>
+    <ul class="nav nav-tabs">
+		<li class="active"><a data-toggle="tab" href="#report-general-evaluation">Đánh Giá Tổng Quan</a></li>
+		<li><a data-toggle="tab" href="#report-detail-evaluation">Đánh Giá Chi Tiết</a></li>
+		<li><a data-toggle="tab" href="#report-numeric-evaluation">Đánh Giá Numeric</a></li>
+    </ul>
+</div>
+    
+<div class="tab-content wrapper">
+    <div id="report-general-evaluation" class="tab-pane fade in active">
+        <div class="table-box wrapper">
+		    <table class="tablesorter dragtable">
+			<thead class="block-theme">
+				<tr>
+					<th>Số thứ tự</th>
+                    <th>Mã Baseline</th>    
+                    <th>Hình thức Baseline</th>
+                    <th>Khoảng thời gian Baseline</th>
+                    <th>Khoảng thời gian đánh giá</th>
+                    <th>Số ảnh trong kỳ Baseline</th>
+                    <th>Tổng số ảnh đánh giá</th>
+                    <th>Số ảnh đã đánh giá</th>
+                    <th>Số ảnh không đánh giá</th>
+                    <th>Số ảnh giả - thật</th>
+                    <th>Số ảnh không - chấp nhận</th>
+                    <th>Số ảnh không - đạt</th>
+                    <th>Tỷ lệ xét duyệt Baseline</th>
+				</tr>
+			</thead>
+			<tbody>
+                @foreach (var item in ReportGeneralEvaluationData)
+                {
+				    <tr>
+					    <td>@Html.DisplayFor(modelItem => item.STT)</td>
+                        <td>@Html.DisplayFor(modelItem => item.MaBaseline)</td>
+                        <td>@Html.DisplayFor(modelItem => item.HinhThucBaseline)</td>
+                        <td>@Html.DisplayFor(modelItem => item.KhoangThoiGianBaseline)</td>
+                        <td>@Html.DisplayFor(modelItem => item.KhoangThoiGianDanhGia)</td>
+			            <td>@Html.DisplayFor(modelItem => item.SoAnhTrongKyBaseline)</td>
+			            <td>@Html.DisplayFor(modelItem => item.TongSoAnhDanhGia)</td>
+                        <td>@Html.DisplayFor(modelItem => item.SoAnhDaDanhGia)</td>
+                        <td>@Html.DisplayFor(modelItem => item.SoAnhKhongDanhGia)</td>
+                        <td>@Html.DisplayFor(modelItem => item.SoAnhGiaThat)</td>
+                        <td>@Html.DisplayFor(modelItem => item.SoAnhKhongNChapNhan)</td>
+                        <td>@Html.DisplayFor(modelItem => item.SoAnhKhongNDat)</td>
+                        <td>@Html.DisplayFor(modelItem => item.TyLeXetDuyetBaseline)</td>
+				    </tr>
+                }
+			</tbody>
+		</table>
+        </div>
+	</div>
+    <div id="report-detail-evaluation" class="tab-pane">
+        <div class="table-box wrapper">
+            <table class="tablesorter">
+	    <thead class="block-theme">
+		    <tr>
+			    <th>Số thứ tự</th>    
+                <th>Mã Baseline</th>
+                <th>Tên NV đánh giá</th>
+                <th>Tên cửa hàng</th>
+                <th>Số ảnh đã đánh giá</th>
+                <th>Số ảnh không đánh giá</th>
+                <th>Số ảnh đã đánh giá lại</th>
+                <th>Số ảnh giả - thật</th>
+                <th>Số ảnh không - chấp nhận</th>
+                <th>Số ảnh không - đạt</th>
+                <th>Tỷ lệ ảnh đánh giá lại</th>
+                <th>Tỷ lệ ảnh thật</th>
+                <th>Tỷ lệ ảnh chấp nhận</th>
+                <th>Tỷ lệ ảnh đạt</th>
+		    </tr>
+	    </thead>
+	    <tbody>
+            @foreach (var item in ReportDetailEvaluationData)
+            {
+		        <tr>
+			        <td>@Html.DisplayFor(modelItem => item.STT)</td>    
+                    <td>@Html.DisplayFor(modelItem => item.MaBaseline)</td>
+                    <td>@Html.DisplayFor(modelItem => item.TenNVDanhGia)</td>
+                    <td>@Html.DisplayFor(modelItem => item.TenCuaHang)</td>
+                    <td>@Html.DisplayFor(modelItem => item.SoAnhDaDanhGia)</td>
+                    <td>@Html.DisplayFor(modelItem => item.SoAnhKhongDanhGia)</td>
+                    <td>@Html.DisplayFor(modelItem => item.SoAnhDanhGiaLai)</td>
+                    <td>@Html.DisplayFor(modelItem => item.SoAnhGiaThat)</td>
+                    <td>@Html.DisplayFor(modelItem => item.SoAnhKhongNChapNhan)</td>
+                    <td>@Html.DisplayFor(modelItem => item.SoAnhKhongNDat)</td>
+                    <td>@Html.DisplayFor(modelItem => item.TyleAnhDanhGiaLai)</td>
+                    <td>@Html.DisplayFor(modelItem => item.TyleAnhThat)</td>
+                    <td>@Html.DisplayFor(modelItem => item.TyleAnhChapNhan)</td>
+                    <td>@Html.DisplayFor(modelItem => item.TyleAnhDat)</td>
+		        </tr>
+            }
+	    </tbody>
+    </table>
+        </div>
+    </div>
+    <div id="report-numeric-evaluation" class="tab-pane">
+        <div class="table-box wrapper">
+            <table class="tablesorter">
+	    <thead class="block-theme">
+		    <tr>
+			    <th>Số thứ tự</th>    
+                <th>Mã Baseline</th>
+                <th>Tên sản phẩm</th>
+                <th>Nhà sản xuất</th>
+                <th>Tổng ảnh đánh giá</th>
+                <th>Số ảnh có sản phẩm</th>
+                <th>Số ảnh không có sản phẩm</th>
+                <th>Tỷ lệ xuất hiện</th>
+                <th>Tỷ lệ không xuất hiện</th>
+		    </tr>
+	    </thead>
+	    <tbody>
+            @foreach (var item in ReportNumericEvaluationData)
+            {
+		        <tr>
+			        <td>@Html.DisplayFor(modelItem => item.STT)</td>    
+                    <td>@Html.DisplayFor(modelItem => item.MaBaseline)</td>
+                    <td>@Html.DisplayFor(modelItem => item.TenSanPham)</td>
+                    <td>@Html.DisplayFor(modelItem => item.NhaSanXuat)</td>
+                    <td>@Html.DisplayFor(modelItem => item.TongAnhDanhGia)</td>
+                    <td>@Html.DisplayFor(modelItem => item.SoAnhCoSanPham)</td>
+                    <td>@Html.DisplayFor(modelItem => item.SoAnhKhongCoSanPham)</td>
+                    <td>@Html.DisplayFor(modelItem => item.TyLeXuatHien)</td>
+                    <td>@Html.DisplayFor(modelItem => item.TyLeKhongXuatHien)</td>
+		        </tr>
+            }
+	    </tbody>
+    </table>
+        </div>
+    </div>
+</div>
+
+</div>

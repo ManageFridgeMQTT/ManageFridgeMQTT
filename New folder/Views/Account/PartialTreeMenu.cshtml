@@ -1,0 +1,21 @@
+﻿@model List<pp_GetListMenuResult>
+<ol class="dd-list">
+    @{
+        int ParentID = Convert.ToInt32(ViewData["ParentID"]);
+    }
+            @foreach (pp_GetListMenuResult elm in Model.Where(x => x.ParentID.Equals(ParentID)).ToList())
+            {
+                List<pp_GetListMenuResult> listSubMenu = Model.Where(x => x.ParentID.Equals(elm.FeatureID)).ToList();
+                if (listSubMenu.Count != 0)
+                {
+                    <li class="dd-item" data-id="@elm.FeatureID">
+                        <div class="dd-handle">@elm.Name</div>
+                        @Html.Partial("PartialTreeMenu", Model, new ViewDataDictionary() { {"ParentID", elm.FeatureID} })
+                    </li>
+                }
+                else
+                {
+                    <li class="dd-item" data-id="@elm.FeatureID"><div class="dd-handle">@elm.Name</div></li>
+                }
+            }
+        </ol>

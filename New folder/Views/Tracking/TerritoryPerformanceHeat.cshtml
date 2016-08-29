@@ -1,0 +1,1461 @@
+﻿@model HomeVM
+@using DevExpress.Web.Mvc.UI;
+@using DevExpress.Web.Mvc
+@using System.Web.UI.WebControls;
+@{    
+    ViewBag.Title = Utility.Phrase("TerritoryPerformance");
+    Layout = "~/Views/Shared/_NewLayoutMap.cshtml";
+}
+
+@section Scripts
+{
+    <link rel="stylesheet" href="@Url.Content("~/MapTest/leaflet.css")" />
+    <link rel="stylesheet" href="@Url.Content("~/MapTest/leaflet.iconlabel.css")" />
+    <link rel="stylesheet" href="@Url.Content("~/MapTest/leaflet.label.css")" />
+    <link href="@Url.Content("~/MapTest/Routing/leaflet-routing-machine.css")" rel="stylesheet" />
+    <link href="@Url.Content("~/Content/leaflet.contextmenu.css")" rel="stylesheet" />
+    <script type="text/javascript" src="@Url.Content("~/MapTest/leaflet.js")"></script>
+    <script src="@Url.Content("~/Content/Js/leaflet.contextmenu.js")"></script>
+    <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js"></script>
+    <script type="text/javascript" src="@Url.Content("~/MapTest/leaflet-google.js")"></script>
+    <!-- Leaflet Element Label Plugins -->
+    <script type="text/javascript" src="@Url.Content("~/MapTest/leaflet.iconlabel.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/MapTest/Label.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/MapTest/BaseMarkerMethods.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/MapTest/Marker.Label.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/MapTest/CircleMarker.Label.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/MapTest/Path.Label.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/MapTest/Map.Label.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/MapTest/FeatureGroup.Label.js")"></script>
+    <link rel="stylesheet" href="@Url.Content("~/MapTest/MarkerCluster.css")" />
+    <link rel="stylesheet" href="@Url.Content("~/MapTest/MarkerCluster.Default.css")" />
+    <script type="text/javascript" src="@Url.Content("~/MapTest/leaflet.markercluster-src.js")"></script>
+    <link rel="stylesheet" href="@Url.Content("~/MapTest/font-awesome.css")" />
+    <link rel="stylesheet" href="@Url.Content("~/MapTest/leaflet.awesome-markers.css")" />
+    <script type="text/javascript" src="@Url.Content("~/MapTest/leaflet.awesome-markers.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/MapTest/mines.js")"></script>
+    <link rel="stylesheet" href="@Url.Content("~/MapTest/Control.MiniMap.css")" />
+    <script type="text/javascript" src="@Url.Content("~/MapTest/Control.MiniMap.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/MapTest/Routing/leaflet-routing-machine.min.js")"></script>
+
+    @*<script src="~/MapTest/Routing/leaflet-routing-machine.js"></script>*@
+    <script type="text/javascript" src="@Url.Content("~/MapTest/Routing/L.Routing.OSRM.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/MapTest/Routing/L.Routing.Line.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/MapTest/Routing/L.Routing.Itinerary.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/MapTest/Routing/L.Routing.Plan.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/MapTest/Routing/L.Routing.Control.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/MapTest/Routing/Control.Geocoder.js")"></script>
+    <link rel="stylesheet" href="@Url.Content("~/MapTest/SideBar/L.Control.Sidebar.css")" />
+    <script type="text/javascript" src="@Url.Content("~/MapTest/SideBar/L.Control.Sidebar.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/MapTest/PolyLineText/leaflet.textpath.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/MapTest/PolylineDecorator/L.LineUtil.PolylineDecorator.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/MapTest/PolylineDecorator/L.RotatedMarker.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/MapTest/PolylineDecorator/L.Symbol.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/MapTest/PolylineDecorator/L.PolylineDecorator.js")"></script>
+    @*<script src="~/Content/THP/js/googlemap.js"></script>*@
+    @*Animation for marker*@
+    @*<script src="~/MapTest/Routing/smoothmarkerbouncing.js"></script>*@
+    @*Moving for marker*@
+    <script src="~/MapTest/Routing/MovingMarker.js"></script>
+    <script src="~/MapTest/Routing/AnimatedMarker.js"></script>
+    @*End*@
+
+    <link rel="stylesheet" href="@Url.Content("~/MapTest/Distance/distance.css")" />
+    <link rel="stylesheet" href="@Url.Content("~/MapTest/Distance/leaflet.draw.css")" />
+    <script type="text/javascript" src="@Url.Content("~/MapTest/Distance/leaflet.draw.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/MapTest/Distance/Distance.js")"></script>
+    <!-- HighCharts -->
+    <script src="@Url.Content("~/MapTest/HighCharts/highcharts.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/MapTest/HighCharts/modules/data.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/MapTest/HighCharts/modules/exporting.js")" type="text/javascript"></script>
+    @*<script type="text/javascript" src="@Url.Content("~/MapTest/Routing/leaflet-routing-machine-control.js")"></script>*@
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCYgeyZTpR229JqdXjL8zgY_qgpugJxmcc"></script>
+
+   @* 2016-05-23: Them doan get Geo
+   *@
+    <link rel="stylesheet" href="@Url.Content("~/MapTest/Leaflet-geojson-selector-master/src/leaflet-geojson-selector.css")" />
+
+    <script src="@Url.Content("~/MapTest/Leaflet-geojson-selector-master/src/leaflet-geojson-selector.js")"></script>
+    <style>
+        html, body {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+        }
+
+        #map, #container {
+            width: 100%;
+            height: 100%;
+        }
+
+        #but {
+            background-color: #D0DEDC;
+            border-radius: 4px;
+            font-size: 13px;
+        }
+
+        .placeMarks-label {
+            -moz-box-shadow: none;
+            -webkit-box-shadow: none;
+            box-shadow: none;
+            color: #fff;
+            position: relative;
+        }
+
+        .alignleft {
+            float: left;
+        }
+
+        .alignright {
+            float: right;
+        }
+
+        .avata {
+        }
+
+        .details {
+        }
+
+            .details p {
+                width: 250px;
+            }
+
+                .details p label {
+                    width: 100px;
+                }
+
+            .details span char {
+                float: left;
+            }
+
+            .details span num {
+                float: right;
+            }
+
+        /*#sidebar-left {
+            overflow: hidden;
+        }*/
+
+        .loading {
+            width: 100%;
+            height: 100%;
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 99999999999999999999;
+            opacity: .3;
+            background: url(../Content/THP/img/progress.gif) no-repeat center white;
+            /*background: url(/MapTest/images/loading.gif) no-repeat center #bbb;*/
+        }
+
+        .customSearch {
+            margin-left: 10px;
+        }
+
+        .real-order {
+            color: blue;
+            font-family: "Lucida Grande", "Arial", sans-serif;
+            font-size: 11px;
+            font-weight: bold;
+            font-style: italic;
+            text-align: center;
+            white-space: nowrap;
+        }
+
+        .labelmaps {
+            color: blue;
+            font-family: "Lucida Grande", "Arial", sans-serif;
+            font-size: 10px;
+            font-weight: bold;
+            font-style: italic;
+            text-align: center;
+            white-space: nowrap;
+        }
+
+        .list-search {
+            opacity: 0.8;
+            z-index: 99999999;
+            padding-left: 5px;
+            /*line-height: 25px;*/
+            border-bottom: 1px solid #fff;
+            background: #5874F5;
+            color: #fff;
+            /*background: white;*/
+            position: absolute;
+            bottom: 0px;
+            right: 0px;
+            left: 460px;
+            display: none;
+        }
+
+        .leaflet-popup-content {
+            width: auto;
+            margin: 14px 10px;
+        }
+
+        .imghoverzoom {
+            opacity: 1;
+            position: absolute;
+            height: auto;
+            width: auto;
+            left: auto;
+            top: auto;
+            max-height: none;
+            max-width: none;
+            margin: 0;
+            padding: 0;
+            border-radius: 0;
+            background-size: 100% 100%;
+            background-position: center;
+            background-repeat: no-repeat;
+            overflow: hidden;
+            z-index: 2147483647;
+        }
+
+        .info {
+            padding: 6px 8px;
+            font: 14px/16px Arial, Helvetica, sans-serif;
+            background: white;
+            background: rgba(255,255,255,0.8);
+            box-shadow: 0 0 15px rgba(0,0,0,0.2);
+            border-radius: 5px;
+            /*display: none;*/
+        }
+
+            .info h4 {
+                margin: 0 0 5px;
+                color: #777;
+            }
+
+        .legend {
+            line-height: 18px;
+            color: #555;
+            top: 1px;
+            right: 0px;
+        }
+
+            .legend i {
+                width: 18px;
+                height: 18px;
+                float: left;
+                margin-right: 8px;
+                opacity: 0.7;
+            }
+
+        #tbInfo th tr td {
+            white-space: nowrap;
+        }
+
+        #notePanel {
+            width: 100%;
+            height: 160px;
+            background-color: #FFFFFF;
+            position: absolute;
+            border: 1px solid #F2F2F2;
+            bottom: 20px;
+            right: 0;
+            border-radius: 6px;
+            opacity: 0.8;
+            display: none;
+        }
+
+        #lblnote {
+            position: absolute;
+            color: Blue;
+            bottom: 0;
+            right: 60px;
+            z-index: 1;
+        }
+
+        .lableMarkerColor {
+            -moz-box-shadow: none;
+            -webkit-box-shadow: none;
+            box-shadow: none;
+            color: black;
+            position: relative;
+        }
+
+        #shCenter {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            margin-top: -50px;
+            margin-left: -50px;
+            width: 200px;
+            height: 70px;
+            line-height: 70px;
+            border: 4px solid groove;
+            border-radius: 6px;
+            display: none;
+            color: rgba(255, 255, 255, 0.8);
+            background-color: darkgrey;
+            opacity: 0.9;
+            text-align: center;
+        }
+
+        #txtSearch {
+            font-size: 1em;
+            border: 2.5px solid #1B8EB9;
+            padding: 6px;
+            font-weight: 300;
+            box-sizing: border-box;
+            text-indent: 6px;
+            -webkit-box-shadow: inset 1px 0px 0px -1px #404040;
+            box-shadow: inset 1px 0px 0px -1px #404040;
+            transition: box-shadow 0.2s, border 0.2s, color 0.2s, background 0.2s;
+            width: 250px;
+            background: linear-gradient( white, white 50%, #333 50%, #333 );
+            background-size: 100% 202%;
+        }
+
+            #txtSearch:focus {
+                color: white;
+                background-position: 100% 100%;
+            }
+    </style>
+    <script>
+        //-----------------Tree Node-----------------//
+        function OnTreeViewNodeClick(s, e) {
+            //alert("Click " + e.node.name);
+            itemId = e.node.name;
+            //GetParam();
+
+            
+            // Show all outlet
+             ViewInfoOutlet();
+            
+
+            ///RenderTreeViewSelectedHeatMap(itemId);
+        }
+        function OnTreeViewCheckedChanged(s, e) {
+            //alert("CheckedChanged" + e.node.name);
+        }
+        function OnTreeViewExpandedChanged(s, e) {
+            //alert("ExpandedChanged" + e.node.name);
+        }
+        //##Tree Node
+        var typeHeatMap = 'Coverage';
+        var dateSelected = '';
+        var isShowNote = false;
+    </script>
+}
+<style type="text/css">
+    #tab_popup a {
+        background: #ccc;
+        width: 100px;
+        height: 26px !important;
+        text-decoration: none;
+        border-radius: 5px 5px 0 0;
+        color: #fff;
+        padding: 5px;
+    }
+
+    #data_popup {
+        display: none;
+    }
+
+    #content_popup {
+        width: 350px;
+        height: 450px;
+        overflow: auto;
+    }
+
+    .content_tab {
+        display: none;
+        margin-top: 5px;
+        border-top: 2px solid #bbb;
+    }
+
+    .visitInfoTable {
+        max-height: 400px;
+        border: 1px solid #ccc;
+    }
+
+        .visitInfoTable caption {
+            text-align: left;
+            color: silver;
+            font-weight: bold;
+            text-transform: uppercase;
+            padding: 5px;
+        }
+
+        .visitInfoTable thead {
+            background: SteelBlue;
+            color: white;
+        }
+
+        .visitInfoTable th,
+        .visitInfoTable td {
+            padding: 5px 10px;
+            border: 1px solid #ccc;
+        }
+
+        .visitInfoTable tbody tr:nth-child(even) {
+            background: WhiteSmoke;
+        }
+
+        .visitInfoTable tfoot {
+            background: SeaGreen;
+            color: white;
+            text-align: right;
+        }
+
+            .visitInfoTable tfoot tr th:last-child {
+                font-family: monospace;
+            }
+
+            .visitInfoTable tfoot tr th:last-child {
+                font-family: monospace;
+            }
+
+        .visitInfoTable tbody tr td:nth-child(3),
+        .visitInfoTable tbody tr td:nth-child(4),
+        .visitInfoTable tbody tr td:nth-child(5),
+        .visitInfoTable tbody tr td:nth-child(6),
+        .visitInfoTable tbody tr td:nth-child(7),
+        .visitInfoTable tbody tr td:nth-child(8),
+        .visitInfoTable tbody tr td:nth-child(9),
+        .visitInfoTable tbody tr td:nth-child(10),
+        .visitInfoTable tbody tr td:nth-child(11) {
+            text-align: right;
+            font-family: monospace;
+        }
+
+    #images {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        right: 0;
+        width: 50%;
+    }
+</style>
+<div id="data_popup">
+    <div id="tab_popup">
+        <a href="#" rel="content1" class="header_tab header_tab1" id="header_tab1">@Utility.Phrase("Popup_Outlet_Info")</a> <a href="#" rel="content2"
+            class="header_tab header_tab2" id="header_tab2">@Utility.Phrase("Popup_Outlet_Info_SSASM")</a>
+        <a href="#" rel="content3" class="header_tab header_tab3" id="header_tab3">@Utility.Phrase("Popup_Outlet_Info_Image")</a>
+    </div>
+    <div id="content_popup">
+        <div id="content1" class="content_tab content1">
+            content1
+        </div>
+        <div id="content2" class="content_tab content2">
+            content2
+        </div>
+        <div id="content3" class="content_tab content3">
+            content3
+        </div>
+    </div>
+</div>
+<div class="insider ">
+    <div id="map" class="map no-transition">
+        @*<label id="lblnote" class="toggle-note">
+            @Utility.Phrase("Legend")
+        </label>*@
+        <button id="lblnote" class="toggle-button mini btn-transparent mt-10" style="display:none">
+            <i class="icon-up icon-black" title="@Utility.Phrase("Legend")"></i>
+        </button>
+        <div id="notePanel">
+            <table>
+                <tr>
+                    <td>
+                        <label id="lblStatusCompliance">
+                            @Utility.Phrase("StatusComplianceSM")
+                        </label>
+                    </td>
+                    <td>
+                        <img src="@Url.Content("~/Content/THP/markers/036.png")" style="margin-left: 5px;" />
+                        <label id="lblCompliance">
+                            @Utility.Phrase("Compliance")
+                        </label>
+                    </td>
+                    <td>
+                        <img src="@Url.Content("~/Content/THP/markers/0822.png")" style="margin-left: 5px;" />
+                        <label id="lblNonCompliance">
+                            @Utility.Phrase("NoneCompliance")
+                        </label>
+                    </td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>
+                        <label id="lblStatusCompliance">
+                            @Utility.Phrase("SalesTeam")
+                        </label>
+                    </td>
+                    <td>
+                        <img src="@Url.Content("~/Content/THP/markers/SaleMan_None.png")" />
+                        <label id="lblSM">
+                            @Utility.Phrase("Salesman")
+                        </label>
+                    </td>
+                    <td>
+                        <img src="@Url.Content("~/Content/THP/markers/SaleSup_None.png")" />
+                        <label id="lblSS">
+                            @Utility.Phrase("SalesSup")
+                        </label>
+                    </td>
+                    <td>
+                        <img src="@Url.Content("~/Content/THP/markers/asm_Compliance.png")" />
+                        <label id="lblASM">
+                            @Utility.Phrase("ASM")
+                        </label>
+                    </td>
+                    <td>
+                        <img src="@Url.Content("~/Content/THP/markers/Distributor_None.png")" />
+                        <label id="lblDistributor">
+                            @Utility.Phrase("Distributor")
+                        </label>
+                    </td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>
+                        <label id="lblStatusCompliance">
+                            @Utility.Phrase("StatusOutletResult")
+                        </label>
+                    </td>
+                    <td>
+                        <img src="@Url.Content("~/Content/THP/markers/blue.png")" style="margin-left: 5px;" />
+                        <label id="lblHasOrder">
+                            @Utility.Phrase("HasOrderMCP")
+                        </label>
+                    </td>
+                    <td>
+                        <img src="@Url.Content("~/Content/THP/markers/red.png")" style="margin-left: 5px;" />
+                        <label id="lblNoOrder">
+                            @Utility.Phrase("NoOrderMCP")
+                        </label>
+                    </td>
+                    <td>
+                        <img src="@Url.Content("~/Content/THP/markers/yellow.png")" style="margin-left: 5px;" />
+                        <label id="lblNoOrder">
+                            @Utility.Phrase("Visiting")
+                        </label>
+                    </td>
+                    <td>
+                        <img src="@Url.Content("~/Content/THP/markers/brown.png")" style="margin-left: 5px;" />
+                        <label id="lblOrderNotMCP">
+                            @Utility.Phrase("HasOrderNoMCP")
+                        </label>
+                    </td>
+                    <td>
+                        <img src="@Url.Content("~/Content/THP/markers/green.png")" style="margin-left: 5px;" />
+                        <label id="lblNoVisitMCP">
+                            @Utility.Phrase("NotVistiMCP")
+                        </label>
+                    </td>
+                    <td>
+                        <img src="@Url.Content("~/Content/THP/markers/grey.png")" style="margin-left: 5px;" />
+                        <label id="lblNoVisitNotMCP">
+                            @Utility.Phrase("NotVisitNotMCP")
+                        </label>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <div id="shCenter">
+            <label id="mSNoData" style="align-content: center; color: red">
+            </label>
+        </div>
+
+        @*<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d7849850.896742735!2d101.26762811579222!3d16.120662573893394!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31157a4d736a1e5f%3A0xb03bb0c9e2fe62be!2zVmnhu4d0IE5hbQ!5e0!3m2!1svi!2s!4v1447404851428" width="600" height="450" frameborder="0" style="border:0" allowfullscreen></iframe>*@
+    </div>
+    <script type="text/javascript" src="@Url.Content("~/MapTest/Routing/leaflet-routing-machine.js")"></script>
+    <div class="map-option ui-widget-content">
+        <div class="map-insider">
+            <div class="toggle-box disable">
+                <div class="block-header">
+                    <button class="btn-screenmode mini btn-transparent mt-10 mr-40">
+                        <i class="icon-fullscreen icon-white"></i>
+                    </button>
+                    <button class="toggle-button mini btn-transparent mt-10">
+                        <i class="icon-up icon-white"></i>
+                    </button>
+                    <div class="block block-theme m-0 p-0" style="">
+                        <h2 class="pl-10">&nbsp;</h2>
+                    </div>
+                </div>
+                <div class="toggle-content block-content border-none">
+                    <div class="block block-theme m-0 block-content-header" style="width: 305px;">
+                        <div class="item">
+                            <label id="lblVisitDate" class="flDate">@Utility.Phrase("VisitDate")</label>
+                            @*<input type="date" name="strFromDate" id="strFromDate" onchange="LoadSalesman();" />*@
+                            <div class="item" style="margin-left: 75px">
+                                @Html.TextBox("strFromDate", "", new { @class = "datepicker", @onchange = "LoadSalesmanHeat();" })
+                                <button id="snsap" onclick="PrintMap();"><i class="icon-print"></i></button>
+                            </div>
+                        </div>
+                        @*<div class="item" id="inputText">
+                                <label id="lblSearch" for class="fl">@Utility.Phrase("Search")</label>
+                                <div class="input-group" style="margin-left: 28px">
+                                    <input type="text" id="txtSearch" name="txtSearch" class="form-control" aria-label="..." placeholder="Nhập từ khóa" />
+                                    <div class="input-group-btn">
+                                        <button type="button" id="btnSearch" onclick="SearchOnTreeView()" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="icon-search"></i></button>
+                                    </div>
+                                </div>
+                            </div>*@
+                    </div>
+                    <div id="pOption" class="p-10 block-content-body mw-420" style="max-height: 267px; max-width: 305px; overflow: auto; padding: 10px !important; display: none">
+                        <div id="data" class="item w-100pr panel-group">
+                            <div class="item" id="tabAll" style="display:none;">
+                                <label>
+                                    <input type="radio" id="rdHeatMap" name="type" onchange="ViewHeatMap();" class="type" data-parent="#data" data-toggle="collapse" data-target="#criteria" checked />@Utility.Phrase("HeatMap")
+                                </label>
+                                <label>
+                                    <input type="radio" id="rdRawData" name="type" onchange="ViewRawData();" class="type" data-parent="#data" data-toggle="collapse" data-target="#infoRD" />@Utility.Phrase("RawData")
+                                </label>
+                                <label>
+                                    <input type="radio" id="rdWW" name="type" onchange="ViewWorkWith();" class="type" data-parent="#data" data-toggle="collapse" data-target="#workweek" style="display: none" /><span style="display: none">@Utility.Phrase("WorkWeek")</span>
+                                </label>
+                                <label>
+                                    <input type="radio" id="rdRoutine" name="type" onchange="ViewRoutine();" class="type" data-parent="#data" data-toggle="collapse" data-target="#routine" style="display: none" /><span style="display: none">@Utility.Phrase("Routine")</span>
+                                </label>
+                                @*<div>
+                                        <button class="toggle-button mini btn-transparent mt-10">
+                                            <i class="icon-left icon-black"></i>
+                                        </button>
+                                    </div>*@
+                                <img id="imShow" src="@Url.Content("~/Content/img/next.png")" style="height:20px;display:none" onclick="$('#inputText').show(); $('#imShow').hide(); $('#imHide').show();" />
+                                <img id="imHide" src="@Url.Content("~/Content/img/prev.png")" style="height:20px;display:none" onclick="$('#inputText').hide(); $('#imShow').show(); $('#imHide').hide();" />
+                                <div id="inputText" class="input-group" style="margin-left: 28px; display: none">
+                                    <input type="text" id="txtSearch" name="txtSearch" class="form-control" aria-label="..." placeholder="Nhập từ khóa" style="width: 150px;" />
+                                    <button type="button" id="btnSearch" onclick="SearchOnTreeView()" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="icon-search"></i></button>
+                                </div>
+                            </div>
+
+                            <div class="table-box w-100pr border-none" id="sl-treeView">
+                                @*<div id="inputText" class="input-group" style="margin-left: 28px">
+                                        <input type="text" id="txtSearch" name="txtSearch" class="form-control" aria-label="..." placeholder="Nhập từ khóa" style="width: 150px;" />
+                                        <button type="button" id="btnSearch" onclick="SearchOnTreeView()" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="icon-search"></i></button>
+                                    </div>*@
+                                <div id="sale-area-treeview" class="treeview"></div>
+                                @Html.Action("TerritoryTreeView")
+                            </div>
+                            <div class="panel panel-transparent">
+                                <div id="criteria" class="panel-collapse collapse in" style="display: none">
+                                    @*<div class="item">
+                                            <label>@Utility.Phrase("Type")</label>
+                                            <label><input type="checkbox" id="opPolygon" checked disabled="true" />@Utility.Phrase("polyline")</label>
+                                            <label><input type="checkbox" id="opPoint" disabled="true" />@Utility.Phrase("Point")</label>
+                                        </div>*@
+                                    <div id="criteria-detail" class="item">
+                                        <table class="border-none no-selected">
+                                            <tr>
+                                                <td>
+                                                    <label>@Utility.Phrase("Criteria"):</label>
+                                                </td>
+                                                <td>
+                                                    <table class="border-none no-selected">
+                                                        <tr>
+                                                            <td>
+                                                                <label>
+                                                                    <input type="radio" name="cbtHeatMapVisited" id="cbtHeatMapVisited" onchange="GenerateVisited();" data-parent="#criteria-detail"/>@Utility.Phrase("VisitRatio")
+                                                                </label>
+                                                            </td>
+                                                            @*<td>
+                                                                <label>
+                                                                    <input type="radio" name="cbtHeatMapQuantity" id="cbtHeatMapQuantity" onchange="GenerateQuantity();" data-parent="#criteria-detail" />@Utility.Phrase("Quantity")
+                                                                </label>
+                                                            </td>*@
+                                                        </tr>
+                                                        
+                                                        <tr>
+                                                            <td>
+                                                                <label>
+                                                                    <input type="radio" name="cbtHeatMapOrder" id="cbtHeatMapOrder" onchange="GenerateOrder();" data-parent="#criteria-detail" />@Utility.Phrase("OrderRatio")
+                                                                </label>
+                                                            </td>
+                                                              </tr>
+                                                        <tr>
+                                                            <td>
+                                                                <label>
+                                                                    <input type="radio" name="cbtShowAllOutlet" id="cbtShowAllOutlet" onchange="GetAllOutletLoCation();" data-parent="#criteria-detail">@Utility.Phrase("Outlet")
+                                                                </label>
+                                                            </td>
+                                                        </tr>
+                                                        @*<tr>
+                                                            <td>
+                                                                <label>
+                                                                    <input type="radio" name="cbtHeatMapRevenue" id="cbtHeatMapRevenue" onchange="GenerateRevenue();" data-parent="#criteria-detail" />@Utility.Phrase("%Revenue")
+                                                                </label>
+                                                            </td>
+                                                              </tr>*@
+                                                        <tr>
+                                                            <td>
+                                                                <label>
+                                                                    <input type="radio" name="cbtHeatMapCO" id="cbtHeatMapCO" onchange="GenerateCoverageOutlet();" data-parent="#criteria-detail" disabled>@Utility.Phrase("CoverageOutlet")
+                                                                </label>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>
+                                                                <label>
+                                                                    <input type="radio" name="cbtHeatMapCoverage" id="cbtHeatMapCoverage" onchange="GenerateCoverage();" data-parent="#criteria-detail" disabled/>@Utility.Phrase("CoverageCategory")
+                                                                </label>
+                                                            </td>
+                                                        </tr>
+                                                        
+                                                        <tr>
+                                                            <td>
+                                                                <label>
+                                                                    <input type="radio" name="cbtHeatMapSeparateOutlet" id="cbtHeatMapSeparateOutlet" onchange="GenerateSeparateOutlet();" data-parent="#criteria-detail" disabled/>@Utility.Phrase("SeparateOutlet")
+                                                                </label>
+                                                            </td>
+                                                        </tr>
+                                                    </table>
+
+                                                </td>
+                                            </tr>
+                                        </table>
+                                        <div class="panel panel-transparent">
+                                            <div id="empty"></div>
+                                            <div id="quantity" class="display-none">
+                                                <table class="border-none no-selected">
+                                                    <tr>
+                                                        <td>
+                                                            <label id="lblChooseCat" style="display: none; color: blue">@Utility.Phrase("ChooseCategory...")</label>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <label for="map-region" id="lblCategory">@Utility.Phrase("Category"): </label>
+                                                              <select id="lstCategory" style=" width: 135px; height: 28px;" onchange="SelectCategoryChange()">
+                                                                <option id="opID"></option>
+                                                            </select>
+                                                        </td>                                                       
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <label for="map-region" id="lblProduct">@Utility.Phrase("Product"): </label>
+                                                            <select id="lstItemCategory" style="width: 135px; height: 28px;" onchange="SelectItemChange()">
+                                                                <option id="opID"></option>
+                                                            </select>
+                                                        </td>                                                        
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <label id="lblNbHas" style="display: none;">@Utility.Phrase("NbOutletsHasCoverage"): </label>
+                                                        </td>
+                                                        <td>
+                                                            <label id="NbCoverage" style="display: none; color: blue"></label>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <label id="lblNoHas" style="display: none;">@Utility.Phrase("NbOutletsNoCoverage"): </label>
+                                                        </td>
+                                                        <td>
+                                                            <label id="NbNoCoverage" style="display: none; color: red"></label>
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <div id="infoRD" class="panel-collapse collapse">
+                                    <div id="nonCompliance" style="display: none">
+                                        <h3>@Utility.Phrase("Info_NonCompliance")</h3>
+                                        <table class="table-raw">
+                                            <tbody>
+                                                <tr>
+                                                    <th style="width: 110px">@Utility.Phrase("NonCompliance_Sync")</th>
+                                                    <td>
+                                                        @*<input type="radio" id="rdViolate" name="sm-location" checked onchange="RenderSMViolate();" />*@
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <h3>@Utility.Phrase("SalesSupervisor_Infomation")</h3>
+
+                                    <table class="table-raw">
+                                        <tbody>
+                                            <tr>
+                                                <th id="SalesteamInfo">
+                                                    <div class="item fl">
+                                                        <table class="table-raw m-0">
+                                                            <tbody>
+                                                                <tr>
+                                                                    <th width="3">@Utility.Phrase("Saleteam")</th>
+                                                                    <td>
+                                                                        <div>
+                                                                            <label id="roleASM_Salesteam">
+                                                                                <input type="checkbox" id="chkASM" onchange="GetASM();" />@Utility.Phrase("ASM")
+                                                                            </label>                                                                           
+                                                                          
+                                                                           
+                                                                        </div>
+                                                                    </td>
+                                                                </tr>
+                                                                @*<tr>
+                                                                    <th width="3"></th>
+                                                                    <td>
+                                                                     <label id="roleSS_Salesteam">
+                                                                                <input type="checkbox" id="chkSaleSup" onchange="GetSaleSup();" />@Utility.Phrase("SalesSup")
+                                                                            </label>
+                                                                    </td>
+                                                                </tr>*@
+                                                                <tr>
+                                                                    <th width="3"></th>
+                                                                    <td>
+                                                                                <label id="roleSM_Salesteam">
+                                                                                <input type="checkbox" id="chkSM" onchange="GetSalesmanLastLocation();" />@Utility.Phrase("Salesman")
+                                                                            </label>
+                                                                    </td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                </th>
+                                                <td style="margin-left: 10px; display: none">
+                                                    <label>
+                                                        <input type="radio" id="rdViolate" name="sm-location" onchange="RenderSMViolate();" />@Utility.Phrase("NonCompliance_Sync")
+                                                    </label>
+                                                    <label>
+                                                        <input type="radio" id="VisitLast" name="sm-location" checked onchange="RenderSMSync();" />@Utility.Phrase("VisitLast")
+                                                    </label>
+                                                    <br />
+                                                    <label>
+                                                        <input type="radio" id="SyncDataFirst" name="sm-location" onchange="RenderSMSync();" />@Utility.Phrase("SyncDataFirst")
+                                                    </label>
+                                                    <label>
+                                                        <input type="radio" id="SyncDataLast" name="sm-location" onchange="RenderSMSync();" />@Utility.Phrase("SyncDataLast")
+                                                    </label>
+                                                </td>
+                                            </tr>
+                                            <tr style="display: none">
+                                                @*<th>@Utility.Phrase("SalesSupervisor_cbtbSalesAssessment") </th>*@
+                                                <td>
+                                                    <p>
+                                                        <span style="font-size: small; font-weight: bold; color: black">@Utility.Phrase("SalesSupervisor_cbtbSalesAssessment")  </span>
+                                                        <button data-toggle="modal" data-target="#map-report" onclick=""><i class="icon-display" id="icon-display"></i></button>
+                                                    </p>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                    <div id="InfoLocation" style="display: none">
+                                        <h3>@Utility.Phrase("SalesSupervisor_Infomation_Location")</h3>
+                                        <table class="table-raw m-0">
+                                            <tbody>
+                                                <tr>
+                                                    <th width="3">@Utility.Phrase("SalesSupervisor_Outlet")</th>
+                                                    <td>
+                                                        <div>
+                                                            <label>
+                                                                <input type="checkbox" name="MarkerOutletMCP" id="MarkerOutletMCP" checked="checked" onchange="UpdateMap();" />@Utility.Phrase("IsMCP")
+                                                            </label>  
+                                                        
+                                                        </div>                                                       
+                                                      
+                                                    </td>
+                                                </tr>
+                                                 <tr>
+                                                    <th width="3"></th>
+                                                     <td>
+                                                           <label>
+                                                                <input type="checkbox" name="LineOutlet" id="LineOutlet" checked="checked" onchange="UpdateMap();" />@Utility.Phrase("Line")
+                                                            </label>
+                                                     </td>
+                                                    </tr>
+                                                 <tr>
+                                                    <th width="3"></th>
+                                                     <td>
+                                                          <label>
+                                                                <input type="checkbox" name="SimulateROutlet" id="SimulateROutlet" onchange="SimulateRoutingOutlet();" />@Utility.Phrase("Simulate")
+                                                            </label>
+                                                     </td>
+                                                    </tr>
+                                                 <tr>
+                                                    <th width="3"></th>
+                                                     <td>
+                                                          <label>                                                                
+                                                            <label>
+                                                                <input type="checkbox" name="MarkerOutlet" id="MarkerOutlet" />@Utility.Phrase("NotMCP")
+                                                            </label> 
+                                                            </label>
+                                                     </td>
+                                                    </tr>
+                                                 <tr>
+                                                    <th width="3"></th>
+                                                     <td>
+                                                           <label>
+                                                                <input type="checkbox" name="MarkerOutletT2" id="MarkerOutletT2" class="checkbox1" onchange="UpdateMap();" />@Utility.Phrase("T2")
+                                                            </label>
+                                                            <label>
+                                                               
+                                                                <input type="checkbox" name="MarkerOutletT4" id="MarkerOutletT4" class="checkbox1" onchange="UpdateMap();" />@Utility.Phrase("T4")
+                                                            </label>
+                                                            <label>
+                                                                <input type="checkbox" name="MarkerOutletT6" id="MarkerOutletT6" class="checkbox1" onchange="UpdateMap();" />@Utility.Phrase("T6")
+                                                            </label>
+                                                     </td>
+                                                    </tr>
+                                                 <tr>
+                                                    <th width="3"></th>
+                                                     <td>
+                                                            <label>
+                                                                 <input type="checkbox" name="MarkerOutletT3" id="MarkerOutletT3" class="checkbox1" onchange="UpdateMap();" />@Utility.Phrase("T3")
+                                                            </label>
+                                                            <label>
+                                                                <input type="checkbox" name="MarkerOutletT5" id="MarkerOutletT5" class="checkbox1" onchange="UpdateMap();" />@Utility.Phrase("T5")
+                                                            </label>
+                                                            <label>
+                                                                <input type="checkbox" name="MarkerOutletT7" id="MarkerOutletT7" class="checkbox1" onchange="UpdateMap();" />@Utility.Phrase("T7")
+                                                            </label>
+                                                     </td>
+                                                    </tr>
+                                            </tbody>
+                                        </table>
+                                        <table>
+                                            <tbody>
+                                                <tr>
+                                                    <th>
+                                                        <div class="item fl">
+                                                            <label for="code" class="fl">@Utility.Phrase("Role")</label>
+                                                            <div class="dropup">
+                                                                <div class="input-group">
+                                                                    <div class="input-group-btn">
+                                                                        <button type="button" id="btnRole" onclick="ShowOptionRole();" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="caret"></span></button>
+                                                                        <ul class="dropdown-menu" id="dropRole">
+                                                                            <li>
+                                                                                <table class="table table-striped nowrap m-0">
+                                                                                    <thead class="block-theme">
+                                                                                        <tr>
+                                                                                            <th>@Utility.Phrase("Role")</th>
+                                                                                            <th>@Utility.Phrase("View")</th>
+                                                                                        </tr>
+                                                                                    </thead>
+                                                                                    <tbody>
+                                                                                        <tr class="selected" id="roleASM">
+                                                                                            <td>
+                                                                                                <label class="m-0">@Utility.Phrase("ASM")</label>
+                                                                                            </td>
+                                                                                            <td>
+                                                                                                <input type="checkbox" name="MarkerASM" id="MarkerASM" onchange="UpdateMap();" />@Utility.Phrase("Location")
+                                                                                                <input type="checkbox" name="LineASM" id="LineASM" onchange="UpdateMap();" />@Utility.Phrase("Line")
+                                                                                            </td>
+                                                                                        </tr>
+                                                                                        @*<tr id="roleSS">
+                                                                                            <td>
+                                                                                                <label class="m-0">@Utility.Phrase("SalesSup")</label>
+                                                                                            </td>
+                                                                                            <td>
+                                                                                                <input type="checkbox" name="MarkerSS" id="MarkerSS" onchange="UpdateMap();" />@Utility.Phrase("Location")
+                                                                                                <input type="checkbox" name="LineSS" id="LineSS" onchange="UpdateMap();" />@Utility.Phrase("Line")
+                                                                                            </td>
+                                                                                        </tr>*@
+                                                                                        <tr id="roleSM">
+                                                                                            <td>
+                                                                                                <label class="m-0">@Utility.Phrase("Salesman")</label>
+                                                                                            </td>
+                                                                                            <td>
+                                                                                                <input type="checkbox" name="MarkerSM" id="MarkerSM" onchange="UpdateMap();" />@Utility.Phrase("Location")
+                                                                                                <input type="checkbox" name="LineSM" id="LineSM" onchange="UpdateMap();" />@Utility.Phrase("Line")
+                                                                                                <input type="checkbox" name="SimulateRSalesMan" id="SimulateRSalesMan" onchange="SimulateRoutingSM();" />@Utility.Phrase("Simulate")
+                                                                                            </td>
+                                                                                        </tr>
+                                                                                    </tbody>
+                                                                                </table>
+                                                                            </li>
+                                                                        </ul>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </th>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                                <div id="workweek" class="panel-collapse collapse">
+                                    <table class="table-raw m-0">
+                                        <tbody>
+                                            <tr>
+                                                <th>@Utility.Phrase("Saleteam")</th>
+                                                <td>
+                                                    <div>
+                                                        <label>
+                                                            <input type="checkbox" name="chkLastVisit" id="chkLastVisit" onchange="RenderInfoWW();" checked />@Utility.Phrase("VisitLast")
+                                                        </label>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <th>@Utility.Phrase("Tracking"):</th>
+                                                <td>
+                                                    <div>
+                                                        <label>
+                                                            <input type="checkbox" id="chkWWValid" name="chkWWValid" onchange="RenderInfoDetailWW();" /><span class="txt-blue bold">@Utility.Phrase("Value_Go")</span>
+                                                        </label>
+                                                    </div>
+                                                    <div>
+                                                        <label>
+                                                            <input type="checkbox" id="chkWWInValid" name="chkWWInValid" onchange="RenderInfoDetailWW();" /><span class="txt-yellow bold">@Utility.Phrase("Value_GoFaild")</span>
+                                                        </label>
+                                                    </div>
+                                                    <div>
+                                                        <label>
+                                                            <input type="checkbox" id="chkWWNone" name="chkWWNone" onchange="RenderInfoDetailWW();" /><span class="txt-red bold">@Utility.Phrase("Value_NoneGo")</span>
+                                                        </label>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <th>@Utility.Phrase("Outlet"):</th>
+                                                <td>
+                                                    <div>
+                                                        <label>
+                                                            <input type="checkbox" id="chkVisitValid" name="chkVisitValid" onchange="RenderInfoDetailWW();" /><span class="txt-blue bold">@Utility.Phrase("Value_VisitedValid")</span>
+                                                        </label>
+                                                    </div>
+                                                    <div>
+                                                        <label>
+                                                            <input type="checkbox" id="chkVisitInValid" name="chkVisitInValid" onchange="RenderInfoDetailWW();" /><span class="txt-yellow bold">@Utility.Phrase("Value_VisitedInvalid")</span>
+                                                        </label>
+                                                    </div>
+                                                    <div>
+                                                        <label>
+                                                            <input type="checkbox" id="chkVisitNone" name="chkVisitNone" onchange="RenderInfoDetailWW();" /><span class="txt-red bold">@Utility.Phrase("Value_NotYetVisited")</span>
+                                                        </label>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div id="routine" class="panel-collapse collapse">
+                                    <label>
+                                        <input type="radio" id="MarkerDistributor" name="level" onchange="GetLocationDistributor();" />NPP gần nhất
+                                    </label>
+                                    <label>
+                                        <input type="radio" id="MarkerSL" name="level" onchange="GetLocationSaleman();" />NVBH gần nhất
+                                    </label>
+                                    <label>
+                                        <input type="radio" id="MarkerOutLetS" name="level" onchange="GetLocationOutLet();" />Cửa hàng gần nhất
+                                    </label>
+                                    <div class="table-box w-100pr border-none">
+                                        <label for="map-region" id="lblListOb" style="display: none"></label>
+                                        <select id="listob" onchange="focusonMap()" style="width: 160px; height: 28px; display: none">
+                                            <option id="opID"></option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <pre id="selection">&nbsp;</pre>
+    <div id="map-report" class="modal fade" role="dialog">
+        <div class="modal-dialog w-90pr mw-1500 bottom">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="tab-header modal-header block-theme">
+                    <ul class="nav nav-tabs fl  block-theme" id="ReportHeader">
+                        @*<li><a data-toggle="tab" id="tabInfoSummary" href="#report-summary">@Utility.Phrase("ReportInfo_Summary")</a></li>*@
+                        <li><a id="tabInfoOutlet" data-toggle="tab" href="#report-outlet" style="display: none">@Utility.Phrase("ReportInfo_Outlet")</a></li>
+                        <li><a id="tabInfoVisit" data-toggle="tab" href="#report-visit" style="display: none">@Utility.Phrase("ReportInfo_Visit")</a></li>
+                        <li class="active"><a data-toggle="tab" id="tabInfoRevenue" href="#report-saleRevenue">@Utility.Phrase("ReportResult_Visit")</a></li>
+                    </ul>
+                    <button type="button" class="close fr m-10" data-dismiss="modal" onclick="HideReport()"><i class="icon-delete icon-white"></i></button>
+                </div>
+                <div class="modal-body p-0">
+                    <div class="tab-content">
+                        @*<div id="report-summary" class="tab-pane table-box wrapper mh-300" style="height: 500px">
+                        </div>*@
+                        <div id="report-outlet" class="tab-pane table-box wrapper mh-300" style="height: 500px">
+                        </div>
+                        <div id="report-visit" class="tab-pane table-box wrapper mh-300" style="height: 500px">
+                        </div>
+                        <div id="report-saleRevenue" class="tab-pane fade in active table-box wrapper" style="height: 500px">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+@*Varibles and Initial*@
+<script type="text/javascript">
+    var SalesmanAvatarFolder = '@Url.Content(Constant.SalesmanAvatarFolder)';
+    var OutletImageFolder = '@Url.Content(Constant.OutletImageFolder)';
+    var SalesOrdersImageFolder = '@Url.Content(Constant.SalesOrdersImageFolder)';
+    //$('.datepicker').datepicker({ dateFormat: 'dd-mm-yy' }).val();;
+    var role = '@ViewBag.RoleUser';
+    $('#rdViolate').parent('label').hide();
+  
+    if (role == 'SalesSup') {
+        $('#inputText').hide();
+        $('#lblSearch').hide();
+        $('#tabAll').hide();
+        // $('#SalesteamInfo').hide();
+        $('#rdRawData').prop('checked', true);
+        $('#chkASM').prop('checked', false);
+        $('#chkSaleSup').prop('checked', false);
+        $('#chkSM').prop('checked', true);
+        $('#criteria').hide();
+        $('#roleSS').hide();
+        $('#roleASM').hide();
+        $('#roleSS_Salesteam').hide();
+        $('#roleASM_Salesteam').hide();
+        $('#infoRD').show();
+        $('#sl-treeView').show();
+    }
+    else if (role == 'ASM') {
+        $('#inputText').hide();
+        $('#lblSearch').hide();
+        $('#roleASM').hide();
+        $('#roleASM_Salesteam').hide();
+        $('#criteria').hide();
+        $('#chkASM').prop('checked', false);
+        $('#chkSaleSup').prop('checked', true);
+        $('#chkSM').prop('checked', true);
+        $('#rdHeatMap').prop('checked', false);
+        $('#rdRawData').prop('checked', false);
+        $('#rdWW').parent('label').hide();
+        $('#rdRoutine').parent('label').hide();
+        $('#infoRD').show();
+        $('#pOption').show();
+        $('#sl-treeView').show();
+    }
+    else if (role == 'RSM') {
+        $('#inputText').hide();
+        $('#lblSearch').hide();
+        $('#rdRoutine').parent('label').hide();
+        $('#sl-treeView').show();
+        $('#criteria').hide();
+        $('#chkASM').prop('checked', false);
+        $('#chkSM').prop('checked', true);
+        $('#rdHeatMap').prop('checked', false);
+        $('#rdRawData').prop('checked', false);
+        $('#rdRoutine').parent('label').hide();
+        $('#rdWW').parent('label').hide();
+        $('#infoRD').show();
+        $('#pOption').show();
+    }
+    else if (role == 'NSM' || role == 'NSD') {
+        $('#rdWW').parent('label').hide();
+        $('#rdRoutine').parent('label').hide();
+        $('#cbtHeatMapQuantity').prop('checked', false);
+        $('#cbtHeatMapCoverage').prop('checked', false);
+        $('#cbtHeatMapOrder').prop('checked', false);
+        $('#cbtShowAllOutlet').prop('checked', false);
+        $('#cbtHeatMapVisited').prop('checked', false);
+        $('#criteria').show();
+        $('#pOption').show();       
+      
+    }
+
+    function ShowOptionRole() {
+        $('#dropRole').toggle();
+    }
+    function ShowOptionSalesTeam() {
+        $('#dropSalesTeam').toggle();
+    }
+    //Input date
+    var sPageURL = window.location.href,
+         sURLVariables = sPageURL.split('?'),
+         sParameterName,
+         i;
+    var textSearch = '';
+    var dateS = '';
+    if (sURLVariables[1] != null && sURLVariables[1] != undefined) {
+        var getUrlParameterDate = function getUrlParameterDate() {
+            var sParameterName = sURLVariables[1].split('=');
+            if (sParameterName[1].indexOf("&") >= 0)
+                return sParameterName[1] === undefined ? true : sParameterName[1].split('&')[0];
+            else
+                return sParameterName[1] === undefined ? true : sParameterName[1];
+        };
+        var getUrlParameterSearch = function getUrlParameterSearch() {
+            var sParameterName = sURLVariables[1].split('&')[1]
+            if (sParameterName != null) {
+                var result = sParameterName.split('=');
+                return result[1] === undefined ? true : result[1];
+            }
+        };
+        textSearch = getUrlParameterSearch();
+        dateS = getUrlParameterDate();
+    }
+
+    if (textSearch != null && textSearch.length > 0) {
+        document.getElementById('txtSearch').value = textSearch;
+        $('#rdRawData').prop('checked', false);
+        $('#rdHeatMap').prop('checked', false);
+        //GetContextMenu(role);
+        //ShowReportSalesAssessment(null);
+        //ClearOptionRoutine();
+        //ClearMap();
+        $('#imShow').show();
+        $('#sl-treeView').show();
+        $('#infoRD').show()
+        $('#InfoLocation').show();
+        $('#criteria').hide()
+        $("div").remove(".info");
+        $('#chkSM').prop('checked', false);
+        $('#chkASM').prop('checked', false);
+        $('#chkSaleSup').prop('checked', false);       
+        if (role == 'NSD' || role == 'NSM') {
+            $('#sl-treeView').show();           
+        }
+        else {
+            if (role == 'RSM') {
+                $('#chkSM').prop('checked', true);
+            } else if (role == 'ASM') {
+                $('#chkSM').prop('checked', true);
+            }
+            else if (role == 'SalesSup') {
+                $('#chkSM').prop('checked', true);
+            }
+            //GetLastLocationSalesTeam(role);
+        }
+    }
+    var sessionDateSelect = '@Session["DateSelected"]';
+
+    if (dateS != null && dateS.length > 0) {
+        document.getElementById('strFromDate').value = dateS;
+    }
+    else {
+        if (sessionDateSelect == null || sessionDateSelect == '') {
+            var date = new Date();
+            var day = date.getDate();
+            var month = date.getMonth() + 1;
+            var year = date.getFullYear();
+            if (month < 10) month = "0" + month;
+            if (day < 10) day = "0" + day;
+            var today = day + "-" + month + "-" + year;
+            document.getElementById('strFromDate').value = today;
+        }
+        else {
+            var dateString = sessionDateSelect.split('/');
+            if (dateString.length < 3) {
+                dateString = sessionDateSelect.split('-');
+            }
+            var day = dateString[0];
+            var month = dateString[1];
+            var year = dateString[2];
+            if (month.length < 2) month = "0" + month;
+            if (day.length < 2) day = "0" + day;
+            var today = day + "-" + month + "-" + year;
+            document.getElementById('strFromDate').value = today;
+        }
+    }
+
+    //Varibles
+    // HeatMap
+    var dataViewPopup = false;
+    var polygon = null;
+    var groupby = null;
+    var Geo = '';
+    var multipolygon = [];
+    var multiLabel = [];
+    var itemClick = '';
+    var categoryID = '';
+    var inventoryItemID = '';
+    var typeColor = '';
+    var myMovingMarker1 = [];
+    var myMovingMarker2 = [];
+    var templatArray1 = [];
+    var templatArray2 = [];
+    var arrayWW = [];
+    var CoverageOutlet = [];
+    dateSelected = $('input[name="strFromDate"]').val();
+
+    var lstSM = '';
+    var markerViolateArray = [];
+    // End
+    // Routine
+    var marker = null;
+    var lat = null;
+    var long = null;
+    var routing = null;
+    var markerArray = [];
+    var markerLocation = [];
+    //End
+    //Raw data
+    var strVisitDate = '';
+    var listSMSelected = '';
+    var distributorIDSelected = 0;
+    var branchIDSelected = '';
+    var regionIDSelected = '';
+    var areaIDSelected = '';
+    var salesupIDSelected = '';
+    var routeIDSelected = '';
+    var SMNoneCompliance = 0;
+    var asmID = '';
+    //Treelist selected
+
+    //Legend
+    var cusMinArray = [];
+    var cusMaxArray = [];
+    var cusLevelArray = [];
+    var cusColorArray = [];
+    //
+    var itemId = '';
+    var mapData = {};
+    mapData.listRouteRender = [];
+    mapData.listOutletInfo = [];
+    mapData.listRouteInfo = [];
+    mapData.LayerMarkerOutlet = L.layerGroup();
+    mapData.LayerMarkerOutletMCP = L.layerGroup();
+    mapData.LayerLineOutlet = L.layerGroup();
+
+    mapData.LayerLineOutletSMSSASM = L.layerGroup();
+    mapData.LayerMarkerOutletSMSSASM = L.layerGroup();
+
+    mapData.LayerMarkerSM = L.layerGroup();
+    mapData.LayerLineSM = L.layerGroup();
+    mapData.listSMInfo = [];
+
+    mapData.LayerMarkerSS = L.layerGroup();
+    mapData.LayerLineSS = L.layerGroup();
+    mapData.listSSInfo = [];
+
+    mapData.LayerMarkerASM = L.layerGroup();
+    mapData.LayerLineASM = L.layerGroup();
+    mapData.listASMInfo = [];
+
+    mapData.LayerMarkerSMLastLocation = L.layerGroup();
+    mapData.listSMLastLocationInfo = [];
+
+    mapData.LayerMarkerOLLocation = L.layerGroup();
+
+    mapData.LayerMarkerSSLastLocation = L.layerGroup();
+    mapData.listSSLastLocationInfo = [];
+
+    mapData.LayerMarkerASMLastLocation = L.layerGroup();
+    mapData.listASMLastLocationInfo = [];
+
+    mapData.LayerMarkerDistributor = L.layerGroup();
+    mapData.listDistributorInfo = [];
+
+    mapData.LatLongBounds = [];
+
+    mapData.LayerMarkerOutletT2 = L.layerGroup();
+    mapData.LayerMarkerOutletT3 = L.layerGroup();
+    mapData.LayerMarkerOutletT4 = L.layerGroup();
+    mapData.LayerMarkerOutletT5 = L.layerGroup();
+    mapData.LayerMarkerOutletT6 = L.layerGroup();
+    mapData.LayerMarkerOutletT7 = L.layerGroup();
+    mapData.LayerMarkerOutletCN = L.layerGroup();
+    //2016-05-25 khai bao cho GeoJson
+    LayerMarkerVisited = L.geoJson();
+    LayerMarkerOrder = L.geoJson();
+    LayerMarkerRevenue = L.geoJson();
+    LayerMarkerCoverageOutlet = L.geoJson();
+
+    LayerMarkerVisited1 = L.geoJson();
+    LayerMarkerOrder1 = L.geoJson();
+    LayerMarkerRevenue1 = L.geoJson();
+    LayerMarkerCoverageOutlet1 = L.geoJson();
+
+
+
+   var GeoListMarkerVisited = null;
+   var GeoListMarkerOrder = null;
+   var GeoListMarkerRevenue = null;
+   var GeoListMarkerCoverageOutlet = null;
+   
+    //End Varibles
+
+    //Initial Map
+    var map = new L.Map('map', {
+        center: [16, 106],
+        zoom: 7,
+        minZoom: 0,
+        maxZoom: 23,
+        contextmenu: true,
+        contextmenuWidth: 240,
+        contextmenuItems: [{
+            text: 'Initial'
+        }
+        ]
+    }
+    );
+    map.locate({ setView: true, maxZoom: 15 });
+    var googleLayer = new L.Google('ROADMAP');
+    map.addLayer(googleLayer);
+    var markers = L.markerClusterGroup();
+
+   
+    $(document).ready(function () {
+        GetContextMenu(role);
+        ViewHeatMap();  // cần chỉnh sửa lại
+    })
+    function ShowMessageNoData(mess) {
+        $('#mSNoData').text(mess);
+        $('#shCenter').show();
+        $('#shCenter').delay(2500).fadeOut();
+    }
+    function PrintMap() {
+        window.print();
+        // var width = 1587, height = 2245;
+        // var center = map.getCenter();
+        // var zoom = map.getZoom();
+        // var size = ' width=2245 height=1587 ';
+        // var params = '?ms=' + (new Date()).getTime() + '&clat=' + center.lat + '&clng=' + center.lng +
+        //                 '&zoom=' + zoom + '&width=' + width + '&height=' + height;
+
+        // //$("#printpreview").append('<iframe id=printtemp ' + size + ' src="' + $("#printpreview").attr('map') + params + '" ></iframe>');
+        //// window.open($("#printpreview").attr('map') + params, 'printview');
+        // window.open('../Tracking/TerritoryPerformance?w=3178&h=4493&i=2&a=' + center.lat + '&o=' + center.lng + '&z=' + zoom + '&g=' + 1 + '&n=' + 'dfdf' + '', '_blank');
+
+    }
+
+    var divIconBD = L.divIcon({
+        className: "labelmaps",
+        html: "Biển Đông - Việt Nam"
+    });
+    var divIconHS = L.divIcon({
+        className: "labelmaps",
+        html: "Quần Đảo Hoàng Sa " + "<br />" + " (Đà Nẵng - Việt Nam)"
+    });
+    var divIconTS = L.divIcon({
+        className: "labelmaps",
+        html: "Quần Đảo Trường Sa " + "<br />" + " (Khánh Hòa - Việt Nam)"
+    });
+
+    L.marker([15.428676, 114.457426], { icon: divIconBD })
+    .addTo(map);
+    L.marker([16.532766, 111.596266], { icon: divIconHS })
+    .addTo(map);
+    L.marker([10.709836, 115.384281], { icon: divIconTS })
+    .addTo(map);
+
+</script>
+
+@*ContextMenu*@
+@Html.Partial("TerritoryPerformance_ContextMenu")
+
+@*HeatMap*@
+@Html.Partial("TerritoryPerformance_HeatMap")
+
+@*RawData*@
+@Html.Partial("TerritoryPerformance_RawData")
+
+@*RawData - Report*@
+@Html.Partial("TerritoryPerformance_RawDataReport")
+
+@*Routine*@
+@*@Html.Partial("TerritoryPerformance_Routine")*@
+
+@*WorkWith*@
+@*@Html.Partial("TerritoryPerformance_WorkWith")*@
+
+<div id="loading" class="loading">
+</div>
+
+

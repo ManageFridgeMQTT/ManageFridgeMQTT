@@ -1,0 +1,151 @@
+﻿@model eRoute.Models.ViewModel.AssesmentVM
+@{
+    AjaxOptions ajaxOptions = new AjaxOptions
+    {
+        UpdateTargetId = "searchResults",
+    };
+}
+<input type="hidden" id="ErrorOpen" value="@Localization.ErrorOpen" />
+<input type="hidden" id="ErrorClose" value="@Localization.ErrorClose" />
+<input type="hidden" id="ErrorReOpen" value="@Localization.ErrorReOpen" />
+<input type="hidden" id="ErrorSelectRoute" value="@Localization.ErrorSelectRoute" />
+<input type="hidden" id="OnFailureAss" value="@Localization.OnFailureAss" />
+<script type="text/javascript">
+    function OnOpen() {
+        alert(document.getElementById('ErrorOpen').value);
+        window.location.href = "/Assesment/AssesmentList";
+    }
+    function OnClose() {
+        alert(document.getElementById('ErrorClose').value);
+        window.location.href = "/Assesment/AssesmentList";
+    }
+    function OnReOpen() {
+        alert(document.getElementById('ErrorReOpen').value);
+    }
+    function OnSelectRoute() {
+        alert(document.getElementById('ErrorSelectRoute').value);
+    }
+    function OnFailure() {
+        alert(document.getElementById('OnFailureAss').value);
+    }
+</script>
+@using (Ajax.BeginForm("UpdateStatusOpenOrCloseDay", ajaxOptions))
+{
+    <div class="dxgvGroupPanel_Aqua" style="border: 1px solid #A3C0E8; color: #E65905;
+        font-weight: bold">
+        <table width="100%" cellpadding="0" cellspacing="0">
+            <tr>
+                <td width="7%" align="left">
+                    <div style="padding-top: 15px">
+                        @Html.DevExpress().Button(settings =>
+           {
+               settings.Name = "btnOpen";
+               settings.Text = Localization.BtnOpenDay;
+               settings.UseSubmitBehavior = true;
+           }).GetHtml()</div>
+                </td>
+                <td width="7%" align="left">
+                    <div style="padding-top: 15px">
+                        @Html.DevExpress().Button(settings =>
+           {
+               settings.Name = "btnClose";
+               settings.Text = Localization.BtnCloseDay;
+               settings.UseSubmitBehavior = true;
+           }).GetHtml()</div>
+                </td>
+                <td width="86%" align="left">
+                    @Localization.ReasonForOpeningDay
+                    @Html.DevExpress().Memo(settings =>
+           {
+               settings.Name = "txtNode";
+               settings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+           }).GetHtml()
+                </td>
+            </tr>
+        </table>
+    </div>
+    @Html.DevExpress().GridView(settings =>
+{
+    settings.Name = "dvData";
+    settings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+    settings.KeyFieldName = "RouteID";
+    settings.Settings.ShowFilterRow = false;
+    settings.SettingsBehavior.AllowSort = false;
+    settings.SettingsPager.Mode = GridViewPagerMode.ShowAllRecords;
+    settings.SettingsBehavior.AllowSelectByRowClick = true;
+    settings.Columns.Add(column =>
+    {
+        column.Caption = Localization.Leader;
+        column.FieldName = "Leader";
+    });
+    settings.Columns.Add(column =>
+    {
+        column.Caption = Localization.Auditor;
+        column.FieldName = "Auditor";
+    });
+    settings.Columns.Add(column =>
+    {
+        column.Caption = Localization.Distributor;
+        column.FieldName = "DistributorName";
+    });
+
+    settings.Columns.Add(column =>
+    {
+        column.Caption = Localization.RouteID;
+        column.FieldName = "RouteID";
+    });
+    settings.Columns.Add(column =>
+    {
+        column.Caption = Localization.RouteName;
+        column.FieldName = "RouteName";
+    });
+    settings.Columns.Add(column =>
+    {
+        column.Caption = Localization.Status;
+        column.FieldName = "Status";
+        column.Width = 100;
+    });
+    settings.Columns.Add(column =>
+    {
+        column.Caption = Localization.StatusOpenColse;
+        column.FieldName = "StatusOpenColse";
+        column.Width = 100;
+    });
+    settings.Columns.Add(col =>
+    {
+        col.Caption = Localization.SelectCheck;
+        col.Width = 50;
+        col.FieldName = "RouteID";
+        col.SetDataItemTemplateContent(c =>
+        {
+            var value = DataBinder.Eval(c.DataItem, "RouteID");
+            Html.DevExpress().CheckBox(cbSettings =>
+            {
+                cbSettings.Properties.ValueChecked = true;
+                cbSettings.Properties.ValueUnchecked = false;
+                cbSettings.Name = value.ToString() + "|";
+            }).GetHtml();
+        });
+    });
+    settings.DataBound = (source, e) =>
+    {
+        ASPxGridView dv = (ASPxGridView)source;
+        GridViewDataTextColumn colNo = new GridViewDataTextColumn();
+        colNo.Caption = Localization.No;
+        colNo.FieldName = "No";
+        colNo.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
+        colNo.Width = 30;
+        colNo.VisibleIndex = 0;
+        colNo.UnboundType = DevExpress.Data.UnboundColumnType.Integer;
+        dv.Columns.Add(colNo);
+    };
+    settings.CustomUnboundColumnData = (source, e) =>
+    {
+        if (e.Column.FieldName == "No")
+        {
+            e.Value = e.ListSourceRowIndex + 1;
+        }
+    };
+}
+        ).Bind(Model.sp_Manage_View_Status_Open_Day).GetHtml()
+}

@@ -1,0 +1,1377 @@
+﻿@{
+                //ViewBag.Title = "TerritoryPerformance_HeatMap";
+}
+<script type="text/javascript">
+    $('#lblnote').click(function () {
+        $('#notePanel').toggle();
+        //if ($('#rdHeatMap').is(':checked')) {
+        //    if (isShowNote) {
+        //        $("div").remove(".info");
+        //        document.getElementById('notePanel').style.display = 'none';
+
+        //    }
+        //    $('.info').toggle();
+        //}
+        //if ($('#rdRawData').is(':checked')) {
+        //    if (isShowNote) {
+        //        $("div").remove(".info");
+        //        $('#notePanel').toggle();
+        //    }
+        //}
+    });
+    //legend
+    function ShowLegend() {
+        cusMinArray = [];
+        cusMaxArray = [];
+        cusLevelArray = [];
+        cusColorArray = [];
+        $("div").remove(".info");
+        document.getElementById('notePanel').style.display = 'none';
+        isShowNote = false;
+        //var c = '';
+        $.ajax({
+            type: 'POST',
+            url: '../Tracking/GetCustomSetting',
+            dataType: 'json',
+            data: { type: typeHeatMap },
+            success: function (data) {
+                var lst = data.info;
+                for (var item in lst) {
+                    cusMinArray.push(lst[item].ValueFrom);
+                    cusMaxArray.push(lst[item].ValueTo);
+                    cusLevelArray.push(lst[item].SettingName);
+                    cusColorArray.push(lst[item].Color);
+                }
+                var legend = L.control({
+                    position: 'bottomright'
+                });
+                legend.onAdd = function (map) {
+                    var div = L.DomUtil.create('div', 'info legend'),
+                    grades = cusMaxArray,
+                    labels = [],
+                    from, to;
+                    for (var i = 0; i < grades.length; i++) {
+                        if (i == 0)
+                            from = cusMinArray[i];
+                        else
+                            from = cusMinArray[i] + 1;
+
+                        to = cusMaxArray[i];
+                        labels.push(
+                        '<img width="5px" id=img' + lst[i].Color + ' style="float:left;margin-top:5px;margin-right:2px" src="../Content/img/m_arrow_w.png"/><i style="background:#' + lst[i].Color + '"></i>' + cusLevelArray[i] + ' ' +
+                        from + (to ? '&ndash;' + to : '') + '(%)');
+                    }
+                    div.innerHTML = labels.join('<br>');
+                    return div;
+                };
+                legend.addTo(map);
+            }
+        });
+    }
+    function GetTarget(d) {
+        for (var i = 0; i < cusMaxArray.length; i++) {
+            if (cusMinArray[i] == 0) {
+                if (d >= cusMinArray[i] && d <= cusMaxArray[i]) {
+                    return cusColorArray[i];
+                }
+            }
+            else if (cusMinArray[i] > 0) {
+                if (d >= (cusMinArray[i] + 1) && d <= cusMaxArray[i]) {
+                    return cusColorArray[i];
+                }
+            }
+        }
+
+    }
+    // Region HeatMap
+    var info = {};
+    info.listProvince = [];
+    var Activecountry = "";
+    function GenerateItemCategory() {
+        $('#lstCategory')
+        .find('option')
+        .remove();
+        //if ($('#cbtHeatMapCoverage').is('checked')) {
+        $('#lstCategory').append(new Option('', 0))
+        $.ajax({
+            type: 'POST',
+            url: '../Tracking/GetListItemCategory',
+            data: { typeHeatMap: typeHeatMap, strFromDate: dateSelected },
+            dataType: 'json',
+            success: function (data) {
+                for (var item in data) {
+                    $('#lstCategory').append(new Option(data[item].CategoryName, data[item].CategoryID));
+                }
+            }
+        });
+        //}
+
+    }
+    function GenerateItem() {
+        $('#lstItemCategory')
+        .find('option')
+        .remove();
+        $('#lstItemCategory').append(new Option('', 0))
+        $.ajax({
+            type: 'POST',
+            url: '../Tracking/GetListItem',
+            data: { typeHeatMap: typeHeatMap, strFromDate: dateSelected, categoryID: categoryID },
+            dataType: 'json',
+            success: function (data) {
+                for (var item in data) {
+                    $('#lstItemCategory').append(new Option(data[item].InventoryName, data[item].InventoryID));
+                }
+            }
+        });
+    }
+    function IdentityGroupBy() {
+        if (groupby == null) {
+            if (role == 'NSM' || role == 'NSD') {
+                groupby = 'Region';
+            }
+            else if (role == 'RSM') {
+                groupby = 'Region';
+            }
+            else if (role == 'ASM') {
+                groupby = 'Area';
+            }
+            else if (role == 'SalesSup') {
+                groupby = 'Route';
+            }
+        }
+    }
+    function LoadSalesmanHeat() {
+        //alert("abv");
+        $("#loading").show();
+        window.location = '@Url.Action("TerritoryPerformanceHeat", "Tracking")' + '?strVisitDate=' + $('input[name="strFromDate"]').val();
+    };
+    function ViewHeatMap() {
+        if ($("#rdHeatMap").is(':checked')) {
+            $('#criteria').show();
+            GetContextMenu(role);
+            ClearOptionRoutine();
+            ClearMap();
+            $('#imShow').hide();
+            $('#imHide').hide();
+            $('#sl-treeView').show();
+            $('#infoRD').hide();
+            //Add su kien nao duoc check thi chay ham cua su kien do          
+            if ($("#cbtHeatMapVisited").is(':checked')) {
+
+                GenerateVisited();
+                $('#lstCategory')
+                .find('option')
+                .remove();
+                $('#lstItemCategory')
+                .find('option')
+                .remove();
+            }
+            if ($("#cbtHeatMapOrder").is(':checked')) {
+                GenerateOrder();
+                $('#lstCategory')
+                .find('option')
+                .remove();
+                $('#lstItemCategory')
+                .find('option')
+                .remove();
+            }
+            if ($("#cbtHeatMapRevenue").is(':checked')) {
+                GenerateRevenue();
+                $('#lstCategory')
+            .find('option')
+            .remove();
+                $('#lstItemCategory')
+            .find('option')
+            .remove();
+            }
+            //if ($("#cbtHeatMapQuantity").is(':checked')) {
+            //    GenerateQuantity();
+            //}
+            if ($("#cbtHeatMapCO").is(':checked')) {
+                GenerateCoverageOutlet();
+                $('#lstCategory')
+                .find('option')
+                .remove();
+                $('#lstItemCategory')
+                .find('option')
+                .remove();
+            }
+            if ($("#cbtHeatMapCoverage").is(':checked')) {
+                GenerateCoverage();
+            }
+            if($("#cbtShowAllOutlet").is(':checked'))
+            {
+                GetParamOutlet();
+            }
+        }
+    }
+    // d% anh so
+    function GenerateRevenue() {
+        if ($("#rdHeatMap").is(':checked')) {
+            $('.toggle-box').addClass('disable');
+            $('#quantity').addClass('display-none');
+            MapAutoFit();
+            $("#loading").show();
+            typeHeatMap = 'Revenue';
+            ClearMap();
+            IdentityGroupBy();
+            ShowLegend();
+            $('#lstItemCategory').hide();
+            $('#lstCategory').hide();
+            $('#lblChooseCat').hide();
+            $('#lblProduct').hide();
+            //var group = "Province";
+            //$.ajax({
+            //    type: 'POST',
+            //    url: '../Tracking/GetDataProvinceTerritory',
+            //    data: { type: typeHeatMap, dateSelected: dateSelected, groupby: group, TerritoryID: '', itemClick: '', categoryID: '', itemID: inventoryItemID },
+            //    dataType: 'json',
+            //    async: false,
+            //    success: function (data) {
+            //        if (data != null) {
+            //            if (data.info != null) {
+            //                info.listProvince = data.info;
+            //            }
+            //        }
+
+            //    }
+            //});
+            //LoadJonRegionData(typeHeatMap);
+            RenderTerritory('Revenue', dateSelected, groupby, Geo, '', categoryID, inventoryItemID);
+            $('#cbtHeatMapQuantity').prop('checked', false);
+            $('#cbtHeatMapCoverage').prop('checked', false);
+            $('#cbtHeatMapCO').prop('checked', false);
+            $('#cbtHeatMapVisited').prop('checked', false);
+            $('#cbtShowAllOutlet').prop('checked', false);
+            $('#cbtHeatMapOrder').prop('checked', false);
+            $('#cbtHeatMapSeparateOutlet').prop('checked', false);
+            $('#cbtHeatMapRevenue').prop('checked', true);
+            categoryID = '';
+            MessageCoverage('', '');
+            $("#loading").hide();
+        }
+    }
+    // % don hang
+    function GenerateQuantity() {
+        if ($("#rdHeatMap").is(':checked')) {
+            $('#quantity').removeClass('display-none');
+            MapAutoFit();
+            $("#loading").show();
+            typeHeatMap = 'CoverageOutlet';
+            IdentityGroupBy();
+            ShowLegend();
+            $('#lblCategory').show();
+            $('#lblChooseCat').show();
+            $('#lblProduct').show();
+            $('#lstItemCategory').show();
+            $('#lstCategory').show();
+            ClearMap();
+            $('#cbtHeatMapRevenue').prop('checked', false);
+            $('#cbtHeatMapCoverage').prop('checked', false);
+            $('#cbtHeatMapVisited').prop('checked', false);
+            $('#cbtShowAllOutlet').prop('checked', false);
+            $('#cbtHeatMapOrder').prop('checked', false);
+            $('#cbtHeatMapCO').prop('checked', false);
+            $('#cbtHeatMapSeparateOutlet').prop('checked', false);
+            $('#cbtHeatMapQuantity').prop('checked', true);
+            GenerateItemCategory();
+            categoryID = '';
+            GenerateItem();
+            MessageCoverage('', '');
+        }
+    }
+    function GenerateCoverage() {
+        if ($("#rdHeatMap").is(':checked')) {
+            $('#quantity').removeClass('display-none');
+            MapAutoFit();
+            $("#loading").show();
+            typeHeatMap = 'CoverageCategory';
+            IdentityGroupBy();
+            ShowLegend();
+            $('#lblCategory').show();
+            $('#lblChooseCat').show();
+            $('#lblProduct').show();
+            $('#lstItemCategory').show();
+            $('#lstCategory').show();
+            ClearMap();
+            $('#cbtHeatMapRevenue').prop('checked', false);
+            $('#cbtHeatMapQuantity').prop('checked', false);
+            $('#cbtHeatMapVisited').prop('checked', false);
+            $('#cbtShowAllOutlet').prop('checked', false);
+            $('#cbtHeatMapOrder').prop('checked', false);
+            $('#cbtHeatMapCO').prop('checked', false);
+            $('#cbtHeatMapSeparateOutlet').prop('checked', false);
+            $('#cbtHeatMapCoverage').prop('checked', true);
+            GenerateItemCategory();
+            categoryID = '';
+            GenerateItem();
+            MessageCoverage('', '');
+            $("#loading").hide();
+        }
+    }
+
+    //var strLabel = '';   
+
+    function onEachFeature(feature, layer) {
+        var n = info.listProvince.length;
+        //alert(info.listProvince);
+        // does this feature have a property named popupContent?
+        if (feature.properties && feature.properties.name_2) {
+            // vong lap de kiem tra tinh thanh           
+            layer.bindLabel(feature.properties.name_2);
+            var VisitMCP = '0';
+            var OutletVisited = '0';
+            var OutletMustVisit = '0';
+            for (var i = 0; i < n; i++) {
+                if (info.listProvince[i].Code == feature.properties.province) {
+                    //  alert(1);
+                    VisitMCP = formatNumber(parseInt(info.listProvince[i].VisitMCP));
+                    OutletVisited = formatNumber(parseInt(info.listProvince[i].OutletVisited));
+                    OutletMustVisit = formatNumber(parseInt(info.listProvince[i].OutletMustVisit));
+                    break;
+                }
+            }
+            var strLabel = '';
+            strLabel += '<table style="background: transparent;">';
+            strLabel += '<caption style="text-align:left;background: transparent; color:Green">' + feature.properties.name_2 + '</caption>';
+            strLabel += '<tr>';
+            strLabel += '<td style="line-height: 20px;">@Utility.Phrase("%Visited"): </td>';
+            strLabel += '<td style="line-height: 20px;">' + VisitMCP + '%' + '</td>';
+            strLabel += '</tr>';
+            strLabel += '<tr>';
+            strLabel += '<td style="line-height: 20px;">@Utility.Phrase("OutletVisited/OutletMustVisit"): </td>';
+            strLabel += '<td style="line-height: 20px;">' + OutletVisited + ' / ' + OutletMustVisit + '</td>';
+            strLabel += '</tr>';
+            strLabel += '</table>';
+            layer.bindPopup(strLabel);
+
+        }
+    }
+    function onEachFeatureOrder(feature, layer) {
+        var n = info.listProvince.length;
+        // does this feature have a property named popupContent?
+        if (feature.properties && feature.properties.name_2) {
+            layer.bindLabel(feature.properties.name_2);
+            // vong lap de kiem tra tinh thanh  
+            var SOMCP = '0';
+            var OrderCount = '0';
+            var OutletMustVisit = '0';
+            for (var i = 0; i < n; i++) {
+                if (info.listProvince[i].Code == feature.properties.province) {
+                    //  alert(1);
+                    SOMCP = formatNumber(parseInt(info.listProvince[i].SOMCP));
+                    OrderCount = formatNumber(parseInt(info.listProvince[i].OrderCount));
+                    OutletMustVisit = formatNumber(parseInt(info.listProvince[i].OutletMustVisit));
+                    break;
+                }
+            }
+            var strLabel = '';
+            strLabel += '<table style="background: transparent;">';
+            strLabel += '<caption style="text-align:left;background: transparent; color:Green">' + feature.properties.name_2 + '</caption>';
+            strLabel += '<tr>';
+            strLabel += '<td style="line-height: 20px;">@Utility.Phrase("%Order"): </td>';
+            strLabel += '<td style="line-height: 20px;">' + SOMCP + '%' + '</td>';
+            strLabel += '</tr>';
+            strLabel += '<tr>';
+            strLabel += '<td style="line-height: 20px;">@Utility.Phrase("OrderCount/OutletMustVisit"): </td>';
+                    strLabel += '<td style="line-height: 20px;">' + OrderCount + ' / ' + OutletMustVisit + '</td>';
+                    strLabel += '</tr>';
+                    strLabel += '</table>';
+                    layer.bindPopup(strLabel);
+                }
+            }
+            function onEachFeatureRevenue(feature, layer) {
+                var n = info.listProvince.length;
+                // does this feature have a property named popupContent?
+                if (feature.properties && feature.properties.name_2) {
+                    layer.bindLabel(feature.properties.name_2);
+                    // vong lap de kiem tra tinh thanh  
+                    var RatioRevenue = '0';
+                    var TotalAmount = '0';
+                    var TargetRevenue = '0';
+                    for (var i = 0; i < n; i++) {
+                        if (info.listProvince[i].Code == feature.properties.province) {
+                            //  alert(1);
+                            RatioRevenue = formatNumber(parseInt(info.listProvince[i].RatioRevenue));
+                            TotalAmount = formatNumber(parseInt(info.listProvince[i].TotalAmount));
+                            TargetRevenue = formatNumber(parseInt(info.listProvince[i].TargetRevenue));
+                            break;
+                        }
+                    }
+                    // Gan vo tring label
+                    var strLabel = '';
+                    strLabel += '<table style="background: transparent;">';
+                    strLabel += '<caption style="text-align:left;background: transparent; color:Green">' + feature.properties.name_2 + '</caption>';
+                    strLabel += '<tr>';
+                    strLabel += '<td style="line-height: 20px;">@Utility.Phrase("%Revenue"): </td>';
+            strLabel += '<td style="line-height: 20px;">' + RatioRevenue + '%' + '</td>';
+            strLabel += '</tr>';
+            strLabel += '<tr>';
+            strLabel += '<td style="line-height: 20px;">@Utility.Phrase("TotalRevenue"): </td>';
+                    strLabel += '<td style="line-height: 20px;">' + TotalAmount + '</td>';
+                    strLabel += '</tr>';
+                    strLabel += '<tr>';
+                    strLabel += '<td style="line-height: 20px;">@Utility.Phrase("TargetRevenue"): </td>';
+            strLabel += '<td style="line-height: 20px;">' + TargetRevenue + '</td>';
+            strLabel += '</tr>';
+            strLabel += '</table>';
+            layer.bindPopup(strLabel);
+            //end
+        }
+    }
+    function onEachFeatureCoverageOutlet(feature, layer) {
+        var n = info.listProvince.length;
+        // does this feature have a property named popupContent?
+        if (feature.properties && feature.properties.name_2) {
+            layer.bindLabel(feature.properties.name_2);
+            // vong lap de kiem tra tinh thanh  
+            var RatioQuantity = '0';
+            var TotalQuantity = '0';
+            var TotalOutlet = '0';
+            for (var i = 0; i < n; i++) {
+                if (info.listProvince[i].Code == feature.properties.province) {
+                    //alert(formatNumber(parseInt(info.listProvince[i].RatioQuantity).toFixed(2)));                    
+                    RatioQuantity = formatNumber(parseInt(info.listProvince[i].RatioQuantity).toFixed(2))
+                    TotalQuantity = formatNumber(parseInt(info.listProvince[i].TotalQuantity))
+                    TotalOutlet = formatNumber(parseInt(info.listProvince[i].TotalOutlet))
+                    break;
+                }
+            }
+            var strLabel = '';
+            strLabel += '<table style="background: transparent;">';
+            strLabel += '<caption style="text-align:left;background: transparent; color:Green">' + feature.properties.name_2 + '</caption>';
+            strLabel += '<tr>';
+            strLabel += '<td style="line-height: 20px;">@Utility.Phrase("%OutletOrder"): </td>';
+                    strLabel += '<td style="line-height: 20px;">' + RatioQuantity + '%' + '</td>';
+                    strLabel += '</tr>';
+                    strLabel += '<tr>';
+                    strLabel += '<td style="line-height: 20px;">@Utility.Phrase("OutletHasOrder"): </td>';
+                    strLabel += '<td style="line-height: 20px;">' + TotalQuantity + '</td>';
+                    strLabel += '</tr>';
+                    strLabel += '<tr>';
+                    strLabel += '<td style="line-height: 20px;">@Utility.Phrase("NumberOutlet"): </td>';
+            strLabel += '<td style="line-height: 20px;">' + TotalOutlet + '</td>';
+            strLabel += '</tr>';
+            strLabel += '</table>';
+            layer.bindPopup(strLabel);
+        }
+    }
+
+    function styleVisited(feature) {
+        if (feature.properties && feature.properties.name_2) {
+            var n = info.listProvince.length;
+            for (var i = 0; i < n; i++) {               
+                if (info.listProvince[i].Code == feature.properties.province) {                   
+                    var typeColor = GetTarget(info.listProvince[i].VisitMCP);                   
+                    return {
+                        fillColor: '#' + typeColor,
+                        weight: 2,
+                        color: 'white',
+                        opacity: 1,
+                        dashArray: '3',
+                        fillOpacity: 0.7
+                    }
+                }
+            }
+        }
+    }
+    function styleOrder(feature) {
+        if (feature.properties && feature.properties.name_2) {
+            var n = info.listProvince.length;
+            for (var i = 0; i < n; i++) {
+                if (info.listProvince[i].Code == feature.properties.province) {
+                    var typeColor = GetTarget(info.listProvince[i].SOMCP);
+                    return {
+                        fillColor: '#' + typeColor,
+                        weight: 2,
+                        color: 'white',
+                        opacity: 1,
+                        dashArray: '3',
+                        fillOpacity: 0.7
+                    }
+                }
+            }
+
+        }
+    }
+
+    function styleRevenue(feature) {
+        if (feature.properties && feature.properties.name_2) {
+            var n = info.listProvince.length;
+            for (var i = 0; i < n; i++) {
+                if (info.listProvince[i].Code == feature.properties.province) {
+                    var typeColor = GetTarget(info.listProvince[i].TotalQuantity);
+                    return {
+                        fillColor: '#' + typeColor,
+                        weight: 2,
+                        color: 'white',
+                        opacity: 1,
+                        dashArray: '3',
+                        fillOpacity: 0.7
+                    }
+                }
+            }
+
+        }
+    }
+    function styleCoverageOutlet(feature) {
+        if (feature.properties && feature.properties.name_2) {
+            var n = info.listProvince.length;
+            for (var i = 0; i < n; i++) {
+                if (info.listProvince[i].Code == feature.properties.province) {
+                    var typeColor = GetTarget(info.listProvince[i].RatioQuantity);
+                    return {
+                        fillColor: '#' + typeColor,
+                        weight: 2,
+                        color: 'white',
+                        opacity: 1,
+                        dashArray: '3',
+                        fillOpacity: 0.7
+                    }
+                }
+            }
+
+        }
+    }
+    function LoadJonRegionData(type) {
+       // var Activecountry1 = Activecountry;
+        var url = new String("../MapTest/Leaflet-geojson-selector-master/examples/" + Activecountry);
+        //alert(url);
+        $.getJSON(url, function (json) {
+                        if (type == "Visited") {
+                            LayerMarkerVisited1 = L.geoJson(json, { style: styleVisited }).addTo(map);
+                            LayerMarkerVisited = L.geoJson(json, {
+                                onEachFeature: onEachFeature
+                            }).addTo(map);
+                            GeoListMarkerVisited = new L.Control.GeoJSONSelector(LayerMarkerVisited, {
+                                zoomToLayer: false,                             
+                                listOnlyVisibleLayers: false,
+                            });
+                            map.addControl(GeoListMarkerVisited);
+                        } else if (type == "Order") {
+                            LayerMarkerOrder1 = L.geoJson(json, { style: styleOrder }).addTo(map);
+                            LayerMarkerOrder = L.geoJson(json, {
+                                onEachFeature: onEachFeatureOrder
+                            }).addTo(map);
+                            GeoListMarkerOrder = new L.Control.GeoJSONSelector(LayerMarkerOrder, {
+                                zoomToLayer: false,
+                                listOnlyVisibleLayers: true,
+                            });
+                            map.addControl(GeoListMarkerOrder);
+                        } else if (type == "Revenue") {
+                            LayerMarkerRevenue1 = L.geoJson(json, { style: styleRevenue }).addTo(map);
+                            LayerMarkerRevenue = L.geoJson(json, {
+                                onEachFeature: onEachFeatureRevenue
+                            }).addTo(map);
+                            GeoListMarkerRevenue = new L.Control.GeoJSONSelector(LayerMarkerRevenue, {
+                                zoomToLayer: false,
+                                listOnlyVisibleLayers: true,
+                            });
+                            map.addControl(GeoListMarkerRevenue);
+                        } else if (type = "CoverageOutlet") {
+                            LayerMarkerCoverageOutlet1 = L.geoJson(json, { style: styleCoverageOutlet }).addTo(map);
+                            LayerMarkerCoverageOutlet = L.geoJson(json, {
+                                onEachFeature: onEachFeatureCoverageOutlet
+                            }).addTo(map);
+                            GeoListMarkerCoverageOutlet = new L.Control.GeoJSONSelector(LayerMarkerCoverageOutlet, {
+                                zoomToLayer: false,
+                                listOnlyVisibleLayers: true,
+                            });
+                            map.addControl(GeoListMarkerCoverageOutlet);
+                        }
+
+
+                    });
+
+                }
+                function GenerateVisited() {
+                    markers.clearLayers();
+                    if ($("#rdHeatMap").is(':checked')) {
+                        $('.toggle-box').addClass('disable');
+                        $('#sl-treeView').show();
+                        $('#quantity').addClass('display-none');
+                        MapAutoFit();
+                        $("#loading").show();
+                        typeHeatMap = 'Visited';
+                        IdentityGroupBy();
+                        ShowLegend();
+                        $('#lblCategory').hide();
+                        $('#lblChooseCat').hide();
+                        $('#lblProduct').hide();
+                        $('#lstItemCategory').hide();
+                        $('#lstCategory').hide();
+                        ClearMap();
+                        //var group = "Province";
+                        //$.ajax({
+                        //    type: 'POST',
+                        //    url: '../Tracking/GetDataProvinceTerritory',
+                        //    data: { type: typeHeatMap, dateSelected: dateSelected, groupby: group, TerritoryID: '', itemClick: '', categoryID: '', itemID: inventoryItemID },
+                        //    dataType: 'json',
+                        //    async: false,
+                        //    success: function (data) {
+                        //        if (data != null) {
+                        //            if (data.info != null) {
+                        //                info.listProvince = data.info;
+                        //                // alert("1312313"+ info.listProvince);
+                        //            }
+                        //        }
+
+                        //    }
+                        //});
+                        //Activecountry = "";
+                        //$.ajax({
+                        //    type: 'POST',
+                        //    url: '../Tracking/GetCustomSettingCountry',
+                        //    dataType: "json",
+                        //    async: false,
+                        //    success: function (result) {
+                        //        Activecountry = result;
+                        //    }                      
+                        //});
+                        ////alert(Activecountry);
+                        //LoadJonRegionData(typeHeatMap);
+                        RenderTerritory('Visited', dateSelected, groupby, Geo, '', categoryID, inventoryItemID);
+                        $('#cbtHeatMapRevenue').prop('checked', false);
+                        $('#cbtHeatMapQuantity').prop('checked', false);
+                        $('#cbtHeatMapCoverage').prop('checked', false);
+                        $('#cbtHeatMapOrder').prop('checked', false);
+                        $('#cbtHeatMapSeparateOutlet').prop('checked', false);
+                        $('#cbtHeatMapCO').prop('checked', false);
+                        $('#cbtShowAllOutlet').prop('checked', false);
+                        $('#cbtHeatMapVisited').prop('checked', true);
+                        categoryID = '';
+                        MessageCoverage('', '');
+                        $("#loading").hide();
+                    }
+                }
+
+                function GenerateCoverageOutlet() {
+                    
+                        $('.toggle-box').addClass('disable');
+                        $('#quantity').addClass('display-none');
+                        MapAutoFit();
+                        $("#loading").show();
+                        typeHeatMap = 'CoverageOutlet';
+                        IdentityGroupBy();
+                        ShowLegend();
+                        $('#lblCategory').hide();
+                        $('#lblChooseCat').hide();
+                        $('#lblProduct').hide();
+                        $('#lstItemCategory').hide();
+                        $('#lstCategory').hide();
+                        ClearMap();
+                        //alert(12);
+                        //var group = "Province";
+                        //$.ajax({
+                        //    type: 'POST',
+                        //    url: '../Tracking/GetDataProvinceTerritory',
+                        //    data: { type: typeHeatMap, dateSelected: dateSelected, groupby: group, TerritoryID: '', itemClick: '', categoryID: '', itemID: inventoryItemID },
+                        //    dataType: 'json',
+                        //    async: false,
+                        //    success: function (data) {
+                        //        if (data != null) {
+                        //            if (data.info != null) {
+                        //                info.listProvince = data.info;
+                        //                // alert("1312313"+ info.listProvince);
+                        //            }
+                        //        }
+
+                        //    }
+                        //});
+                        //Activecountry = "";
+                        //$.ajax({
+                        //    type: 'POST',
+                        //    url: '../Tracking/GetCustomSettingCountry',
+                        //    dataType: "json",
+                        //    async: false,
+                        //    success: function (result) {
+                        //        Activecountry = result;
+                        //    }
+                        //});
+                        //LoadJonRegionData(typeHeatMap);
+                        RenderTerritory('CoverageOutlet', dateSelected, groupby, Geo, '', categoryID, inventoryItemID);
+                        $('#cbtHeatMapRevenue').prop('checked', false);
+                        $('#cbtHeatMapQuantity').prop('checked', false);
+                        $('#cbtHeatMapCoverage').prop('checked', false);
+                        $('#cbtHeatMapOrder').prop('checked', false);
+                        $('#cbtShowAllOutlet').prop('checked', false);
+                        $('#cbtHeatMapVisited').prop('checked', false);
+                        $('#cbtHeatMapSeparateOutlet').prop('checked', false);
+                        $('#cbtHeatMapCO').prop('checked', true);
+                        categoryID = '';
+                        MessageCoverage('', '');
+                        $("#loading").hide();
+                    }
+                // don hang
+                function GenerateOrder() {
+                    markers.clearLayers();
+                    if ($("#rdHeatMap").is(':checked')) {
+                        $('.toggle-box').addClass('disable');
+                        $('#sl-treeView').show();
+                        $('#quantity').addClass('display-none');
+                        MapAutoFit();
+                        $("#loading").show();
+                        typeHeatMap = 'Order';
+                        IdentityGroupBy();
+                        ShowLegend();
+                        $('#lblCategory').hide();
+                        $('#lblChooseCat').hide();
+                        $('#lblProduct').hide();
+                        $('#lstItemCategory').hide();
+                        $('#lstCategory').hide();
+                        ClearMap();
+
+                        //var group = "Province";
+                        //$.ajax({
+                        //    type: 'POST',
+                        //    url: '../Tracking/GetDataProvinceTerritory',
+                        //    data: { type: typeHeatMap, dateSelected: dateSelected, groupby: group, TerritoryID: '', itemClick: '', categoryID: '', itemID: inventoryItemID },
+                        //    dataType: 'json',
+                        //    async: false,
+                        //    success: function (data) {
+                        //        if (data != null) {
+                        //            if (data.info != null) {
+                        //                info.listProvince = data.info;
+                        //                // alert("1312313"+ info.listProvince);
+                        //            }
+                        //        }
+
+                        //    }
+                        //});
+                        //Activecountry = "";
+                        //$.ajax({
+                        //    type: 'POST',
+                        //    url: '../Tracking/GetCustomSettingCountry',
+                        //    dataType: "json",
+                        //    async: false,
+                        //    success: function (result) {
+                        //        Activecountry = result;
+                        //    }
+                        //});
+                        //LoadJonRegionData(typeHeatMap);
+
+                        RenderTerritory('Order', dateSelected, groupby, Geo, '', categoryID, inventoryItemID);
+                        $('#cbtHeatMapRevenue').prop('checked', false);
+                        $('#cbtHeatMapQuantity').prop('checked', false);
+                        $('#cbtHeatMapCoverage').prop('checked', false);
+                        $('#cbtHeatMapVisited').prop('checked', false);
+                        $('#cbtShowAllOutlet').prop('checked', false);
+                        $('#cbtHeatMapCO').prop('checked', false);
+                        $('#cbtHeatMapSeparateOutlet').prop('checked', false);
+                        $('#cbtHeatMapOrder').prop('checked', true);
+                        categoryID = '';
+                        MessageCoverage('', '');
+                        $("#loading").hide();
+                    }
+                }
+                function GenerateSeparateOutlet() {
+                    if ($("#rdHeatMap").is(':checked')) {
+                        $('#quantity').removeClass('display-none');
+                        MapAutoFit();
+                        $("#loading").show();
+                        typeHeatMap = 'CoverageCategory';
+                        IdentityGroupBy();
+                        ShowLegend();
+                        $('#lblCategory').show();
+                        $('#lblChooseCat').show();
+                        $('#lblProduct').show();
+                        $('#lstItemCategory').show();
+                        $('#lstCategory').show();
+                        ClearMap();
+                        $('#cbtHeatMapRevenue').prop('checked', false);
+                        $('#cbtHeatMapQuantity').prop('checked', false);
+                        $('#cbtHeatMapVisited').prop('checked', false);
+                        $('#cbtShowAllOutlet').prop('checked', false);
+                        $('#cbtHeatMapOrder').prop('checked', false);
+                        $('#cbtHeatMapCO').prop('checked', false);
+                        $('#cbtHeatMapCoverage').prop('checked', false);
+                        $('#cbtHeatMapSeparateOutlet').prop('checked', true);
+                        GenerateItemCategory();
+                        categoryID = '';
+                        GenerateItem();
+                        $("#loading").hide();
+                    }
+                }
+                var loop = 0;
+                function SelectCategoryChange() {
+                    $("#loading").show();
+                    ClearMap();
+                    inventoryItemID = '';
+                    //groupby = 'Region';
+                    categoryID = categoryID = lstCategory.options[lstCategory.selectedIndex].value.toString();
+                    if ($('#cbtHeatMapCoverage').is(':checked')) {
+                        RenderTerritory(typeHeatMap, dateSelected, groupby, Geo, '', categoryID, inventoryItemID);
+                    }
+                    else if ($('#cbtHeatMapSeparateOutlet').is(':checked')) {
+                        GetSeparateOutlet('Category');
+                        // ContinueGenerateCoverage(loop);
+                    }
+                    GenerateItem();
+                }
+                function SelectItemChange() {
+                    $("#loading").show();
+                    ClearMap();
+                    //groupby = 'Region';
+                    inventoryItemID = lstItemCategory.options[lstItemCategory.selectedIndex].value.toString();;
+                    if ($('#cbtHeatMapCoverage').is(':checked')) {
+                        RenderTerritory(typeHeatMap, dateSelected, groupby, Geo, '', categoryID, inventoryItemID);
+                    }
+                    else if ($('#cbtHeatMapSeparateOutlet').is(':checked')) {
+                        GetSeparateOutlet('InventoryItem');
+                        //  ContinueGenerateCoverage(loop);
+                    }
+                }
+                function GetSeparateOutlet(tp) {
+                    $.ajax({
+                        type: 'POST',
+                        url: '../Tracking/SeparateOutlet',
+                        data: { date: dateSelected, type: tp, inventoryID: inventoryItemID, categoryID: categoryID },
+                        dataType: 'json',
+                        success: function (data) {
+                            var NonCoverage = L.icon({
+                                iconUrl: '../Content/THP/markers/011.png',
+                                iconSize: [8, 16]
+                            });
+                            var Coverage = L.icon({
+                                iconUrl: '../Content/THP/markers/139.png',
+                                iconSize: [8, 16]
+                            });
+                            var HasCV = 0;
+                            var NoCV = 0;
+                            for (var item in data.info) {
+                                var lat = data.info[item].Latitude;
+                                var long = data.info[item].Longtitude;
+                                if (lat != null && long != null) {
+                                    if (data.info[item].Visibility == '1') {
+                                        //var m = RenderMarkerOL([lat, long], data[item].OutletName, '../Content/THP/markers/139.png', mapData.LayerMarkerOLLocation);
+                                        var marker1 = L.marker([lat, long], { icon: Coverage }).addTo(map).bindPopup("<b>@Utility.Phrase("Outlet"): </b>" + data.info[item].OutletName).openPopup();
+                                    CoverageOutlet.push(marker1);
+                                    HasCV++;
+                                }
+                                else {
+                                    //var m = RenderMarkerOL([lat, long], data[item].OutletName, '../Content/THP/markers/011.png', mapData.LayerMarkerOLLocation);
+                                    var marker1 = L.marker([lat, long], { icon: NonCoverage }).addTo(map).bindPopup("<b>@Utility.Phrase("Outlet"): </b>" + data.info[item].OutletName).openPopup();
+                                    CoverageOutlet.push(marker1);
+                                    NoCV++;
+                                }
+                                mapData.LatLongBounds.push([lat, long]);
+                            }
+                        }
+                        // MessageCoverage(HasCV, NoCV);
+                        //  MapAutoFit();
+                        loop = data.index;
+                        //if (data.index > 0) {
+                        //    for (var a = 1; a <= data.index; a++) {
+                        //        ContinueGenerateCoverage(a);
+                        //    }
+
+                        //}
+                    }
+                });
+            }
+            function ContinueGenerateCoverage(incre) {
+                for (var a = 1; a <= incre; a++) {
+                    $.ajax({
+                        type: 'POST',
+                        url: '../Tracking/ContinueSeparateOutlet',
+                        data: { increment: a },
+                        dataType: 'json',
+                        success: function (data) {
+                            var NonCoverage = L.icon({
+                                iconUrl: '../Content/THP/markers/011.png',
+                                iconSize: [8, 16]
+                            });
+                            var Coverage = L.icon({
+                                iconUrl: '../Content/THP/markers/139.png',
+                                iconSize: [8, 16]
+                            });
+                            var HasCV = 0;
+                            var NoCV = 0;
+                            for (var item in data.info) {
+                                var lat = data.info[item].Latitude;
+                                var long = data.info[item].Longtitude;
+                                if (lat != null && long != null) {
+                                    if (data.info[item].Visibility == '1') {
+                                        var marker1 = L.marker([lat, long], { icon: Coverage }).addTo(map).bindPopup("<b>@Utility.Phrase("Outlet"): </b>" + data.info[item].OutletName).openPopup();
+                                CoverageOutlet.push(marker1);
+                                HasCV++;
+                            }
+                            else {
+                                var marker1 = L.marker([lat, long], { icon: NonCoverage }).addTo(map).bindPopup("<b>@Utility.Phrase("Outlet"): </b>" + data.info[item].OutletName).openPopup();
+                                CoverageOutlet.push(marker1);
+                                NoCV++;
+                            }
+                            mapData.LatLongBounds.push([lat, long]);
+                        }
+                    }
+                    // MessageCoverage(HasCV, NoCV);
+                    // MapAutoFit();
+                }
+            });
+        }
+    }
+    function RenderMarkerOL(latlng, type, url, layer1) {
+        if (latlng[0] != 0) {
+            mapData.LatLongBounds.push(latlng);
+        }
+        var marker = L.marker(latlng, {
+            icon: new placeMarker_double_Violate({
+                labelText: type
+                , labelAnchor: new L.Point(labelTextAnchor(''), -1)
+                , iconUrl: url
+            })
+        })
+        if (layer1 != null) {
+            layer1.addLayer(marker);
+        }
+        return marker;
+    }
+    function MessageCoverage(nbCoverage, nbNoCoverage) {
+        if ($('#cbtHeatMapSeparateOutlet').is(':checked')) {
+            $('#NbCoverage').text(nbCoverage);
+            $('#NbNoCoverage').text(nbNoCoverage);
+            $('#lblNbHas').show();
+            $('#lblNoHas').show();
+            $('#NbCoverage').show();
+            $('#NbNoCoverage').show();
+        }
+        else {
+            $('#lblNbHas').hide();
+            $('#lblNoHas').hide();
+            $('#NbCoverage').hide();
+            $('#NbNoCoverage').hide();
+        }
+    }
+    function DataMenuItemRegion(hierarchy) {
+        if ($('#cbtHeatMapRevenue').is(':checked') || $('#cbtHeatMapQuantity').is(':checked')
+            || $('#cbtHeatMapVisited').is(':checked') || $('#cbtHeatMapOrder').is(':checked')
+            || $('#cbtHeatMapCO').is(':checked') || $('#cbtHeatMapCoverage').is(':checked')) {
+            ResetDataSelected();
+            $("#loading").show();
+            if (typeHeatMap != '') {
+                ClearMap();
+                RenderTerritory(typeHeatMap, dateSelected, hierarchy, '', '', categoryID, inventoryItemID);
+                groupby = hierarchy;
+                Geo = '';
+            }
+            $("#loading").hide();
+        }
+        else {
+            ShowMessageNoData('@Html.Raw(Utility.Phrase("NoSupport"))');
+        }
+    }
+    function RenderTerritory(type, dateSelected, group, GeoId, item, categoryID, inventoryItemID) {
+
+        if (regionIDSelected != '') {
+            group = 'Region';
+            groupby = 'Region';
+            item = regionIDSelected;
+        }
+        if (areaIDSelected != '') {
+            group = 'Area';
+            groupby = 'Area';
+            item = areaIDSelected;
+        }
+        if (distributorIDSelected != 0) {
+            group = 'Distributor';
+            groupby = 'Distributor';
+            item = distributorIDSelected;
+        }
+        if (routeIDSelected != '') {
+            group = 'Route';
+            groupby = 'Route';
+            item = routeIDSelected;
+        }
+
+        $.ajax({
+            type: 'POST',
+            url: '../Tracking/GetTerritory',
+            data: { type: type, dateSelected: dateSelected, groupby: group, TerritoryID: GeoId, itemClick: item, categoryID: categoryID, itemID: inventoryItemID },
+            dataType: 'json',
+            success: function (data) {
+                //if (data.Role != 'NSM') {
+                //    group = data.Group;
+                //    groupby = group;
+                //}
+                lstID = data.ID;
+                if (lstID != null && lstID.length > 0 && data.IsHasData > 0) {
+                    ClearMap();
+                    for (var item in lstID) {
+                        RenderHeatMapPolygon(type, dateSelected, group, lstID[item], categoryID, inventoryItemID);
+                    }
+                }
+                else {
+                    ShowMessageNoData('@Html.Raw(Utility.Phrase("NoData"))');
+                }
+            }
+        });
+    }
+    function formatNumber(num) {
+        return num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,")
+    }
+    function RenderHeatMapPolygon(type, dateSelected, groupby, GeoID, categoryID, inventoryItemID) {
+        // alert(2);
+        var LatLongBoundMaps = [];
+        var LatLongBounds = [];
+        var LatLongBoundsCenter = [];
+        typeHeatMap = type;
+        $.ajax({//Process the form using $.ajax()
+            type: 'POST', //Method type
+            url: '../Tracking/GetDataPolygon', //Your form processing file url
+            data: { type: type, dateSelected: dateSelected, groupby: groupby, TerritoryID: GeoID, categoryID: categoryID, itemID: inventoryItemID }, //Forms name
+            dataType: 'json',
+            success: function (data) {
+                if (data != null && data.html != null && data.html.length >= 1) {
+                    var n = data.html.length;
+                    var nCenterFrom = (n / 4) - 1;
+                    var nCenterTo = (n / 4) + 1;
+                    var mCenterFrom = nCenterFrom + (n / 2) - 1;
+                    var mCenterTo = nCenterTo + (n / 2) - 1;
+                    for (var i = 0; i < n; i++) {
+                        var latlng = L.latLng(data.html[i].Lat, data.html[i].Lng);
+                        LatLongBounds.push(latlng);
+                        LatLongBoundMaps.push(latlng);
+
+                        //Add vo map de lay focus
+                        mapData.LatLongBounds.push(latlng);
+
+                        if (i >= nCenterFrom && i <= nCenterTo) {
+                            LatLongBoundsCenter.push(latlng);
+                        }
+                        else if (i >= mCenterFrom && i <= mCenterTo) {
+                            LatLongBoundsCenter.push(latlng);
+                        }
+                    }
+                    var strLabel = '';
+                    //ArrayHeaderPopup.push(data.info.Name);
+
+                    //alert(data.info.Level1 + data.info.Level2 + data.info.Level1);
+                    var header = data.info.Level1;
+                    if (data.info.Level2 != null) {
+                        header = header + '-' + data.info.Level2;
+                        if (data.info.Level3 != null) {
+                            header = header + '-' + data.info.Level3;
+                        }
+                        if (data.info.Level4 != null) {
+                            header = header + '-' + data.info.Level4;
+                        }
+                    }
+                    if (data.info != null) {
+                        strLabel += '<table style="background: transparent;>';
+                        strLabel += '<caption style="text-align:left;background: transparent; color:Green">' + header + '</caption>';
+                        //strLabel += '<caption style="text-align:left;background: transparent; color:Green">'+  data.info.Code + ' - ' + data.info.Name + '</caption>';
+                        if (type == 'Revenue') {
+                            strLabel += '<tr>';
+                            strLabel += '<td>@Utility.Phrase("%Revenue"): </td>';
+                              //strLabel += '<td>'  + formatNumber(parseFloat(data.info.TotalAmount).toFixed(2)) + '</td>';
+                              strLabel += '<td>' + formatNumber(parseInt(data.info.RatioRevenue)) + '%' + '</td>';
+                              strLabel += '</tr>';
+                              strLabel += '<tr>';
+                              strLabel += '<td>@Utility.Phrase("TotalRevenue/TargetRevenue"): </td>';
+                            strLabel += '<td>' + formatNumber(parseInt(data.info.TotalAmount)) + '/' + formatNumber(parseInt(data.info.TargetRevenue)) + '</td>';
+                            strLabel += '</tr>';
+                        }
+                        @*if (type == 'Quantity') {
+                            strLabel += '<tr>';
+                            strLabel += '<td>@Utility.Phrase("CategoryName"): </td>';
+                            strLabel += '<td>' + formatNumber(data.info.Category) + '</td>';
+                            strLabel += '</tr>'
+                            strLabel += '<tr>';
+                            strLabel += '<td>@Utility.Phrase("ItemName"): </td>';
+                            strLabel += '<td>' + formatNumber(data.info.InventoryItem) + '</td>';
+                            strLabel += '</tr>';
+                            strLabel += '<tr>';
+                            strLabel += '<td>@Utility.Phrase("TotalQuantity"): </td>';
+                            strLabel += '<td>' + formatNumber(parseFloat(data.info.RatioQuantity).toFixed(2)) + '%' + '</td>';
+                            strLabel += '</tr>';
+                        }*@
+                          if (type == 'CoverageOutlet') {
+                              strLabel += '<tr>';
+                              strLabel += '<td>@Utility.Phrase("%OutletOrder"): </td>';
+                            strLabel += '<td>' + formatNumber(parseFloat(data.info.RatioQuantity).toFixed(2)) + '%' + '</td>';
+                            strLabel += '</tr>';
+                            strLabel += '<tr>';
+                            strLabel += '<td>@Utility.Phrase("OutletHasOrder/TotalOutlet"): </td>';
+                            strLabel += '<td>' + formatNumber(parseInt(data.info.TotalQuantity)) + '/' + formatNumber(parseInt(data.info.TotalOutlet)) + '</td>';
+                            strLabel += '</tr>';
+                        }
+                        if (type == 'CoverageCategory') {
+                            strLabel += '<tr>';
+                            strLabel += '<td>@Utility.Phrase("CategoryName"): </td>';
+                            strLabel += '<td>' + formatNumber(data.info.Category) + '</td>';
+                            strLabel += '</tr>';
+                            strLabel += '<tr>';
+                            strLabel += '<td>@Utility.Phrase("ItemName"): </td>';
+                                strLabel += '<td>' + formatNumber(data.info.InventoryItem) + '</td>';
+                                strLabel += '</tr>';
+                                strLabel += '<tr>';
+                                strLabel += '<td>@Utility.Phrase("TotalCoverage"): </td>';
+                            strLabel += '<td>' + formatNumber(parseFloat(data.info.RatioQuantity).toFixed(2)) + '%' + '</td>';
+                            strLabel += '</tr>';
+                            strLabel += '<tr>';
+                            strLabel += '<td>@Utility.Phrase("OutletBoughtCategory/TotalOutlet"): </td>';
+                                strLabel += '<td>' + formatNumber(parseInt(data.info.TotalQuantity)) + '/' + formatNumber(parseInt(data.info.TotalOutlet)) + '</td>';
+                                strLabel += '</tr>';
+                            }
+                            if (type == 'Visited') {
+                                strLabel += '<tr>';
+                                strLabel += '<td>@Utility.Phrase("%Visited"): </td>';
+                            strLabel += '<td>' + formatNumber(parseInt(data.info.VisitMCP)) + '%' + '</td>';
+                            strLabel += '</tr>';
+                            strLabel += '<tr>';
+                            strLabel += '<td>@Utility.Phrase("OutletVisited/OutletMustVisit"): </td>';
+                            strLabel += '<td>' + formatNumber(parseInt(data.info.OutletVisited)) + '/' + formatNumber(parseInt(data.info.OutletMustVisit)) + '</td>';
+                            strLabel += '</tr>';
+                        }
+                        if (type == 'Order') {
+                            strLabel += '<tr>';
+                            strLabel += '<td>@Utility.Phrase("%Order"): </td>';
+                            strLabel += '<td>' + formatNumber(parseInt(data.info.SOMCP)) + '%' + '</td>';
+                            strLabel += '<tr>';
+                            strLabel += '<td>@Utility.Phrase("OrderCount/OutletMustVisit"): </td>';
+                            strLabel += '<td>' + formatNumber(parseInt(data.info.OrderCount)) + '/' + formatNumber(parseInt(data.info.OutletMustVisit)) + '</td>';
+                            strLabel += '</tr>';
+                            strLabel += '</tr>';
+                        }
+                        strLabel += '</table>';
+                        if (type == 'Visited') {
+                            typeColor = GetTarget(data.info.VisitMCP);
+                        }
+                        else if (type == 'Order') {
+                            typeColor = GetTarget(data.info.SOMCP);
+                        }
+                        else if (type == 'CoverageOutlet' || type == 'CoverageCategory') {
+                            typeColor = GetTarget(data.info.RatioQuantity);
+                        }
+                        else if (type == 'Revenue') {
+                            //typeColor = getColorRevenue(data.info.TotalQuantity);
+                            typeColor = GetTarget(data.info.RatioRevenue);
+                        }
+                        polygon = L.multiPolygon([LatLongBounds],
+                             {
+                                 color: '#' + typeColor, weight: '4px'
+                                 , options: {
+                                     GeoCode: data.info.Code
+                                 }, contextmenu: true,
+                                 contextmenuWidth: 140,
+                                 contextmenuItems: [{
+                                     text: '@Utility.Phrase("ShowRegion")',
+                                     index: 0,
+                                     icon: '../Content/THP/img/normal.png',
+                                     callback: function (e) { DataMenuItemRegion('Region') }
+                                 }]
+                             }
+                             ).addTo(map)
+                        .bindLabel(strLabel).on('click', ViewDetailGeo);
+                                 multipolygon.push(polygon);
+                                 $('#IsHasDataHM').val('1');
+                          //polygon.bindLabel(strLabel).addTo(map);
+                          //polygon.on('click', ViewDetailGeo).addTo(map);
+
+                                 var bounds = L.latLngBounds(LatLongBoundsCenter);
+                                 var label = new L.Label();
+                                 label.setContent(data.info.Code + ' - ' + data.info.Name);// + " " + n.toString());
+                                 label.setLatLng(bounds.getCenter());
+                                 multiLabel.push(label);
+                                 map.showLabel(label);
+
+                                 var boundsMap = L.latLngBounds(LatLongBoundMaps);
+                                 if (groupby != 'Region')
+                                     map.fitBounds(boundsMap);
+                                 else
+                                     MapAutoFit();
+                             }
+                         }
+              }
+          });
+             }
+             //Thrill down HeatMap
+             function ViewDetailGeo(e) {
+                 ResetDataSelected();
+                 if (groupby != 'Route') {
+                     $("#loading").show();
+                     if (groupby == 'Region') {
+                         Geo = e.target._options.options.GeoCode;
+                         RenderTerritory(typeHeatMap, dateSelected, 'Area', Geo, '', categoryID, inventoryItemID);
+                         groupby = 'Area';
+                         //itemClick = Geo;
+                         //ClearMap();
+                     }
+                     else if (groupby == 'Area') {
+                         Geo = e.target._options.options.GeoCode;
+                         RenderTerritory(typeHeatMap, dateSelected, 'Distributor', Geo, '', categoryID, inventoryItemID);
+                         groupby = 'Distributor';
+                         //itemClick = Geo;
+                     }
+                     else if (groupby == 'Distributor') {
+                         Geo = e.target._options.options.GeoCode;
+                         RenderTerritory(typeHeatMap, dateSelected, 'Route', Geo, '', categoryID, inventoryItemID);
+                         groupby = 'Route';
+                         //itemClick = Geo;
+                     }
+                     // Geo = '';
+                 }
+                 else {
+                     ShowMessageNoData('@Html.Raw(Utility.Phrase("NoData"))');
+                 }
+             }
+             function ResetDataSelected() {
+                 distributorIDSelected = 0;
+                 regionIDSelected = '';
+                 areaIDSelected = '';
+                 routeIDSelected = '';
+             }
+    //End Region HeatMap
+
+
+    //get all outlet
+             function GetAllOutlet()
+             {
+                 if ($('#cbtShowAllOutlet').is(':checked'))
+                 {
+                     if (role == 'NSD' || role == 'NSM' || role == 'RSM') {
+                         $('#sl-treeView').show();
+                     }
+                     else {
+                         $('#sl-treeView').hide();
+                     }
+                 }
+             }
+              // DaiLV - 2016/08/23 - START
+             //Show all out let
+             function ViewInfoOutlet() {
+                 ClearMap();
+                 GetParamOutlet();
+             }
+             function GetParamOutlet() {
+                 $('.toggle-box').addClass('disable');
+                 strVisitDate = $('input[name="strFromDate"]').val();
+                 $.ajax({ //Process the form using $.ajax()
+                     type: 'POST', //Method type
+                     url: '../Tracking/TerritoryTreeViewSelectedOutlet', //Your form processing file url
+                     data: { itemId: itemId }, //Forms name
+                     dataType: 'json',
+                     success: function (data) {
+                         distributorIDSelected = data.distributorIDSelected;
+                         regionIDSelected = data.regionIDSelected;
+                         areaIDSelected = data.areaIDSelected;
+                         isShowNote = true;
+                         $("div").remove(".info");
+                         document.getElementById('notePanel').style.display = 'none';
+                         $('#InfoLocation').hide();
+                         if ($('#cbtHeatMapVisited').is(':checked')) {
+                             GenerateVisited();
+                         }
+                         else if ($('#cbtHeatMapOrder').is(':checked')) {
+                             GenerateOrder();
+                         }
+                         else if ($('#cbtShowAllOutlet').is(':checked')) {
+                             GetAllOutletLoCation();
+                         }
+                     }
+                 });
+             }
+
+    //Get all outlet khi selected VietNam
+             function GetAllOutletLoCation() {
+                 ClearMap();
+                 $('#cbtHeatMapRevenue').prop('checked', false);
+                 $('#cbtHeatMapQuantity').prop('checked', false);
+                 $('#cbtHeatMapVisited').prop('checked', false);
+                 $('#cbtHeatMapOrder').prop('checked', false);
+                 $('#cbtHeatMapCO').prop('checked', false);
+                 $('#cbtHeatMapCoverage').prop('checked', false);
+                 $('#cbtHeatMapSeparateOutlet').prop('checked', false);
+                 $('#cbtShowAllOutlet').prop('checked', true);
+                 $("#loading").show();
+                 $.ajax({ //Process the form using $.ajax()
+                     type: 'POST', //Method type
+                     url: '../Tracking/RenderListAllOutletLocation', //Your form processing file url
+                     data: { regionID: regionIDSelected, areaID: areaIDSelected, distributorID: distributorIDSelected, strVisitDate: strVisitDate, role: role }, //Forms name
+                     dataType: 'json',
+                     success: function (data) {
+                         if (data.model != null || data.model.length > 0)
+                         {
+                             var iconOutlet = L.icon({
+                                 iconUrl: '../Content/THP/markers/green.png',
+                                 iconSize: [8, 16]
+                             });
+                             var markerList = [];
+                             for (var i = 0; i < data.model.length; i++)
+                             {
+                                 var a = data.model[i];
+                                 var title = a.OutletName;
+                                 var PRegionID = a.RegionID;
+                                 var PDistributorID = a.CompanyID;
+                                 var PAreaID = a.AreaID;
+                                 var PRouteID = a.RouteID;
+                                 var POutletID = a.OutletID;
+                                 var marker = L.marker(L.latLng(a.Latitude, a.Longtitude), { icon: iconOutlet, title: title, RegionID: PRegionID, DistributorID: PDistributorID, AreaID: PAreaID, RouteID: PRouteID, OutletID: POutletID });
+                                 markerList.push(marker);
+                             }
+                             markers.clearLayers();
+                             markers = new L.markerClusterGroup({
+                                 disableClusteringAtZoom: data.ConfigZoom,
+                                 maxClusterRadius: 100,
+                                 animateAddingMarkers: true,
+                                 removeOutsideVisibleBounds: true
+                             });
+                             markers.addLayers(markerList);
+                             map.addLayer(markers);
+                             map._container.focus();
+
+                             markers.on('click', OnOutletClick)
+                         }
+                        $("#loading").hide();
+                     }
+                    
+                 });
+             }
+             function OnOutletClick(maker)
+             {
+                 var OregionID = maker.layer.options.RegionID;
+                 var OareaID = maker.layer.options.AreaID;
+                 var OdistributorID = maker.layer.options.DistributorID;
+                 var OrouteID = maker.layer.options.RouteID;
+                 var OoutletID = maker.layer.options.OutletID;
+                 var Olat = maker.latlng.lat;
+                 var Olong = maker.latlng.lng;
+                 $.ajax({ //Process the form using $.ajax()
+                     type: 'POST', //Method type
+                     url: '../Tracking/GetOutletInRouteHeatMap', //Your form processing file url
+                     data: { regionID: OregionID, areaID: OareaID, distributorID: OdistributorID, routeID: OrouteID, outletID: OoutletID, strVisitDate: strVisitDate }, //Forms name
+                     dataType: 'json',
+                     success: function (data) {
+
+                         mapData.listOutletInfo = mapData.listOutletInfo.concat(data.html);
+                         mapData.listSMInfo = mapData.listSMInfo.concat(data.listSMVisit);
+                         mapData.listSSInfo = mapData.listSSInfo.concat(data.listSSVisit);
+                         mapData.listASMInfo = mapData.listASMInfo.concat(data.listASMVisit);
+
+                         var n = mapData.listOutletInfo.length;
+                         for (var i = 0; i < n; i++) {
+                             if (mapData.listOutletInfo[i].Latitude == Olat && mapData.listOutletInfo[i].Longtitude == Olong) {
+                                 Popup([mapData.listOutletInfo[i].Latitude, mapData.listOutletInfo[i].Longtitude], RenderOutletInfoPopup(mapData.listOutletInfo[i]));
+                                 //Jquery tab for outlet popup info
+                                 $('.header_tab').hover(function () {
+                                     //alert('click tab' + $(this).attr('rel'));
+                                     $('.content_tab').hide();
+                                     $('.' + $(this).attr('rel')).show();
+                                 });
+                                 $('.leaflet-popup-content').css("width", "auto");
+                                 $('.content_tab').hide();
+                                 $('.content1').show();
+                                 //$('.content1').css("width", "auto");
+                                 HoverZoom();
+
+                                 map.addLayer(mapData.LayerMarkerOutletSMSSASM);
+                                 map.addLayer(mapData.LayerLineOutletSMSSASM);
+                                 break;
+                             }
+                         }
+                     }
+                 });
+             }
+    // END
+             
+</script>

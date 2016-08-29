@@ -1,0 +1,158 @@
+﻿@model List<ReportAttendanceItem>
+@{
+    Layout = "~/Views/Shared/_ReportLayout.cshtml";
+}
+<div class="span12">
+    <div class="head clearfix">
+        <div class="isw-grid">
+        </div>
+        <h1>
+            Simple table</h1>
+        <ul class="buttons">
+            <li><a href="#" class="isw-download"></a></li>
+        </ul>
+    </div>
+    <div class="block-fluid">
+        <table cellpadding="0" cellspacing="0" width="100%" class="table">
+            <thead>
+                <tr>
+                    <th width="25%">
+                        ID
+                    </th>
+                    <th width="25%">
+                        Name
+                    </th>
+                    <th width="25%">
+                        E-mail
+                    </th>
+                    <th width="25%">
+                        Phone
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        101
+                    </td>
+                    <td>
+                        Dmitry
+                    </td>
+                    <td>
+                        dmitry@domain.com
+                    </td>
+                    <td>
+                        +98(765)432-10-98
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+@*@Html.DevExpress().PivotGrid(
+    settings =>
+    {
+        settings.Name = "pivotGrid";
+        settings.CallbackRouteValues = new { Controller = "Tracking", Action = "PartialReportAttendance" };
+        settings.CustomActionRouteValues = new { Controller = "Tracking", Action = "PartialReportAttendance" };
+        settings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+        settings.OptionsView.ShowHorizontalScrollBar = true;
+
+        settings.Fields.Add(field => {
+            field.Area = PivotArea.RowArea;
+            field.AreaIndex = 0;
+            field.FieldName = "RouteID";
+            field.Caption = Utility.Phrase("RouteID");
+
+        });
+        settings.Fields.Add(field =>
+        {
+            field.Area = PivotArea.RowArea;
+            field.AreaIndex = 0;
+            field.FieldName = "RouteName";
+            field.Caption = Utility.Phrase("RouteName");
+
+        });
+        settings.Fields.Add(field =>
+        {
+            field.Area = PivotArea.RowArea;
+            field.AreaIndex = 0;
+            field.FieldName = "SalesmanID";
+            field.Caption = Utility.Phrase("SalesmanID");
+
+        });
+        settings.Fields.Add(field =>
+        {
+            field.Area = PivotArea.RowArea;
+            field.AreaIndex = 0;
+            field.FieldName = "SalesmanName";
+            field.Caption = Utility.Phrase("SalesmanName");
+
+        });
+        
+        settings.Fields.Add(field => {
+            field.Area = PivotArea.ColumnArea;
+            field.AreaIndex = 1;
+            field.FieldName = "VisitDate";
+            field.Caption = Utility.Phrase("VisitDate");
+
+            field.GroupInterval = PivotGroupInterval.Date;
+        });
+        settings.Fields.Add(field => {
+            field.Area = PivotArea.DataArea;
+            field.AreaIndex = 1;
+            field.FieldName = "Result";
+            field.Caption = Utility.Phrase("Result");
+
+        });
+        settings.Fields.Add(field =>
+        {
+            field.Area = PivotArea.DataArea;
+            field.AreaIndex = 1;
+            field.FieldName = "OrderCount";
+            field.Caption = Utility.Phrase("OrderCount");
+
+
+            field.SummaryType = PivotSummaryType.Custom;
+            field.CellFormat.FormatType = FormatType.Custom;
+        });
+        settings.Fields.Add(field =>
+        {
+            field.Area = PivotArea.DataArea;
+            field.AreaIndex = 1;
+            field.FieldName = "FirstSyncTime";
+            field.Caption = Utility.Phrase("FirstSyncTime");
+
+        });
+        settings.Fields.Add(field =>
+        {
+            field.Area = PivotArea.DataArea;
+            field.AreaIndex = 1;
+            field.FieldName = "FirstStartTime";
+            field.Caption = Utility.Phrase("FirstStartTime");
+
+        });
+        settings.Fields.Add(field =>
+        {
+            field.Area = PivotArea.DataArea;
+            field.AreaIndex = 1;
+            field.FieldName = "LastEndTime";
+            field.Caption = Utility.Phrase("LastEndTime");
+
+        });
+        
+        settings.SetCellTemplateContent(c => {
+
+                ViewContext.Writer.Write(
+                    c.Item.Value
+                );
+            }
+            else {
+                ViewContext.Writer.Write(c.Text);
+            }
+        });
+        
+        settings.OptionsPager.PageIndex = -1;
+        settings.OptionsPager.Visible = false;
+    }).Bind(Model).GetHtml()
+*@ 

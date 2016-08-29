@@ -1,0 +1,162 @@
+﻿@{
+    ViewBag.Title = Utility.Phrase("MyScheduler");
+    Layout = "~/Views/Shared/_NewLayout.cshtml";
+}
+
+
+   
+    <script src="@Url.Content("~/Scripts/jquery-1.6.2.min.js")" type="text/javascript"></script>
+   @* <script src="@Url.Content("~/Scripts/jquery-1.10.1.min.js")" type="text/javascript"></script>*@
+    <script src="@Url.Content("~/Scripts/jquery.validate.min.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/jquery.validate.unobtrusive.min.js")" type="text/javascript"></script>
+
+    @Html.DevExpress().GetStyleSheets( 
+    new StyleSheet { ExtensionSuite = ExtensionSuite.NavigationAndLayout }, 
+    new StyleSheet { ExtensionSuite = ExtensionSuite.Editors }, 
+    new StyleSheet { ExtensionSuite = ExtensionSuite.HtmlEditor }, 
+    new StyleSheet { ExtensionSuite = ExtensionSuite.GridView }, 
+    new StyleSheet { ExtensionSuite = ExtensionSuite.PivotGrid },
+    new StyleSheet { ExtensionSuite = ExtensionSuite.Chart },
+	new StyleSheet { ExtensionSuite = ExtensionSuite.Scheduler },
+	new StyleSheet { ExtensionSuite = ExtensionSuite.TreeList }
+)
+@Html.DevExpress().GetScripts( 
+    new Script { ExtensionSuite = ExtensionSuite.NavigationAndLayout }, 
+    new Script { ExtensionSuite = ExtensionSuite.HtmlEditor }, 
+    new Script { ExtensionSuite = ExtensionSuite.GridView }, 
+    new Script { ExtensionSuite = ExtensionSuite.PivotGrid },
+    new Script { ExtensionSuite = ExtensionSuite.Editors }, 
+    new Script { ExtensionSuite = ExtensionSuite.Chart },
+	new Script { ExtensionSuite = ExtensionSuite.Scheduler },
+	new Script { ExtensionSuite = ExtensionSuite.TreeList }
+)
+
+<script type="text/javascript">
+    var apptIds;
+
+    this.onload = function () {
+        //$('#divScheduler').height($(window).height() * 7.0);
+        
+    }    
+
+    function Home_AppointmentClick(s, e) {
+        if (e.appointmentId != null && e.appointmentId != '') {
+            var appointment = s.GetAppointmentById(e.appointmentId);
+            apptIds = e.appointmentId;
+            //var sType = rdScheduleType.GetValue();
+            var sType = "D";        
+            if (sType == 'M') {
+                $.ajax({
+                    async: false,
+                    url: 'MyScheduler/AppointmentDetailPartial',
+                    data: 'id=' + e.appointmentId,
+                    type: 'POST',
+                    success: function (response) {
+                        $("#divDetail").html(response);
+                    },
+                    error: function (err) {
+                    }
+                });
+            } else {
+                $.ajax({
+                    async: false,
+                    url: 'MyScheduler/DetailInfoPartial',
+                    data: 'id=' + e.appointmentId,
+                    type: 'POST',
+                    success: function (response) {
+                        $("#divDetail").html(response);
+                    },
+                    error: function (err) {
+                    }
+                });
+            }
+        }
+    }
+
+    //function ownerScheduler_AppointmentClick(s, e) {        
+    //    if (e.appointmentIds != null && e.appointmentIds.length > 0) {
+    //        var appointment = s.GetAppointmentById(e.appointmentIds[0]);
+    //        apptIds = e.appointmentIds[0];
+    //        if (appointment.labelIndex == 3) {
+    //            //btnRequestDelete.SetEnabled(true);
+    //        } else {
+    //            //btnRequestDelete.SetEnabled(false);
+    //        }
+
+    //        if (appointment.labelIndex == 10) {
+    //            //btnCancelRequestDelete.SetEnabled(true);
+    //        } else {
+    //            //btnCancelRequestDelete.SetEnabled(false);
+    //        }
+    //        var sType = "D";
+
+    //    } else {
+    //        //btnRequestDelete.SetEnabled(false);
+    //        //btnCancelRequestDelete.SetEnabled(false);
+    //    }
+    //}
+
+    function ownerScheduler_OnAppointmentsSelectionChanged(s, e) {
+        if (e.appointmentIds != null && e.appointmentIds != '') {
+            var appointment = s.GetAppointmentById(e.appointmentIds);
+            apptIds = e.appointmentIds;
+            if (appointment.labelIndex == 3) {
+                //btnRequestDelete.SetEnabled(true);
+            } else {
+               // btnRequestDelete.SetEnabled(false);
+            }
+
+            if (appointment.labelIndex == 10) {
+                //btnCancelRequestDelete.SetEnabled(true);
+            } else {
+               // btnCancelRequestDelete.SetEnabled(false);
+            }
+
+            var sType = "D";
+
+            if (sType == 'M') {
+                $.ajax({
+                    async: false,
+                    url: 'MyScheduler/AppointmentDetailPartial',
+                    data: 'id=' + e.appointmentIds,
+                    type: 'POST',
+                    success: function (response) {
+                        $("#divDetail").html(response);
+                    },
+                    error: function (err) {
+                    }
+                });
+            } else {
+                $.ajax({
+                    async: false,
+                    url: 'MyScheduler/DetailInfoPartial',
+                    data: 'id=' + e.appointmentIds,
+                    type: 'POST',
+                    success: function (response) {
+                        $("#divDetail").html(response);
+                    },
+                    error: function (err) {
+                    }
+                });
+            }
+
+        } else {
+            //btnRequestDelete.SetEnabled(false);
+            //btnCancelRequestDelete.SetEnabled(false);
+        }
+    }
+
+</script>
+<div class="insider">
+     <div id="loading" class="loading"></div>
+
+          <div class="content-body row">      
+                    @Html.Partial("ApproveSchedulePartialView",
+    eRoute.Models.eCalendar.HammerDataProvider.GetApproveScheduleDataObject(
+    User.Identity.Name,
+    "D"))
+ 
+       </div>              
+</div>
+               
+    

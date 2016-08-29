@@ -1,0 +1,108 @@
+﻿@model List<UserVM>
+@{
+    ViewBag.Title = Utility.Phrase("UserManagement"); //"Quản Trị Người Dùng";
+    Layout = "~/Views/Shared/_NewLayout.cshtml";
+}
+@using DevExpress.Web.Mvc.UI;
+@using DevExpress.Web.Mvc;
+@using System.Web.UI.WebControls;
+
+<script type="text/javascript">
+
+
+    var LoginID = '';
+    var RowIndex = 0;
+    function ButtonClick(button) {
+
+        if (button == "btnResetPass") {
+            if (confirm("@Html.Raw(Utility.Phrase("ConfirmResetPass"))")) {
+                dxGridView.PerformCallback({ 'username': LoginID, 'action': "ResetPass" });
+                alert("@Html.Raw(Utility.Phrase("Mess_ResetPassOK_SentEmail"))");
+            }
+        }
+
+        else if (button == "btnActive") {
+            if (confirm("@Html.Raw(Utility.Phrase("ConfirmActive"))")) {
+                dxGridView.PerformCallback({ 'username': LoginID, 'action': "Active" });
+                alert("@Html.Raw(Utility.Phrase("Mess_ActiveUser"))");
+            }
+        }
+
+        else if (button == "btnInactive") {
+            if (confirm("@Html.Raw(Utility.Phrase("ConfirmInactive"))")) {
+                dxGridView.PerformCallback({ 'username': LoginID, 'action': "Inactive" });
+                alert("@Html.Raw(Utility.Phrase("Mess_InactiveUser"))");
+            }
+        }
+        else if (button == "btnDelete") {
+            if (confirm("@Html.Raw(Utility.Phrase("ConfirmDelete"))")) {
+                dxGridView.PerformCallback({ 'username': LoginID, 'action': "Delete" });
+            }
+        }
+
+        else if (button == "btnAddNew") {
+            AddNew();
+        }
+
+        else if (button == "btnUpdate") {
+            UpdateRow();
+        }
+}
+
+function AddNew() {
+    dxGridView.AddNewRow();
+}
+
+function UpdateRow() {
+    dxGridView.StartEditRow(dxGridView.GetFocusedRowIndex());
+}
+$(document).ready(function () {
+    $('#btnExportExcel').click(function () {
+        $('form').attr('action', '@Utility.FooMethod("/User/UserExportExcel")');
+        $('form').submit();
+    });
+    $('#btnExportPDF').click(function () {
+        $('form').attr('action', '@Utility.FooMethod("/User/UserExportPDF")');
+        $('form').submit();
+    });
+});
+</script>
+
+<div class="insider">
+    <div id="loading" class="loading"></div>
+     @using (Html.BeginForm("Index", "User", FormMethod.Post))
+    {
+    <div class="row display-table w-100pr mb-10 content-header">
+        <div class="report-content-header">
+            <div class="col-sm-8">
+                <h1>@ViewBag.Title</h1>
+            </div>
+            <div class="col-sm-4">
+                <div class="p-0 fr">
+                    @if (PermissionHelper.CheckPermissionByFeature("UserManagement_ExportExcel"))
+                    {
+                        <button type="button" id="btnExportExcel" class="p-0 block-theme" title="Excel"><i class="icon-etool-excel"></i></button>   
+                    }
+                    @if (PermissionHelper.CheckPermissionByFeature("UserManagement_ExportPDF"))
+                    {
+                        <button type="button" id="btnExportPDF" class="p-0 block-theme" title="PDF"><i class="icon-etool-pdf"></i></button>   
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+     }
+
+    <div class="row content-body">
+        <div style="margin: 0cm 4px 0cm 4px">
+            <table class="border-none no-selected">
+                <tr>
+                    <td>
+                        @Html.Partial("UserPartial", Model)
+                    </td>
+                </tr>
+
+            </table>
+        </div>
+    </div>
+</div>

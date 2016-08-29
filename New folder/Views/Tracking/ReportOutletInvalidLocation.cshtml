@@ -1,0 +1,101 @@
+﻿@model eRoute.Models.ViewModel.ReportOutletInvalidLocationVM
+@{
+    Layout = "~/Views/Shared/_ReportLayout.cshtml";
+    ViewBag.Title = Utility.Phrase("ReportOutletInvalidLocation");
+}
+@using DevExpress.Web.Mvc.UI;
+@using DevExpress.Web.Mvc;
+@using System.Web.UI.WebControls;
+@using (Html.BeginForm("ReportOutletInvalidLocation", "Tracking", FormMethod.Post, new { id = "ReportOutletInvalidLocation" }))
+{
+    @Html.Hidden("act")
+    <style type="text/css">
+        .dxpgCell_Aqua.dxpgGrandTotalCell_Aqua
+        {
+            background-color: White;
+        }
+        #tbFilter td
+        {
+            padding-bottom: 5px;
+        }
+    </style>
+    <h1 class="sales-report-h1">
+        @Utility.Phrase("ReportOutletInvalidLocation")
+    </h1>
+    <table class='head-report' cellpadding="3px" style="border-collapse: collapse; display: block;">
+        <tbody style="width: 100%; font-size: 14px;">            
+             <tr>
+                <td>
+                    <span class="alignright">
+                        @Html.DevExpress().Button(settings =>
+                        {
+                            settings.Name = "btnSearch";
+                            settings.Text = Utility.Phrase("View");
+                            settings.Style.Add("margin-left", "10px");
+                            settings.UseSubmitBehavior = false;
+                            settings.Style.Add("float", "right");
+                        }).GetHtml()
+                        @Html.DevExpress().Button(settings =>
+                        {
+                            settings.Text = Utility.Phrase("ExportToExcel");
+                            settings.Name = "btnExport";
+                            settings.ControlStyle.CssClass = "btnInline";                          
+                        }).GetHtml()
+                        @Html.DevExpress().Button(settings =>
+                        {
+                            settings.Name = "btnExportExcelRawData";
+                            settings.Text = Utility.Phrase("ExportToExcelRawData");
+                            settings.UseSubmitBehavior = false;
+                            settings.Style.Add("float", "right");                          
+                            settings.Style.Add("margin-left", "10px");
+                        }).GetHtml()
+                    </span>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <div style="width: 100%;">
+        @Html.Partial("ReportOutletInvalidLocationPartial", Model.listItem)
+    </div>
+    <script type='text/javascript'>
+    $(document).ready(function () {
+        $('#btnExport').click(function () {
+            $('form').attr('action','/Tracking/ReportOutletInvalidLocationExport');
+            $('form').submit();
+        });
+
+        $('#btnExportExcel').click(function () {
+            $('#act').val("ExportExcel");
+            $('form').attr('action','/Tracking/ReportOutletInvalidLocation');
+            $('form').submit();
+        });
+        $('#btnExportExcelRawData').click(function () {
+            $('#act').val("ExportExcelRawData");
+            $('form').attr('action','/Tracking/ReportOutletInvalidLocation');
+            $('form').submit();
+        });
+        $('#btnSearch').click(function () {
+            $('#act').val("");
+            $('form').attr('action','/Tracking/ReportOutletInvalidLocation');
+            $('form').submit();
+        });
+        
+        $("body").css("overflow", "auto");
+        $("body").css("background-color", "#FFFFFF");
+        $("body").css("background", "none");
+
+        $(".dateInput").datepicker({
+            dateFormat: 'dd-mm-yy'
+        }).change(function () {
+        });
+
+        $('.number').priceFormat({
+            prefix: '',
+            centsSeparator: '.',
+            thousandsSeparator: ',',
+            centsLimit: 0
+        });
+        $('.number').css("text-align", "right"); 
+    });
+    </script>
+}

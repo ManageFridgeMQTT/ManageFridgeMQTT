@@ -1,0 +1,220 @@
+﻿@if (Request.IsAuthenticated)
+{
+    <div class="main-menu">
+        <ul>
+            <li><a href="javascript:;">Giám sát</a>
+                <ul>
+                    @if (PermissionHelper.CheckPermissionByFeature("Home_Index"))
+                    {
+                        <li><a href="@Url.Action("Index", "Home")">Giám sát bán hàng</a></li>
+                    }
+                    @if (PermissionHelper.CheckPermissionByFeature("Home_MovementMonitoring"))
+                    {
+                        <li><a href="@Url.Action("MovementMonitoring", "Home")">Giám sát di chuyển</a> </li>
+                    }
+                </ul>
+            </li>
+            <li><a href="javascript:;">Báo cáo</a>
+                <ul>
+                    @*@if (PermissionHelper.CheckPermissionByFeature("Home_ReportWorkWith"))
+                    {
+                        <li><a href="@Url.Action("ReportWorkWith", "Home")">Work Week</a> </li>
+                    }*@
+                    @if (PermissionHelper.CheckPermissionByFeature("Home_ReportReviewWorkWith"))
+                    {
+                        <li><a href="@Url.Action("ReportReviewWorkWith", "Home")">Đánh giá WW</a> </li>
+                    }
+                    @if (PermissionHelper.CheckPermissionByFeature("Home_ReportTotalOrderOfDaySM"))
+                    {
+                        <li><a href="@Url.Action("ReportTotalOrderOfDaySM", "Home")">Chi tiết PC theo NVBH (MTD)</a>
+                        </li>
+                    }
+                    @if (PermissionHelper.CheckPermissionByFeature("Home_ReportTotalOrderOfDaySMDaily"))
+                    {
+                        <li><a href="@Url.Action("ReportTotalOrderOfDaySMDaily", "Home")">Chi tiết PC theo NVBH
+                            (Daily)</a> </li>
+                    }
+                    @if (PermissionHelper.CheckPermissionByFeature("Home_ReportTotalOrderOfDayMTD"))
+                    {
+                        <li><a href="@Url.Action("ReportTotalOrderOfDayMTD", "Home")">Tổng hợp PC theo NVBH
+                            (MTD)</a> </li>
+                    }
+@*@if (PermissionHelper.CheckPermissionByFeature("Home_OutletLocationUpdate"))
+                    {
+                        <li><a href="@Url.Action("OutletLocationUpdate", "Home")">Cập nhật tọa độ Outlet</a>
+                        </li>
+                    }
+                    @if (PermissionHelper.CheckPermissionByFeature("Home_SalesForceMCPTracking"))
+                    {
+                        <li><a href="@Url.Action("SalesForceMCPTracking", "Home")">SalesForce MCP Tracking</a>
+                        </li>
+                    }*@
+@* @if (PermissionHelper.CheckPermissionByFeature("Visibility_ReportImageCaptureSM"))
+                    {
+                        <li><a href="@Url.Action("ReportImageCaptureSM", "Visibility")">Trưng bày đạt theo NVBH - Daily
+</a></li>
+                    }*@
+@*@if (PermissionHelper.CheckPermissionByFeature("Visibility_ReportImageCapture"))
+                    {
+                        <li><a href="@Url.Action("ReportImageCapture", "Visibility")">Kết quả chấm điểm trưng bày của SaleSup</a></li>
+                    }*@
+@* @if (PermissionHelper.CheckPermissionByFeature("Visibility_ReportImageCaptureMTD"))
+                    {
+                        <li><a href="@Url.Action("ReportImageCaptureMTD", "Visibility")">Trưng bày đạt theo NVBH - MTD</a></li>
+                    }
+                    @if (PermissionHelper.CheckPermissionByFeature("Visibility_ReportImagePassBySalesmanMTD"))
+                    {
+                        <li><a href="@Url.Action("ReportImagePassBySalesmanMTD", "Visibility")">Chụp hình đạt theo NVBH - MTD</a></li>
+                    }
+                    *@
+                    @if (PermissionHelper.CheckPermissionByFeature("Visibility_ReportImageLastSM"))
+                    {
+                        <li><a href="@Url.Action("ReportImageLastSM", "Visibility")">Chi tiết trưng bày theo
+                            NVBH </a></li>
+                    }
+                    @if (PermissionHelper.CheckPermissionByFeature("Visibility_ReportImageLastMTD"))
+                    {
+                        <li><a href="@Url.Action("ReportImageLastMTD", "Visibility")">Tổng hợp trưng bày theo
+                            NVBH </a></li>
+                    }
+                    @if (PermissionHelper.CheckPermissionByFeature("Visibility_ReportImageLastCaptureSM"))
+                    {
+                        <li><a href="@Url.Action("ReportImageLastCaptureSM", "Visibility")">Chi tiết hình chụp
+                            theo NVBH - MTD </a></li>
+                    }
+                    @if (PermissionHelper.CheckPermissionByFeature("Visibility_ReportImageLastCaptureMTD"))
+                    {
+                        <li><a href="@Url.Action("ReportImageLastCaptureMTD", "Visibility")">Tổng hợp hình chụp
+                            theo NVBH </a></li>
+                    }
+                    @if (PermissionHelper.CheckPermissionByFeature("Home_ReportLastOfDay"))
+                    {
+                        <li><a href="@Url.Action("ReportLastOfDay", "Home")">Báo cáo cuối ngày</a></li>
+                    }
+                    @if (PermissionHelper.CheckPermissionByFeature("Home_Report"))
+                    {
+                        <li><a href="@Url.Action("ReportVisit", "Report")">Báo cáo viếng thăm</a></li>
+                    }
+                    @if (PermissionHelper.CheckPermissionByFeature("Report_ReportOrderTrackingIndicator"))
+                    {
+                        <li><a href="@Url.Action("ReportOrderTrackingIndicator", "Report")">Chỉ số đặt hàng
+                            của nhân viên</a></li>
+                    }
+                    @if (PermissionHelper.CheckPermissionByFeature("Home_ReportBangChamCongChiTiet"))
+                    {
+                        <li><a href="@Url.Action("ReportBangChamCongChiTiet", "Home")">Bảng Chấm Công Chi Tiết</a> </li>
+                    }
+                </ul>
+            </li>
+            @*<li><a href="javascript:;">Báo cáo Visibility</a>
+                <ul>
+                    @if (PermissionHelper.CheckPermissionByFeature("Visibility_ReportImageCaptureSM"))
+                    {
+                        <li><a href="@Url.Action("ReportImageCaptureSM", "Visibility")">Kết quả chấm điểm hàng ngày của NVBH
+</a></li>
+                    }
+                    @if (PermissionHelper.CheckPermissionByFeature("Visibility_ReportImageCapture"))
+                    {
+                        <li><a href="@Url.Action("ReportImageCapture", "Visibility")">Kết quả chấm điểm hàng ngày của SaleSup</a></li>
+                    }
+                    @if (PermissionHelper.CheckPermissionByFeature("Visibility_ReportImageCaptureMTD"))
+                    {
+                        <li><a href="@Url.Action("ReportImageCaptureMTD", "Visibility")">Kết quả chấm điểm MTD của SaleSup</a></li>
+                    }
+                </ul>
+            </li>*@
+            <li><a href="javascript:;">Đánh giá</a>
+                <ul>
+                    @if (PermissionHelper.CheckPermissionByFeature("Assesment_AuditorList"))
+                    {
+                        <li><a href="@Url.Action("AuditorList", "Assesment")">Đánh giá chụp ảnh trưng bày</a></li>
+                    }
+                    @if (PermissionHelper.CheckPermissionByFeature("Assesment_LeaderList"))
+                    {
+                        <li><a href="@Url.Action("LeaderList", "Assesment")">Duyệt kết quả đánh giá của Auditor</a></li>
+                    }
+                    @if (PermissionHelper.CheckPermissionByFeature("Assesment_ManageList"))
+                    {
+                        <li><a href="@Url.Action("ManageList", "Assesment")">@Utility.Phrase("View")/Xác nhận kết quả đánh giá</a></li>
+                    }
+                    @if (PermissionHelper.CheckPermissionByFeature("Assesment_AssesmentList"))
+                    {
+                        <li><a href="@Url.Action("AssesmentList", "Assesment")">Đóng/Mở đánh giá chụp ảnh trưng
+                            bày</a></li>
+                    }
+                </ul>
+            </li>
+            <li><a href="javascript:;">Quản trị</a>
+                <ul>
+                    @if (PermissionHelper.CheckPermissionByFeature("User_Index"))
+                    {
+                        <li><a href="@Url.Action("Index", "User")">Quản trị user</a></li>
+                    }
+                    @if (PermissionHelper.CheckPermissionByFeature("Home_ReportUserActionLog"))
+                    {
+                        <li><a href="@Url.Action("ReportUserActionLog", "Home")">User action log</a> </li>
+                    }
+                    @if (PermissionHelper.CheckPermissionByFeature("Home_ReportUserUseMobility"))
+                    {
+                        <li><a href="@Url.Action("ReportUserUseMobility", "Home")">Số lượng người sử dụng Mobility
+                            trên hệ thống</a></li>
+                    }
+                    @if (PermissionHelper.CheckPermissionByFeature("Home_ImportOutletLocation"))
+                    {
+                        <li><a href="@Url.Action("ImportOutletLocation", "Home")">Import Outlet Location</a></li>
+                    }
+                    @if (PermissionHelper.CheckPermissionByFeature("Home_Category"))
+                    {
+                        <li><a href="@Url.Action("Category", "Home")">Cấu hình danh mục</a></li>
+                    }
+                </ul>
+            </li>
+            <li>
+                @Html.ActionLink("Chào: " + User.Identity.Name + " !", "Manage", "Account", routeValues: null, htmlAttributes: new { @class = "username", title = "Manage" })
+            </li>
+            <li><a href="@Url.Action("LogOff", "Account")">Thoát</a></li>
+        </ul>
+    </div>
+    
+}
+<style type="text/css">
+    .main-menu
+    {
+        position: relative;
+    }
+    .main-menu ul
+    {
+        position: absolute;
+        right: 10px;
+        color: white;
+        font-weight: bold;
+    }
+    .main-menu ul li
+    {
+        position: relative;
+        float: left;
+        padding-right: 10px;
+    }
+    .main-menu ul li ul
+    {
+        display: none;
+        position: absolute;
+        z-index: 99999999999999999;
+        color: white;
+        font-weight: bold;
+        top: 20px;
+        left: 0px;
+        background-color: #456F9D;
+        line-height: 30px;
+        width: 300px;
+        text-align: left;
+    }
+    .main-menu ul li ul li
+    {
+        float: none;
+    }
+    .main-menu ul li:hover ul
+    {
+        display: block;
+    }
+</style>

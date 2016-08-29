@@ -1,0 +1,211 @@
+﻿@model EvaluationDataModel
+@{
+    ViewBag.Title = Utility.Phrase("Menu_Evaluation_AutoEvaluation");
+    Layout = "~/Views/Shared/_NewLayout.cshtml";
+
+    EvalAutoMarkMV EvalMarkInfo = ViewData["EvalAutoMarkMV"] as EvalAutoMarkMV;
+}
+
+<div class="insider">
+    <div id="loading" class="loading"></div>
+    <div class="row display-table w-100pr mb-10 content-header">
+        <div class="report-content-header">
+            <div class="col-sm-8">
+                <h1>@Utility.Phrase("EvalResultAutoMarking")</h1>
+            </div>
+            <div class="col-sm-4">
+                <div class="p-0 fr">
+                    <a href="@Url.Action("AutoMarkingExportExecl", "Evaluation", new { @sEvalID = @EvalMarkInfo.Evaluation.EvaluationID })"><button type="button" id="btnExportExcel" class="btn p-0 m-0 ml-10 block-theme" title="Excel"><i class="icon-etool-excel"></i></button></a>
+                    <a href="@Url.Action("AutoMarkingExportPDF", "Evaluation", new { @sEvalID = @EvalMarkInfo.Evaluation.EvaluationID })"><button type="button" id="btnExportPDF" class="btn p-0 m-0 ml-10 block-theme" title="PDF"><i class="icon-etool-pdf"></i></button></a>
+                </div>
+            </div>
+        </div>
+        <div class="w-100pr">
+            <div class="item fl">
+                <label for="code" class="fl">@Utility.Phrase("EvaluationCode")</label>
+                <div class="input-group">
+                    <input type="text" id="EvaluationCode" class="form-control" aria-label="..." placeholder="@Utility.Phrase("SelectEvaluationCode")" value ="@Model.FilterModel.EvaluationID"/>
+                    <div class="input-group-btn">
+                        <button type="button" id="btncode" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="caret"></span></button>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <div style="height: auto; overflow-y: auto; overflow-x: auto;" class="table-box wrapper">
+                                    <table class="table table-striped nowrap m-0">
+                                        <thead class="block-theme">
+                                            <tr>
+                                                <th>@Utility.Phrase("No")</th>
+                                                <th>@Utility.Phrase("EvaluationCode")</th>
+                                                <th>@Utility.Phrase("DateTimeEval")</th>
+                                                <th>@Utility.Phrase("EvaluationStatus")</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="my_table_EvaluationID">
+                                            @if (Model.FilterModel.EvaluationData != null)
+                                            {
+                                                int i = 1;
+                                                foreach (var item in Model.FilterModel.EvaluationData)
+                                                {
+                                                <tr>
+                                                    <td>@i</td>
+                                                    <td>@item.EvaluationID</td>
+                                                    <td>@item.EvalDateFrom.ToShortDateString() - @item.EvalDateTo.ToShortDateString()</td>
+                                                    <td><span class="@item.ColorStatus bold">@Utility.Phrase("EvalState_" + item.EvalState)</span></td>
+                                                </tr>
+                                                    i++;
+                                                }
+                                            }
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row content-body">
+        <div class="tab-header">
+            <div class="toolbox">
+                <ul class="fr m-0">
+                    <li>
+                        <a href="@Url.Action("AutoEvaluation", "Evaluation", new { @sEvalID = Model.FilterModel.EvaluationID })">
+                            <button class="btn-refresh" title="@Utility.Phrase("Refresh")"><i class="icon-update"></i>@Utility.Phrase("Refresh")</button></a>
+                        <a href="CancellData('@Model.FilterModel.EvaluationID')">
+                            <button class="btn-refresh" title="@Utility.Phrase("Cancell")"><i class="icon-update"></i>@Utility.Phrase("Cancell")</button></a>
+                    </li>
+                    <li class="ts-pager">
+                        <button type="button" title="@Utility.Phrase("GoBack")" class="prev"><i class="icon-go-back"></i></button>
+                        <span class="pagedisplay"></span>
+                        <button type="button" title="@Utility.Phrase("GoNext")" class="next"><i class="icon-go-next"></i></button>
+                        <span>@Utility.Phrase("GotoPage")
+                            <select class="pagenum input-mini" title="Select page number"></select>
+                        </span>
+                        <span>@Utility.Phrase("Pages")</span>
+                        <select class="pagesize input-mini m-0" title="Select page size">
+                            <option selected="selected" value="10">10</option>
+                            <option value="20">20</option>
+                            <option value="30">30</option>
+                            <option value="40">40</option>
+                            <option value="50">50</option>
+                        </select>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-3">
+                <div class="table-box">
+                    <table>
+                        <thead class="block-theme">
+                            <tr>
+                                <th colspan="2">@Utility.Phrase("EvalID"): @EvalMarkInfo.Evaluation.EvaluationID</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <th>@Utility.Phrase("DateMarking")</th>
+                                <td class="align-right">@EvalMarkInfo.DateAutoMarking.ToShortDateString()</td>
+                            </tr>
+                            <tr>
+                                <th colspan="2">@Utility.Phrase("DateEvaluate"): @EvalMarkInfo.Evaluation.ProgramDateFrom.ToShortDateString() - @EvalMarkInfo.Evaluation.ProgramDateTo.ToShortDateString()</th>
+                            </tr>
+                            <tr>
+                                <th>@Utility.Phrase("TotalImages") </th>
+                                <td class="align-right">@EvalMarkInfo.TotalImages</td>
+                            </tr>
+                            <tr>
+                                <th><a href="@Url.Action("DetailListImage", "Evaluation", new { @sEvalID = EvalMarkInfo.Evaluation.EvaluationID, @strType = Utility.TypeID.ImgMarking })">@Utility.Phrase("ImageMarking") </a></th>
+                                <td class="align-right">@EvalMarkInfo.ImageMarking</td>
+                            </tr>
+                            <tr>
+                                <th>@Utility.Phrase("NumberStoresEvaluated") </th>
+                                <td class="align-right">@EvalMarkInfo.OutletMarking</td>
+                            </tr>
+                            <tr>
+                                <th><a href="@Url.Action("DetailListImage", "Evaluation", new { @sEvalID = EvalMarkInfo.Evaluation.EvaluationID, @strType = Utility.TypeID.ImgFakes })">@Utility.Phrase("NumberArtifacts") </a></th>
+                                <td class="align-right">@EvalMarkInfo.ImgFakes</td>
+                            </tr>
+                            <tr>
+                                <th><a href="@Url.Action("DetailListImage", "Evaluation", new { @sEvalID = EvalMarkInfo.Evaluation.EvaluationID, @strType = Utility.TypeID.ImgNotStandards })">@Utility.Phrase("NumberImageNonStandard") </a></th>
+                                <td class="align-right">@EvalMarkInfo.ImgNotStandard</td>
+                            </tr>
+                            <tr>
+                                <th><a href="@Url.Action("DetailListImage", "Evaluation", new { @sEvalID = EvalMarkInfo.Evaluation.EvaluationID, @strType = Utility.TypeID.ImgNotPass })">@Utility.Phrase("NumberImageFailed") </a></th>
+                                <td class="align-right">@EvalMarkInfo.ImgNotPass</td>
+                            </tr>
+                            <tr>
+                                <th><a href="@Url.Action("DetailListImage", "Evaluation", new { @sEvalID = EvalMarkInfo.Evaluation.EvaluationID, @strType = Utility.TypeID.ImgNotNumberic })">@Utility.Phrase("NumberImageNotNumeric") </a></th>
+                                <td class="align-right">@EvalMarkInfo.ImgNotPassNumberic</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="col-sm-9">
+                <div class="tab-content wrapper">
+                    <table class="tablesorter">
+                        <thead class="block-theme">
+                            <tr>
+                                <th>@Utility.Phrase("Action")</th>
+                                <th>@Utility.Phrase("OutletName")</th>
+                                <th>@Utility.Phrase("OutletAdress")</th>
+                                <th>@Utility.Phrase("TotalImages")</th>
+                                <th>@Utility.Phrase("ImgFakes")</th>
+                                <th>@Utility.Phrase("ImgNotStandard")</th>
+                                <th>@Utility.Phrase("ImgNotPass")</th>
+                                <th>@Utility.Phrase("Phone")</th>
+                            </tr>
+                        </thead>
+                        <tbody id="my_table_DetailAutoEvaluation">
+                            @if (Model.AutoEvalList != null)
+                            {
+                                foreach (var item in Model.AutoEvalList)
+                                {
+                                <tr>
+                                    <td>
+                                        <a title="@Utility.Phrase("Detail")" href="@Url.Action("DetailImages", "Evaluation", new { @sEvalID = EvalMarkInfo.Evaluation.EvaluationID, @customerID = item.CustomerID, @imageID = 0 })">
+                                            <i class="icon-display"></i>
+                                        </a>
+                                    </td>
+                                    <td>@item.CustomerName</td>
+                                    <td>@item.Address</td>
+                                    <td class="align-right">@item.TotalImg</td>
+                                    <td class="align-right">@item.ImgFakes / @item.ImgMarking</td>
+                                    <td class="align-right">@item.ImgNotStandard / @item.ImgMarking</td>
+                                    <td class="align-right">@item.ImgNotPass / @item.ImgMarking</td>
+                                    <td>@item.Phone</td>
+                                </tr>
+                                }
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("table").on('click', '#my_table_EvaluationID tr', function () {
+            $(this).addClass('selected').siblings().removeClass('selected');
+            var keyVal = $(this).find('td:nth-child(2)').html();
+            $('#EvaluationCode').val(keyVal);
+            var url = '@(Url.Action("AutoEvaluation", "Evaluation"))?sEvalID=' + keyVal;
+            window.location = url;
+        });
+    });
+    function CancellData(sEvalID) {
+        $.ajax({
+            type: 'POST',
+            url: 'CancellDataAuto',
+            dataType: "json",
+            data: { 'sEvalID': sEvalID },
+            success: function (result) {
+                alert(result);
+            }
+        }).done(function () {
+        });
+    };
+</script>

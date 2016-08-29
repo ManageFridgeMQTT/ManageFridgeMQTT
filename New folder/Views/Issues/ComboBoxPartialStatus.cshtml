@@ -1,0 +1,26 @@
+﻿@model List<StatusIssues>
+@using DevExpress.Web.Mvc.UI;
+@using DevExpress.Web.Mvc;
+@using System.Web.UI.WebControls;
+
+@Html.DevExpress().ComboBox(
+settings =>
+{
+    settings.Name = "Status";
+    settings.Width = Unit.Pixel(330);
+    settings.CallbackRouteValues = new { Controller = "Issues", Action = "ComboBoxPartialStatus" };
+    settings.Properties.CallbackPageSize = 50;
+    settings.Properties.DropDownRows = 15;
+    settings.Properties.AllowMouseWheel = true;
+    settings.Properties.TextFormatString = "{1}-{0}";
+    settings.Properties.ValueField = "ID";
+    settings.Properties.ValueType = typeof(int);
+    settings.Properties.DropDownStyle = DropDownStyle.DropDownList;
+    settings.Properties.IncrementalFilteringMode = IncrementalFilteringMode.Contains;
+    settings.Properties.Columns.Add("ID", Utility.Phrase("Status"), 110);
+    settings.Properties.Columns.Add("Name", Utility.Phrase("Status"), 200);
+    settings.Properties.Height = Unit.Pixel(20);    
+    settings.Properties.EnableCallbackMode = true;
+   
+}
+).BindList(Model).GetHtml()

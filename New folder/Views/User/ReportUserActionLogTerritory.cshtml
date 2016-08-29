@@ -1,0 +1,186 @@
+﻿@model ReportUserActionLogTerritoryVM
+@using DevExpress.Web.Mvc.UI;
+@using DevExpress.Web.Mvc;
+@using System.Web.UI.WebControls;
+@{
+    ViewBag.Title = Utility.Phrase("ReportUserActionLogTerritory");
+    Layout = "~/Views/Shared/_ReportNewLayout.cshtml";
+}
+@using (Html.BeginForm("ReportUserActionLogTerritory", "User", FormMethod.Post, new { id = "ReportUserActionLogTerritory" }))
+{
+    @Html.Hidden("act")
+    <style type="text/css">
+        .dxpgCell_Aqua.dxpgGrandTotalCell_Aqua
+        {
+            background-color: White;
+        }
+        #tbFilter td
+        {
+            padding-bottom: 5px;
+        }
+    </style>
+    <h1 class="sales-report-h1">
+        @Utility.Phrase("ReportUserActionLogTerritory")</h1>
+    <table class='head-report' id="tbFilter" width='100%' style="border-collapse: collapse;
+        display: block;">
+        <tbody style="width: 100%; font-size: 14px;">
+            <tr>
+                <td>
+                    <span class="alignleft">@Utility.Phrase("ChooseDate") :</span>
+                </td>
+                <td>
+                    <span class="alignleft">
+                        @*<input type="text" name="strFromDate" id="strFromDate" class="dateInput" value="@Model.FromDate.ToString(Constant.ShortDatePattern)" style="width: 100px" />
+                        <input type="text" name="strToDate" id="strToDate" class="dateInput" value="@Model.ToDate.ToString(Constant.ShortDatePattern)" style="width: 100px" />*@
+                        @Html.DevExpress().DateEdit(
+                        settings =>
+                        {
+                            settings.Name = "strToDate";
+                            settings.Date = Model.ToDate;
+                            settings.Properties.NullText = Utility.info.DateTimeFormat.ShortDatePattern;// "dd-MM-yyyy";
+                            settings.Properties.EditFormat = EditFormat.Custom;
+                            settings.Properties.EditFormatString = Utility.info.DateTimeFormat.ShortDatePattern;// "dd-MM-yyyy";
+                            settings.Properties.ClientSideEvents.ValueChanged = "function(s, e) {  }";
+                            settings.Style.Add("margin-left", "10px");
+                            settings.Style.Add("float", "right");
+                            settings.Style.Add("width", "160px");
+                        }
+                        ).GetHtml()
+                        @Html.DevExpress().DateEdit(
+                        settings =>
+                        {
+                            settings.Name = "strFromDate";
+                            settings.Date = Model.FromDate;
+                            settings.Properties.NullText = Utility.info.DateTimeFormat.ShortDatePattern;// "dd-MM-yyyy";
+                            settings.Properties.EditFormat = EditFormat.Custom;
+                            settings.Properties.EditFormatString = Utility.info.DateTimeFormat.ShortDatePattern;// "dd-MM-yyyy";
+                            settings.Properties.ClientSideEvents.ValueChanged = "function(s, e) {  }";
+                            settings.Style.Add("float", "right");
+                            settings.Style.Add("margin-left", "10px");
+                            settings.Style.Add("width", "160px");
+                        }
+                        ).GetHtml()
+                        
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td style="vertical-align: top">
+                    <span class="alignleft">@Utility.Phrase("ChooseUser") :</span>
+                </td>
+                <td>
+                    <span class="alignright">
+                            @Html.DevExpress().ComboBox(
+                                settings =>
+                                {
+                                    settings.Name = "userID";
+                                    settings.Properties.CallbackPageSize = 50;
+                                    settings.Properties.DropDownRows = 15;
+                                    settings.Properties.AllowMouseWheel = true;
+                                    settings.Properties.TextFormatString = "{1}-{0}";
+                                    settings.Properties.ValueField = "UserId";
+                                    settings.Properties.ValueType = typeof(int);
+                                    settings.Properties.DropDownStyle = DropDownStyle.DropDownList;
+                                    settings.Properties.IncrementalFilteringMode = IncrementalFilteringMode.Contains;
+                                    settings.Properties.Columns.Add("UserName", "Mã nhân viên", 110);
+                                    settings.Properties.Columns.Add("FullName", "Tên nhân viên", 200);
+                                    settings.Properties.Columns.Add("RoleName", "Quyền", 110);
+                                    settings.Style.Add("float", "right");
+
+                                    settings.Properties.Height = Unit.Pixel(20);
+                                }
+                            ).BindList(Model.ListUser).Bind(Model.userID).GetHtml()
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2" >
+                    <span class="alignleft">
+                        @*<input type="button" name="export" id="btnExport" class="btn btn-success" value="Xuất Excel" />
+                        <input type="button" name="export" id="btnExportExcel" class="btn btn-success" style="width: 170px"
+                            value="Xuất Excel trực tiếp" />*@
+                        @Html.DevExpress().Button(settings =>
+                        {
+                            settings.Name = "btnExport";
+                            settings.Text = Utility.Phrase("ExportToExcel");
+                            settings.UseSubmitBehavior = false;
+                            settings.Style.Add("float", "left");
+                        }).GetHtml()
+                        @Html.DevExpress().Button(settings =>
+                        {
+                            settings.Name = "btnExportExcel";
+                            settings.Text = Utility.Phrase("ExportExcelDirectly");
+                            settings.Style.Add("margin-left", "10px");
+                            settings.UseSubmitBehavior = false;
+                            settings.Style.Add("float", "left");
+                        }).GetHtml()
+
+                        @Html.DevExpress().Button(settings =>
+                        {
+                            settings.Name = "btnExportExcelRawData";
+                            settings.Text = Utility.Phrase("ExportToExcelRawData");
+                            settings.UseSubmitBehavior = false;
+                            settings.Style.Add("float", "left");
+                            settings.Style.Add("margin-left", "10px");
+                        }).GetHtml()
+                        @Html.DevExpress().Button(settings =>
+                        {
+                            settings.Name = "btnSearch";
+                            settings.Text = Utility.Phrase("View");
+                            settings.Style.Add("margin-left", "10px");
+                            settings.UseSubmitBehavior = false;
+                            settings.Style.Add("float", "left");
+                        }).GetHtml()
+                    </span>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <div style="width: 100%;">
+        @Html.Partial("ReportUserActionLogTerritoryPartial", Model.ListItem)
+    </div>
+
+    <script type='text/javascript'>
+        $(document).ready(function () {
+            $('#btnExport').click(function () {
+                $('form').attr('action','/User/ReportUserActionLogTerritoryExport');
+                $('form').submit();
+            });
+
+            $('#btnExportExcel').click(function () {
+                $('#act').val("ExportExcel");
+                $('form').attr('action','/User/ReportUserActionLogTerritory');
+                $('form').submit();
+            });
+
+            $('#btnExportExcelRawData').click(function () {
+                $('#act').val("ExportExcelRawData");
+                $('form').attr('action','/User/ReportUserActionLogTerritory');
+                $('form').submit();
+            });
+
+            $('#btnSearch').click(function () {
+                $('#act').val("");
+                $('form').attr('action','/User/ReportUserActionLogTerritory');
+                $('form').submit();
+            });
+
+            $("body").css("overflow", "auto");
+            $("body").css("background-color", "#FFFFFF");
+            $("body").css("background", "none");
+
+            $(".dateInput").datepicker({
+                dateFormat: 'dd-mm-yy'
+            }).change(function () {
+            });
+
+            $('.number').priceFormat({
+                prefix: '',
+                centsSeparator: '.',
+                thousandsSeparator: ',',
+                centsLimit: 0,
+            });
+            $('.number').css("text-align", "right"); 
+        });
+    </script>
+}

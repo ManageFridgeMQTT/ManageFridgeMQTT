@@ -1,0 +1,1148 @@
+﻿@{
+    ViewBag.Title = Utility.Phrase("PrepareSchedule");
+    Layout = "~/Views/Shared/_NewLayout.cshtml";
+}
+
+@model Hammer.Models.PrepareScheduleNewModel
+<script type="text/javascript">
+    var EmployeesWW;
+    var EmployeesID;
+    var YearID;
+    var Week;
+    var ID;
+    var Shift;
+    var M_AMDes;
+    var M_PMDes;
+
+    var T_AMDes;
+    var T_PMDes;
+
+    var W_AMDes;
+    var W_PMDes;
+
+    var Th_AMDes;
+    var Th_PMDes;
+
+    var F_AMDes;
+    var F_PMDes;
+
+    var S_AMDes;
+    var S_PMDes;
+
+    var dataForm;
+    var isChecked = false;
+
+    var MoAM_flag = false;
+    var TuAM_flag = false;
+    var WeAM_flag = false;
+    var ThAM_flag = false;
+    var FrAM_flag = false;
+    var SaAM_flag = false;
+
+    var MoPM_flag = false;
+    var TuPM_flag = false;
+    var WePM_flag = false;
+    var ThPM_flag = false;
+    var FrPM_flag = false;
+    var SaPM_flag = false;
+    function cbEmployeeID_SelectedIndexChanged(s, e) {
+        Year.PerformCallback();
+        var employeeID = s.GetValue();
+        EmployeesID = employeeID;
+    }
+    //Buoi sang
+    function MoAM_MyOnInit(s, e) {
+        ASPxClientUtils.AttachEventToElement(s.GetMainElement(), "click", function (event) {
+            if (s.GetValue()) {
+                s.SetValue(false);
+                MoAM_flag = true;
+            }
+        });
+    };
+    function TuAM_MyOnInit(s, e) {
+        ASPxClientUtils.AttachEventToElement(s.GetMainElement(), "click", function (event) {
+            if (s.GetValue()) {
+                s.SetValue(false);
+                TuAM_flag = true;
+            }
+        });
+    };
+    function WeAM_MyOnInit(s, e) {
+        ASPxClientUtils.AttachEventToElement(s.GetMainElement(), "click", function (event) {
+            if (s.GetValue()) {
+                s.SetValue(false);
+                WeAM_flag = true;
+            }
+        });
+    };
+    function ThAM_MyOnInit(s, e) {
+        ASPxClientUtils.AttachEventToElement(s.GetMainElement(), "click", function (event) {
+            if (s.GetValue()) {
+                s.SetValue(false);
+                ThAM_flag = true;
+            }
+        });
+    };
+    function FrAM_MyOnInit(s, e) {
+        ASPxClientUtils.AttachEventToElement(s.GetMainElement(), "click", function (event) {
+            if (s.GetValue()) {
+                s.SetValue(false);
+                FrAM_flag = true;
+            }
+        });
+    };
+    function SaAM_MyOnInit(s, e) {
+        ASPxClientUtils.AttachEventToElement(s.GetMainElement(), "click", function (event) {
+            if (s.GetValue()) {
+                s.SetValue(false);
+                SaAM_flag = true;
+            }
+        });
+    };
+    //Buoi chieu
+    function MoPM_MyOnInit(s, e) {
+        ASPxClientUtils.AttachEventToElement(s.GetMainElement(), "click", function (event) {
+            if (s.GetValue()) {
+                s.SetValue(false);
+                MoPM_flag = true;
+            }
+        });
+    };
+    function TuPM_MyOnInit(s, e) {
+        ASPxClientUtils.AttachEventToElement(s.GetMainElement(), "click", function (event) {
+            if (s.GetValue()) {
+                s.SetValue(false);
+                TuPM_flag = true;
+            }
+        });
+    };
+    function WePM_MyOnInit(s, e) {
+        ASPxClientUtils.AttachEventToElement(s.GetMainElement(), "click", function (event) {
+            if (s.GetValue()) {
+                s.SetValue(false);
+                WePM_flag = true;
+            }
+        });
+    };
+    function ThPM_MyOnInit(s, e) {
+        ASPxClientUtils.AttachEventToElement(s.GetMainElement(), "click", function (event) {
+            if (s.GetValue()) {
+                s.SetValue(false);
+                ThPM_flag = true;
+            }
+        });
+    };
+    function FrPM_MyOnInit(s, e) {
+        ASPxClientUtils.AttachEventToElement(s.GetMainElement(), "click", function (event) {
+            if (s.GetValue()) {
+                s.SetValue(false);
+                FrPM_flag = true;
+            }
+        });
+    };
+    function SaPM_MyOnInit(s, e) {
+        ASPxClientUtils.AttachEventToElement(s.GetMainElement(), "click", function (event) {
+            if (s.GetValue()) {
+                s.SetValue(false);
+                SaPM_flag = true;
+            }
+        });
+    };
+    //
+    function MoAM_CheckChanged(s, e) {
+
+        var str = s.name;
+        var res = str.split("|");
+        var Employees = res[1];
+        EmployeesID = EmployeeID.GetValue();
+        EmployeesWW = Employees;
+        YearID = Year.GetValue();
+        WeekID = Week.GetValue();
+        ID = "Mo";
+        Shift = "AM";
+        if (MoAM_flag) {
+            MoAM_flag = false;
+            var answer = confirm("@Utility.Phrase("eCalendar_ConfirmUnChecked")?")
+            if (answer) {
+                s.SetValue(false);
+                M_AMDes = null;
+                MoAMDes.SetValue(null);
+                $.ajax({
+                    url: 'UnCheckWW',
+                    data: 'employeeID=' + EmployeesID + '&employeesWW=' + EmployeesWW + '&year=' + YearID + '&week=' + WeekID + '&iD=' + ID + '&shift=' + Shift + '&des=' + M_AMDes,
+                    type: 'POST',
+                    success: function (response) {
+
+                    },
+                    error: function (err) {
+                        //alert(err);
+                    }
+                });
+            }
+        } else {
+            if (typeof M_AMDes === "undefined") {
+                popUpWordWithMoAM.Show();
+            } else {
+                MoAMDes.SetValue(M_AMDes);
+                popUpWordWithMoAM.Show();
+            }
+        }
+
+
+    }
+    function MoPM_CheckChanged(s, e) {
+        var str = s.name;
+        var res = str.split("|");
+        var Employees = res[1];
+        EmployeesID = EmployeeID.GetValue();
+        EmployeesWW = Employees;
+        YearID = Year.GetValue();
+        WeekID = Week.GetValue();
+        ID = "Mo";
+        Shift = "PM";
+        if (MoPM_flag) {
+            MoPM_flag = false;
+            var answer = confirm("@Utility.Phrase("eCalendar_ConfirmUnChecked")?")
+            if (answer) {
+                s.SetValue(false);
+                M_PMDes = null;
+                MoPMDes.SetValue(null);
+                $.ajax({
+                    url: 'UnCheckWW',
+                    data: 'employeeID=' + EmployeesID + '&employeesWW=' + EmployeesWW + '&year=' + YearID + '&week=' + WeekID + '&iD=' + ID + '&shift=' + Shift + '&des=' + M_PMDes,
+                    type: 'POST',
+                    success: function (response) {
+
+                    },
+                    error: function (err) {
+                        //alert(err);
+                    }
+                });
+            }
+        } else {
+            if (typeof M_PMDes === "undefined") {
+                popUpWordWithMoPM.Show();
+            } else {
+
+                MoPMDes.SetValue(M_PMDes);
+                popUpWordWithMoPM.Show();
+            }
+        }
+
+    }
+    function TuAM_CheckChanged(s, e) {
+        var str = s.name;
+        var res = str.split("|");
+        var Employees = res[1];
+        EmployeesID = EmployeeID.GetValue();
+        EmployeesWW = Employees;
+        YearID = Year.GetValue();
+        WeekID = Week.GetValue();
+        ID = "Tu";
+        Shift = "AM";
+        if (TuAM_flag) {
+            TuAM_flag = false;
+            var answer = confirm("@Utility.Phrase("eCalendar_ConfirmUnChecked")?")
+            if (answer) {
+                s.SetValue(false);
+                T_AMDes = null;
+                TuAMDes.SetValue(null);
+                $.ajax({
+                    url: 'UnCheckWW',
+                    data: 'employeeID=' + EmployeesID + '&employeesWW=' + EmployeesWW + '&year=' + YearID + '&week=' + WeekID + '&iD=' + ID + '&shift=' + Shift + '&des=' + T_AMDes,
+                    type: 'POST',
+                    success: function (response) {
+
+                    },
+                    error: function (err) {
+                        //alert(err);
+                    }
+                });
+            }
+        } else {
+            if (typeof T_AMDes === "undefined") {
+                popUpWordWithTuAM.Show();
+            } else {
+                TuAMDes.SetValue(T_AMDes);
+                popUpWordWithTuAM.Show();
+            }
+        }
+    }
+    function TuPM_CheckChanged(s, e) {
+        var str = s.name;
+        var res = str.split("|");
+        var Employees = res[1];
+        EmployeesID = EmployeeID.GetValue();
+        EmployeesWW = Employees;
+        YearID = Year.GetValue();
+        WeekID = Week.GetValue();
+        ID = "Tu";
+        Shift = "PM";
+        if (TuPM_flag) {
+            TuPM_flag = false;
+            var answer = confirm("@Utility.Phrase("eCalendar_ConfirmUnChecked")?")
+            if (answer) {
+                s.SetValue(false);
+                T_PMDes = null;
+                TuPMDes.SetValue(null);
+                $.ajax({
+                    url: 'UnCheckWW',
+                    data: 'employeeID=' + EmployeesID + '&employeesWW=' + EmployeesWW + '&year=' + YearID + '&week=' + WeekID + '&iD=' + ID + '&shift=' + Shift + '&des=' + T_PMDes,
+                    type: 'POST',
+                    success: function (response) {
+
+                    },
+                    error: function (err) {
+                        //alert(err);
+                    }
+                });
+            }
+        } else {
+            if (typeof T_PMDes === "undefined") {
+                popUpWordWithTuPM.Show();
+            } else {
+                TuPMDes.SetValue(T_PMDes);
+                popUpWordWithTuPM.Show();
+            }
+        }
+    }
+    function WeAM_CheckChanged(s, e) {
+        var str = s.name;
+        var res = str.split("|");
+        var Employees = res[1];
+        EmployeesID = EmployeeID.GetValue();
+        EmployeesWW = Employees;
+        YearID = Year.GetValue();
+        WeekID = Week.GetValue();
+        ID = "We";
+        Shift = "AM";
+        if (WeAM_flag) {
+            WeAM_flag = false;
+            var answer = confirm("@Utility.Phrase("eCalendar_ConfirmUnChecked")?")
+            if (answer) {
+                s.SetValue(false);
+                W_AMDes = null;
+                WeAMDes.SetValue(null);
+                $.ajax({
+                    url: 'UnCheckWW',
+                    data: 'employeeID=' + EmployeesID + '&employeesWW=' + EmployeesWW + '&year=' + YearID + '&week=' + WeekID + '&iD=' + ID + '&shift=' + Shift + '&des=' + W_AMDes,
+                    type: 'POST',
+                    success: function (response) {
+
+                    },
+                    error: function (err) {
+                        //alert(err);
+                    }
+                });
+            }
+        } else {
+            if (typeof W_AMDes === "undefined") {
+                popUpWordWithWeAM.Show();
+            } else {
+                WeAMDes.SetValue(W_AMDes);
+                popUpWordWithWeAM.Show();
+            }
+        }
+
+    }
+    function WePM_CheckChanged(s, e) {
+        var str = s.name;
+        var res = str.split("|");
+        var Employees = res[1];
+        EmployeesID = EmployeeID.GetValue();
+        EmployeesWW = Employees;
+        YearID = Year.GetValue();
+        WeekID = Week.GetValue();
+        ID = "We";
+        Shift = "PM";
+        if (WePM_flag) {
+            WePM_flag = false;
+            var answer = confirm("@Utility.Phrase("eCalendar_ConfirmUnChecked")?")
+            if (answer) {
+                s.SetValue(false);
+                W_PMDes = null;
+                WePMDes.SetValue(null);
+                $.ajax({
+                    url: 'UnCheckWW',
+                    data: 'employeeID=' + EmployeesID + '&employeesWW=' + EmployeesWW + '&year=' + YearID + '&week=' + WeekID + '&iD=' + ID + '&shift=' + Shift + '&des=' + W_PMDes,
+                    type: 'POST',
+                    success: function (response) {
+
+                    },
+                    error: function (err) {
+                        //alert(err);
+                    }
+                });
+            }
+        } else {
+            if (typeof W_PMDes === "undefined") {
+                popUpWordWithWePM.Show();
+            } else {
+                WePMDes.SetValue(W_PMDes);
+                popUpWordWithWePM.Show();
+            }
+        }
+
+    }
+    function ThAM_CheckChanged(s, e) {
+        var str = s.name;
+        var res = str.split("|");
+        var Employees = res[1];
+        EmployeesID = EmployeeID.GetValue();
+        EmployeesWW = Employees;
+        YearID = Year.GetValue();
+        WeekID = Week.GetValue();
+        ID = "Th";
+        Shift = "AM";
+        if (ThAM_flag) {
+            ThAM_flag = false;
+            var answer = confirm("@Utility.Phrase("eCalendar_ConfirmUnChecked")?")
+            if (answer) {
+                s.SetValue(false);
+                Th_AMDes = null;
+                ThAMDes.SetValue(null);
+                $.ajax({
+                    url: 'UnCheckWW',
+                    data: 'employeeID=' + EmployeesID + '&employeesWW=' + EmployeesWW + '&year=' + YearID + '&week=' + WeekID + '&iD=' + ID + '&shift=' + Shift + '&des=' + Th_AMDes,
+                    type: 'POST',
+                    success: function (response) {
+
+                    },
+                    error: function (err) {
+                        //alert(err);
+                    }
+                });
+            }
+        } else {
+            if (typeof Th_AMDes === "undefined") {
+                popUpWordWithThAM.Show();
+            } else {
+                ThAMDes.SetValue(Th_AMDes);
+                popUpWordWithThAM.Show();
+            }
+        }
+
+
+    }
+    function ThPM_CheckChanged(s, e) {
+        var str = s.name;
+        var res = str.split("|");
+        var Employees = res[1];
+        EmployeesID = EmployeeID.GetValue();
+        EmployeesWW = Employees;
+        YearID = Year.GetValue();
+        WeekID = Week.GetValue();
+        ID = "Th";
+        Shift = "PM";
+        if (ThPM_flag) {
+            ThPM_flag = false;
+            var answer = confirm("@Utility.Phrase("eCalendar_ConfirmUnChecked")?")
+            if (answer) {
+                s.SetValue(false);
+                Th_PMDes = null;
+                ThPMDes.SetValue(null);
+                $.ajax({
+                    url: 'UnCheckWW',
+                    data: 'employeeID=' + EmployeesID + '&employeesWW=' + EmployeesWW + '&year=' + YearID + '&week=' + WeekID + '&iD=' + ID + '&shift=' + Shift + '&des=' + Th_PMDes,
+                    type: 'POST',
+                    success: function (response) {
+
+                    },
+                    error: function (err) {
+                        //alert(err);
+                    }
+                });
+            }
+        } else {
+            if (typeof Th_PMDes === "undefined") {
+                popUpWordWithThPM.Show();
+            } else {
+                ThPMDes.SetValue(Th_PMDes);
+                popUpWordWithThPM.Show();
+            }
+        }
+    }
+    function FrAM_CheckChanged(s, e) {
+        var str = s.name;
+        var res = str.split("|");
+        var Employees = res[1];
+        EmployeesID = EmployeeID.GetValue();
+        EmployeesWW = Employees;
+        YearID = Year.GetValue();
+        WeekID = Week.GetValue();
+        ID = "Fr";
+        Shift = "AM";
+        if (FrAM_flag) {
+            FrAM_flag = false;
+            var answer = confirm("@Utility.Phrase("eCalendar_ConfirmUnChecked")?")
+            if (answer) {
+                s.SetValue(false);
+                F_AMDes = null;
+                FrAMDes.SetValue(null);
+                $.ajax({
+                    url: 'UnCheckWW',
+                    data: 'employeeID=' + EmployeesID + '&employeesWW=' + EmployeesWW + '&year=' + YearID + '&week=' + WeekID + '&iD=' + ID + '&shift=' + Shift + '&des=' + F_AMDes,
+                    type: 'POST',
+                    success: function (response) {
+
+                    },
+                    error: function (err) {
+                        //alert(err);
+                    }
+                });
+            }
+        } else {
+            if (typeof F_AMDes === "undefined") {
+                popUpWordWithFrAM.Show();
+            } else {
+                FrAMDes.SetValue(F_AMDes);
+                popUpWordWithFrAM.Show();
+            }
+        }
+
+    }
+    function FrPM_CheckChanged(s, e) {
+        var str = s.name;
+        var res = str.split("|");
+        var Employees = res[1];
+        EmployeesID = EmployeeID.GetValue();
+        EmployeesWW = Employees;
+        YearID = Year.GetValue();
+        WeekID = Week.GetValue();
+        ID = "Fr";
+        Shift = "PM";
+        if (FrPM_flag) {
+            FrPM_flag = false;
+            var answer = confirm("@Utility.Phrase("eCalendar_ConfirmUnChecked")?")
+            if (answer) {
+                s.SetValue(false);
+                F_PMDes = null;
+                FrPMDes.SetValue(null);
+                $.ajax({
+                    url: 'UnCheckWW',
+                    data: 'employeeID=' + EmployeesID + '&employeesWW=' + EmployeesWW + '&year=' + YearID + '&week=' + WeekID + '&iD=' + ID + '&shift=' + Shift + '&des=' + F_PMDes,
+                    type: 'POST',
+                    success: function (response) {
+
+                    },
+                    error: function (err) {
+                        //alert(err);
+                    }
+                });
+            }
+        } else {
+            if (typeof F_PMDes === "undefined") {
+                popUpWordWithFrPM.Show();
+            } else {
+                FrPMDes.SetValue(F_PMDes);
+                popUpWordWithFrPM.Show();
+            }
+        }
+    }
+    function SaAM_CheckChanged(s, e) {
+        var str = s.name;
+        var res = str.split("|");
+        var Employees = res[1];
+        EmployeesID = EmployeeID.GetValue();
+        EmployeesWW = Employees;
+        YearID = Year.GetValue();
+        WeekID = Week.GetValue();
+        ID = "Sa";
+        Shift = "AM";
+        if (SaAM_flag) {
+            SaAM_flag = false;
+            var answer = confirm("@Utility.Phrase("eCalendar_ConfirmUnChecked")?")
+            if (answer) {
+                s.SetValue(false);
+                S_AMDes = null;
+                SaAMDes.SetValue(null);
+                $.ajax({
+                    url: 'UnCheckWW',
+                    data: 'employeeID=' + EmployeesID + '&employeesWW=' + EmployeesWW + '&year=' + YearID + '&week=' + WeekID + '&iD=' + ID + '&shift=' + Shift + '&des=' + S_AMDes,
+                    type: 'POST',
+                    success: function (response) {
+
+                    },
+                    error: function (err) {
+                        //alert(err);
+                    }
+                });
+            }
+        } else {
+            if (typeof S_AMDes === "undefined") {
+                popUpWordWithSaAM.Show();
+            } else {
+                SaAMDes.SetValue(S_AMDes);
+                popUpWordWithSaAM.Show();
+            }
+        }
+
+    }
+    function SaPM_CheckChanged(s, e) {
+        var str = s.name;
+        var res = str.split("|");
+        var Employees = res[1];
+        EmployeesID = EmployeeID.GetValue();
+        EmployeesWW = Employees;
+        YearID = Year.GetValue();
+        WeekID = Week.GetValue();
+        ID = "Sa";
+        Shift = "PM";
+        if (SaPM_flag) {
+            SaPM_flag = false;
+            var answer = confirm("@Utility.Phrase("eCalendar_ConfirmUnChecked") ?") //"@Utility.Phrase("eCalendar_ConfirmUnChecked")?"
+            if (answer) {
+                s.SetValue(false);
+                S_PMDes = null;
+                SaPMDes.SetValue(null);
+                $.ajax({
+                    url: 'UnCheckWW',
+                    data: 'employeeID=' + EmployeesID + '&employeesWW=' + EmployeesWW + '&year=' + YearID + '&week=' + WeekID + '&iD=' + ID + '&shift=' + Shift + '&des=' + S_PMDes,
+                    type: 'POST',
+                    success: function (response) {
+
+                    },
+                    error: function (err) {
+                        //alert(err);
+                    }
+                });
+            }
+        } else {
+            if (typeof S_PMDes === "undefined") {
+                popUpWordWithSaPM.Show();
+            } else {
+                SaPMDes.SetValue(S_PMDes);
+                popUpWordWithSaPM.Show();
+            }
+        }
+
+    }
+    function Des_Click() {
+         //alert("123132");
+        var Des;
+        //LoadingPanel.Show();
+        switch (ID) {
+            case "Mo":
+                if (Shift == "AM") {
+                    M_AMDes = MoAMDes.GetValue();
+                    Des = M_AMDes;
+                } else {
+                    M_PMDes = MoPMDes.GetValue();
+                    Des = M_PMDes;
+                }
+                break;
+            case "Tu":
+                if (Shift == "AM") {
+                    T_AMDes = TuAMDes.GetValue();
+                    Des = T_AMDes;
+                } else {
+                    T_PMDes = TuPMDes.GetValue();
+                    Des = T_PMDes;
+                }
+                break;
+            case "We":
+                if (Shift == "AM") {
+                    W_AMDes = WeAMDes.GetValue();
+                    Des = W_AMDes;
+                } else {
+                    W_PMDes = WePMDes.GetValue();
+                    Des = W_PMDes;
+                }
+                break;
+            case "Th":
+                if (Shift == "AM") {
+                    Th_AMDes = ThAMDes.GetValue();
+                    Des = Th_AMDes;
+                } else {
+                    Th_PMDes = ThPMDes.GetValue();
+                    Des = Th_PMDes;
+                }
+                break;
+            case "Fr":
+                if (Shift == "AM") {
+                    F_AMDes = FrAMDes.GetValue();
+                    Des = F_AMDes;
+                } else {
+                    F_PMDes = FrPMDes.GetValue();
+                    Des = F_PMDes;
+                }
+                break;
+            case "Sa":
+                if (Shift == "AM") {
+                    Sa_AMDes = SaAMDes.GetValue();
+                    Des = Sa_AMDes;
+                } else {
+                    Sa_PMDes = SaPMDes.GetValue();
+                    Des = Sa_PMDes;
+                }
+                break;
+        }
+        var checkWord = false;
+
+        if (Des == null) {
+            alert("@Utility.Phrase("eCalendar_Validate_ContentNotNull")");
+        } else {
+
+            if (!checkRejectReasonMinEightWords(Des)) {
+                checkWord = true;
+                alert("@Html.Raw(Utility.Phrase("SubmitAssessment.Validations.ErrMinimumWordsIn8"))");
+
+         }
+         if (!checkWord) {
+
+             $.ajax({
+                 url: 'AddDes',
+                 data: 'employeeID=' + EmployeesID + '&employeesWW=' + EmployeesWW + '&year=' + YearID + '&week=' + WeekID + '&iD=' + ID + '&shift=' + Shift + '&des=' + Des,
+                 type: 'POST',
+                 success: function (response) {
+                     //gridDetailTraning.Refresh();
+                     //gridDetailTraning.PerformCallback();
+                     //LoadingPanel.Hide();              
+                     switch (ID) {
+                         case "Mo":
+                             if (Shift == "AM") {
+                                 popUpWordWithMoAM.Hide();
+                             } else {
+                                 popUpWordWithMoPM.Hide();
+                             }
+                             break;
+                         case "Tu":
+                             if (Shift == "AM") {
+                                 popUpWordWithTuAM.Hide();
+                             } else {
+                                 popUpWordWithTuPM.Hide();
+                             }
+                             break;
+                         case "We":
+                             if (Shift == "AM") {
+                                 popUpWordWithWeAM.Hide();
+                             } else {
+                                 popUpWordWithWePM.Hide();
+                             }
+                             break;
+                         case "Th":
+                             if (Shift == "AM") {
+                                 popUpWordWithThAM.Hide();
+                             } else {
+                                 popUpWordWithThPM.Hide();
+                             }
+                             break;
+                         case "Fr":
+                             if (Shift == "AM") {
+                                 popUpWordWithFrAM.Hide();
+                             } else {
+                                 popUpWordWithFrPM.Hide();
+                             }
+                             break;
+                         case "Sa":
+                             if (Shift == "AM") {
+                                 popUpWordWithSaAM.Hide();
+                             } else {
+                                 popUpWordWithSaPM.Hide();
+                             }
+                             break;
+                     }
+                 },
+                 error: function (err) {
+                     //alert(err);
+                 }
+             });
+         }
+     }
+ }
+ function checkRejectReasonMinEightWords(reason) {
+     while (reason.indexOf('  ') != -1) {
+         reason = reason.replace('  ', ' ');
+     }
+     var strArray = reason.split(' ');
+     if (strArray.length < 8) {
+         return false;
+     } else {
+         return true;
+     }
+ }
+ function submitProcessSchedule(form) {
+     //LoadingPanel.Show();
+     M_AMDes = null;
+     M_PMDes = null;
+
+     T_AMDes = null;
+     T_PMDes = null;
+
+     W_AMDes = null;
+     W_PMDes = null;
+
+     Th_AMDes = null;
+     Th_PMDes = null;
+
+     F_AMDes = null;
+     F_PMDes = null;
+
+     S_AMDes = null;
+     S_PMDes = null;
+     var data = $(form).serialize();
+     dataForm = $(form).serialize();
+     $.ajax({
+         url: 'PrepareScheduleNew/Index',
+         data: data,
+         type: 'POST',
+         success: function (response) {
+             //LoadingPanel.Hide();
+             if (response.length > 0) {
+                 alert(response);
+                 //gridDetailTraning.PerformCallback();
+             }
+             gridDetailTraning.PerformCallback();
+
+         },
+         error: function (err) {
+             //alert(err);
+         }
+     });
+     return false;
+ }
+ function gridDetailNoTraning_CustomButton_Click(s, e) {
+     if (e.buttonID == 'btnEdit') {
+         if (gridDetailNoTraning.IsEditing()) {
+             if (confirm('@Html.Raw(Utility.Phrase("PrepareSchedule.Messages.ConfirmLeaveEditing"))')) {
+                gridDetailNoTraning.StartEditRow(e.visibleIndex);
+            }
+        } else {
+            gridDetailNoTraning.StartEditRow(e.visibleIndex);
+        }
+    }
+}
+function TabClick(s, e) {
+    if (e.tab.index == 0) {
+        gridDetailTraning.Refresh();
+    } else {
+        $.ajax({
+            url: 'AddNoWW',
+            data: '',
+            type: 'POST',
+            success: function (response) {
+                //LoadingPanel.Hide();
+                if (response.length > 0) {
+                    alert(response);
+                }
+                gridDetailNoTraning.Refresh()
+            },
+            error: function (err) {
+                //alert(err);
+            }
+        });
+    }
+}
+function btnClear_Click(s, e) {
+
+    M_AMDes = null;
+    M_PMDes = null;
+
+    T_AMDes = null;
+    T_PMDes = null;
+
+    W_AMDes = null;
+    W_PMDes = null;
+
+    Th_AMDes = null;
+    Th_PMDes = null;
+
+    F_AMDes = null;
+    F_PMDes = null;
+
+    S_AMDes = null;
+    S_PMDes = null;
+    $.ajax({
+        url: 'Index',
+        data: dataForm,
+        type: 'POST',
+        success: function (response) {
+            //LoadingPanel.Hide();
+            //if (response.length > 0) {
+            //    alert(response);                   
+            //}
+            gridDetailTraning.PerformCallback();
+            gridDetailNoTraning.PerformCallback();
+
+        },
+    });
+}
+function btnSave_Click(s, e) {
+    // //LoadingPanel.Show();       
+    //alert("123");
+    $(".loading").show();
+    //alert(EmployeeID.GetValue());
+    //alert(Year.GetValue());
+    //alert(Week.GetValue());
+    $.ajax({
+        url: 'Save',
+        method: 'POST',
+        data: 'employeeID=' + EmployeeID.GetValue() + '&year=' + Year.GetValue() + '&week=' + Week.GetValue(),
+        dataType: 'json',
+        success: function (result) {
+            $(".loading").hide();
+            alert(result.Mess);
+          
+            //if (result.length > 0) {
+            //    alert(result);
+
+            //}
+
+        }
+    }).done(function () {
+    });
+    //$.ajax({
+    //    url: 'PrepareScheduleNew/Save',           
+    //    data: 'employeeID=' + EmployeeID.GetValue() + '&year=' + Year.GetValue() + '&week=' + Week.GetValue(),
+    //    type: 'POST',
+    //    success: function (response) {
+    //        // //LoadingPanel.Hide();
+    //        alert("1234");
+    //        if (response.length > 0) {
+    //            alert(response);
+    //        }  
+    //        //gridDetailTraning.Refresh();
+    //        //gridDetailTraning.PerformCallback();
+    //    },
+    //    error: function (err) {
+    //        alert(err);
+    //    }
+    //});
+}
+function btnSend_Click(s, e) {
+    //LoadingPanel.Show();   
+    $(".loading").show();
+    $.ajax({
+        url: 'Send',
+        data: 'employeeID=' + EmployeesID + '&year=' + Year.GetValue() + '&week=' + Week.GetValue(),
+        type: 'POST',
+        success: function (response) {
+            //LoadingPanel.Hide();
+            $(".loading").hide();
+            //if (response.length > 0) {
+                alert(response.Mess);         
+               // alert(response.ID);
+                if (response.ID == "1") {                 
+                    //gridDetailTraning.PerformCallback();
+                    //gridDetailNoTraning.PerformCallback();
+                //}
+               
+            } 
+            //gridDetailTraning.PerformCallback();
+        },
+        error: function (err) {
+            //alert(err);
+        }
+    });
+}
+</script>
+
+@*<style>
+    .dxFirefox .dxeButtonEditSys td.dxic {
+        padding: 0 !important;
+    }
+</style>*@
+<div class="insider">
+    <div id="loading" class="loading"></div>
+    <div class="row display-table w-100pr mb-10 content-header">
+        <div class="report-content-header">
+            <div class="col-sm-8">
+                <h1>@Utility.Phrase("PrepareSchedule")</h1>
+            </div>
+        </div>
+
+
+        @* @using (Ajax.BeginForm("Index", "PrepareScheduleNew",
+            new AjaxOptions
+            {
+                HttpMethod = "POST",
+                InsertionMode = InsertionMode.Replace,
+                UpdateTargetId = "prepareScheduleContent"
+            }, new { id = "frmProcessSchedule", onsubmit = "return submitProcessSchedule(this);" }
+                ))
+                {
+                    
+                     *@
+        @using (Html.BeginForm("Index", "PrepareScheduleNew", FormMethod.Post))
+        {
+       
+            <div class="item fl required">
+                <label for="display" class="fl ">@Utility.Phrase("Employee")</label>
+                <div class="input-group">
+                    <div>
+                        @Html.DevExpress().ComboBox(cb =>
+                           {
+                               cb.Name = "EmployeeID";
+                               //cb.CallbackRouteValues = new { Controller = "PrepareScheduleNew", Action = "ComboBoxPartialEm" };
+                               cb.ShowModelErrors = true;
+                               cb.Properties.AnimationType = AnimationType.Fade;
+                               cb.ReadOnly = false;
+                               cb.Properties.ValueField = "EmployeeID";
+                               cb.Properties.TextField = "EmployeeName";
+                               cb.Properties.TextFormatString = "{2}";
+                               cb.Properties.ValueType = typeof(string);
+                               cb.Properties.Columns.Add("Level").Caption = Utility.Phrase("Level");
+                               cb.Properties.Columns.Add("EmployeeID").Caption = Utility.Phrase("EmployeeID");
+                               cb.Properties.Columns.Add("EmployeeName").Caption = Utility.Phrase("EmployeeName");
+                               //cb.Properties.CaptionStyle.CssClass = "block-theme";
+                               //cb.ControlStyle.CssClass = "block-theme";
+                               //cb.Properties.CssPostfix = "block-theme";
+                               //cb.ControlStyle.RegisteredCssClass = "block-theme";
+                               //cb.Width = 100;
+                               cb.PreRender = (sender, e) =>
+                               {
+                                   MVCxComboBox cmb = sender as MVCxComboBox;
+                                   if (string.IsNullOrEmpty(Model.EmployeeID))
+                                   {
+                                       cmb.Value = Model.EmployeeID;
+                                   }
+                               };
+                               cb.Properties.IncrementalFilteringMode = IncrementalFilteringMode.StartsWith;
+                               //cb.Properties.ClientSideEvents.SelectedIndexChanged = "function(s, e) { Year.PerformCallback(); }";
+                               cb.Properties.ClientSideEvents.SelectedIndexChanged = "cbEmployeeID_SelectedIndexChanged";
+
+
+                           }).BindList(eRoute.Models.eCalendar.HammerDataProvider.GetSubordinateNoDuplicate(User.Identity.Name).Where(x => x.Level != "SM")).Bind(Model.EmployeeID).GetHtml()
+
+
+                    </div>
+                </div>
+            </div>
+            <div class="item fl required">
+                <label for="display" class="fl ">@Utility.Phrase("Year")</label>
+                <div class="input-group">
+                    <div class="input-group-btn">
+
+                        @Html.DevExpress().ComboBox(
+                        settings =>
+                        {
+                            settings.Name = "Year";
+                            settings.CallbackRouteValues = new { Controller = "PrepareScheduleNew", Action = "ComboBoxPartialYear" };
+                            settings.Properties.DropDownRows = 15;
+                            settings.Properties.AllowMouseWheel = true;
+                            settings.Properties.TextFormatString = "{0}";
+                            settings.Properties.ValueField = "YearID";
+                            settings.Properties.ValueType = typeof(string);
+                            settings.Properties.DropDownStyle = DropDownStyle.DropDownList;
+                            settings.Properties.IncrementalFilteringMode = IncrementalFilteringMode.Contains;
+                            settings.Properties.Columns.Add("YearID", Utility.Phrase("Year"), 110);
+                            //settings.Properties.EnableCallbackMode = true;
+                            //settings.ControlStyle.CssClass = "block-theme";
+                            settings.ShowModelErrors = true;
+                            settings.Properties.ClientSideEvents.SelectedIndexChanged = "function(s, e) { Week.PerformCallback();}";
+                            settings.Properties.ClientSideEvents.BeginCallback = "function(s, e) { e.customArgs['EmployeeID'] = EmployeeID.GetValue(); }";
+                            settings.Properties.ClientSideEvents.EndCallback = "function(s, e) { s.SetValue(null); }";
+
+                        }
+                            ).BindList(Model.ListYear).Bind(Model.Year).GetHtml()
+
+                    </div>
+                </div>
+            </div>
+                    
+            <div class="item fl required">
+                <label for="display" class="fl ">@Utility.Phrase("Week")</label>
+                <div class="input-group">
+                    <div class="input-group-btn">
+                        @Html.DevExpress().ComboBox(
+                        settings =>
+                        {
+                            settings.Name = "Week";
+                            settings.CallbackRouteValues = new { Controller = "PrepareScheduleNew", Action = "ComboBoxPartialWeek" };
+                            settings.Properties.CallbackPageSize = 50;
+                            //settings.Width = System.Web.UI.WebControls.Unit.Percentage(105);
+                            settings.Properties.DropDownRows = 15;
+                            //settings.Properties.AnimationType = AnimationType.None;
+                            settings.Properties.AllowMouseWheel = true;
+                            settings.Properties.TextFormatString = "{0}";
+                            settings.Properties.ValueField = "WeekID";
+                            settings.Properties.ValueType = typeof(int);
+                            settings.ShowModelErrors = true;
+                            //settings.ControlStyle.CssClass = "block-theme";
+                            settings.Properties.DropDownStyle = DropDownStyle.DropDownList;
+                            settings.Properties.IncrementalFilteringMode = IncrementalFilteringMode.Contains;
+                            settings.Properties.Columns.Add("WeekID", Utility.Phrase("Week"), 110);
+                            settings.PreRender = (sender, e) =>
+                            {
+                                MVCxComboBox cmb = sender as MVCxComboBox;
+                                if (Model.Week == 0)
+                                {
+                                    cmb.Value = Model.Week;
+                                }
+                            };
+                            settings.Properties.EnableCallbackMode = true;
+                            settings.Properties.ClientSideEvents.BeginCallback = "function(s, e) { e.customArgs['Year'] = Year.GetValue();e.customArgs['EmployeeID'] = EmployeeID.GetValue(); }";
+                            settings.Properties.ClientSideEvents.EndCallback = "function(s, e) {  s.SetValue(null);}";
+
+                        }
+                            ).BindList(Model.ListWeek).Bind(Model.Week).GetHtml()
+
+                    </div>
+                </div>
+            </div>
+            <div class="item fl">
+                <button class="btn-Add" id="btnAdd" title="@Utility.Phrase("Load")"><i class="icon-progress"></i>@Utility.Phrase("Load")</button>
+                @*@Html.DevExpress().Button(button =>
+                                           {
+                                               button.Name = "btnAdd";
+                                               button.Text = Utility.Phrase("PrepareScheduleNew.Messages.btnLoad");
+                                               button.UseSubmitBehavior = true;
+                                           }).GetHtml()*@
+            </div>                    
+                  
+        }
+
+    </div>
+   
+
+    <!-- Button Header -->
+    <div class="button-box p-0">
+        <div class="toolbox fr w-auto">
+            <ul class="fr m-0">
+                <li>
+
+                    <button type="button" onclick="btnClear_Click()"><i class="icon-update"></i>@Utility.Phrase("Refresh")</button>
+                    <button  type="button" onclick="btnSave_Click()"><i class="icon-confirm"></i>@Utility.Phrase("Save")</button>
+                    <button  type="button" onclick="btnSend_Click()"><i class="icon-submit"></i>@Utility.Phrase("Released")</button>
+
+
+
+
+                </li>
+                <li class="ts-pager">
+                    
+                    <div class="report-box">
+					<div class="item fl">
+						<span class="reports-explain explain-white"></span>@Utility.Phrase("PrepareScheduleNew.Messages.ColorNew")
+					</div>
+					<div class="item fl">
+						<span class="reports-explain explain-green"></span>@Utility.Phrase("PrepareScheduleNew.Messages.ColorH")
+					</div>
+                     <div class="item fl">
+						<span class="reports-explain explain-orange"></span>@Utility.Phrase("PrepareScheduleNew.Messages.ColorN")
+					</div>
+					<div class="item fl">
+						<span class="reports-explain explain-red"></span>@Utility.Phrase("PrepareScheduleNew.Messages.ColorL")
+					</div>
+					
+                    <div class="item fl">
+						<span class="reports-explain explain-grey"></span>@Utility.Phrase("PrepareScheduleNew.Messages.ColorXam")
+					</div>
+				</div>
+                </li>
+
+            </ul>
+        </div>
+    </div>
+    
+    <div class="content-body row">
+        <div class="tab-content wrapper">
+            @*<table class="tablesorter">			*@
+            @Html.Partial("TabPartialView", Session["GirdWW"])
+            @*	</table>   *@
+        </div>
+    </div>
+</div>
+
+
+

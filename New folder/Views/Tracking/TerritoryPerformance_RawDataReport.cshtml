@@ -1,0 +1,288 @@
+﻿@{
+    //ViewBag.Title = "TerritoryPerformance_RawDataReport";
+}
+
+<script type="text/javascript">
+    function ShowReport() {
+        //GetData
+        if (regionIDSelected != '') {
+            ReportSalesAssessment('Area');
+        } else if (areaIDSelected != '') {
+            ReportSalesAssessment('Distributor');
+        } else {
+            ReportSalesAssessment('Salesman');
+        } 
+        //Render
+        $('body').addClass('modal-open');
+        $('#map-report').addClass('in');
+        $('#map-report').show();
+        $('body').append('<div class="modal-backdrop fade in"></div>');
+        
+
+    }
+    function HideReport() {
+        $('body').removeClass('modal-open');
+        $('#map-report').removeClass('in');
+        $('#map-report').hide();
+        $('div').remove('.modal-backdrop');
+        $('#chkReportOrder').prop('checked', false);
+    }
+    //-----------------ReportSalesAssessment Render-----------------//
+    function ToogleSalesAssessment() {
+        if ($("#cbtbSalesAssessment").is(':checked')) {
+            $(".list-search").show();
+        }
+        else {
+            $(".list-search").hide();
+        }
+    }
+
+    function ReportSalesAssessment(groupby) {
+        $.ajax({ //Process the form using $.ajax()
+            type: 'POST', //Method type
+            url: '../Tracking/AJAXReportSalesAssessment', //Your form processing file url
+            data: { regionID: regionIDSelected, areaID: areaIDSelected, salesupID: salesupIDSelected, distributorID: distributorIDSelected, strVisitDate: strVisitDate, salesmanID: listSMSelected, groupby: groupby, branchID: '', routeCD: '' }, //Forms name
+            dataType: 'json',
+            success: function (data) {
+                if (data != null) {
+                    ShowReportSalesAssessment(data);
+                }
+            }
+        });
+    }
+
+    function ShowReportSalesAssessment(data) {
+        if (listSMSelected != '' && listSMSelected != undefined) {
+            $('#tabInfoVisit').show();
+            $('#tabInfoOutlet').show();
+            $('#tabInfoSummary').show();
+        }
+        else {
+            $('#tabInfoVisit').hide();
+            $('#tabInfoOutlet').hide();
+            $('#tabInfoSummary').hide();
+        }
+        $('#report-saleRevenue').html('');
+        $('#report-visit').html('');
+        $('#report-outlet').html('');
+        $('#report-summary').html('');
+        if (data != null) {
+            if (data.lstSummary != null && data.lstSummary.length > 0) {
+            var index = data.lstSummary.length;
+            var strTB = '';
+            //For Information visist
+            for (var i = 0; i < index; i++) {
+                strTB = '<h3>' + data.lstSummary[i].SalesmanName + '</h3>' +
+               @*'<strong>@Utility.Phrase("SalesmanName")</strong>: ' + data.lstSummary[i].SalesmanName +*@
+               @*<tr><td><strong>@Utility.Phrase("SaleSupName")</strong></td> <td><span style="color:Red">' + data.lstSummary[i].SaleSupName + '</span></td></tr>*@
+               '<br/><table>' +
+               '<tr><td><strong>@Utility.Phrase("OutletVisited")</strong></td> <td><span style="color:Red">' + parseInt(data.lstSummary[i].OutletVisited) + '</span></td></tr>' +
+               '<tr><td><strong>@Utility.Phrase("OutletRemain")</strong></td> <td><span style="color:Red">' + parseInt(data.lstSummary[i].OutletRemain) + '</span></td></tr>' +
+               '<tr><td><strong>@Utility.Phrase("OrderCount")</strong></td> <td><span style="color:Red">' + parseInt(data.lstSummary[i].OrderCount) + '</span></td></tr>' +
+               '<tr><td><strong>@Utility.Phrase("Compliance")</strong></td> <td><span style="color:Red">' + data.lstSummary[i].Compliance + '</span></td></tr>' +
+               '</table><br/>';
+            }
+            $('#report-summary').html(strTB);
+            @*strTB = '';
+            strTB += '<table  class="nowrap m-0">';
+            strTB += '<thead>';
+            strTB += '<tr>';
+            // strTB += '<th>@Utility.Phrase("Code")</th>';
+            // strTB += '<th style="width: 140px">@Utility.Phrase("Name")</th>';
+            //strTB += '<th >OutLetID</th>';
+            strTB += '<th >@Utility.Phrase("SalesmanName")</th>';
+            strTB += '<th >@Utility.Phrase("SaleSupName")</th>';
+            strTB += '<th >@Utility.Phrase("OutletVisited")</th>';
+            strTB += '<th >@Utility.Phrase("OutletRemain")</th>';
+            strTB += '<th >@Utility.Phrase("OrderCount")</th>';
+            strTB += '<th >@Utility.Phrase("Compliance")</th>';
+            strTB += '</tr>';
+            strTB += '</thead>';
+            strTB += '<tbody>';
+            for (var i = 0; i < index; i++) {
+                strTB += '<tr>';
+                //  strTB += '<td>' + data.lstInfoOutLet[i].SalesmanID + '</td>';
+                //  strTB += '<td style="width: 140px">' + data.lstInfoOutLet[i].SalesmanName + '</td>';
+                //strTB += '<td>' + data.lstInfoOutLet[i].OutLetID + '</td>';
+                strTB += '<td>' + data.lstSummary[i].SalesmanName + '</td>';
+                strTB += '<td>' + data.lstSummary[i].SaleSupName + '</td>';
+                strTB += '<td style="text-align:right">' + data.lstSummary[i].OutletVisited + '</td>';
+                strTB += '<td style="text-align:right">' + data.lstSummary[i].OutletRemain + '</td>';
+                strTB += '<td style="text-align:right">' + data.lstSummary[i].OrderCount + '</td>';
+                strTB += '<td >' + data.lstSummary[i].Compliance + '</td>';
+                strTB += '</tr>';
+            }
+            strTB += '</tbody>';
+            strTB += '</table>';*@
+            }
+            if (data.lstInfoOutLet != null && data.lstInfoOutLet.length > 0) {
+                var index = data.lstInfoOutLet.length;
+                var strTB = '';
+                //For Information visist
+                strTB = '';
+                strTB += '<table  class="nowrap m-0">';
+                strTB += '<thead>';
+                strTB += '<tr>';
+                // strTB += '<th>@Utility.Phrase("Code")</th>';
+                // strTB += '<th style="width: 140px">@Utility.Phrase("Name")</th>';
+                //strTB += '<th >OutLetID</th>';
+                strTB += '<th >@Utility.Phrase("Image")</th>';
+                strTB += '<th >@Utility.Phrase("OutLetName")</th>';
+                strTB += '<th >@Utility.Phrase("Address")</th>';
+                strTB += '<th >@Utility.Phrase("Mobile")</th>';
+
+                strTB += '</tr>';
+                strTB += '</thead>';
+                strTB += '<tbody>';
+                for (var i = 0; i < index; i++) {
+                    strTB += '<tr>';
+                    //  strTB += '<td>' + data.lstInfoOutLet[i].SalesmanID + '</td>';
+                    //  strTB += '<td style="width: 140px">' + data.lstInfoOutLet[i].SalesmanName + '</td>';
+                    //strTB += '<td>' + data.lstInfoOutLet[i].OutLetID + '</td>';
+                    strTB += '<td>' + data.lstInfoOutLet[i].ImageFile + '</td>';
+                    strTB += '<td>' + data.lstInfoOutLet[i].OutLetName + '</td>';
+                    strTB += '<td>' + data.lstInfoOutLet[i].Address + '</td>';
+                    strTB += '<td>' + data.lstInfoOutLet[i].Mobile + '</td>';
+
+                    strTB += '</tr>';
+                }
+                strTB += '</tbody>';
+                strTB += '</table>';
+                $('#report-outlet').html(strTB);
+            }
+            if (data.lstInfoVisit != null && data.lstInfoVisit.length > 0) {
+                var index = data.lstInfoVisit.length;
+                var strTB = '';
+                //For Information visist
+                strTB = '';
+                strTB += '<table  class="nowrap m-0">';
+                strTB += '<thead>';
+                strTB += '<tr>';
+                // strTB += '<th>@Utility.Phrase("Code")</th>';
+                // strTB += '<th style="width: 140px">@Utility.Phrase("Name")</th>';
+                //strTB += '<th >OutLetID</th>';
+                strTB += '<th >@Utility.Phrase("OutLetName")</th>';
+                strTB += '<th >@Utility.Phrase("StartTime")</th>';
+                strTB += '<th >@Utility.Phrase("EndTime")</th>';
+                strTB += '<th >@Utility.Phrase("Duration")</th>';
+                strTB += '<th >@Utility.Phrase("TimeSpanMove")</th>';
+                //strTB += '<th >strIsMCP</th>';
+                strTB += '<th >@Utility.Phrase("Distance(m)")</th>';
+                strTB += '<th >@Utility.Phrase("StatusOrder")</th>';
+                strTB += '<th>@Utility.Phrase("Amount(VND)")</th>';
+                strTB += '<th >@Utility.Phrase("EnableAirPlaneMode")</th>';
+                strTB += '<th >@Utility.Phrase("EnableGPSMode")</th>';
+                strTB += '<th >@Utility.Phrase("EnableNetworkMode")</th>';
+                strTB += '</tr>';
+                strTB += '</thead>';
+                strTB += '<tbody>';
+                for (var i = 0; i < index; i++) {
+                    strTB += '<tr>';
+                    //  strTB += '<td>' + data.lstInfoVisit[i].SalesmanID + '</td>';
+                    //  strTB += '<td style="width: 140px">' + data.lstInfoVisit[i].SalesmanName + '</td>';
+                    //strTB += '<td>' + data.lstInfoVisit[i].OutLetID + '</td>';
+                    strTB += '<td>' + data.lstInfoVisit[i].OutLetName + '</td>';
+                    strTB += '<td>' + data.lstInfoVisit[i].StartTime + '</td>';
+                    strTB += '<td>' + data.lstInfoVisit[i].EndTime + '</td>';
+                    strTB += '<td>' + data.lstInfoVisit[i].Duration + '</td>';
+                    strTB += '<td>' + data.lstInfoVisit[i].TimeSpanMove + '</td>';
+                    //strTB += '<td>' + data.lstInfoVisit[i].strIsMCP + '</td>';
+                    strTB += '<td style="text-align:right">' + data.lstInfoVisit[i].Distance + '</td>';
+                    if (data.lstInfoVisit[i].HasOrder == 1) {
+                        strTB += '<td>@Utility.Phrase("Yes_HasOrder")</td>';
+                    }
+                    else { strTB += '<td>@Utility.Phrase("No_HasOrder")</td>'; }
+
+                    strTB += '<td class="align-right">' + data.lstInfoVisit[i].strTotalAmout + '</td>';
+                    strTB += '<td>' + data.lstInfoVisit[i].IsEnableAirPlaneMode + '</td>';
+                    strTB += '<td>' + data.lstInfoVisit[i].IsEnableGPSMode + '</td>';
+                    strTB += '<td>' + data.lstInfoVisit[i].IsEnableNetworkMode + '</td>';
+                    strTB += '</tr>';
+                }
+                strTB += '</tbody>';
+                strTB += '</table>';
+                $('#report-visit').html(strTB);
+            }
+            //if (data.list != null && data.list.length > 0) {
+            var index = data.list.length;
+            var strTB = '';
+            //For Sale Revenue
+            strTB += '<table  class="nowrap m-0">';
+            strTB += '<thead>';
+            strTB += '<tr>';
+            @*strTB += '<th>@Utility.Phrase("Code")</th>';*@notePanel
+            strTB += '<th style="width: 140px">@Utility.Phrase("Name")</th>';
+            strTB += '<th >@Utility.Phrase("OutletMustVisit")</th>';
+            strTB += '<th >@Utility.Phrase("OutletVisited")</th>';
+            strTB += '<th >@Utility.Phrase("OrderCount")</th>';
+            strTB += '<th >@Utility.Phrase("TotalSKU")</th>';
+            strTB += '<th >@Utility.Phrase("LPPC")</th>';
+            strTB += '<th >@Utility.Phrase("SOMCP")</th>';
+            strTB += '<th >@Utility.Phrase("VisitMCP")</th>';
+            strTB += '<th style="width: 80px">@Utility.Phrase("TotalQuantity")</th>';
+            strTB += '<th >@Utility.Phrase("TotalAmount")</th>';
+            strTB += '</tr>';
+            strTB += '</thead>';
+            strTB += '<tbody>';
+
+            for (var i = 0; i < index; i++) {
+                strTB += '<tr>';
+                //strTB += '<td>' + data.list[i].Code + '</td>';
+                strTB += '<td style="width: 140px">' + data.list[i].Name + '</td>';
+                strTB += '<td style="text-align:right">' + data.list[i].strOutletMustVisit + '</td>';
+                strTB += '<td style="text-align:right">' + data.list[i].strOutletVisited + '</td>';
+                strTB += '<td style="text-align:right">' + data.list[i].strOrderCount + '</td>';
+                strTB += '<td style="text-align:right">' + parseInt(data.list[i].strTotalSKU) + '</td>';
+                strTB += '<td style="text-align:right">' + data.list[i].strLPPC + '</td>';
+                strTB += '<td style="text-align:right">' + data.list[i].strSOMCP + '</td>';
+                strTB += '<td style="text-align:right">' + data.list[i].strVisitMCP + '</td>';
+                strTB += '<td style="width: 80px;text-align:right">' + parseInt(data.list[i].strTotalQuantity) + '</td>';
+                strTB += '<td style="text-align:right">' + data.list[i].strTotalAmount + '</td>';
+                strTB += '</tr>';
+            }
+            strTB += '</tbody>';
+            strTB += '</table>';
+            $('#report-saleRevenue').html(strTB);
+            //}
+        }
+        else {
+            var strTB = '';
+            //For Information visist
+            strTB = '';
+            strTB += '<table  class="nowrap m-0">';
+            strTB += '<thead>';
+            strTB += '<tr>';
+            strTB += '<th >@Utility.Phrase("SalesmanName")</th>';
+            strTB += '<th >@Utility.Phrase("SaleSupName")</th>';
+            strTB += '<th >@Utility.Phrase("OutletVisited")</th>';
+            strTB += '<th >@Utility.Phrase("OutletRemain")</th>';
+            strTB += '<th >@Utility.Phrase("OrderCount")</th>';
+            strTB += '<th >@Utility.Phrase("Compliance")</th>';
+            strTB += '</tr>';
+            strTB += '</thead>';
+            strTB += '<tbody>';
+            $('#report-summary').html(strTB);
+
+            strTB = '';
+            //For Sale Revenue
+            strTB += '<table  class="nowrap m-0">';
+            strTB += '<thead>';
+            strTB += '<tr>';
+            strTB += '<th style="width: 140px">@Utility.Phrase("Name")</th>';
+            strTB += '<th >@Utility.Phrase("OutletMustVisit")</th>';
+            strTB += '<th >@Utility.Phrase("OutletVisited")</th>';
+            strTB += '<th >@Utility.Phrase("OrderCount")</th>';
+            strTB += '<th >@Utility.Phrase("TotalSKU")</th>';
+            strTB += '<th >@Utility.Phrase("LPPC")</th>';
+            strTB += '<th >@Utility.Phrase("SOMCP")</th>';
+            strTB += '<th >@Utility.Phrase("VisitMCP")</th>';
+            strTB += '<th style="width: 80px">@Utility.Phrase("TotalQuantity")</th>';
+            strTB += '<th >@Utility.Phrase("TotalAmount")</th>';
+            strTB += '</tr>';
+            strTB += '</thead>';
+            strTB += '<tbody>';
+            $('#report-saleRevenue').html(strTB);
+        }
+    }
+    //-----------------END ReportSalesAssessment Render-----------------//
+</script>

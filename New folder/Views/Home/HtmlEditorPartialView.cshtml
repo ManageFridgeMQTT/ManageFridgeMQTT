@@ -1,0 +1,9 @@
+	@* DXCOMMENT: Configure HtmlEditor *@
+	@Html.DevExpress().HtmlEditor(
+    settings =>
+    {
+        settings.Name = "HtmlEditor";
+        settings.CallbackRouteValues = new { Controller = "Home", Action = "HtmlEditorPartialView" };
+        settings.Html = "Some content.";
+		settings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+    }).GetHtml()

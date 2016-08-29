@@ -1,0 +1,45 @@
+﻿@Html.DevExpress().GridView(detailGrid =>
+   {
+       detailGrid.Name = "detailGrid";
+
+       detailGrid.CallbackRouteValues = new
+       {
+           Controller = "ViewSchedule",
+           Action = "DetailAppointmentPartial",
+                                             date = (DateTime)Session["Detail_Date"],
+                                             employeeID = Session["Approve_EmployeeID"].ToString()
+       };
+       detailGrid.Width = System.Web.UI.WebControls.Unit.Percentage(100);     
+       detailGrid.Height = System.Web.UI.WebControls.Unit.Percentage(100);
+       //detailGrid.SettingsEditing.Mode = GridViewEditingMode.Inline;
+       //detailGrid.SettingsPager.Position = System.Web.UI.WebControls.PagerPosition.Bottom;
+       //detailGrid.Settings.ShowHeaderFilterButton = true;
+       //detailGrid.SettingsPopup.HeaderFilter.Height = 100;
+       //detailGrid.SettingsPager.FirstPageButton.Visible = true;
+       //detailGrid.SettingsPager.LastPageButton.Visible = true;
+       //detailGrid.SettingsPager.PageSizeItemSettings.Visible = true;
+       //detailGrid.SettingsPager.PageSizeItemSettings.Items = new string[] { "2", "4", "6" };
+       detailGrid.CommandColumn.Visible = false;
+       detailGrid.Settings.VerticalScrollBarMode = ScrollBarMode.Visible;
+       detailGrid.Settings.VerticalScrollableHeight = 120;  
+       detailGrid.Columns.Add(col =>
+       {
+           col.FieldName = "StartDate";
+           col.ColumnType = MVCxGridViewColumnType.TimeEdit;
+           col.Caption = Utility.Phrase("StartDate");
+       });
+
+       detailGrid.Columns.Add(col =>
+       {
+           col.FieldName = "EndDate";
+           col.ColumnType = MVCxGridViewColumnType.TimeEdit;
+           col.Caption = Utility.Phrase("EndDate");
+       });
+
+       detailGrid.Columns.Add("Subject").Caption = Utility.Phrase("ApproveSchedule.Messages.Subject");
+       detailGrid.Columns.Add("Description").Caption = Utility.Phrase("Description");
+       detailGrid.Columns.Add("Employees").Caption = Utility.Phrase("Employee");
+       detailGrid.Columns.Add("RouteID").Caption = Utility.Phrase("Route"); 
+      
+
+   }).Bind(Model).GetHtml()

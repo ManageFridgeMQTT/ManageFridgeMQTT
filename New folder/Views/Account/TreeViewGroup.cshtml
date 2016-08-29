@@ -1,0 +1,60 @@
+﻿@Html.DevExpress().CallbackPanel(settingsParent =>
+    {
+        settingsParent.Name = "cbpLocation";
+        settingsParent.CallbackRouteValues = new { Controller = "Account", Action = "TreeViewGroup" };
+        settingsParent.SetContent(() =>
+            {
+                Html.DevExpress().TreeView(
+                settings =>
+                {
+                    settings.Name = "tvGroup";
+                    settings.AllowCheckNodes = true;
+                    settings.AllowSelectNode = true;
+                    settings.CheckNodesRecursive = true;
+                    settings.EnableAnimation = true;
+                    settings.EnableHotTrack = true;
+                    settings.ShowTreeLines = true;
+                    settings.ShowExpandButtons = true;
+                    settings.ClientSideEvents.CheckedChanged = "function(s, e) { OnCheckedChanged(s, e); }";
+                    List<Feature> list = ViewData["Features"] as List<Feature>;
+                    List<RoleFeature> listGroupFeature = ViewData["GroupFeature"] as List<RoleFeature>;
+                    settings.Nodes.Clear();
+                    foreach (var item in list.Select(x => x.Group).Distinct())
+                    {
+                        if (item != null)
+                        {
+                            settings.Nodes.Add(node =>
+                            {
+                                node.Text = Utility.Phrase("F_" + item.ToString());
+                                foreach (var sub in list.Where(x => x.Group == item.ToString()))
+                                {
+                                    node.Nodes.Add(subNode =>
+                                    {
+                                        subNode.Text = Utility.Phrase("F_" + sub.FeatureCode);
+                                        subNode.Name = sub.ID.ToString();
+                                        if (listGroupFeature != null)
+                                        {
+                                            if (listGroupFeature.Where(x => x.FeatureID == sub.ID).FirstOrDefault() != null)
+                                            {
+                                                subNode.Checked = true;
+                                            }
+                                            else
+                                            {
+                                                subNode.Checked = false;
+                                            }
+                                        }
+                                    });
+                                }
+                            });
+                        }
+                    }
+                    settings.PreRender = (source, e) =>
+                    {
+                        ASPxTreeView treeView = (ASPxTreeView)source;
+                        treeView.CollapseAll();
+                    };
+                }).GetHtml();
+            });
+        settingsParent.ClientSideEvents.BeginCallback = "OnBeginCallback";
+    }
+).GetHtml()

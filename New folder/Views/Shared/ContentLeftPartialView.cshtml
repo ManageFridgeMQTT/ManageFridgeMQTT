@@ -1,0 +1,21 @@
+<div class="leftPanel">
+		@* DXCOMMENT: Configure the left panel's menu *@
+	@Html.DevExpress().NavBar(settings => {
+        settings.Name = "LeftNavBar";
+        settings.AutoCollapse = false;
+        settings.EnableAnimation = true;
+        settings.SaveStateToCookies = true;
+        settings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+        settings.ControlStyle.Border.BorderWidth = System.Web.UI.WebControls.Unit.Pixel(0);
+        settings.ControlStyle.Paddings.Padding = System.Web.UI.WebControls.Unit.Pixel(0);
+        //settings.Groups.Add(group =>
+        //{
+        //    group.Text = "Region";
+        //    group.Items.Add("Stacked Bar", "",
+        //      "~/Images/BarStacked.png");
+        //    group.Items.Add("3D Pie", "", "~/Images/Pie.png");
+        //    group.Items.Add("Overlapped Gantt", "",
+        //      "~/Images/Gantt.png");
+        //});
+    }).BindToXML(HttpContext.Current.Server.MapPath("~/App_Data/SideMenu.xml"), "/menu/*").GetHtml() 
+</div>

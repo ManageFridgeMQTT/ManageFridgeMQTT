@@ -1,0 +1,144 @@
+﻿@model ReportSalesVM
+@{
+    Layout = "~/Views/Shared/_ReportLayout.cshtml";
+}
+<form id="search_form" action="@Url.Action("Report", "Tracking")" method="post">
+<div class='table-salses-report' width='98%'>
+    <p>
+        <span class="alignleft">Chọn nhân viên bán hàng:
+            @*@Html.DropDownListFor(model => model.txt_salesman, Model.selectListS, new { @class = "ui-widget-content", onchange = "$('#search_form').submit();" })*@
+            <select id="txt_salesman" name="txt_salesman" class="ui-widget-content" onchange="$('#search_form').submit();">
+                @foreach (Salesman item in Model.listS)
+                {
+                    if (item.SalesmanID == Model.txt_salesman)
+                    {
+                    <option value="@item.SalesmanID" selected="selected" >(<strong>@item.SalesmanID</strong>)
+                        @item.SalesmanName</option>
+                    }
+                    else
+                    {
+                    <option value="@item.SalesmanID" >(<strong>@item.SalesmanID</strong>) @item.SalesmanName</option>
+                    }
+                }
+            </select>
+
+        </span><span class="alignright">
+            <button type="button" class="btn btn-success" id="btnExportAll" style="white-space: nowrap; width: 170px;" >
+                Xuất EXCEL tất cả NVBH</button>
+            <button type="button" class="btn btn-success" id="btnExport">
+                Xuất EXCEL</button>
+        </span>
+    </p>
+    @foreach (Salesman saleman in Model.listS)
+    {
+        <input type="hidden" name="dsr" value="@saleman.SalesmanID" />
+    }
+    <input type="hidden" name="branch" value="@Model.distributor.DistributorID" />
+    <input type="hidden" name="txt_date" value="@Model.txt_date" />
+    @*<input type="hidden" name="txt_salesman" value="@Model.txt_salesman" />*@
+</div>
+<h1 class="sales-report-h1">
+    BÁO CÁO VIẾNG THĂM</h1>
+<table class='head-report' width='98%' cellpadding="3px">
+    <tr style="font-size: 14px;">
+        <td width='400px' style="vertical-align: top">
+            <p>
+                <span class="alignleft">Ngày dữ liệu: @Model.txt_date</span></p>
+            <br clear="all" />
+            <p>
+                <span class="alignleft">Mã tuyến : <strong>@Model.route.RouteID</strong> - @Model.route.RouteName</span></p>
+            <br clear="all" />
+            <p>
+                <span class="alignleft">Nhân viên bán hàng: <strong>@Model.salesman.SalesmanID</strong>
+                    - @Model.salesman.SalesmanName</span></p>
+            <br clear="all" />
+            <p>
+                <span class="alignleft">Nhà phân phối: <strong>@Model.distributor.DistributorCode</strong>
+                    - @Model.distributor.DistributorName</span></p>
+            <br clear="all" />
+            <p>
+                <span class="alignleft">Ngày báo cáo: @DateTime.Today.ToString(eRoute.Models.Constant.ShortDatePattern)</span></p>
+            <br clear="all" />
+            <p>
+                <span class="alignleft">Tổng số khách hàng trong tuyến: </span><span class="alignright">@Model.totalOutlet</span>
+            </p>
+            <br clear="all" />
+            <p>
+                <span class="alignleft">Tổng số khách hàng đã ghé thăm: </span><span class="alignright">@Model.totalOutletVisit</span>
+            </p>
+            <br clear="all" />
+        </td>
+        <td width="30px">
+        </td>
+        <td width='320px' style="vertical-align: top">
+            <p>
+                <span class="alignleft">Số Khách hàng có đơn hàng: </span><span class="alignright">@Model.totalOutletOrder</span>
+            </p>
+            <br clear="all" />
+            <p>
+                <span class="alignleft">Số Khách hàng ngoài khoảng cách: </span><span class="alignright">@Model.totalOutletOutRange</span>
+            </p>
+            <br clear="all" />
+            <p>
+                <span class="alignleft">Số đơn hàng: </span><span class="alignright">@Model.totalOrder</span>
+            </p>
+            <br clear="all" />
+            <p>
+                <span class="alignleft">Tổng sản lượng (Thùng/Két): </span><span class="alignright">@Model.totalQuantity</span>
+            </p>
+            <br clear="all" />
+            <p>
+                <span class="alignleft">Tổng SKU: </span><span class="alignright">@Model.totalSKU</span>
+            </p>
+            <br clear="all" />
+            <p>
+                <span class="alignleft">LPPC: </span><span class="alignright">@Model.totalLPPC</span>
+            </p>
+            <br clear="all" />
+            <p>
+                <span class="alignleft">Tổng doanh số trong ngày (VND): </span><span class="alignright">@Model.totalAmount</span>
+            </p>
+        </td>
+        <td width="30px">
+        </td>
+        <td width='320px' style="vertical-align: top">
+            <p>
+                <span class="alignleft">Thời gian viếng thăm nhanh nhất (phút): </span><span class="alignright">@Model.minTimeVisit</span>
+            </p>
+            <br clear="all" />
+            <p>
+                <span class="alignleft">Thời gian viếng thăm lâu nhất (phút): </span><span class="alignright">@Model.maxTimeVisit</span>
+            </p>
+            <br clear="all" />
+            <p>
+                <span class="alignleft">Thời gian viếng thăm trung bình (phút): </span><span class="alignright">
+                    @Model.divAverage</span>
+            </p>
+            <br clear="all" />
+            <p>
+                <span class="alignleft">Tổng thời gian ghé thăm (phút): </span><span class="alignright">@Model.array_time</span>
+            </p>
+        </td>
+    </tr>
+</table>
+<br />
+<div style="width: 100%;">
+    @Html.Partial("PartialReport", Model.listInfo)
+</div>
+<script type='text/javascript'>
+    $(document).ready(function () {
+        $("body").css("overflow", "auto");
+        $("body").css("background-color", "#FFFFFF");
+        $("body").css("background", "none");
+
+        $('#btnExport').click(function () {
+            window.open('@Url.Action("ReportExcel", "Tracking")');
+        });
+
+        $('#btnExportAll').click(function () {
+            window.open('@Url.Action("ReportExcelAll", "Tracking")');
+        });
+        
+    });
+</script>
+</form>

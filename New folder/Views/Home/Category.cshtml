@@ -1,0 +1,187 @@
+﻿@model eRoute.Models.ViewModel.CategoryVM
+@{
+    Layout = "~/Views/Shared/_rootLayout.cshtml";
+    ViewBag.Title = "Category";
+    AjaxOptions ajaxOptions = new AjaxOptions
+    {
+        UpdateTargetId = "searchResults"
+    };
+}
+<input type="hidden" id="ErrorNameEmptyList" value="@Localization.ErrorNameEmptyList" />
+<input type="hidden" id="ErrorOrderOnlyNumberList" value="@Localization.ErrorOrderOnlyNumberList" />
+<input type="hidden" id="ErrorCodeDistinctList" value="@Localization.ErrorCodeDistinctList" />
+<input type="hidden" id="ErrorAddSusList" value="@Localization.ErrorAddSusList" />
+<input type="hidden" id="ErrorConfirmDelete" value="@Localization.ErrorConfirmDelete" />
+<script type="text/javascript">
+    function OnName() {
+        alert(document.getElementById('ErrorNameEmptyList').value);
+    }
+    function OnOrder() {
+        alert(document.getElementById('ErrorOrderOnlyNumberList').value);
+    }
+    function OnDistinct() {
+        alert(document.getElementById('ErrorCodeDistinctList').value);
+    }
+    function OnSuccessCreate() {
+        alert(document.getElementById('ErrorAddSusList').value);
+        window.location.href = "/Home/Category";
+    }
+</script>
+<div style="padding: 7px;">
+    @using (Ajax.BeginForm("Category", ajaxOptions))
+    {
+        <table width="100%">
+            <tr>
+                <td valign="top" width="50%">
+                    <table width="100%">
+                        @foreach (var item in ViewData["Lang"] as List<eRoute.Models.Language>)
+                        {
+                            <tr>
+                                <td>
+                                    @Html.Raw(@Localization.NameList + " (" + @item.LangName + ")")
+                                </td>
+                                <td>
+                                    @Html.DevExpress().TextBox(settings =>
+                           {
+                               settings.Width = 300;
+                               settings.Name = "txt" + @item.LangName;
+                               List<eRoute.Models.sp_Get_Cate_For_Lang_By_CateIDResult> fiiter = (List<eRoute.Models.sp_Get_Cate_For_Lang_By_CateIDResult>)ViewData["CateID"];
+                               var query = fiiter.Where(x => x.LangName == item.LangName).FirstOrDefault();
+                               if (query != null)
+                               {
+                                   settings.Text = query.Name;
+                               }
+                               settings.ShowModelErrors = true;
+                               settings.Properties.ValidationSettings.ErrorDisplayMode = ErrorDisplayMode.ImageWithText;
+                           }).GetHtml()
+                                </td>
+                            </tr>
+                        }
+                        <tr>
+                            <td>
+                                @Localization.OnTheList
+                            </td>
+                            <td>
+                                @Html.DevExpress().ComboBoxFor(model => Model.Get_Cate_For_Lang.FirstOrDefault().Name, settings =>
+                           {
+                               settings.Name = "CategoryID";
+                               settings.Width = 300;
+                               settings.Properties.IncrementalFilteringMode = IncrementalFilteringMode.StartsWith;
+                               settings.Properties.DropDownStyle = DropDownStyle.DropDownList;
+                               settings.Properties.Items.Add(" ---------- " + @Localization.SelectList + " --------- ", "0");
+                               settings.Properties.ValueType = typeof(string);
+                               eRoute.Controllers.HomeController.CreateComboBoxRecursive(Model.ProjectListModel, settings.Properties.Items, 0);
+                               settings.PreRender = (sender, e) =>
+                               {
+                                   MVCxComboBox cbb = sender as MVCxComboBox;
+                                   if (Model.Get_Cate_For_Lang.FirstOrDefault() != null)
+                                   {
+                                       if (cbb.Items.FindByValue(Model.Get_Cate_For_Lang.FirstOrDefault().Node) != null)
+                                       {
+                                           cbb.SelectedIndex = cbb.Items.FindByValue(Model.Get_Cate_For_Lang.FirstOrDefault().Node).Index;
+                                       }
+                                       else
+                                       {
+                                           cbb.SelectedIndex = 0;
+                                       }
+                                   }
+                                   else
+                                   {
+                                       cbb.SelectedIndex = 0;
+                                   }
+                               };
+                           }).GetHtml()
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                @Localization.CodeList
+                            </td>
+                            <td>
+                                @Html.DevExpress().TextBoxFor(model => Model.Get_Cate_For_Lang.FirstOrDefault().Code, settings =>
+                           {
+                               settings.Width = 300;
+                               settings.Name = "txtCode";
+                           }).GetHtml()
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                @Localization.OrderList
+                            </td>
+                            <td>
+                                <div style="float: left">
+                                    @Html.DevExpress().TextBoxFor(model => Model.Get_Cate_For_Lang.FirstOrDefault().Order, settings =>
+                               {
+                                   settings.Width = 244;
+                                   settings.Name = "txtOrder";
+                               }).GetHtml()</div>
+                                <div style="float: left">
+                                    @Html.DevExpress().CheckBoxFor(model => Model.Get_Cate_For_Lang.FirstOrDefault().Status.Value, settings => { settings.Name = "Status"; settings.Text = Localization.ApproveList; }).GetHtml()
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                @Localization.DescList
+                            </td>
+                            <td>
+                                @Html.DevExpress().MemoFor(model => Model.Get_Cate_For_Lang.FirstOrDefault().Description, settings =>
+                           {
+                               settings.Width = 400;
+                               settings.Height = 150;
+                               settings.Name = "txtDes";
+                           }).GetHtml()
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                            </td>
+                            <td>
+                                @if (Model.Get_Cate_For_Lang.Count() > 0)
+                                {
+                                    <div style="float: left">
+                                        @Html.DevExpress().Button(settings =>
+                               {
+                                   settings.Name = "btnUpdate";
+                                   settings.Text = Localization.BtnUpdate;
+                                   settings.RouteValues = new { Action = "EditCategory/" + Model.Get_Cate_For_Lang.FirstOrDefault().CategoryID, Controller = "Home" };
+                                   settings.UseSubmitBehavior = true;
+                               }).GetHtml()</div>
+                                    <div style="float: left; padding-left: 5px">
+                                        @Html.DevExpress().Button(settings =>
+                               {
+                                   settings.Name = "btnRenew";
+                                   settings.Text = Localization.BtnReNew;
+                                   settings.ClientSideEvents.Click = "function link(s, e) { window.location.href = '/Home/Category'}";
+                               }).GetHtml()</div>
+                                    <div style="float: left; padding-left: 5px">
+                                        @Html.DevExpress().Button(settings =>
+                                   {
+                                       settings.Name = "btnDelete";
+                                       settings.Text = Localization.BtnDelete;
+                                       settings.ClientSideEvents.Click = "function (s, e) {e.processOnServer = confirm(document.getElementById('ErrorConfirmDelete').value);}";
+                                       settings.RouteValues = new { Action = "DeleteCategory/" + Model.Get_Cate_For_Lang.FirstOrDefault().CategoryID, Controller = "Home" };
+                                   }).GetHtml()</div>
+                                }
+                                else
+                                {<div style="float: left">
+                                    @Html.DevExpress().Button(settings =>
+                               {
+                                   settings.Name = "btnAdd";
+                                   settings.Text = Localization.BtnAdd;
+                                   settings.UseSubmitBehavior = true;
+                               }).GetHtml()</div> }
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+                <td valign="top" width="60%">
+                    <div id="searchResults">
+                        @Html.Action("CategoryTreeView")
+                    </div>
+                </td>
+            </tr>
+        </table>
+    }
+</div>

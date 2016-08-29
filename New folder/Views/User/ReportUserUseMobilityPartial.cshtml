@@ -1,0 +1,112 @@
+﻿@model List<pp_ReportUserUseMobilityResult>
+@using DevExpress.Web.Mvc.UI;
+@using DevExpress.Web.Mvc;
+@using System.Web.UI.WebControls;
+@Html.DevExpress().PivotGrid(
+    settings =>
+    {
+        settings.Name = "pivotGrid";
+        settings.CallbackRouteValues = new { Controller = "Home", Action = "ReportUserUseMobilityPartial" };
+        settings.OptionsView.ShowHorizontalScrollBar = true;
+        settings.OptionsCustomization.AllowDrag = false;
+        settings.OptionsCustomization.AllowDragInCustomizationForm = false;
+        settings.OptionsView.ShowColumnGrandTotalHeader = false;
+        settings.OptionsView.ColumnTotalsLocation = PivotTotalsLocation.Far;
+        settings.OptionsView.ShowRowTotals = false;
+        settings.OptionsView.ShowTotalsForSingleValues = false;
+        settings.OptionsView.ShowColumnGrandTotals = false;
+        
+
+        settings.Groups.Add("EmployeeID - EmployeeName");
+
+
+        settings.Fields.Add(field =>
+        {
+            field.Area = PivotArea.RowArea;
+            field.AreaIndex = 0;
+            field.Caption = "EmployeeID";
+            field.FieldName = "EmployeeID";
+            field.CellStyle.VerticalAlign = VerticalAlign.Top;
+            field.SummaryFilter.Mode = PivotSummaryFilterMode.SpecificLevel;
+            field.RunningTotal = false;
+            field.TotalsVisibility = PivotTotalsVisibility.None;
+        });
+        settings.Fields.Add(field =>
+        {
+            field.Area = PivotArea.RowArea;
+            field.AreaIndex = 1;
+            field.Caption = "EmployeeName";
+            field.FieldName = "EmployeeName";
+            field.CellStyle.VerticalAlign = VerticalAlign.Top;
+            field.SummaryFilter.Mode = PivotSummaryFilterMode.SpecificLevel;
+            field.RunningTotal = false;
+            field.TotalsVisibility = PivotTotalsVisibility.None;
+        });
+
+        settings.Fields.Add(field =>
+        {
+            field.Area = PivotArea.RowArea;
+            field.AreaIndex = 2;
+            field.FieldName = "SM";
+            field.Caption = "NVBH";
+            field.CellFormat.FormatType = FormatType.Custom;
+            field.CellFormat.FormatString = "###,##0.##";
+            field.SummaryType = PivotSummaryType.Sum;
+        });
+        settings.Fields.Add(field =>
+        {
+            field.Area = PivotArea.RowArea;
+            field.AreaIndex = 4;
+            field.FieldName = "ASM";
+            field.Caption = "ASM";
+            field.CellStyle.VerticalAlign = VerticalAlign.Top;
+            field.SummaryFilter.Mode = PivotSummaryFilterMode.SpecificLevel;
+            field.RunningTotal = false;
+            field.TotalsVisibility = PivotTotalsVisibility.None;
+        });
+        settings.Fields.Add(field =>
+        {
+            field.Area = PivotArea.RowArea;
+            field.AreaIndex = 5;
+            field.FieldName = "Register";
+            field.Caption = "Có đăng ký";
+            field.CellFormat.FormatType = FormatType.Custom;
+            field.CellFormat.FormatString = "###,##0.##";
+            field.SummaryType = PivotSummaryType.Sum;
+        });
+        settings.Fields.Add(field =>
+        {
+            field.Area = PivotArea.RowArea;
+            field.AreaIndex = 6;
+            field.FieldName = "IsSync";
+            field.Caption = "Có đồng bộ";
+            field.CellStyle.VerticalAlign = VerticalAlign.Top;
+            field.SummaryFilter.Mode = PivotSummaryFilterMode.SpecificLevel;
+            field.RunningTotal = false;
+            field.TotalsVisibility = PivotTotalsVisibility.None;
+        });
+        
+        settings.SetCellTemplateContent(c =>
+        {
+            if (c.DataField != null
+                && (
+                    c.Item.RowValueType == PivotGridValueType.Total
+                    || c.Item.RowValueType == PivotGridValueType.CustomTotal
+                    || c.Item.RowValueType == PivotGridValueType.GrandTotal
+                    )
+                )
+
+            // && c.DataField.FieldName == "Percents"
+            {
+                ViewContext.Writer.Write(
+                    "<span style=\"font-weight:bold; \" >" + c.Item.Text + "</span>"
+                );
+            }
+            else
+            {
+                ViewContext.Writer.Write(c.Text);
+            }
+        });
+        
+        settings.OptionsPager.RowsPerPage = 0;
+    }).Bind(Model).GetHtml()

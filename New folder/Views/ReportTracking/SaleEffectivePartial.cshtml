@@ -1,0 +1,103 @@
+﻿@model List<pp_ReportSalesAssessmentResult>
+<div id="report-saleEffective" class="tab-pane fade in active box-table-ressult">
+    <table id="table-result" class="tablesorter dragtable valuation">
+        <thead>
+            <tr>
+                <th>@Utility.Phrase("Report_Region")</th>
+                <th>@Utility.Phrase("Report_Area")</th>
+                <th>@Utility.Phrase("TB_GSBH")</th>
+                <th>@Utility.Phrase("Report_Distributor")</th>
+                <th>@Utility.Phrase("TB_NVBH")</th>
+                <th style="min-width:70px">@Utility.Phrase("TB_MTDNumberWorkingScheduleDate")</th>
+                <th style="min-width:80px">@Utility.Phrase("TB_MTDWorkingDay")</th>
+                <th style="min-width:70px">@Utility.Phrase("TB_MTDWorkingScheduleRate")</th>
+                @*<th>@Utility.Phrase("TB_Date")</th>
+                <th>@Utility.Phrase("TB_IsMCP")</th>
+                <th>@Utility.Phrase("TB_SyncTime")</th>
+                <th>@Utility.Phrase("TB_FirstTimeVisit")</th>
+                <th>@Utility.Phrase("TB_LastTimeVisit")</th>
+                <th style="min-width:70px">@Utility.Phrase("TB_OutletMustVisit")</th>
+                <th style="min-width:70px">@Utility.Phrase("TB_OutletVisited")</th>
+                <th>@Utility.Phrase("TB_VisitRate")</th>
+                <th>@Utility.Phrase("TB_OrderCount")</th>
+                <th>@Utility.Phrase("TB_OrderRate")</th>
+                <th>@Utility.Phrase("TB_TotalAmount")</th>*@
+                
+                <th style="min-width:75px">@Utility.Phrase("TB_MTDOutletMustVisit")</th>
+                <th style="min-width:75px">@Utility.Phrase("TB_MTDOutletVisited")</th>
+                <th>@Utility.Phrase("TB_IsMCP")</th>
+               
+                <th>@Utility.Phrase("TB_MTDOrderCount")</th>                
+          
+                @*<th>@Utility.Phrase("TB_MTDTotalQuantity")</th>
+                <th>@Utility.Phrase("TB_MTDTotalSKU")</th>
+                <th>@Utility.Phrase("TB_MTDLPPC")</th>*@                
+
+                
+                <th>@Utility.Phrase("TB_MTDTotalAmount")</th>
+                <th style="min-width:70px">@Utility.Phrase("TB_MTDVisitRate")</th>
+                <th style="min-width:65px">@Utility.Phrase("TB_MTDOrderRate")</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model != null)
+            {
+                foreach (var elm in Model)
+                {
+                    
+                <tr>
+                    <td>@elm.RegionName</td>
+                    <td>@elm.AreaName</td>
+                    <td>@elm.SaleSupName</td>
+                    <td>@elm.DistributorName</td>
+                    <td>@elm.SalesmanName</td>
+                    <td class="align-right">@elm.MTDHasMCP</td>
+                    <td class="align-right">@String.Format("{0:n0}", elm.MTDHasOrder)</td>
+                    <td class="align-right">@String.Format("{0:n0}%", elm.PercentWorkedDay)</td>
+                    @*<td>@elm.VisitDate.ToShortDateString()</td>
+                    
+                    @{ string valFirstTime = "", valLastTime = "", timeSysc = "";
+                       if (elm.FirstStartTimeAM.HasValue)
+                       {
+                           valFirstTime = elm.FirstStartTimeAM.Value.ToShortTimeString();
+                       }
+                       if (elm.LastEndTime.HasValue)
+                       {
+                           valLastTime = elm.LastEndTime.Value.ToShortTimeString();
+                       }
+                       if (elm.FirstSyncTime.HasValue)
+                       {
+                           timeSysc = elm.FirstSyncTime.Value.ToShortTimeString();
+                       }
+                    }
+                    <td>@timeSysc</td>
+                    <td>@valFirstTime</td>
+                    <td>@valLastTime</td>
+                    <td class="align-right">@String.Format("{0:n0}", elm.OutletMustVisit)</td>
+                    <td class="align-right">@String.Format("{0:n0}", elm.OutletVisited)</td>
+                    <td class="align-right">@String.Format("{0:n0}%", elm.Visit_MCP)</td>
+                    <td class="align-right">@String.Format("{0:n0}", elm.OrderCount)</td>
+                    <td class="align-right">@String.Format("{0:n0}%", elm.SO_MCP)</td>               
+                    <td class="align-right">@String.Format("{0:n0}", elm.TotalAmount)</td>*@
+
+                    <td class="align-right">@String.Format("{0:n0}", elm.MTDOutletMustVisit)</td>
+                    <td class="align-right">@String.Format("{0:n0}", elm.MTDOutletVisited)</td>
+                    <td>@Utility.Phrase(elm.strIsMCP)</td>
+                    <td class="align-right">@String.Format("{0:n0}", elm.MTDOrderCount)</td>
+                                 
+                    @*<td class="align-right">@String.Format("{0:n0}", elm.MTDTotalQuantity)</td>
+                    <td class="align-right">@String.Format("{0:n0}", elm.MTDTotalSKU)</td>
+                    <td class="align-right">@String.Format("{0:n2}", elm.MTDLPPC)</td>*@
+                    
+                    
+                    <td class="align-right">@String.Format("{0:n0}", elm.MTDTotalAmount)</td>
+                    <td class="align-right">@String.Format("{0:n0}%", elm.MTDVisit_MCP)</td>
+                    <td class="align-right">@String.Format("{0:n0}%", elm.MTDSO_MCP)</td>
+
+                </tr>
+                }
+            }
+
+        </tbody>
+    </table>
+</div>

@@ -1,0 +1,85 @@
+﻿@model eRoute.ACModels.ResetPasswordVM
+@{
+    ViewBag.Title = Utility.Phrase("ChangePassword");// "Change password";
+    //Layout = "~/Views/Shared/_ReportLayout.cshtml";
+    Layout = "~/Views/Shared/_NewLayout.cshtml";
+}
+<div class="loginBlock" id="login" style="display: block;">
+    <h1>@Utility.Phrase("ChangePassword")</h1>
+    <p class="message-success">@ViewBag.StatusMessage</p>
+    <div class="dr">
+        <span></span>
+    </div>
+    <div class="loginForm">
+        @using (Html.BeginForm("ResetPass", "Account", FormMethod.Post, new { @autocomplete = "off" }))
+        {
+            @Html.AntiForgeryToken()
+            @Html.ValidationSummary()
+            @Html.HiddenFor(m => m.ConfirmationToken)            
+            <div>
+                    <div class="p-0">
+                    <table class="border-none no-selected">
+                         <tr>
+                             <td style="width:210px">
+                                <span class="add-on"><span class="icon-lock"></span>@Utility.Phrase("PasswordNew"): </span>
+                                 </td>
+                               <td >
+                                @Html.PasswordFor(m => m.NewPassword, new { @placeholder = Utility.Phrase("PasswordNew") })
+                                @Html.ValidationMessageFor(m => m.NewPassword)
+                                    </td>
+                                
+                          </tr>
+                         <tr>
+                             <td style="width:210px">
+          
+                    <span class="add-on"><span class="icon-lock"></span>@Utility.Phrase("RePasswordNew"): </span>
+                                     </td>
+                                    <td>
+                                @Html.PasswordFor(m => m.ConfirmPassword, new { @placeholder = Utility.Phrase("RePasswordNew") })
+                                @Html.ValidationMessageFor(m => m.ConfirmPassword)
+                                  </td>
+                          </tr>
+                      </table>
+                </div>
+            </div>
+            <div class="row-fluid">
+                <div class="span6">
+                    @Html.DevExpress().Button(
+                        buttonSettings =>
+                        {
+                            buttonSettings.Name = "btnUpdate";
+                            buttonSettings.ControlStyle.CssClass = "btnInline";
+                            buttonSettings.Width = 80;
+                            buttonSettings.ControlStyle.CssClass = "DMSButtonDevpress";
+                            buttonSettings.UseSubmitBehavior = true;
+                            buttonSettings.Text = DMSERoute.Helpers.Utility.Phrase("Update");
+                            //buttonSettings.ClientSideEvents.Click = "function(s, e){ UpdateUser(s, e) }";
+                        }
+                    ).GetHtml()
+               
+                    @Html.DevExpress().Button(
+                        buttonSettings =>
+                        {
+                            buttonSettings.Name = "btnCancel";
+                            buttonSettings.ControlStyle.CssClass = "DMSButtonDevpress";
+                            buttonSettings.Width = 80;
+                            buttonSettings.Text = DMSERoute.Helpers.Utility.Phrase("Exit");
+                        }
+                    ).GetHtml()
+                </div>
+            </div>
+            <script type='text/javascript'>
+                $(document).ready(function () {
+                    $('#btnCancel').click(function () {
+                        window.location = '@Url.Action("Login", "Account")';
+                    });
+
+                    $('input').attr('autocomplete', 'off');
+                });
+            </script>
+        }
+        <div class="dr">
+            <span></span>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,41 @@
+﻿@model List<eRoute.Models.pp_GetTreeTerritoryResult>
+@{
+    Layout = null;
+}
+<style type="text/css">
+    #treeView a:hover {
+        text-decoration: underline;
+        color: red;
+    }
+</style>
+
+
+@Html.DevExpress().TreeView(settings =>
+           {
+               settings.Name = "treeView";
+               settings.AllowSelectNode = true;
+               //settings.AllowCheckNodes = true;
+               settings.CheckNodesRecursive = true;
+
+               settings.Nodes.Add(node =>
+               {
+                   node.Text = Utility.Phrase("SalesSupervisor_TerritoryTree");
+                   node.Checked = true;
+                   node.Image.Url = "../Content/THP/markers/VN.png";
+                   eRoute.Controllers.TrackingController.CreateTreeViewLeftPanel(Model, node.Nodes, string.Empty);
+
+               });
+               settings.PreRender = (source, e) =>
+               {
+                   ASPxTreeView treeView = (ASPxTreeView)source;
+                   treeView.CollapseAll();
+               };
+               settings.Styles.Node.SelectedStyle.ForeColor = System.Drawing.Color.Black;
+               settings.Styles.Node.SelectedStyle.Font.Bold = true;
+               settings.Styles.Node.HoverStyle.BackColor = System.Drawing.Color.White;
+               settings.Styles.Node.HoverStyle.ForeColor = System.Drawing.Color.Red;
+
+               settings.ClientSideEvents.NodeClick = "OnTreeViewNodeClick";
+               settings.ClientSideEvents.ExpandedChanged = "OnTreeViewExpandedChanged";
+               settings.ClientSideEvents.CheckedChanged = "OnTreeViewCheckedChanged";
+           }).GetHtml()

@@ -1,0 +1,78 @@
+﻿@model eRoute.ACModels.LoginModel
+@{
+    Layout = null;
+    string errorPermision = TempData["ErrorPermission"] as string;
+    
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>@Utility.Phrase("DMSProEtool")</title>
+    <link href="@Url.Content("~/Content/s_login.css")" rel="stylesheet" type="text/css" />
+    <script src="~/Scripts/api.js"></script>
+</head>
+<body style="margin: 0; padding: 0">
+    @using (Html.BeginForm("Login", "Account"))
+    {
+        <div>
+        <div id="login_bg">
+            <img src="@Url.Content("~/Content/Logo")/@ViewBag.image" id="login_bg_image" style="">
+        </div>
+        <div class="border-box" id="login_panel">
+            <div id="login_data">
+                <div id="login_logo">
+                    <div style="float: left; padding-top: 40px">
+                        <a href="http://www.dmspro.vn" id="panelT_logoCell" class="logo">
+                            <img alt="logo" class="login_img" width="145" height="50" src="@Url.Content("~/Content/Images/logo.png")">
+                        </a>
+                    </div>
+                    <div style="float: right; padding-top: 40px">
+                        <select class="login_lang" id="cmbLang" name="cmbLang">
+                            @foreach (var item in (List<eRoute.Models.Language>)ViewData["lag"])
+                            {
+                                string selected = "";
+                                if (item.Code == "VI")
+                                {
+                                    selected = "selected='selected'";
+                                }
+                                <option @selected value="@item.Code">@item.LangName</option>
+                            }
+                        </select></div>
+                </div>
+                <div id="login_errBox">
+                    @if(!string.IsNullOrEmpty(errorPermision))
+                    {
+                        <span class="login_error" id="lblMsg">@errorPermision</span>
+                    }
+                    <span class="login_error" id="lblMsg">@Html.ValidationSummary()</span>
+                </div>
+                <div id="login_user">
+                    @Html.TextBoxFor(m => m.UserName, new { @placeholder = Utility.Phrase("UserName"), @class = "login_user border-box" })
+                    @Html.PasswordFor(m => m.Password, new { @placeholder = Utility.Phrase("Password"), @class = "login_pass border-box" })
+                    @if (ViewBag.CaptCha == "1")
+                    { 
+                        <div class="g-recaptcha" data-sitekey="@ViewBag.SiteKey"></div>
+                    }
+                    @Html.Hidden("reCaptCha", ViewBag.CaptCha as string)
+                    @Html.Hidden("returnUrl", ViewBag.ReturnUrl as string)
+                    <input type="submit" class="login_button" id="btnLogin" value="@Utility.Phrase("Login")" />
+                </div>
+            </div>
+            <div class="border-box" id="login_copyright">
+                <div>
+                    <div id="login_customization">
+                        <span class="labelH" id="lblCstProjects">@Utility.Phrase("HeadOffice") : @Utility.Phrase("AddressCompany") </span>
+                    </div>
+                    <div class="labelH">
+                        @Utility.Phrase("Phone"): @Utility.Phrase("PhoneCompany") &nbsp;&nbsp;&nbsp; Fax: @Utility.Phrase("FaxCompany")
+                        <br />
+                        @Utility.Phrase("Email"): <a href="mailto:info@dmspro.vn">@Utility.Phrase("InfoCompany")</a>
+                    </div>
+                    <span class="labelH" id="lblCopy">@Utility.Phrase("Copyright")  &copy;  @Utility.Phrase("YearCompany") DMSPro</span>
+                </div>
+            </div>
+        </div>
+        </div>
+    }
+</body>
+</html>

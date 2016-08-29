@@ -1,0 +1,154 @@
+﻿@model eRoute.Models.ViewModel.AssesmentVM
+<link href="@Url.Content("~/Content/css/screen.css")" rel="stylesheet"
+        type="text/css" />
+<link href="@Url.Content("~/Content/css/lightbox.css")" rel="stylesheet"
+        type="text/css" />
+<link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Karla%7CMontserrat:700"
+    type="text/css" />
+<script src="@Url.Content("~/Content/js/jquery-1.11.0.min.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/Content/js/lightbox.js")" type="text/javascript"></script>
+@Html.DevExpress().GridView(settings =>
+{
+    int index = 0;
+    string image = string.Empty;
+    settings.Name = "dvData";
+    settings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+    settings.KeyFieldName = "DisplayOutletImageID";
+    settings.Settings.ShowGroupPanel = false;
+    settings.Settings.ShowFilterRow = false;
+    settings.SettingsBehavior.EnableRowHotTrack = true;
+    settings.SettingsBehavior.AllowSort = false;
+    settings.SettingsPager.Mode = GridViewPagerMode.ShowAllRecords;
+    settings.DataBound = (source, e) =>
+    {
+        ASPxGridView dv = (ASPxGridView)source;
+        GridViewDataTextColumn colNo = new GridViewDataTextColumn();
+        colNo.Caption = "STT";
+        colNo.FieldName = "STT";
+        colNo.FixedStyle = GridViewColumnFixedStyle.Left;
+        colNo.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
+        colNo.Width = 30;
+        colNo.VisibleIndex = 0;
+        colNo.UnboundType = DevExpress.Data.UnboundColumnType.Integer;
+        dv.Columns.Add(colNo);
+    };
+    settings.CustomUnboundColumnData = (source, e) =>
+    {
+        if (e.Column.FieldName == "STT")
+        {
+            e.Value = e.ListSourceRowIndex + 1;
+        }
+    };
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "OutletID";
+        column.Caption = "Mã khách hàng";
+        column.FixedStyle = GridViewColumnFixedStyle.Left;
+        settings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+    });
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "OutletName";
+        column.Caption = "Tên khách hàng";
+        column.FixedStyle = GridViewColumnFixedStyle.Left;
+        settings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+    });
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "Address";
+        column.Caption = "Địa chỉ";
+        column.FixedStyle = GridViewColumnFixedStyle.Left;
+        settings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+    });
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "distance";
+        column.Caption = "Ngoài khoảng cách";
+        column.FixedStyle = GridViewColumnFixedStyle.Left;
+        settings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+    });
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "file_name";
+        column.Caption = "Ảnh Outlet";
+        settings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+        column.FixedStyle = GridViewColumnFixedStyle.Left;
+        column.SetDataItemTemplateContent(c =>
+        {
+            string imageUrl = new UrlHelper(HttpContext.Current.Request.RequestContext).Content(String.Format("http://eroute.thp.com.vn/SFA/outlet/images/{0}", DataBinder.Eval(c.DataItem, "file_name")));
+            ViewContext.Writer.Write(String.Format("<center><a  class='example-image-link' href='" + imageUrl + "' data-lightbox='example-1'><img alt='image-1' class='example-image' src=\"{0}\" /></a></center>", imageUrl));
+        });
+    });
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "ImageFile";
+        column.Caption = "Ảnh trưng bày";
+        settings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+        column.FixedStyle = GridViewColumnFixedStyle.Left;
+        column.SetDataItemTemplateContent(c =>
+        {
+            string imageUrl = new UrlHelper(HttpContext.Current.Request.RequestContext).Content(String.Format("http://eroute.thp.com.vn/SFA/outlet/images/{0}", DataBinder.Eval(c.DataItem, "ImageFile")));
+            ViewContext.Writer.Write(String.Format("<center><a  class='example-image-link' href='" + imageUrl + "' data-lightbox='example-2'><img alt='image-2' class='example-image' src=\"{0}\" /></a></center>", imageUrl));
+            index = 0;
+            image = string.Empty;
+        });
+    });
+    foreach (var item in Model.list_category)
+    {
+        settings.Columns.Add(col =>
+        {
+            col.Caption = item.Name;
+            col.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+            col.FieldName = "DisplayOutletImageID";
+            col.SetDataItemTemplateContent(c =>
+            {
+                var value = DataBinder.Eval(c.DataItem, "DisplayOutletImageID");
+                var distance = DataBinder.Eval(c.DataItem, "distance");
+                if (distance != null)
+                {
+                    image = distance.ToString();
+                    return;
+                }
+                else
+                {
+                    image = string.Empty;
+                }
+                index++;
+                var getVl = Model.list_category[index - 1];
+                Html.DevExpress().CheckBox(cbSettings =>
+                {
+                    cbSettings.Style.Add("text-align", "center");
+                    cbSettings.Name = value + "|" + c.VisibleIndex + "|" + getVl.CategoryID;
+                    cbSettings.Properties.ValueType = typeof(string);
+                    cbSettings.Properties.ValueChecked = value + "-" + getVl.CategoryID;
+                }).GetHtml();
+            });
+        });
+    }
+
+    settings.Columns.Add(column =>
+    {
+        column.Caption = "Lý do";
+        column.FieldName = "DisplayOutletImageID";
+        column.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+        column.SetDataItemTemplateContent(c =>
+        {
+            if (image != string.Empty)
+            {
+                return;
+            }
+            var value = DataBinder.Eval(c.DataItem, "DisplayOutletImageID");
+            Html.DevExpress().Memo(v =>
+            {
+                v.Name = value + "|" + c.VisibleIndex + "|txtNode";
+                v.Width = 130;
+                v.Height = 80;
+            }).GetHtml();
+        });
+    });
+
+    settings.Settings.HorizontalScrollBarMode = ScrollBarMode.Auto;
+    settings.Settings.VerticalScrollBarMode = ScrollBarMode.Auto;
+    settings.Settings.VerticalScrollableHeight = 455;
+}
+).Bind(Model.sp_Assesment_Auditor.ToList()).GetHtml()

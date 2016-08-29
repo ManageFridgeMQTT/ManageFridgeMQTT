@@ -1,0 +1,41 @@
+﻿@*@{ Layout = "~/Views/Shared/_lightLayout.cshtml"; }*@
+
+@{
+    ViewBag.Title = Utility.Phrase("ShiftSetting");
+    Layout = "~/Views/Shared/_NewLayout.cshtml";
+}
+@model eRoute.Models.eCalendar.ShiftSetting
+<script type="text/javascript">
+    function gridDetailSchedule_CustomButton_Click(s, e) {
+        if (e.buttonID == 'btnEdit') {
+            if (gridDetailSchedule.IsEditing()) {
+                if (confirm('@Html.Raw(@Utility.Phrase("PrepareSchedule.Messages.ConfirmLeaveEditing"))')) {
+                    gridDetailSchedule.StartEditRow(e.visibleIndex);
+                }
+            } else {
+                gridDetailSchedule.StartEditRow(e.visibleIndex);
+            }
+        }
+    }
+</script>
+
+<div class="insider">
+     <div id="loading" class="loading"></div>
+
+
+    <div class="row display-table w-100pr mb-10 content-header">
+            <div class="report-content-header">
+                <div class="col-sm-8">
+                    <h1>@Utility.Phrase("ShiftSetting")</h1>
+                </div>
+            </div>    
+     </div>      
+
+  <div class="content-body row">
+	
+         @Html.Partial("DetailPrepareSchedulePartialView", eRoute.Models.eCalendar.HammerDataProvider.GetListShift())
+      
+	</div>
+   
+
+ </div>

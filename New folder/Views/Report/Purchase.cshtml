@@ -1,0 +1,233 @@
+﻿@model ReportBasicMV
+@{
+    ViewBag.Title = Utility.Phrase("Report_Purchase");
+    Layout = "~/Views/Shared/_NewLayout.cshtml";
+}
+<div class="insider">
+    <div id="loading" class="loading"></div>
+    @using (Html.BeginForm("RunReport", "Report", FormMethod.Post, new { id = "FormReport" }))
+    {
+        @Html.Hidden("ReportID", Model.ReportID)
+        <div class="row display-table w-100pr mb-10 content-header">
+            <div class="report-content-header">
+                <div class="col-sm-12">
+                    <h1>@Utility.Phrase("Report_Purchase")</h1>
+                </div>
+            </div>
+            <div class="w-100pr">
+                <div class="row">
+                    <div class="item fl">
+                        <label class="fl">@Utility.Phrase("TypeDate")</label>
+                        <div class="input-group">
+                            @Html.DropDownList("TypeDate", Model.ListTypeDate, new { onchange = "SelectTypeDate(this);" })
+                        </div>
+                    </div>
+                    <div class="item fl required">
+                        <label class="fl">@Utility.Phrase("Distributor")</label>
+                        <div id="DistributorCbox" class="ctr_combobox input-group">
+                            @Html.Partial("~/Views/Shared/Control/ComboboxPartial.cshtml", Model.CbxDistributor, new ViewDataDictionary { { "NameID", "Distributor" } })
+                        </div>
+                    </div>
+                    <div class="item fl">
+                        <label class="fl">@Utility.Phrase("Region")</label>
+                        @Html.Partial("~/Views/Shared/Control/ComboboxTreeviewPartial.cshtml")
+                    </div>
+                    
+                </div>
+                <div class="row">
+                    <div id="day-box" class="item fl required groupTypeDate">
+                        <label class="fl">@Utility.Phrase("Day")</label>
+                        @Html.TextBox("FromDate", (Model.FromDate != null ? Model.FromDate.ToShortDateString() : ""), new { @class = "datepicker" })
+                        @Html.TextBox("ToDate", (Model.ToDate != null ? Model.ToDate.ToShortDateString() : ""), new { @class = "datepicker" })
+                    </div>
+                    <div id="week-box" class="item fl required groupTypeDate" style="display:none">
+                        <label class="fl">@Utility.Phrase("Week")</label>
+                        <div id="WeekCbox" class="ctr_combobox input-group custom-combobox-small">
+                            @Html.Partial("~/Views/Shared/Control/ComboboxPartial.cshtml", Model.CbxWeek, new ViewDataDictionary { { "NameID", "Week" } })
+                        </div>
+                        @Html.DropDownList("Year", Model.ListYear, new { @style = "max-width:98px", @class = "DownYear Week-Year" })
+                    </div>
+                    <div id="month-box" class="item fl required groupTypeDate" style="display:none">
+                        <label class="fl">@Utility.Phrase("Month")</label>
+                        @Html.DropDownList("Month", Model.ListMonth, new { @style = "max-width:98px" })
+                        @Html.DropDownList("Year", Model.ListYear, new { @style = "max-width:98px", @class = "DownYear Month-Year" })
+                    </div>
+                    <div id="quarter-box" class="item fl required groupTypeDate" style="display:none">
+                        <label class="fl">@Utility.Phrase("Quarter")</label>
+                        @Html.DropDownList("Quarter", Model.ListQuarter, new { @style = "max-width:98px" })
+                        @Html.DropDownList("Year", Model.ListYear, new { @style = "max-width:98px", @class = "DownYear Quarter-Year" })
+                    </div>
+                    <div id="year-box" class="item fl required groupTypeDate" style="display:none">
+                        <label class="fl">@Utility.Phrase("Year")</label>
+                        @Html.DropDownList("Year", Model.ListYear, new { @class = "DownYear Year-Year" })
+                    </div>
+                    <div class="item fl">
+                        <label class="fl">@Utility.Phrase("HierarchyLevel")</label>
+                        <div id="HierarchyLevelCbox" class="ctr_combobox input-group">
+                            @Html.Partial("~/Views/Shared/Control/ComboboxPartial.cshtml", Model.CbxHierarchyLevel, new ViewDataDictionary { { "NameID", "HierarchyLevel" } })
+                        </div>
+                    </div>
+                    <div class="item fl">
+                        <label class="fl">@Utility.Phrase("HierarchyValue")</label>
+                        <div id="HierarchyValueCbox" class="ctr_combobox input-group">
+                            @Html.Partial("~/Views/Shared/Control/ComboboxPartial.cshtml", Model.CbxHierarchyValue, new ViewDataDictionary { { "NameID", "HierarchyValue" } })
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="item fl required">
+                        <label class="fl">@Utility.Phrase("Template")</label>
+                        <div id="TemplateCbox" class="ctr_combobox input-group">
+                            @Html.Partial("~/Views/Shared/Control/ComboboxPartial.cshtml", Model.CbxTemplate, new ViewDataDictionary { { "NameID", "Template" } })
+                        </div>
+                    </div>
+                    <div class="item fl">
+                        <label class="fl">@Utility.Phrase("InventoryItem")</label>
+                        <div id="InventoryItemCbox" class="ctr_combobox input-group">
+                            @Html.Partial("~/Views/Shared/Control/ComboboxPartial.cshtml", Model.CbxInventoryItem, new ViewDataDictionary { { "NameID", "InventoryItem" } })
+                        </div>
+                    </div>
+                    <div class="item fl">
+                        <button id="Search" type="button"><i class="icon-search"></i>@Utility.Phrase("View")</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="ErMesgBox" class="row"><span style="color: red" class="error"></span></div>
+    }
+    <div class="row content-body">
+        <div id="tableBox" class="tab-content wrapper">
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    function SelectTypeDate(item) {
+        var value = $(item).val();
+        console.log(value);
+        $('.groupTypeDate').hide();
+        $('.DownYear').prop('disabled', true);
+        if (value == 'D') {
+            $('#day-box').show();
+        } else if (value == 'W') {
+            $('#week-box').show();
+            $('.Week-Year').prop('disabled', false);
+        } else if (value == 'M') {
+            $('#month-box').show();
+            $('.Month-Year').prop('disabled', false);
+        } else if (value == 'Q') {
+            $('#quarter-box').show();
+            $('.Quarter-Year').prop('disabled', false);
+        } else if (value == 'Y') {
+            $('#year-box').show();
+            $('.Year-Year').prop('disabled', false);
+        }
+    }
+    function Validation() {
+        $('#ErMesgBox span[class^="error"]').html("");
+        var typeDate = $('#TypeDate').val();
+        if(typeDate = 'D'){
+            var fromDate = $('#FromDate').val();
+            var toDate = $('#ToDate').val();
+            if (stringToDate(fromDate, "dd/MM/yyyy", "/") > stringToDate(toDate, "dd/MM/yyyy", "/")) {
+                $('#ErMesgBox span[class^="error"]').html('@Utility.Phrase("Evaluation_FromDateMustSmallToDate")');
+                return false;
+            }
+
+        }
+        var template = $('#Template').val();
+        if (template == '' || template == undefined) {
+            $('#ErMesgBox span[class^="error"]').html('@Utility.Phrase("TemplateIsNotNull")');
+            return false;
+        }
+        else{
+            return true;
+        }
+    }
+    $(document).ready(function () {
+        loadDataTreeview(jQuery.parseJSON('@Html.Raw(Json.Encode(Model.TreeView))'));
+
+        $("body").on('click', '.input-group-btn table tbody tr', function () {
+            $(this).addClass('selected').siblings().removeClass('selected');
+            var keyVal = $(this).find('td:first').html();
+            var codeVal = $(this).find('td:nth-child(2)').html();
+            var nameVal = $(this).find('td:last').html();
+            if (keyVal == 0) { keyVal = ""; }
+            var parentdiv = $(this).parents('div[class^="ctr_combobox"]');
+            if (parentdiv.find('input[id^="Week"]').val() != undefined) {
+                parentdiv.find('input[type^="text"]').val(codeVal);
+            } else {
+                parentdiv.find('input[type^="text"]').val(codeVal + ' - ' + nameVal);
+            }
+
+            parentdiv.find('input[type^="hidden"]').val(keyVal);
+
+            var HierarchyLevel = '';
+            if ($('#HierarchyLevel').val() != undefined) {
+                HierarchyLevel = $('#HierarchyLevel').val();
+            }
+            var HierarchyValue = '';
+            if ($('#HierarchyValue').val() != undefined) {
+                HierarchyValue = $('#HierarchyValue').val();
+            }
+
+            if (parentdiv.find('input[id^="HierarchyLevel"]').val() != undefined) {
+                $("#HierarchyValueCbox").load('@(Url.Action("ReloadOptionHierarchyValue", "Report"))?strAttribute=' + HierarchyLevel);
+                @*$("#InventoryItemCbox").load('@(Url.Action("ReloadOptionInventoryItem", "Report"))?strAttribute=' + HierarchyLevel + '&HierarchyValueID=' + HierarchyValue);*@
+            }
+
+            if (parentdiv.find('input[id^="HierarchyValue"]').val() != undefined) {
+                $("#InventoryItemCbox").load('@(Url.Action("ReloadOptionInventoryItem", "Report"))?strAttribute=' + HierarchyLevel + '&HierarchyValueID=' + HierarchyValue);
+            }
+        });
+
+        $("#week-box #Year").change(function (e) {
+            $("#WeekCbox").load('@(Url.Action("ReloadOptionWeek", "Report"))?year=' + $(this).val());
+        });
+
+        $('#Search').click(function () {
+            if (Validation()) {
+                var FormData = $('form').serializeFormJSON();
+                console.log(FormData);
+                $.ajax({
+                    url: currentURL + 'Report/RunReport',
+                    method: 'POST',
+                    data: FormData,
+                    dataType: 'json',
+                    success: function (result) {
+                        if (result == null || result == "") {
+                            $('#OkiMesgBox span[class^="error"]').html(result);
+                        } else {
+                            window.open(result);
+                        }
+
+                    }
+                });
+            }
+        });
+    });
+    function loadDataTreeview(dataJson) {
+        if (dataJson != '') {
+            removeItemNull(dataJson)
+            var $checkableTree = $('.zone-treeview').treeview({
+                data: dataJson,
+                highlightSelected: true,
+                onNodeSelected: function (event, node) {
+                    $('#RegionSale').val(node.id);
+                    $('.dropdown-treeview').removeClass('open');
+                    $('.display-treeview').val(node.text);
+                }
+            });
+
+            $('.dropdown-treeview .dropdown-menu').on({
+                "click": function (e) {
+                    e.stopPropagation();
+                }
+            });
+        }
+        else {
+            $('.zone-treeview').html('<h3>' + '@Utility.Phrase("NoDataItem")' + '</h3>');
+            $('.display-treeview, #RegionSale').val('')
+        }
+    }
+</script>

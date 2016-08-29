@@ -1,0 +1,134 @@
+﻿@model MV_ReviewOrderDetail
+@{
+    ViewBag.Title = @Utility.Phrase("ReviewOrderDetail");
+    Layout = "~/Views/Shared/_NewLayout.cshtml";
+}
+
+<style>
+    .dl-horizontal {
+        margin: 0;
+    }
+
+    .well {
+        color: #31708f;
+        background-color: #d9edf7;
+        border-color: #bce8f1;
+    }
+</style>
+
+<div id="shCenter" style="z-index: 9999">
+    <label id="mSNoData" style="align-content: center; color: green"></label>
+</div>
+<div id="loading" class="loading"></div>
+<div class="insider">
+    <div class="row display-table w-100pr mb-10 content-header">
+        <div class="report-content-header">
+            <div class="col-sm-8">
+                <h1 id="TitleHeader">@Utility.Phrase("ReviewOrderDetail")</h1>
+            </div>
+        </div>
+        <div class="well well-sm">
+            <div class="row infor-detail">
+                <div class="col-md-3">
+                    <dl class="dl-horizontal">
+                        <dt>@Utility.Phrase("OrderCode"):</dt>
+                        <dd>@Model.OderDetailInfor.OrderCode</dd>
+                        <dt>@Utility.Phrase("OrderDate"):</dt>
+                        <dd>@Model.OderDetailInfor.OrderDate.ToShortPattern()</dd>
+                        <dt>@Utility.Phrase("SalesmanName"):</dt>
+                        <dd>@Model.OderDetailInfor.SalesmanName</dd>
+                    </dl>
+                </div>
+                <div class="col-md-6">
+                    <dl class="dl-horizontal">
+                        <dt>@Utility.Phrase("Customer"):</dt>
+                        <dd>@Model.OderDetailInfor.CustomerName</dd>
+                        <dt>@Utility.Phrase("Address"):</dt>
+                        <dd>@Model.OderDetailInfor.Address</dd>
+                        <dt>@Utility.Phrase("Distributor"):</dt>
+                        <dd>@Model.OderDetailInfor.DistributorName</dd>
+                    </dl>
+                </div>
+                <div class="col-md-3">
+                    <dl class="dl-horizontal">
+                        <dt>@Utility.Phrase("OrderQty"):</dt>
+                        <dd>@Utility.StringParseWithDecimalDegit(Model.OderDetailInfor.OrderQty)</dd>
+                        <dt>@Utility.Phrase("Discount"):</dt>
+                        <dd>@Utility.StringParseWithDecimalDegit(Model.OderDetailInfor.Discount) %</dd>
+                        <dt>@Utility.Phrase("Cash"):</dt>
+                        <dd>@Utility.StringNParseWithRoundingDecimalDegit(Model.OderDetailInfor.Cash)</dd>
+                    </dl>
+                </div>
+                <div class="col-md-12">
+                    <dl class="dl-horizontal">
+                        <dt>@Utility.Phrase("NoteDelivery"):</dt>
+                        <dd>@Model.OderDetailInfor.Note</dd>
+                    </dl>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row content-body">
+        @using (Html.BeginForm("EvaluationDefinition", "Evaluation", null, FormMethod.Post, new { @id = "myFormID", @name = "myFormName" }))
+        {
+            <div class="tab-header">
+                <div class="toolbox">
+                    <ul class="fr m-0">
+                        <li class="ts-pager">
+                            <button type="button" title="@Utility.Phrase("GoBack")" class="prev"><i class="icon-go-back"></i></button>
+                            <span class="pagedisplay"></span>
+                            <button type="button" title="@Utility.Phrase("GoNext")" class="next"><i class="icon-go-next"></i></button>
+                            <span>
+                                @Utility.Phrase("GotoPage")
+                                <select class="pagenum input-mini" title="Select page number"></select>
+                            </span>
+                            <span>@Utility.Phrase("Pages")</span>
+                            <select class="pagesize input-mini m-0" title="Select page size">
+                                <option selected="selected" value="10">10</option>
+                                <option value="20">20</option>
+                                <option value="30">30</option>
+                                <option value="40">40</option>
+                                <option value="50">50</option>
+                            </select>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="tab-content wrapper">
+                <table class="tablesorter">
+                    <thead>
+                        <tr>
+                            <th>@Utility.Phrase("OrderCode")</th>
+                            <th>@Utility.Phrase("Description")</th>
+                            <th>@Utility.Phrase("SiteID")</th>
+                            <th>@Utility.Phrase("Isfree")</th>
+                            <th>@Utility.Phrase("OrderQty")</th>
+                            <th>@Utility.Phrase("LineAmt")</th>
+                            <th>@Utility.Phrase("DiscountAmt")</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (Model.ListOrder != null && Model.ListOrder.Count > 0)
+                        {
+                            foreach (var item in Model.ListOrder)
+                            {
+                                <tr>
+                                    <td>@item.InventoryCD</td>
+                                    <td>@item.InventoryName</td>
+                                    <td>@item.DistributorCode</td>
+                                    <td class="text-center">
+                                        @{string isCheck = (item.FreeItem == "0") ? "" : "checked";}
+                                        <input type="checkbox" @isCheck disabled />
+                                    </td>
+                                    <td>@item.OrderQty</td>
+                                    <td>@Utility.StringParseWithDecimalDegit(item.LineAmt.Value)</td>
+                                    <td>@item.DiscountAmt</td>
+                                </tr>
+                                                }
+                                            }
+                    </tbody>
+                </table>
+            </div>
+                                            }
+    </div>
+</div>

@@ -1,0 +1,98 @@
+﻿@model ReportBasicMV
+@{
+    ViewBag.Title = Utility.Phrase("Report_Inventory");
+    Layout = "~/Views/Shared/_NewLayout.cshtml";
+}
+<div class="insider">
+    <div id="loading" class="loading"></div>
+    @using (Html.BeginForm("RunReport", "Report", FormMethod.Post))
+    {
+        @Html.Hidden("ReportID", Model.ReportID)
+        <div class="row display-table w-100pr mb-10 content-header">
+            <div class="report-content-header">
+                <div class="col-sm-12">
+                    <h1>@Utility.Phrase("Report_Inventory")</h1>
+                </div>
+            </div>
+            <div class="w-100pr">
+                <div class="row">
+                    <div class="item fl required">
+                        <label class="fl">@Utility.Phrase("Distributor")</label>
+                        <div id="DistributorCbox" class="ctr_combobox input-group">
+                            @Html.Partial("~/Views/Shared/Control/ComboboxPartial.cshtml", Model.CbxDistributor, new ViewDataDictionary { { "NameID", "Distributor" } })
+                        </div>
+                    </div>
+                    <div class="item fl required">
+                        <label class="fl">@Utility.Phrase("Template")</label>
+                        <div id="TemplateCbox" class="ctr_combobox input-group">
+                            @Html.Partial("~/Views/Shared/Control/ComboboxPartial.cshtml", Model.CbxTemplate, new ViewDataDictionary { { "NameID", "Template" } })
+                        </div>
+                    </div>
+                    <div class="item fl">
+                        <button id="Search" type="button"><i class="icon-search"></i>@Utility.Phrase("View")</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="ErMesgBox" class="row"><span style="color: red" class="error"></span></div>
+    }
+    <div class="row content-body">
+        <div id="tableBox" class="tab-content wrapper">
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#week-box #Year").change(function (e) {
+            $("#WeekCbox").load('@(Url.Action("ReloadOptionWeek", "Report"))?year=' + $(this).val());
+        });
+        $("body").on('click', '.dropdown-menu table tbody tr', function () {
+            $(this).addClass('selected').siblings().removeClass('selected');
+            var keyVal = $(this).find('td:first').html();
+            var codeVal = $(this).find('td:nth-child(2)').html();
+            var nameVal = $(this).find('td:last').html();
+            if (keyVal == 0) { keyVal = ""; }
+            var parentdiv = $(this).parents('div[class^="ctr_combobox"]');
+            parentdiv.find('input[type^="text"]').val(codeVal + ' - ' + nameVal);
+            parentdiv.find('input[type^="hidden"]').val(keyVal);
+
+        });
+
+        $('#Search').click(function () {
+            if (Validation()) {
+                var FormData = $('form').serializeFormJSON();
+                $.ajax({
+                    url: currentURL + 'Report/RunReport',
+                    method: 'POST',
+                    data: FormData,
+                    dataType: 'json',
+                    success: function (result) {
+                        if (result == null || result == "") {
+                            $('#OkiMesgBox span[class^="error"]').html(result);
+                        } else {
+                            window.open(result);
+                        }
+
+                    }
+                });
+            }
+        });
+    });
+    function Validation() {
+        $('#ErMesgBox span[class^="error"]').html("");
+
+        var template = $('#Template').val();
+        if (template == '' || template == undefined) {
+            $('#ErMesgBox span[class^="error"]').html('@Utility.Phrase("TemplateIsNotNull")');
+            return false;
+        }
+
+        var distibutor = $('#Distributor').val();
+        if (distibutor == 0 || distibutor == undefined) {
+            $('#ErMesgBox span[class^="error"]').html('@Utility.Phrase("DistributorIsNotNull")');
+            return false;
+        }
+        return true;
+    }
+</script>

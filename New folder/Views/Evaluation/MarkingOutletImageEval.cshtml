@@ -1,0 +1,34 @@
+﻿@model MarkModel
+@{
+    ViewBag.Title = "DetailOutletImageEvaluation";
+    Layout = "~/Views/Shared/_NewLayout.cshtml";
+}
+@Html.Hidden("sEvalID", Model.sEvalID)
+<div id="shCenter" style="z-index:99999">
+    <label id="mSNoData" style="align-content:center;color:green" ></label>
+</div>
+<div id="loading" class="loading"></div>
+<div id="FormMarking" class="insider">
+    
+</div>
+<script type="text/javascript ">
+
+    Evaluation_ValiCheck_KPI_Radio4Image = "@Html.Raw(Utility.Phrase("Evaluation_ValiCheck_KPI_Radio4Image"))";
+    Evaluation_ValiCheck_KPI_FakeImage = "@Html.Raw(Utility.Phrase("Evaluation_ValiCheck_KPI_FakeImage"))";
+    Evaluation_ValiCheck_KPI_StandardImage = "@Html.Raw(Utility.Phrase("Evaluation_ValiCheck_KPI_StandardImage"))";
+    Evaluation_ValiCheck_KPI_PassImage = "@Html.Raw(Utility.Phrase("Evaluation_ValiCheck_KPI_PassImage"))";
+    Evaluation_ValiCheck_KPI_NumbericImage = "@Html.Raw(Utility.Phrase("Evaluation_ValiCheck_KPI_NumbericImage"))";
+    Evaluation_ValiCheck_Reason_PassImage = "@Html.Raw(Utility.Phrase("Evaluation_ValiCheck_Reason_PassImage"))";
+    Evaluation_ValiCheck_Reason_Standard = "@Html.Raw(Utility.Phrase("Evaluation_ValiCheck_Reason_Standard"))";
+    Evaluation_ValiCheck_Reason_Fake = "@Html.Raw(Utility.Phrase("Evaluation_ValiCheck_Reason_Fake"))";
+
+    var ListImageID = [];
+    var ListResultImg = [];
+    var ListReasonImg = [];
+    var ListInventoryImg = [];
+    $(document).ready(function () {
+        var sEvalID = $('#sEvalID').val();
+        $("#FormMarking").load('@(Url.Action("MarkingImageEvalPartial", "Evaluation"))?sEvalID=' + sEvalID + '&sOutletID=@Model.CurentOutletID');
+    });
+</script>
+

@@ -1,0 +1,98 @@
+﻿@model Hammer.Models.NoAssessmentModel
+<table>
+    <tr>
+        <td >
+            @Html.DevExpress().LabelFor(m => m.Header.UniqueID, label => 
+            {
+                label.Text = Utility.Phrase("SubmitAssessment.Messages.UniqueID"); 
+            }).GetHtml()
+            @Html.HiddenFor(m => m.Header.UserID) 
+            @Html.HiddenFor(m => m.Header.AssessmentDate)
+            @Html.HiddenFor(m => m.Header.UniqueID)
+            @Html.DevExpress().ComboBoxFor(m => m.Header.UniqueID, date =>
+       {
+           //date.Properties.AllowNull = false;
+           date.Properties.AllowUserInput = false;
+           //date.Properties.MaxDate = DateTime.Now.Date;
+           date.Properties.ValueField = "UniqueID";
+           date.Properties.TextField = "UniqueID";
+           date.Properties.TextFormatString = "{0}";
+           date.Properties.ValueType = typeof(int);
+           //date.Properties.Columns.Add("UniqueID");
+           //date.Properties.Columns.Add("StartTime");
+           //date.Properties.Columns.Add("EndTime");
+           date.Properties.Columns.Add("UniqueID").Caption = Utility.Phrase("SubmitAssessment.Messages.UniqueID");
+           date.Properties.Columns.Add("StartTime", Utility.Phrase("StartDate"), 150);
+           date.Properties.Columns.Add("EndTime", Utility.Phrase("EndDate"), 150);
+           date.Properties.IncrementalFilteringMode = IncrementalFilteringMode.StartsWith;
+           date.Width = System.Web.UI.WebControls.Unit.Percentage(50);
+           date.Properties.ClientSideEvents.ValueChanged = "AssessmentDate_ValueChanged";          
+           //date.Properties.NullDisplayText = string.Empty;
+           date.Properties.ClientInstanceName = "AssessmentDate";
+       }).BindList(eRoute.Models.eCalendar.HammerDataProvider.GetAssessmentDateAllTask(User.Identity.Name)).GetHtml()
+        </td>
+        @*<td>
+        @Html.DevExpress().RadioButtonListFor(m => m.HasTraining, rd =>
+   {
+       rd.Properties.Items.Add(Utility.Phrase("Training"), true);
+       rd.Properties.Items.Add(Utility.Phrase("NotTraning"), false);
+       rd.Properties.RepeatColumns = 2;
+       rd.ClientVisible = false;
+       rd.ShowModelErrors = true;
+   }).GetHtml()
+        </td>*@
+    </tr>
+    <tr>
+        <td class="required">
+            @Html.DevExpress().LabelFor(m => m.Header.Works, label =>
+       {
+           label.Text = Utility.Phrase("SubmitAssessment.Messages.Works") +" (" + Utility.Phrase("MinimumWords") + " 8 )";
+           
+       }).GetHtml()
+
+            @Html.DevExpress().MemoFor(m => m.Header.Works, cb =>
+       {
+           //cb.Width = 300;
+           cb.Properties.Rows = 7;
+           cb.Name = "Works";
+           if (Model.Header != null)
+           {
+               cb.ClientEnabled = !Model.Header.Released;
+           }
+           cb.ShowModelErrors = true;
+       }).GetHtml()
+        </td>
+      <td class="required">
+            @Html.DevExpress().LabelFor(m => m.Header.Results, label =>
+       {
+           label.Text = Utility.Phrase("SubmitAssessment.Messages.Results") + " (" + Utility.Phrase("MinimumWords") + " 8 )"; 
+       }).GetHtml()
+
+            @Html.DevExpress().MemoFor(m => m.Header.Results, cb =>
+       {
+          // cb.Width = 300;
+           cb.Properties.Rows = 7;
+           cb.Name = "Results";
+           if (Model.Header != null)
+           {
+               cb.ClientEnabled = !Model.Header.Released;
+           }
+           cb.ShowModelErrors = true;
+       }).GetHtml()
+        </td>
+    </tr>
+</table>
+<table class="border-none no-selected">
+    <tr>
+        <td>
+            
+                          <button><i class="icon-back"></i>@Utility.Phrase("Back")</button>
+                     
+            <button  type="button" onclick ="btnSaveNoTraining_Click()" @(Model.Header.Released == true ? "disabled" : "")  ><i class="icon-confirm"></i>@Utility.Phrase("Save")</button>
+          
+       
+              <button type="button" onclick ="btnSubmitNoTraining_Click()" @(Model.Header.Released == true ? "disabled" : "") ><i class="icon-submit"></i>@Utility.Phrase("Released")</button>
+          
+        </td>
+    </tr>
+</table>

@@ -1,0 +1,91 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>eRoute</title>
+    <meta charset="UTF-8">
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
+    <script src="@Url.Content("~/Scripts/jquery-1.11.0.min.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/lightbox.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/jquery-1.6.2.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/jquery.unobtrusive-ajax.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/DXCommon.js")" type="text/javascript"></script>
+    <link href="@Url.Content("~/Content/Site.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/Content/THP/css/jquery-ui-1.8.17.css")" rel="stylesheet"
+        type="text/css" />
+    <script src="@Url.Content("~/Content/THP/js/jquery-ui-1.8.17.min.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Content/THP/js/jquery.jscrollpane.min.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Content/THP/js/jquery.colorbox-min.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Content/THP/js/jquery.scrollTo-min.js")" type="text/javascript"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/THP/js/jquery.price_format.1.8.js")"></script>
+    @Html.DevExpress().GetStyleSheets(
+    new StyleSheet { ExtensionSuite = ExtensionSuite.NavigationAndLayout },
+    new StyleSheet { ExtensionSuite = ExtensionSuite.Editors },
+    new StyleSheet { ExtensionSuite = ExtensionSuite.HtmlEditor },
+    new StyleSheet { ExtensionSuite = ExtensionSuite.GridView },
+    new StyleSheet { ExtensionSuite = ExtensionSuite.PivotGrid },
+    new StyleSheet { ExtensionSuite = ExtensionSuite.Chart },
+    new StyleSheet { ExtensionSuite = ExtensionSuite.Report },
+    new StyleSheet { ExtensionSuite = ExtensionSuite.Scheduler },
+    new StyleSheet { ExtensionSuite = ExtensionSuite.TreeList }
+)
+    @Html.DevExpress().GetScripts(
+    new Script { ExtensionSuite = ExtensionSuite.NavigationAndLayout },
+    new Script { ExtensionSuite = ExtensionSuite.HtmlEditor },
+    new Script { ExtensionSuite = ExtensionSuite.GridView },
+    new Script { ExtensionSuite = ExtensionSuite.PivotGrid },
+    new Script { ExtensionSuite = ExtensionSuite.Editors },
+    new Script { ExtensionSuite = ExtensionSuite.Chart },
+    new Script { ExtensionSuite = ExtensionSuite.Report },
+    new Script { ExtensionSuite = ExtensionSuite.Scheduler },
+    new Script { ExtensionSuite = ExtensionSuite.TreeList }
+)
+    <style>
+        th, td, caption
+        {
+            font-weight: normal;
+            vertical-align: top;
+            text-align: left;
+        }
+        .btnInline
+        {
+            display: inline-table;    
+        }
+    </style>
+</head>
+<body>
+    @Html.DevExpress().Splitter(settings =>
+{
+    settings.Name = "MainSplitter";
+    settings.AllowResize = true;
+    settings.Orientation = System.Web.UI.WebControls.Orientation.Vertical;
+    settings.FullscreenMode = true;
+    settings.SeparatorVisible = false;
+    settings.Styles.Pane.Border.BorderWidth = System.Web.UI.WebControls.Unit.Pixel(0);
+    settings.Styles.Pane.Paddings.Padding = System.Web.UI.WebControls.Unit.Pixel(0);
+
+    settings.Panes.Add(pane =>
+    {
+        pane.Name = "Header";
+        pane.Size = System.Web.UI.WebControls.Unit.Pixel(83);
+        pane.MinSize = System.Web.UI.WebControls.Unit.Pixel(83);
+        pane.PaneStyle.BorderBottom.BorderWidth = System.Web.UI.WebControls.Unit.Pixel(1);
+        pane.PaneStyle.CssClass = "headerPane";
+        pane.SetContent(() =>
+        {
+            Html.RenderPartial("HeaderPartialView");
+        });
+    });
+
+    settings.Panes.Add(pane =>
+    {
+        pane.Name = "Content";
+        pane.ScrollBars = System.Web.UI.WebControls.ScrollBars.Auto;
+        //pane.PaneStyle.CssClass = "mainContentPane";
+        pane.PaneStyle.BackColor = System.Drawing.Color.White;
+        pane.PaneStyle.BorderBottom.BorderWidth = System.Web.UI.WebControls.Unit.Pixel(1);
+        pane.SetContent(RenderBody().ToHtmlString());
+    });
+
+}).GetHtml()
+</body>
+</html>

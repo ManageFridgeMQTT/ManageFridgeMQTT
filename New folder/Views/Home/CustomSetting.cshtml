@@ -1,0 +1,50 @@
+﻿@model List<CustomColorSetting>
+@{
+    ViewBag.Title = Utility.Phrase("CustomSetting"); //"Quản Trị Người Dùng";
+    Layout = "~/Views/Shared/_NewLayout.cshtml";
+}
+@using DevExpress.Web.Mvc.UI;
+@using DevExpress.Web.Mvc;
+@using System.Web.UI.WebControls;
+<h1 class="sales-report-h1">@ViewBag.Title</h1>
+<script type="text/javascript">
+    var LevelID = '';
+    var RowIndex = 0;
+    function ButtonClick(button) {
+     if (button == "btnAddNew") {
+                AddNew();
+            }
+            else if (button == "btnUpdate") {
+                UpdateRow();
+            }
+            else if (button == "btnDelete") {
+                DeleteRow();
+            }
+    }
+    function AddNew() {
+        dxGridView.AddNewRow();
+    }
+    function UpdateRow() {
+        dxGridView.StartEditRow(dxGridView.GetFocusedRowIndex());
+    }
+    function DeleteRow() {
+        $.ajax({
+            type: 'POST', //Method type
+            url: '../Home/DeleteSetting',
+            dataType: 'json',
+            data:{pID: LevelID},
+            success: function (data) {
+            }
+        })
+    }
+</script>
+<div style="margin: 0cm 4px 0cm 4px">
+    <table class="border-none no-selected">
+        <tr>
+            <td>
+                @Html.Partial("CustomSettingPartialView", Model)
+            </td>
+        </tr>
+
+    </table>
+</div>

@@ -1,0 +1,195 @@
+﻿@model List<pp_ReportReviewWorkWith_Result>
+@using DevExpress.Web.Mvc.UI;
+@using DevExpress.Web.Mvc;
+@using System.Web.UI.WebControls;
+@Html.DevExpress().PivotGrid(
+    settings =>
+    {
+        settings.Name = "pivotGrid";
+        settings.CallbackRouteValues = new { Controller = "Tracking", Action = "ReportReviewWorkWithPartial" };
+        settings.OptionsView.ShowHorizontalScrollBar = true;
+        settings.OptionsCustomization.AllowDrag = false;
+        settings.OptionsCustomization.AllowDragInCustomizationForm = false;
+        settings.OptionsView.ShowColumnGrandTotalHeader = false;
+        settings.OptionsView.ColumnTotalsLocation = PivotTotalsLocation.Far;
+        settings.OptionsView.ShowRowTotals = true;
+        settings.OptionsView.ShowTotalsForSingleValues = true;
+
+        settings.Groups.Add("RegionName - AreaName - ASMSSID - ASMSSName - RoleName - SalesmanName");
+
+        settings.Fields.Add(field =>
+        {
+            field.Area = PivotArea.RowArea;
+            field.AreaIndex = 0;
+
+            field.FieldName = "RegionName";
+            field.Caption = Utility.Phrase("RegionName");
+            field.RunningTotal = false;
+            field.TotalsVisibility = PivotTotalsVisibility.None;
+        });
+        settings.Fields.Add(field =>
+        {
+            field.Area = PivotArea.RowArea;
+            field.AreaIndex = 1;
+
+            field.FieldName = "AreaName";
+            field.Caption = Utility.Phrase("AreaName");
+            field.RunningTotal = false;
+            field.TotalsVisibility = PivotTotalsVisibility.None;
+        });
+        settings.Fields.Add(field =>
+        {
+            field.Area = PivotArea.RowArea;
+            field.AreaIndex = 24;
+
+            field.FieldName = "ASMSSID";
+            field.Caption = Utility.Phrase("ASMSSID");
+            field.RunningTotal = false;
+            field.TotalsVisibility = PivotTotalsVisibility.None;
+        });
+        settings.Fields.Add(field =>
+        {
+            field.Area = PivotArea.RowArea;
+            field.AreaIndex = 25;
+
+            field.FieldName = "ASMSSName";
+            field.Caption = Utility.Phrase("ASMSSName");
+            field.RunningTotal = false;
+            field.TotalsVisibility = PivotTotalsVisibility.None;
+        });
+        settings.Fields.Add(field =>
+        {
+            field.Area = PivotArea.RowArea;
+            field.AreaIndex = 24;
+
+            field.FieldName = "RoleName";
+            field.Caption = Utility.Phrase("RoleName");
+            field.RunningTotal = false;
+            field.TotalsVisibility = PivotTotalsVisibility.None;
+        });
+        settings.Fields.Add(field =>
+        {
+            field.Area = PivotArea.RowArea;
+            field.AreaIndex = 25;
+
+            field.FieldName = "SalesmanName";
+            field.Caption = Utility.Phrase("SalesmanName");
+            field.RunningTotal = false;
+            field.TotalsVisibility = PivotTotalsVisibility.None;
+        });
+
+        settings.Fields.Add(field =>
+        {
+            field.Area = PivotArea.DataArea;
+            field.AreaIndex = 0;
+            field.FieldName = "SMVisitCount";
+            field.Caption = Utility.Phrase("SMVisitCount");
+
+            field.CellFormat.FormatType = FormatType.Custom;
+            field.CellFormat.FormatString = "###,##0.##";
+            field.SummaryType = PivotSummaryType.Sum;
+        });
+        settings.Fields.Add(field =>
+        {
+            field.Area = PivotArea.DataArea;
+            field.AreaIndex = 1;
+            field.FieldName = "ASMSSVisitCount";
+            field.Caption = Utility.Phrase("ASMSSVisitCount");
+
+            field.CellFormat.FormatType = FormatType.Custom;
+            field.CellFormat.FormatString = "###,##0.##";
+            field.SummaryType = PivotSummaryType.Sum;
+        });
+        settings.Fields.Add(field =>
+        {
+            field.Area = PivotArea.DataArea;
+            field.AreaIndex = 2;
+            field.FieldName = "ASMSSVisitValid";
+            field.Caption = Utility.Phrase("ASMSSVisitValid");
+
+            field.CellFormat.FormatType = FormatType.Custom;
+            field.CellFormat.FormatString = "###,##0.##";
+            field.SummaryType = PivotSummaryType.Sum;
+        });
+        settings.Fields.Add(field =>
+        {
+            field.Area = PivotArea.DataArea;
+            field.AreaIndex = 3;
+            field.FieldName = "PercentValid";
+            field.Caption = Utility.Phrase("PercentValid");
+
+            field.CellFormat.FormatType = FormatType.Custom;
+            field.CellFormat.FormatString = "###,##0.00";
+            field.SummaryType = PivotSummaryType.Average;
+        });
+
+        //settings.Fields.Add(field =>
+        //{
+        //    field.Area = PivotArea.DataArea;
+        //    field.AreaIndex = 4;
+        //    field.FieldName = "MTDSMVisitCount";
+        //    field.Caption = Utility.Phrase("MTDSMVisitCount");
+
+        //    field.CellFormat.FormatType = FormatType.Custom;
+        //    field.CellFormat.FormatString = "###,##0.##";
+        //    field.SummaryType = PivotSummaryType.Sum;
+        //});
+        //settings.Fields.Add(field =>
+        //{
+        //    field.Area = PivotArea.DataArea;
+        //    field.AreaIndex = 5;
+        //    field.FieldName = "MTDASMSSVisitCount";
+        //    field.Caption = Utility.Phrase("MTDASMSSVisitCount");
+
+        //    field.CellFormat.FormatType = FormatType.Custom;
+        //    field.CellFormat.FormatString = "###,##0.##";
+        //    field.SummaryType = PivotSummaryType.Sum;
+        //});
+        //settings.Fields.Add(field =>
+        //{
+        //    field.Area = PivotArea.DataArea;
+        //    field.AreaIndex = 6;
+        //    field.FieldName = "MTDASMSSVisitValid";
+        //    field.Caption = Utility.Phrase("MTDASMSSVisitValid");
+
+        //    field.CellFormat.FormatType = FormatType.Custom;
+        //    field.CellFormat.FormatString = "###,##0.##";
+        //    field.SummaryType = PivotSummaryType.Sum;
+        //});
+        //settings.Fields.Add(field =>
+        //{
+        //    field.Area = PivotArea.DataArea;
+        //    field.AreaIndex = 7;
+        //    field.FieldName = "MTDPercentValid";
+        //    field.Caption = Utility.Phrase("MTDPercentValid");
+
+        //    field.CellFormat.FormatType = FormatType.Custom;
+        //    field.CellFormat.FormatString = "###,##0.00";
+        //    field.SummaryType = PivotSummaryType.Average;
+        //});
+
+        settings.SetCellTemplateContent(c =>
+        {
+            if (c.DataField != null
+                && (
+                    c.Item.RowValueType == PivotGridValueType.Total
+                    || c.Item.RowValueType == PivotGridValueType.CustomTotal
+                    || c.Item.RowValueType == PivotGridValueType.GrandTotal
+                    )
+                )
+
+            // && c.DataField.FieldName == "Percents"
+            // && c.DataField.Caption == "Percents"
+            {
+                ViewContext.Writer.Write(
+                    "<span style=\"font-weight:bold; \" >" + c.Item.Text + "</span>"
+                );
+            }
+            else
+            {
+                ViewContext.Writer.Write(c.Text);
+            }
+        });
+
+        settings.OptionsPager.RowsPerPage = 0;
+    }).Bind(Model).GetHtml()

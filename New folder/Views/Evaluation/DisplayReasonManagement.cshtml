@@ -1,0 +1,263 @@
+﻿@model eRoute.Models.DisplayReasonVM
+@{
+    ViewBag.Title = Utility.Phrase("Manage_ReasonEvalution");
+    Layout = "~/Views/Shared/_NewLayout.cshtml";
+}
+<div id="shCenter" style="z-index: 9999">
+    <label id="mSNoData" style="align-content: center; color: green"></label>
+</div>
+<div id="loading" class="loading"></div>
+<div class="insider">
+    <div class="row display-table w-100pr mb-10 content-header">
+        <div class="report-content-header">
+            <div class="col-sm-8">
+                <h1 id="TitleHeader">@Utility.Phrase("Manage_ReasonEvalution")</h1>
+            </div>
+        </div>
+        @using (Html.BeginForm("DisplayReasonManagement", "Evaluation", FormMethod.Post))
+        {
+            <div id="FilterBox" class="w-100pr">
+                <div class="item fl">
+                    <label for class="fl">@Utility.Phrase("Program")</label>
+                    <div id="ProgramCbox" class="ctr_combobox input-group">
+                        @Html.Partial("~/Views/Shared/Control/ComboboxPartial.cshtml", Model.listComboboxProgram, new ViewDataDictionary { { "NameID", "Program" } })
+                    </div>
+                </div>
+                <div class="item fl">
+                    <label for class="fl">@Utility.Phrase("TypeReason")</label>
+                    <div class="ctr_combobox input-group">
+                        @Html.DropDownList("TypeReasonFilter", Model.ListTypeReason)
+                    </div>
+                </div>
+                <div class="item fl">
+                    <button id="Search" type="submit"><i class="icon-submit"></i>@Utility.Phrase("Report_View")</button>
+                </div>
+            </div>
+        }
+        <div id="ReasonBox" class="w-100pr" style="display:none">
+            @using (Html.BeginForm("AddReason", "Evaluation", FormMethod.Post, new { id = "ReasonIdBox" }))
+            {
+            <div class="item fl">
+                <label for class="fl">@Utility.Phrase("Program")</label>
+                <div id="ProgramCbox" class="ctr_combobox input-group">
+                    @Html.Partial("~/Views/Shared/Control/ComboboxPartial.cshtml", Model.listComboboxProgram, new ViewDataDictionary { { "NameID", "Program" } })
+                </div>
+            </div>
+            <div class="item fl">
+                <label for class="fl">@Utility.Phrase("ReasonCode")</label>
+                <div class="ctr_combobox input-group">
+                    @Html.TextBox("ReasonCode", Model.Reason.ReasonCode)
+                </div>
+            </div>
+            <div class="item fl">
+            </div>
+            <div class="item fl">
+                <label for class="fl">@Utility.Phrase("ReasonName")</label>
+                <div class="ctr_combobox input-group">
+                    @Html.TextBox("ReasonName", Model.Reason.ShortDescription)
+                </div>
+            </div>
+            <div class="item fl">
+                <label for class="fl">@Utility.Phrase("ReasonDescription")</label>
+                <div class="ctr_combobox input-group">
+                    @Html.TextBox("ReasonDescription", Model.Reason.LongDescription)
+                </div>
+            </div>
+            <div class="item fl">
+            </div>
+            <div class="item fl">
+                <label for class="fl">@Utility.Phrase("ReasonType")</label>
+                <div class="input-group">
+                    @Html.DropDownList("ReasonType", Model.ListTypeReason)
+                </div>
+            </div>
+            <div class="item fl">
+                <label for class="fl">@Utility.Phrase("ReasonActive")</label>
+                <div class="input-group">
+                    <input type="checkbox" name="ReasonActive" @(Model.Reason.Active ? "" : "checked")/>
+                </div>
+            </div>
+            <div class="item fl">
+                <button id="SubmitReason" value="Add" type="button" onclick="SubmitAction()"><i class="icon-submit"></i>@Utility.Phrase("Save")</button>
+                <button type="button" onclick="FilterBox()"><i class="icon-submit"></i>@Utility.Phrase("Back")</button>
+            </div>
+
+            }
+        </div>
+    </div>
+    <div id="ErMesgBox" class="row"><span style="color: red" class="error"></span></div>
+
+    <div class="row content-body">
+        <div class="tab-header">
+            <div class="toolbox">
+                <ul class="fr m-0">
+                    <li>
+                        <button type="button" title="@Utility.Phrase("Add")" onclick="OpenAddBox()"><i class="icon-display"></i>@Utility.Phrase("Add")</button>
+                    </li>
+                    <li class="ts-pager">
+                        <a href="#" title="prev"><img src="@Url.Content("~/Content/NewEtool/img/per.png")" class="prev" /></a>
+                        <span class="pagedisplay"></span>
+                        <a href="#" title="next"><img src="@Url.Content("~/Content/NewEtool/img/next.png")" class="next" /></a>
+                        <span>
+                            @Utility.Phrase("GotoPage")
+                            <select class="pagenum input-mini" title="Select page number"></select>
+                        </span>
+                        <span>@Utility.Phrase("Pages")</span>
+                        <select class="pagesize input-mini m-0" title="Select page size">
+                            <option selected="selected" value="10">10</option>
+                            <option value="20">20</option>
+                            <option value="30">30</option>
+                            <option value="40">40</option>
+                            <option value="50">50</option>
+                        </select>
+                    </li>
+                </ul>
+            </div>
+            <ul class="nav nav-tabs display-none">
+                <li class="active"><a data-toggle="tab" href="#report-outlet">@Utility.Phrase("Report_Report")</a></li>
+            </ul>
+        </div>
+        <div class="tab-content wrapper">
+            <div id="report-sync" class="tab-pane fade in active box-table-ressult">
+                <table id="table-result" class="tablesorter">
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th>@Utility.Phrase("TB_ReasonCode")</th>
+                            <th>@Utility.Phrase("TB_ReasonName")</th>
+                            <th>@Utility.Phrase("TB_ReasonDescription")</th>
+                            <td style="display:none"></td>
+                            <td style="display:none"></td>
+                            <th>@Utility.Phrase("TB_ReasonType")</th>
+                            <th>@Utility.Phrase("TB_ModifiedID")</th>
+                            <th>@Utility.Phrase("TB_ModifiedDate")</th>
+                            <th>@Utility.Phrase("TB_Active")</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (Model.Result != null)
+                        {
+                            foreach (var elm in Model.Result)
+                            {
+                                <tr>
+                                    <td style="text-align:center">
+                                        <a href="javascript:void(0)" onclick="EditBox(this)" class="" title="@Utility.Phrase("Edit")">
+                                            <img src="@Url.Content("~/Content/Images/Edit.png")" />
+                                        </a>
+                                    </td>
+                                    <td>@elm.ReasonCode</td>
+                                    <td>@elm.ShortDescription</td>
+                                    <td>@elm.LongDescription</td>
+                                    <td style="display:none">@elm.TypeOfReason</td>
+                                    <td style="display:none">@elm.Active</td>
+                                    <td>@Utility.Phrase("ReasonType_" + elm.TypeOfReason)</td>
+                                    <td>@elm.LastModifiedByID</td>
+                                    <td>@elm.LastModifiedDateTime</td>
+                                    <td style="text-align:center">
+                                        @if (elm.Active)
+                                        {
+                                            <a href="#" class="" title="@Utility.Phrase("Active")">
+                                                <img src="@Url.Content("~/Content/Images/Active.png")" />
+                                            </a>
+                                        }
+                                        else
+                                        {
+                                            <a href="#" class="" title="@Utility.Phrase("Inactive")">
+                                                <img src="@Url.Content("~/Content/Images/Inactive.png")" />
+                                            </a>
+                                        }
+                                    </td>
+                                </tr>
+                            }
+                        }
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+    </div>
+</div>
+<script type='text/javascript'>
+    var mess = '@TempData["Messages"]';
+    function OpenAddBox() {
+        $('#FilterBox').hide();
+        $('#ReasonBox').show();
+        $('input[name="ReasonCode"]').prop("readonly", false);
+        $('#TitleHeader').html('@Utility.Phrase("Manage_AddReason")');
+        $('#ReasonIdBox').attr('action', '@Utility.FooMethod("/Evaluation/AddReason")');
+        $('#SubmitReason').val('Add');
+    }
+    function FilterBox() {
+        $('#ReasonBox').hide();
+        $('#FilterBox').show();
+        $('#TitleHeader').html('@Utility.Phrase("Manage_ReasonEvalution")');
+    }
+    function EditBox(item) {
+        $('#SubmitReason').val('Edit');
+        var tr = $(item).closest('tr');
+        var ReasonCode = $(tr).find('td:nth-child(2)').html();
+        $('input[name="ReasonCode"]').val(ReasonCode);
+        $('input[name="ReasonCode"]').prop("readonly", true);
+        var ReasonName = $(tr).find('td:nth-child(3)').html();
+        $('input[name="ReasonName"]').val(ReasonName);
+        var ReasonDescription = $(tr).find('td:nth-child(4)').html();
+        $('input[name="ReasonDescription"]').val(ReasonDescription);
+        var ReasonType = $(tr).find('td:nth-child(5)').html();
+        $('select[name="ReasonType"]').val(ReasonType);
+        var ReasonActive = $(tr).find('td:nth-child(6)').html();
+        if (ReasonActive == 'True') {
+            $('input[name="ReasonActive"]').prop("checked", true);
+        } else {
+            $('input[name="ReasonActive"]').prop("checked", false);
+        }
+        $('#FilterBox').hide();
+        $('#ReasonBox').show();
+        $('#TitleHeader').html('@Utility.Phrase("Manage_EditReason")');
+        $(item).closest('tr');
+        $('#ReasonIdBox').attr('action', '@Utility.FooMethod("/Evaluation/EditReason")');
+    }
+    function SubmitAction() {
+        var action = $('#SubmitReason').val();
+        if (action == 'Add') {
+            var displayID = $('input[name="Program"]').val(); 
+            var value = $('input[name="ReasonCode"]').val();
+            $.ajax({
+                type: 'POST',
+                url: 'CheckReasonCode',
+                dataType: "json",
+                data: { 'Program': displayID, 'ReasonCode': value },
+                success: function (result) {
+                    $('#ErMesgBox span[class^="error"]').html("");
+                    if (result != '') {
+                        $('#ErMesgBox span[class^="error"]').html(result);
+                    }
+                    else {
+                        $('#ReasonIdBox').submit();
+                    }
+                }
+            }).done(function () {
+            });
+        }
+        else {
+            $('#ReasonIdBox').submit();
+        }
+    }
+
+
+    $(document).ready(function () {
+        if (mess != undefined && mess != '') {
+            ShowMessageNoData(mess);
+        }
+
+        $("body").on('click', '.input-group-btn table tbody tr', function () {
+            $(this).addClass('selected').siblings().removeClass('selected');
+            var keyVal = $(this).find('td:first').html();
+            var codeVal = $(this).find('td:nth-child(2)').html();
+            var nameVal = $(this).find('td:last').html();
+            if (keyVal == 0) { keyVal = ""; }
+            var parentdiv = $(this).parents('div[class^="ctr_combobox"]');
+            parentdiv.find('input[type^="text"]').val(codeVal);
+            parentdiv.find('input[type^="hidden"]').val(keyVal);
+        });
+    });
+</script>

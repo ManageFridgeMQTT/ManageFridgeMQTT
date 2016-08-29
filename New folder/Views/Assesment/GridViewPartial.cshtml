@@ -1,0 +1,94 @@
+@model eRoute.Models.ViewModel.AssesmentVM
+<div class="dxgvGroupPanel_@Utils.CurrentTheme" style="border: 1px solid #dadada; color: #E65905;
+    font-weight: bold">
+    <table width="100%" cellpadding="0" cellspacing="0">
+        <tr>
+            <td align="right">
+                <div style="float: right">
+                    @Model.ItemCount
+                </div>
+            </td>
+        </tr>
+    </table>
+</div>
+@Html.DevExpress().GridView(settings =>
+{
+    settings.Name = "dvData";
+    settings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+    settings.KeyFieldName = "CategoryID";
+    settings.Settings.ShowFilterRow = false;
+    settings.SettingsBehavior.AllowSort = false;
+    settings.SettingsPager.Mode = GridViewPagerMode.ShowAllRecords;
+    settings.EncodeHtml = false;
+    settings.SettingsBehavior.AllowSelectByRowClick = true;
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "Leader";
+        column.Caption = Localization.Leader;
+        column.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+    });
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "Auditor";
+        column.Caption = Localization.Auditor;
+        column.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+    });
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "RouteID";
+        column.Caption = Localization.RouteID;
+        column.Width = 100;
+    });
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "RouteName";
+        column.Caption = Localization.RouteName;
+        column.Width = 100;
+    });
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "DistributorName";
+        column.Caption = Localization.Distributor;
+        column.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+    });
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "Status";
+        column.Caption = Localization.Status;
+        column.Width = 100;
+    });
+    settings.Columns.Add(column =>
+    {
+        column.Caption = Localization.View;
+        column.Width = 50;
+        column.SetDataItemTemplateContent(c =>
+        {
+            ViewContext.Writer.Write(
+                Html.ActionLink("[replacetext]", "AuditorAssesment/" + Url.Content(System.Web.UI.DataBinder.Eval(c.DataItem, "RouteID").ToString() + "-" + Url.Content(System.Web.UI.DataBinder.Eval(c.DataItem, "DistributorID").ToString()))).ToHtmlString().Replace("[replacetext]", "<center><img src='/Content/Images/View.png'></img></center>")
+            );
+        });
+    });
+    settings.DataBound = (source, e) =>
+    {
+        ASPxGridView dv = (ASPxGridView)source;
+        GridViewDataTextColumn colNo = new GridViewDataTextColumn();
+        colNo.Caption = Localization.No;
+        colNo.FieldName = "No";
+        colNo.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
+        colNo.Width = 30;
+        colNo.VisibleIndex = 0;
+        colNo.UnboundType = DevExpress.Data.UnboundColumnType.Integer;
+        dv.Columns.Add(colNo);
+    };
+    settings.CustomUnboundColumnData = (source, e) =>
+    {
+        if (e.Column.FieldName == "No")
+        {
+            e.Value = e.ListSourceRowIndex + 1;
+        }
+    };
+    settings.Settings.HorizontalScrollBarMode = ScrollBarMode.Auto;
+    settings.Settings.VerticalScrollBarMode = ScrollBarMode.Visible;
+    settings.Settings.VerticalScrollableHeight = 450;
+}
+).Bind(Model.sp_Assesment_Auditor_View_Search.ToList()).GetHtml()

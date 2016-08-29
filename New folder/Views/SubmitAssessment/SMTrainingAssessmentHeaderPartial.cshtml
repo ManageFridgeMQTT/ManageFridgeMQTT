@@ -1,0 +1,252 @@
+﻿@model Hammer.Models.SMAssessmentModel
+<div id="divupload" >
+    @using (Html.BeginForm("DownloadTemplateSMTraining", "SubmitAssessment", FormMethod.Post))
+    {
+        @Html.HiddenFor(m => m.Header.UniqueID)
+        @Html.HiddenFor(m => m.Header.AssessmentDate)
+        @Html.HiddenFor(m => m.Header.AssessmentFor)
+        @Html.HiddenFor(m => m.Header.AreaID)
+        @Html.HiddenFor(m => m.Header.DistributorID)                                           
+        <table class="border-none no-selected">
+            <tr>
+                <td>
+                   
+                
+                    <input type="file" name="uploadFile" id="uploadFile" />
+               <button type="button"  onclick ="UploadSMAssessment_Click()" @(Model.Header.UniqueID == null ? "disabled" : "")  ><i class="icon-upload"></i>@Utility.Phrase("UploadFile")</button>
+                   @* @Html.DevExpress().Button(button =>
+               {
+                   button.Name = "btnUpload";
+                   if(Model.Header.UniqueID != null)
+                   {
+                       button.ClientEnabled = true;
+                   }else
+                   {
+                       button.ClientEnabled = false;
+                   }                  
+                   button.Text = Utility.Phrase("UploadFile");
+                   button.ClientSideEvents.Click = "UploadSMAssessment_Click";
+               }).GetHtml()*@
+                     <button  @(string.IsNullOrEmpty(Model.Header.AssessmentFor) ? "disabled" : "")  ><i class="icon-excel"></i>@Utility.Phrase("DownloadTemplate")</button>
+                    @* @Html.DevExpress().Button(button =>
+               {
+                   button.Name = "btnDownloadTemplate";
+                   button.Text = Utility.Phrase("DownloadTemplate");
+                   button.UseSubmitBehavior = true;
+                   button.ClientEnabled = (!string.IsNullOrEmpty(Model.Header.AssessmentFor));
+               }).GetHtml()*@
+                </td>
+            </tr>
+        </table>
+    }
+</div>
+<table width="100%" cellpadding="2" cellspacing="2" class="border-none no-selected">
+    <tr>
+        <td style="width:30px">
+            @Html.DevExpress().LabelFor(m => m.Header.UniqueID, label =>
+       {
+           label.Text = Utility.Phrase("SubmitAssessment.Messages.UniqueID");
+       }).GetHtml()
+            @Html.HiddenFor(m => m.Header.UserID)
+             @Html.HiddenFor(m => m.Header.AssessmentDate)            
+            @Html.DevExpress().ComboBoxFor(m => m.Header.UniqueID, date =>
+       {
+           //date.Properties.AllowNull = false;
+           date.Properties.AllowUserInput = false;
+           //date.Properties.MaxDate = DateTime.Now.Date;
+           date.Properties.ValueField = "UniqueID";
+           date.Properties.TextField = "UniqueID";
+           date.Properties.TextFormatString = "{0}";
+           date.Properties.ValueType = typeof(string);
+           date.Properties.Columns.Add("UniqueID").Caption = Utility.Phrase("SubmitAssessment.Messages.UniqueID"); 
+           date.Properties.Columns.Add("StartTime", Utility.Phrase("StartDate"), 150);
+           date.Properties.Columns.Add("EndTime", Utility.Phrase("EndDate"), 150);
+           date.Properties.IncrementalFilteringMode = IncrementalFilteringMode.StartsWith;
+           date.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+           date.Properties.ClientSideEvents.ValueChanged = "AssessmentDate_ValueChanged";
+           //date.Properties.NullDisplayText = string.Empty;
+           date.Properties.ClientInstanceName = "AssessmentDate";
+       }).BindList(eRoute.Models.eCalendar.HammerDataProvider.GetAssessmentDateAllTask(User.Identity.Name)).GetHtml()
+        </td>
+        <td>
+         @Html.DevExpress().RadioButtonListFor(m => m.Header.HasTraning, rd =>
+    {
+        rd.Properties.Items.Add(Utility.Phrase("Training"), true);
+        rd.Properties.Items.Add(Utility.Phrase("NotTraning"), false);
+        rd.Properties.RepeatColumns = 2;
+        rd.ClientVisible = false;
+         }).GetHtml()
+           
+         
+           
+        </td>
+    </tr>
+    <tr>
+        <td width="25%">
+        
+            @Html.DevExpress().LabelFor(m => m.Header.AssessmentFor, label =>
+    {
+        label.Text = Utility.Phrase("SubmitAssessment.Messages.LBSM");
+    }).GetHtml()
+            @Html.DevExpress().ComboBoxFor(m => m.Header.AssessmentFor, cb =>
+       {
+           cb.Properties.ValueField = "EmployeeID";
+           cb.Properties.TextField = "EmployeeName";
+           cb.Properties.TextFormatString = "{0} - {1}";
+           cb.Properties.ValueType = typeof(string);
+           cb.Properties.Columns.Add("EmployeeID");
+           cb.Properties.Columns.Add("EmployeeName");
+           cb.Properties.Columns.Add("Level");
+           cb.ReadOnly = true;        
+           cb.Width = System.Web.UI.WebControls.Unit.Percentage(100);                   
+       }).BindList(eRoute.Models.eCalendar.HammerDataProvider.GetEmployees(Model.Header.AssessmentFor)).GetHtml()
+        @*@Html.DevExpress().ComboBoxFor(m => m.Header.AssessmentFor, cb =>
+   {
+       cb.Properties.ValueType = typeof(string);
+       cb.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+       foreach (var item in
+            Hammer.Models.HammerDataProvider.GetSubordinateNoDuplicate(User.Identity.Name))
+       {
+           cb.Properties.Items.Add(item.EmployeeID + " - " + item.EmployeeName, item.EmployeeID);
+       }
+       // cb.Width = 300;
+       cb.ReadOnly = true;
+   }).GetHtml()*@
+        </td>
+        <td width="25%" align="left">  
+         @Html.DevExpress().LabelFor(m => m.Header.DistributorID, label =>
+     {
+         label.Text = Utility.Phrase("DistributorID");
+     }).GetHtml()
+            @Html.DevExpress().ComboBoxFor(m => m.Header.DistributorID, cb =>
+       {
+           cb.Properties.ValueField = "CompanyID";
+           cb.Properties.TextField = "CompanyCD";
+           cb.Properties.TextFormatString = "{0} - {1}";
+           cb.Properties.ValueType = typeof(string);
+           cb.Properties.Columns.Add("CompanyCD");
+           cb.Properties.Columns.Add("CompanyName");
+           cb.ReadOnly = true;
+           //cb.ClientEnabled = false;
+           cb.Width = System.Web.UI.WebControls.Unit.Percentage(80);
+       }).BindList(eRoute.Models.eCalendar.HammerDataProvider.GetDistributorsNPP(Convert.ToInt32(Model.Header.DistributorID))).GetHtml()
+            @*@Html.DevExpress().ComboBoxFor(m => m.Header.DistributorID, cb =>
+       {
+           cb.Properties.ValueType = typeof(string);
+           cb.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+           foreach (var item in Hammer.Models.HammerDataProvider.GetDistributors())
+           {
+               cb.Properties.Items.Add(item.CompanyCD + " - " + item.CompanyName, item.CompanyID.ToString());
+           }
+           //cb.Width = 300;
+           cb.ReadOnly = true;
+       }).GetHtml()      *@
+          
+        </td>   
+        <td width="50%">
+         @Html.DevExpress().LabelFor(m => m.Header.AreaID, label =>
+     {
+         label.Text = Utility.Phrase("AreaID");
+     }).GetHtml()
+            @Html.DevExpress().ComboBoxFor(m => m.Header.AreaID, cb =>
+       {
+           cb.Properties.ValueField = "AreaID";
+           cb.Properties.TextField = "AreaName";
+           cb.Properties.TextFormatString = "{0} - {1}";
+           cb.Properties.ValueType = typeof(string);
+           cb.Properties.Columns.Add("AreaID");
+           cb.Properties.Columns.Add("AreaName");
+           cb.Width = System.Web.UI.WebControls.Unit.Percentage(60);
+           cb.ReadOnly = true;
+           //cb.ShowModelErrors = true;
+       }).BindList(eRoute.Models.eCalendar.HammerDataProvider.GetAreas(Model.Header.AreaID)).GetHtml()
+            @*@Html.DevExpress().ComboBoxFor(m => m.Header.AreaID, cb =>
+       {
+           cb.Properties.ValueType = typeof(string);
+           cb.Width = System.Web.UI.WebControls.Unit.Percentage(50);
+           foreach (var item in Hammer.Models.HammerDataProvider.GetAreas())
+           {
+               cb.Properties.Items.Add(item.AreaID + " - " + item.AreaName, item.AreaID);
+           }
+           cb.ReadOnly = true;
+       }).GetHtml()*@
+        </td>     
+    </tr> 
+    <tr>
+        <td colspan ="2">
+            @Html.DevExpress().LabelFor(m => m.Header.SalesObjective, label =>
+       {
+           label.Text = Utility.Phrase("SubmitAssessment.Messages.SalesObjective");
+       }).GetHtml()
+            @Html.DevExpress().MemoFor(m => m.Header.SalesObjective, memo =>
+       {
+           memo.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+           memo.Properties.Rows = 4;
+           memo.ShowModelErrors = true;
+           memo.ClientEnabled = !Model.Header.Released;
+       }).GetHtml()
+        </td>
+        <td>
+            @Html.DevExpress().LabelFor(m => m.Header.TraningObjective, label =>
+       {
+           label.Text = Utility.Phrase("SubmitAssessment.Messages.TrainingObjective");
+       }).GetHtml()
+            @Html.DevExpress().MemoFor(m => m.Header.TraningObjective, memo =>
+       {
+           memo.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+           memo.Properties.Rows = 4;
+           memo.ShowModelErrors = true;
+           memo.ClientEnabled = !Model.Header.Released;
+       }).GetHtml()
+        </td>
+    </tr>
+</table>
+<div style="width: 100%;">
+    @Html.Partial("SMTraningAssessmentDetailPartial", Model)
+</div>
+<table class="border-none no-selected">
+    <tr>
+        <td>
+            @Html.DevExpress().LabelFor(m => m.Header.Comment, label =>
+       {
+           label.Text = Utility.Phrase("SubmitAssessment.Messages.Comment");
+       }).GetHtml()
+            @Html.DevExpress().MemoFor(m => m.Header.Comment, memo =>
+       {
+           memo.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+           memo.Properties.Rows = 4;
+           memo.ShowModelErrors = true;
+           memo.ClientEnabled = !Model.Header.Released;
+       }).GetHtml()
+        </td>
+        <td>
+            @Html.DevExpress().LabelFor(m => m.Header.NextTrainingObjective, label =>
+       {
+           label.Text = Utility.Phrase("SubmitAssessment.Messages.NextTrainingObjective");
+       }).GetHtml()
+            @Html.DevExpress().MemoFor(m => m.Header.NextTrainingObjective, memo =>
+       {
+           memo.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+           memo.Properties.Rows = 4;
+           memo.ShowModelErrors = true;
+           memo.ClientEnabled = !Model.Header.Released;
+       }).GetHtml()
+        </td>
+    </tr>
+</table>
+<br />
+<table class="border-none no-selected">
+    <tr>
+        <td>
+              <button onclick ="btnSave_Click()" @(Model.Header.Released == true ? "disabled" : "")  ><i class="icon-confirm"></i>@Utility.Phrase("Save")</button>
+          
+       
+              <button onclick ="btnSubmit_Click()" @(Model.Header.Released == true ? "disabled" : "") ><i class="icon-submit"></i>@Utility.Phrase("Released")</button>
+       
+       
+            <div id="divValidation">
+                @Html.ValidationMessage("")
+            </div>
+        </td>
+    </tr>
+</table>

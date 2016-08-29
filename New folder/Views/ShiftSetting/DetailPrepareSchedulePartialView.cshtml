@@ -1,0 +1,149 @@
+﻿@model System.Collections.IEnumerable
+@Html.DevExpress().GridView(grid =>
+{
+    grid.Name = "gridDetailSchedule";
+    grid.KeyFieldName = "ShiftID";
+    grid.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+    grid.Height = System.Web.UI.WebControls.Unit.Percentage(100);
+
+    grid.CallbackRouteValues = new { Controller = "ShiftSetting", Action = "DetailPrepareSchedulePartialView" };
+    grid.SettingsEditing.UpdateRowRouteValues = new { Controller = "ShiftSetting", Action = "UpdateDetailSchedule" };
+    grid.SettingsEditing.Mode = GridViewEditingMode.Inline;   
+    grid.SettingsPager.Position = System.Web.UI.WebControls.PagerPosition.Bottom;
+    grid.SettingsPager.FirstPageButton.Visible = true;
+    grid.SettingsPager.LastPageButton.Visible = true;
+    grid.SettingsPager.PageSizeItemSettings.Visible = true;
+    grid.SettingsPager.PageSizeItemSettings.Items = new string[] { "10", "20", "50" };
+
+    grid.Settings.ShowFilterBar = GridViewStatusBarMode.Visible;
+    grid.CommandColumn.Visible = true;
+
+    grid.Settings.VerticalScrollBarMode = ScrollBarMode.Visible;
+    grid.Settings.VerticalScrollableHeight = 360;
+
+    grid.CommandColumn.Width = System.Web.UI.WebControls.Unit.Percentage(20);  
+    GridViewCommandColumnCustomButton button = new GridViewCommandColumnCustomButton();
+    button.Image.Url = "~/Content/Images/edit-icon.png";
+    button.ID = "btnEdit";
+    button.Text = Utility.Phrase("PrepareSchedule.Messages.CommandEdit");
+    grid.CommandColumn.CustomButtons.Add(button);
+    button.Image.Width = System.Web.UI.WebControls.Unit.Pixel(30);
+    grid.ClientSideEvents.CustomButtonClick = "gridDetailSchedule_CustomButton_Click";
+    grid.CommandColumn.UpdateButton.Text = Utility.Phrase("PrepareSchedule.Messages.CommandUpdate");
+    grid.CommandColumn.ButtonType = GridViewCommandButtonType.Image;
+    grid.CommandColumn.UpdateButton.Image.Url = "~/Content/Images/save.png";
+    grid.CommandColumn.UpdateButton.Image.Width = System.Web.UI.WebControls.Unit.Pixel(30);
+    grid.CommandColumn.CancelButton.Text = Utility.Phrase("PrepareSchedule.Messages.CommandCancel");
+    grid.CommandColumn.CancelButton.Image.Url = "~/Content/Images/cancel.png";
+    grid.CommandColumn.CancelButton.Image.Width = System.Web.UI.WebControls.Unit.Pixel(35);
+    grid.CommandColumn.Caption = Utility.Phrase("PrepareSchedule.Messages.Action");
+    
+    grid.Columns.Add(col =>
+    {
+        col.FieldName = "ShiftID";
+        col.ColumnType = MVCxGridViewColumnType.TextBox;
+        col.Caption = Utility.Phrase("ShiftSetting.Messages.ShiftID");
+        col.Width = System.Web.UI.WebControls.Unit.Percentage(10); 
+    });
+    grid.Columns.Add(col =>
+    {
+        col.FieldName = "DesVN";
+        col.ColumnType = MVCxGridViewColumnType.TextBox;
+        col.Caption = Utility.Phrase("ShiftSetting.Messages.ShiftNameVN");
+        col.Width = System.Web.UI.WebControls.Unit.Percentage(30);
+    });
+    grid.Columns.Add(col =>
+    {
+        col.FieldName = "DesEn";
+        col.ColumnType = MVCxGridViewColumnType.TextBox;
+        col.Caption = Utility.Phrase("ShiftSetting.Messages.ShiftNameEN");
+        col.Width = System.Web.UI.WebControls.Unit.Percentage(30);
+    });  
+    grid.Columns.Add(col =>
+    {
+        col.FieldName = "StartTime";
+        col.ColumnType = MVCxGridViewColumnType.TimeEdit;
+        col.PropertiesEdit.DisplayFormatString = "h:mm tt";
+        col.Caption = Utility.Phrase("PrepareSchedule.Messages.Date");
+        col.Width = System.Web.UI.WebControls.Unit.Percentage(40); 
+        col.SetEditItemTemplateContent(c =>
+        {
+            var value = DataBinder.Eval(c.DataItem, "StartTime");
+            if (value != null)
+            {                
+                Html.DevExpress().TimeEdit(props =>
+                {
+                    props.Name = "StartTime";
+                    props.ShowModelErrors = true;
+                    props.DateTime = Convert.ToDateTime(value.ToString());
+                    props.Properties.EditFormat = EditFormat.Time;
+                    props.Properties.DisplayFormatString = "h:mm tt";        
+                    props.Properties.AllowUserInput = true; 
+                }).GetHtml();
+            }
+        });
+    });
+
+    grid.Columns.Add(col =>
+    {
+        col.FieldName = "EndTime";
+        col.ColumnType = MVCxGridViewColumnType.TimeEdit;
+        col.PropertiesEdit.DisplayFormatString = "h:mm tt";
+        col.Caption = Utility.Phrase("PrepareSchedule.Messages.DateTo");
+        col.Width = System.Web.UI.WebControls.Unit.Percentage(40);         
+        col.SetEditItemTemplateContent(c =>
+        {
+            var value = DataBinder.Eval(c.DataItem, "EndTime");
+            if (value != null)
+            {               
+                Html.DevExpress().TimeEdit(props =>
+                {
+                    props.Name = "EndTime";
+                    props.ShowModelErrors = true;
+                    props.DateTime = Convert.ToDateTime(value.ToString());
+                    props.Properties.EditFormat = EditFormat.Time;
+                    props.Properties.DisplayFormatString = "h:mm tt";
+                    props.Properties.EditFormat = EditFormat.Time;
+                    props.Properties.AllowUserInput = true; 
+                  
+                }).GetHtml();
+            }
+        });
+    });
+    grid.Columns.Add(col =>
+    {
+        col.FieldName = "UserLogin";
+        col.ColumnType = MVCxGridViewColumnType.TextBox;        
+        col.Caption = Utility.Phrase("Employee");
+        col.Width = System.Web.UI.WebControls.Unit.Percentage(18);       
+    });
+    grid.Columns.Add(col =>
+    {
+        col.FieldName = "Active";
+        col.ColumnType = MVCxGridViewColumnType.CheckBox;
+        col.Caption = Utility.Phrase("ShiftSetting.Messages.Active");
+        col.Width = System.Web.UI.WebControls.Unit.Percentage(18);
+    });
+    grid.Columns.Add(col =>
+    {
+        col.FieldName = "CreatedDate";
+        col.ColumnType = MVCxGridViewColumnType.TextBox;
+        col.Caption = Utility.Phrase("ScheduleSubmitSetting.Messages.CreatedDate");
+        col.Width = System.Web.UI.WebControls.Unit.Percentage(40);
+    }); 
+    grid.CellEditorInitialize = (sender, e) =>
+    {
+        if (e.Column.FieldName == "ShiftID")
+        {
+            e.Editor.Enabled = false;
+        }
+        if (e.Column.FieldName == "UserLogin")
+        {
+            e.Editor.Enabled = false;
+        }
+        if (e.Column.FieldName == "CreatedDate")
+        {
+            e.Editor.Enabled = false;
+        }           
+    };
+}).Bind(Model).GetHtml()

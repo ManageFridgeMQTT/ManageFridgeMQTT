@@ -1,0 +1,53 @@
+﻿@model List<pp_ReportOutletInvalidLocationResult>
+<div id="report-outlet" class="tab-pane fade in active box-table-ressult">
+    <table id="table-result" class="tablesorter valuation">
+        <thead style="height:50px">
+            <tr>
+                <th>@Utility.Phrase("Report_Region")</th>
+                <th>@Utility.Phrase("Report_Area")</th>
+                <th>@Utility.Phrase("TB_GSBH")</th>
+                @*<th>@Utility.Phrase("DistributorCode")</th>*@
+                <th>@Utility.Phrase("Report_Distributor")</th>
+                <th>@Utility.Phrase("Report_Route")</th>
+                
+                <th>@Utility.Phrase("TB_NVBH")</th>
+                <th>@Utility.Phrase("TB_Outlet")</th>
+                <th>@Utility.Phrase("TB_Address")</th>
+                @*<th>@Utility.Phrase("TB_Longtitude")</th>
+                <th>@Utility.Phrase("TB_Latitude")</th>*@
+                <th>@Utility.Phrase("TB_Phone")</th>
+                <th>@Utility.Phrase("TB_Mobile")</th>
+                <th>@Utility.Phrase("TB_Status")</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model != null)
+            {
+                foreach (var elm in Model)
+                {
+                <tr>
+                    <td>@elm.RegionName</td>
+                    <td>@elm.AreaName</td>
+                    <td>@elm.SaleSupName</td>
+                    @*<td>@elm.DistributorCode</td>*@
+                    <td>@elm.DistributorName</td>
+                    <td>@elm.RouteName</td>
+                    
+                    <td>@elm.SalesmanName</td>
+                    <td>@elm.OutletName</td>
+                    <td>@elm.Address</td>
+                    @*<td>@elm.Longtitude</td>
+                    <td>@elm.Latitude</td>*@
+                    <td>@elm.Phone</td>
+                    <td>@elm.Mobile</td>
+                    <td>
+                        @if (elm.Status == "A") { @Utility.Phrase("Active"); } else if(elm.Status == "I") { @Utility.Phrase("Inactive"); }
+                    </td>
+                    @*<td>@Utility.Phrase("OutletStatus" + Utility.StringParse(elm.Status))</td>*@
+                </tr>
+                }
+            }
+
+        </tbody>
+    </table>
+</div>

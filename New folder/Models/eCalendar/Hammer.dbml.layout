@@ -1,0 +1,253 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ordesignerObjectsDiagram dslVersion="1.0.0.0" absoluteBounds="0, 0, 24, 27.625" name="Hammer">
+  <DataContextMoniker Name="/HammerDataContext" />
+  <nestedChildShapes>
+    <classShape Id="5661fc9f-bc3f-4f10-b1c5-5034fc1fc320" absoluteBounds="0.75, 3.75, 2, 3.3093082682291666">
+      <DataClassMoniker Name="/HammerDataContext/DMSVisitPlanHistory" />
+      <nestedChildShapes>
+        <elementListCompartment Id="23d68a24-f213-4116-a703-960cde2b5d1f" absoluteBounds="0.76499999999999968, 4.2100000000000009, 1.9700000000000002, 2.7493082682291665" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="a4030997-e430-4cc6-a557-140933af5f0e" absoluteBounds="0.75, 8.75, 2, 1.9631982421874987">
+      <DataClassMoniker Name="/HammerDataContext/Resource" />
+      <nestedChildShapes>
+        <elementListCompartment Id="03218cfe-7a9d-42b7-a3ed-02b01a2e7d6a" absoluteBounds="0.76500000000000012, 9.21, 1.9700000000000002, 1.4031982421875" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="12644f53-a2f3-44ad-b096-10675f4ebcea" absoluteBounds="9.75, 0.75, 2, 1.3862939453124987">
+      <DataClassMoniker Name="/HammerDataContext/Area" />
+      <nestedChildShapes>
+        <elementListCompartment Id="01953eed-5484-4ad3-940c-266816e1ed73" absoluteBounds="9.765, 1.2100000000000009, 1.9700000000000002, 0.8262939453125" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="b4a26ed8-bc44-4338-a6a8-db4a0dee5212" absoluteBounds="9.75, 3.75, 2, 1.1939925130208344">
+      <DataClassMoniker Name="/HammerDataContext/Region" />
+      <nestedChildShapes>
+        <elementListCompartment Id="edff9374-725d-466c-bd3d-3b4e4bc35937" absoluteBounds="9.765, 4.21, 1.9700000000000002, 0.63399251302083326" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="fe532414-d538-4532-9172-86cc9a86caba" absoluteBounds="3.75, 9.75, 2, 2.3478011067708344">
+      <DataClassMoniker Name="/HammerDataContext/Distributor" />
+      <nestedChildShapes>
+        <elementListCompartment Id="2fdbde08-9abd-4d64-be8a-10b79e09ea0d" absoluteBounds="3.765, 10.21, 1.9700000000000002, 1.7878011067708335" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="9d19b812-3744-4872-b734-fa158c1875c8" absoluteBounds="0.75, 0.875, 2, 1.1939925130208333">
+      <DataClassMoniker Name="/HammerDataContext/webpages_Role" />
+      <nestedChildShapes>
+        <elementListCompartment Id="9f3d1ab0-e01f-49b2-a76b-47bc9613f415" absoluteBounds="0.76500000000000057, 1.335, 1.9700000000000002, 0.63399251302083326" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="9d924889-e57c-425a-8d39-29409e201a2c" absoluteBounds="3.5, 0.875, 2, 1.1939925130208335">
+      <DataClassMoniker Name="/HammerDataContext/webpages_UsersInRole" />
+      <nestedChildShapes>
+        <elementListCompartment Id="4ae2444e-e56c-45d0-abea-9b598baf8481" absoluteBounds="3.5149999999999997, 1.335, 1.9700000000000002, 0.63399251302083326" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <associationConnector edgePoints="[(2.75 : 1.47199625651042); (3.5 : 1.47199625651042)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+      <AssociationMoniker Name="/HammerDataContext/webpages_Role/webpages_Role_webpages_UsersInRole" />
+      <nodes>
+        <classShapeMoniker Id="9d19b812-3744-4872-b734-fa158c1875c8" />
+        <classShapeMoniker Id="9d924889-e57c-425a-8d39-29409e201a2c" />
+      </nodes>
+    </associationConnector>
+    <classShape Id="7472aed9-cb06-4c0d-8923-d3f614be1d39" absoluteBounds="9.75, 5.75, 2, 1.7708968098958327">
+      <DataClassMoniker Name="/HammerDataContext/Outlet" />
+      <nestedChildShapes>
+        <elementListCompartment Id="4bb46129-e106-476e-be1c-48cc7b546c95" absoluteBounds="9.765, 6.21, 1.9700000000000002, 1.2108968098958333" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="1ab1c21b-5618-455c-be77-c3acfb309b35" absoluteBounds="6.75, 9.75, 2, 1.3862939453124987">
+      <DataClassMoniker Name="/HammerDataContext/CriteriaType" />
+      <nestedChildShapes>
+        <elementListCompartment Id="03d21034-e943-42f8-baa1-5f36a9197a05" absoluteBounds="6.7650000000000006, 10.21, 1.9700000000000002, 0.8262939453125" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="add2a49f-7c02-4f28-8db3-8b0a93d80908" absoluteBounds="9.75, 8.75, 2, 2.1554996744791666">
+      <DataClassMoniker Name="/HammerDataContext/DMSReportsTracking" />
+      <nestedChildShapes>
+        <elementListCompartment Id="ec357508-cbac-48a1-825f-0303699f11d5" absoluteBounds="9.765, 9.21, 1.9700000000000002, 1.5954996744791665" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="84727e12-6a92-4254-9c0f-d30f28e92b71" absoluteBounds="9.75, 11.75, 2, 4.8477197265624987">
+      <DataClassMoniker Name="/HammerDataContext/DMSSalesForce" />
+      <nestedChildShapes>
+        <elementListCompartment Id="1720b84c-33fe-4a16-b107-a24f98a6ed89" absoluteBounds="9.765, 12.21, 1.9700000000000002, 4.2877197265625" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="5cfa5720-1a34-4787-9e0d-c2515ff854ff" absoluteBounds="12.75, 0.75, 2, 3.6939111328124987">
+      <DataClassMoniker Name="/HammerDataContext/DMSSFHierarchy" />
+      <nestedChildShapes>
+        <elementListCompartment Id="3795be32-bb32-48b2-9bb0-e5733e7eccd2" absoluteBounds="12.765, 1.2100000000000009, 1.9700000000000002, 3.1339111328125" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="8b2b016e-60ad-4999-afc8-7f8514243c2c" absoluteBounds="12.75, 5.75, 2, 4.4631168619791666">
+      <DataClassMoniker Name="/HammerDataContext/DMSSFAssignment" />
+      <nestedChildShapes>
+        <elementListCompartment Id="50f1341b-08fb-43aa-aad8-6b30431b8503" absoluteBounds="12.765, 6.2100000000000009, 1.9700000000000002, 3.903116861979167" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="e104eee5-814d-46ed-b611-60e50d3f5052" absoluteBounds="12.75, 11.75, 3.25, 2.1554996744791666">
+      <DataClassMoniker Name="/HammerDataContext/HammerDMSViewGetSFPermission" />
+      <nestedChildShapes>
+        <elementListCompartment Id="eb0f1a00-9cab-4f4f-b263-5e613c5a736b" absoluteBounds="12.765, 12.21, 3.2199999999999998, 1.5954996744791665" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="e135a3aa-70a8-4017-b612-b46b99276161" absoluteBounds="0.75, 13.75, 2, 2.3478011067708344">
+      <DataClassMoniker Name="/HammerDataContext/UserActionLog" />
+      <nestedChildShapes>
+        <elementListCompartment Id="1de9bede-2b06-4e8e-9fc3-9959f13234c8" absoluteBounds="0.76499999999999968, 14.21, 1.9700000000000002, 1.7878011067708335" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="3dd197ee-cabc-4907-8624-a48d9d4fed89" absoluteBounds="3.75, 13.75, 2, 1.7708968098958344">
+      <DataClassMoniker Name="/HammerDataContext/PeriodSetting" />
+      <nestedChildShapes>
+        <elementListCompartment Id="2fa5d172-f24d-461b-bded-fd433b4530a2" absoluteBounds="3.7650000000000006, 14.21, 1.9700000000000002, 1.2108968098958333" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="e5bd6903-458e-4383-8e17-fe24359e137a" absoluteBounds="12.75, 14.75, 2, 1.7708968098958344">
+      <DataClassMoniker Name="/HammerDataContext/Criteria" />
+      <nestedChildShapes>
+        <elementListCompartment Id="1c623351-a8dc-4ed0-a2e9-7ac0129553df" absoluteBounds="12.765, 15.21, 1.9700000000000002, 1.2108968098958333" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="e181d51c-7a81-4314-800f-71ed77185f1c" absoluteBounds="15.75, 0.75, 2, 1.7708968098958344">
+      <DataClassMoniker Name="/HammerDataContext/SMCriteria" />
+      <nestedChildShapes>
+        <elementListCompartment Id="aed6e74b-d7b0-4a18-b78f-0b86977577b4" absoluteBounds="15.765, 1.2100000000000009, 1.9700000000000002, 1.2108968098958333" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="57b6682f-8e2f-4841-bcfb-1f3b4da4a5ab" absoluteBounds="15.75, 3.75, 2, 6.1938297526041666">
+      <DataClassMoniker Name="/HammerDataContext/AssessmentCapacity" />
+      <nestedChildShapes>
+        <elementListCompartment Id="97f236d8-b86f-44ee-9257-19ae75cf9331" absoluteBounds="15.765, 4.21, 1.9700000000000002, 5.6338297526041661" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="6a982490-ba0b-4269-81df-1ca1d9334e88" absoluteBounds="15.75, 14.75, 2, 2.3478011067708344">
+      <DataClassMoniker Name="/HammerDataContext/ShiftSetting" />
+      <nestedChildShapes>
+        <elementListCompartment Id="7d845aa8-e427-4974-9c4f-5bec3e142e2c" absoluteBounds="15.765, 15.21, 1.9700000000000002, 1.7878011067708335" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="d7fbde6c-c2ff-4c1d-941a-02e466677d10" absoluteBounds="3.75, 16.75, 2, 1.7708968098958309">
+      <DataClassMoniker Name="/HammerDataContext/SystemSetting" />
+      <nestedChildShapes>
+        <elementListCompartment Id="101a7cb4-40f5-48b9-9dec-51af964c0ba5" absoluteBounds="3.7650000000000006, 17.21, 1.9700000000000002, 1.2108968098958333" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="42d5d9e2-e362-4825-ab1a-c8c45e321d03" absoluteBounds="16.75, 10.75, 2, 2.7324039713541666">
+      <DataClassMoniker Name="/HammerDataContext/ScheduleSubmitSetting" />
+      <nestedChildShapes>
+        <elementListCompartment Id="fa604c76-fce3-4d1f-a205-e918c1170b1b" absoluteBounds="16.765, 11.21, 1.9700000000000002, 2.1724039713541665" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="44d2316c-e145-48c4-9824-bf36c7e0ff20" absoluteBounds="6.75, 17.75, 2, 1.1939925130208309">
+      <DataClassMoniker Name="/HammerDataContext/DMSHamResultType" />
+      <nestedChildShapes>
+        <elementListCompartment Id="9229a077-8dbf-4076-9fbd-5911a11b6917" absoluteBounds="6.7650000000000006, 18.21, 1.9700000000000002, 0.63399251302083326" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="ced81df1-c97d-4894-b732-bfc7ebd28869" absoluteBounds="9.75, 17.75, 2, 1.1939925130208309">
+      <DataClassMoniker Name="/HammerDataContext/NoneWWType" />
+      <nestedChildShapes>
+        <elementListCompartment Id="e8d0fb62-9bb4-47e5-a3a7-5c051b20ad1b" absoluteBounds="9.765, 18.21, 1.9700000000000002, 0.63399251302083326" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="8344b685-15a6-470f-9dab-148b9d191b0a" absoluteBounds="18.75, 0.75, 2, 2.7324039713541666">
+      <DataClassMoniker Name="/HammerDataContext/PrepareNonWW" />
+      <nestedChildShapes>
+        <elementListCompartment Id="cf235d51-b8f9-4041-adc6-6183ed708162" absoluteBounds="18.765, 1.21, 1.9700000000000002, 2.1724039713541665" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="692f8af3-1a59-417e-aa69-667e94b68889" absoluteBounds="18.75, 4.75, 2, 3.5016097005208309">
+      <DataClassMoniker Name="/HammerDataContext/SMTrainingAssessmentHeader" />
+      <nestedChildShapes>
+        <elementListCompartment Id="b41780bc-bdf0-405c-be83-ffb63ccf0b42" absoluteBounds="18.765, 5.2100000000000009, 1.9700000000000002, 2.941609700520833" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="2f5ca24b-53cb-497b-9cb4-82a8ef6a91e6" absoluteBounds="12.75, 18.75, 2, 4.8477197265625023">
+      <DataClassMoniker Name="/HammerDataContext/TrainingAssessmentHeader" />
+      <nestedChildShapes>
+        <elementListCompartment Id="82d029bb-0b29-4056-9f61-493720759ce4" absoluteBounds="12.765, 19.21, 1.9700000000000002, 4.2877197265625" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="7a394a94-6700-4eeb-a389-9d9155c37b43" absoluteBounds="18.75, 14.75, 2, 2.9247054036458326">
+      <DataClassMoniker Name="/HammerDataContext/TrainingAssessmentsDetail" />
+      <nestedChildShapes>
+        <elementListCompartment Id="89690c62-85d9-42a0-b854-e1a5787f887a" absoluteBounds="18.765, 15.21, 1.9700000000000002, 2.364705403645833" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="aeb733b6-f536-4eb3-bce8-630386864a2d" absoluteBounds="15.75, 18.75, 2, 2.1554996744791666">
+      <DataClassMoniker Name="/HammerDataContext/NoTrainingAssessment" />
+      <nestedChildShapes>
+        <elementListCompartment Id="1a49ebc8-5950-4b5e-9a80-80d99faf5ea0" absoluteBounds="15.765, 19.21, 1.9700000000000002, 1.5954996744791665" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="19d55084-99ac-483c-b1f9-5ef2a13af0bd" absoluteBounds="18.75, 18.75, 2, 2.7324039713541666">
+      <DataClassMoniker Name="/HammerDataContext/SMTrainingAssessmentsDetail" />
+      <nestedChildShapes>
+        <elementListCompartment Id="866681f4-66bc-4ed0-bf7d-f382a170e924" absoluteBounds="18.765, 19.21, 1.9700000000000002, 2.1724039713541665" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="a204d097-497b-4a77-9893-69b78de30b25" absoluteBounds="0.75, 19.75, 2, 1.7708968098958309">
+      <DataClassMoniker Name="/HammerDataContext/ConfigSystem" />
+      <nestedChildShapes>
+        <elementListCompartment Id="ea3633b9-bea2-4ffc-baba-ffcdd0614a6a" absoluteBounds="0.76500000000000012, 20.21, 1.9700000000000002, 1.2108968098958333" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="d6642cef-bdf8-4408-8eee-7b47263f75ee" absoluteBounds="6.75, 19.75, 2, 2.9247054036458309">
+      <DataClassMoniker Name="/HammerDataContext/DMSProvince" />
+      <nestedChildShapes>
+        <elementListCompartment Id="0df1e673-beb4-413a-811f-5a610784342e" absoluteBounds="6.7650000000000006, 20.21, 1.9700000000000002, 2.364705403645833" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="ff9cc57c-e951-428b-a08b-ea147b0a5512" absoluteBounds="21.75, 0.75, 2, 6.5784326171874987">
+      <DataClassMoniker Name="/HammerDataContext/Appointment" />
+      <nestedChildShapes>
+        <elementListCompartment Id="a0fdb8c2-0649-4eef-8764-14eda91f6f90" absoluteBounds="21.765, 1.21, 1.9700000000000002, 6.0184326171875" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="bf189db9-437a-4708-b27c-0213d35e37eb" absoluteBounds="19.75, 9.75, 2, 1.1939925130208344">
+      <DataClassMoniker Name="/HammerDataContext/ListDateAssessmentAgain" />
+      <nestedChildShapes>
+        <elementListCompartment Id="bb0b117e-3109-4a27-bc55-a35bbe1907ac" absoluteBounds="19.765, 10.21, 1.9700000000000002, 0.63399251302083326" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="69022c21-896c-47da-baea-41d5b7dd01d3" absoluteBounds="21.75, 11.75, 2, 6.0015283203125005">
+      <DataClassMoniker Name="/HammerDataContext/DMSHamResult" />
+      <nestedChildShapes>
+        <elementListCompartment Id="abfa9fcf-c335-4bbc-97e7-ea005f79bf2c" absoluteBounds="21.765, 12.21, 1.9700000000000002, 5.4415283203125" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="811117e8-0d70-497c-bc76-12f86492c86f" absoluteBounds="21.75, 18.75, 2, 4.6554182942708309">
+      <DataClassMoniker Name="/HammerDataContext/DMSHamResultsSS" />
+      <nestedChildShapes>
+        <elementListCompartment Id="e43fbf9c-6688-478e-bb3d-b86b11a8f3f4" absoluteBounds="21.765, 19.21, 1.9700000000000002, 4.095418294270833" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="9f11e1b9-66fc-4e25-83d6-faa3c5926a0e" absoluteBounds="15.75, 22.75, 2, 4.6554182942708309">
+      <DataClassMoniker Name="/HammerDataContext/DMSHamResultsASM" />
+      <nestedChildShapes>
+        <elementListCompartment Id="25bf0708-24e8-4fbe-8869-ef5c7ffb317c" absoluteBounds="15.765, 23.21, 1.9700000000000002, 4.095418294270833" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="02178ddd-23f1-4b16-aca3-b1749b6900ab" absoluteBounds="1.125, 18, 2, 9.0783512369791648">
+      <DataClassMoniker Name="/HammerDataContext/PrepareWW" />
+      <nestedChildShapes>
+        <elementListCompartment Id="d4a0fe64-8d1c-450f-abd3-8b58d7cb4060" absoluteBounds="1.1400000000000001, 18.46, 1.9700000000000002, 8.5183512369791661" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="ccfc330a-964c-48be-97a6-ae8fa83822f4" absoluteBounds="6.375, 0.875, 2, 8.3091455078125">
+      <DataClassMoniker Name="/HammerDataContext/Salesperson" />
+      <nestedChildShapes>
+        <elementListCompartment Id="4e51006a-dd17-4e00-a5fc-ad2ec49eb2ed" absoluteBounds="6.39, 1.335, 1.9700000000000002, 7.7491455078125009" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="fb30f2b4-880f-41e7-9740-daff17bb09dd" absoluteBounds="4.375, 4.375, 2, 3.6939111328124996">
+      <DataClassMoniker Name="/HammerDataContext/DMSDistributorRouteAssignment" />
+      <nestedChildShapes>
+        <elementListCompartment Id="adece633-2e1d-43fb-a14c-d03388e74aa1" absoluteBounds="4.39, 4.835, 1.9700000000000002, 3.1339111328125" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+  </nestedChildShapes>
+</ordesignerObjectsDiagram>

@@ -1,0 +1,113 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>E-Route</title>
+    <link type="image/x-icon" href="@Url.Content("~/favicon.ico")" rel="shortcut icon" />
+    <link href="@Url.Content("~/favicon.ico")" type="image/vnd.microsoft.icon"
+        rel="icon" />
+    @*<link href="@Url.Content("~/Content/THP/css/Site.css")" rel="stylesheet" type="text/css" />*@
+    <link href="@Url.Content("~/Content/THP/css/font-awesome.min.css")" rel="stylesheet"
+        type="text/css" />
+    <link href="@Url.Content("~/Content/THP/css/jquery-ui-1.8.17.css")" rel="stylesheet"
+        type="text/css" />
+    <link href="@Url.Content("~/Content/THP/css/global.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/Content/THP/css/reset.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/Content/THP/css/jquery.jscrollpane.css")" rel="stylesheet"
+        type="text/css" />
+    <link href="@Url.Content("~/Content/THP/css/colorbox.css")" rel="stylesheet"
+        type="text/css" />
+    <script src="@Url.Content("~/Content/THP/js/jquery-1.9.1.min.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Content/THP/js/jquery-1.7.1.min.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Content/THP/js/jquery-ui-1.8.17.min.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Content/THP/js/jquery.jscrollpane.min.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Content/THP/js/jquery.colorbox-min.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Content/THP/js/jquery.scrollTo-min.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Content/THP/js/randomcolor.js")" type="text/javascript"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/THP/js/jquery.price_format.1.8.js")"></script>
+    @*<script src="@Url.Content("~/Scripts/lightbox.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/jquery.unobtrusive-ajax.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/DXCommon.js")" type="text/javascript"></script>*@
+    @Html.DevExpress().GetStyleSheets(
+        new StyleSheet { ExtensionSuite = ExtensionSuite.NavigationAndLayout },
+        new StyleSheet { ExtensionSuite = ExtensionSuite.Editors },
+        new StyleSheet { ExtensionSuite = ExtensionSuite.HtmlEditor },
+        new StyleSheet { ExtensionSuite = ExtensionSuite.GridView },
+        new StyleSheet { ExtensionSuite = ExtensionSuite.PivotGrid },
+        new StyleSheet { ExtensionSuite = ExtensionSuite.Chart },
+        new StyleSheet { ExtensionSuite = ExtensionSuite.Report },
+        new StyleSheet { ExtensionSuite = ExtensionSuite.Scheduler },
+        new StyleSheet { ExtensionSuite = ExtensionSuite.TreeList }
+    )
+    @Html.DevExpress().GetScripts(
+        new Script { ExtensionSuite = ExtensionSuite.NavigationAndLayout },
+        new Script { ExtensionSuite = ExtensionSuite.HtmlEditor },
+        new Script { ExtensionSuite = ExtensionSuite.GridView },
+        new Script { ExtensionSuite = ExtensionSuite.PivotGrid },
+        new Script { ExtensionSuite = ExtensionSuite.Editors },
+        new Script { ExtensionSuite = ExtensionSuite.Chart },
+        new Script { ExtensionSuite = ExtensionSuite.Report },
+        new Script { ExtensionSuite = ExtensionSuite.Scheduler },
+        new Script { ExtensionSuite = ExtensionSuite.TreeList }
+    )
+</head>
+<body>
+    <div id='page'>
+        <div id="wrapper">
+            <div id='messages'>
+            </div>
+            <div id='header'>
+                <div class="nav-top">
+                    @Html.Partial("_LoginPartial")
+                </div>
+            </div>
+            <div id="main-content">
+                @RenderBody()
+                <div class='clear'>
+                </div>
+            </div>
+        </div>
+        <div id="footer-wrapper">
+        </div>
+    </div>
+@*    @Html.DevExpress().Splitter(settings =>
+    {
+        settings.Name = "MainSplitter";
+        settings.AllowResize = false;
+        settings.Orientation = System.Web.UI.WebControls.Orientation.Vertical;
+        settings.FullscreenMode = true;
+        settings.SeparatorVisible = false;
+        settings.Styles.Pane.Border.BorderWidth = System.Web.UI.WebControls.Unit.Pixel(0);
+        settings.Styles.Pane.Paddings.Padding = System.Web.UI.WebControls.Unit.Pixel(0);
+
+        settings.Panes.Add(pane =>
+        {
+            pane.Name = "Header";
+            pane.Size = System.Web.UI.WebControls.Unit.Pixel(83);
+            pane.MinSize = System.Web.UI.WebControls.Unit.Pixel(83);
+            pane.PaneStyle.BorderBottom.BorderWidth = System.Web.UI.WebControls.Unit.Pixel(1);
+            pane.PaneStyle.CssClass = "headerPane";
+            pane.SetContent(() =>
+            {
+                Html.RenderPartial("HeaderPartialView");
+            });
+        });
+
+        settings.Panes.Add(pane =>
+        {
+            pane.Name = "Content";
+            //pane.ScrollBars = System.Web.UI.WebControls.ScrollBars.Vertical;
+            pane.PaneStyle.CssClass = "mainContentPane";
+            pane.PaneStyle.BackColor = System.Drawing.Color.White;
+            pane.PaneStyle.BorderBottom.BorderWidth = System.Web.UI.WebControls.Unit.Pixel(1);
+            pane.SetContent(RenderBody().ToHtmlString());
+        });
+
+    }).GetHtml()*@
+    <script type='text/javascript'>
+        var SalesmanAvatarFolder = '@Url.Content(Constant.SalesmanAvatarFolder)';
+        var OutletImageFolder = '@Url.Content(Constant.OutletImageFolder)';
+        var SalesOrdersImageFolder = '@Url.Content(Constant.SalesOrdersImageFolder)';
+    </script>
+</body>
+</html>

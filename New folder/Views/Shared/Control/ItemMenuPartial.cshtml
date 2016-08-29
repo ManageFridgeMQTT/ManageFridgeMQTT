@@ -1,0 +1,45 @@
+﻿@model List<pp_GetListMenuResult>
+@{
+    int ParentID = Convert.ToInt32(ViewData["ParentID"]);
+    string currentURL = HttpContext.Current.Request.Url.LocalPath;
+}
+<ul>
+    @foreach (pp_GetListMenuResult elm in Model.Where(x => x.ParentID.Equals(ParentID)).ToList())
+    {
+        string nameClass = "";
+        List<pp_GetListMenuResult> listSubMenu = Model.Where(x => x.ParentID.Equals(elm.FeatureID)).ToList();
+        if (listSubMenu.Count != 0)
+        {
+            string classActive = "";
+            pp_GetListMenuResult parentActive = Model.Where(x => x.Path == currentURL).SingleOrDefault();
+            if (parentActive != null)
+            {
+                if (parentActive.ParentID == elm.FeatureID)
+                {
+                    classActive = "selected";
+                }
+            }
+        <li class="@classActive">
+            <a href="javascript:void(0)">
+                <i class="@elm.IconClass"></i>
+                <span class="tooltip"><div class="arrow-left"><i class="icon-left icon-white"></i></div>@elm.Name</span>
+            </a>
+            @Html.Partial("~/Views/Shared/Control/ItemMenuPartial.cshtml", Model, new ViewDataDictionary() { { "ParentID", elm.FeatureID } })
+        </li>
+        }
+        else
+        {
+            string colorActive = "";
+            if (elm.Path == currentURL)
+            {
+                colorActive = "background: #91070d;";
+            }
+        <li class="@nameClass">
+            <a href="@Utility.FooMethod(elm.Path)" style="@colorActive">
+                <i class="@elm.IconClass"></i>
+                <span class="tooltip">@elm.Name</span>
+            </a>
+        </li>
+        }
+    }
+</ul>

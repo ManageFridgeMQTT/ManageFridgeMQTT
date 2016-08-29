@@ -1,0 +1,404 @@
+﻿@model eRoute.Models.ViewModel.ReportIssuesModel
+@{
+    Layout = "~/Views/Shared/_ReportLayout.cshtml";
+    ViewBag.Title = Utility.Phrase("ReportIssues");
+}
+@using DevExpress.Web.Mvc.UI;
+@using DevExpress.Web.Mvc;
+@using System.Web.UI.WebControls;
+
+<script type='text/javascript'>
+    var Des;
+    var IssuesID;
+    function Issues_Click(s, e) {
+        txtDes.SetValue(null);
+        $.ajax({
+            url: '../Issues/LoadPopUp',
+            data: 'issuesID=' + s.GetValue(),
+            type: 'POST',
+            success: function (data) {
+                txtRegionName.SetValue(data.RegionName);
+                txtDistributorCode.SetValue(data.DistributorCode);
+                txtAreaName.SetValue(data.AreaName);
+                txtDistributorName.SetValue(data.DistributorName);
+                txtRouteID.SetValue(data.RouteID);
+                txtRouteName.SetValue(data.RouteName);
+                txtSalesmanID.SetValue(data.SalesmanID);
+                txtSalesmanName.SetValue(data.SalesmanName);
+                txtVisitDate.SetValue(data.VisitDate);
+                txtVisitID.SetValue(data.VisitID);
+                txtOutletID.SetValue(data.OutletID);
+                txtOutletName.SetValue(data.OutletName);
+                txtContent.SetValue(data.Content);
+                txtIssuesID.SetValue(s.GetValue());
+                txtIssueDate.SetValue(data.IssueDate);
+                txtStatus.SetValue(data.Status);
+                txtContent.SetValue(data.Content);
+                txtResolve.SetValue(data.Resolve);
+                //var src =  data.ListImage;
+                //alert(src);
+                // neu co nhieu anh thi cot for cot gia tri value boi dau dac biet moi vong lap cho them cai anh vao xong.
+                //
+                txtShowListImage.SetValue('');
+                if (data.ListImage) {
+                    var a = "";
+                    var arr = data.ListImage.split(',');
+                    var SalesOrdersImageFolder = '@Url.Content(Constant.SalesOrdersImageFolder)';
+
+                    jQuery.each(arr, function (i, val) {
+                        a += "<a href=\"" + SalesOrdersImageFolder + val + "\"><img src=\"" + SalesOrdersImageFolder + val + "\" style=\"max-width: 50px; padding-right: 5px; padding-top: 5px;\" alt=\"\"  rel=\"zoom\" class=\"smoothZoom\" /></a>";
+                    });
+
+                    //alert(a);
+                    txtShowListImage.SetValue(a);
+                    // cat chuoi va dua vao label
+                }
+
+                popUp.Show();
+            },
+            error: function (err) {
+                //alert(err);
+            }
+        });
+    }
+    function Des_Click() {
+
+        Des = txtDes.GetValue();
+        IssuesID = txtIssuesID.GetValue();
+        if (Des == null) {
+            alert("@Utility.Phrase("ContentIsNotNull")");
+        } else {
+            $.ajax({
+                url: '../Issues/AddDes',
+                data: 'issuesID=' + IssuesID + '&content=' + Des,
+                type: 'POST',
+                success: function (response) {
+                    dxGridView.PerformCallback();
+                    popUp.Hide();
+                },
+                error: function (err) {
+                    //alert(err);
+                }
+            });
+        }
+    }
+</script>
+@using (Html.BeginForm("ReportIssues", "Issues", FormMethod.Post, new { id = "ReportIssues" }))
+{
+    @Html.Hidden("act")
+    <style type="text/css">
+        .dxpgCell_Aqua.dxpgGrandTotalCell_Aqua {
+            background-color: White;
+        }
+
+        #tbFilter td {
+            padding-bottom: 5px;
+        }
+    </style>
+    <h1 class="sales-report-h1">
+        @Utility.Phrase("ReportIssues")
+    </h1>
+    <table class='head-report' cellpadding="3px" style="border-collapse: collapse; display: block;">
+        <tbody style="width: 100%; font-size: 14px;">
+            <tr>
+                <td>
+                    <span class="alignleft">@Utility.Phrase("Date") :</span>
+                </td>
+                <td>
+                    <span class="alignright">
+                        @Html.DevExpress().DateEdit(
+                        settings =>
+                        {
+                            settings.Name = "strToDate";
+                            settings.Date = Model.ToDate;
+                            settings.Properties.NullText = Utility.info.DateTimeFormat.ShortDatePattern;// "dd-MM-yyyy";
+                            settings.Properties.EditFormat = EditFormat.Custom;
+                            settings.Properties.EditFormatString = Utility.info.DateTimeFormat.ShortDatePattern;// "dd-MM-yyyy";
+                            settings.Properties.ClientSideEvents.ValueChanged = "function(s, e) {  }";
+                            settings.Style.Add("margin-left", "10px");
+                            settings.Style.Add("float", "right");
+                            settings.Style.Add("width", "160px");
+                        }
+                        ).GetHtml()
+                        @Html.DevExpress().DateEdit(
+                        settings =>
+                        {
+                            settings.Name = "strFromDate";
+                            settings.Date = Model.FromDate;
+                            settings.Properties.NullText = Utility.info.DateTimeFormat.ShortDatePattern;// "dd-MM-yyyy";
+                            settings.Properties.EditFormat = EditFormat.Custom;
+                            settings.Properties.EditFormatString = Utility.info.DateTimeFormat.ShortDatePattern;// "dd-MM-yyyy";
+                            settings.Properties.ClientSideEvents.ValueChanged = "function(s, e) {  }";
+                            settings.Style.Add("float", "right");
+                            settings.Style.Add("margin-left", "10px");
+                            settings.Style.Add("width", "160px");
+                        }
+                        ).GetHtml()
+                    </span>
+                </td>
+                <td>
+                    <span class="alignleft">@Utility.Phrase("Distributor") :</span>
+                </td>
+                <td>
+                    <span class="alignright">
+                        @Html.DevExpress().ComboBox(
+                        settings =>
+                        {
+                            settings.Name = "DistributorID";
+                            settings.Width = Unit.Pixel(330);
+                            settings.CallbackRouteValues = new { Controller = "Tracking", Action = "ComboBoxPartialDistributor" };
+                            settings.Properties.CallbackPageSize = 50;
+                            settings.Properties.DropDownRows = 15;
+                            settings.Properties.AllowMouseWheel = true;
+                            settings.Properties.TextFormatString = "{1}-{0}";
+                            settings.Properties.ValueField = "DistributorID";
+                            settings.Properties.ValueType = typeof(int);
+                            settings.Properties.DropDownStyle = DropDownStyle.DropDownList;
+                            settings.Properties.IncrementalFilteringMode = IncrementalFilteringMode.Contains;
+                            settings.Properties.Columns.Add("DistributorCode", Utility.Phrase("DistributorCode"), 110);
+                            settings.Properties.Columns.Add("DistributorName", Utility.Phrase("DistributorName"), 200);
+                            settings.Properties.Height = Unit.Pixel(20);
+                            settings.Style.Add("float", "right");
+
+                            settings.PreRender = (sender, e) =>
+                            {
+                                MVCxComboBox cmb = sender as MVCxComboBox;
+                                if (Model.distributorID != 0)
+                                {
+                                    cmb.Value = Model.distributorID;
+                                }
+                            };
+
+                            settings.Properties.ClientSideEvents.SelectedIndexChanged = "function(s, e) { RouteID.PerformCallback(); }";
+                            settings.Properties.EnableCallbackMode = true;
+                            settings.Properties.ClientSideEvents.BeginCallback = "function(s, e) { e.customArgs['RegionID'] = RegionID.GetValue(); e.customArgs['AreaID'] = AreaID.GetValue(); e.customArgs['ProvinceID'] = ProvinceID.GetValue(); e.customArgs['SalesSupID'] = SalesSupID.GetValue();  }";
+                        }
+     ).BindList(Model.ListDistributor).Bind(Model.distributorID).GetHtml()
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td style="vertical-align: top">
+                    <span class="alignleft">@Utility.Phrase("Region") :</span>
+                </td>
+                <td>
+                    <span class="alignright">
+                        <label for="sales">
+                            @Html.DevExpress().ComboBox(
+                            settings =>
+                            {
+                                settings.Name = "RegionID";
+                                settings.Width = Unit.Pixel(330);
+                                settings.CallbackRouteValues = new { Controller = "Tracking", Action = "ComboBoxPartialRegion" };
+                                settings.Properties.CallbackPageSize = 50;
+                                settings.Properties.DropDownRows = 15;
+                                settings.Properties.AllowMouseWheel = true;
+                                settings.Properties.TextFormatString = "{0}-{1}";
+                                settings.Properties.ValueField = "RegionID";
+                                settings.Properties.ValueType = typeof(string);
+                                settings.Properties.DropDownStyle = DropDownStyle.DropDownList;
+                                settings.Properties.IncrementalFilteringMode = IncrementalFilteringMode.Contains;
+                                settings.Properties.Columns.Add("RegionID", Utility.Phrase("RegionID"), 110);
+                                settings.Properties.Columns.Add("Name", Utility.Phrase("RegionName"), 200);
+                                settings.Properties.Height = Unit.Pixel(20);
+                                settings.Style.Add("float", "right");
+
+                                settings.Properties.ClientSideEvents.SelectedIndexChanged = "function(s, e) { AreaID.PerformCallback(); ProvinceID.PerformCallback(); DistributorID.PerformCallback(); SalesSupID.PerformCallback(); RouteID.PerformCallback(); }";
+                                settings.PreRender = (sender, e) =>
+                                {
+                                    MVCxComboBox cmb = sender as MVCxComboBox;
+                                    if (string.IsNullOrEmpty(Model.regionID))
+                                    {
+                                        cmb.Value = Model.regionID;
+                                    }
+                                };
+                            }
+                             ).BindList(Model.ListRegion).Bind(Model.regionID).GetHtml()
+                        </label>
+                    </span>
+                </td>
+                <td>
+                    <span class="alignleft">@Utility.Phrase("Route") :</span>
+                </td>
+                <td>
+                    <span class="alignright">
+                        @Html.DevExpress().ComboBox(
+                        settings =>
+                        {
+                            settings.Name = "RouteID";
+                            settings.Width = Unit.Pixel(330);
+                            settings.CallbackRouteValues = new { Controller = "Tracking", Action = "ComboBoxPartialRoute" };
+                            settings.Properties.CallbackPageSize = 50;
+                            settings.Properties.DropDownRows = 15;
+                            settings.Properties.AllowMouseWheel = true;
+                            settings.Properties.TextFormatString = "{1}-{0}";
+                            settings.Properties.ValueField = "RouteID";
+                            settings.Properties.ValueType = typeof(string);
+                            settings.Properties.DropDownStyle = DropDownStyle.DropDownList;
+                            settings.Properties.IncrementalFilteringMode = IncrementalFilteringMode.Contains;
+                            settings.Properties.Columns.Add("RouteID", Utility.Phrase("RouteID"), 110);
+                            settings.Properties.Columns.Add("RouteName", Utility.Phrase("RouteName"), 200);
+                            settings.Properties.Height = Unit.Pixel(20);
+                            settings.Style.Add("float", "right");
+
+                            settings.PreRender = (sender, e) =>
+                            {
+                                MVCxComboBox cmb = sender as MVCxComboBox;
+                                if (string.IsNullOrEmpty(Model.routeID))
+                                {
+                                    cmb.Value = Model.routeID;
+                                }
+                            };
+
+                            settings.Properties.EnableCallbackMode = true;
+                            settings.Properties.ClientSideEvents.BeginCallback = "function(s, e) { e.customArgs['RegionID'] = RegionID.GetValue(); e.customArgs['AreaID'] = AreaID.GetValue(); e.customArgs['ProvinceID'] = ProvinceID.GetValue(); e.customArgs['DistributorID'] = DistributorID.GetValue(); e.customArgs['SalesSupID'] = SalesSupID.GetValue(); }";
+                        }
+                    ).BindList(Model.ListRoute).Bind(Model.routeID).GetHtml()
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span class="alignleft">@Utility.Phrase("Area") :</span>
+                </td>
+                <td>
+                    <span class="alignright">
+                        @Html.DevExpress().ComboBox(
+                        settings =>
+                        {
+                            settings.Name = "AreaID";
+                            settings.Width = Unit.Pixel(330);
+                            settings.CallbackRouteValues = new { Controller = "Tracking", Action = "ComboBoxPartialArea" };
+                            settings.Properties.CallbackPageSize = 50;
+                            settings.Properties.DropDownRows = 15;
+                            settings.Properties.AllowMouseWheel = true;
+                            settings.Properties.TextFormatString = "{0}-{1}";
+                            settings.Properties.ValueField = "AreaID";
+                            settings.Properties.ValueType = typeof(string);
+                            settings.Properties.DropDownStyle = DropDownStyle.DropDownList;
+                            settings.Properties.IncrementalFilteringMode = IncrementalFilteringMode.Contains;
+                            settings.Properties.Columns.Add("AreaID", Utility.Phrase("AreaID"), 110);
+                            settings.Properties.Columns.Add("Name", Utility.Phrase("AreaName"), 200);
+                            settings.Properties.Height = Unit.Pixel(20);
+                            settings.Style.Add("float", "right");
+
+                            settings.PreRender = (sender, e) =>
+                            {
+                                MVCxComboBox cmb = sender as MVCxComboBox;
+                                if (string.IsNullOrEmpty(Model.areaID))
+                                {
+                                    cmb.Value = Model.areaID;
+                                }
+                            };
+
+                            settings.Properties.ClientSideEvents.SelectedIndexChanged = "function(s, e) { ProvinceID.PerformCallback(); DistributorID.PerformCallback(); SalesSupID.PerformCallback(); RouteID.PerformCallback(); }";
+                            settings.Properties.EnableCallbackMode = true;
+                            settings.Properties.ClientSideEvents.BeginCallback = "function(s, e) { e.customArgs['RegionID'] = RegionID.GetValue(); }";
+                        }
+     ).BindList(Model.ListArea).Bind(Model.areaID).GetHtml()
+                    </span>
+                </td>
+                <td>
+                    <span class="alignleft">@Utility.Phrase("Status") :</span>
+                </td>
+                <td>
+                    <span class="alignleft">
+                        @Html.DevExpress().ComboBox(
+                        settings =>
+                        {
+                            settings.Name = "Status";
+                            settings.CallbackRouteValues = new { Controller = "Issues", Action = "ComboBoxPartialStatus" };
+                            settings.Properties.CallbackPageSize = 50;
+                            settings.Properties.DropDownRows = 15;
+                            settings.Properties.AllowMouseWheel = true;
+                            settings.Properties.TextFormatString = "{0}-{1}";
+                            settings.Properties.ValueField = "ID";
+                            settings.Properties.ValueType = typeof(int);
+                            settings.Properties.DropDownStyle = DropDownStyle.DropDownList;
+                            settings.Properties.IncrementalFilteringMode = IncrementalFilteringMode.Contains;
+                            settings.Properties.Columns.Add("ID", Utility.Phrase("ID"), 110);
+                            settings.Properties.Columns.Add("Name", Utility.Phrase("Status"), 200);
+                            //settings.Properties.Height = Unit.Pixel(20);
+                            settings.Style.Add("float", "right");
+                            settings.Properties.EnableCallbackMode = true;
+                        }
+                ).BindList(Model.ListStatus).Bind(Model.status).GetHtml()
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span class="alignleft"></span>
+                </td>
+                <td>
+                    <span class="alignleft"></span>
+                </td>
+                <td>
+                    <span class="alignleft"></span>
+                </td>
+                <td>
+                    <span class="alignright">
+
+                        @Html.DevExpress().Button(settings =>
+                        {
+                            settings.Name = "btnSearch";
+                            settings.Text = Utility.Phrase("View");
+                            settings.Style.Add("margin-left", "10px");
+                            settings.UseSubmitBehavior = false;
+                            settings.ControlStyle.HorizontalAlign = HorizontalAlign.Center;
+                            settings.Style.Add("float", "right");
+                        }).GetHtml()
+                        @Html.DevExpress().Button(settings =>
+                        {
+                            settings.Name = "btnExportExcel";
+                            settings.Text = Utility.Phrase("ExportToExcelRawData");
+                            settings.UseSubmitBehavior = false;
+                            settings.Style.Add("float", "right");
+                            settings.Style.Add("margin-left", "10px");
+                        }).GetHtml()
+                    </span>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <br />
+    <div id="chart1" style="width: 100%; min-width: 400px; min-height: 300px; margin: 0 auto; display: none;">
+    </div>
+    <div style="width: 100%;">
+        @Html.Partial("ReportIssuesPartial", Model.listItem)
+    </div>
+    <script type='text/javascript'>
+        $(document).ready(function () {
+
+            $('#btnSearch').click(function () {
+                $('#act').val("");
+                $('form').attr('action', '../Issues/ReportIssues');
+                $('form').submit();
+            });
+
+            $('#btnExportExcel').click(function () {
+                $('#act').val("ExportExcel");
+                $('form').attr('action', '../Issues/ReportIssues');
+                $('form').submit();
+            });
+
+            $("body").css("overflow", "auto");
+            $("body").css("background-color", "#FFFFFF");
+            $("body").css("background", "none");
+
+            $(".dateInput").datepicker({
+                dateFormat: 'dd-mm-yy'
+            }).change(function () {
+            });
+
+            $('.number').priceFormat({
+                prefix: '',
+                centsSeparator: '.',
+                thousandsSeparator: ',',
+                centsLimit: 0,
+            });
+            $('.number').css("text-align", "right");
+        });
+
+    </script>
+}

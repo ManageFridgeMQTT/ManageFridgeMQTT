@@ -1,0 +1,96 @@
+﻿@{
+    //ViewBag.Title = "TerritoryPerformance_ContextMenu";
+}
+@*ContextMenu*@
+<script type="text/javascript">
+    function GetContextMenu(r) {
+        if ($('#rdRawData').is(':checked')) {
+            //$('#inputText').show();
+            map.contextmenu.removeAllItems();
+            map.contextmenu.insertItem(
+                {
+                    text: '@Utility.Phrase("VisitLast")',
+                    icon: '../Content/THP/markers/_SM.png',
+                    callback: VisitlastSM
+                }, 0);
+            map.contextmenu.insertItem(
+                {
+                    text: '@Utility.Phrase("SyncDataFirst")',
+                    icon: '../Content/THP/markers/Distributor_None.png',
+                    callback: SyncFirst
+                }, 1);
+            //map.contextmenu.insertItem(
+            //    {
+            //        text: '@Utility.Phrase("SyncDataLast")',
+            //        icon: '../Content/THP/markers/ASM_1.png',
+            //        callback: SyncLast
+            //   }, 2);
+            map.contextmenu.insertItem(
+                {
+                    text: '@Utility.Phrase("ReportInfo_Summary")',
+                    iconCls: 'icon-display',
+                    callback: ShowReport
+                }, 3);
+        }
+        else if ($('#rdHeatMap').is(':checked')) {
+            $('#inputText').hide();
+            map.contextmenu.removeAllItems();
+            map.contextmenu.insertItem(
+                {
+                    text: '@Utility.Phrase("%Revenue")',
+                    icon: '../Content/THP/markers/point.jpg',
+                    callback: GenerateRevenue
+                }, 0);
+            map.contextmenu.insertItem(
+                {
+                    text: '@Utility.Phrase("OrderRatio")',
+                    icon: '../Content/THP/markers/blue.png',
+                    callback: GenerateOrder
+                }, 1);
+            map.contextmenu.insertItem(
+                {
+                    text: '@Utility.Phrase("VisitRatio")',
+                    icon: '../Content/THP/markers/running1.png',
+                    callback: GenerateVisited
+                }, 2);
+            map.contextmenu.insertItem(
+                 {
+                     text: '@Utility.Phrase("CoverageOutlet")',
+                     icon: '../Content/THP/markers/036.png',
+                     callback: GenerateCoverageOutlet
+                 }, 3);
+            map.contextmenu.insertItem(
+                 {
+                     text: '-------------------------'
+                 }, 4);
+            map.contextmenu.insertItem(
+                 {
+                     text: '@Utility.Phrase("ShowRegion")',
+                     icon: '../Content/THP/img/normal.png',
+                     callback: function (e) { DataMenuItemRegion('Region') }
+                 }, 5);
+            map.contextmenu.insertItem(
+                {
+                    text: '-------------------------'
+                }, 6);
+            map.contextmenu.insertItem(
+                 {
+                     text: '@Utility.Phrase("ShowArea")',
+                     icon: '../Content/THP/markers/SaleSup_None.png',
+                     callback: function (e) { DataMenuItemRegion('Area') }
+                 }, 7);
+            map.contextmenu.insertItem(
+                 {
+                     text: '@Utility.Phrase("ShowDistributor")',
+                     icon: '../Content/THP/markers/Distributor_None.png',
+                     callback: function (e) { DataMenuItemRegion('Distributor') }
+                 }, 8);
+            map.contextmenu.insertItem(
+                 {
+                     text: '@Utility.Phrase("ShowRoute")',
+                     icon: '../Content/THP/markers/crl1.png',
+                     callback: function (e) { DataMenuItemRegion('Route') }
+                 }, 9);
+        }
+    }
+</script>

@@ -1,0 +1,49 @@
+﻿<div id="chart2" style="width: 100%; min-width: 400px; min-height: 300px; margin: 0 auto;
+    display: none;">
+</div>
+<script type="text/javascript" src="@Url.Content("~/MapTest/jquery-1.9.1.min.js")"></script>
+<script src="@Url.Content("~/MapTest/HighCharts/highcharts.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/MapTest/HighCharts/modules/data.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/MapTest/HighCharts/modules/exporting.js")" type="text/javascript"></script>
+<script type='text/javascript'>
+    $(document).ready(function () {
+        ApplyChart();
+    });
+
+    function RenderChart(chartID, data, chartType) {
+        $('#' + chartID).highcharts({
+            chart: {
+                type: chartType
+            },
+            title: {
+                text: data.chartName
+            },
+            xAxis: {
+                categories: data.listColumns
+            },
+            yAxis: {
+                title: {
+                    text: data.YName
+                }
+            },
+            series: data.listSeries
+        });
+
+        $('#' + chartID).show();
+    }
+
+    function ApplyChart() {
+        var groupby = 'Region';
+        var chartType = 'column';
+        $.ajax({
+            type: 'POST', //Method type
+            async: true,
+            url: '/DashBoard/ReportSalesAssessmentChart',
+            data: { groupby: groupby }, //Forms name
+            dataType: 'json',
+            success: function (data) {
+                RenderChart('chart2', data.chartData, chartType);
+            }
+        });
+    }
+</script>

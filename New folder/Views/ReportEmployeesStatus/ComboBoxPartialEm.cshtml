@@ -1,0 +1,21 @@
+﻿@Html.DevExpress().ComboBox(
+                        settings =>
+                        {
+                            settings.Name = "EmployeeID";
+                            settings.CallbackRouteValues = new { Controller = "ReportEmployeesStatus", Action = "ComboBoxPartialEm" };
+                            settings.Properties.CallbackPageSize = 50;
+                            settings.Properties.DropDownRows = 15;
+                            settings.Properties.AllowMouseWheel = true;
+                            settings.Properties.ValueField = "EmployeeID";
+                            settings.Properties.TextField = "EmployeeName";
+                            settings.Properties.TextFormatString = "{0} - {1}";
+                            settings.Properties.ValueType = typeof(string);
+                            settings.Properties.Columns.Add("EmployeeID");
+                            settings.Properties.Columns.Add("EmployeeName");
+                            settings.Properties.Columns.Add("Level");
+                            settings.Properties.Height = System.Web.UI.WebControls.Unit.Pixel(20);
+                            settings.Properties.ClientSideEvents.SelectedIndexChanged = "function(s, e) { }";
+                            settings.Properties.EnableCallbackMode = true;
+                            settings.Properties.ClientSideEvents.BeginCallback = "function(s, e) {e.customArgs['RegionID'] = RegionID.GetValue(); e.customArgs['AreaID'] = AreaID.GetValue(); }";
+                            settings.Properties.ClientSideEvents.EndCallback = "function(s, e) { s.SetValue(null); }";
+                        }).BindList(Model).GetHtml()

@@ -1,0 +1,28 @@
+﻿@{
+    IEnumerable<eRoute.Models.usp_GetListInventoryItemsResult> ItemData = ViewData["ItemInformation"] as IEnumerable<eRoute.Models.usp_GetListInventoryItemsResult>;
+}
+<div class="table-box wrapper">
+	<table>
+		<thead>
+			<tr>
+                <th style="display:none">InventoryID</th>
+				<th>@Utility.Phrase("InventoryName")</th>
+				<th>@Utility.Phrase("VendorName")</th>
+                <th>@Utility.Phrase("Type")</th>
+				<th>@Utility.Phrase("Show")</th>
+			</tr>
+		</thead>
+		<tbody id="my_table_Item">
+			@foreach (var item in ItemData)
+            {
+                <tr>
+                    <td style="display:none;">@Html.DisplayFor(modelItem => item.InventoryID)</td>
+					<td>@Html.DisplayFor(modelItem => item.Description)</td>
+					<td>@Html.DisplayFor(modelItem => item.VendorName)</td>
+                    <td>@Utility.Phrase(item.Type + "_Inventory")</td>
+                    <td><input type="checkbox" id="item-@item.InventoryID" @(item.Selected == "1" ? "checked":"")/></td>
+				</tr>
+            }
+		</tbody>
+	</table>
+</div>

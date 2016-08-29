@@ -1,0 +1,331 @@
+﻿@model SalesForceMCPTrackingVM
+@using DevExpress.Web.Mvc.UI;
+@using DevExpress.Web.Mvc;
+@using System.Web.UI.WebControls;
+@{
+    Layout = "~/Views/Shared/_ReportLayout.cshtml";
+}
+@using (Html.BeginForm("SalesForceMCPTracking", "Tracking", FormMethod.Post, new { id = "SalesForceMCPTracking" }))
+{
+    @Html.Hidden("act")
+    <style type="text/css">
+        .dxpgCell_Aqua.dxpgGrandTotalCell_Aqua
+        {
+            background-color: White;
+        }
+        #tbFilter td
+        {
+            padding-bottom: 5px;
+        }
+    </style>
+    <h1 class="sales-report-h1">
+        SalesForce MCP Tracking</h1>
+    <br />
+    <table class='head-report' width='100%' cellpadding="3px" style="border-collapse: collapse;
+        display: block;">
+        <tbody style="width: 100%; font-size: 14px;">
+            <tr>
+                <td>
+                    <span class="alignleft">@Utility.Phrase("Date") :</span>
+                </td>
+                <td>
+                    <span class="alignright">
+                        <input type="text" name="strFromDate" id="strFromDate" class="dateInput" value="@Model.strFromDate" style="width: 100px" />
+                        @*<input type="text" name="strToDate" id="strToDate" class="dateInput" value="@Model.strToDate" style="width: 100px" />*@
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td style="vertical-align: top">
+                    <span class="alignleft">@Utility.Phrase("Region") :</span>
+                </td>
+                <td>
+                    <span class="alignright">
+                        <label for="sales">
+                            @Html.DevExpress().ComboBox(
+                        settings =>
+                        {
+                            settings.Name = "RegionID";
+                            settings.Width = Unit.Pixel(330);
+                            settings.CallbackRouteValues = new { Controller = "Tracking", Action = "ComboBoxPartialRegion" };
+                            settings.Properties.CallbackPageSize = 50;
+                            settings.Properties.DropDownRows = 15;
+                            settings.Properties.AllowMouseWheel = true;
+                            settings.Properties.TextFormatString = "{0}-{1}";
+                            settings.Properties.ValueField = "RegionID";
+                            settings.Properties.ValueType = typeof(string);
+                            settings.Properties.DropDownStyle = DropDownStyle.DropDownList;
+                            settings.Properties.IncrementalFilteringMode = IncrementalFilteringMode.Contains;
+                            settings.Properties.Columns.Add("RegionID", Utility.Phrase("RegionID"), 110);
+                            settings.Properties.Columns.Add("Name", Utility.Phrase("RegionName"), 200);
+                            settings.Properties.Height = Unit.Pixel(20);
+
+
+                            settings.Properties.ClientSideEvents.SelectedIndexChanged = "function(s, e) { AreaID.PerformCallback(); ProvinceID.PerformCallback(); DistributorID.PerformCallback(); SalesSupID.PerformCallback(); RouteID.PerformCallback(); }";
+                            settings.PreRender = (sender, e) =>
+                            {
+                                MVCxComboBox cmb = sender as MVCxComboBox;
+                                if (string.IsNullOrEmpty(Model.regionID))
+                                {
+                                    cmb.Value = Model.regionID;
+                                }
+                            };
+                        }
+                             ).BindList(Model.ListRegion).Bind(Model.regionID).GetHtml()</label>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span class="alignleft">@Utility.Phrase("Area") :</span>
+                </td>
+                <td>
+                    <span class="alignright">
+                        @Html.DevExpress().ComboBox(
+                        settings =>
+                        {
+                            settings.Name = "AreaID";
+                            settings.Width = Unit.Pixel(330);
+                            settings.CallbackRouteValues = new { Controller = "Tracking", Action = "ComboBoxPartialArea" };
+                            settings.Properties.CallbackPageSize = 50;
+                            settings.Properties.DropDownRows = 15;
+                            settings.Properties.AllowMouseWheel = true;
+                            settings.Properties.TextFormatString = "{0}-{1}";
+                            settings.Properties.ValueField = "AreaID";
+                            settings.Properties.ValueType = typeof(string);
+                            settings.Properties.DropDownStyle = DropDownStyle.DropDownList;
+                            settings.Properties.IncrementalFilteringMode = IncrementalFilteringMode.Contains;
+                            settings.Properties.Columns.Add("AreaID", Utility.Phrase("AreaID"), 110);
+                            settings.Properties.Columns.Add("Name", Utility.Phrase("AreaName"), 200);
+                            settings.Properties.Height = Unit.Pixel(20);
+
+                            settings.PreRender = (sender, e) =>
+                            {
+                                MVCxComboBox cmb = sender as MVCxComboBox;
+                                if (string.IsNullOrEmpty(Model.areaID))
+                                {
+                                    cmb.Value = Model.areaID;
+                                }
+                            };
+
+                            settings.Properties.ClientSideEvents.SelectedIndexChanged = "function(s, e) { ProvinceID.PerformCallback(); DistributorID.PerformCallback(); SalesSupID.PerformCallback(); RouteID.PerformCallback(); }";
+                            settings.Properties.EnableCallbackMode = true;
+                            settings.Properties.ClientSideEvents.BeginCallback = "function(s, e) { e.customArgs['RegionID'] = RegionID.GetValue(); }";
+                        }
+     ).BindList(Model.ListArea).Bind(Model.areaID).GetHtml()</span>
+                </td>
+            </tr>
+            <tr style="display: none;">
+                <td>
+                    <span class="alignleft">@Utility.Phrase("Province") :</span>
+                </td>
+                <td>
+                    <span class="alignright">
+                        @Html.DevExpress().ComboBox(
+                        settings =>
+                        {
+                            settings.Name = "ProvinceID";
+                            settings.Width = Unit.Pixel(330);
+                            settings.CallbackRouteValues = new { Controller = "Tracking", Action = "ComboBoxPartialProvince" };
+                            settings.Properties.CallbackPageSize = 50;
+                            settings.Properties.DropDownRows = 15;
+                            settings.Properties.AllowMouseWheel = true;
+                            settings.Properties.TextFormatString = "{0}-{1}";
+                            settings.Properties.ValueField = "ProvinceID";
+                            settings.Properties.ValueType = typeof(string);
+                            settings.Properties.DropDownStyle = DropDownStyle.DropDownList;
+                            settings.Properties.IncrementalFilteringMode = IncrementalFilteringMode.Contains;
+                            settings.Properties.Columns.Add("ProvinceID", Utility.Phrase("ProvinceID"), 110);
+                            settings.Properties.Columns.Add("Province", Utility.Phrase("ProvinceName"), 200);
+                            settings.Properties.Height = Unit.Pixel(20);
+                            settings.PreRender = (sender, e) =>
+                            {
+                                MVCxComboBox cmb = sender as MVCxComboBox;
+                                if (string.IsNullOrEmpty(Model.provinceID))
+                                {
+                                    cmb.Value = Model.provinceID;
+                                }
+                            };
+
+                            settings.Properties.ClientSideEvents.SelectedIndexChanged = "function(s, e) { DistributorID.PerformCallback(); SalesSupID.PerformCallback(); RouteID.PerformCallback(); }";
+                            settings.Properties.EnableCallbackMode = true;
+                            settings.Properties.ClientSideEvents.BeginCallback = "function(s, e) { e.customArgs['RegionID'] = RegionID.GetValue(); e.customArgs['AreaID'] = AreaID.GetValue(); }";
+                        }
+     ).BindList(Model.ListProvince).Bind(Model.provinceID).GetHtml()</span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span class="alignleft">@Utility.Phrase("SalesSup") :</span>
+                </td>
+                <td>
+                    <span class="alignright">
+                        @Html.DevExpress().ComboBox(
+                        settings =>
+                        {
+                            settings.Name = "SalesSupID";
+                            settings.Width = Unit.Pixel(330);
+                            settings.CallbackRouteValues = new { Controller = "Tracking", Action = "ComboBoxPartialSaleSup" };
+                            settings.Properties.CallbackPageSize = 50;
+                            settings.Properties.DropDownRows = 15;
+                            settings.Properties.AllowMouseWheel = true;
+                            settings.Properties.TextFormatString = "{1}-{0}";
+                            settings.Properties.ValueField = "EmployeeID";
+                            settings.Properties.ValueType = typeof(string);
+                            settings.Properties.DropDownStyle = DropDownStyle.DropDownList;
+                            settings.Properties.IncrementalFilteringMode = IncrementalFilteringMode.Contains;
+                            settings.Properties.Columns.Add("EmployeeID", Utility.Phrase("SalesSupID"), 110);
+                            settings.Properties.Columns.Add("EmployeeName", Utility.Phrase("SalesSupName"), 200);
+                            settings.Properties.Height = Unit.Pixel(20);
+                            settings.PreRender = (sender, e) =>
+                            {
+                                MVCxComboBox cmb = sender as MVCxComboBox;
+                                if (string.IsNullOrEmpty(Model.saleSupID))
+                                {
+                                    cmb.Value = Model.saleSupID;
+                                }
+                            };
+
+                            settings.Properties.ClientSideEvents.SelectedIndexChanged = "function(s, e) { DistributorID.PerformCallback(); }";
+                            settings.Properties.EnableCallbackMode = true;
+                            settings.Properties.ClientSideEvents.BeginCallback = "function(s, e) { e.customArgs['RegionID'] = RegionID.GetValue(); e.customArgs['AreaID'] = AreaID.GetValue(); e.customArgs['ProvinceID'] = ProvinceID.GetValue(); e.customArgs['DistributorID'] = DistributorID.GetValue();  }";
+                        }
+     ).BindList(Model.ListSForce).Bind(Model.saleSupID).GetHtml()</span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span class="alignleft">@Utility.Phrase("Distributor") :</span>
+                </td>
+                <td>
+                    <span class="alignright">
+                        @Html.DevExpress().ComboBox(
+                        settings =>
+                        {
+                            settings.Name = "DistributorID";
+                            settings.Width = Unit.Pixel(330);
+                            settings.CallbackRouteValues = new { Controller = "Tracking", Action = "ComboBoxPartialDistributor" };
+                            settings.Properties.CallbackPageSize = 50;
+                            settings.Properties.DropDownRows = 15;
+                            settings.Properties.AllowMouseWheel = true;
+                            settings.Properties.TextFormatString = "{1}-{0}";
+                            settings.Properties.ValueField = "DistributorID";
+                            settings.Properties.ValueType = typeof(int);
+                            settings.Properties.DropDownStyle = DropDownStyle.DropDownList;
+                            settings.Properties.IncrementalFilteringMode = IncrementalFilteringMode.Contains;
+                            settings.Properties.Columns.Add("DistributorCode", Utility.Phrase("DistributorCode"), 110);
+                            settings.Properties.Columns.Add("DistributorName", Utility.Phrase("DistributorName"), 200);
+                            settings.Properties.Height = Unit.Pixel(20);
+                            settings.PreRender = (sender, e) =>
+                            {
+                                MVCxComboBox cmb = sender as MVCxComboBox;
+                                if (Model.distributorID != 0)
+                                {
+                                    cmb.Value = Model.distributorID;
+                                }
+                            };
+
+                            settings.Properties.ClientSideEvents.SelectedIndexChanged = "function(s, e) { RouteID.PerformCallback(); }";
+                            settings.Properties.EnableCallbackMode = true;
+                            settings.Properties.ClientSideEvents.BeginCallback = "function(s, e) { e.customArgs['RegionID'] = RegionID.GetValue(); e.customArgs['AreaID'] = AreaID.GetValue(); e.customArgs['ProvinceID'] = ProvinceID.GetValue(); e.customArgs['SalesSupID'] = SalesSupID.GetValue();  }";
+                        }
+     ).BindList(Model.ListDistributor).Bind(Model.distributorID).GetHtml()</span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span class="alignleft">@Utility.Phrase("Route") :</span>
+                </td>
+                <td>
+                    <span class="alignright">
+                        @Html.DevExpress().ComboBox(
+                        settings =>
+                        {
+                            settings.Name = "RouteID";
+                            settings.Width = Unit.Pixel(330);
+                            settings.CallbackRouteValues = new { Controller = "Tracking", Action = "ComboBoxPartialRoute" };
+                            settings.Properties.CallbackPageSize = 50;
+                            settings.Properties.DropDownRows = 15;
+                            settings.Properties.AllowMouseWheel = true;
+                            settings.Properties.TextFormatString = "{1}-{0}";
+                            settings.Properties.ValueField = "RouteID";
+                            settings.Properties.ValueType = typeof(string);
+                            settings.Properties.DropDownStyle = DropDownStyle.DropDownList;
+                            settings.Properties.IncrementalFilteringMode = IncrementalFilteringMode.Contains;
+                            settings.Properties.Columns.Add("RouteID", Utility.Phrase("RouteID"), 110);
+                            settings.Properties.Columns.Add("RouteName", Utility.Phrase("RouteName"), 200);
+                            settings.Properties.Height = Unit.Pixel(20);
+                            settings.PreRender = (sender, e) =>
+                            {
+                                MVCxComboBox cmb = sender as MVCxComboBox;
+                                if (string.IsNullOrEmpty(Model.routeID))
+                                {
+                                    cmb.Value = Model.routeID;
+                                }
+                            };
+
+                            settings.Properties.EnableCallbackMode = true;
+                            settings.Properties.ClientSideEvents.BeginCallback = "function(s, e) { e.customArgs['RegionID'] = RegionID.GetValue(); e.customArgs['AreaID'] = AreaID.GetValue(); e.customArgs['ProvinceID'] = ProvinceID.GetValue(); e.customArgs['DistributorID'] = DistributorID.GetValue(); e.customArgs['SalesSupID'] = SalesSupID.GetValue(); }";
+                        }
+                    ).BindList(Model.ListRoute).Bind(Model.routeID).GetHtml()</span>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2" >
+                    <span class="alignleft">
+                        <input type="button" name="export" id="btnExport" class="btn btn-success" value="@Utility.Phrase("ExportToExcel")" />
+                        <input type="button" name="export" id="btnExportExcel" class="btn btn-success" style="width: 150px" value="@Utility.Phrase("ExportToExcelDirectly")" />
+                        <input type="button" name="export" id="btnExportExcelRawData" class="btn btn-success" style="width: 180px" value="@Utility.Phrase("ExportToExcelRawData")" />
+                        <input type="button" name="search" id="btnSearch" class="btn btn-success" value="@Utility.Phrase("View")" />
+                    </span>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <div style="width: 100%;">
+        @Html.Partial("SalesForceMCPTrackingPartial", Model.listItem)
+    </div>
+    <script type='text/javascript'>
+    $(document).ready(function () {
+        $('#btnExport').click(function () {
+            $('form').attr('action','/Home/SalesForceMCPTrackingExport');
+            $('form').submit();
+        });
+
+        $('#btnExportExcel').click(function () {
+            $('#act').val("ExportExcel");
+            $('form').attr('action','/Home/SalesForceMCPTracking');
+            $('form').submit();
+        });
+
+        $('#btnExportExcelRawData').click(function () {
+            $('#act').val("ExportExcelRawData");
+            $('form').attr('action','/Home/SalesForceMCPTracking');
+            $('form').submit();
+        });
+
+        $('#btnSearch').click(function () {
+        $('#act').val("");
+            $('form').attr('action','/Home/SalesForceMCPTracking');
+            $('form').submit();
+        });
+
+        $("body").css("overflow", "auto");
+        $("body").css("background-color", "#FFFFFF");
+        $("body").css("background", "none");
+
+        $(".dateInput").datepicker({
+            dateFormat: 'dd-mm-yy'
+        }).change(function () {
+        });
+
+        $('.number').priceFormat({
+            prefix: '',
+            centsSeparator: '.',
+            thousandsSeparator: ',',
+            centsLimit: 0,
+        });
+        $('.number').css("text-align", "right"); 
+    });
+    </script>
+}

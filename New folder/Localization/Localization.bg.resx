@@ -1,0 +1,639 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="Access" xml:space="preserve">
+    <value>Access</value>
+  </data>
+  <data name="ChangePassword" xml:space="preserve">
+    <value>Change Password</value>
+  </data>
+  <data name="ChangePasswordForm" xml:space="preserve">
+    <value>Use the form below to change your password.</value>
+  </data>
+  <data name="ChangePasswordMinimum" xml:space="preserve">
+    <value>New passwords are required to be a minimum of</value>
+  </data>
+  <data name="CharLen" xml:space="preserve">
+    <value>characters in length.</value>
+  </data>
+  <data name="ConfirmNewPassword" xml:space="preserve">
+    <value>Confirm New Password</value>
+  </data>
+  <data name="ConfirmPassword" xml:space="preserve">
+    <value>Confirm Password</value>
+  </data>
+  <data name="ConfirmPasswordDoesNorMatch" xml:space="preserve">
+    <value>The new password and confirmation password do not match.</value>
+  </data>
+  <data name="ContactName" xml:space="preserve">
+    <value>Contact Name</value>
+  </data>
+  <data name="CreateNewAccount" xml:space="preserve">
+    <value>Create a New Account</value>
+  </data>
+  <data name="CurrentPassword" xml:space="preserve">
+    <value>Current Password</value>
+  </data>
+  <data name="DateCreated" xml:space="preserve">
+    <value>Creation date</value>
+  </data>
+  <data name="Day" xml:space="preserve">
+    <value>day</value>
+  </data>
+  <data name="Days" xml:space="preserve">
+    <value>days</value>
+  </data>
+  <data name="Delete" xml:space="preserve">
+    <value>Delete</value>
+  </data>
+  <data name="Details" xml:space="preserve">
+    <value>Details</value>
+  </data>
+  <data name="DuplicateEmail" xml:space="preserve">
+    <value>A user name for that e-mail address already exists. Please enter a different e-mail address.</value>
+  </data>
+  <data name="DuplicateUserName" xml:space="preserve">
+    <value>User name already exists. Please enter a different user name.</value>
+  </data>
+  <data name="Edit" xml:space="preserve">
+    <value>Edit</value>
+  </data>
+  <data name="Email" xml:space="preserve">
+    <value>Email</value>
+  </data>
+  <data name="Enabled" xml:space="preserve">
+    <value>Enabled</value>
+  </data>
+  <data name="Exit" xml:space="preserve">
+    <value>Exit</value>
+  </data>
+  <data name="FieldIsRequired" xml:space="preserve">
+    <value>This Field Is Required.</value>
+  </data>
+  <data name="Forbidden" xml:space="preserve">
+    <value>Forbidden</value>
+  </data>
+  <data name="FullName" xml:space="preserve">
+    <value>Full Name</value>
+  </data>
+  <data name="Grid_Access" xml:space="preserve">
+    <value>Access</value>
+  </data>
+  <data name="Grid_ChangePassword" xml:space="preserve">
+    <value>Change Password at Next Login</value>
+  </data>
+  <data name="Grid_Code" xml:space="preserve">
+    <value>Code</value>
+  </data>
+  <data name="Grid_Expiration" xml:space="preserve">
+    <value>Password Expired</value>
+  </data>
+  <data name="Grid_LastEdit" xml:space="preserve">
+    <value>Last Edit</value>
+  </data>
+  <data name="Grid_Name" xml:space="preserve">
+    <value>Name</value>
+  </data>
+  <data name="Grid_Number" xml:space="preserve">
+    <value>Number</value>
+  </data>
+  <data name="Grid_Type" xml:space="preserve">
+    <value>Type</value>
+  </data>
+  <data name="Grid_User" xml:space="preserve">
+    <value>User</value>
+  </data>
+  <data name="Grid_Validity" xml:space="preserve">
+    <value>Expire Period</value>
+  </data>
+  <data name="Id" xml:space="preserve">
+    <value>Id</value>
+  </data>
+  <data name="IfYouDontHaveAccount" xml:space="preserve">
+    <value>if you don't have an account.</value>
+  </data>
+  <data name="InvalidAnswer" xml:space="preserve">
+    <value>The password retrieval answer provided is invalid. Please check the value and try again.</value>
+  </data>
+  <data name="InvalidChangePassword" xml:space="preserve">
+    <value>Change Password was unsuccessful. Please correct the errors and try again.</value>
+  </data>
+  <data name="InvalidEmail" xml:space="preserve">
+    <value>The e-mail address provided is invalid. Please check the value and try again.</value>
+  </data>
+  <data name="InvalidLogin" xml:space="preserve">
+    <value>Login was unsuccessful. Please correct the errors and try again.</value>
+  </data>
+  <data name="InvalidNewOldPassword" xml:space="preserve">
+    <value>The current password is incorrect or the new password is invalid.</value>
+  </data>
+  <data name="InvalidPassword" xml:space="preserve">
+    <value>The password provided is invalid. Please enter a valid password value.</value>
+  </data>
+  <data name="InvalidQuestion" xml:space="preserve">
+    <value>The password retrieval question provided is invalid. Please check the value and try again.</value>
+  </data>
+  <data name="InvalidRegistration" xml:space="preserve">
+    <value>Rigistration was unsuccessful. Please correct the errors and try again.</value>
+  </data>
+  <data name="InvalidUserName" xml:space="preserve">
+    <value>The user name provided is invalid. Please check the value and try again.</value>
+  </data>
+  <data name="InvalidUserOrPassword" xml:space="preserve">
+    <value>The user name or password provided is incorrect.</value>
+  </data>
+  <data name="Languages" xml:space="preserve">
+    <value>Ngôn ngữ</value>
+  </data>
+  <data name="List" xml:space="preserve">
+    <value>List</value>
+  </data>
+  <data name="LogIn" xml:space="preserve">
+    <value>Đăng nhập</value>
+  </data>
+  <data name="LoginName" xml:space="preserve">
+    <value>User</value>
+  </data>
+  <data name="LogOn" xml:space="preserve">
+    <value>Đăng nhập</value>
+  </data>
+  <data name="LogOut" xml:space="preserve">
+    <value>Đăng xuất</value>
+  </data>
+  <data name="MustBeLong" xml:space="preserve">
+    <value>The {0} must be at least {2} characters long.</value>
+  </data>
+  <data name="Never" xml:space="preserve">
+    <value>Never</value>
+  </data>
+  <data name="New" xml:space="preserve">
+    <value>New</value>
+  </data>
+  <data name="NewPassword" xml:space="preserve">
+    <value>New Password</value>
+  </data>
+  <data name="OldPassword" xml:space="preserve">
+    <value>Old Password</value>
+  </data>
+  <data name="PasswodAgain" xml:space="preserve">
+    <value>Repeat</value>
+  </data>
+  <data name="Password" xml:space="preserve">
+    <value>Password</value>
+  </data>
+  <data name="PasswordChange" xml:space="preserve">
+    <value>Password change</value>
+  </data>
+  <data name="PasswordChanged" xml:space="preserve">
+    <value>Your password has been changed successfully.</value>
+  </data>
+  <data name="PasswordChangeNext" xml:space="preserve">
+    <value>Change password at next entry</value>
+  </data>
+  <data name="PasswordMinimum" xml:space="preserve">
+    <value>Passwords are required to be a minimum of</value>
+  </data>
+  <data name="PasswordsDoesNotMatch" xml:space="preserve">
+    <value>The password and confirmation password do not match.</value>
+  </data>
+  <data name="PasswordValidity" xml:space="preserve">
+    <value>Validity of the password</value>
+  </data>
+  <data name="PleaseEnter" xml:space="preserve">
+    <value>Please enter your username and password.</value>
+  </data>
+  <data name="Profile" xml:space="preserve">
+    <value>Profile</value>
+  </data>
+  <data name="ProjectTitle" xml:space="preserve">
+    <value>Users Management</value>
+  </data>
+  <data name="ProviderError" xml:space="preserve">
+    <value>The authentication provider returned an error. Please verify your entry and try again. If the problem persists, please contact your system administrator.</value>
+  </data>
+  <data name="Refresh" xml:space="preserve">
+    <value>Refresh</value>
+  </data>
+  <data name="Register" xml:space="preserve">
+    <value>Đăng ký</value>
+  </data>
+  <data name="RememberМe" xml:space="preserve">
+    <value>Remember Мe?</value>
+  </data>
+  <data name="Save" xml:space="preserve">
+    <value>Save</value>
+  </data>
+  <data name="SecurityCriteria" xml:space="preserve">
+    <value>Security criteria are required</value>
+  </data>
+  <data name="System" xml:space="preserve">
+    <value>Hệ Thống Quản Trị</value>
+  </data>
+  <data name="Telephone" xml:space="preserve">
+    <value>Telephone</value>
+  </data>
+  <data name="Themes" xml:space="preserve">
+    <value>Chủ đề</value>
+  </data>
+  <data name="Type" xml:space="preserve">
+    <value>Type</value>
+  </data>
+  <data name="UCN" xml:space="preserve">
+    <value>UCN</value>
+  </data>
+  <data name="UseFormBelow" xml:space="preserve">
+    <value>Use the form below to create a new account.</value>
+  </data>
+  <data name="User" xml:space="preserve">
+    <value>User</value>
+  </data>
+  <data name="UserDefaultError" xml:space="preserve">
+    <value>An unknown error occurred. Please verify your entry and try again. If the problem persists, please contact your system administrator.</value>
+  </data>
+  <data name="UserDetails" xml:space="preserve">
+    <value>User Details</value>
+  </data>
+  <data name="UserName" xml:space="preserve">
+    <value>User Name</value>
+  </data>
+  <data name="UserRejected" xml:space="preserve">
+    <value>The user creation request has been canceled. Please verify your entry and try again. If the problem persists, please contact your system administrator.</value>
+  </data>
+  <data name="Users" xml:space="preserve">
+    <value>Users</value>
+  </data>
+  <data name="Version" xml:space="preserve">
+    <value>Version</value>
+  </data>
+  <data name="Welcome" xml:space="preserve">
+    <value>Xin chào</value>
+  </data>
+  <data name="AnalysisReport" xml:space="preserve">
+    <value>Báo cáo phân tích</value>
+  </data>
+  <data name="ConformityAssessment" xml:space="preserve">
+    <value>Đánh giá tuân thủ</value>
+  </data>
+  <data name="ManagementReport" xml:space="preserve">
+    <value>Báo cáo quản lý</value>
+  </data>
+  <data name="MCPUpdates" xml:space="preserve">
+    <value>Cập nhật MCP</value>
+  </data>
+  <data name="RetailAudit" xml:space="preserve">
+    <value>Chấm điểm trưng bày</value>
+  </data>
+  <data name="SalesSupervisor" xml:space="preserve">
+    <value>Giám sát bán hàng</value>
+  </data>
+  <data name="ApproveList" xml:space="preserve">
+    <value>Duyệt</value>
+  </data>
+  <data name="BtnAdd" xml:space="preserve">
+    <value>Thêm mới</value>
+  </data>
+  <data name="BtnDelete" xml:space="preserve">
+    <value>Xóa</value>
+  </data>
+  <data name="BtnReNew" xml:space="preserve">
+    <value>Làm mới</value>
+  </data>
+  <data name="BtnUpdate" xml:space="preserve">
+    <value>Cập nhật</value>
+  </data>
+  <data name="CodeList" xml:space="preserve">
+    <value>Mã danh mục</value>
+  </data>
+  <data name="DescList" xml:space="preserve">
+    <value>Mô tả</value>
+  </data>
+  <data name="ErrorAddSusList" xml:space="preserve">
+    <value>Thêm dữ liệu thành công</value>
+  </data>
+  <data name="ErrorCodeDistinctList" xml:space="preserve">
+    <value>Mã danh mục đã tồn tại</value>
+  </data>
+  <data name="ErrorConfirmDelete" xml:space="preserve">
+    <value>Bạn có chắc bạn muốn xóa dữ liệu này</value>
+  </data>
+  <data name="ErrorNameEmptyList" xml:space="preserve">
+    <value>Tên danh mục không được rỗng</value>
+  </data>
+  <data name="ErrorOrderOnlyNumberList" xml:space="preserve">
+    <value>Ưu tiên chỉ là số và không được rỗng</value>
+  </data>
+  <data name="NameList" xml:space="preserve">
+    <value>Tên danh mục</value>
+  </data>
+  <data name="OnTheList" xml:space="preserve">
+    <value>Thuộc danh mục</value>
+  </data>
+  <data name="OrderList" xml:space="preserve">
+    <value>Ưu tiên</value>
+  </data>
+  <data name="SelectList" xml:space="preserve">
+    <value>Chọn danh mục</value>
+  </data>
+  <data name="SeleteLang" xml:space="preserve">
+    <value>Chọn ngôn ngữ</value>
+  </data>
+  <data name="TreeList" xml:space="preserve">
+    <value>Cây danh mục</value>
+  </data>
+  <data name="Address" xml:space="preserve">
+    <value>Địa chỉ</value>
+  </data>
+  <data name="Auditor" xml:space="preserve">
+    <value>Kiểm toán viên</value>
+  </data>
+  <data name="BtnAssesment" xml:space="preserve">
+    <value>Đánh giá</value>
+  </data>
+  <data name="BtnSearch" xml:space="preserve">
+    <value>Tìm kiếm</value>
+  </data>
+  <data name="Date" xml:space="preserve">
+    <value>Ngày</value>
+  </data>
+  <data name="Distance" xml:space="preserve">
+    <value>Ngoài khoảng cách</value>
+  </data>
+  <data name="Distributor" xml:space="preserve">
+    <value>Nhà phân phối</value>
+  </data>
+  <data name="ImageFile" xml:space="preserve">
+    <value>Hình</value>
+  </data>
+  <data name="ImageOutlet" xml:space="preserve">
+    <value>Ảnh của hàng</value>
+  </data>
+  <data name="Leader" xml:space="preserve">
+    <value>Lãnh đạo</value>
+  </data>
+  <data name="No" xml:space="preserve">
+    <value>STT</value>
+  </data>
+  <data name="OtherReasons" xml:space="preserve">
+    <value>Lý do khác</value>
+  </data>
+  <data name="OutletID" xml:space="preserve">
+    <value>Mã của hàng</value>
+  </data>
+  <data name="OutletName" xml:space="preserve">
+    <value>Tên của hàng</value>
+  </data>
+  <data name="RouteID" xml:space="preserve">
+    <value>Mã tuyến đường</value>
+  </data>
+  <data name="RouteName" xml:space="preserve">
+    <value>Tuyến đường</value>
+  </data>
+  <data name="SelectAll" xml:space="preserve">
+    <value>Tất cả</value>
+  </data>
+  <data name="Status" xml:space="preserve">
+    <value>Trạng thái</value>
+  </data>
+  <data name="View" xml:space="preserve">
+    <value>@Utility.Phrase("View")</value>
+  </data>
+  <data name="OnFailureAss" xml:space="preserve">
+    <value>Bạn đánh giá không thành công, xin vui lòng thực hiện lại</value>
+  </data>
+  <data name="OnSuccessAss" xml:space="preserve">
+    <value>Bạn đánh giá thành công, xin vui lòng thực hiện tiếp theo</value>
+  </data>
+  <data name="Assesment" xml:space="preserve">
+    <value>Đánh giá</value>
+  </data>
+  <data name="NotYetAssesment" xml:space="preserve">
+    <value>Chưa đánh giá</value>
+  </data>
+  <data name="AssesmentRoute" xml:space="preserve">
+    <value>Số tuyến đường đã chấm</value>
+  </data>
+  <data name="ImagesRoute" xml:space="preserve">
+    <value>Số tuyến đường có hình</value>
+  </data>
+  <data name="SumRoute" xml:space="preserve">
+    <value>Tổng số tuyến đường</value>
+  </data>
+  <data name="BtnRefusal" xml:space="preserve">
+    <value>Từ chối</value>
+  </data>
+  <data name="BtnRevaluation" xml:space="preserve">
+    <value>Đánh giá lại</value>
+  </data>
+  <data name="ErrorRefusal" xml:space="preserve">
+    <value>Từ chối thành công</value>
+  </data>
+  <data name="InputReasonsForRefusal" xml:space="preserve">
+    <value>Bạn phải nhập lý do từ chối</value>
+  </data>
+  <data name="ReasonsForRefusal" xml:space="preserve">
+    <value>Lý do từ chối</value>
+  </data>
+  <data name="ApproveAssesment" xml:space="preserve">
+    <value>Bạn duyệt đánh giá thành công,  xin vui lòng thực hiện tiếp theo</value>
+  </data>
+  <data name="BtnCloseDay" xml:space="preserve">
+    <value>Đóng</value>
+  </data>
+  <data name="BtnComplete" xml:space="preserve">
+    <value>Hoàn thành</value>
+  </data>
+  <data name="BtnOpenDay" xml:space="preserve">
+    <value>Mở</value>
+  </data>
+  <data name="ErrorClose" xml:space="preserve">
+    <value>Bạn đóng ngày thành công</value>
+  </data>
+  <data name="ErrorComplete" xml:space="preserve">
+    <value>Cập nhật hoàn thành thành công</value>
+  </data>
+  <data name="ErrorOpen" xml:space="preserve">
+    <value>Bạn mở ngày thành công</value>
+  </data>
+  <data name="ErrorReOpen" xml:space="preserve">
+    <value>Bạn phải nhập lý do đóng/mở ngày</value>
+  </data>
+  <data name="ErrorSelectRoute" xml:space="preserve">
+    <value>Bạn chưa chọn tuyến đường cần thực hiện</value>
+  </data>
+  <data name="ReasonForOpeningDay" xml:space="preserve">
+    <value>Lý do đóng/mở ngày</value>
+  </data>
+  <data name="RouteImagesNot" xml:space="preserve">
+    <value>Chưa có hình</value>
+  </data>
+  <data name="SelectCheck" xml:space="preserve">
+    <value>Chọn</value>
+  </data>
+  <data name="StatusOpenColse" xml:space="preserve">
+    <value>Trạng thái đóng mở</value>
+  </data>
+  <data name="MonthFrom" xml:space="preserve">
+    <value>Từ tháng</value>
+  </data>
+  <data name="TimeST" xml:space="preserve">
+    <value>Thời gian</value>
+  </data>
+  <data name="YearST" xml:space="preserve">
+    <value>Năm</value>
+  </data>
+  <data name="MonthTo" xml:space="preserve">
+    <value>Đến tháng</value>
+  </data>
+  <data name="Area" xml:space="preserve">
+    <value>Khu vực</value>
+  </data>
+  <data name="Branch" xml:space="preserve">
+    <value>Chi nhánh</value>
+  </data>
+  <data name="Brand" xml:space="preserve">
+    <value>Mặt hàng</value>
+  </data>
+  <data name="BtnExit" xml:space="preserve">
+    <value>Thoát</value>
+  </data>
+  <data name="Category" xml:space="preserve">
+    <value>Thể loại</value>
+  </data>
+  <data name="CheckedUnchecked" xml:space="preserve">
+    <value>Chọn/không chọn</value>
+  </data>
+  <data name="From" xml:space="preserve">
+    <value>Từ</value>
+  </data>
+  <data name="Region" xml:space="preserve">
+    <value>Vùng</value>
+  </data>
+  <data name="Route" xml:space="preserve">
+    <value>Tuyến</value>
+  </data>
+  <data name="Sales" xml:space="preserve">
+    <value>Bán hàng</value>
+  </data>
+  <data name="SearchBy" xml:space="preserve">
+    <value>Loại</value>
+  </data>
+  <data name="To" xml:space="preserve">
+    <value>Đến</value>
+  </data>
+</root>

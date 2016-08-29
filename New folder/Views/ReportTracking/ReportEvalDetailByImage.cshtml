@@ -1,0 +1,281 @@
+﻿@model ReportEvalVM
+@using DMSERoute.Helpers;
+@{
+    ViewBag.Title = Utility.Phrase(Model.Screen);
+    Layout = "~/Views/Shared/_NewLayout.cshtml";
+}
+
+<link href="@Url.Content("~/Content/NewEtool/css/iviewer/jquery.iviewer.css")" rel="stylesheet" type="text/css" />
+<link href="@Url.Content("~/Content/NewEtool/css/iviewer/style.css")" rel="stylesheet" type="text/css" />
+
+
+<div class="insider">
+    <div id="loading" class="loading"></div>
+    @using (Html.BeginForm("ReportEvalDetailByImage", "ReportTracking", FormMethod.Post))
+    {
+        <div class="row display-table w-100pr mb-10 content-header">
+            <div class="report-content-header">
+                <div class="col-sm-8">
+                    <h1>@Utility.Phrase("ReportEvalDetailByImage")</h1>
+                </div>
+                <div class="col-sm-4">
+                    <div class="p-0 fr">
+                        @if (PermissionHelper.CheckPermissionByFeature("Report_EvalDetailByImage"))
+                        {
+                            <button type="button" id="btnExportExcel" class="btn p-0 m-0 ml-10 block-theme" title="Excel"><i class="icon-etool-excel"></i></button>
+                        }
+                        @if (PermissionHelper.CheckPermissionByFeature("Report_EvalDetailByImage"))
+                        {
+                            <button type="button" id="btnExportPDF" class="btn p-0 m-0 ml-10 block-theme" title="PDF"><i class="icon-etool-pdf"></i></button>
+                        }
+                    </div>
+                </div>
+            </div>
+            <div class="w-100pr">
+                <div class="item fl">
+                    <label for class="fl">@Utility.Phrase("Program")</label>
+                    <div id="ProgramCbox" class="ctr_combobox input-group">
+                        @Html.Partial("~/Views/Shared/Control/ComboboxPartial.cshtml", Model.listComboboxProgram, new ViewDataDictionary { { "NameID", "Program" } })
+                    </div>
+                </div>
+                <div class="item fl">
+                    <label for class="fl">@Utility.Phrase("Evaluation")</label>
+                    <div id="EvaluationCbox" class="ctr_combobox input-group">
+                        @Html.Partial("~/Views/Shared/Control/ComboboxPartial.cshtml", Model.listComboboxEvaluation, new ViewDataDictionary { { "NameID", "Evaluation" } })
+                    </div>
+                </div>
+                <div class="item fl">
+                    <button id="Search" type="button"><i class="icon-submit"></i>@Utility.Phrase("Report_View")</button>
+                </div>
+            </div>
+        </div>
+        <div id="ErMesgBox" class="row"><span style="color: red" class="error"></span></div>
+    }
+    <div class="row content-body">
+        <div class="tab-header">
+            <div class="toolbox">
+                <ul class="fr m-0">
+                    <li class="ts-pager">
+                        <a href="#" title="prev">
+                            <img src="@Url.Content("~/Content/NewEtool/img/per.png")" class="prev" />
+                        </a>
+                        <span class="pagedisplay"></span>
+                        <a href="#" title="next">
+                            <img src="@Url.Content("~/Content/NewEtool/img/next.png")" class="next" />
+                        </a>
+                        <span>
+                            @Utility.Phrase("GotoPage")
+                            <select class="pagenum input-mini" title="Select page number"></select>
+                        </span>
+                        <span>@Utility.Phrase("Pages")</span>
+                        <select class="pagesize input-mini m-0" title="Select page size">
+                            <option selected="selected" value="10">10</option>
+                            <option value="20">20</option>
+                            <option value="30">30</option>
+                            <option value="40">40</option>
+                            <option value="50">50</option>
+                        </select>
+                    </li>
+                </ul>
+            </div>
+            <ul class="nav nav-tabs display-none">
+                <li class="active"><a data-toggle="tab" href="#report-outlet">@Utility.Phrase("Report_Report")</a></li>
+            </ul>
+        </div>
+        <div class="tab-content wrapper">
+            <div id="report-sync" class="tab-pane fade in active box-table-ressult">
+                @if (Model.TableResult != null)
+            {
+                if (Model.TableResult.Rows.Count != 0)
+                {
+                        <table id="table-result" class="tablesorter">
+                            @*<thead>
+                                    <tr>
+                                        @foreach (System.Data.DataColumn column in Model.TableResult.Columns)
+                                        {
+                                            <th>@column.Caption</th>
+                                        }
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (System.Data.DataRow row in Model.TableResult.Rows)
+                                    {
+                                        <tr>
+                                            @foreach (System.Data.DataColumn column in Model.TableResult.Columns)
+                                            {
+                                                <td>@row[column].ToString()</td>
+                                            }
+                                        </tr>
+                                    }
+                                </tbody>*@
+                            <thead>
+                                <tr>
+                                    <th>@Utility.Phrase("Report_Region")</th>
+                                    <th>@Utility.Phrase("Report_Area")</th>
+                                    <th>@Utility.Phrase("TB_GSBH")</th>
+                                    <th>@Utility.Phrase("Report_Distributor")</th>
+                                    @*<th>@Utility.Phrase("Report_Route")</th>*@
+                                    <th>@Utility.Phrase("TB_NVBH")</th>
+
+                                    <th>@Utility.Phrase("TB_OutletName")</th>
+                                    <th>@Utility.Phrase("TB_ImageFileAvatar")</th>
+                                    <th>@Utility.Phrase("TB_ImageFileName")</th>
+                                    <th>@Utility.Phrase("TB_ImageFileCompare")</th>
+                                    <th>@Utility.Phrase("TB_VisitDate")</th>
+                                    <th>@Utility.Phrase("TB_ImageDateTime")</th>
+                                    <th>@Utility.Phrase("TB_isMatchedWithBefore")</th>
+                                    <th>@Utility.Phrase("TB_isAccepted")</th>
+                                    <th>@Utility.Phrase("TB_isCaptured")</th>
+                                    <th>@Utility.Phrase("TB_isPassed")</th>
+                                    <th>@Utility.Phrase("TB_AuditorMarking")</th>
+                                    <th>@Utility.Phrase("TB_FinishDate")</th>
+                                    <th>@Utility.Phrase("TB_OutletStatus")</th>
+
+                                    <th>@Utility.Phrase("TB_isApproved")</th>
+                                    <th>@Utility.Phrase("TB_LeaderReview")</th>
+                                    <th>@Utility.Phrase("TB_ReviewLastModifiedDateTime")</th>
+
+                                    <th>@Utility.Phrase("TB_ProgramName")</th>
+                                    <th>@Utility.Phrase("TB_ProgramDate")</th>
+                                    <th>@Utility.Phrase("TB_EvaluationID")</th>
+                                    <th>@Utility.Phrase("TB_EvalDate")</th>
+                                    <th>@Utility.Phrase("TB_EvalType")</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (System.Data.DataRow row in Model.TableResult.Rows)
+                                {
+                                    <tr>
+                                        <td>@row["RegionName"].ToString()</td>
+                                        <td> @row["AreaName"].ToString()</td>
+                                        <td> @row["SaleSupName"].ToString()</td>
+                                        <td> @row["DistributorName"].ToString()</td>
+                                        @*<td>@elm.RouteName</td>*@
+                                        <td>@row["SalesmanName"].ToString()</td>
+
+                                        <td>@row["OutletName"].ToString()</td>
+                                        @{
+                                            string ImageFileAvatar = String.IsNullOrEmpty(row["ImageFileAvatar"].ToString()) ? Url.Content("~/Content/Images/avalible-image.png") : Url.Content(Constant.OutletImageFolder + row["ImageFileAvatar"].ToString());
+                                            string ImageFileName = String.IsNullOrEmpty(row["ImageFileName"].ToString()) ? "" : Url.Content(Constant.SalesOrdersImageFolder + row["ImageFileName"].ToString());
+                                            string ImageFileCompare = row["ImageFileCompare"].ToString();
+
+                                            string finishDate = string.Empty;
+                                            if (row["FinishDate"] != DBNull.Value)
+                                            {
+                                                finishDate = ((DateTime?)row["FinishDate"]).ToFullDateTimePattern();
+                                            }
+                                        }
+                                            <td>
+                                                <a href="@ImageFileAvatar" class="iviewer_click">
+                                                    <img rel="gallery" src="@ImageFileAvatar" style="max-width:50px; padding-right: 5px; padding-top: 5px" alt="" rel="zoom" class="smoothZoom" />
+                                                </a>
+                                            </td>
+                                            <td>
+                                                <a href="@ImageFileName" class="iviewer_click">
+                                                    <img rel="gallery" src="@ImageFileName" style="max-width:50px; padding-right: 5px; padding-top: 5px" alt="" rel="zoom" class="smoothZoom" />
+                                                </a>
+                                            </td>
+                                            <td>
+                                                <a href="@ImageFileCompare" class="iviewer_click">
+                                                    <img rel="gallery" src="@ImageFileCompare" style="max-width:50px; padding-right: 5px; padding-top: 5px" alt="" rel="zoom" class="smoothZoom" />
+                                                </a>
+                                            </td>
+
+
+                                            @*<td>@row["ImageFileAvatar"].ToString()</td>
+                                                <td>@row["ImageFileName"].ToString()</td>
+                                                <td>@row["ImageFileCompare"].ToString()</td>*@
+                                            <td class="align-right">@(((DateTime)row["VisitDate"]).ToShortPattern())</td>
+                                            <td class="align-right">@(((DateTime)row["ImageDate"]).ToTimePattern())</td>
+                                            <td>@Utility.Phrase("isMatchedWithBefore_" + row["isMatchedWithBefore"].ToString())</td>
+                                            <td>@Utility.Phrase("isAccepted_" + row["isAccepted"].ToString())</td>
+                                            <td>@Utility.Phrase("isCaptured_" + row["isCaptured"].ToString())</td>
+                                            <td>@Utility.Phrase("isPassed_" + row["isPassed"].ToString())</td>
+                                            <td>@row["AuditorMarking"].ToString()</td>
+                                            <td class="align-right">@finishDate</td>
+                                            <td>@Utility.Phrase("PassProgram_" + row["PassProgram"].ToString())</td>
+                                            <td>@row["isApproved"].ToString()</td>
+                                            <td>@row["LeaderReview"].ToString()</td>
+                                            <td class="align-right">@row["ReviewLastModifiedDateTime"].ToString()</td>
+                                            <td>@row["ProgramName"].ToString()</td>
+                                            <td>@row["ProgramDate"].ToString()</td>
+                                            <td>@row["EvaluationID"].ToString()</td>
+                                            <td>@row["EvalDate"].ToString()</td>
+                                            <td>@row["EvalType"].ToString()</td>
+                                        </tr>
+                                            }
+                            </tbody>
+
+                        </table>
+                                                }
+                                            }
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<script type='text/javascript'>
+    $(document).ready(function () {
+        $("body").on('click', '.input-group-btn table tbody tr', function () {
+            $(this).addClass('selected').siblings().removeClass('selected');
+            var keyVal = $(this).find('td:first').html();
+            var codeVal = $(this).find('td:nth-child(2)').html();
+            var nameVal = $(this).find('td:last').html();
+            if (keyVal == 0) { keyVal = ""; }
+            var parentdiv = $(this).parents('div[class^="ctr_combobox"]');
+            parentdiv.find('input[type^="text"]').val(codeVal + ' - ' + nameVal);
+            parentdiv.find('input[type^="hidden"]').val(keyVal);
+
+            //var RouteVal = '';
+            //if ($('#Route').val() != undefined) {
+            //    RouteVal = $('#Route').val();
+            //}
+            //var SalemanVal = '';
+            //if ($('#Saleman').val() != undefined) {
+            //    SalemanVal = $('#Saleman').val();
+            //}
+
+            var Program = '';
+            if ($('#Program').val() != undefined) {
+                Program = $('#Program').val();
+            }
+            //if (parentdiv.find('input[id^="Route"]').val() != undefined) {
+            //    if (RouteVal == "") {
+            //        $('.box-table-ressult table td:nth-child(1),.box-table-ressult table th:nth-child(1)').show();
+            //    }
+            //    else {
+            //        $('.box-table-ressult table td:nth-child(1),.box-table-ressult table th:nth-child(1)').hide();
+            //    }
+            //}
+            //if (parentdiv.find('input[id^="Saleman"]').val() != undefined) {
+            //    if (SalemanVal == "") {
+            //        $('.box-table-ressult table td:nth-child(2),.box-table-ressult table th:nth-child(2)').show();
+            //    }
+            //    else {
+            //        $('.box-table-ressult table td:nth-child(2),.box-table-ressult table th:nth-child(2)').hide();
+            //    }
+            //}
+            if (parentdiv.find('input[id^="Program"]').val() != undefined) {
+                $("#EvaluationCbox").load('@(Url.Action("ReloadOptionProgram", "ReportTracking"))?ProgramID=' + Program);
+            }
+        });
+        $('#btnExportExcel').click(function () {
+            $('form').attr('action', '@Utility.FooMethod("/ReportTracking/ReportEvalDetailByImageExportExcel")');
+            $('form').submit();
+        });
+        $('#btnExportPDF').click(function () {
+            $('form').attr('action', '@Utility.FooMethod("/ReportTracking/ReportEvalDetailByImageExportPDF")');
+            $('form').submit();
+        });
+        $('#Search').click(function () {
+            $('form').attr('action', '@Utility.FooMethod("/ReportTracking/ReportEvalDetailByImage")');
+            $('form').submit();
+            $(".loading").show();
+        });
+    });
+</script>
+<script src="@Url.Content("~/Content/NewEtool/js/iviewer/jqueryui.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/Content/NewEtool/js/iviewer/jquery.mousewheel.min.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/Content/NewEtool/js/iviewer/jquery.iviewer.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/Content/NewEtool/js/iviewer/main.js")" type="text/javascript"></script>

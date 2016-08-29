@@ -1,0 +1,689 @@
+﻿@model eRoute.Models.EvaluationDataModel
+@{
+    ViewBag.Title = Utility.Phrase("CreateEvaluationDefinition");
+    Layout = "~/Views/Shared/_NewLayout.cshtml";
+}
+<div class="insider">
+    <div id="loading" class="loading"></div>
+    <input type="hidden" id="selectedDisplayID">
+    <input type="hidden" id="PageID" value="@ViewBag.PageInformation" />
+    <input type="hidden" id="DSKhuVucDiaLy" value="" />
+    <input type="hidden" id="DSKhuVucBanHang" value="" />
+    <div class="row display-table w-100pr mb-10 content-header">
+        <div class="report-content-header">
+            <div class="col-sm-8">
+                <h1>@Utility.Phrase("CreateEvaluationDefinition")</h1>
+            </div>
+            <div class="col-sm-4">
+                <div class="p-0 fr">
+                    <a href="@Url.Action("EvaluationDefinition", "Evaluation")">
+                        <button type="button" id="btnBack" title="Back"><i class="icon-back"></i>@Utility.Phrase("Back")</button>
+                    </a>
+                    <a href="#">
+                        <button type="button" id="btnNext" title="Next" onclick="RedirectURLEvaluation('@Url.Action("DistributeOutletToAuditor", "Evaluation")')"><i class="icon-next"></i>@Utility.Phrase("Distribute")</button>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div id="HeaderEvaluation" class="w-100pr">
+            @*Ma Danh Gia*@
+            <div class="item fl">
+                <label for="code" class="fl">@Utility.Phrase("EvaluationCode")</label>
+                <div class="input-group">
+                    @Html.TextBox("EvaluationCode", Model.EvaluationID, new { @placeholder = Utility.Phrase("AutoEvaluationCode"), @disabled = true })
+                </div>
+            </div>
+            @*CTTB*@
+            <div class="item fl">
+                <label for="display" class="fl">@Utility.Phrase("DisplayName")</label>
+                <div class="input-group">
+                    @Html.Hidden("DisplayID")
+                    @Html.TextBox("DisplayCode", Model.FilterModel.Display, new { @class = "form-control", @placeholder = Utility.Phrase("SelectDisplayName") })
+                    <div class="input-group-btn">
+                        <button type="button" id="btndisplay" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="caret"></span></button>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <div style="height: 400px; overflow-y: auto; overflow-x: auto;" class="table-box wrapper">
+                                    <table class="table table-striped nowrap m-0">
+                                        <thead class="block-theme">
+                                            <tr>
+                                                <th>@Utility.Phrase("No")</th>
+                                                <th>@Utility.Phrase("DisplayName")</th>
+                                                @*<th>@Utility.Phrase("Description") </th>*@
+                                                <th>@Utility.Phrase("TimeDisplay")</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="my_table_Display">
+                                            @if (Model.FilterModel.DisplayData != null)
+                                            {
+                                                foreach (var item in Model.FilterModel.DisplayData)
+                                                {
+                                                    <tr>
+                                                        <td>@Html.DisplayFor(modelItem => item.STT)</td>
+                                                        <td style="display: none;">@Html.DisplayFor(modelItem => item.MaCTTB)</td>
+                                                        <td>@Html.DisplayFor(modelItem => item.ChuongTrinhTrungBay)</td>
+                                                        <td style="display: none;">@Html.DisplayFor(modelItem => item.MoTa)</td>
+                                                        <td>@Html.DisplayFor(modelItem => item.ThoiGianTrungBay)</td>
+                                                        <td style="display: none;">@Html.DisplayFor(modelItem => item.ThoiGianBatDau)</td>
+                                                        <td style="display: none;">@Html.DisplayFor(modelItem => item.ThoiGianKetThuc)</td>
+                                                        <td style="display: none;">@(item.IsNummeric ? "1" : "0")</td>
+                                                    </tr>
+                                                }
+                                            }
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            @*Ma Danh Gia*@
+            <div class="item fl">
+                <label for="code" class="fl">@Utility.Phrase("AcuEvaluation")</label>
+                <div class="input-group">
+                    @Html.TextBox("AcuEvaluation", "", new { @class = "form-control", @placeholder = Utility.Phrase("LinkAcuEval") })
+                    <div class="input-group-btn">
+                        <button type="button" id="btncode" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="caret"></span></button>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <div style="height: auto; overflow-y: auto; overflow-x: auto;" class="table-box wrapper">
+                                    <table class="table table-striped nowrap m-0">
+                                        <thead class="block-theme">
+                                            <tr>
+                                                <th>@Utility.Phrase("No")</th>
+                                                <th>@Utility.Phrase("EvaluationCode")</th>
+                                                <th>@Utility.Phrase("Start")</th>
+                                                <th>@Utility.Phrase("End")</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="my_table_AcuEvaluation">
+                                            @if (Model.FilterModel.ListAcuEval != null)
+                                            {
+                                                int i = 1;
+                                                foreach (var item in Model.FilterModel.ListAcuEval)
+                                                {
+                                                    <tr>
+                                                        <td>@i</td>
+                                                        <td>@item.EvaluationID</td>
+                                                        <td>@item.FromDate.ToShortDateString()</td>
+                                                        <td>@item.ToDate.ToShortDateString()</td>
+                                                    </tr>
+                                                    i++;
+                                                }
+                                            }
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <table><tr></tr></table>
+            @*Noi Dung*@
+            <div class="item fl">
+                <label>@Utility.Phrase("Content")</label>
+                <div class="input-group">
+                    @Html.TextBox("EvalContent", Model.FilterModel.Content)
+                </div>
+            </div>
+            @*Mo Ta*@
+            <div class="item fl">
+                <label class="fl">@Utility.Phrase("Description")</label>
+                <div class="input-group">
+                    @Html.TextBox("EvalDesc", Model.FilterModel.Description)
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Detail  -->
+    <div class="content-body row">
+        <div class="tab-header">
+            <div class="toolbox">
+                <div id="ErMesgBox" class="p-10 fl">
+                    <span style="color: red" class="error"></span>
+                </div>
+                <div id="OkiMesgBox" class="p-10 fl">
+                    <span style="color: green" class="error"></span>
+                </div>
+                <ul class="fr m-0">
+                    <li>
+                        <button onclick="CreateNewEvaluationID()"><i class="icon-save"></i>@Utility.Phrase("Save")</button>
+                        <button class="btn-refresh" title="@Utility.Phrase("Refresh")"><i class="icon-update"></i>@Utility.Phrase("Refresh")</button>
+                        <button class="btn-select" id ="btnSelectEmployee" title="@Utility.Phrase("SelectEmployee")" data-toggle="modal" data-target="#participant-list">
+                            <i class="icon-select"></i>
+                            @Utility.Phrase("SelectEmployee")</button>
+                    </li>
+                    <li class="ts-pager">
+                        <button type="button" title="@Utility.Phrase("GoBack")" class="prev"><i class="icon-go-back"></i></button>
+                        <span class="pagedisplay"></span>
+                        <button type="button" title="@Utility.Phrase("GoNext")" class="next"><i class="icon-go-next"></i></button>
+                        <span>@Utility.Phrase("GotoPage")
+                            <select class="pagenum input-mini" title="Select page number"></select>
+                        </span>
+                        <span>@Utility.Phrase("Pages")</span>
+                        <select class="pagesize input-mini m-0" title="Select page size">
+                            <option selected="selected" value="10">10</option>
+                            <option value="20">20</option>
+                            <option value="30">30</option>
+                            <option value="40">40</option>
+                            <option value="50">50</option>
+                        </select>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="box-content">
+            <div class="col-md-5">
+                <table>
+                    <thead class="block-theme">
+                        <tr>
+                            <th colspan="3">@Utility.Phrase("Information")</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th>@Utility.Phrase("ChooseImageTimeDisplay")*</th>
+                            <td>
+                                <label for>@Utility.Phrase("Start")</label>
+                                <input type="text" class="datepicker" id="DisplayDateFrom" value="@DateTime.Now.ToShortDateString()" /></td>
+                            <td>
+                                <label for>@Utility.Phrase("End")</label>
+                                <input type="text" class="datepicker" id="DisplayDateTo"  value="@DateTime.Now.ToShortDateString()" /></td>
+                        </tr>
+                        <tr>
+                            <th>@Utility.Phrase("DisplayType")</th>
+                            <td>
+                                <label>
+                                    <input name="type" id="EvalDateTypeByDate" type="radio" />@Utility.Phrase("WithDate")</label></td>
+                            <td>
+                                <label>
+                                    <input name="type" type="radio" checked />@Utility.Phrase("WithTime")</label></td>
+                        </tr>
+                        <tr>
+                            <th>@Utility.Phrase("TimeEvaluation")* </th>
+                            <td>
+                                <label for>@Utility.Phrase("Start")</label>
+                                <input type="text" class="datepicker" id="EvalDateFrom" value="@DateTime.Now.ToShortDateString()" /></td>
+                            <td>
+                                <label for>@Utility.Phrase("End")</label>
+                                <input type="text" class="datepicker" id="EvalDateTo" value="@DateTime.Now.ToShortDateString()" /></td>
+                        </tr>
+                        <tr class="display-none">
+                            <th>@Utility.Phrase("Region")</th>
+                            <td colspan="2">
+                                <select class="w-200" multiple>
+                                    <option>Toàn quốc</option>
+                                    <option selected>Miền Bắc</option>
+                                    <option selected>Miền Nam</option>
+                                    <option selected>Miền Trung</option>
+                                    <option>Miền Tây</option>
+                                    <option>ĐBSCL</option>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>@Utility.Phrase("RateReview")</th>
+                            <td colspan="2">
+                                <input name="isApplyReview" id="isApplyReview" type="checkbox" onclick="ApplyReviewEmployee();" />
+                                <input type="number" id="ReviewRate" class="ip-small" value="80" style="display: none" />
+                                %
+                            </td>
+                        </tr>
+                        <tr>
+                            <th colspan="3">
+                                <div class="col-sm-4">
+                                    <fieldset>
+                                        <legend>@Utility.Phrase("EvaluationType")</legend>
+                                        <label>
+                                            <input name="assume" id="assumeManu" type="radio" checked onclick="VisibleSelectEmployee();" />@Utility.Phrase("Manual")</label><br />
+                                        <label>
+                                            <input name="assume" id="assumeAuto" type="radio" onclick="VisibleSelectEmployee();" />@Utility.Phrase("Auto")</label>
+                                    </fieldset>
+                                </div>
+                                <div id="isNumeric-box" class="col-sm-4">
+                                    <fieldset>
+                                        <legend>@Utility.Phrase("EvaluationNumeric")</legend>
+                                        <label>
+                                            <input name="numeric" id="isNumeric" type="checkbox" data-toggle="modal" data-target="#product-list" />
+                                        </label>
+                                    </fieldset>
+                                </div>
+                                <div class="col-sm-4">
+                                    <fieldset>
+                                        <legend>@Utility.Phrase("Area")</legend>
+                                        <label>
+                                            <input name="area" value="specific" id="isGeoology" type="radio" data-toggle="modal" data-target="#geo-area-list" />@Utility.Phrase("AreaGeography")
+                                        </label>
+                                        <label>
+                                            <input name="area" value="all" id="isCountry" type="radio" data-toggle="modal" data-target="#geo-area-ldist" onclick="GetAllOutletDisplay();" />@Utility.Phrase("Country")
+                                        </label>
+                                    </fieldset>
+                                </div>
+                                <div id="product-list" class="modal fade" role="dialog">
+                                    <div class="modal-dialog w-90pr mw-1000 bottom">
+                                        <!-- Modal content-->
+                                        <div class="modal-content">
+                                            <div class="modal-header block-theme">
+                                                <button type="button" class="close" data-dismiss="modal"><i class="icon-delete icon-white"></i></button>
+                                                <h4 class="modal-title">@Utility.Phrase("ListOfProductsEvaluatedPresence")</h4>
+                                            </div>
+                                            <div id="itemlistbyrefnbr" class="modal-body p-0">
+                                                @{ Html.RenderAction("ItemListByReferenceNbr");}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <script src="~/Scripts/EvaluationScripts/bootstrap.treeview.js"></script>
+                                <div id="geo-area-list" class="modal fade" role="dialog">
+                                    <div class="modal-dialog w-90pr mw-500 bottom">
+                                        <!-- Modal content-->
+                                        <div class="modal-content">
+                                            <div class="modal-header block-theme">
+                                                @*<button type="button" class="close" data-dismiss="modal" onclick="CancelSelectGeo();"><i class="icon-delete icon-white"></i></button>*@
+                                                <button type="button" class="button" data-dismiss="modal" style="background-color:white; float:right; margin-left:2px; margin-right:2px" title="@Utility.Phrase("Cancel")" onclick="CancelSelectGeo();">@Utility.Phrase("Cancel")</button>
+                                                <button type="button" class="button" data-dismiss="modal" style="background-color:white; float:right; margin-left:2px; margin-right:2px" title="@Utility.Phrase("Select")" onclick="SelectGeo();">@Utility.Phrase("Select")</button>
+                                                <h4 class="modal-title">@Utility.Phrase("SelectAreaGeography")</h4>
+                                            </div>
+                                            <div class="modal-body p-0">
+                                                <div class="table-box wrapper">
+                                                    <div id="geo-area-treeview" class="treeview"></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </th>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="col-md-7">
+                <div id="userlistbyselection" class="modal-body p-0">
+                    @{ Html.RenderAction("UserListBySelection");}
+                </div>
+            </div>
+            <div id="participant-list" class="modal fade" role="dialog">
+                <div class="modal-dialog w-90pr mw-1000 bottom">
+                    <!-- Modal content-->
+                    <div class="modal-content">
+                        <div class="modal-header block-theme">
+                            @*<button type="button" class="close" data-dismiss="modal" onclick="CancelSelectGeo();"><i class="icon-delete icon-white"></i></button>*@
+                            <button type="button" class="button" data-dismiss="modal" style="background-color:white; float:right; margin-left:2px; margin-right:2px" title="@Utility.Phrase("Cancel")" onclick="CancelListEmployee();">@Utility.Phrase("Cancel")</button>
+                            <button type="button" class="button" data-dismiss="modal" style="background-color:white; float:right; margin-left:2px; margin-right:2px" title="@Utility.Phrase("Select")" onclick="ChooseListEmployee();">@Utility.Phrase("Select")</button>
+                            <h4 class="modal-title">@Utility.Phrase("ListEmployees")</h4>
+                        </div>
+                        <div id="participantlist" class="modal-body p-0">
+                            <div class="table-box wrapper">
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th>@Utility.Phrase("No")</th>
+                                            <th>@Utility.Phrase("EmployeeName")</th>
+                                             <th>@Utility.Phrase("Level")</th>
+                                            <th>@Utility.Phrase("Phone")</th>
+                                            <th>@Utility.Phrase("Choose")</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="my_table_Participant">
+                                        @foreach (var item in Model.AllUserList)
+                                        {
+                                            
+                                            <tr>
+                                                <td>@Html.DisplayFor(modelItem => item.STT)</td>
+                                                <td style="display: none;">@Html.DisplayFor(modelItem => item.MaNhanVien)</td>
+                                                <td>@Html.DisplayFor(modelItem => item.TenNhanVien)</td>
+                                                  <td>@Html.DisplayFor(modelItem => item.Level)</td>
+                                                <td>@Html.DisplayFor(modelItem => item.SoDienThoai)</td>
+                                                <td>
+                                                    <input name="participant" id="participant-@item.STT" type="checkbox" />
+                                                </td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    Evaluation_ValidateDisPlayNull = "@Utility.Phrase("Evaluation_MesValidateDisplayNull")";
+    Evaluation_ConfirmYesNo = "@Utility.Phrase("Evaluation_ConfirmYesNo")";
+    Evaluation_ValidateListRegionNull = "@Utility.Phrase("Evaluation_MesValidateListRegioNull")";
+    Evaluation_ValidateTimeInformationEmpty = "@Utility.Phrase("Evaluation_MesValidateTimeInformationEmptyNull")";
+    Evaluation_ValidateTypeEvaluationNull = "@Utility.Phrase("Evaluation_MesValidateListEmployeeNotNull")";
+    Evaluation_ValidateAreaNull = '@Utility.Phrase("Evaluation_ValidateAreaNull")';
+    Evaluation_EvalToDateSmallerDisplayToDate = '@Utility.Phrase("Evaluation_EvalToDateSmallerDisplayToDate")';
+    Evaluation_DisplayToDateSmallerDateNow = '@Utility.Phrase("Evaluation_DisplayToDateSmallerDateNow")';
+    Evaluation_FromDateMustSmallToDate = '@Utility.Phrase("Evaluation_FromDateMustSmallToDate")';
+    Evaluation_TimeMustInTimeDisplay = '@Utility.Phrase("Evaluation_TimeMustInTimeDisplay")';
+    Evaluation_SaveOki = "@Utility.Phrase("Evaluation_SaveOK")";
+    Evaluation_SaveError = "@Utility.Phrase("Evaluation_SaveError")";
+    Evaluation_ValidateSumOutletCurentMustSumOutletFill = "@Utility.Phrase("Evaluation_ValidateSumOutletCurentMustSumOutletFill")";
+    Distribute = "@Utility.Phrase("Distribute")";
+    AutoMarking = "@Utility.Phrase("AutoMarking")";
+    var minReview = 10;
+    var Evaluation_ValidateReviewNull = "@Utility.Phrase("Evaluation_ValidateReviewNull")";
+    var Evaluation_ValidateReviewLessThan = "@Utility.Phrase("Evaluation_ValidateReviewLessThan")";
+
+    var dateFrom = '';
+    var dateTo = '';
+
+    $(document).ready(function () {
+        //Chọn Eval load from Acu
+        $("table").on('click', '#my_table_AcuEvaluation tr', function () {
+            $(this).addClass('selected').siblings().removeClass('selected');
+            var keyVal = $(this).find('td:nth-child(2)').html();
+            var fromDate = $(this).find('td:nth-child(3)').html();
+            var toDate = $(this).find('td:nth-child(4)').html();
+            $('#AcuEvaluation').val(keyVal);
+            $('#DisplayDateFrom').val(fromDate);
+            $('#DisplayDateTo').val(toDate);
+        });
+
+        $("table").on('click', '#my_table_Display tr', function () {
+            $(this).addClass('selected').siblings().removeClass('selected');
+            var displayID = $(this).find('td:nth-child(2)').html();
+            $('#DisplayID').val(displayID);
+            $('#selectedDisplayID').val(displayID);
+            var displayCode = $(this).find('td:nth-child(3)').html();
+            $('#DisplayCode').val(displayCode);
+            var selectedEvalDesc = $(this).find('td:nth-child(4)').html();
+            $('#EvalDesc').val(selectedEvalDesc);
+            dateFrom = $(this).find('td:nth-child(6)').html();
+            $('#DisplayDateFrom').val(dateFrom);
+            dateTo = $(this).find('td:nth-child(7)').html();
+            $('#DisplayDateTo').val(dateTo);
+            $('#EvalDateTo').val(dateTo);
+
+            var isNummeric = $(this).find('td:nth-child(8)').html();
+            if (isNummeric == "0") {
+                $('#isNumeric-box').hide();
+                $('input[id=isNumeric]').val("");
+                $('input[id=isNumeric]').prop('checked', false);
+            } else {
+                $('#isNumeric-box').show();
+            }
+
+            $('#EvaluationCode').val('');
+            $("#my_table_EvaluationID").load(currentURL + 'Evaluation/GetEvaluationInfo?DisplayID=' + displayID);
+            var acuEvalVal = $('#AcuEvaluation').val();
+            if (acuEvalVal != undefined) {
+                $('#AcuEvaluation').val('');
+                $("#my_table_AcuEvaluation").load(currentURL + 'Evaluation/GetAcuEvaluationInfo?DisplayID=' + displayID);
+            }
+
+            isGeoology = $('#DSKhuVucDiaLy').val();
+            if (isGeoology != undefined) {
+                $.ajax({
+                    type: 'POST',
+                    url: currentURL + 'Evaluation/ReloadGeoologyData',
+                    dataType: "json",
+                    data: { 'DisplayID': displayID, 'DispFromDate': dateFrom, 'DispToDate': dateTo },
+                    success: function (result) {
+                        $('#DSKhuVucDiaLy').val('');
+                        ListGeo = [];
+                        ListResult = result;
+                        geoData = ListResult.reduce(function (r, a) {
+                            function getParent(s, b) {
+                                return b.id === a.parentId ? b : (b.nodes && b.nodes.reduce(getParent, s));
+                            }
+                            var index = 0, node;
+                            if ('parentId' in a) {
+                                node = r.reduce(getParent, {});
+                            }
+                            if (node && Object.keys(node).length) {
+                                node.nodes = node.nodes || [];
+                                node.nodes.push(a);
+                            } else {
+                                while (index < r.length) {
+                                    if (r[index].parentId === a.id) {
+                                        a.nodes = (a.nodes || []).concat(r.splice(index, 1));
+                                    } else {
+                                        index++;
+                                    }
+                                }
+                                r.push(a);
+                            }
+                            return r;
+                        }, []);
+
+                        var $checkableTree = $('#geo-area-treeview').treeview({
+                            data: geoData,
+                            showIcon: false,
+                            collapsed: true,
+                            unique: true,
+                            showCheckbox: true,
+                            selectable: false,
+                            multiSelect: true,
+                            highlightSelected: false,
+                            onNodeChecked: function (event, node) {
+                                ListGeo.push("+" + node.MaKhuVuc);
+                            },
+                            onNodeUnchecked: function (event, node) {
+                                ListGeo = jQuery.grep(ListGeo, function (a) {
+                                    return a !== "+" + node.MaKhuVuc;
+                                });
+                            }
+                        });
+                    }
+                })
+            }
+        });
+    });
+
+    function Validation() {
+        $('#ErMesgBox span[class^="error"]').html("");
+
+        var DisplayVal = $('#DisplayCode').val();
+        if (DisplayVal == "" | DisplayVal == 0) {
+            $('#ErMesgBox span[class^="error"]').html(Evaluation_ValidateDisPlayNull);
+            return false;
+        }
+
+        var area = $('input[name="area"]:checked').val();
+        if (area == undefined) {
+            $('#ErMesgBox span[class^="error"]').html(Evaluation_ValidateAreaNull);
+            return false;
+        } else {
+            if ($('input[id=isGeoology]:checked').length > 0 && $('#DSKhuVucDiaLy').val() == '')
+            {
+                $('#ErMesgBox span[class^="error"]').html(Evaluation_ValidateListRegionNull);
+                return false;
+            }
+        }
+
+        if ($('#DisplayDateFrom').val() == "" || $('#DisplayDateTo').val() == "" || $('#EvalDateFrom').val() == "" || $('#EvalDateTo').val() == "") {
+            $('#ErMesgBox span[class^="error"]').html(Evaluation_ValidateTimeInformationEmpty);
+            return false;
+        } else {
+
+            var ThoiGianCTTBTu = $('#DisplayDateFrom').val();
+            var ThoiGianCTTBDen = $('#DisplayDateTo').val();
+            var ThoiGianDanhGiaTu = $('#EvalDateFrom').val();
+            var ThoiGianDanhGiaDen = $('#EvalDateTo').val();
+
+            if (stringToDate(ThoiGianCTTBTu, "dd/MM/yyyy", "/") > stringToDate(ThoiGianCTTBDen, "dd/MM/yyyy", "/")) {
+                $('#ErMesgBox span[class^="error"]').html(Evaluation_FromDateMustSmallToDate);
+                return false;
+            } else {
+                if (stringToDate(ThoiGianCTTBTu, "dd/MM/yyyy", "/") < stringToDate(dateFrom, "dd/MM/yyyy", "/") || stringToDate(ThoiGianCTTBDen, "dd/MM/yyyy", "/") > stringToDate(dateTo, "dd/MM/yyyy", "/")) {
+                    $('#ErMesgBox span[class^="error"]').html(Evaluation_TimeMustInTimeDisplay);
+                    return false;
+                }
+            }
+
+            if (stringToDate(ThoiGianDanhGiaTu, "dd/MM/yyyy", "/") > stringToDate(ThoiGianDanhGiaDen, "dd/MM/yyyy", "/")) {
+                $('#ErMesgBox span[class^="error"]').html(Evaluation_FromDateMustSmallToDate);
+                return false;
+            }
+            if ($('input[id=EvalDateTypeByDate]:checked').length > 0) {
+                if (stringToDate(ThoiGianDanhGiaDen, "dd/MM/yyyy", "/") < stringToDate(ThoiGianCTTBDen, "dd/MM/yyyy", "/")) {
+                    $('#ErMesgBox span[class^="error"]').html(Evaluation_EvalToDateSmallerDisplayToDate);
+                    return false;
+                }
+            } else {
+                var date = Date();
+                if (stringToDate(ThoiGianCTTBDen, "dd/MM/yyyy", "/") > date) {
+                    $('#ErMesgBox span[class^="error"]').html(Evaluation_DisplayToDateSmallerDateNow);
+                    return false;
+                }
+            }
+
+
+        }
+        return true;
+    }
+
+
+    // Loai hinh danh gia
+    function valTypeEvaluation() {
+        $('#ErMesgBox span[class^="error"]').html("");
+        var DanhSachUserRole = 0;
+        var rows = $('#my_table_Member').children();
+        for (i = 0; i < rows.length; i++) {
+            //alert(rows[i].children[5]);
+            var roles = rows[i].children[6];
+            var stt = rows[i].children[1].innerHTML;
+            //var noRoles = $("#participantL-1 option:selected").val();
+            var noRoles = $("#participantL-" + i + " option:selected").val();
+            if (noRoles == "3") {
+                DanhSachUserRole = DanhSachUserRole + 1;
+            }
+        }
+        if ($('input[id=assumeManu]:checked').length > 0 && DanhSachUserRole < 1) {
+            $('#ErMesgBox span[class^="error"]').html(Evaluation_ValidateTypeEvaluationNull);
+            return false;
+        }
+        else {
+            return true;
+        }
+    }
+
+    function CreateNewEvaluationID() {
+        if (Validation() && valTypeEvaluation()) {// Validation all input data
+            var InputData = { MaThamChieu: '', MaCTTB: '', NoiDungCTTB: '', ThoiGianCTTBTu: '', ThoiGianCTTBDen: '', KieuTGDanhGia: '', ThoiGianDanhGiaTu: '', ThoiGianDanhGiaDen: '', TyLeReview: '0', LoaiHinhDanhGia: '', DanhGiaNumeric: '', DanhSachItemID: '', DanhSachChonItem: '', DanhSachUserID: '', DanhSachUserRole: '', DanhSachUserLeader: '', LoaiKhuVuc: '', DanhSachKhuVuc: '' }
+
+            InputData.MaCTTB = $('#DisplayID').val();
+            InputData.MaThamChieu = $('#RefNumber').val();
+            InputData.NoiDungCTTB = $('#EvalContent').val();
+            InputData.ThoiGianCTTBTu = $('#DisplayDateFrom').val();
+            InputData.ThoiGianCTTBDen = $('#DisplayDateTo').val();
+            InputData.ThoiGianDanhGiaTu = $('#EvalDateFrom').val();
+            InputData.ThoiGianDanhGiaDen = $('#EvalDateTo').val();
+
+            if ($('#isApplyReview').is(':checked')) {
+                InputData.TyLeReview = $('#ReviewRate').val();
+            }
+
+            if ($('input[id=assumeManu]:checked').length > 0) {
+                InputData.LoaiHinhDanhGia = "0";
+            } else {
+                InputData.LoaiHinhDanhGia = "1";
+            }
+
+            InputData.DanhSachItemID = "";
+            if ($('input[id=isNumeric]:checked').length > 0) {
+                InputData.DanhGiaNumeric = "1";
+                var rows = $('#my_table_Item').children();
+                for (i = 0; i < rows.length; i++) {
+                    if ($('#item-' + rows[i].children[0].innerHTML).prop('checked'))
+                        InputData.DanhSachItemID = InputData.DanhSachItemID + ";" + rows[i].children[0].innerHTML;
+                }
+            } else {
+                InputData.DanhGiaNumeric = "0";
+            }
+
+            if ($('input[id=EvalDateTypeByDate]:checked').length > 0) {
+                InputData.KieuTGDanhGia = "0";
+            } else {
+                InputData.KieuTGDanhGia = "1";
+            }
+
+            InputData.LoaiKhuVuc = "0";
+            if ($('input[id=isGeoology]:checked').length > 0 || $('input[id=isCountry]:checked').length > 0) {
+                InputData.LoaiKhuVuc = "1";
+                InputData.DanhSachKhuVuc = $('#DSKhuVucDiaLy').val();
+            }
+
+            InputData.DanhSachUserID = "";
+            InputData.DanhSachUserRole = "";
+            InputData.DanhSachUserLeader = "";
+            $('#my_table_Member tr').each(function () {
+                var roleSelect = $(this).find('td:nth-child(7)');
+                var roleID = $(roleSelect).find("select[name='participant']").val();
+                var leaderID = $(roleSelect).find("select[name='leader-user']").val();
+                if (roleID > 0) {
+                    InputData.DanhSachUserID = InputData.DanhSachUserID + ";" + $(this).find('td:nth-child(3)')[0].innerHTML;
+                    InputData.DanhSachUserRole = InputData.DanhSachUserRole + ";" + roleID;
+                    if (leaderID != null) {
+                        InputData.DanhSachUserLeader = InputData.DanhSachUserLeader + ";" + leaderID;
+                    } else {
+                        InputData.DanhSachUserLeader = InputData.DanhSachUserLeader + ";" + "";
+                    }
+                }
+            });
+
+            var list = [];
+            var rows = $('#my_table_Member').children();
+            for (i = 0; i < rows.length; i++) {
+                var item = { key: rows[i].children[2].innerHTML, Role: $("#participantL-" + i + " option:selected").val() };
+                list.push(item);
+            }
+            var clean = remove_duplicates();
+            if ($('input[id=assumeAuto]:checked').length > 0) {
+                $('#btnNext').html('<i class="icon-next"></i>' + AutoMarking);
+            } else {
+                $('#btnNext').html('<i class="icon-next"></i>' + Distribute);
+            }
+
+            if (list.length != clean.length) {
+                $('#ErMesgBox span[class^="error"]').html('Data was duplicated. Please choose other roles for these employees');
+                return false;
+            }
+            else {
+                $.ajax({
+                    url: currentURL + 'Evaluation/CheckImageEvaluation',
+                    method: 'POST',
+                    data: { programID: InputData.MaCTTB, programFromDate: InputData.ThoiGianCTTBTu, programToDate: InputData.ThoiGianCTTBDen, tyleGeo: InputData.LoaiKhuVuc, listGeo: InputData.DanhSachKhuVuc },
+                    dataType: 'json',
+                    success: function (result) {
+                        if (result != '') {
+                            $('#OkiMesgBox span[class^="error"]').html('');
+                            $('#ErMesgBox span[class^="error"]').html(result);
+                        }
+                        else {
+                            $.ajax({
+                                url: currentURL + 'Evaluation/CreateEvaluationIDFromInput',
+                                method: 'POST',
+                                data: InputData,
+                                dataType: 'json',
+                                success: function (result) {
+                                    $('#EvaluationCode').val(result.toString());
+                                    $(".loading").hide();
+                                    if (result != '') {
+                                        $('#OkiMesgBox span[class^="error"]').html(Evaluation_SaveOki);
+                                    }
+                                    else {
+                                        $('#ErMesgBox span[class^="error"]').html(Evaluation_SaveError);
+                                    }
+
+                                }
+                            }).done(function () {
+                            });
+                        }
+
+                    }
+                }).done(function () {
+                });
+                $(".loading").show();
+            }
+        }
+    }
+
+</script>

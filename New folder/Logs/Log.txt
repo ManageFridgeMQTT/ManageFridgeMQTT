@@ -1,0 +1,57 @@
+----------
+25/08/2016 1:21:17 CH
+Message:	http://192.168.10.12:8892/Home?ReportID=ReportBLKPI&CompanyID=NSqbUplVlo0=&DistributorID=T91V5fZQI8M=&LoginID=dmsadmin&FromDate=2016-08-01&ToDate=2016-08-25&KPIPeriodNbr=SFDAY&Period=D&RefNbr=00000202&TemplateID=24
+----------
+25/08/2016 1:23:07 CH
+Message:	http://192.168.10.12:8892/Home?ReportID=ReportBLKPI&CompanyID=NSqbUplVlo0=&DistributorID=T91V5fZQI8M=&LoginID=dmsadmin&FromDate=2016-08-01&ToDate=2016-08-31&KPIPeriodNbr=SFMONTH&Period=M&RefNbr=00000202&TemplateID=24
+----------
+25/08/2016 1:24:59 CH
+Message:	http://192.168.10.12:8892/Home?ReportID=ReportBLPromotion&CompanyID=NSqbUplVlo0=&DistributorID=T91V5fZQI8M=&LoginID=dmsadmin&FromDate=2016-08-01&ToDate=2016-08-25&CountryID=VN&ProvinceID=&SalesAreaID=&PromotionID=2&SchemeID=&DealID=&TemplateID=26
+----------
+25/08/2016 3:14:10 CH
+Message:	http://192.168.10.12:8892/Home?ReportID=ReportBLPromotion&CompanyID=NSqbUplVlo0=&DistributorID=T91V5fZQI8M=&LoginID=dmsadmin&FromDate=2016-08-01&ToDate=2016-08-25&CountryID=VN&ProvinceID=&SalesAreaID=2&PromotionID=4&SchemeID=&DealID=&TemplateID=27
+----------
+25/08/2016 3:31:36 CH
+Message:	http://192.168.10.12:8892/Home?ReportID=ReportBLSalesIn&CompanyID=NSqbUplVlo0=&DistributorID=T91V5fZQI8M=&LoginID=dmsadmin&FromDate=2016-08-01&ToDate=2016-08-25&SalesAreaID=&HierarchyID=&InventoryID=&TemplateID=101
+----------
+25/08/2016 3:32:07 CH
+Message:	http://192.168.10.12:8892/Home?ReportID=ReportBLSalesIn&CompanyID=NSqbUplVlo0=&DistributorID=T91V5fZQI8M=&LoginID=dmsadmin&FromDate=2016-02-08&ToDate=2016-02-14&SalesAreaID=&HierarchyID=2&InventoryID=&TemplateID=101
+----------
+25/08/2016 3:32:11 CH
+Message:	http://192.168.10.12:8892/Home?ReportID=ReportBLSalesIn&CompanyID=NSqbUplVlo0=&DistributorID=T91V5fZQI8M=&LoginID=dmsadmin&FromDate=2016-02-08&ToDate=2016-02-14&SalesAreaID=&HierarchyID=2&InventoryID=&TemplateID=93
+----------
+25/08/2016 3:32:36 CH
+Message:	http://192.168.10.12:8892/Home?ReportID=ReportBLSales&CompanyID=NSqbUplVlo0=&DistributorID=T91V5fZQI8M=&LoginID=dmsadmin&FromDate=2016-08-01&ToDate=2016-08-25&CountryID=&ProvinceID=&SalesAreaID=&HierarchyID=2&InventoryID=&TemplateID=16
+----------
+25/08/2016 4:12:25 CH
+Message:	http://192.168.10.12:8892/Home?ReportID=ReportBLPromotion&CompanyID=NSqbUplVlo0=&DistributorID=T91V5fZQI8M=&LoginID=dmsadmin&FromDate=2016-08-01&ToDate=2016-08-25&CountryID=VN&ProvinceID=2&SalesAreaID=2&PromotionID=2&SchemeID=&DealID=&TemplateID=27
+----------
+25/08/2016 4:13:17 CH
+Message:	http://192.168.10.12:8892/Home?ReportID=ReportBLPromotion&CompanyID=NSqbUplVlo0=&DistributorID=T91V5fZQI8M=&LoginID=dmsadmin&FromDate=2016-08-01&ToDate=2016-08-25&CountryID=VN&ProvinceID=2&SalesAreaID=2&PromotionID=2&SchemeID=&DealID=&TemplateID=26
+----------
+25/08/2016 4:15:52 CH
+Message:	http://192.168.10.12:8892/Home?ReportID=ReportBLKPI&CompanyID=NSqbUplVlo0=&DistributorID=T91V5fZQI8M=&LoginID=dmsadmin&FromDate=2016-08-25&ToDate=2016-08-25&KPIPeriodNbr=SFDAY&Period=D&RefNbr=00000201&TemplateID=24
+----------
+25/08/2016 4:16:15 CH
+Message:	http://192.168.10.12:8892/Home?ReportID=ReportBLPromotion&CompanyID=NSqbUplVlo0=&DistributorID=T91V5fZQI8M=&LoginID=dmsadmin&FromDate=2016-08-01&ToDate=2016-08-25&CountryID=VN&ProvinceID=2&SalesAreaID=2&PromotionID=2&SchemeID=&DealID=&TemplateID=26
+----------
+25/08/2016 4:17:07 CH
+Message:	http://192.168.10.12:8892/Home?ReportID=ReportBLPromotion&CompanyID=NSqbUplVlo0=&DistributorID=T91V5fZQI8M=&LoginID=dmsadmin&FromDate=2016-08-01&ToDate=2016-08-25&CountryID=VN&ProvinceID=&SalesAreaID=&PromotionID=&SchemeID=&DealID=&TemplateID=27
+----------
+25/08/2016 4:19:19 CH
+Message:	http://192.168.10.12:8892/Home?ReportID=ReportBLPromotion&CompanyID=NSqbUplVlo0=&DistributorID=T91V5fZQI8M=&LoginID=dmsadmin&FromDate=2016-08-01&ToDate=2016-08-25&CountryID=VN&ProvinceID=62&SalesAreaID=2&PromotionID=7&SchemeID=&DealID=&TemplateID=27
+----------
+25/08/2016 4:19:38 CH
+Message:	http://192.168.10.12:8892/Home?ReportID=ReportBLPromotion&CompanyID=NSqbUplVlo0=&DistributorID=T91V5fZQI8M=&LoginID=dmsadmin&FromDate=2016-08-01&ToDate=2016-08-25&CountryID=VN&ProvinceID=62&SalesAreaID=2&PromotionID=2&SchemeID=&DealID=&TemplateID=27
+----------
+25/08/2016 4:20:09 CH
+Message:	http://192.168.10.12:8892/Home?ReportID=ReportBLPromotion&CompanyID=NSqbUplVlo0=&DistributorID=T91V5fZQI8M=&LoginID=dmsadmin&FromDate=2016-08-01&ToDate=2016-08-25&CountryID=VN&ProvinceID=&SalesAreaID=&PromotionID=7&SchemeID=&DealID=&TemplateID=27
+----------
+26/08/2016 1:38:42 CH
+Message:	http://192.168.10.12:8892/Home?ReportID=ReportBLSalesIn&CompanyID=NSqbUplVlo0=&DistributorID=T91V5fZQI8M=&LoginID=dmsadmin&FromDate=2016-08-01&ToDate=2016-08-26&SalesAreaID=&HierarchyID=2&InventoryID=&TemplateID=101
+----------
+26/08/2016 1:39:54 CH
+Message:	http://192.168.10.12:8892/Home?ReportID=ReportBLSales&CompanyID=NSqbUplVlo0=&DistributorID=T91V5fZQI8M=&LoginID=dmsadmin&FromDate=2016-08-01&ToDate=2016-08-26&CountryID=VN&ProvinceID=&SalesAreaID=&HierarchyID=2&InventoryID=&TemplateID=19
+----------
+26/08/2016 1:40:31 CH
+Message:	http://192.168.10.12:8892/Home?ReportID=ReportBLSales&CompanyID=NSqbUplVlo0=&DistributorID=T91V5fZQI8M=&LoginID=dmsadmin&FromDate=2016-08-01&ToDate=2016-08-26&CountryID=VN&ProvinceID=&SalesAreaID=&HierarchyID=2&InventoryID=&TemplateID=19

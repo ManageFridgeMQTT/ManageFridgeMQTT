@@ -1,0 +1,221 @@
+﻿@model EvalAutoMarkMV
+@using System.Web.UI.WebControls;
+@{
+    ViewBag.Title = Utility.Phrase("DetailEvalAuto") + Model.Evaluation.EvaluationID;
+    Layout = "~/Views/Shared/_NewLayout.cshtml";
+
+    string classDisable = "";
+    if (Model.status == Utility.StatusAutoMark.InProcessing)
+    {
+        classDisable = "disabled";
+    }
+    string firstSlide = "id = 'firstSlide'";
+    string style = "";
+        List<EvaluationImageClass> listImageTam = new List<EvaluationImageClass>();
+
+        if (Model.ImagesList.Count > 7)
+        {
+            listImageTam = Model.ImagesList.GetRange(0, 7);
+        }
+        else
+        {
+            listImageTam = Model.ImagesList;
+        }
+}
+ <div id="shCenter" style="z-index:9999">
+            <label id="mSNoData" style="align-content:center;color:green" >  
+            </label>
+        </div>
+<div class="insider">
+    <div class="row display-table w-100pr mb-10 content-header">
+        <div class="report-content-header">
+            <div class="col-md-8">
+                <h1>@Utility.Phrase("DetailEvalAuto") + @Model.Evaluation.EvaluationID</h1>
+            </div>
+        </div>
+        <div class="w-100pr row">
+            <div class="col-md-7">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="row box-image-show">
+                            <div class="col-sm-6">
+                                <div class="img-big-box img-current-template">
+                                    <div class="img-big-insider">
+                                        <div class="title">
+                                            <h3>@Utility.Phrase("ImageOutletCompareMarking")</h3>
+                                        </div>
+                                        <img id="selectedComparedImage" src="@(Constant.SalesOrdersImageFolder + Model.ImagesList[0].ImageName)" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="img-big-box img-current-template">
+                                    <div class="img-big-insider">
+                                        <div class="title">
+                                            <h3>@Utility.Phrase("ImageMarkingProgress")</h3>
+                                        </div>
+                                        <div id="slides">
+                                            <div class="slides_container">
+                                                @foreach (var elm in listImageTam)
+                                                {
+                                                    <img src="@(Constant.SalesOrdersImageFolder + elm.ImageName)" class="slideD" style="@style" @firstSlide/>
+                                                    firstSlide = "";
+                                                    style = "display:none;";
+                                                }
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row box-progressbar">
+                            <div id="progressbar">
+                                <div class="progress-label">Loading...</div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="img-scroll-box img-assumed">
+                                <div class="img-scroll-insider mt-10">
+                                    @foreach (var elm in listImageTam)
+                                    {
+                                        <div class="img-mini-box">
+                                            <div class="square-box">
+                                                <a href="javascript:void(0)">
+                                                    <img src="@(Constant.SalesOrdersImageFolder + elm.ImageName)"/>
+                                                </a>
+                                                <div class="assumer bold">@Utility.Phrase("ImgLoad")</div>
+                                            </div>
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-5">
+                <div class="table-box">
+                    <table>
+                        <thead class="block-theme">
+                            <tr>
+                                <th colspan="4">@Utility.Phrase("DisplayEval") : @Model.Evaluation.ProgramName</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <th colspan="2">@Utility.Phrase("EvalID"): @Model.Evaluation.EvaluationID</th>
+                                <th colspan="2">@Utility.Phrase("DateEvaluate"): @Model.Evaluation.EvalDateFrom.ToShortDateString() - @Model.Evaluation.EvalDateTo.ToShortDateString()</th>
+                            </tr>
+                            <tr>
+                                <th>@Utility.Phrase("TotalImages")</th>
+                                <td class="align-right">@Model.TotalImages</td>
+                                <th>@Utility.Phrase("OutetMarking-TotalOutlet")</th>
+                                <td class="align-right" id="OutletMarking">@Model.OutletMarking / @Model.TotalOutlet</td>
+                            </tr>
+                            <tr>
+                                <th>@Utility.Phrase("TimeMarking-TimePlanMarking") </th>
+                                <td class="align-right" id="TimeMarking">@Model.TimeMarking.ToString("N0") / @Model.TimePlanMarking.ToString("N0") @Utility.Phrase("Minute")</td>
+                                <th>@Utility.Phrase("TimeAverage-Image") </th>
+                                <td class="align-right" id="TimeAverage">@Model.TimeAverage.ToString("N1") / @Utility.Phrase("Second")</td>
+                            </tr>
+                            <tr>
+                                <th>@Utility.Phrase("ImagesPass-ImagesProgress")</th>
+                                <td class="align-right" id="ImgPass">@Model.ImgPass / @Model.ImagesProgress</td>
+                                <th>@Utility.Phrase("ImagesRealy-ImagesProgress")</th>
+                                <td class="align-right" id="ImgThat">@Model.ImgThat / @Model.ImagesProgress</td>
+                            </tr>
+                            <tr>
+                                <th>@Utility.Phrase("ImagesChuan-ImagesProgress")</th>
+                                <td class="align-right" id="ImgChuan">@Model.ImgChuan / @Model.ImagesProgress</td>
+                                <th>@Utility.Phrase("ImageNumberic-ImagesProgress")</th>
+                                <td class="align-right" id="ImgNumberic">@Model.ImgNumberic / @Model.ImagesProgress</td>
+                            </tr>
+                            <tr>
+                                <th>@Utility.Phrase("ImgNotExist-ImagesProgress")</th>
+                                <td class="align-right" id="ImgNotExist">@Model.ImgNotExist / @Model.ImagesProgress</td>
+                                <th>@Utility.Phrase("ImgErrorMarking-ImagesProgress")</th>
+                                <td class="align-right" id="ImgErrorMarking">@Model.ImgErrorMarking / @Model.ImagesProgress</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="row content-body">
+                    <div class="tab-header">
+                        <ul class="fr m-0">
+                            <li>
+                                <button id="RunProcessing" @classDisable onclick="EvalProcessing()"><i class="icon-progress"></i>@Utility.Phrase("Process")</button>
+                                <button><i class="icon-pause"></i>@Utility.Phrase("Pause")</button>
+                                <button><i class="icon-stop"></i>@Utility.Phrase("Stop")</button>
+                                <a href="@Url.Action("EvalAutoMark", "Evaluation", new { @sEvalID = Model.Evaluation.EvaluationID })"><button class="btn-refresh" title="@Utility.Phrase("Refresh")"><i class="icon-update"></i>@Utility.Phrase("Refresh")</button></a>
+                                <a href="@Url.Action("AutoEvaluation", "Evaluation", new { @sEvalID = Model.Evaluation.EvaluationID })"><button title="@Utility.Phrase("Detail")"><i class="icon-progress"></i>@Utility.Phrase("Detail")</button></a> 
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type='text/javascript'>
+    var Minute = '@Utility.Phrase("Minute")';
+    var progressbar = $("#progressbar"),
+          progressLabel = $(".progress-label");
+
+    progressbar.progressbar({
+        value: 0,
+        change: function () {
+            progressLabel.text(progressbar.progressbar("value").toFixed(1) + "%");
+        },
+        complete: function () {
+            progressLabel.text("Complete!");
+        }
+    });
+    $(document).ready(function () {
+        
+        var btnRunisDisabled = $('#RunProcessing').is(':disabled');
+        if (btnRunisDisabled) {
+            $('.slides_container').addClass('scanning');
+            var myInterval = setInterval(function () {
+                $.ajax({
+                    type: 'GET',
+                    url: 'GetDataAutoInProcessing',
+                    dataType: "json",
+                    success: function (result) {
+                        var arr = result;
+                        if (result.TotalImages != 0)
+                        {
+                            var val = (result.ImagesProgress * 100) / result.TotalImages;
+                            var TimeMarking = 0;
+                            if (result.TimeMarking > 0) {
+                                TimeMarking = result.TimeMarking / 60;
+                            }
+                            progressbar.progressbar("value", val);
+                            $('#OutletMarking').html(result.OutletMarking + ' / ' + result.TotalOutlet);
+                            $('#TimeMarking').html(result.TimeMarking.toFixed(1) + ' / ' + result.TimePlanMarking.toFixed(1));
+                            $('#TimeAverage').html(result.TimeAverage.toFixed(2) + '/ ảnh');
+                            $('#ImgPass').html(result.ImgPass + ' / ' + result.ImagesProgress);
+                            $('#ImgThat').html(result.ImgThat + ' / ' + result.ImagesProgress);
+                            $('#ImgChuan').html(result.ImgChuan + ' / ' + result.ImagesProgress);
+                            $('#ImgNumberic').html(result.ImgNumberic + ' / ' + result.ImagesProgress);
+                            $('#ImgNotExist').html(result.ImgNotExist + ' / ' + result.ImagesProgress);
+                            $('#ImgErrorMarking').html(result.ImgErrorMarking + ' / ' + result.ImagesProgress);
+                            if (result.ImagesProgress == result.TotalImages) {
+                                ShowMessageNoData('Đã xử lý xong');
+                                clearTimeout(myInterval);
+                                $('.slides_container').removeClass('scanning');
+                            }
+                        }
+                    }
+                }).done(function () {
+                });
+
+            }, 200);
+        } else {
+            clearTimeout(myInterval);
+        }
+
+    });
+
+</script>

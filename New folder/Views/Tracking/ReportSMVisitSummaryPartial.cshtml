@@ -1,0 +1,533 @@
+﻿@model List<eRoute.Models.pp_ReportSMVisitSummaryResult>
+@using DevExpress.Web.Mvc.UI;
+@using DevExpress.Web.Mvc;
+@using System.Web.UI.WebControls;
+@using eRoute.Models;
+@Html.DevExpress().PivotGrid(
+    settings =>
+    {
+        settings.Name = "pivotGrid";
+        settings.CallbackRouteValues = new { Controller = "Tracking", Action = "ReportSMVisitSummaryPartial" };
+         //settings.OptionsView.ShowHorizontalScrollBar = true;
+        settings.OptionsCustomization.AllowDrag = false;
+        settings.OptionsCustomization.AllowDrag = false;
+        settings.OptionsCustomization.AllowExpand = true;
+        //settings.OptionsView.ColumnTotalsLocation = PivotTotalsLocation.Far;
+
+        settings.OptionsView.ShowColumnGrandTotalHeader = false;
+        settings.OptionsView.ShowColumnGrandTotals = false;
+        settings.OptionsView.ShowColumnTotals = false;
+        settings.OptionsView.ShowContextMenus = true;
+        settings.OptionsView.ShowCustomTotalsForSingleValues = false;
+        settings.OptionsView.ShowFilterHeaders = false;
+        settings.OptionsView.ShowFilterSeparatorBar = false;
+        settings.OptionsView.ShowGrandTotalsForSingleValues = false;
+        settings.OptionsView.ShowRowGrandTotalHeader = false;
+        settings.OptionsView.ShowRowGrandTotals = false;
+        settings.OptionsView.ShowRowTotals = false;
+        settings.OptionsView.ShowTotalsForSingleValues = false;
+        settings.OptionsView.ShowDataHeaders = false;
+
+        settings.OptionsPager.Position = PagerPosition.TopAndBottom;
+        settings.OptionsPager.PagerAlign = DevExpress.Web.ASPxPivotGrid.PagerAlign.Right;
+        settings.OptionsPager.ShowDisabledButtons = true;
+        settings.OptionsPager.ShowNumericButtons = true;
+        settings.OptionsPager.ShowSeparators = false;
+        settings.OptionsPager.Summary.Visible = false;
+        settings.OptionsPager.PageSizeItemSettings.Visible = true;
+        settings.OptionsPager.PageSizeItemSettings.Position = PagerPageSizePosition.Left;       
+
+        settings.OptionsView.ShowHorizontalScrollBar = true;  
+            
+        settings.Groups.Add("RSMName - RegionName - ASMName - AreaName - ProvinceName - DistributorName - SaleSupID - RouteID - SalesmanID");
+
+        
+        //settings.Fields.Add(field =>
+        //{
+        //    field.Area = PivotArea.RowArea;
+        //    field.AreaIndex = 0;
+
+        //    field.FieldName = "RegionID";
+        //    field.Caption = Utility.Phrase("RegionID");
+        //    field.RunningTotal = false;
+        //    field.TotalsVisibility = PivotTotalsVisibility.None;
+        //});
+
+        settings.Fields.Add(field =>
+        {
+            field.Area = PivotArea.RowArea;
+            //field.AreaIndex = 1;
+            field.FieldName = "RegionName";
+            field.Caption = Utility.Phrase("RegionName");
+            field.RunningTotal = false;
+            field.TotalsVisibility = PivotTotalsVisibility.None;
+            field.HeaderStyle.Wrap = DefaultBoolean.True;
+        });
+        
+        //settings.Fields.Add(field =>
+        //{
+        //    field.Area = PivotArea.RowArea;
+        //    field.AreaIndex = 2;
+
+        //    field.FieldName = "RSMID";
+        //    field.Caption = Utility.Phrase("RSMID");
+        //    field.RunningTotal = false;
+        //    field.TotalsVisibility = PivotTotalsVisibility.None;
+        //});
+
+        settings.Fields.Add(field =>
+        {
+            field.Area = PivotArea.RowArea;
+            //field.AreaIndex = 3;
+            field.FieldName = "RSMName";
+            field.Caption = Utility.Phrase("RSMName");
+            field.RunningTotal = false;
+            field.TotalsVisibility = PivotTotalsVisibility.None;
+            field.Visible = false;
+            field.HeaderStyle.Wrap = DefaultBoolean.True;
+        });
+          
+        //settings.Fields.Add(field =>
+        //{
+        //    field.Area = PivotArea.RowArea;
+        //    field.AreaIndex = 4;
+
+        //    field.FieldName = "AreaID";
+        //    field.Caption = Utility.Phrase("AreaID");
+        //    field.RunningTotal = false;
+        //    field.TotalsVisibility = PivotTotalsVisibility.None;
+        //});
+
+        settings.Fields.Add(field =>
+        {
+            field.Area = PivotArea.RowArea;
+           // field.AreaIndex = 5;
+            field.FieldName = "AreaName";
+            field.Caption = Utility.Phrase("AreaName");
+            field.RunningTotal = false;
+            field.TotalsVisibility = PivotTotalsVisibility.None;
+            field.Visible = false;
+            field.HeaderStyle.Wrap = DefaultBoolean.True;
+        });
+        //settings.Fields.Add(field =>
+        //{
+        //    field.Area = PivotArea.RowArea;
+        //    field.AreaIndex = 6;
+
+        //    field.FieldName = "ASMID";
+        //    field.Caption = Utility.Phrase("ASMID");
+        //    field.RunningTotal = false;
+        //    field.TotalsVisibility = PivotTotalsVisibility.None;
+        //});
+
+        //settings.Fields.Add(field =>
+        //{
+        //    field.Area = PivotArea.RowArea;
+        //    //field.AreaIndex = 7;
+
+        //    field.FieldName = "ASMName";
+        //    field.Caption = Utility.Phrase("ASMName");
+        //    field.RunningTotal = false;
+        //    field.Visible = false;
+        //    field.TotalsVisibility = PivotTotalsVisibility.None;
+        //    field.HeaderStyle.Wrap = DefaultBoolean.True;
+        //});
+
+        //settings.Fields.Add(field =>
+        //{
+        //    field.Area = PivotArea.RowArea;
+        //    field.AreaIndex = 8;
+
+        //    field.FieldName = "ProvinceID";
+        //    field.Caption = Utility.Phrase("ProvinceID");
+        //    field.RunningTotal = false;
+        //    field.TotalsVisibility = PivotTotalsVisibility.None;
+        //});
+
+        settings.Fields.Add(field =>
+        {
+            field.Area = PivotArea.RowArea;
+            //field.AreaIndex = 9;
+
+            field.FieldName = "ProvinceName";
+            field.Caption = Utility.Phrase("ProvinceName");
+            field.RunningTotal = false;
+            field.TotalsVisibility = PivotTotalsVisibility.None;
+            field.Visible = false;
+            field.HeaderStyle.Wrap = DefaultBoolean.True;
+        });
+
+        //settings.Fields.Add(field =>
+        //{
+        //    field.Area = PivotArea.RowArea;
+        //    //field.AreaIndex = 10;
+
+        //    field.FieldName = "DistributorCode";
+        //    field.Caption = Utility.Phrase("DistributorCode");
+        //    field.RunningTotal = false;
+        //    field.TotalsVisibility = PivotTotalsVisibility.None;
+        //});
+
+        settings.Fields.Add(field =>
+        {
+            field.Area = PivotArea.RowArea;
+            //field.AreaIndex = 11;
+
+            field.FieldName = "DistributorName";
+            field.Caption = Utility.Phrase("DistributorName");
+            field.RunningTotal = false;
+            field.TotalsVisibility = PivotTotalsVisibility.None;
+            field.HeaderStyle.Wrap = DefaultBoolean.True;
+        });
+
+        //settings.Fields.Add(field =>
+        //{
+        //    field.Area = PivotArea.RowArea;
+        //    //field.AreaIndex = 12;
+
+        //    field.FieldName = "SaleSupID";
+        //    field.Caption = Utility.Phrase("SaleSupID");
+        //    field.RunningTotal = false;
+        //    field.TotalsVisibility = PivotTotalsVisibility.None;
+        //});
+
+        //settings.Fields.Add(field =>
+        //{
+        //    field.Area = PivotArea.RowArea;
+        //    //field.AreaIndex = 13;
+
+        //    field.FieldName = "SaleSupName";
+        //    field.Caption = Utility.Phrase("SaleSupName");
+        //    field.RunningTotal = false;
+        //    field.TotalsVisibility = PivotTotalsVisibility.None;
+        //    field.HeaderStyle.Wrap = DefaultBoolean.True;
+        //});
+
+        settings.Fields.Add(field =>
+        {
+            field.Area = PivotArea.RowArea;
+            //field.AreaIndex = 14;
+
+            field.FieldName = "RouteID";
+            field.Caption = Utility.Phrase("RouteID");
+            field.RunningTotal = false;
+            field.TotalsVisibility = PivotTotalsVisibility.None;
+            field.HeaderStyle.Wrap = DefaultBoolean.True;
+            field.Visible = false;
+        });
+
+        //settings.Fields.Add(field =>
+        //{
+        //    field.Area = PivotArea.RowArea;
+        //    //field.AreaIndex = 15;
+
+        //    field.FieldName = "RouteName";
+        //    field.Caption = Utility.Phrase("RouteName");
+        //    field.RunningTotal = false;
+        //    field.Visible = false;
+        //    field.TotalsVisibility = PivotTotalsVisibility.None;
+        //    field.HeaderStyle.Wrap = DefaultBoolean.True;
+        //});
+
+        settings.Fields.Add(field =>
+        {
+            field.Area = PivotArea.RowArea;
+            //field.AreaIndex = 16;
+
+            field.FieldName = "SalesmanID";
+            field.Caption = Utility.Phrase("SalesmanID");
+            field.RunningTotal = false;
+            field.TotalsVisibility = PivotTotalsVisibility.None;
+            field.HeaderStyle.Wrap = DefaultBoolean.True;
+            field.Visible = false;
+        });
+
+        settings.Fields.Add(field =>
+        {
+            field.Area = PivotArea.RowArea;
+            //field.AreaIndex = 17;
+
+            field.FieldName = "SalesmanName";
+            field.Caption = Utility.Phrase("SalesmanName");
+            field.RunningTotal = false;
+            field.TotalsVisibility = PivotTotalsVisibility.None;
+            field.HeaderStyle.Wrap = DefaultBoolean.True;
+        });
+
+        settings.Fields.Add(field =>
+        {
+            field.Area = PivotArea.RowArea;
+            //field.AreaIndex = 18;
+            field.ValueFormat.Format = Utility.info.DateTimeFormat;
+            field.ValueFormat.FormatType = FormatType.DateTime;
+            field.ValueFormat.FormatString = Utility.info.DateTimeFormat.ShortDatePattern;
+
+            field.FieldName = "VisitDate";
+            field.Caption = Utility.Phrase("VisitDate");
+            field.RunningTotal = false;
+            field.TotalsVisibility = PivotTotalsVisibility.None;
+            field.HeaderStyle.Wrap = DefaultBoolean.True;
+        });
+
+        settings.Fields.Add(field =>
+        {
+            field.Area = PivotArea.RowArea;
+            //field.AreaIndex = 19;
+            field.FieldName = "strIsMCP";
+            field.Caption = Utility.Phrase("strIsMCP");
+
+            field.RunningTotal = false;
+            field.TotalsVisibility = PivotTotalsVisibility.None;
+            field.HeaderStyle.Wrap = DefaultBoolean.True;
+        });
+
+
+        //settings.Fields.Add(field =>
+        //{
+        //    field.Area = PivotArea.RowArea;
+        //    //field.AreaIndex = 19;
+        //    field.FieldName = "FirstSyncTime";
+        //    field.Caption = Utility.Phrase("FirstSyncTime");
+
+        //    field.ValueFormat.Format = Utility.info.DateTimeFormat;
+        //    field.ValueFormat.FormatType = FormatType.DateTime;
+        //    field.ValueFormat.FormatString = Utility.info.DateTimeFormat.ShortTimePattern;
+        //    field.RunningTotal = false;
+        //    field.Visible = false;
+        //    field.TotalsVisibility = PivotTotalsVisibility.None;
+        //    field.HeaderStyle.Wrap = DefaultBoolean.True;
+        //});
+
+        settings.Fields.Add(field =>
+        {
+            field.Area = PivotArea.RowArea;
+            //field.AreaIndex = 20;
+            field.FieldName = "FirstStartTimeAM";
+            field.Caption = Utility.Phrase("FirstStartTimeAM");
+
+            field.ValueFormat.Format = Utility.info.DateTimeFormat;
+            field.ValueFormat.FormatType = FormatType.DateTime;
+            field.ValueFormat.FormatString = Utility.info.DateTimeFormat.ShortTimePattern;
+            field.RunningTotal = false;
+            field.TotalsVisibility = PivotTotalsVisibility.None;
+            field.HeaderStyle.Wrap = DefaultBoolean.True;
+            field.ValueStyle.CssClass = "withStyle";
+        });
+
+        //settings.Fields.Add(field =>
+        //{
+        //    field.Area = PivotArea.RowArea;
+        //    //field.AreaIndex = 21;
+        //    field.FieldName = "FirstStartTimePM";
+        //    field.Caption = Utility.Phrase("FirstStartTimePM");
+
+        //    field.ValueFormat.Format = Utility.info.DateTimeFormat;
+        //    field.ValueFormat.FormatType = FormatType.DateTime;
+        //    field.ValueFormat.FormatString = Utility.info.DateTimeFormat.ShortTimePattern;
+        //    field.RunningTotal = false;
+        //    field.Visible = false;
+        //    field.TotalsVisibility = PivotTotalsVisibility.None;
+        //    field.HeaderStyle.Wrap = DefaultBoolean.True;
+        //});
+
+        settings.Fields.Add(field =>
+        {
+            field.Area = PivotArea.RowArea;
+            //field.AreaIndex = 22;
+            field.FieldName = "LastEndTime";
+            field.Caption = Utility.Phrase("LastEndTime");
+
+            field.ValueFormat.Format = Utility.info.DateTimeFormat;
+            field.ValueFormat.FormatType = FormatType.DateTime;
+            field.ValueFormat.FormatString = Utility.info.DateTimeFormat.ShortTimePattern;
+            field.RunningTotal = false;
+            field.TotalsVisibility = PivotTotalsVisibility.None;
+            field.HeaderStyle.Wrap = DefaultBoolean.True;
+            field.ValueStyle.CssClass = "withStyle";
+        });
+
+        settings.Fields.Add(field =>
+        {
+            field.Area = PivotArea.RowArea;
+            //field.AreaIndex = ;
+            field.FieldName = "TimeDuration";
+            field.Caption = Utility.Phrase("strTimeSpanVisit");
+
+            field.ValueFormat.Format = Utility.info.DateTimeFormat;
+            field.ValueFormat.FormatType = FormatType.DateTime;
+            field.ValueFormat.FormatString = Utility.info.DateTimeFormat.ShortTimePattern;
+            field.RunningTotal = false;
+            field.TotalsVisibility = PivotTotalsVisibility.None;
+            field.HeaderStyle.Wrap = DefaultBoolean.True;
+            field.ValueStyle.CssClass = "TVStyle";
+        });
+
+        //DATA AREA
+        settings.Fields.Add(field =>
+        {
+            field.Area = PivotArea.DataArea;
+            field.AreaIndex = 0;
+            field.FieldName = "OutletMustVisit";
+            field.Caption = Utility.Phrase("OutletMustVisit");
+
+            field.CellFormat.FormatType = FormatType.Custom;
+            field.CellFormat.FormatString = "###,##0.##";
+            field.SummaryType = PivotSummaryType.Sum;
+            field.ValueStyle.CssClass = "withStyle";
+        });
+
+        settings.Fields.Add(field =>
+        {
+            field.Area = PivotArea.DataArea;
+            field.AreaIndex = 1;
+            field.FieldName = "OutletVisited";
+            field.Caption = Utility.Phrase("OutletVisited");
+
+            field.CellFormat.FormatType = FormatType.Custom;
+            field.CellFormat.FormatString = "###,##0.##";
+            field.SummaryType = PivotSummaryType.Sum;
+        });
+
+        settings.Fields.Add(field =>
+        {
+            field.Area = PivotArea.DataArea;
+            field.AreaIndex = 2;
+            field.FieldName = "OrderCount";
+            field.Caption = Utility.Phrase("OrderCount");
+
+            field.CellFormat.FormatType = FormatType.Custom;
+            field.CellFormat.FormatString = "###,##0.##";
+            field.SummaryType = PivotSummaryType.Sum;
+        });
+
+        //settings.Fields.Add(field =>
+        //{
+        //    field.Area = PivotArea.DataArea;
+        //    field.AreaIndex = 3;
+        //    field.FieldName = "TotalSKU";
+        //    field.Caption = Utility.Phrase("TotalSKU");
+        //    field.Visible = false;
+        //    field.CellFormat.FormatType = FormatType.Custom;
+        //    field.CellFormat.FormatString = "###,##0.##";
+        //    field.SummaryType = PivotSummaryType.Sum;
+        //});
+
+        settings.Fields.Add(field =>
+        {
+            field.Area = PivotArea.DataArea;
+            field.AreaIndex = 4;
+            field.FieldName = "TotalQuantity";
+            field.Caption = Utility.Phrase("TotalQuantity");
+
+            field.CellFormat.FormatType = FormatType.Custom;
+            field.CellFormat.FormatString = "###,##0.##";
+            field.SummaryType = PivotSummaryType.Sum;
+        });
+
+        settings.Fields.Add(field =>
+        {
+            field.Area = PivotArea.DataArea;
+            field.AreaIndex = 5;
+            field.FieldName = "TotalAmount";
+            field.Caption = Utility.Phrase("TotalAmount");
+
+            field.CellFormat.FormatType = FormatType.Custom;
+            field.CellFormat.FormatString = "###,##0.##";
+            field.SummaryType = PivotSummaryType.Sum;
+        });
+
+        //settings.Fields.Add(field =>
+        //{
+        //    field.Area = PivotArea.DataArea;
+        //    field.AreaIndex = 6;
+        //    field.FieldName = "LPPC";
+        //    field.Caption = Utility.Phrase("LPPC");
+
+        //    field.CellFormat.FormatType = FormatType.Custom;
+        //    field.CellFormat.FormatString = "###,##0.##";
+        //    field.SummaryType = PivotSummaryType.Sum;
+        //});
+
+        settings.Fields.Add(field =>
+        {
+            field.Area = PivotArea.DataArea;
+            field.AreaIndex = 7;
+            field.FieldName = "SOMCP";
+            field.Caption = Utility.Phrase("SOMCP");
+
+            field.CellFormat.FormatType = FormatType.Custom;
+            field.CellFormat.FormatString = "###,##0.00";
+            field.SummaryType = PivotSummaryType.Sum;
+        });
+
+        settings.Fields.Add(field =>
+        {
+            field.Area = PivotArea.DataArea;
+            field.AreaIndex = 8;
+            field.FieldName = "VisitMCP";
+            field.Caption = Utility.Phrase("VisitMCP");
+
+            field.CellFormat.FormatType = FormatType.Custom;
+            field.CellFormat.FormatString = "###,##0.00";
+            field.SummaryType = PivotSummaryType.Sum;
+        });
+
+        settings.Fields.Add(field =>
+        {
+            field.Area = PivotArea.DataArea;
+            field.AreaIndex = 13;
+            field.FieldName = "OrderDistanceInvalid";
+            field.Caption = Utility.Phrase("OrderDistanceInvalid");
+
+            field.CellFormat.FormatType = FormatType.Custom;
+            field.CellFormat.FormatString = "###,##0.##";
+            field.SummaryType = PivotSummaryType.Sum;
+        });
+
+        settings.CustomCellValue = (sender, e) =>
+        {
+            var pivotGrid = (MVCxPivotGrid)sender;
+            decimal devindend, devisor;
+            //if (e.DataField.FieldName == "LPPC")
+            //{
+            //    devisor = Utility.DecimalParse(e.GetFieldValue(pivotGrid.Fields["OrderCount"]));
+            //    devindend = Utility.DecimalParse(e.GetFieldValue(pivotGrid.Fields["TotalSKU"]));
+
+            //    e.Value = devisor == 0 ? 0 : ((devindend) / devisor);
+            //}
+            if (e.DataField.FieldName == "SOMCP")
+            {
+                devisor = Utility.DecimalParse(e.GetFieldValue(pivotGrid.Fields["OutletMustVisit"]));
+                devindend = Utility.DecimalParse(e.GetFieldValue(pivotGrid.Fields["OrderCount"]));
+
+                e.Value = devisor == 0 ? 0 : ((devindend * 100) / devisor);
+            }
+            if (e.DataField.FieldName == "VisitMCP")
+            {
+                devisor = Utility.DecimalParse(e.GetFieldValue(pivotGrid.Fields["OutletMustVisit"]));
+                devindend = Utility.DecimalParse(e.GetFieldValue(pivotGrid.Fields["OutletVisited"]));
+
+                e.Value = devisor == 0 ? 0 : ((devindend * 100) / devisor);
+            }
+        };
+
+        settings.SetCellTemplateContent(c =>
+        {
+            if (c.DataField != null
+                && (
+                    c.Item.RowValueType == PivotGridValueType.Total
+                    || c.Item.RowValueType == PivotGridValueType.CustomTotal
+                    || c.Item.RowValueType == PivotGridValueType.GrandTotal
+                    )
+                )
+            {
+                ViewContext.Writer.Write(
+                    "<span style=\"font-weight:bold; \" >" + c.Item.Text + "</span>"
+                );
+            }
+            else
+            {
+                ViewContext.Writer.Write(c.Text);
+            }
+        });       
+    }).Bind(Model).GetHtml()

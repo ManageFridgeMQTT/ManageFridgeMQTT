@@ -1,0 +1,62 @@
+﻿@model  MV_ReportDrugstores
+<div id="report-SummaryHeader" class="tab-pane fade in active box-table-ressult">
+    <table id="table-result" class="tablesorter">
+        <thead>
+            <tr>
+                <th>@Utility.Phrase("Report_Region")</th>
+                <th>@Utility.Phrase("Report_Area")</th>
+                <th>@Utility.Phrase("Report_Distributor")</th>
+                <th>@Utility.Phrase("TB_GSBH")</th>
+                @*<th>@Utility.Phrase("TB_RouteName")</th>*@
+                <th>@Utility.Phrase("TB_NVBH")</th>
+                <th>@Utility.Phrase("TB_CustomerName")</th>
+                <th>@Utility.Phrase("TB_Address")</th>
+                <th>@Utility.Phrase("TB_Distance")</th>
+                <th style="min-width:70px">@Utility.Phrase("TB_FirstAvatar")</th>
+                <th style="min-width:70px">@Utility.Phrase("TB_LastAvatar")</th>
+                <th>@Utility.Phrase("TB_FirstCaptureDate")</th>
+                <th>@Utility.Phrase("TB_LastCaptureDate")</th>
+                
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model != null)
+            {
+                foreach (var elm in Model.ReportDugstoresResult)
+                {
+                    <tr>
+                        <td>@elm.RegionName</td>
+                        <td>@elm.AreaName</td>
+                        <td>@elm.DistributorName</td>
+                        <td>@elm.SaleSupName</td>
+                        @*<td>@elm.RouteName</td>*@
+                        <td>@elm.SalesmanName</td>
+                        <td>@elm.CustomerName</td>
+                        <td>@elm.Address</td>
+                        <td class="align-right">@Utility.StringParseWithDecimalDegit(elm.Distance)</td>
+                        @{
+                            //Lỗi chưa biết foder
+                            string srcFistImgAvata = String.IsNullOrEmpty(elm.FirstAvatar) ? Url.Content("~/Content/Images/avalible-image.png") : Url.Content(Constant.OutletImageFolder + elm.FirstAvatar);
+                            string srcLastImgAvata = String.IsNullOrEmpty(elm.LastAvatar) ? Url.Content("~/Content/Images/avalible-image.png") : Url.Content(Constant.OutletImageFolder + elm.LastAvatar);
+                        }
+                        <td>
+                            <a href="@srcFistImgAvata">
+                                <img src="@srcFistImgAvata" style="max-width:50px; padding-right: 5px; padding-top: 5px" alt="" rel="zoom" class="smoothZoom" />
+                            </a>
+                        </td>
+                        <td>
+                            <a href="@srcLastImgAvata">
+                                <img src="@srcLastImgAvata" style="max-width:50px; padding-right: 5px; padding-top: 5px" alt="" rel="zoom" class="smoothZoom" />
+                            </a>
+                        </td>
+                        <td>@elm.FirstCaptureDate.ToFullDateTimePattern()</td>
+                        <td>@elm.LastCaptureDate.ToFullDateTimePattern()</td>
+                        
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+</div>
+
+

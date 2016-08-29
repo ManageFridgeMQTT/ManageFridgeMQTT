@@ -1,0 +1,120 @@
+@model System.Collections.IEnumerable
+<script type="text/javascript">
+    var json = [
+        {
+            stt: 1, tinh: "HCM", NPP: 1, ten: "NPP1", colspan: 81,
+            categorys: [
+                {
+                    name: "Sua tiet trung",
+                    sizes: [
+                        {
+                            colspan: 9,
+                            name: "110ml",
+                            items: [452000203, 452000203, 452000203, 452000203, 452000203, 452000203, 452000203, 452000203, 452000203]
+                        },
+                        {
+                            colspan: 8,
+                            name: "100ml",
+                            items: [452000203, 452000203, 452000203, 452000203, 452000203, 452000203, 452000203, 452000203]
+                        },
+                        {
+                            colspan: 10,
+                            name: "180ml",
+                            items: [452000203, 452000203, 452000203, 452000203, 452000203, 452000203, 452000203, 452000203, 452000203, 452000203]
+                        }
+                    ],
+                    colspan: 27
+                },
+                {
+                    name: "Sua chua",
+                    sizes: [
+                        {
+                            colspan: 9,
+                            name: "110ml",
+                            items: [452000203, 452000203, 452000203, 452000203, 452000203, 452000203, 452000203, 452000203, 452000203]
+                        },
+                        {
+                            colspan: 8,
+                            name: "100ml",
+                            items: [452000203, 452000203, 452000203, 452000203, 452000203, 452000203, 452000203, 452000203]
+                        },
+                        {
+                            colspan: 10,
+                            name: "180ml",
+                            items: [452000203, 452000203, 452000203, 452000203, 452000203, 452000203, 452000203, 452000203, 452000203, 452000203]
+                        }
+                    ],
+                    colspan: 27
+                },
+                {
+                    name: "Sua ong tho",
+                    sizes: [
+                        {
+                            colspan: 9,
+                            name: "110ml",
+                            items: [452000203, 452000203, 452000203, 452000203, 452000203, 452000203, 452000203, 452000203, 452000203]
+                        },
+                        {
+                            colspan: 8,
+                            name: "100ml",
+                            items: [452000203, 452000203, 452000203, 452000203, 452000203, 452000203, 452000203, 452000203]
+                        },
+                        {
+                            colspan: 10,
+                            name: "180ml",
+                            items: [452000203, 452000203, 452000203, 452000203, 452000203, 452000203, 452000203, 452000203, 452000203, 452000203]
+                        }
+                    ],
+                    colspan: 27
+                }
+            ]
+        }
+    ];
+
+    $(document).ready(function () {
+
+
+        var objHTMLCate = "", objHTMLSize = "", objHTMLItem = "", colspanCT = 0;
+        $.each(json, function (i, v) {
+            var stt = v.stt, tinh = v.tinh, npp = v.NPP, ten = v.ten, categorys = v.categorys;
+            colspanCT = v.colspan;
+
+            $.each(categorys, function (j, cat) {
+                var nameCat = cat.name, sizes = cat.sizes, colspanCat = cat.colspan, sizeName = "";
+
+
+                $.each(sizes, function (k, size) {
+                    var colspanSize = size.colspan, items = size.items;
+                    sizeName = size.name;
+
+                    $.each(items, function (u, item) {
+                        objHTMLItem += "<td>" + item + "</td>";
+                    });
+                    objHTMLSize += "<td colspan=" + colspanSize + ">" + sizeName + "</td>";
+                });
+
+
+                objHTMLCate += "<td colspan=" + colspanCat + ">" + nameCat + "</td>";
+            });
+        });
+
+        var objHTML =
+            "<table border=1>" +
+                "<tr>" +
+                    "<td rowspan=4>STT</td>" +
+                    "<td rowspan=4>Tinh</td>" +
+                    "<td rowspan=4>Ma NPP</td>" +
+                    "<td rowspan=4>Ten NPP</td>" +
+                    "<td colspan=" + colspanCT + ">Chi tieu</td>" +
+                    "<td rowspan=4>Ghi chu</td>" +
+                "</tr>" +
+                "<tr>" + objHTMLCate + "</tr>" +
+                "<tr>" + objHTMLSize + "</tr>" +
+                "<tr>" + objHTMLItem + "</tr>";
+        objHTML += "</table>";
+
+        $("#tb").html(objHTML);
+    });
+</script>
+
+<div id="tb"></div>

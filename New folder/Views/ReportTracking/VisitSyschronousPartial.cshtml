@@ -1,0 +1,81 @@
+﻿@model List<pp_ReportSyschronousResult>
+<div id="report-sync" class="tab-pane fade in active box-table-ressult">
+    <table id="table-result" class="tablesorter">
+        <thead>
+            <tr>
+                <th>@Utility.Phrase("Report_Region")</th>
+                <th>@Utility.Phrase("Report_Area")</th>
+                <th>@Utility.Phrase("TB_GSBH")</th>
+                <th>@Utility.Phrase("Report_Distributor")</th>
+                @*<th>@Utility.Phrase("Report_Route")</th>*@
+                <th>@Utility.Phrase("TB_NVBH")</th>
+                <th>@Utility.Phrase("TB_Date")</th>
+                <th>@Utility.Phrase("TB_StatusSync")</th>
+                <th>@Utility.Phrase("TB_SystemSyncDate")</th>
+                @*<th>@Utility.Phrase("TB_SystemSynPosition")</th>*@
+                <th>@Utility.Phrase("TB_DistanceWithBase")</th>
+
+                <th>@Utility.Phrase("TB_Assess")</th>
+                <th>@Utility.Phrase("TB_TimeDisparity")</th>
+                @*<th class="align-right">@Utility.Phrase("TB_LongtitudeBase")</th>
+                <th class="align-right">@Utility.Phrase("TB_LatitudeBase")</th>
+                <th class="align-right">@Utility.Phrase("TB_LongtitudeSync")</th>
+                <th class="align-right">@Utility.Phrase("TB_LatitudeSync")</th>*@
+                
+                @*<th>@Utility.Phrase("TB_validTime")</th>*@
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model != null)
+            {
+                foreach (var elm in Model)
+                {
+                <tr>
+                    <td>@elm.RegionName</td>
+                    <td>@elm.AreaName</td>
+                    <td>@elm.SaleSupName</td>
+                    <td>@elm.DistributorName</td>
+                    @*<td>@elm.RouteName</td>*@
+                    <td>@elm.SalesmanName</td>
+                    <td>@elm.VisitDate.ToShortDateString()</td>
+                    <td>
+                        @{ if (elm.SyncType == "D")
+                            { @Utility.Phrase("Value_Yes"); }
+                            else { @Utility.Phrase(""); }
+                            }
+                    </td>
+                    <td>@(elm.SystemSyncDate.HasValue ? elm.SystemSyncDate.Value.ToShortDateString() + " " + elm.SystemSyncDate.Value.ToShortTimeString() : "" ) </td>
+                    @*<td>@elm.DistributorName</td>*@
+                    <td class="align-right">@elm.DistanceWithBase</td>
+                    <td>
+                        @{ if (elm.SyncType == "D")
+                            {
+                                if (elm.IsTimeValid == 1)
+                                { @Utility.Phrase("OnTime");
+                                }
+                                else
+                                { @Utility.Phrase("Late");
+                                    }
+                                }
+                             }
+                    </td>
+                    <td>@{ if (elm.IsTimeValid == 1)
+                        { @Utility.Phrase("");
+                        }
+                        else
+                        {
+                            @elm.TimeDisparity;
+                        } }</td>
+                    @*<td>@elm.VisitDate.ToString(Utility.info.DateTimeFormat.ShortDatePattern)</td>*@
+                    @*<td class="align-right">@elm.LongtitudeBase</td>
+                    <td class="align-right">@elm.LatitudeBase</td>
+                    <td class="align-right">@elm.LongtitudeSync</td>
+                    <td class="align-right">@elm.LatitudeSync</td>*@
+                    
+                    @*<td>@elm.validTime</td>*@
+                </tr>
+                            }
+                        }
+        </tbody>
+    </table>
+</div>
